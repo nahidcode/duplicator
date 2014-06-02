@@ -125,6 +125,7 @@
 			$installerpath		= $pack_storeurl . "{$uniqueid}_installer.php";
 			$logfilelink		= $pack_storeurl . "{$uniqueid}.log";
 			$reportfilelink		= $pack_storeurl . "{$uniqueid}_scan.json";
+			$reportfilefound	= @file_exists($reportfilelink);
 			$installfilelink	= "{$installerpath}?get=1&file={$uniqueid}_installer.php";
 			$logfilename	    = "{$uniqueid}.log";
 			$css_alt		    = ($rowCount % 2 != 0) ? '' : 'alternate';
@@ -154,9 +155,9 @@
 						<div style="height:7px">&nbsp;</div>
 						<button class="button" onclick="Duplicator.Pack.ShowLinksDialog(<?php echo "'{$sqlfilelink}', '{$packagepath}', '{$installfilelink}', '{$logfilelink}', '{$reportfilelink}' " ;?>); return false;" class="thickbox"><i class="fa fa-lock"></i> &nbsp; <?php _e("Links", 'wpduplicator')?></button> &nbsp; 
 						<button class="button" onclick="window.open(<?php echo "'{$sqlfilelink}', '_blank'" ;?>); return false;"><i class="fa fa-table"></i> &nbsp; <?php _e("SQL File", 'wpduplicator')?></button> &nbsp; 
-						<button class="button" onclick="window.open(<?php echo "'{$reportfilelink}', '_blank'" ;?>); return false;"><i class="fa fa-file-text"></i> &nbsp; <?php _e("Scan Report", 'wpduplicator')?></button> &nbsp; 
 						<button class="button" onclick="Duplicator.OpenLogWindow(<?php echo "'{$logfilename}'" ;?>); return false;"><i class="fa fa-pencil-square-o"></i> &nbsp; <?php _e("View Log", 'wpduplicator')?></button>
 						<?php if ($package_debug) : ?>
+							<button class="button" onclick="window.open(<?php echo "'{$reportfilelink}', '_blank'" ;?>); return false;"><i class="fa fa-file-text"></i> &nbsp; <?php _e("Scan Report", 'wpduplicator')?></button>
 							<div style="margin-top:7px">
 								<a href="javascript:void(0)" onclick="jQuery(this).parent().find('.dup-pack-debug').toggle()">[View Package Object]</a><br/>
 								<textarea class="dup-pack-debug"><?php @print_r($Package); ?> </textarea>
