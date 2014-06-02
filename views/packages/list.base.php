@@ -125,7 +125,6 @@
 			$installerpath		= $pack_storeurl . "{$uniqueid}_installer.php";
 			$logfilelink		= $pack_storeurl . "{$uniqueid}.log";
 			$reportfilelink		= $pack_storeurl . "{$uniqueid}_scan.json";
-			$reportfilefound	= @file_exists($reportfilelink);
 			$installfilelink	= "{$installerpath}?get=1&file={$uniqueid}_installer.php";
 			$logfilename	    = "{$uniqueid}.log";
 			$css_alt		    = ($rowCount % 2 != 0) ? '' : 'alternate';
