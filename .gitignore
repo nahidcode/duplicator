@@ -209,3 +209,4 @@ pip-log.txt
 .coverage
 .tox
 
+!/installer/build/
