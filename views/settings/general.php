@@ -10,7 +10,7 @@
 		DUP_Settings::Set('uninstall_settings',		isset($_POST['uninstall_settings']) ? "1" : "0");
 		DUP_Settings::Set('uninstall_files',		isset($_POST['uninstall_files'])  ? "1" : "0");
 		DUP_Settings::Set('uninstall_tables',		isset($_POST['uninstall_tables']) ? "1" : "0");
-		DUP_Settings::Set('storeage_htaccess_on',	isset($_POST['storeage_htaccess_on']) ? "1" : "0");
+		DUP_Settings::Set('storeage_htaccess_off',	isset($_POST['storeage_htaccess_off']) ? "1" : "0");
 		
 		//Package
 		DUP_Settings::Set('package_debug',			isset($_POST['package_debug']) ? "1" : "0");
@@ -24,7 +24,7 @@
 	$uninstall_settings		= DUP_Settings::Get('uninstall_settings');
 	$uninstall_files		= DUP_Settings::Get('uninstall_files');
 	$uninstall_tables		= DUP_Settings::Get('uninstall_tables');
-	$storeage_htaccess_on	= DUP_Settings::Get('storeage_htaccess_on');
+	$storeage_htaccess_off	= DUP_Settings::Get('storeage_htaccess_off');
 	
 	$package_debug			= DUP_Settings::Get('package_debug');
 	$package_zip_flush		= DUP_Settings::Get('package_zip_flush');
@@ -61,31 +61,32 @@
 	<hr size="1" />
 	<table class="form-table">
 		<tr valign="top">
-			<th scope="row"><label><?php _e("Duplicator Version", 'wpduplicator'); ?></label></th>
+			<th scope="row"><label><?php _e("Version", 'wpduplicator'); ?></label></th>
 			<td><?php echo DUPLICATOR_VERSION ?></td>
-		</tr>
+		</tr>	
 		<tr valign="top">
-			<th scope="row"><label><?php _e("Uninstall Options", 'wpduplicator'); ?></label></th>
+			<th scope="row"><label><?php _e("Uninstall", 'wpduplicator'); ?></label></th>
 			<td>
 				<input type="checkbox" name="uninstall_settings" id="uninstall_settings" <?php echo ($uninstall_settings) ? 'checked="checked"' : ''; ?> /> 
 				<label for="uninstall_settings"><?php _e("Delete Plugin Settings", 'wpduplicator') ?> </label><br/>
 
 				<input type="checkbox" name="uninstall_files" id="uninstall_files" <?php echo ($uninstall_files) ? 'checked="checked"' : ''; ?> /> 
-				<label for="uninstall_files"><?php _e("Delete Entire Snapshot Directory", 'wpduplicator') ?></label><br/>
-				<p class="description"><?php _e("Snapshot Directory", 'wpduplicator'); ?>: <?php echo DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH); ?></p>
+				<label for="uninstall_files"><?php _e("Delete Entire Storeage Directory", 'wpduplicator') ?></label><br/>
+
 			</td>
 		</tr>
-		<!--tr valign="top">
+		<tr valign="top">
 			<th scope="row"><label><?php _e("Storeage", 'wpduplicator'); ?></label></th>
 			<td>
-				<input type="checkbox" name="storeage_htaccess_on" id="storeage_htaccess_on" <?php echo ($storeage_htaccess_on) ? 'checked="checked"' : ''; ?> /> 
-				<label for="storeage_htaccess_on"><?php _e("Disable .htaccess file in storeage", 'wpduplicator') ?> </label>
+				<?php _e("Full Path", 'wpduplicator'); ?>: 
+				<?php echo  DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH); ?><br/><br/>
+				<input type="checkbox" name="storeage_htaccess_off" id="storeage_htaccess_off" <?php echo ($storeage_htaccess_off) ? 'checked="checked"' : ''; ?> /> 
+				<label for="storeage_htaccess_off"><?php _e("Disable .htaccess File In Storeage Directory", 'wpduplicator') ?> </label>
 				<p class="description">
-					<?php _e("Disable if internal server error message is reported.", 'wpduplicator'); ?>
+					<?php  _e("Disable if issues occur when downloading installer/archive files.", 'wpduplicator'); ?>
 				</p>
-			
 			</td>
-		</tr-->		
+		</tr>	
 	</table>
 	
 	
