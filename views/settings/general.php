@@ -6,9 +6,13 @@
 	$action_response = __("Settings Saved", 'wpduplicator');
 	if (isset($_POST['action']) && $_POST['action'] == 'save') {
 		//General Tab
+		//Plugin
 		DUP_Settings::Set('uninstall_settings',		isset($_POST['uninstall_settings']) ? "1" : "0");
 		DUP_Settings::Set('uninstall_files',		isset($_POST['uninstall_files'])  ? "1" : "0");
 		DUP_Settings::Set('uninstall_tables',		isset($_POST['uninstall_tables']) ? "1" : "0");
+		DUP_Settings::Set('storeage_htaccess_on',	isset($_POST['storeage_htaccess_on']) ? "1" : "0");
+		
+		//Package
 		DUP_Settings::Set('package_debug',			isset($_POST['package_debug']) ? "1" : "0");
 		DUP_Settings::Set('package_zip_flush',		isset($_POST['package_zip_flush']) ? "1" : "0");
 		DUP_Settings::Set('package_mysqldump',		isset($_POST['package_mysqldump']) ? "1" : "0");
@@ -20,6 +24,8 @@
 	$uninstall_settings		= DUP_Settings::Get('uninstall_settings');
 	$uninstall_files		= DUP_Settings::Get('uninstall_files');
 	$uninstall_tables		= DUP_Settings::Get('uninstall_tables');
+	$storeage_htaccess_on	= DUP_Settings::Get('storeage_htaccess_on');
+	
 	$package_debug			= DUP_Settings::Get('package_debug');
 	$package_zip_flush		= DUP_Settings::Get('package_zip_flush');
 	$package_mysqldump		= DUP_Settings::Get('package_mysqldump');
@@ -69,6 +75,17 @@
 				<p class="description"><?php _e("Snapshot Directory", 'wpduplicator'); ?>: <?php echo DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH); ?></p>
 			</td>
 		</tr>
+		<!--tr valign="top">
+			<th scope="row"><label><?php _e("Storeage", 'wpduplicator'); ?></label></th>
+			<td>
+				<input type="checkbox" name="storeage_htaccess_on" id="storeage_htaccess_on" <?php echo ($storeage_htaccess_on) ? 'checked="checked"' : ''; ?> /> 
+				<label for="storeage_htaccess_on"><?php _e("Disable .htaccess file in storeage", 'wpduplicator') ?> </label>
+				<p class="description">
+					<?php _e("Disable if internal server error message is reported.", 'wpduplicator'); ?>
+				</p>
+			
+			</td>
+		</tr-->		
 	</table>
 	
 	
