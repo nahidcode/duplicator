@@ -91,7 +91,7 @@ class DUP_Settings
 		$default['package_zip_flush']   = isset(self::$Data['package_zip_flush']) ? self::$Data['package_zip_flush'] : false;
 		
 		//Flag for .htaccess file
-		$default['storeage_htaccess_off']   = isset(self::$Data['storeage_htaccess_off']) ? self::$Data['storeage_htaccess_off'] : false;
+		$default['storage_htaccess_off']   = isset(self::$Data['storage_htaccess_off']) ? self::$Data['storage_htaccess_off'] : false;
 
 		self::$Data = $default;
 		return self::Save();

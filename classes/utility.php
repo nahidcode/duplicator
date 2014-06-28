@@ -206,9 +206,9 @@ class DUP_Util {
 
 		//SSDIR: Create .htaccess
 		
-		$storeage_htaccess_off	= DUP_Settings::Get('storeage_htaccess_off') or false;
+		$storage_htaccess_off	= DUP_Settings::Get('storage_htaccess_off') or false;
 		$htfile = @fopen($path_ssdir . '/.htaccess', 'w');
-		$htoutput = ($storeage_htaccess_off) ? "" : "Options -Indexes" ;
+		$htoutput = ($storage_htaccess_off) ? "" : "Options -Indexes" ;
 		@fwrite($htfile, $htoutput);
 		@fclose($htfile);
 

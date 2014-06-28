@@ -10,7 +10,7 @@
 		DUP_Settings::Set('uninstall_settings',		isset($_POST['uninstall_settings']) ? "1" : "0");
 		DUP_Settings::Set('uninstall_files',		isset($_POST['uninstall_files'])  ? "1" : "0");
 		DUP_Settings::Set('uninstall_tables',		isset($_POST['uninstall_tables']) ? "1" : "0");
-		DUP_Settings::Set('storeage_htaccess_off',	isset($_POST['storeage_htaccess_off']) ? "1" : "0");
+		DUP_Settings::Set('storage_htaccess_off',	isset($_POST['storage_htaccess_off']) ? "1" : "0");
 		
 		//Package
 		DUP_Settings::Set('package_debug',			isset($_POST['package_debug']) ? "1" : "0");
@@ -24,7 +24,7 @@
 	$uninstall_settings		= DUP_Settings::Get('uninstall_settings');
 	$uninstall_files		= DUP_Settings::Get('uninstall_files');
 	$uninstall_tables		= DUP_Settings::Get('uninstall_tables');
-	$storeage_htaccess_off	= DUP_Settings::Get('storeage_htaccess_off');
+	$storage_htaccess_off	= DUP_Settings::Get('storage_htaccess_off');
 	
 	$package_debug			= DUP_Settings::Get('package_debug');
 	$package_zip_flush		= DUP_Settings::Get('package_zip_flush');
@@ -71,17 +71,17 @@
 				<label for="uninstall_settings"><?php _e("Delete Plugin Settings", 'wpduplicator') ?> </label><br/>
 
 				<input type="checkbox" name="uninstall_files" id="uninstall_files" <?php echo ($uninstall_files) ? 'checked="checked"' : ''; ?> /> 
-				<label for="uninstall_files"><?php _e("Delete Entire Storeage Directory", 'wpduplicator') ?></label><br/>
+				<label for="uninstall_files"><?php _e("Delete Entire Storage Directory", 'wpduplicator') ?></label><br/>
 
 			</td>
 		</tr>
 		<tr valign="top">
-			<th scope="row"><label><?php _e("Storeage", 'wpduplicator'); ?></label></th>
+			<th scope="row"><label><?php _e("Storage", 'wpduplicator'); ?></label></th>
 			<td>
 				<?php _e("Full Path", 'wpduplicator'); ?>: 
 				<?php echo  DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH); ?><br/><br/>
-				<input type="checkbox" name="storeage_htaccess_off" id="storeage_htaccess_off" <?php echo ($storeage_htaccess_off) ? 'checked="checked"' : ''; ?> /> 
-				<label for="storeage_htaccess_off"><?php _e("Disable .htaccess File In Storeage Directory", 'wpduplicator') ?> </label>
+				<input type="checkbox" name="storage_htaccess_off" id="storage_htaccess_off" <?php echo ($storage_htaccess_off) ? 'checked="checked"' : ''; ?> /> 
+				<label for="storage_htaccess_off"><?php _e("Disable .htaccess File In Storage Directory", 'wpduplicator') ?> </label>
 				<p class="description">
 					<?php  _e("Disable if issues occur when downloading installer/archive files.", 'wpduplicator'); ?>
 				</p>
