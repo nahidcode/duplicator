@@ -178,7 +178,6 @@ WIZARD STEP TABS -->
 						_e("The cache size minimum threshold is currently set at ", 'wpduplicator');
 						echo DUP_Util::ByteSize(DUPLICATOR_SCAN_CACHESIZE) . '.';
 						
-
 					?>
 				</div>
 			</div>
