@@ -1,5 +1,12 @@
 <?php
-
+	// Exit if accessed directly
+	if (! defined('DUPLICATOR_INIT')) {
+		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+		$_baseURL =  "http://" . $_baseURL;
+		header("HTTP/1.1 301 Moved Permanently");
+		header("Location: $_baseURL");
+		exit; 
+	}
 	//DETECT ARCHIVE FILES
 	$zip_file_name  = "No package file found";
 	$zip_file_count = 0;
@@ -209,11 +216,11 @@ VIEW: STEP 1- INPUT -->
 				<td>
 					<div class="dup-step1-modes">
 						<input type="radio" name="dbaction" id="dbaction-create" value="create" checked="checked" />
-						<label for="dbaction-create">Create new database and insert data</label>
+						<label for="dbaction-create">Create New Database</label>
 					</div>
 					<div class="dup-step1-modes">
 						<input type="radio" name="dbaction" id="dbaction-empty" value="empty" />
-						<label for="dbaction-empty">Connect to database and remove tables then insert data</label>						
+						<label for="dbaction-empty">Connect to Database and Remove Tables</label>						
 					</div>
 				</td>
 			</tr>			
