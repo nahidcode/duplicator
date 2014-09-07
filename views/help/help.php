@@ -57,7 +57,7 @@ div.dup-spread-word {display:inline-block; border:1px solid red; text-align:cent
 				<div><?php _e('Knowledgebase', 'wpduplicator') ?></div>
 			</div>
 			<div class="dup-support-hlp-txt">
-				<?php  _e('Complete online documentation!', 'wpduplicator');?><br/>
+				<?php  _e('Complete Online Documentation', 'wpduplicator');?><br/>
 				<select id="dup-support-kb-lnks" style="margin-top:18px; font-size:16px; min-width: 170px">
 					<option> <?php _e('Choose A Section', 'wpduplicator') ?> </option>
 					<option value="http://lifeinthegrid.com/duplicator-quick"><?php _e('Quick Start', 'wpduplicator') ?></option>
@@ -76,7 +76,7 @@ div.dup-spread-word {display:inline-block; border:1px solid red; text-align:cent
 				<div><?php _e('Online Support', 'wpduplicator') ?></div>
 			</div>
 			<div class="dup-support-hlp-txt">
-				<?php _e("Get Help from IT Profressionals!" , 'wpduplicator');	?> 
+				<?php _e("Get Help From IT Profressionals" , 'wpduplicator');	?> 
 				<br/><br/>
 				<div class="dup-support-txts-links">
 					<button class="button  button-primary button-large" onclick="Duplicator.OpenSupportWindow(); return false;"><?php _e('Get Help Now!', 'wpduplicator') ?></button> &nbsp; 
@@ -94,7 +94,7 @@ div.dup-spread-word {display:inline-block; border:1px solid red; text-align:cent
 				<div><?php _e('Approved Hosting', 'wpduplicator') ?></div>
 			</div>			
 			<div class="dup-support-hlp-txt">
-				<?php _e('Servers that work with Duplicator!', 'wpduplicator'); ?>
+				<?php _e('Servers That Work With Duplicator', 'wpduplicator'); ?>
 				<br/><br/>
 				<div class="dup-support-txts-links">
 					<button class="button button-primary button-large" onclick="window.open('http://lifeinthegrid.com/duplicator-hosts', 'litg');"><?php _e('Trusted Providers!', 'wpduplicator') ?></button> &nbsp; 
@@ -110,7 +110,7 @@ div.dup-spread-word {display:inline-block; border:1px solid red; text-align:cent
 				<div><?php _e('Alternatives', 'wpduplicator') ?></div>
 			</div>			
 			<div class="dup-support-hlp-txt">
-				<?php _e('Other commercial resources', 'wpduplicator'); ?>
+				<?php _e('Other Commercial Resources', 'wpduplicator'); ?>
 				<br/><br/>
 				<div class="dup-support-txts-links">
 					<button class="button button-primary button-large" onclick="window.open('http://lifeinthegrid.com/duplicator-getalts', 'litg');"><?php _e('Go Pro!', 'wpduplicator') ?></button> &nbsp; 
