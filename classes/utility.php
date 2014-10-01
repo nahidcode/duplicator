@@ -101,7 +101,7 @@ class DUP_Util {
 		
 		//GLOB_BRACE is not an option on some systems
 		//{,.}*  allows for hidden files to be shown
-		if (!defined("GLOB_BRACE")) {
+		if (defined("GLOB_BRACE")) {
 			$files	= glob("{$path}/{,.}*", GLOB_NOSORT | GLOB_BRACE);
 		} else {
 			foreach (new DirectoryIterator($path) as $file) {
