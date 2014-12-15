@@ -45,8 +45,8 @@ $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
 <style>
     form#dup-settings-form input[type=text] {width: 400px; }
     input#package_mysqldump_path_found {margin-top:5px}
-    div.dup-mysql-dump-found {padding:3px; border:1px solid silver; background: #f7fcfe; border-radius: 3px; width:400px; font-size: 12px}
-    div.dup-mysql-dump-notfound {padding:3px; border:1px solid silver; background: #fcf3ef; border-radius: 3px; width:400px; font-size: 12px}
+    div.dup-feature-found {padding:3px; border:1px solid silver; background: #f7fcfe; border-radius: 3px; width:400px; font-size: 12px}
+    div.dup-feature-notfound {padding:3px; border:1px solid silver; background: #fcf3ef; border-radius: 3px; width:400px; font-size: 12px}
 </style>
 
 <form id="dup-settings-form" action="<?php echo admin_url('admin.php?page=duplicator-settings&tab=general'); ?>" method="post">
@@ -130,12 +130,12 @@ $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
 
                     <div style="margin:5px 0px 0px 25px">
                         <?php if ($mysqlDumpFound) : ?>
-                            <div class="dup-mysql-dump-found">
+                            <div class="dup-feature-found">
                                 <?php _e("Working Path:", 'wpduplicator'); ?> &nbsp;
                                 <i><?php echo $mysqlDumpPath ?></i>
                             </div><br/>
                         <?php else : ?>
-                            <div class="dup-mysql-dump-notfound">
+                            <div class="dup-feature-notfound">
                                 <?php
                                 _e('Mysqldump was not found at its default location or the location provided.  Please enter a path to a valid location where mysqldump can run.  If the problem persist contact your server administrator.', 'wpduplicator');
                                 ?>
@@ -171,22 +171,34 @@ $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
 
     <table class="form-table">
         <tr>
-            <th scope="row"><label><?php _e("Enable custom capabilities", 'wpduplicator'); ?></label></th>
+            <th scope="row"><label><?php _e("Custom Roles", 'wpduplicator'); ?></label></th>
             <td>
                 <input type="checkbox" name="wpfront_integrate" id="wpfront_integrate" <?php echo ($wpfront_integrate) ? 'checked="checked"' : ''; ?> <?php echo $wpfront_ready ? '' : 'disabled'; ?> />
-                <label for="wpfront_integrate"><?php _e("Creates custom capabilities and roles", 'wpduplicator'); ?></label>
-                <div class="dup-mysql-dump-notfound">
-                    <?php
-                    _e('WPFront User Role Editor plugin needs to be installed and activated for this setting to work. Minimum version required 2.3', 'wpduplicator');
-                    ?>
-                </div>
+                <label for="wpfront_integrate"><?php _e("Enable User Role Editor Plugin Integration", 'wpduplicator'); ?></label>
+				
+				<div style="margin:15px 0px 0px 25px">
+					<p class="description">
+						<?php printf('%s <a href="https://wordpress.org/plugins/wpfront-user-role-editor/" target="_blank">%s</a> %s'
+									 . ' <a href="https://wpfront.com/lifeinthegrid" target="_blank">%s</a> %s ' 
+									 . ' <a href="https://wpfront.com/integrations/duplicator-integration/" target="_blank">%s</a>',
+								__('The User Role Editor Plugin', 'wpduplicator'),
+								__('Free', 'wpduplicator'),
+								__('or', 'wpduplicator'),
+								__('Professional', 'wpduplicator'),
+								__('must be installed to use', 'wpduplicator'),
+								__('this feature.', 'wpduplicator')
+								); 
+						?> 
+					</p>
+				</div>
             </td>
         </tr>	
 
-    </table>
+    </table><br/>
 
     <p class="submit" style="margin: 20px 0px 0xp 5px;">
-    <div style="border-top: 1px solid #efefef"></div><br/>
-    <input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e("Save Settings", 'wpduplicator') ?>" style="display: inline-block;"/>
-</p>
+		<br/>
+		<input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e("Save Settings", 'wpduplicator') ?>" style="display: inline-block;" />
+	</p>
+	
 </form>
