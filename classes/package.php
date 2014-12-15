@@ -383,7 +383,6 @@ class DUP_Package {
 				}
 			}
 		}
-		
 	}
 	
 	private function buildCleanup() {
