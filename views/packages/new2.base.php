@@ -44,7 +44,7 @@
 		{word-wrap: break-word;font-size:10px; border:1px dashed silver; padding:5px; display: none}
 	
 	/*Footer*/
-	div.dup-button-footer {text-align:center; margin:5px 0px 0px 0px}
+	div.dup-button-footer {text-align:center; margin:0}
 	button.button {font-size:15px !important; height:30px !important; font-weight:bold; padding:3px 5px 5px 5px !important;}
 </style>
 
@@ -180,7 +180,7 @@ WIZARD STEP TABS -->
 		</div><!-- end .dup-panel -->
 		</div><!-- end .dup-panel-panel -->
 	
-		<h2 style="font-size:18px; font-weight:bold; margin:-10px 0 0 10px"><i class="fa fa-file-archive-o"></i>&nbsp;<?php _e('Archive', 'wpduplicator');?> </h2>
+		<h2 style="font-size:18px; font-weight:bold; margin:-15px 0 0 10px"><i class="fa fa-file-archive-o"></i>&nbsp;<?php _e('Archive', 'wpduplicator');?> </h2>
 		
 		<!-- ================================================================
 		FILES
@@ -358,8 +358,8 @@ WIZARD STEP TABS -->
 			<div id="dup-msg-error-response-text"></div>
 		</div>
 	</div>			
-
 </div> <!-- end #dup-progress-area -->
+
 <div class="dup-button-footer" style="display:none">
 	<input type="button" value="&#9668; <?php _e("Back", 'wpduplicator') ?>" onclick="window.location.assign('?page=duplicator&tab=new1')" class="button button-large" />
 	<input type="button" value="<?php _e("Rescan", 'wpduplicator') ?>" onclick="Duplicator.Pack.Rescan()" class="button button-large" />
