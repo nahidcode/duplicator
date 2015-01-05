@@ -32,7 +32,7 @@ class DUP_Settings
 		if (isset(self::$Data[$key])) {
 			$result = self::$Data[$key]; 
 		} else {
-			$defaults = self::loadDefaults();
+			$defaults = self::GetAllDefaults();
 			if (isset($defaults[$key])) {
 				$result = $defaults[$key];
 			} 
@@ -75,8 +75,8 @@ class DUP_Settings
 	*  @return True if option value has changed, false if not or if update failed.
 	*/
 	public static function SetDefaults() {
-		$defaults = self::loadDefaults();
-		self::$Data = $default;
+		$defaults = self::GetAllDefaults();
+		self::$Data = $defaults;
 		return self::Save();
 	}
 	
@@ -110,7 +110,7 @@ class DUP_Settings
 	}
 	
 	
-	private static function loadDefaults() {	
+	public static function GetAllDefaults() {	
 		$default = array();
 		$default['version'] = self::$Version;
 

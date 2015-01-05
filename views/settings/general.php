@@ -19,7 +19,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'save') {
     DUP_Settings::Set('package_debug', isset($_POST['package_debug']) ? "1" : "0");
     DUP_Settings::Set('package_zip_flush', isset($_POST['package_zip_flush']) ? "1" : "0");
 	DUP_Settings::Set('package_mysqldump', $enable_mysqldump ? "1" : "0");
-	DUP_Settings::Set('package_phpdump_qrylimit', isset($_POST['package_phpdump_qrylimit']) ? $_POST['package_phpdump_qrylimit'] : 100);
+	DUP_Settings::Set('package_phpdump_qrylimit', isset($_POST['package_phpdump_qrylimit']) ? $_POST['package_phpdump_qrylimit'] : "100");
     DUP_Settings::Set('package_mysqldump_path', trim($_POST['package_mysqldump_path']));
 
     //WPFront
@@ -37,7 +37,7 @@ $storage_htaccess_off = DUP_Settings::Get('storage_htaccess_off');
 $package_debug = DUP_Settings::Get('package_debug');
 $package_zip_flush = DUP_Settings::Get('package_zip_flush');
 
-$phpdump_chunkopts = array(20, 100, 500, 1000, 2000);
+$phpdump_chunkopts = array("20", "100", "500", "1000", "2000");
 
 $package_phpdump_qrylimit = DUP_Settings::Get('package_phpdump_qrylimit');
 $package_mysqldump = DUP_Settings::Get('package_mysqldump');
@@ -48,6 +48,8 @@ $wpfront_ready = apply_filters('wpfront_user_role_editor_duplicator_integration_
 
 $mysqlDumpPath = DUP_Database::GetMySqlDumpPath();
 $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
+
+
 ?>
 
 <style>
