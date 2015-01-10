@@ -58,12 +58,12 @@
 					if ($path_parts  == "zip"  && ! is_dir($package_name)) {
 						$html .= (@unlink($package_name))   
 							?  "<div class='success'>Successfully removed {$package_name}</div>"   
-							:  "<div class='failed'>Does not exist or unable to remove file: {$package_name}</div>";
+							:  "<div class='failed'>Does not exist or unable to remove archive file.</div>";
 					} else {
-						$html .= "<div class='failed'>Does not exist or unable to remove file '{$package_name}'.  Validate that an archive file exists.</div>";
+						$html .= "<div class='failed'>Does not exist or unable to remove archive file.  Please validate that an archive file exists.</div>";
 					}
 				} else {
-					$html .= '<div>Please validate that the archive file does not exist in the root of your WordPress install.</div>';
+					$html .= '<div>Archive file should be removed manually.  Please validate that the archive file does not exist in the root of your WordPress install.</div>';
 				}
 
 				echo $html;
