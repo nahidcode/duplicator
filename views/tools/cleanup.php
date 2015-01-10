@@ -63,7 +63,7 @@
 						$html .= "<div class='failed'>Does not exist or unable to remove archive file.  Please validate that an archive file exists.</div>";
 					}
 				} else {
-					$html .= '<div>Archive file should be removed manually.  Please validate that the archive file does not exist in the root of your WordPress install.</div>';
+					$html .= '<div>It is <u>recommended</u> to remove your archive file from the root of your WordPress install.  This will need to be done manually.</div>';
 				}
 
 				echo $html;
