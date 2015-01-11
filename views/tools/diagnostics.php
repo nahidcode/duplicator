@@ -95,12 +95,12 @@
 				<td><?php echo PHP_OS ?></td>
 			</tr>
 			<tr>
-				<td><?php _e("Server Timezone", 'wpduplicator'); ?></td>
-				<td><?php echo "<a href='options-general.php'>" . date_default_timezone_get() . "</a>" ; ?></td>
+				<td><?php _e("Timezone", 'wpduplicator'); ?></td>
+				<td><?php echo  date_default_timezone_get() ; ?> &nbsp; <small><i>This is a <a href='options-general.php'>WordPress setting</a></i></small></td>
 			</tr>	
 			<tr>
 				<td><?php _e("Server Time", 'wpduplicator'); ?></td>
-				<td><?php echo date("F j, Y, g:i a"); ?></td>
+				<td><?php echo date("Y-m-d H:i:s"); ?></td>
 			</tr>				   
 			<tr>
 				<td><?php _e("Web Server", 'wpduplicator'); ?></td>
