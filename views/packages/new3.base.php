@@ -121,7 +121,7 @@ WIZARD STEP TABS -->
 				<div id="dup-logs">
 					<div style="font-weight:bold">
 						<a href='javascript:void(0)' onclick='Duplicator.OpenLogWindow()'> <?php _e('Package Log', 'wpduplicator');?> </a> &nbsp; | &nbsp;
-						<a href='admin.php?page=duplicator-support' target="support"> <?php _e('Support', 'wpduplicator');?> </a>
+						<a href='admin.php?page=duplicator-help' target="support"> <?php _e('Support', 'wpduplicator');?> </a>
 					</div> 
 					<br/>
 				</div>
@@ -130,15 +130,10 @@ WIZARD STEP TABS -->
 			
 		</div>
 	</div>
-	
-
-	
 </form>
 
 <script type="text/javascript">
 jQuery(document).ready(function($) {
-	
-	
 	/*	----------------------------------------
 	*	METHOD: Performs Ajax post to create a new package
 	*	Timeout (10000000 = 166 minutes)  */
