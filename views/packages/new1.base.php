@@ -127,13 +127,17 @@ META-BOX1: SYSTEM REQUIREMENTS -->
 						<td><?php echo $dup_tests['PHP']['SAFE_MODE'] ?></td>
 					</tr>					
 					<tr>
-						<td><?php _e('Function', 'wpduplicator');?> file_get_contents</td>
+						<td><?php _e('Function', 'wpduplicator');?> <a href="http://php.net/manual/en/function.file-get-contents.php" target="_blank">file_get_contents</a></td>
 						<td><?php echo $dup_tests['PHP']['FUNC_1'] ?></td>
 					</tr>					
 					<tr>
-						<td><?php _e('Function', 'wpduplicator');?> file_put_contents</td>
+						<td><?php _e('Function', 'wpduplicator');?> <a href="http://php.net/manual/en/function.file-put-contents.php" target="_blank">file_put_contents</a></td>
 						<td><?php echo $dup_tests['PHP']['FUNC_2'] ?></td>
 					</tr>
+					<tr>
+						<td><?php _e('Function', 'wpduplicator');?> <a href="http://php.net/manual/en/mbstring.installation.php" target="_blank">mb_strlen</a></td>
+						<td><?php echo $dup_tests['PHP']['FUNC_3'] ?></td>
+					</tr>					
 				</table>
 				<small>
 					<?php _e("PHP versions 5.2.17+ or higher is required. Please note that in versioning logic a value such as 5.2.9 is less than 5.2.17. For compression to work the ZipArchive extension for PHP is required. Safe Mode should be set to 'Off' in you php.ini file and is deprecated as of PHP 5.3.0.  For any issues in this section please contact your hosting provider or server administrator.  For additional information see our online documentation.", 'wpduplicator'); ?>

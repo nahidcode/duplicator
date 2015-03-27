@@ -25,7 +25,11 @@ class DUP_Server {
 		$dup_tests['PHP']['ZIP']	 = class_exists('ZipArchive')				? 'Pass' : 'Fail';
 		$dup_tests['PHP']['FUNC_1']  = function_exists("file_get_contents")		? 'Pass' : 'Fail';
 		$dup_tests['PHP']['FUNC_2']  = function_exists("file_put_contents")		? 'Pass' : 'Fail';
+		$dup_tests['PHP']['FUNC_3']  = function_exists("mb_strlen")				? 'Pass' : 'Fail';
 		$dup_tests['PHP']['ALL']	 = ! in_array('Fail', $dup_tests['PHP'])	? 'Pass' : 'Fail';		
+		
+		
+		
 		
 		//PERMISSIONS
 		$handle_test = @opendir(DUPLICATOR_WPROOTPATH);		
