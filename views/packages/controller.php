@@ -13,7 +13,7 @@ $current_tab = isset($_REQUEST['tab']) ? esc_html($_REQUEST['tab']) : 'list';
 <style>
     /*WIZARD TABS */
     div#dup-wiz {padding:0px; margin:7px 0px 10px 0px; height: 30px;  }
-    div#dup-wiz-steps {margin:0px 0px 0px 10px; padding:0px;  clear:both; font-weight:bold;font-size:12px; min-width:250px }
+    div#dup-wiz-steps {margin:0px 0px 0px 10px; padding:0px;  clear:both; font-weight:bold;font-size:12px; min-width:350px }
     div#dup-wiz-title {padding:2px 0px 0px 0px; font-size:18px;}
     /* wiz-steps numbers */
     #dup-wiz span {display:block;float:left; text-align:center; width:15px; margin:4px 4px 0px 0px; line-height:15px; color:#ccc; border:1px solid #CCCCCC; border-radius:4px;}
