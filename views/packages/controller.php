@@ -18,16 +18,14 @@ $current_tab = isset($_REQUEST['tab']) ? esc_html($_REQUEST['tab']) : 'list';
     /* wiz-steps numbers */
     #dup-wiz span {display:block;float:left; text-align:center; width:15px; margin:4px 4px 0px 0px; line-height:15px; color:#ccc; border:1px solid #CCCCCC; border-radius:4px;}
     /* wiz-steps default*/
-    #dup-wiz a { position:relative; display:block; width:auto; min-width:55px; height:25px; margin-right:18px; padding:0px 10px 0px 10px; float:left;  line-height:24px; color:#000; background:#E4E4E4; }
-    #dup-wiz a:after { width:0; height:0; border-top:13px solid transparent; border-bottom:13px solid transparent; border-left:13px solid #E4E4E4; position:absolute; content:""; top:0px; right:-11px; }
+    #dup-wiz a { position:relative; display:block; width:auto; min-width:55px; height:25px; margin-right:8px; padding:0px 10px 0px 10px; 
+			     float:left;  line-height:24px; color:#000; background:#E4E4E4; border-radius:5px }
 	/* wiz-steps active*/
-    #dup-wiz .active-step a {color:#fff; background:#999;}
-    #dup-wiz .active-step a:after {border-left:12px solid #999;}
-    #dup-wiz .active-step span {color:#fff;}
+    #dup-wiz .active-step a {color:#fff; background:#BBBBBB;}
+    #dup-wiz .active-step span {color:#fff; border:2px solid #fff;}
 	/* wiz-steps completed */
-    #dup-wiz .completed-step a {color:#ccc; background:#999;}
-    #dup-wiz .completed-step a:after {border-left:12px solid #999;}
-    #dup-wiz .completed-step span {color:#ccc;}
+    #dup-wiz .completed-step a {color:#E1E1E1; background:#BBBBBB; font-weight: bold}
+    #dup-wiz .completed-step span {color:#E1E1E1;}
     /*Footer */
     div.dup-button-footer input {min-width: 105px}
     div.dup-button-footer {padding: 1px 10px 0px 0px; text-align: right}
