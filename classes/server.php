@@ -10,10 +10,10 @@ require_once (DUPLICATOR_PLUGIN_PATH . 'classes/utility.php');
 class DUP_Server {
 	
 	/** 
-	* Gets the system requirments which must pass to buld a package
+	* Gets the system requirements which must pass to buld a package
 	* @return array   An array of requirements
 	*/
-	public static function GetRequirments() {
+	public static function GetRequirements() {
 
 		global $wpdb;
 		$dup_tests = array();
