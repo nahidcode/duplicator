@@ -23,13 +23,13 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 	div.feature {background: #fff; padding:20px; margin: 2px; text-align: center; min-height: 30px}
 	div.feature a {font-size:20px; font-weight: bold;}
 	div.dup-compare-area div.feature div.info {display:none; padding:10px 15px 5px 15px; font-style: italic; color: #555; font-size: 14px}
-
+	div.dup-gopro-header {text-align: center; margin: 5px 0 15px 0; font-size:18px; line-height: 30px}
+	div.dup-gopro-header b {font-size: 28px}
 </style>
 
 <script type="text/javascript">var switchTo5x = true;</script>
 <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
 <script type="text/javascript">stLight.options({publisher: "1a44d92e-2a78-42c3-a32e-414f78f9f484"});</script> 
-
 
 <div class="wrap dup-wrap">
 	
@@ -37,9 +37,18 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
     <hr size="1" />
 
     <div style="width:850px; margin:auto; margin-top: 20px">
+		
+		<div class="dup-gopro-header" style="width:500px; white-space: nowrap; margin:auto">
+			<div style="float:left">
+				<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo.png" style=''  />	
+			</div>
+			<div>
+				<b><?php _e('Backup and Move Made Easy!', 'wpduplicator') ?></b><br/>
+				<i><?php _e('The top-rated Duplicator plugin is going professional!', 'wpduplicator') ?></i>
+			</div>
+		</div><br/>
 
-
-        <!-- PARTNER WITH US -->
+        <!-- FREE-->
         <div class="dup-compare-area">
             <table class="dup-support-hlp-hdrs">
                 <tr >
@@ -48,7 +57,6 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
                     </td>
                 </tr>
             </table>
- 
 			<div class="feature">
 				<a href="javascript:void(0)" class="dup-info-click"><?php _e('Backup Files &amp; Database', 'wpduplicator') ?></a>
 				<div class="info"><?php _e('Compresses all your WordPress files and database into a compressed snapshot archive file.', 'wpduplicator') ?></div>
@@ -69,12 +77,9 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<div class="feature"><i class="fa fa-times fa-2x"></i></div>
 			<div class="feature"><i class="fa fa-times fa-2x"></i></div>
 			<div class="feature"><i class="fa fa-times fa-2x"></i></div>
-			
-			
         </div> 
 
-
-        <!-- SPREAD THE WORD  -->
+        <!-- PRO  -->
         <div class="dup-compare-area">
             <table class="dup-support-hlp-hdrs">
                 <tr>
@@ -117,17 +122,14 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 				<div class="info"><?php _e('Enable the build of larger more complex packages and avoid server timeouts with queued processing.', 'wpduplicator') ?></div>
 			</div>
 			
-			
         </div>
         <br style="clear:both" /><br/>
 		
-		
 		<h1 style="text-align: center">
-			<a href="http://duplicatorpro.com" target="_blank" class="button button-primary button-large" style="font-size:18px; height:40px; padding:5px 25px 0px 25px;">
-				   <i class="fa fa-cog" style="margin-right:8px"></i><?php _e('Learn More', 'wpduplicator') ?>...
-				</a>
+			<a href="http://duplicatorpro.com" target="_blank" class="button button-primary button-large" style="box-shadow: 5px 5px 5px 0px #999; font-size:18px; height:40px; padding:5px 25px 0px 25px; background: #AB2C30; border:none">
+				   <?php _e('Check It Out!', 'wpduplicator') ?>
+			</a>
 		</h1>
-
     </div>
 </div><br/><br/><br/><br/>
 
@@ -136,6 +138,5 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 		$( "a.dup-info-click" ).click(function() {
 			$(this).parent().find('.info').toggle();
 		});
-
 	});
 </script>
