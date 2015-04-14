@@ -12,7 +12,7 @@ Duplicate, clone, backup, move and transfer an entire site from one location to 
 
 == Description ==
 
-> The Duplicator gives WordPress administrators the ability to migrate, copy or clone a site from one location to another. The plugin also serves as a simple backup utility.    The Duplicator supports both serialized and base64 serialized string replacement.  If you need to move WordPress or backup WordPress this plugin can help simplify the process. For complete details visit [lifeinthegrid.com](http://lifeinthegrid.com/). 
+> The Duplicator gives WordPress administrators the ability to migrate, copy or clone a site from one location to another. The plugin also serves as a simple backup utility.    The Duplicator supports both serialized and base64 serialized string replacement.  If you need to move WordPress or backup WordPress this plugin can help simplify the process. For complete details visit [lifeinthegrid.com](http://lifeinthegrid.com/).  
 
 = Quick Video Demo =
 http://www.youtube.com/watch?v=yZ7pHmR9JC8
