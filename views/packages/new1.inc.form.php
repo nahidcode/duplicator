@@ -1,65 +1,59 @@
 
 <form id="dup-form-opts" method="post" action="?page=duplicator&tab=new2" data-validate="parsley">
-    <input type="hidden" id="dup-form-opts-action" name="action" value="">
-    <input type="hidden" id="dup-form-opts-hash" name="package-hash" value="<?php echo $package_hash; ?>">
+<input type="hidden" id="dup-form-opts-action" name="action" value="">
+<input type="hidden" id="dup-form-opts-hash" name="package-hash" value="<?php echo $package_hash; ?>">
+<div>
+	<label for="package-name"><b><?php _e('Name', 'wpduplicator') ?>:</b> </label>
+	<a href="javascript:void(0)" onclick="Duplicator.Pack.ResetName()" title="<?php _e('Create a new default name', 'wpduplicator') ?>"><i class="fa fa-undo"></i></a> <br/>
+	<input id="package-name"  name="package-name" type="text" value="<?php echo $Package->Name ?>" maxlength="40"  data-required="true" data-regexp="^[0-9A-Za-z|_]+$" /> <br/>
+	<label><b><?php _e('Notes', 'wpduplicator') ?>:</b></label> <br/>
+	<textarea id="package-notes" name="package-notes" maxlength="300" /><?php echo $Package->Notes ?></textarea>
+</div>
+<br/><br/>
 
-        <!--b style="font-size:15px"><i class="fa fa-archive"></i> <?php _e('Package', 'wpduplicator') ?></b>
-        <hr size="1" /-->
-    <div>
-    <label for="package-name"><b><?php _e('Name', 'wpduplicator') ?>:</b> </label>
-    <a href="javascript:void(0)" onclick="Duplicator.Pack.ResetName()" title="<?php _e('Create a new default name', 'wpduplicator') ?>"><i class="fa fa-undo"></i></a> <br/>
-    <input id="package-name"  name="package-name" type="text" value="<?php echo $Package->Name ?>" maxlength="40"  data-required="true" data-regexp="^[0-9A-Za-z|_]+$" /> <br/>
-    <label><b><?php _e('Notes', 'wpduplicator') ?>:</b></label> <br/>
-    <textarea id="package-notes" name="package-notes" maxlength="300" /><?php echo $Package->Notes ?></textarea>
-    </div>
-    <br/><br/>
-    
-    <!-- ===================
-    META-BOX: STORAGE -->
-    <div class="dup-box">
-        <div class="dup-box-title">
-            <i class="fa fa-database"></i> <?php DUP_PRO_U::_e('Storage') ?> <sup id="dpro-storage-title-count"></sup>
-            <div class="dup-box-arrow"></div>
-        </div>			
+<!-- ===================
+META-BOX: STORAGE -->
+<div class="dup-box">
+	<div class="dup-box-title">
+		<i class="fa fa-database"></i> <?php  _e("Storage", 'wpduplicator'); ?> <sup id="dpro-storage-title-count"></sup>
+		<div class="dup-box-arrow"></div>
+	</div>			
 
-        <div class="dup-box-panel" id="dup-pack-storage-panel" style="<?php echo $ui_css_storage ?>">
-            <table class="widefat package-tbl">
-                <thead>
-                    <tr>
-                        <th style='white-space: nowrap; width:10px;'></th>
-                        <th style='width:275px'><?php DUP_PRO_U::_e('Name') ?></th>
-                        <th style='width:100px'><?php DUP_PRO_U::_e('Type') ?></th>
-                        <th style="white-space: nowrap"><?php DUP_PRO_U::_e('Location') ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="package-row">
-                        <td>
-                            <input type="checkbox" checked disabled/>
-                        </td>
-                        <td>
-                            <a href="#" >
-                                <?php
-                                echo '<i class="fa fa-server"></i>';
-
-                                echo __('  Default', 'wpduplicator');
-                                ?>
-                            </a>
-                        </td>
-                        <td><?php DUP_PRO_U::_e('Local'); ?></td>
-                        <td><?php echo DUPLICATOR_PRO_SSDIR_PATH; ?></td>				
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            <p class="description">Dropbox, FTP and other storage options available in <a href="http://duplicatorpro.com/?from_free_storage" target="_blank">Duplicator Pro</a>.</p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div id="storage_error_container" class="duplicator-error-container"></div>
-        </div>
-    </div><br/>
-    <!-- end meta-box storage  -->
+	<div class="dup-box-panel" id="dup-pack-storage-panel" style="<?php echo $ui_css_storage ?>">
+		<table class="widefat package-tbl">
+			<thead>
+				<tr>
+					<th style='width:275px'><?php _e("Name", 'wpduplicator'); ?></th>
+					<th style='width:100px'><?php _e("Type", 'wpduplicator'); ?></th>
+					<th style="white-space: nowrap"><?php _e("Location", 'wpduplicator'); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="package-row">
+					<td>
+						<?php
+							echo '<i class="fa fa-server"></i>';
+							echo __('  Default', 'wpduplicator');
+						?>
+					</td>
+					<td><?php _e("Local", 'wpduplicator'); ?></td>
+					<td><?php echo DUPLICATOR_SSDIR_PATH; ?></td>				
+				</tr>
+				<tr>
+					<td colspan="4">
+						<p class="description">
+							<?php _e("Dropbox, FTP and other multiple storage options available in ", 'wpduplicator'); ?>
+							<a href="http://duplicatorpro.com/?from_free_storage" target="_blank">
+								<?php _e("Duplicator Pro", 'wpduplicator'); ?>
+							</a>
+						</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div><br/>
+<!-- end meta-box storage  -->
 
 <!-- META-BOX: ARCHIVE -->
 <div class="dup-box" style="margin-top:20px">
@@ -69,18 +63,10 @@
             <span id="dup-archive-filter-file" title="<?php _e('File filter enabled', 'wpduplicator') ?>"><i class="fa fa-files-o"></i> <i class="fa fa-filter"></i> &nbsp;&nbsp;</span> 
             <span id="dup-archive-filter-db" title="<?php _e('Database filter enabled', 'wpduplicator') ?>"><i class="fa fa-table"></i> <i class="fa fa-filter"></i></span>	
         </span>
-
         <div class="dup-box-arrow"></div>
     </div>		
     <div class="dup-box-panel" id="dup-pack-archive-panel" style="<?php echo $ui_css_archive ?>">
         <input type="hidden" name="archive-format" value="ZIP" />
-        <!--label for="archive-format"><?php _e("Format", 'wpduplicator') ?>: </label> &nbsp;
-        
-        <select name="archive-format" id="archive-format">
-                <option value="ZIP">Zip</option>
-                <option value="TAR"></option>
-                <option value="TAR-GZIP"></option>
-        </select-->
         <!-- NESTED TABS -->
         <div class="categorydiv" id="dup-pack-opts-tabs">
             <ul class="category-tabs">
@@ -170,7 +156,7 @@
                         ?>
                     </div>
                     <div class="dup-tabs-opts-help">
-<?php _e("Checked tables will not be added to the database script.  Excluding certain tables can possibly cause your site or plugins to not work correctly after install!", 'wpduplicator'); ?>
+						<?php _e("Checked tables will not be added to the database script.  Excluding certain tables can possibly cause your site or plugins to not work correctly after install!", 'wpduplicator'); ?>
                     </div>	
                 </div>
             </div>
@@ -246,10 +232,9 @@
                 <td><input type="text" name="url-new" id="url-new" value="<?php echo $Package->Installer->OptsURLNew ?>" placeholder="http://mynewsite.com" /></td>
             </tr>
         </table>
-
-
+		
         <div class="dup-tabs-opts-help">
-<?php _e("The installer can have these fields pre-filled at install time.", 'wpduplicator'); ?> <b><?php _e('All values are optional.', 'wpduplicator'); ?></b>
+			<?php _e("The installer can have these fields pre-filled at install time.", 'wpduplicator'); ?> <b><?php _e('All values are optional.', 'wpduplicator'); ?></b>
         </div>		
 
     </div>		

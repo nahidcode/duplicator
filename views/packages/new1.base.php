@@ -25,6 +25,7 @@ $dup_tests = DUP_Server::GetRequirements();
 $default_name = DUP_Package::GetDefaultName();
 
 $view_state = DUP_UI::GetViewStateArray();
+$ui_css_storage = (isset($view_state['dup-pack-storage-panel']) && $view_state['dup-pack-storage-panel']) ? 'display:block' : 'display:none';
 $ui_css_archive = (isset($view_state['dup-pack-archive-panel']) && $view_state['dup-pack-archive-panel']) ? 'display:block' : 'display:none';
 $ui_css_installer = (isset($view_state['dup-pack-installer-panel']) && $view_state['dup-pack-installer-panel']) ? 'display:block' : 'display:none';
 ?>
@@ -75,7 +76,7 @@ $ui_css_installer = (isset($view_state['dup-pack-installer-panel']) && $view_sta
 
 <!-- =========================================
 TOOL BAR: STEPS -->
-<table id="toolbar-table">
+<table id="dup-toolbar">
     <tr valign="top">
         <td style="white-space: nowrap">
             <div id="dup-wiz">
@@ -85,11 +86,11 @@ TOOL BAR: STEPS -->
                     <div><a><span>3</span> <?php _e('Build', 'wpduplicator'); ?> </a></div>
                 </div>
                 <div id="dup-wiz-title">
-<?php _e('Step 1: Package Setup', 'wpduplicator'); ?>
+					<?php _e('Step 1: Package Setup', 'wpduplicator'); ?>
                 </div> 
             </div>	
         </td>
-        <td class="toolbar-btns">
+        <td class="dup-toolbar-btns">
             <a id="dup-pro-create-new"  href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e("All Packages", 'wpduplicator'); ?></a> &nbsp;
             <span> <?php _e("Create New", 'wpduplicator'); ?></span>
         </td>
@@ -176,9 +177,8 @@ META-BOX1: SYSTEM REQUIREMENTS -->
                     //printf("<b>%s:</b> [%s] <br/>", __('PHP Process Owner', 'wpduplicator'), DUP_Util::GetProcessOwner());	
                     ?>
                 </div>
-
                 <small>
-<?php _e("Permissions can be difficult to resolve on some systems. If the plugin can not read the above paths here are a few things to try. 1) Set the above paths to have permissions of 755 for directories and 644 for files. You can temporarily try 777 however, be sure you don’t leave them this way. 2) Check the owner/group settings for both files and directories. The PHP script owner and the process owner are different. The script owner owns the PHP script but the process owner is the user the script is running as, thus determining its capabilities/privileges in the file system. For more details contact your host or server administrator or visit the 'Help' menu under Duplicator for additional online resources.", 'wpduplicator'); ?>
+					<?php _e("Permissions can be difficult to resolve on some systems. If the plugin can not read the above paths here are a few things to try. 1) Set the above paths to have permissions of 755 for directories and 644 for files. You can temporarily try 777 however, be sure you don’t leave them this way. 2) Check the owner/group settings for both files and directories. The PHP script owner and the process owner are different. The script owner owns the PHP script but the process owner is the user the script is running as, thus determining its capabilities/privileges in the file system. For more details contact your host or server administrator or visit the 'Help' menu under Duplicator for additional online resources.", 'wpduplicator'); ?>
                 </small>					
             </div>
         </div>

@@ -7,11 +7,10 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 <style>
     /*================================================
     PAGE-SUPPORT:*/
-    table.dup-support-hlp-hdrs {border-collapse:collapse; width:100%; border-bottom:1px solid #dfdfdf}
-    table.dup-support-hlp-hdrs {background-color:#efefef;}
-    table.dup-support-hlp-hdrs td {
-        padding:6px; 
-        font-weight:bold; font-size:32px;
+    div.dup-support-hlp-hdrs{
+		text-align: center;
+        padding:15px; 
+        font-weight:bold; font-size:25px;
         background-image:-ms-linear-gradient(top, #FFFFFF 0%, #DEDEDE 100%);
         background-image:-moz-linear-gradient(top, #FFFFFF 0%, #DEDEDE 100%);
         background-image:-o-linear-gradient(top, #FFFFFF 0%, #DEDEDE 100%);
@@ -20,11 +19,13 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
         background-image:linear-gradient(to bottom, #FFFFFF 0%, #DEDEDE 100%);
     }
     div.dup-compare-area {width:400px;  float:left; border:1px solid #dfdfdf; border-radius:4px; margin:10px; line-height:18px;box-shadow: 0 8px 6px -6px #ccc;}
-	div.feature {background: #fff; padding:20px; margin: 2px; text-align: center; min-height: 30px}
-	div.feature a {font-size:22px; font-weight: bold;}
-	div.dup-compare-area div.feature div.info {display:none; padding:10px 15px 5px 15px; font-style: italic; color: #555; font-size: 14px}
+	div.feature {background: #fff; padding:18px; margin: 2px; text-align: center; min-height: 30px}
+	div.feature a {font-size:21px; font-weight: bold;}
+	div.dup-compare-area div.feature div.info {display:none; padding:10px 10px 5px 10px; font-style: italic; color: #555; font-size: 14px}
 	div.dup-gopro-header {text-align: center; margin: 5px 0 15px 0; font-size:18px; line-height: 30px}
-	div.dup-gopro-header b {font-size: 37px}
+	div.dup-gopro-header b {font-size: 35px}
+	a.dup-check-it-btn {box-shadow: 5px 5px 5px 0px #999 !important; font-size: 20px !important; height:50px !important;   padding:10px 40px 0 40px !important;}
+
 </style>
 
 <script type="text/javascript">var switchTo5x = true;</script>
@@ -36,22 +37,21 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
     <?php duplicator_header(__("Go Pro!", 'wpduplicator')) ?>
     <hr size="1" />
 
-    <div style="width:850px; margin:auto; margin-top: 20px">
+    <div style="width:850px; margin:auto; text-align: center;">
 
-        <div style="text-align:center; margin-bottom:35px;">
-            <p style="font-weight:bold; font-size:58px; margin-bottom:0px;"><?php _e('Duplicator Pro Has Arrived!', 'wpduplicator') ?></p>
-            <p style="font-style:italic;font-size:20px; margin-top:0px;"><?php _e('The simplicity of Duplicator combined with the power the professional requires.', 'wpduplicator') ?></p>
-        </div>
-        
+		<div style="line-height:28px">
+			<h1 style="font-size:38px"><?php _e('Duplicator Pro Has Arrived!', 'wpduplicator') ?></h1>
+			<h3 style="font-size:20px">
+				<?php _e('The simplicity of Duplicator', 'wpduplicator') ?>
+				<?php _e('with the power the professional requires.', 'wpduplicator') ?>
+			</h3>
+		</div>
+
         <!-- FREE-->
         <div class="dup-compare-area">
-            <table class="dup-support-hlp-hdrs">
-                <tr >
-                    <td style="height:50px; text-align: center;">
-                        <span style="display: inline-block; margin-top: 5px"><?php _e('Duplicator Free', 'wpduplicator') ?></span>
-                    </td>
-                </tr>
-            </table>
+            <div class="dup-support-hlp-hdrs">
+				<?php _e('Duplicator Free', 'wpduplicator') ?>
+            </div>
 			<div class="feature">
 				<a href="javascript:void(0)" class="dup-info-click"><?php _e('Backup Files &amp; Database', 'wpduplicator') ?></a>
 				<div class="info"><?php _e('Compresses all your WordPress files and database into a compressed snapshot archive file.', 'wpduplicator') ?></div>
@@ -77,14 +77,9 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 
         <!-- PRO  -->
         <div class="dup-compare-area">
-            <table class="dup-support-hlp-hdrs">
-                <tr>
-                    <td style="height:50px; text-align: center;">
-                        <span style="display: inline-block; margin-top: 5px"><?php _e('Duplicator Pro', 'wpduplicator') ?></span>
-                    </td>
-                </tr>
-            </table>
-
+            <div class="dup-support-hlp-hdrs">
+				<?php _e('Duplicator Pro', 'wpduplicator') ?>
+			</div>
 			<div class="feature">
 				<a href="javascript:void(0)" class="dup-info-click"><?php _e('Backup Files &amp; Database', 'wpduplicator') ?></a>
 				<div class="info"><?php _e('Compresses all your WordPress files and database into a compressed snapshot archive file.', 'wpduplicator') ?></div>
@@ -121,7 +116,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
         </div>
         <br style="clear:both" />
         <p style="text-align:center">
-            <a href="http://duplicatorpro.com" target="_blank" class="button button-primary button-large" style="text-align:center;margin-left:auto;margin-right:auto;box-shadow: 5px 5px 5px 0px #999; font-size: 20px; height: 59px;  background: #AB2C30;  border: none;  padding-top: 13px;  padding-left: 25px;  padding-right: 25px;">
+            <a href="http://duplicatorpro.com" target="_blank" class="button button-primary button-large dup-check-it-btn" >
                 <?php _e('Check It Out!', 'wpduplicator') ?>
             </a>
             </p>
