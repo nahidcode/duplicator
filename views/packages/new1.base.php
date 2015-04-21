@@ -53,6 +53,8 @@ $ui_css_installer = (isset($view_state['dup-pack-installer-panel']) && $view_sta
     form#dup-form-opts textarea#filter-dirs {height:85px}
     form#dup-form-opts textarea#filter-exts {height:27px}
     textarea#package_notes {height:37px;}
+	div.dup-notes-add {float:right; margin:-4px 2px 4px 0;}
+    div#dup-notes-area {display:none}
 
     /*ARCHIVE SECTION*/
     form#dup-form-opts div.tabs-panel{max-height:550px; padding:10px; min-height:280px}
@@ -156,7 +158,7 @@ META-BOX1: SYSTEM REQUIREMENTS -->
                     </tr>					
                 </table>
                 <small>
-<?php _e("PHP versions 5.2.17+ or higher is required. Please note that in versioning logic a value such as 5.2.9 is less than 5.2.17. For compression to work the ZipArchive extension for PHP is required. Safe Mode should be set to 'Off' in you php.ini file and is deprecated as of PHP 5.3.0.  For any issues in this section please contact your hosting provider or server administrator.  For additional information see our online documentation.", 'wpduplicator'); ?>
+					<?php _e("PHP versions 5.2.17+ or higher is required. Please note that in versioning logic a value such as 5.2.9 is less than 5.2.17. For compression to work the ZipArchive extension for PHP is required. Safe Mode should be set to 'Off' in you php.ini file and is deprecated as of PHP 5.3.0.  For any issues in this section please contact your hosting provider or server administrator.  For additional information see our online documentation.", 'wpduplicator'); ?>
                 </small>
             </div>
         </div>		
@@ -222,7 +224,7 @@ META-BOX1: SYSTEM REQUIREMENTS -->
                     <?php _e('A reserved file(s) was found in the WordPress root directory. Reserved file names are installer.php, installer-data.sql and installer-log.txt.  To archive your data correctly please remove any of these files from your WordPress root directory.  Then try creating your package again.', 'wpduplicator'); ?>
                         <br/><input type='submit' class='button action' value='<?php _e('Remove Files Now', 'wpduplicator') ?>' style='font-size:10px; margin-top:5px;' />
                     </form>
-<?php endif; ?>
+				<?php endif; ?>
             </div>
         </div>
 
@@ -237,19 +239,16 @@ META-BOX1: SYSTEM REQUIREMENTS -->
 </div><br/>
 
 
-
-
 <!-- =========================================
 FORM PACKAGE OPTIONS -->
 <div style="padding:5px 5px 2px 5px">
-<?php include('new1.inc.form.php'); ?>
+	<?php include('new1.inc.form.php'); ?>
 </div>
 
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
 
-        /*	----------------------------------------
-         * METHOD: Toggle Options tabs*/
+        /*	METHOD: Toggle Options tabs*/
         Duplicator.Pack.ToggleOptTabs = function (tab, label) {
             $('.category-tabs li').removeClass('tabs');
             $(label).parent().addClass('tabs');
@@ -262,8 +261,7 @@ FORM PACKAGE OPTIONS -->
             }
         }
 
-        /*	----------------------------------------
-         * METHOD: */
+        /*	METHOD: Enable/Disable the file filter elements */
         Duplicator.Pack.ToggleFileFilters = function () {
             var $filterItems = $('#dup-file-filter-items');
             if ($("#filter-on").is(':checked')) {
@@ -277,8 +275,7 @@ FORM PACKAGE OPTIONS -->
             }
         };
 
-        /*	----------------------------------------
-         *	METHOD: Appends a path to the directory filter */
+        /*	METHOD: Appends a path to the directory filter */
         Duplicator.Pack.ToggleDBFilters = function () {
             var $filterItems = $('#dup-db-filter-items');
 
@@ -294,15 +291,13 @@ FORM PACKAGE OPTIONS -->
         };
 
 
-        /*	----------------------------------------
-         *	METHOD: Appends a path to the directory filter  */
+        /*	METHOD: Appends a path to the directory filter  */
         Duplicator.Pack.AddExcludePath = function (path) {
             var text = $("#filter-dirs").val() + path + ';\n';
             $("#filter-dirs").val(text);
         };
 
-        /*	----------------------------------------
-         *	METHOD: Appends a path to the extention filter  */
+        /*	METHOD: Appends a path to the extention filter  */
         Duplicator.Pack.AddExcludeExts = function (path) {
             var text = $("#filter-exts").val() + path + ';';
             $("#filter-exts").val(text);
@@ -324,7 +319,5 @@ FORM PACKAGE OPTIONS -->
         //Init: Toggle OptionTabs
         Duplicator.Pack.ToggleFileFilters();
         Duplicator.Pack.ToggleDBFilters();
-
     });
 </script>
-

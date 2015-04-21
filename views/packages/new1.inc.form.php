@@ -4,18 +4,23 @@
 <input type="hidden" id="dup-form-opts-hash" name="package-hash" value="<?php echo $package_hash; ?>">
 <div>
 	<label for="package-name"><b><?php _e('Name', 'wpduplicator') ?>:</b> </label>
+		<div class="dup-notes-add">
+		<button class="button button-small" type="button" onclick="jQuery('#dup-notes-area').toggle()"><i class="fa fa-pencil-square-o"></i> <?php _e('Notes', 'wpduplicator') ?></button>
+	</div>
 	<a href="javascript:void(0)" onclick="Duplicator.Pack.ResetName()" title="<?php _e('Create a new default name', 'wpduplicator') ?>"><i class="fa fa-undo"></i></a> <br/>
 	<input id="package-name"  name="package-name" type="text" value="<?php echo $Package->Name ?>" maxlength="40"  data-required="true" data-regexp="^[0-9A-Za-z|_]+$" /> <br/>
-	<label><b><?php _e('Notes', 'wpduplicator') ?>:</b></label> <br/>
-	<textarea id="package-notes" name="package-notes" maxlength="300" /><?php echo $Package->Notes ?></textarea>
+	<div id="dup-notes-area">
+		<label><b><?php _e('Notes', 'wpduplicator') ?>:</b></label> <br/>
+		<textarea id="package-notes" name="package-notes" maxlength="300" /><?php echo $Package->Notes ?></textarea>
+	</div>
 </div>
-<br/><br/>
+<br/>
 
 <!-- ===================
 META-BOX: STORAGE -->
 <div class="dup-box">
 	<div class="dup-box-title">
-		<i class="fa fa-database"></i> <?php  _e("Storage", 'wpduplicator'); ?> <sup id="dpro-storage-title-count"></sup>
+		<i class="fa fa-database"></i>&nbsp;<?php  _e("Storage", 'wpduplicator'); ?> 
 		<div class="dup-box-arrow"></div>
 	</div>			
 
@@ -30,22 +35,21 @@ META-BOX: STORAGE -->
 			</thead>
 			<tbody>
 				<tr class="package-row">
-					<td>
-						<?php
-							echo '<i class="fa fa-server"></i>';
-							echo __('  Default', 'wpduplicator');
-						?>
-					</td>
+					<td><i class="fa fa-server"></i>&nbsp;<?php  _e('Default', 'wpduplicator');?></td>
 					<td><?php _e("Local", 'wpduplicator'); ?></td>
 					<td><?php echo DUPLICATOR_SSDIR_PATH; ?></td>				
 				</tr>
 				<tr>
 					<td colspan="4">
 						<p class="description">
+							<?php _e("All packages including the archive, installer and SQL script are stored in the location above. ", 'wpduplicator'); ?>
+							<br/>
+						<small>
 							<?php _e("Dropbox, FTP and other multiple storage options available in ", 'wpduplicator'); ?>
 							<a href="http://duplicatorpro.com/?from_free_storage" target="_blank">
 								<?php _e("Duplicator Pro", 'wpduplicator'); ?>
 							</a>
+						</small>
 						</p>
 					</td>
 				</tr>
@@ -56,7 +60,7 @@ META-BOX: STORAGE -->
 <!-- end meta-box storage  -->
 
 <!-- META-BOX: ARCHIVE -->
-<div class="dup-box" style="margin-top:20px">
+<div class="dup-box">
     <div class="dup-box-title">
         <i class="fa fa-file-archive-o"></i> <?php _e('Archive', 'wpduplicator') ?> &nbsp;
         <span style="font-size:13px">
