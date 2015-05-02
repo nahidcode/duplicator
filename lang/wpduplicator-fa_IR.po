@@ -26,7 +26,7 @@ msgstr ""
 
 #: C:\xampp\htdocs\www.wordpress.org\wp-content\plugins\duplicator/classes/ui.php:112
 msgid "Remove file(s) now"
-msgstr "حذف پرونده"
+msgstr "پاک کردن پرونده"
 
 #: C:\xampp\htdocs\www.wordpress.org\wp-content\plugins\duplicator/classes/ui.php:113
 msgid "Dismiss this notice"
