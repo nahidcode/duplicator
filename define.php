@@ -8,6 +8,8 @@ if (function_exists('plugin_dir_url')) {
     define("DUPLICATOR_CERTIFIED",      "http://lifeinthegrid.com/duplicator-hosts");
     define('DUPLICATOR_PLUGIN_URL',     plugin_dir_url(__FILE__));
 	define('DUPLICATOR_SITE_URL',		get_site_url());
+	define('DUPLICATOR_LANG_SLUG',		'wpduplicator');
+	
     
 
     /* Paths should ALWAYS read "/"
@@ -39,7 +41,7 @@ if (function_exists('plugin_dir_url')) {
 	define("DUPLICATOR_SCAN_CACHESIZE", 524288);	//512K
 	define("DUPLICATOR_SCAN_DBSIZE",  52428800);	//50MB
 	define("DUPLICATOR_SCAN_DBROWS",  250000);
-	define("DUPLICATOR_SCAN_TIMEOUT", 300);			//Seconds
+	define("DUPLICATOR_SCAN_TIMEOUT", 150);			//Seconds
 	define("DUPLICATOR_SCAN_MIN_WP", "3.7.0");
 	define("DUPLICATOR_SCAN_USELEGACY", true);
     $GLOBALS['DUPLICATOR_SERVER_LIST'] = array('Apache','LiteSpeed', 'Nginx', 'Lighttpd', 'IIS', 'WebServerX', 'uWSGI');
