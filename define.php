@@ -10,8 +10,6 @@ if (function_exists('plugin_dir_url')) {
 	define('DUPLICATOR_SITE_URL',		get_site_url());
 	define('DUPLICATOR_LANG_SLUG',		'wpduplicator');
 	
-    
-
     /* Paths should ALWAYS read "/"
       uni: /home/path/file.txt
       win:  D:/home/path/file.txt

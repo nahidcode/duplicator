@@ -101,6 +101,11 @@ class DUP_Package {
 		$report['ARC']['DirCount']			= number_format(count($this->Archive->Dirs));
 		$report['ARC']['FileCount']			= number_format(count($this->Archive->Files));
 		$report['ARC']['LinkCount']			= number_format(count($this->Archive->Links));
+		
+		$report['ARC']['FilterReport']['Dirs'] = $this->Archive->FilterInfo->Dirs;
+		$report['ARC']['FilterReport']['Files'] = $this->Archive->FilterInfo->Files;
+		$report['ARC']['FilterReport']['Exts'] = $this->Archive->FilterInfo->Exts;
+		
 		$report['ARC']['WarnFileName']		= is_array($this->Archive->WarnFileName) ? $this->Archive->WarnFileName : "unknown";
 		$report['ARC']['WarnFileSize']		= is_array($this->Archive->WarnFileSize)  ? $this->Archive->WarnFileSize  : "unknown";
 		$report['ARC']['Status']['Size']	= ($this->Archive->Size > DUPLICATOR_SCAN_SITE) ? 'Warn' : 'Good';
@@ -108,8 +113,7 @@ class DUP_Package {
 		$report['ARC']['Status']['Big']		= count($this->Archive->WarnFileSize)  ? 'Warn' : 'Good';
 		$report['ARC']['Dirs']				= $this->Archive->Dirs;
 		$report['ARC']['Files']				= $this->Archive->Files;
-		$report['ARC']['OmitFiles']			= $this->Archive->OmitFiles;
-		$report['ARC']['OmitDirs']			= $this->Archive->OmitDirs;
+
 		
 		//DATABASE
 		$db = $this->Database->Stats();
