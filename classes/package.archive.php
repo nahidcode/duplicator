@@ -95,8 +95,6 @@ class DUP_Archive {
 	}
 	
 	//Get All Directories then filter
-	//SPL classes in dirsToArray_New are buggy on some PHP versions
-	//Add back into code base once PHP 5.3.0 is minimum requirment
 	private function getDirs() {
 		
 		$rootPath = DUP_Util::SafePath(rtrim(DUPLICATOR_WPROOTPATH, '//' ));
@@ -106,9 +104,7 @@ class DUP_Archive {
 		if (in_array($this->PackDir, $this->filterDirsArray)) {
 			$this->Dirs = $this->PackDir;
 		} else {
-			$this->Dirs = (DUPLICATOR_SCAN_USELEGACY)
-				? $this->dirsToArray_Legacy($rootPath)
-				: $this->dirsToArray_New($rootPath);
+			$this->dirsToArray($rootPath);
 			array_push($this->Dirs, $this->PackDir);
 		}
 		
@@ -172,17 +168,24 @@ class DUP_Archive {
 		}
 	}
 	
-	//Recursive function to get all Directories in a wp install
-	//Older PHP logic which shows to be more stable on older version of PHP
-	private function dirsToArray_Legacy($path) {
+    //Recursive function to get all Directories in a wp install
+    //Older PHP logic which is more stable on older version of PHP
+	//NOTE RecursiveIteratorIterator is problematic on some systems issues include:
+    // - error 'too many files open' for recursion
+    // - $file->getExtension() is not reliable as it silently fails at least in php 5.2.17 
+    // - issues with when a file has a permission such as 705 and trying to get info (had to fallback to pathinfo)
+	// - basic conclusion wait on the SPL libs untill after php 5.4 is a requiremnt
+	// - since we are in a tight recursive loop lets remove the utiltiy call DUP_PRO_Util::SafePath("{$path}/{$file}") and 
+	//   squeeze out as much performance as we possible can
+	private function dirsToArray($path) {
 		$items = array();
 		$handle = opendir($path);
 		if ($handle) {
 			while (($file = readdir($handle)) !== false ) {
-				if ($file != "." && $file != "..") {
+				if ($file != '.' && $file != '..') {
 					$fullPath = DUP_Util::SafePath($path. "/" . $file);
 					if (is_dir($fullPath)) {
-						$items = array_merge($items, $this->dirsToArray_Legacy($fullPath));
+						$items = array_merge($items, $this->dirsToArray($fullPath));
 						$items[] = $fullPath;
 					}
 				}
@@ -192,25 +195,6 @@ class DUP_Archive {
 		return $items;
 	}
 	
-	//Recursive function to get all Directories in a wp install
-	//Must use iterator_to_array in order to avoid the error 'too many files open' for recursion
-	//Notes: $file->getExtension() is not reliable as it silently fails at least in php 5.2.17 
-	//when a file has a permission such as 705 falling back to pathinfo is more stable
-	private function dirsToArray_New($path) {
-		$iterator = new RecursiveIteratorIterator(
-			new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
-				RecursiveIteratorIterator::SELF_FIRST,
-				RecursiveIteratorIterator::CATCH_GET_CHILD // Ignore "Permission denied"
-		);
-		$files = iterator_to_array($iterator);
-		$items = array();
-		foreach ($files as $file) {
-			if ($file->isDir()) {
-				$items[] = DUP_Util::SafePath($file->getRealPath());
-			}
-		}
-		return $items;
-	}
 
 }
 ?>
