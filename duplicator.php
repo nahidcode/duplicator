@@ -6,6 +6,8 @@
   Version: 0.5.23
   Author: LifeInTheGrid
   Author URI: http://www.lifeinthegrid.com
+  Text Domain: wpduplicator
+  Domain Path: /lang
   License: GPLv2 or later
  */
 
