@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Duplicator v0.5.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-27 01:36+0100\n"
-"PO-Revision-Date: 2015-06-27 01:37+0100\n"
+"PO-Revision-Date: 2015-06-27 02:47+0100\n"
 "Last-Translator: Ralf Koller <r.koller@gmail.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -142,7 +142,7 @@ msgstr "Schnelle WordPress-Vervielfältigung von LifeInTheGrid.com"
 # @ wpduplicator
 #: views/help/about.php:131
 msgid "Get More Great Tools"
-msgstr "Hole dir mehr großartige Anwendungen..."
+msgstr "Hole Dir weitere großartige Anwendungen"
 
 # @ wpduplicator
 #: views/help/gopro.php:37
@@ -1040,7 +1040,7 @@ msgstr ""
 # @ default
 #: views/packages/new1.inc.form.php:181
 msgid "STEP 1 - INPUTS"
-msgstr ""
+msgstr "Schritt 1 – Eingaben"
 
 # @ wpduplicator
 #: views/packages/new1.inc.form.php:184
@@ -1054,7 +1054,7 @@ msgstr "Host"
 
 #: views/packages/new1.inc.form.php:191
 msgid "Host Port"
-msgstr ""
+msgstr "Host-Port"
 
 # @ wpduplicator
 #: views/packages/new1.inc.form.php:203
@@ -1094,7 +1094,7 @@ msgstr "Startseite Pfad belassen"
 # @ default
 #: views/packages/new1.inc.form.php:235
 msgid "STEP 2 - INPUTS"
-msgstr ""
+msgstr "Schritt 2 – Eingaben"
 
 # @ wpduplicator
 #: views/packages/new1.inc.form.php:239
@@ -1184,11 +1184,11 @@ msgstr "Webserver"
 
 #: views/packages/new2.base.php:119
 msgid "Supported web servers:"
-msgstr ""
+msgstr "Unterstützte Webserver:"
 
 #: views/packages/new2.base.php:129
 msgid "PHP Setup"
-msgstr ""
+msgstr "PHP-Setup"
 
 # @ wpduplicator
 #: views/packages/new2.base.php:135
@@ -1201,11 +1201,14 @@ msgid ""
 "admin to disable this value in the php.ini file if you’re having issues "
 "building a package."
 msgstr ""
+"Es können Probleme auftreten falls [open_basedir] aktiviert ist. Für den "
+"Fall, dass Du Probleme hast ein Archiv zu erstellen, kontaktiere Deinen "
+"Administrator damit dieser den Wert in der php.ini Datei deaktiviert."
 
 #: views/packages/new2.base.php:138 views/packages/new2.base.php:148
 #: views/packages/new2.base.php:155
 msgid "details"
-msgstr ""
+msgstr "Details"
 
 # @ wpduplicator
 #: views/packages/new2.base.php:143 views/tools/diagnostics.php:189
@@ -1220,6 +1223,11 @@ msgid ""
 "seconds or higher. An attempt is made to override this value if the server "
 "allows it.  A value of 0 (recommended) indicates that PHP has no time limits."
 msgstr ""
+"Es können Probleme bei größeren Archiven auftreten falls der Wert für die "
+"[max_execution_time] in der php.ini zu niedrig gesetzt ist. Der kleinste "
+"empfohlene Timeout-Wert liegt bei \"%1$s\" Sekunden oder mehr. Es wird ein "
+"Versuch unternommen diesen Wert zu übergehen falls der Server dies erlaubt. "
+"Ein Wert von 0 (empfohlen) zeigt an, dass PHP kein Zeitlimit hat."
 
 # @ wpduplicator
 #: views/packages/new2.base.php:147
@@ -1239,7 +1247,7 @@ msgstr ""
 
 #: views/packages/new2.base.php:152
 msgid "MySQLi"
-msgstr ""
+msgstr "MySQLi"
 
 #: views/packages/new2.base.php:154
 msgid ""
@@ -1247,10 +1255,13 @@ msgid ""
 "installer.php file requires that the PHP module mysqli be installed on the "
 "server it is deployed on."
 msgstr ""
+"Für das Erstellen eines Archivs benötigst Du nicht das MySQLi-Modul. Jedoch "
+"benötigt die installer.php Datei das installierte MySQLi-Modul auf dem "
+"Server auf dem das Archiv erstellt wird."
 
 #: views/packages/new2.base.php:164
 msgid "WordPress"
-msgstr ""
+msgstr "WordPress"
 
 # @ wpduplicator
 #: views/packages/new2.base.php:169
@@ -1262,6 +1273,8 @@ msgstr "WordPress-Version"
 msgid ""
 "It is recommended to have a version of WordPress that is greater than %1$s"
 msgstr ""
+"Es wird empfohlen eine Version von WordPress installiert zu haben die größer "
+"%1$s ist"
 
 # @ wpduplicator
 #: views/packages/new2.base.php:175
@@ -1291,6 +1304,13 @@ msgid ""
 "might cause errors on your site. The cache size minimum threshold is "
 "currently set at "
 msgstr ""
+"Gecachte Daten führen zu Problemen bei der Installation und zu einer "
+"erhöhten Archiv-Größe. Es wird empfohlen das Cache-Verzeichnis vor der "
+"Erstellung des Archives zu leeren. Lasse Vorsicht walten bevor Du Daten aus "
+"dem Cache-Verzeichnis entfernst. Für den Fall dass Du ein Cache-Plugin "
+"verwendest lies in der Anleitung nach wie Du dessen Cache sicher leerst; das "
+"direkte Entfernen von Dateien kann zu Problemen mit Deiner Webseite führen. "
+"Der untere Grenzwert für die Cache-Größe liegt aktuell bei "
 
 # @ wpduplicator
 #: views/packages/new2.base.php:208 views/packages/new2.base.php:317
@@ -1389,6 +1409,8 @@ msgid ""
 "The lists above are the directories and file extension that will be excluded "
 "from the archive."
 msgstr ""
+"Die Listen darüber sind die Verzeichnisse und Dateiendungen die aus dem "
+"Archiv ausgeschlossen werden."
 
 # @ wpduplicator
 #: views/packages/new2.base.php:332
@@ -1568,7 +1590,7 @@ msgstr "Anmerkung"
 # @ default
 #: views/packages/new3.base.php:125
 msgid "Build Folder:"
-msgstr ""
+msgstr "Erstellungs-Verzeichnis:"
 
 # @ wpduplicator
 #: views/packages/new3.base.php:127
@@ -1640,7 +1662,7 @@ msgstr ""
 # @ wpduplicator
 #: views/settings/general.php:114
 msgid "Archive Flush"
-msgstr ""
+msgstr "Archiv erstellen"
 
 # @ wpduplicator
 #: views/settings/general.php:117
@@ -2057,7 +2079,7 @@ msgstr "Server-Festplatte"
 # @ hyper-cache
 #: views/tools/diagnostics.php:223
 msgid "Free space"
-msgstr ""
+msgstr "Freier Speicherplatz"
 
 # @ wpduplicator
 #: views/tools/diagnostics.php:226
@@ -2157,11 +2179,11 @@ msgstr "Letzte 20 Logs"
 
 #. Plugin Name of the plugin/theme
 msgid "Duplicator"
-msgstr ""
+msgstr "Duplicator"
 
 #. Plugin URI of the plugin/theme
 msgid "http://www.lifeinthegrid.com/duplicator/"
-msgstr ""
+msgstr "http://www.lifeinthegrid.com/duplicator/"
 
 #. Description of the plugin/theme
 msgid ""
@@ -2169,14 +2191,18 @@ msgid ""
 "entire site from one location to another in a few steps. Create a full "
 "snapshot of your site at any point in time."
 msgstr ""
+"Erstelle eine Sicherungskopie Deiner WordPress-Dateien und der Datenbank. "
+"Dupliziere und verschiebe in nur wenigen Schritten eine komplette Webseite "
+"von einem Ort an einen Anderen. Erstelle einen vollständigen Snapshot Deiner "
+"Webseite zu jedem beliebigen Zeitpunkt."
 
 #. Author of the plugin/theme
 msgid "LifeInTheGrid"
-msgstr ""
+msgstr "LifeInTheGrid"
 
 #. Author URI of the plugin/theme
 msgid "http://www.lifeinthegrid.com"
-msgstr ""
+msgstr "http://www.lifeinthegrid.com"
 
 # @ wpduplicator
 #~ msgid "PHP Settings"
