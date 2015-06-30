@@ -89,7 +89,8 @@ class DUP_Archive {
 	public $WarnFileName = array();
 	public $Dirs  = array();
 	public $Files = array();
-	public $Links = array();
+	
+	public $FilterInfo;
 	
 	//PROTECTED
 	protected $Package;
@@ -98,6 +99,8 @@ class DUP_Archive {
 	public function __construct($package) {
 		$this->Package   = $package;
 		$this->FilterOn  = false;
+		
+		$this->FilterInfo = new DUP_Archive_Filter_Info();
 	}
 	
 	public function Build($package) {
@@ -220,7 +223,7 @@ class DUP_Archive {
 			
 			if ($invalid_test || preg_match('/[^\x20-\x7f]/', $name)) {
 				$this->WarnFileName[] = $val;
-				$this->FilterInfo->Dirs->Warning[] = $val;
+				$this->FilterInfo->Dirs->Warning[] = utf8_encode($val);
 			} 
 			
 			
@@ -261,9 +264,9 @@ class DUP_Archive {
 										preg_match('/(\/|\*|\?|\>|\<|\:|\\|\|)/', $fileName) || 
 										trim($fileName) == "";
 
-						if ($invalid_test) 
+						if ($invalid_test || preg_match('/[^\x20-\x7f]/', $fileName))
 						{
-							$this->FilterInfo->Files->Warning[] = $filePath;
+							$this->FilterInfo->Files->Warning[] = utf8_encode($filePath);
 							array_push($this->WarnFileName, $filePath);
 						} 
 						else 
@@ -274,6 +277,7 @@ class DUP_Archive {
 						
 						if ($fileSize > DUPLICATOR_SCAN_WARNFILESIZE) 
 						{
+							$this->FilterInfo->Files->Size[] = $filePath . ' [' . DUP_Util::ByteSize($fileSize) . ']';
 							array_push($this->WarnFileSize, $filePath . ' [' . DUP_Util::ByteSize($fileSize) . ']');
 						}
 					} 
