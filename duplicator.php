@@ -188,7 +188,7 @@ if (is_admin() == true) {
 
         $perms = 'manage_options';
         $perms = apply_filters($wpfront_caps_translator, $perms);
-        $page_help = add_submenu_page('duplicator', DUP_Util::__('Help'), DUP_Util:: __('Help'), $perms, 'duplicator-help', 'duplicator_get_menu');
+        $page_help = add_submenu_page('duplicator', DUP_Util::__('Help'), DUP_Util::__('Help'), $perms, 'duplicator-help', 'duplicator_get_menu');
 
         $perms = 'manage_options';
         $perms = apply_filters($wpfront_caps_translator, $perms);
