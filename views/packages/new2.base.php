@@ -43,6 +43,10 @@
 	div#data-arc-size1 {display: inline-block; float:right; font-size:11px; margin-right: 15px; font-style: italic}
 	div#data-arc-names-data, div#data-arc-big-data
 		{word-wrap: break-word;font-size:10px; border:1px dashed silver; padding:5px; display: none}
+		
+	div#dup-scan-warning-continue {display:none; text-align: center; padding: 0 0 15px 0}
+	div#dup-scan-warning-continue div.msg1 {font-size:14px; color:maroon}
+	div#dup-scan-warning-continue div.msg2 {padding:2px}
 	
 	/*Footer*/
 	div.dup-button-footer {text-align:center; margin:0}
@@ -88,7 +92,6 @@ TOOL BAR: STEPS -->
 		<div style="text-align:center">
 			<div class="dup-hdr-success"><i class="fa fa-check-square-o fa-lg"></i> <?php DUP_Util::_e('Scan Complete'); ?></div>
 			<div id="dup-msg-success-subtitle">
-				<?php DUP_Util::_e("Scan checks are not required to pass, however they could cause issues on some systems."); ?><br/>
 				<?php DUP_Util::_e("Process Time:"); ?> <span id="data-rpt-scantime"></span>
 			</div>
 		</div><br/>
@@ -227,6 +230,10 @@ TOOL BAR: STEPS -->
 							printf(DUP_Util::__('Total size represents all files minus any filters that have been setup.  The current thresholds that trigger warnings are %1$s for the entire site and %2$s for large files.'), 
 									DUP_Util::ByteSize(DUPLICATOR_SCAN_SITE), 
 									DUP_Util::ByteSize(DUPLICATOR_SCAN_WARNFILESIZE));
+							echo '<br/><br/>';
+							DUP_Util::_e('Some budget hosts limit the amount of time a PHP/Web request process can run.  When working with larger sites this can cause timeout issues.  If you have a larger site that is upto 2GB then you migh consider looking at Duplicator Pro as it can handle timeout requests better for most hosts.');
+							
+							echo "&nbsp;<i><a href='http://snapcreek.com/duplicator?free-size-warn' target='_blank'>[" . DUP_Util::__('details') . "]</a></i>";
 						?>
 						</small>
 					</div>
@@ -365,8 +372,20 @@ TOOL BAR: STEPS -->
 			</div><!-- end .dup-panel -->
 		</div><!-- end .dup-panel-panel -->
 		
+		<!-- WARNING CONTINUE -->
+		<div id="dup-scan-warning-continue">
+			<div class="msg1">
+				<input type="checkbox" id="dup-scan-warning-continue-checkbox" onclick="Duplicator.Pack.WarningContinue(this)"/>
+				<label for="dup-scan-warning-continue-checkbox"><?php DUP_Util::_e('A warning status was detected, are you sure you want to continue?');?></label>
+			</div>
+			<div class="msg2">
+				<label for="dup-scan-warning-continue-checkbox"><?php DUP_Util::_e("Scan checks are not required to pass, however they could cause issues on some systems."); ?></label>
+			</div>
+		</div>
 		
 	</div>
+	
+	
 
 	<!--  ERROR MESSAGE -->
 	<div id="dup-msg-error" style="display:none">
@@ -394,8 +413,7 @@ TOOL BAR: STEPS -->
 <script type="text/javascript">
 jQuery(document).ready(function($) {
 		
-	/*	========================--
-	*	METHOD: Performs Ajax post to create check system  */
+	/*	Performs Ajax post to create check system  */
 	Duplicator.Pack.Scan = function() {
 		var data = {action : 'duplicator_package_scan'}
 
@@ -428,6 +446,13 @@ jQuery(document).ready(function($) {
 		Duplicator.Pack.Scan();
 	}
 	
+	Duplicator.Pack.WarningContinue = function(checkbox) {
+		($(checkbox).is(':checked')) 
+			?	$('#dup-build-button').prop('disabled',false).addClass('button-primary')
+			:	$('#dup-build-button').prop('disabled',true).removeClass('button-primary');
+
+	}
+	
 	Duplicator.Pack.LoadScanStatus = function(status) {
 		var result;
 		switch (status) {
@@ -441,8 +466,7 @@ jQuery(document).ready(function($) {
 		return result;
 	}
 	
-	/*	========================--
-	*	METHOD:    */
+	/*	Load Scan Data   */
 	Duplicator.Pack.LoadScanData = function(data) {
 		
 		var errMsg = "unable to read";
@@ -506,6 +530,8 @@ jQuery(document).ready(function($) {
 		$('#data-arc-files').text(data.ARC.FileCount || errMsg);
 		$('#data-arc-dirs').text(data.ARC.DirCount || errMsg);
 		
+		
+		
 		//Name Checks
 		html = '';
 		//Dirs
@@ -535,6 +561,13 @@ jQuery(document).ready(function($) {
 		}
 		$('#data-arc-big-data').html(html);
 		$('#dup-msg-success').show();
+		
+		//Waring Check
+		var warnCount = data.RPT.Warnings || 0;
+		if (warnCount > 0) {
+			$('#dup-scan-warning-continue').show();
+			$('#dup-build-button').prop("disabled",true).removeClass('button-primary');
+		}
 		
 	}
 	
