@@ -227,11 +227,11 @@ TOOL BAR: STEPS -->
 						<b><?php DUP_Util::_e('Directory Count');?>:</b> <span id="data-arc-dirs"></span> 
 						<small>
 						<?php 
-							printf(DUP_Util::__('Total size represents all files minus any filters that have been setup.  The current thresholds that trigger warnings are %1$s for the entire site and %2$s for large files.'), 
+							printf(DUP_Util::__('Total size represents all files minus any filters that have been setup.  The current thresholds that trigger warnings are %1$s for the entire site and %2$s for large files.  Consider using a file filter in step 1 to shrink and filter the overall size of your package.'), 
 									DUP_Util::ByteSize(DUPLICATOR_SCAN_SITE), 
 									DUP_Util::ByteSize(DUPLICATOR_SCAN_WARNFILESIZE));
 							echo '<br/><br/>';
-							DUP_Util::_e('Some budget hosts limit the amount of time a PHP/Web request process can run.  When working with larger sites this can cause timeout issues.  If you have a larger site that is upto 2GB then you migh consider looking at Duplicator Pro as it can handle timeout requests better for most hosts.');
+							DUP_Util::_e('Some budget hosts limit the amount of time a PHP/Web request process can run.  When working with larger sites this can cause timeout issues.  If you have a larger site that is upto 2GB then you might consider looking at Duplicator Pro as it can handle timeout requests for most hosts.');
 							
 							echo "&nbsp;<i><a href='http://snapcreek.com/duplicator?free-size-warn' target='_blank'>[" . DUP_Util::__('details') . "]</a></i>";
 						?>
