@@ -279,10 +279,14 @@ TOOL BAR: STEPS -->
 				<?php if ($Package->Archive->FilterOn) : ?>
 					<div>
 						<div class='dup-scan-title'>
-							<a><?php DUP_Util::_e('View Filters');?></a> 
+							<a><?php DUP_Util::_e('Archive Details');?></a> 
 						</div>
-						<div class='dup-scan-info  dup-info-box'>							
-							<b>[<?php DUP_Util::_e('Directories');?>]</b><br/>
+						<div class='dup-scan-info  dup-info-box'>	
+							<b>[<?php DUP_Util::_e('Root Directory');?>]</b><br/>
+							<?php echo DUPLICATOR_WPROOTPATH;?>
+							<br/><br/>
+							
+							<b>[<?php DUP_Util::_e('Excluded Directories');?>]</b><br/>
 							<?php
 								if (strlen( $Package->Archive->FilterDirs)) {
 									echo str_replace(";", "<br/>", $Package->Archive->FilterDirs); 
@@ -292,7 +296,7 @@ TOOL BAR: STEPS -->
 							?>
 							<br/>
 							
-							<b>[<?php DUP_Util::_e('File Extensions');?>]</b><br/>
+							<b>[<?php DUP_Util::_e('Excluded File Extensions');?>]</b><br/>
 							<?php
 								if (strlen( $Package->Archive->FilterExts)) {
 									echo $Package->Archive->FilterExts; 
@@ -301,7 +305,7 @@ TOOL BAR: STEPS -->
 								}
 							?>	
 													<small>
-							<?php DUP_Util::_e('The lists above are the directories and file extension that will be excluded from the archive.'); ?>
+							<?php DUP_Util::_e('The root directory above is where Duplicator will start archiving files.  The excluded directories and file extension will be skipped during the archive process.'); ?>
 						</small><br/>
 						</div>
 
