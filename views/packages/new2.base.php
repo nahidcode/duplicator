@@ -46,8 +46,9 @@
 		{word-wrap: break-word;font-size:10px; border:1px dashed silver; padding:5px; display: none}
 		
 	div#dup-scan-warning-continue {display:none; text-align: center; padding: 0 0 15px 0}
-	div#dup-scan-warning-continue div.msg1 {font-size:14px; color:maroon}
+	div#dup-scan-warning-continue div.msg1 label{font-size:16px; color:maroon}
 	div#dup-scan-warning-continue div.msg2 {padding:2px}
+	div#dup-scan-warning-continue div.msg2 label {font-size:11px !important}
 	
 	/*Footer*/
 	div.dup-button-footer {text-align:center; margin:0}
@@ -388,7 +389,13 @@ TOOL BAR: STEPS -->
 				<label for="dup-scan-warning-continue-checkbox"><?php DUP_Util::_e('A warning status was detected, are you sure you want to continue?');?></label>
 			</div>
 			<div class="msg2">
-				<label for="dup-scan-warning-continue-checkbox"><?php DUP_Util::_e("Scan checks are not required to pass, however they could cause issues on some systems."); ?></label>
+				<label for="dup-scan-warning-continue-checkbox">
+					<?php 
+						DUP_Util::_e("Scan checks are not required to pass, however they could cause issues on some systems."); 
+						echo '<br/>';
+						DUP_Util::_e("Please review the details for each warning by clicking on the detail link."); 
+					?>
+				</label>
 			</div>
 		</div>
 		
