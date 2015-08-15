@@ -49,7 +49,7 @@ META-BOX: STORAGE -->
                             <i class="fa fa-dropbox"></i>
                             <span style="font-style:italic; ">
 							<?php echo sprintf(__('%1$s, %2$s, and other storage options available in', 'wpduplicator'), 'Dropbox', 'FTP'); ?>
-                            <a href="http://snapcreek.com/duplicator/?from_free_storage" target="_blank">Duplicator Pro</a>
+                            <a href="http://snapcreek.com/duplicator/?free-storage" target="_blank">Duplicator Pro</a>
                             </span>
                         </p>                            
 					</td>

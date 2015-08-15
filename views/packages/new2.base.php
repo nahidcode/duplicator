@@ -297,7 +297,7 @@ TOOL BAR: STEPS -->
 				<?php if ($Package->Archive->FilterOn) : ?>
 					<div>
 						<div class='dup-scan-title'>
-							<a><?php DUP_Util::_e('Archive Details');?></a> 
+							<a style='font-weight: normal'><?php DUP_Util::_e('Archive Details');?></a> 
 						</div>
 						<div class='dup-scan-info  dup-info-box'>	
 							<b>[<?php DUP_Util::_e('Root Directory');?>]</b><br/>
