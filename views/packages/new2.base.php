@@ -595,6 +595,9 @@ jQuery(document).ready(function($) {
 		if (warnCount > 0) {
 			$('#dup-scan-warning-continue').show();
 			$('#dup-build-button').prop("disabled",true).removeClass('button-primary');
+		} else {
+			$('#dup-scan-warning-continue').hide();
+			$('#dup-build-button').prop("disabled",false).addClass('button-primary');
 		}
 		
 	}
