@@ -159,7 +159,7 @@ TOOL BAR: STEPS -->
                             echo '<span style="font-weight:bold">';
                             DUP_Util::_e('Get faster builds with Duplicator Pro.');
                             echo '</span>';
-                            echo "&nbsp;<i><a href='http://snapcreek.com/duplicator?max-execution-time-warn' target='_blank'>[" . DUP_Util::__('details') . "]</a></i>";
+                            echo "&nbsp;<i><a href='http://snapcreek.com/duplicator?free-max-execution-time-warn' target='_blank'>[" . DUP_Util::__('details') . "]</a></i>";
                     }
                     
 					echo '</small>';
@@ -297,7 +297,7 @@ TOOL BAR: STEPS -->
 				<?php if ($Package->Archive->FilterOn) : ?>
 					<div>
 						<div class='dup-scan-title'>
-							<a><?php DUP_Util::_e('Archive Details');?></a> 
+							<a style='font-weight: normal'><?php DUP_Util::_e('Archive Details');?></a> 
 						</div>
 						<div class='dup-scan-info  dup-info-box'>	
 							<b>[<?php DUP_Util::_e('Root Directory');?>]</b><br/>
@@ -595,6 +595,9 @@ jQuery(document).ready(function($) {
 		if (warnCount > 0) {
 			$('#dup-scan-warning-continue').show();
 			$('#dup-build-button').prop("disabled",true).removeClass('button-primary');
+		} else {
+			$('#dup-scan-warning-continue').hide();
+			$('#dup-build-button').prop("disabled",false).addClass('button-primary');
 		}
 		
 	}
