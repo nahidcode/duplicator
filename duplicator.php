@@ -177,15 +177,15 @@ if (is_admin() == true) {
 
         $perms = 'export';
         $perms = apply_filters($wpfront_caps_translator, $perms);
-        $page_packages = add_submenu_page('duplicator', __('Packages', 'wpduplicator'), __('Packages', 'wpduplicator'), $perms, 'duplicator', 'duplicator_get_menu');
+        $page_packages = add_submenu_page('duplicator', DUP_Util::__('Packages'), DUP_Util::__('Packages'), $perms, 'duplicator', 'duplicator_get_menu');
 
         $perms = 'manage_options';
         $perms = apply_filters($wpfront_caps_translator, $perms);
-        $page_settings = add_submenu_page('duplicator', __('Settings', 'wpduplicator'), __('Settings', 'wpduplicator'), $perms, 'duplicator-settings', 'duplicator_get_menu');
+        $page_settings = add_submenu_page('duplicator', DUP_Util::__('Settings'), DUP_Util::__('Settings'), $perms, 'duplicator-settings', 'duplicator_get_menu');
 
         $perms = 'manage_options';
         $perms = apply_filters($wpfront_caps_translator, $perms);
-        $page_tools = add_submenu_page('duplicator', __('Tools', 'wpduplicator'), __('Tools', 'wpduplicator'), $perms, 'duplicator-tools', 'duplicator_get_menu');
+        $page_tools = add_submenu_page('duplicator', DUP_Util::__('Tools'), DUP_Util::__('Tools'), $perms, 'duplicator-tools', 'duplicator_get_menu');
 
         $perms = 'manage_options';
         $perms = apply_filters($wpfront_caps_translator, $perms);

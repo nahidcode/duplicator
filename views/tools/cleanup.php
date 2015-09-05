@@ -2,21 +2,18 @@
 	require_once(DUPLICATOR_PLUGIN_PATH . '/views/javascript.php'); 
 	require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php'); 
 
-        $nonce = wp_create_nonce('duplicator_cleanup_page');
-        
+    $nonce = wp_create_nonce('duplicator_cleanup_page');    
 	$_GET['action'] = isset($_GET['action']) ? $_GET['action'] : 'display';
-        
-        if(isset($_GET['action']))
-        {
-            if(($_GET['action'] == 'installer') || ($_GET['action'] == 'legacy') || ($_GET['action'] == 'tmp-cache'))
-            {
-                $verify_nonce = $_REQUEST['_wpnonce'];
-
-                if ( ! wp_verify_nonce( $verify_nonce, 'duplicator_cleanup_page' ) ) {
-                    exit; // Get out of here, the nonce is rotten!
-                }
-            }   
-        }
+	if(isset($_GET['action']))
+	{
+		if(($_GET['action'] == 'installer') || ($_GET['action'] == 'legacy') || ($_GET['action'] == 'tmp-cache'))
+		{
+			$verify_nonce = $_REQUEST['_wpnonce'];
+			if ( ! wp_verify_nonce( $verify_nonce, 'duplicator_cleanup_page' ) ) {
+				exit; // Get out of here, the nonce is rotten!
+			}
+		}   
+	}
         
 	switch ($_GET['action']) {            
 		case 'installer' :
@@ -55,13 +52,16 @@
 				$html = "";
 				$installer_file 	= DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_PHP;
 				$installer_bak		= DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_BAK;
-				$installer_sql  	= DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_SQL;
+				$installer_sql1  	= DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_SQL;
+				$installer_sql2  	= DUPLICATOR_WPROOTPATH . 'database.sql';
 				$installer_log  	= DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_LOG;
 				$package_name   	= (isset($_GET['package'])) ? DUPLICATOR_WPROOTPATH . esc_html($_GET['package']) : '';
 				
+				//Uncommon to see $installer_sql2 so don't display message
 				$html .= (@unlink($installer_file)) ?  "<div class='success'>Successfully removed {$installer_file}</div>"	:  "<div class='failed'>Does not exist or unable to remove file: {$installer_file}</div>";
 				$html .= (@unlink($installer_bak))  ?  "<div class='success'>Successfully removed {$installer_bak}</div>"	:  "<div class='failed'>Does not exist or unable to remove file: {$installer_bak}</div>";
-				$html .= (@unlink($installer_sql))  ?  "<div class='success'>Successfully removed {$installer_sql}</div>"  	:  "<div class='failed'>Does not exist or unable to remove file: {$installer_sql}</div>";
+				$html .= (@unlink($installer_sql1)) ?  "<div class='success'>Successfully removed {$installer_sql1}</div>"  :  "<div class='failed'>Does not exist or unable to remove file: {$installer_sql1}</div>";
+				$html .= (@unlink($installer_sql2)) ?  "<div class='success'>Successfully removed {$installer_sql2}</div>"  :  "<div class='failed'>Does not exist or unable to remove file: {$installer_sql2}</div>";
 				$html .= (@unlink($installer_log))  ?  "<div class='success'>Successfully removed {$installer_log}</div>"	:  "<div class='failed'>Does not exist or unable to remove file: {$installer_log}</div>";
 
 				//No way to know exact name of archive file except from installer.

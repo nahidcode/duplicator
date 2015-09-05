@@ -90,35 +90,26 @@ class DUP_UI {
 	 */
 	static public function ShowReservedFilesNotice() {
 		
-		if (! is_plugin_active('duplicator/duplicator.php'))
+		$dup_page_items = array('duplicator', 'duplicator-settings', 'duplicator-tools', 'duplicator-help', 'duplicator-about');
+		
+		//Show only on Duplicator pages when plugin is active
+		$dup_active = is_plugin_active('duplicator/duplicator.php');
+		$dup_page   = isset($_REQUEST['page']) && in_array($_REQUEST['page'], $dup_page_items) ? true : false;
+		$dup_perm   = (current_user_can( 'install_plugins' ) && current_user_can( 'import' ));
+
+		if (! $dup_active || ! $dup_page || ! $dup_perm) 
 			return;
 
-		$hide  = isset($_REQUEST['page']) && $_REQUEST['page'] == 'duplicator-tools' ? true : false;
-		$perms = (current_user_can( 'install_plugins' ) && current_user_can( 'import' ));
-		if (! $perms || $hide) 
-			return;
-	
-		$metaKey = 'dup-wpnotice01';
-		 if ( isset($_GET[$metaKey]) &&  $_GET[$metaKey] == '1') {
-             self::SaveViewState($metaKey, true);
-		}
+		if (DUP_Server::InstallerFilesFound()) {
+			$duplicator_nonce = wp_create_nonce('duplicator_cleanup_page');
 
-		if ( self::GetViewStateValue($metaKey) != null) {
-			if (DUP_Server::InstallerFilesFound()) {
-				$queryStr = $_SERVER['QUERY_STRING'];
-				echo '<div class="updated"><p>';
-                $duplicator_nonce = wp_create_nonce('duplicator_cleanup_page');
-
-				@printf("%s <br/> <a href='admin.php?page=duplicator-tools&tab=cleanup&action=installer&_wpnonce=%s'>%s</a> | <a href='?{$queryStr}&{$metaKey}=1'>%s</a>",
-						__('Reserved Duplicator install file(s) still exists in the root directory.  Please delete these file(s) to avoid possible security issues.', 'wpduplicator'),
-                        $duplicator_nonce,
-						__('Remove file(s) now', 'wpduplicator'),
-						__('Dismiss this notice', 'wpduplicator'));
-				echo "</p></div>";
-			} else {
-				self::SaveViewState($metaKey, true);
-			}
-		}
+			echo '<div class="error"><p>';
+			@printf("%s <br/> <a href='admin.php?page=duplicator-tools&tab=cleanup&action=installer&_wpnonce=%s'>%s</a>",
+					DUP_Util::__('Reserved Duplicator install file(s) still exists in the root directory.  Please delete these file(s) to avoid security issues.'),
+					$duplicator_nonce,
+					DUP_Util::__('Remove reserved files now!'));
+			echo "</p></div>";
+		} 
 	}
 	
 }
