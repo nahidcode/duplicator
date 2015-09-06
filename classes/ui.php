@@ -88,26 +88,30 @@ class DUP_UI {
 	 * Shows a display message in the wp-admin if any researved files are found
 	 * @return type void
 	 */
-	static public function ShowReservedFilesNotice() {
-		
-		$dup_page_items = array('duplicator', 'duplicator-settings', 'duplicator-tools', 'duplicator-help', 'duplicator-about');
-		
-		//Show only on Duplicator pages when plugin is active
+	static public function ShowReservedFilesNotice() 
+	{
+		//Show only on Duplicator pages and Dashboard when plugin is active
 		$dup_active = is_plugin_active('duplicator/duplicator.php');
-		$dup_page   = isset($_REQUEST['page']) && in_array($_REQUEST['page'], $dup_page_items) ? true : false;
-		$dup_perm   = (current_user_can( 'install_plugins' ) && current_user_can( 'import' ));
-
-		if (! $dup_active || ! $dup_page || ! $dup_perm) 
+		$dup_perm   = current_user_can( 'manage_options' );
+		if (! $dup_active || ! $dup_perm) 
 			return;
 
-		if (DUP_Server::InstallerFilesFound()) {
-			$duplicator_nonce = wp_create_nonce('duplicator_cleanup_page');
-
+		if (DUP_Server::InstallerFilesFound()) 
+		{
+			$screen = get_current_screen();
+			$on_active_tab =  isset($_GET['tab']) && $_GET['tab'] == 'cleanup' ? true : false;
+			
 			echo '<div class="error"><p>';
-			@printf("%s <br/> <a href='admin.php?page=duplicator-tools&tab=cleanup&action=installer&_wpnonce=%s'>%s</a>",
-					DUP_Util::__('Reserved Duplicator install file(s) still exists in the root directory.  Please delete these file(s) to avoid security issues.'),
-					$duplicator_nonce,
-					DUP_Util::__('Remove reserved files now!'));
+			if ($screen->id == 'duplicator_page_duplicator-tools' && $on_active_tab) 
+			{
+				DUP_Util::_e('Reserved Duplicator install files have been detected in the root directory.  Please delete these reserved files to avoid security issues.');
+			}
+			else 
+			{
+				$duplicator_nonce = wp_create_nonce('duplicator_cleanup_page');
+				DUP_Util::_e('Reserved Duplicator install files have been detected in the root directory.  Please delete these reserved files to avoid security issues.');
+				@printf("<br/><a href='admin.php?page=duplicator-tools&tab=cleanup&_wpnonce=%s'>%s</a>", $duplicator_nonce, DUP_Util::__('Take me to the cleanup page!'));
+			}			
 			echo "</p></div>";
 		} 
 	}

@@ -113,8 +113,8 @@ class DUP_Server
 	*/
 	public static function InstallerFilesFound() 
 	{
-		$phpFile = file_exists(DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_PHP);
-		$logFile = file_exists(DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_LOG);
+		$phpFile  = file_exists(DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_PHP);
+		$logFile  = file_exists(DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_LOG);
 		$sqlFile1 = file_exists(DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_SQL);
 		$sqlFile2 = file_exists(DUPLICATOR_WPROOTPATH . 'database.sql');	
 		return  ($phpFile || $logFile || $sqlFile1 || $sqlFile2);
