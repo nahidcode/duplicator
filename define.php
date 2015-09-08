@@ -36,12 +36,12 @@ if (function_exists('plugin_dir_url')) {
     define("DUPLICATOR_PHP_MAX_MEMORY",  '5000M');
     define("DUPLICATOR_DB_MAX_TIME",     5000);
 	define("DUPLICATOR_DB_EOF_MARKER",   'DUPLICATOR_MYSQLDUMP_EOF');
-	define("DUPLICATOR_SCAN_SITE",    157286400);	//150MB
-	define("DUPLICATOR_SCAN_WARNFILESIZE", 3145728);//3MB
-	define("DUPLICATOR_SCAN_CACHESIZE", 524288);	//512K
-	define("DUPLICATOR_SCAN_DBSIZE",  52428800);	//50MB
-	define("DUPLICATOR_SCAN_DBROWS",  250000);
-	define("DUPLICATOR_SCAN_TIMEOUT", 150);			//Seconds
+	define("DUPLICATOR_SCAN_SITE",			157286400);	//150MB
+	define("DUPLICATOR_SCAN_WARNFILESIZE",	3145728);	//3MB
+	define("DUPLICATOR_SCAN_CACHESIZE",		524288);	//512K
+	define("DUPLICATOR_SCAN_DBSIZE",		52428800);	//50MB
+	define("DUPLICATOR_SCAN_DBROWS",		250000);
+	define("DUPLICATOR_SCAN_TIMEOUT",		150);		//Seconds
 	define("DUPLICATOR_SCAN_MIN_WP", "3.7.0");
     $GLOBALS['DUPLICATOR_SERVER_LIST'] = array('Apache','LiteSpeed', 'Nginx', 'Lighttpd', 'IIS', 'WebServerX', 'uWSGI');
 	$GLOBALS['DUPLICATOR_OPTS_DELETE'] = array('duplicator_ui_view_state', 'duplicator_package_active', 'duplicator_settings');
