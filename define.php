@@ -3,7 +3,7 @@
 if (function_exists('plugin_dir_url')) {
 	 
 		
-    define('DUPLICATOR_VERSION',        '0.5.30');
+    define('DUPLICATOR_VERSION',        '0.5.31');
     define("DUPLICATOR_HOMEPAGE",       "http://lifeinthegrid.com/labs/duplicator");
     define("DUPLICATOR_GIVELINK",       "http://lifeinthegrid.com/partner");
     define("DUPLICATOR_HELPLINK",       "http://lifeinthegrid.com/duplicator-docs");
@@ -31,6 +31,7 @@ if (function_exists('plugin_dir_url')) {
 	define("DUPLICATOR_INSTALL_BAK",    'installer-backup.php');
     define("DUPLICATOR_INSTALL_SQL",    'installer-data.sql');
     define("DUPLICATOR_INSTALL_LOG",    'installer-log.txt');
+	define("DUPLICATOR_INSTALL_DB",     'database.sql');
 	
 	//RESTRAINT CONSTANTS
     define("DUPLICATOR_PHP_MAX_MEMORY",  '5000M');
