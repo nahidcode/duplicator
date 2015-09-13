@@ -114,7 +114,7 @@ META-BOX: STORAGE -->
                     </div>
 					<br/>
 					<span style="font-style:italic; font-size:12px ">
-						<?php echo sprintf(DUP_Util::__('%1$s, are available in'), 'Individual file filters'); ?>
+						<?php echo sprintf(DUP_Util::__('%1$s are available in'), 'Individual file filters'); ?>
 						<a href="http://snapcreek.com/duplicator/?free-file-filters" target="_blank">Duplicator Pro</a>
 					</span>
                 </div>
