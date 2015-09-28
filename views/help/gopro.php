@@ -78,6 +78,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
             <div class="feature"><i class="fa fa-times fa-lg"></i></div>
 			<div class="feature"><i class="fa fa-times fa-lg"></i></div>
             <div class="feature"><i class="fa fa-times fa-lg"></i></div>
+			<div class="feature"><i class="fa fa-times fa-lg"></i></div>
 			
         </div> 
 
@@ -107,12 +108,19 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 				<div class="info"><?php DUP_Util::_e('Automate the creation of your packages to run at various scheduled intervals.') ?></div>
 			</div>
             <div class="feature">
+				<img style="width: 22px; vertical-align: bottom;  margin-right: 3px;" src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/dropbox_128px.png" />
 				<a href="javascript:void(0)" class="dup-info-click"><?php DUP_Util::_e('Dropbox Support') ?></a>
 				<div class="info"><?php DUP_Util::_e('Backup up your entire site to Dropbox.') ?></div>
 			</div>
             <div class="feature">
+				<img style="width: 22px; vertical-align: bottom;  margin-right: 3px;" src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/ftp-64.png" />
 				<a href="javascript:void(0)" class="dup-info-click"><?php DUP_Util::_e('FTP Support') ?></a>
 				<div class="info"><?php DUP_Util::_e('Backup up your entire site to an FTP server.') ?></div>
+			</div>
+			<div class="feature">
+				<img style="width: 22px; vertical-align: bottom;  margin-right: 3px;" src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/google_drive_64px.png" />
+				<a href="javascript:void(0)" class="dup-info-click"><?php DUP_Util::_e('Google Drive Support') ?></a>
+				<div class="info"><?php DUP_Util::_e('Backup up your entire site to Google Drive.') ?></div>
 			</div>
 			<div class="feature">
 				<a href="javascript:void(0)" class="dup-info-click"><?php DUP_Util::_e('Customer Support') ?></a>
