@@ -45,10 +45,9 @@ META-BOX: STORAGE -->
 							<?php _e("All packages including the archive, installer and SQL script are stored in the location above. ", 'wpduplicator'); ?>
 							<br/>
                         </p>-->
-						<p style="font-size:12px;">                          
-                            <i class="fa fa-dropbox"></i>
+						<p style="font-size:12px;">                                                      
                             <span style="font-style:italic; ">
-							<?php echo sprintf(__('%1$s, %2$s, and other storage options available in', 'wpduplicator'), 'Dropbox', 'FTP'); ?>
+							<?php echo sprintf(__('%1$s, %2$s, %3$s and other storage options available in', 'wpduplicator'), 'Dropbox', 'Google Drive', 'FTP'); ?>
                             <a href="http://snapcreek.com/duplicator/?free-storage" target="_blank">Duplicator Pro</a>
                             </span>
                         </p>                            
