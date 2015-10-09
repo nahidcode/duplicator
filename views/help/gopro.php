@@ -116,6 +116,11 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 				<td class="check-column"><i class="fa fa-check"></i></td>
 			</tr>
 			<tr>
+				<td class="feature-column">Email Alerts</td>
+				<td class="check-column"></td>
+				<td class="check-column"><i class="fa fa-check"></i></td>
+			</tr>
+			<tr>
 				<td class="feature-column">File Filters</td>
 				<td class="check-column"></td>
 				<td class="check-column"><i class="fa fa-check"></i></td>
