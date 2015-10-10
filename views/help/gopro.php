@@ -7,17 +7,15 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 <style>
     /*================================================
     PAGE-SUPPORT:*/
-    div.dup-support-hlp-hdrs{
-		text-align: center;
-        padding:15px; 
-        font-weight:bold; font-size:25px;
-        background-image:-ms-linear-gradient(top, #FFFFFF 0%, #DEDEDE 100%);
-        background-image:-moz-linear-gradient(top, #FFFFFF 0%, #DEDEDE 100%);
-        background-image:-o-linear-gradient(top, #FFFFFF 0%, #DEDEDE 100%);
-        background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #DEDEDE));
-        background-image:-webkit-linear-gradient(top, #FFFFFF 0%, #DEDEDE 100%);
-        background-image:linear-gradient(to bottom, #FFFFFF 0%, #DEDEDE 100%);
-    }
+	div.dup-pro-area {
+		padding:10px 50px; max-width:850px; width:90%; margin:auto; text-align: center;
+background: #fff; border-radius:20px;
+
+-webkit-box-shadow: inset 0px 0px 67px 20px rgba(241,241,241,1);
+-moz-box-shadow: inset 0px 0px 67px 20px rgba(241,241,241,1);
+box-shadow: inset 0px 0px 67px 20px rgba(241,241,241,1);
+
+	}
     div.dup-compare-area {width:400px;  float:left; border:1px solid #dfdfdf; border-radius:4px; margin:10px; line-height:18px;box-shadow: 0 8px 6px -6px #ccc;}
 	div.feature {background: #fff; padding:15px; margin: 2px; text-align: center; min-height: 20px}
 	div.feature a {font-size:18px; font-weight: bold;}
@@ -26,9 +24,9 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 	div.dup-gopro-header b {font-size: 35px}
 	a.dup-check-it-btn {box-shadow: 5px 5px 5px 0px #999 !important; font-size: 20px !important; height:50px !important;   padding:10px 40px 0 40px !important;}
 
-	#comparison-table { margin-top: 35px; border-spacing: 0px;  width: 100%}
+	#comparison-table { margin-top:25px; border-spacing: 0px;  width: 100%}
 	#comparison-table th { color: #E21906;}
-	#comparison-table td, #comparison-table th { font-size: 1.2rem; padding: 20px; }
+	#comparison-table td, #comparison-table th { font-size: 1.2rem; padding: 15px; }
 	#comparison-table .feature-column { text-align: left; width: 46%}
 	#comparison-table .check-column { text-align: center; width: 27% }
 	#comparison-table tr:nth-child(2n+2) {background-color: #f6f6f6; }
@@ -41,20 +39,18 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 
 <div class="wrap dup-wrap" >
 
-	<?php duplicator_header(__("Go Pro!", 'wpduplicator')) ?>
-    <hr size="1" />
 
-    <div style="padding: 30px; background-color:white;min-width:640px; max-width:850px; width:90%; margin:auto; text-align: center;">
+    <div class="dup-pro-area">
 
 		<div style="line-height:28px">
 
-			<h1 style="font-size:38px">
-				<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo.png" style='text-align:top; margin:-8px 0'  />
-				<?php DUP_Util::_e('Duplicator Pro Has Arrived!') ?>
+			<h1 style="font-size:34px; margin-top:10px">
+				<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo.png" style='text-align:top; margin:-8px 0; height:40px;'  />
+				<?php DUP_Util::_e('Duplicator Professional') ?>
 			</h1>
-			<h3 style="margin-top:35px; font-size:20px">
+			<h3 style="margin-top:10px; font-size:18px; font-style: italic">
 				<?php DUP_Util::_e('The simplicity of Duplicator') ?>
-				<?php DUP_Util::_e('with the power the professional requires.') ?>
+				<?php DUP_Util::_e('with power for the professional.') ?>
 			</h3>
 		</div>
 
@@ -64,10 +60,10 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 					Feature
 				</th>
 				<th class="check-column">
-					Duplicator Free
+					Free
 				</th>
 				<th class="check-column">
-					Duplicator Pro
+					Professional
 				</th>
 			</tr>
 			<tr>
@@ -91,22 +87,22 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 				<td class="check-column"><i class="fa fa-check"></i></td>
 			</tr>
 			<tr>
+				<td class="feature-column"><img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/dropbox-64.png" style='height:16px; width:16px'  /> Dropbox Storage </td>
+				<td class="check-column"></td>
+				<td class="check-column"><i class="fa fa-check"></i></td>
+			</tr>
+			<tr>
+				<td class="feature-column"><img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/google_drive_64px.png" style='height:16px; width:16px'  /> Google Drive Storage</td>
+				<td class="check-column"></td>
+				<td class="check-column"><i class="fa fa-check"></i></td>
+			</tr>
+			<tr>
+				<td class="feature-column"><img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/ftp-64.png" style='height:16px; width:16px'  /> Remote FTP Storage</td>
+				<td class="check-column"></td>
+				<td class="check-column"><i class="fa fa-check"></i></td>
+			</tr>			
+			<tr>
 				<td class="feature-column">Scheduled Backups</td>
-				<td class="check-column"></td>
-				<td class="check-column"><i class="fa fa-check"></i></td>
-			</tr>
-			<tr>
-				<td class="feature-column">Dropbox Storage</td>
-				<td class="check-column"></td>
-				<td class="check-column"><i class="fa fa-check"></i></td>
-			</tr>
-			<tr>
-				<td class="feature-column">Google Drive Storage</td>
-				<td class="check-column"></td>
-				<td class="check-column"><i class="fa fa-check"></i></td>
-			</tr>
-			<tr>
-				<td class="feature-column">FTP Storage</td>
 				<td class="check-column"></td>
 				<td class="check-column"><i class="fa fa-check"></i></td>
 			</tr>			
@@ -121,6 +117,11 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 				<td class="check-column"><i class="fa fa-check"></i></td>
 			</tr>
 			<tr>
+				<td class="feature-column">Custom Templates</td>
+				<td class="check-column"></td>
+				<td class="check-column"><i class="fa fa-check"></i></td>
+			</tr>			
+			<tr>
 				<td class="feature-column">File Filters</td>
 				<td class="check-column"></td>
 				<td class="check-column"><i class="fa fa-check"></i></td>
@@ -129,7 +130,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 				<td class="feature-column">Customer Support</td>
 				<td class="check-column"></td>
 				<td class="check-column"><i class="fa fa-check"></i></td>
-			</tr>
+			</tr>			
 		</table>
 
 
