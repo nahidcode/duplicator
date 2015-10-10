@@ -48,7 +48,7 @@ box-shadow: inset 0px 0px 67px 20px rgba(241,241,241,1);
 				<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo.png" style='text-align:top; margin:-8px 0; height:40px;'  />
 				<?php DUP_Util::_e('Duplicator Professional') ?>
 			</h1>
-			<h3 style="margin-top:10px; font-size:18px; font-style: italic">
+			<h3 style="margin-top:10px; font-size:18px; font-style: italic; color:gray">
 				<?php DUP_Util::_e('The simplicity of Duplicator') ?>
 				<?php DUP_Util::_e('with power for the professional.') ?>
 			</h3>
