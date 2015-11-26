@@ -174,7 +174,7 @@ if (is_admin() == true) {
         //Main Menu
         $perms = 'export';
         $perms = apply_filters($wpfront_caps_translator, $perms);
-        $main_menu = add_menu_page('Duplicator Plugin', 'Duplicator', $perms, 'duplicator', 'duplicator_get_menu', plugins_url('duplicator/assets/img/create.png'));
+        $main_menu = add_menu_page('Duplicator Plugin', 'Duplicator', $perms, 'duplicator', 'duplicator_get_menu', plugins_url('duplicator/assets/img/logo.png'));
 
         $perms = 'export';
         $perms = apply_filters($wpfront_caps_translator, $perms);
