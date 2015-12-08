@@ -98,7 +98,12 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>			
 		<tr>
-			<td class="feature-column">Enhanced Package Engine</td>
+			<td class="feature-column">Large Package Support</td>
+			<td class="check-column"></td>
+			<td class="check-column"><i class="fa fa-check"></i></td>
+		</tr>
+		<tr>
+			<td class="feature-column">Multisite Backup</td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
@@ -108,12 +113,12 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
 		<tr>
-			<td class="feature-column">Custom Templates</td>
+			<td class="feature-column">File Filters</td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
-		</tr>			
+		</tr>
 		<tr>
-			<td class="feature-column">File Filters</td>
+			<td class="feature-column">Database Search & Replace</td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
