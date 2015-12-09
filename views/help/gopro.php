@@ -22,7 +22,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 
 	#comparison-table { margin-top:25px; border-spacing: 0px;  width: 100%}
 	#comparison-table th { color: #E21906;}
-	#comparison-table td, #comparison-table th { font-size: 1.2rem; padding: 15px; }
+	#comparison-table td, #comparison-table th { font-size: 1.2rem; padding: 12px; }
 	#comparison-table .feature-column { text-align: left; width: 46%}
 	#comparison-table .check-column { text-align: center; width: 27% }
 	#comparison-table tr:nth-child(2n+2) {background-color: #f6f6f6; }
@@ -35,7 +35,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 <div class="dup-pro-area">
 
 	<div>
-		<h1 style="font-size:34px; margin-top:50px">
+		<h1 style="font-size:34px; margin-top:20px">
 			 <img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo-pro-32.png" style='text-align:top; margin:0;'  />
 				 <?php DUP_Util::_e('Duplicator Professional') ?>
 		</h1>
@@ -118,12 +118,17 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
 		<tr>
-			<td class="feature-column">Database Search & Replace</td>
+			<td class="feature-column">Custom Search & Replace</td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
 		<tr>
-			<td class="feature-column">Customer Support</td>
+			<td class="feature-column">Manual Transfers</td>
+			<td class="check-column"></td>
+			<td class="check-column"><i class="fa fa-check"></i></td>
+		</tr>		
+		<tr>
+			<td class="feature-column">Active Customer Support</td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>			
