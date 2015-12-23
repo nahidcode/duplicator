@@ -44,6 +44,7 @@ class DUP_Package {
 	public $Runtime;
 	public $ExeSize;
 	public $ZipSize;
+	public $Status;
 	//Objects
 	public $Archive;
 	public $Installer;
@@ -392,6 +393,26 @@ class DUP_Package {
 		}
 		//Incase unserilaize fails
 		$obj = (is_object($obj)) ? $obj : new DUP_Package();
+		return $obj;
+	}
+	
+	/**
+	* Gets the Package by ID
+	* @see DUP_Package::GetByID
+	* @return DUP_Package
+	*/
+	public static function GetByID($id) {
+		
+		global $wpdb;
+		$obj = new DUP_Package();
+		
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}duplicator_packages` WHERE ID = %s", $id ) );
+		if (is_object($row)) {
+			$obj =  @unserialize($row->package);
+			$obj->Status = $row->status;
+		}
+		//Incase unserilaize fails
+		$obj = (is_object($obj)) ? $obj : null;
 		return $obj;
 	}
 	

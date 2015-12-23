@@ -79,8 +79,6 @@ TOOL-BAR -->
 	
 <?php else : ?>	
 	
-
-	
 	<!-- ====================
 	LIST ALL PACKAGES -->
 	<table class="widefat dup-pack-table">
@@ -146,10 +144,15 @@ TOOL-BAR -->
 					<td><?php echo DUP_Util::ByteSize($pack_archive_size); ?></td>
 					<td class='pack-name'><?php	echo  $pack_name ;?></td>
 					<td class="get-btns">
-						<button id="<?php echo "{$uniqueid}_installer.php" ?>" class="button no-select" onclick="Duplicator.Pack.DownloadFile('<?php echo $installfilelink; ?>', this); return false;"><i class="fa fa-bolt"></i> <?php _e("Installer", 'duplicator') ?></button> &nbsp;
-					</td>
-					<td class="get-btns">	
-						<button id="<?php echo "{$uniqueid}_archive.zip" ?>" class="button no-select" onclick="Duplicator.Pack.DownloadFile('<?php echo $packagepath; ?>', this); return false;"><i class="fa fa-file-archive-o"></i> <?php _e("Archive", 'duplicator') ?></button>
+						<button id="<?php echo "{$uniqueid}_installer.php" ?>" class="button no-select" onclick="Duplicator.Pack.DownloadFile('<?php echo $installfilelink; ?>', this); return false;">
+							<i class="fa fa-bolt"></i> <?php _e("Installer", 'duplicator') ?>
+						</button> 
+						<button id="<?php echo "{$uniqueid}_archive.zip" ?>" class="button no-select" onclick="Duplicator.Pack.DownloadFile('<?php echo $packagepath; ?>', this); return false;">
+							<i class="fa fa-file-archive-o"></i> <?php _e("Archive", 'duplicator') ?>
+						</button>
+						<button type="button" class="button no-select" title="<?php DUP_Util::_e("Package Details") ?>" onclick="Duplicator.Pack.OpenPackageDetails(<?php echo "{$row['id']}"; ?>);">
+							<i class="fa fa-archive" ></i> 
+						</button>
 					</td>
 				</tr>
 				<tr>
@@ -343,6 +346,12 @@ jQuery(document).ready(function($) {
 		?>
 		$("#dup-dlg-quick-path-data").val(msg);
 		return false;
+	}
+	
+		/*	----------------------------------------
+	*	METHOD: Opens detail screen */
+	Duplicator.Pack.OpenPackageDetails = function (package_id) {
+		window.location.href = '?page=duplicator&action=detail&tab=detail&id=' + package_id;
 	}
 	
 	//LOAD: 'Download Links' Dialog and other misc setup
