@@ -32,7 +32,8 @@
 	<br/>
 	
 	<div style="font-size:16px; text-align: center; line-height: 30px">
-	<?php 
+		<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo-dpro-300x50.png"  /> 
+	<?php 		
 		echo '<h2>' . DUP_Util::__('This option is available only Duplicator Professional.') . '</h2>';
 		DUP_Util::_e('Manual Transfer lets you copy a package to another location such as S3, Dropbox, Google Drive, FTP, or another directory on this server.');
 		echo '<br/>';
