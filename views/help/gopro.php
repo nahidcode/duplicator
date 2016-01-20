@@ -78,6 +78,11 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
 		<tr>
+			<td class="feature-column"><img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/amazon-64.png" style='height:16px; width:16px'  /> Amazon S3 Storage </td>
+			<td class="check-column"></td>
+			<td class="check-column"><i class="fa fa-check"></i></td>
+		</tr>
+		<tr>
 			<td class="feature-column"><img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/dropbox-64.png" style='height:16px; width:16px'  /> Dropbox Storage </td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>

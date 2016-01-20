@@ -42,11 +42,12 @@ META-BOX: STORAGE -->
 				<tr>
 					<td colspan="4">
 						<div style="font-size:12px; font-style:italic;"> 
+							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/amazon-64.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
 							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/dropbox-64.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
 							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/google_drive_64px.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
 							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/ftp-64.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
 							
-							<?php echo sprintf(__('%1$s, %2$s, %3$s and other storage options available in', 'duplicator'), 'Dropbox', 'Google Drive', 'FTP'); ?>
+							<?php echo sprintf(__('%1$s, %2$s, %3$s, %4$s and other storage options available in', 'duplicator'), 'Amazon', 'Dropbox', 'Google Drive', 'FTP'); ?>
                             <a href="http://snapcreek.com/duplicator/?free-storage" target="_blank">Duplicator Pro</a> 
                         </div>                            
 					</td>

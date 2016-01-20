@@ -33,9 +33,8 @@
 	
 	<div style="font-size:16px; text-align: center; line-height: 30px">
 	<?php 
-		DUP_Util::_e('This option is available only in the professional version.');
-		echo '<br/>';
-		DUP_Util::_e('Manual Transfer allows you to copy any package to another location such as Dropbox, Google Drive, FTP, or another directory on this server.');
+		echo '<h2>' . DUP_Util::__('This option is available only Duplicator Professional.') . '</h2>';
+		DUP_Util::_e('Manual Transfer lets you copy a package to another location such as S3, Dropbox, Google Drive, FTP, or another directory on this server.');
 		echo '<br/>';
 		DUP_Util::_e('Simply check the destination checkbox you would like to transfer the package files to and hit the transfer button and thats it.');
 	?>
