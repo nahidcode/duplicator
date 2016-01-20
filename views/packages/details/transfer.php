@@ -32,12 +32,12 @@
 	<br/>
 	
 	<div style="font-size:16px; text-align: center; line-height: 30px">
-		<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo-dpro-300x50.png"  /> 
+		<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo-dpro-300x50-nosnap.png"  /> 
 	<?php 		
-		echo '<h2>' . DUP_Util::__('This option is available only Duplicator Professional.') . '</h2>';
-		DUP_Util::_e('Manual Transfer lets you copy a package to another location such as S3, Dropbox, Google Drive, FTP, or another directory on this server.');
+		echo '<h2 style="margin-top:10px">' . DUP_Util::__('This option is available only Duplicator Professional.') . '</h2>';
+		DUP_Util::_e('Manual Transfer copies a package to Amazon S3, Dropbox, Google Drive, FTP, or another server directory.');
 		echo '<br/>';
-		DUP_Util::_e('Simply check the destination checkbox you would like to transfer the package files to and hit the transfer button and thats it.');
+		DUP_Util::_e('Select where you want to transfer the package files to then hit the transfer button. Simple as that.');
 	?>
 </div>
 

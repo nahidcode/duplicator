@@ -36,7 +36,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 
 	<div>
 		<h1 style="font-size:34px; margin-top:20px">
-			 <img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo-dpro-300x50.png"  /> 
+			 <img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo-dpro-300x50-nosnap.png"  /> 
 		</h1>
 		<h3 style="margin-top:10px; font-size:18px; font-style: italic; color:gray">
 			<?php DUP_Util::_e('The simplicity of Duplicator') ?>
