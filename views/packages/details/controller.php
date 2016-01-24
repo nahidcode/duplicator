@@ -8,10 +8,10 @@ $package_id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : 0;
 
 $package			= DUP_Package::GetByID($package_id);
 $err_found		    = ($package == null || $package->Status < 100);
-$err_link_pack		= "Duplicator.Pack.DownloadPackageFile(3, {$package->ID});return false;";
-$err_link_log		= "<a target='_blank' href='#' onclick='{$err_link_pack}'>" . DUP_Util::__('Package Log') . '</a>';
-$err_link_faq		= '<a target="_blank" href="https://snapcreek.com/duplicator/docs/faqs-tech/">' . DUP_Util::__('FAQ Pages') . '</a>';		
-$err_link_ticket	= '<a target="_blank" href="https://snapcreek.com/ticket/">' . DUP_Util::__('Help Ticket') . '</a>';	
+$link_log			= "{$package->StoreURL}{$package->NameHash}.log";
+$err_link_log		= "<a target='_blank' href='{$link_log}' >" . DUP_Util::__('package log') . '</a>';
+$err_link_faq		= '<a target="_blank" href="http://lifeinthegrid.com/duplicator-faq">' . DUP_Util::__('FAQ') . '</a>';		
+$err_link_ticket	= '<a target="_blank" href="http://lifeinthegrid.com/labs/duplicator/resources/">' . DUP_Util::__('resources page') . '</a>';	
 
 ?>
 
@@ -31,8 +31,8 @@ $err_link_ticket	= '<a target="_blank" href="https://snapcreek.com/ticket/">' . 
 	<?php if ($err_found) :?>
 	<div class="error">
 		<p>
-			<?php echo DUP_Util::__('An error was detected while creating this package. Please review the ') . $err_link_log . DUP_Util::__(' for more details.')  ; ?> <br/>
-			<?php echo DUP_Util::__('Additional help is available online via the ') . $err_link_faq . DUP_Util::__(' or just contact support via a ') . $err_link_ticket; ?> 
+			<?php echo DUP_Util::__('This package contains an error.  Please review the ') . $err_link_log . DUP_Util::__(' for details.')  ; ?> 
+			<?php echo DUP_Util::__('For help visit the ') . $err_link_faq . DUP_Util::__(' and ') . $err_link_ticket; ?> 
 		</p>
 	</div>
 	<?php endif; ?>
@@ -42,8 +42,6 @@ $err_link_ticket	= '<a target="_blank" href="https://snapcreek.com/ticket/">' . 
 		<a <?php if($enable_transfer_tab === false) { echo 'onclick="Duplicator.Pack.TransferDisabled(); return false;"';} ?> href="?page=duplicator&action=detail&tab=transfer&id=<?php echo $package_id ?>" class="nav-tab <?php echo ($current_tab == 'transfer') ? 'nav-tab-active' : '' ?>"> <?php DUP_Util::_e('Transfer'); ?></a> 		
     </h2>
 	<div class="all-packages"><a href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php DUP_Util::_e('All Packages'); ?></a></div>
-	
-
 	
     <?php
     switch ($current_tab) {

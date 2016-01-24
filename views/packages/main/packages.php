@@ -5,7 +5,7 @@
 	$statusCount   = count($qryStatus);
 	$package_debug = DUP_Settings::Get('package_debug');
         
-        $ajax_nonce = wp_create_nonce('package_list');
+    $ajax_nonce = wp_create_nonce('package_list');
 ?>
 
 <style>
@@ -32,6 +32,9 @@
 	tr.dup-pack-info td.get-btns {text-align:right; padding:3px 5px 6px 0px !important;}
 	td.dup-pack-details {display:none; padding:5px 0px 15px 15px; line-height:22px;}
 	textarea.dup-pack-debug {width:98%; height:300px; font-size:11px; display:none}
+	td.error-msg a {color:maroon}
+	td.error-msg a i {color:maroon}
+	td.error-msg span {display:inline-block; padding:7px 18px 0px 0px; color:maroon}
 </style>
 
 <form id="form-duplicator" method="post">
@@ -73,7 +76,26 @@ TOOL-BAR -->
 	NO-DATA MESSAGES-->
 	<table class="widefat dup-pack-table">
 		<thead><tr><th>&nbsp;</th></tr></thead>
-		<tbody><tr><td><?php include (DUPLICATOR_PLUGIN_PATH .  "views/packages/list-nodata.php") ?> </td></tr></tbody>
+		<tbody>
+			<tr>
+				<td>
+				<div id='dup-list-alert-nodata'>
+					<i class="fa fa-archive"></i> 
+					<?php _e("No Packages Found.", 'duplicator'); ?><br/>
+					<?php _e("Click the 'Create New' button to build a package.", 'duplicator'); ?> <br/><br/>
+					<i>
+						<?php
+							printf("%s <a href='admin.php?page=duplicator-help'>%s</a> %s",
+								__("Please visit the", 'duplicator'), 
+								__("help page", 'duplicator'),
+								__("for additional support", 'duplicator'));
+						?>
+					</i>
+					<div style="height:75px">&nbsp;</div>
+				</div>
+				</td>
+			</tr>
+		</tbody>
 		<tfoot><tr><th>&nbsp;</th></tr></tfoot>
 	</table>
 	
@@ -186,6 +208,7 @@ TOOL-BAR -->
 						$size = array_sum($result);
 					}
 					$pack_archive_size = $size;
+					$error_url = "?page=duplicator&action=detail&tab=detail&id={$row['id']}";
 				?>
 				<tr class="dup-pack-info  <?php echo $css_alt ?>">
 					<td class="fail"><input name="delete_confirm" type="checkbox" id="<?php echo $row['id'] ;?>" /></td>
@@ -193,10 +216,14 @@ TOOL-BAR -->
 					<td><?php echo date( "m-d-y G:i", strtotime($row['created']));?></td>
 					<td><?php echo DUP_Util::ByteSize($size); ?></td>
 					<td class='pack-name'><?php echo $pack_name ;?></td>
-					<td class="get-btns" colspan="2">		
-						<span style='display:inline-block; padding:7px 40px 0px 0px'>
-							<a href="javascript:void(0);" onclick="return Duplicator.Pack.ToggleDetail('<?php echo $detail_id ;?>');"><?php _e("View Error Details", 'duplicator') ?>...</a>
-						</span>									
+					<td class="get-btns error-msg" colspan="2">		
+						<span>
+							<i class="fa fa-exclamation-triangle"></i>
+							<a href="<?php echo $error_url; ?>"><?php _e("Error Processing", 'duplicator') ?></a>
+						</span>			
+						<a class="button no-select" title="<?php DUP_Util::_e("Package Details") ?>" href="<?php echo $error_url; ?>">
+							<i class="fa fa-archive"></i> 
+						</a>						
 					</td>
 				</tr>
 				<tr>

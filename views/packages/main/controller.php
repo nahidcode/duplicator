@@ -1,6 +1,4 @@
 <?php
-
-
 $current_tab = isset($_REQUEST['tab']) ? esc_html($_REQUEST['tab']) : 'list';
 ?>
 
@@ -36,7 +34,7 @@ $current_tab = isset($_REQUEST['tab']) ? esc_html($_REQUEST['tab']) : 'list';
 	switch ($current_tab) {
 		case 'list': 
 			duplicator_header(__("Packages &raquo; All", 'duplicator'));
-			include('list.base.php');
+			include('packages.php');
 			break;
 		case 'new1': 
 			duplicator_header(__("Packages &raquo; New", 'duplicator'));

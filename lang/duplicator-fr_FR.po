@@ -55,7 +55,7 @@ msgstr "Soutenez l'extension"
 msgid "About"
 msgstr "A propos"
 
-#: duplicator.php:183 views/packages/main/list.base.php:240
+#: duplicator.php:183 views/packages/main/packages.php:240
 msgid "Packages"
 msgstr "Paquets"
 
@@ -253,7 +253,7 @@ msgid " or just contact support via a "
 msgstr "ou contactez le support par un"
 
 #: views/packages/details/controller.php:41
-#: views/packages/main/list.base.php:88 views/packages/main/new3.base.php:112
+#: views/packages/main/packages.php:88 views/packages/main/new3.base.php:112
 msgid "Details"
 msgstr "Détails"
 
@@ -262,7 +262,7 @@ msgid "Transfer"
 msgstr "Transférer"
 
 #: views/packages/details/controller.php:44
-#: views/packages/main/list.base.php:63 views/packages/main/new1.base.php:100
+#: views/packages/main/packages.php:63 views/packages/main/new1.base.php:100
 #: views/packages/main/new2.base.php:88 views/packages/main/new3.base.php:47
 #: views/packages/main/new3.base.php:94
 msgid "All Packages"
@@ -283,7 +283,7 @@ msgid "General"
 msgstr "Général"
 
 #: views/packages/details/detail.php:62 views/packages/details/detail.php:139
-#: views/packages/main/list.base.php:91
+#: views/packages/main/packages.php:91
 #: views/packages/main/new1.inc.form.php:6
 #: views/packages/main/new1.inc.form.php:31
 #: views/packages/main/new3.base.php:78
@@ -294,8 +294,8 @@ msgstr "Nom du paquet"
 msgid "ID"
 msgstr "ID"
 
-#: views/packages/details/detail.php:67 views/packages/main/list.base.php:162
-#: views/packages/main/list.base.php:207
+#: views/packages/details/detail.php:67 views/packages/main/packages.php:162
+#: views/packages/main/packages.php:207
 msgid "Hash"
 msgstr "Numéro de paquet"
 
@@ -303,8 +303,8 @@ msgstr "Numéro de paquet"
 msgid "Full Name"
 msgstr "Nom"
 
-#: views/packages/details/detail.php:73 views/packages/main/list.base.php:163
-#: views/packages/main/list.base.php:212
+#: views/packages/details/detail.php:73 views/packages/main/packages.php:163
+#: views/packages/main/packages.php:212
 #: views/packages/main/new1.inc.form.php:8
 #: views/packages/main/new1.inc.form.php:13
 msgid "Notes"
@@ -314,8 +314,8 @@ msgstr "Notes"
 msgid "- no notes -"
 msgstr "- pas de note -"
 
-#: views/packages/details/detail.php:78 views/packages/main/list.base.php:160
-#: views/packages/main/list.base.php:205 views/settings/general.php:86
+#: views/packages/details/detail.php:78 views/packages/main/packages.php:160
+#: views/packages/main/packages.php:205 views/settings/general.php:86
 #: views/tools/diagnostics.php:141 views/tools/diagnostics.php:160
 #: views/tools/diagnostics.php:204
 msgid "Version"
@@ -348,14 +348,14 @@ msgid "Files"
 msgstr "Fichiers"
 
 #: views/packages/details/detail.php:105 views/packages/details/detail.php:176
-#: views/packages/main/list.base.php:151
+#: views/packages/main/packages.php:151
 #: views/packages/main/new1.inc.form.php:63
 #: views/packages/main/new2.base.php:222 views/packages/main/new3.base.php:87
 msgid "Archive"
 msgstr "Archive"
 
 #: views/packages/details/detail.php:109 views/packages/details/detail.php:261
-#: views/packages/main/list.base.php:148
+#: views/packages/main/packages.php:148
 #: views/packages/main/new1.inc.form.php:234
 #: views/packages/main/new3.base.php:83
 msgid "Installer"
@@ -435,7 +435,7 @@ msgstr "Extensions"
 msgid "Available in Duplicator Pro"
 msgstr "Disponible avec Duplicator Pro"
 
-#: views/packages/details/detail.php:219 views/packages/main/list.base.php:341
+#: views/packages/details/detail.php:219 views/packages/main/packages.php:341
 msgid "DATABASE"
 msgstr "BASE DE DONNEES"
 
@@ -465,8 +465,8 @@ msgstr "Adresse"
 msgid "- not set -"
 msgstr " - aucun réglage -"
 
-#: views/packages/details/detail.php:275 views/packages/main/list.base.php:161
-#: views/packages/main/list.base.php:206
+#: views/packages/details/detail.php:275 views/packages/main/packages.php:161
+#: views/packages/main/packages.php:206
 #: views/packages/main/new1.inc.form.php:257 views/tools/diagnostics.php:168
 msgid "User"
 msgstr "Utilisateur"
@@ -476,7 +476,7 @@ msgstr "Utilisateur"
 msgid "New URL"
 msgstr "Nouvelle URL"
 
-#: views/packages/details/detail.php:288 views/packages/main/list.base.php:171
+#: views/packages/details/detail.php:288 views/packages/main/packages.php:171
 msgid "View Package Object"
 msgstr "Voir le paquet"
 
@@ -555,89 +555,89 @@ msgstr ""
 msgid "Hide this message"
 msgstr "Cacher ce message"
 
-#: views/packages/main/list.base.php:41
+#: views/packages/main/packages.php:41
 msgid "Help Support Duplicator"
 msgstr "Support de Duplicator"
 
-#: views/packages/main/list.base.php:52
+#: views/packages/main/packages.php:52
 msgid "Bulk Actions"
 msgstr "Actions groupées"
 
-#: views/packages/main/list.base.php:53
+#: views/packages/main/packages.php:53
 msgid "Delete selected package(s)"
 msgstr "Effacer le(s) paquet(s) sélectionné(s)"
 
-#: views/packages/main/list.base.php:53
+#: views/packages/main/packages.php:53
 msgid "Delete"
 msgstr "Effacer"
 
-#: views/packages/main/list.base.php:55
+#: views/packages/main/packages.php:55
 msgid "Apply"
 msgstr "Appliquer"
 
-#: views/packages/main/list.base.php:60
+#: views/packages/main/packages.php:60
 msgid "Package Logs"
 msgstr "Journaux des paquets"
 
-#: views/packages/main/list.base.php:64 views/packages/main/new1.base.php:101
+#: views/packages/main/packages.php:64 views/packages/main/new1.base.php:101
 #: views/packages/main/new2.base.php:89 views/packages/main/new3.base.php:48
 msgid "Create New"
 msgstr "Créer un paquet"
 
-#: views/packages/main/list.base.php:87
+#: views/packages/main/packages.php:87
 msgid "Select all packages"
 msgstr "Sélectionner tous les paquets"
 
-#: views/packages/main/list.base.php:89
+#: views/packages/main/packages.php:89
 msgid "Created"
 msgstr "Créé"
 
-#: views/packages/main/list.base.php:90 views/packages/main/new2.base.php:249
+#: views/packages/main/packages.php:90 views/packages/main/new2.base.php:249
 #: views/packages/main/new2.base.php:376
 msgid "Size"
 msgstr "Taille"
 
-#: views/packages/main/list.base.php:93 views/settings/general.php:117
+#: views/packages/main/packages.php:93 views/settings/general.php:117
 msgid "Package"
 msgstr "Paquet"
 
-#: views/packages/main/list.base.php:124
+#: views/packages/main/packages.php:124
 msgid "(No Notes Taken)"
 msgstr "(Aucun note générée)"
 
-#: views/packages/main/list.base.php:142 views/packages/main/list.base.php:192
+#: views/packages/main/packages.php:142 views/packages/main/packages.php:192
 msgid "View"
 msgstr "Voir"
 
-#: views/packages/main/list.base.php:153
+#: views/packages/main/packages.php:153
 msgid "Package Details"
 msgstr "Détails du paquet"
 
-#: views/packages/main/list.base.php:165
+#: views/packages/main/packages.php:165
 msgid "Links"
 msgstr "Liens"
 
-#: views/packages/main/list.base.php:166
+#: views/packages/main/packages.php:166
 msgid "SQL"
 msgstr "SQL"
 
-#: views/packages/main/list.base.php:167
+#: views/packages/main/packages.php:167
 msgid "Log"
 msgstr "Journal"
 
-#: views/packages/main/list.base.php:170
+#: views/packages/main/packages.php:170
 msgid "Open Scan Report"
 msgstr "Ouvrir le rapport de scan"
 
-#: views/packages/main/list.base.php:198
+#: views/packages/main/packages.php:198
 msgid "View Error Details"
 msgstr "Voir le détail des erreurs"
 
-#: views/packages/main/list.base.php:210
+#: views/packages/main/packages.php:210
 msgid "Unrecoverable Error! Please remove this package."
 msgstr "Erreur : contenu non récupérable ! Merci de supprimer ce paquet."
 
-#: views/packages/main/list.base.php:215
+#: views/packages/main/packages.php:215
 msgid ""
 "This package has encountered errors.  Click 'View Log' for more details.  "
 "For additional support see the "
@@ -645,30 +645,30 @@ msgstr ""
 "Ce paquet a généré des erreurs. Cliquez sur 'Voir les journaux' pour plus de "
 "détails. Pour une aide supplémentaire allez donc sur"
 
-#: views/packages/main/list.base.php:216
+#: views/packages/main/packages.php:216
 msgid "online knowledgebase"
 msgstr "notre documentation en ligne"
 
-#: views/packages/main/list.base.php:218
+#: views/packages/main/packages.php:218
 msgid "View Log"
 msgstr "Voir les journaux"
 
-#: views/packages/main/list.base.php:241 views/packages/main/new2.base.php:246
+#: views/packages/main/packages.php:241 views/packages/main/new2.base.php:246
 #: views/packages/main/new2.base.php:370
 msgid "Total Size"
 msgstr "Taille totale"
 
-#: views/packages/main/list.base.php:260
+#: views/packages/main/packages.php:260
 msgid "Download Links"
 msgstr "Liens de téléchargement"
 
-#: views/packages/main/list.base.php:263
+#: views/packages/main/packages.php:263
 msgid "The following links contain sensitive data.  Please share with caution!"
 msgstr ""
 "Les liens suivants contiennent des informations sensibles. Gardez-les "
 "confidentiels."
 
-#: views/packages/main/list.base.php:269
+#: views/packages/main/packages.php:269
 msgid ""
 "The database SQL script is a quick link to your database backup script.  An "
 "exact copy is also stored in the package."
@@ -676,37 +676,37 @@ msgstr ""
 "Le script de base de données SQL est un lien rapide vers votre script de "
 "sauvegarde de base de données. Une copie exacte est également dans le paquet."
 
-#: views/packages/main/list.base.php:292
+#: views/packages/main/packages.php:292
 msgid ""
 "Please select an action from the bulk action drop down menu to perform a "
 "specific action."
 msgstr "Merci de sélectionner une action de la liste des actions par lot"
 
-#: views/packages/main/list.base.php:300
+#: views/packages/main/packages.php:300
 msgid "Please select at least one package to delete."
 msgstr "Merci de sélectionner au moins un paquet à effacer."
 
-#: views/packages/main/list.base.php:304
+#: views/packages/main/packages.php:304
 msgid "Are you sure, you want to delete the selected package(s)?"
 msgstr "Êtes-vous sûr de vouloir effacer le paquet sélectionné ?"
 
-#: views/packages/main/list.base.php:338
+#: views/packages/main/packages.php:338
 msgid "Package File Links"
 msgstr "Liens vers les paquets"
 
-#: views/packages/main/list.base.php:342
+#: views/packages/main/packages.php:342
 msgid "PACKAGE"
 msgstr "PAQUET"
 
-#: views/packages/main/list.base.php:343
+#: views/packages/main/packages.php:343
 msgid "INSTALLER"
 msgstr "INSTALLEUR"
 
-#: views/packages/main/list.base.php:344
+#: views/packages/main/packages.php:344
 msgid "LOG"
 msgstr "JOURNAL"
 
-#: views/packages/main/list.base.php:345
+#: views/packages/main/packages.php:345
 msgid "REPORT"
 msgstr "RAPPORT"
 

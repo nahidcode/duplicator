@@ -87,6 +87,10 @@ GENERAL -->
 			<td><?php echo ($package->Status >= 100) ? DUP_Util::__("completed")  : DUP_Util::__("in-complete") ?></td>
 		</tr>
 		<tr>
+			<td><?php DUP_Util::_e("User") ?>:</td>
+			<td><?php echo strlen($package->WPUser) ? $package->WPUser : DUP_Util::__("- unknown -") ?></td>
+		</tr>		
+		<tr>
 			<td><?php DUP_Util::_e("Files") ?>: </td>
 			<td>
 				<div id="dup-downloads-area">

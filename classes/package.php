@@ -45,6 +45,7 @@ class DUP_Package {
 	public $ExeSize;
 	public $ZipSize;
 	public $Status;
+	public $WPUser;
 	//Objects
 	public $Archive;
 	public $Installer;
@@ -163,6 +164,7 @@ class DUP_Package {
 		$this->Archive->File	  = "{$this->NameHash}_archive.zip";
 		$this->Installer->File    = "{$this->NameHash}_installer.php";
 		$this->Database->File     = "{$this->NameHash}_database.sql";
+		$this->WPUser			  = isset($current_user->user_login) ? $current_user->user_login : 'unknown';
 		
 		//START LOGGING
 		DUP_Log::Open($this->NameHash);
