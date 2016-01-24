@@ -95,10 +95,12 @@ GENERAL -->
 			<td>
 				<div id="dup-downloads-area">
 					<?php if  (!$err_found) :?>
+					
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo $link_installer; ?>', this);return false;"><i class="fa fa-bolt"></i> Installer</button>						
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo $link_archive; ?>', this);return false;"><i class="fa fa-file-archive-o"></i> Archive - <?php echo $package->ZipSize ?></button>
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo $link_sql; ?>', this);return false;"><i class="fa fa-table"></i> &nbsp; SQL - <?php echo DUP_Util::ByteSize($package->Database->Size)  ?></button>
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo $link_log; ?>', this);return false;"><i class="fa fa-list-alt"></i> &nbsp; Log </button>
+						<button class="button" onclick="Duplicator.Pack.ShowLinksDialog(<?php echo "'{$link_sql}','{$link_archive}','{$link_installer}','{$link_log}'" ;?>);" class="thickbox"><i class="fa fa-lock"></i> &nbsp; <?php _e("Share", 'duplicator')?></button>
 					<?php else: ?>
 							<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo $link_log; ?>', this);return false;"><i class="fa fa-list-alt"></i> &nbsp; Log </button>
 					<?php endif; ?>
@@ -123,6 +125,22 @@ GENERAL -->
 		</tr>	
 	</table>
 </div>
+</div>
+
+<!-- ==========================================
+DIALOG: QUICK PATH -->
+<?php add_thickbox(); ?>
+<div id="dup-dlg-quick-path" title="<?php _e('Download Links', 'duplicator'); ?>" style="display:none">
+	<p>
+		<i class="fa fa-lock"></i>
+		<?php _e("The following links contain sensitive data.  Please share with caution!", 'duplicator');	?>
+	</p>
+	
+	<div style="padding: 0px 15px 15px 15px;">
+		<a href="javascript:void(0)" style="display:inline-block; text-align:right" onclick="Duplicator.Pack.GetLinksText()">[Select All]</a> <br/>
+		<textarea id="dup-dlg-quick-path-data" style='border:1px solid silver; border-radius:3px; width:99%; height:225px; font-size:11px'></textarea><br/>
+		<i style='font-size:11px'><?php _e("The database SQL script is a quick link to your database backup script.  An exact copy is also stored in the package.", 'duplicator'); ?></i>
+	</div>
 </div>
 
 <!-- ===============================
@@ -297,7 +315,30 @@ INSTALLER -->
 
 
 <script type="text/javascript">
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function ($) 
+{
+	
+	/*	Shows the 'Download Links' dialog
+	 *	@param db		The path to the sql file
+	 *	@param install	The path to the install file 
+	 *	@param pack		The path to the package file */
+	Duplicator.Pack.ShowLinksDialog = function(db, install, pack, log) 
+	{
+		var url = '#TB_inline?width=650&height=350&inlineId=dup-dlg-quick-path';
+		tb_show("<?php _e('Package File Links', 'duplicator') ?>", url);
+		
+		var msg = <?php printf('"%s:\n" + db + "\n\n%s:\n" + install + "\n\n%s:\n" + pack + "\n\n%s:\n" + log;', 
+			__("DATABASE",  'duplicator'), 
+			__("PACKAGE", 'duplicator'), 
+			__("INSTALLER",   'duplicator'),
+			__("LOG", 'duplicator')); 
+		?>
+		$("#dup-dlg-quick-path-data").val(msg);
+		return false;
+	}
+	
+	//LOAD: 'Download Links' Dialog and other misc setup
+	Duplicator.Pack.GetLinksText = function() {$('#dup-dlg-quick-path-data').select();};	
 
 	/*	METHOD:  */
 	Duplicator.Pack.OpenAll = function () {
