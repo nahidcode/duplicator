@@ -110,7 +110,6 @@ TOOL-BAR -->
 			</tr>
 		</thead>
 		<?php
-
 		$rowCount = 0;
 		$totalSize = 0;
 		$rows = $qryResult;
@@ -234,7 +233,6 @@ jQuery(document).ready(function($)
 				dataType: "json",
 				data: {action : 'duplicator_package_delete', duplicator_delid : list, nonce: '<?php echo $ajax_nonce; ?>' },
 				success: function(data) { 
-					//console.log(data); //Debug return
 					Duplicator.ReloadWindow(data); 
 				}
 			});
@@ -257,6 +255,5 @@ jQuery(document).ready(function($)
 	{
 		window.location.href = '?page=duplicator&action=detail&tab=detail&id=' + package_id;
 	}
-	
 });
 </script>

@@ -28,33 +28,18 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 	#comparison-table tr:nth-child(2n+2) {background-color: #f6f6f6; }
 </style>
 
-<script type="text/javascript">var switchTo5x = true;</script>
-<script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
-<script type="text/javascript">stLight.options({publisher: "1a44d92e-2a78-42c3-a32e-414f78f9f484"});</script> 
-
 <div class="dup-pro-area">
-
-	<div>
-		<h1 style="font-size:34px; margin-top:20px">
-			 <img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo-dpro-300x50-nosnap.png"  /> 
-		</h1>
-		<h3 style="margin-top:10px; font-size:18px; font-style: italic; color:gray">
-			<?php DUP_Util::_e('The simplicity of Duplicator') ?>
-			<?php DUP_Util::_e('with power for the professional.') ?>
-		</h3>
+	<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo-dpro-300x50-nosnap.png"  /> 
+	<div style="font-size:18px; font-style: italic; color:gray">
+		<?php DUP_Util::_e('The simplicity of Duplicator') ?>
+		<?php DUP_Util::_e('with power for the professional.') ?>
 	</div>
 
 	<table id="comparison-table">
 		<tr>
-			<th class="feature-column">
-				Feature
-			</th>
-			<th class="check-column">
-				Free
-			</th>
-			<th class="check-column">
-				Professional
-			</th>
+			<th class="feature-column">Feature</th>
+			<th class="check-column">Free</th>
+			<th class="check-column">Professional</th>
 		</tr>
 		<tr>
 			<td class="feature-column">Backup Files & Database</td>
