@@ -11,6 +11,7 @@ $link_installer		= "{$package->StoreURL}{$package->NameHash}_installer.php?get=1
 $link_log			= "{$package->StoreURL}{$package->NameHash}.log";
 $link_scan			= "{$package->StoreURL}{$package->NameHash}_scan.json";
 
+$debug_on	     = DUP_Settings::Get('package_debug');
 $mysqldump_on	 = DUP_Settings::Get('package_mysqldump') && DUP_Database::GetMySqlDumpPath();
 $mysqlcompat_on  = isset($Package->Database->Compatible) && strlen($Package->Database->Compatible);
 $mysqlcompat_on  = ($mysqldump_on && $mysqlcompat_on) ? true : false;
@@ -32,6 +33,11 @@ $dbbuild_mode    = ($mysqldump_on) ? 'mysqldump (fast)' : 'PHP (slow)';
 	tr.sub-item td:first-child {padding:0 0 0 40px}
 	tr.sub-item td {font-size: 12px}
 	tr.sub-item-disabled td {color:gray}
+	
+	/*STORAGE*/
+	div.dup-store-pro {font-size:12px; font-style:italic;}
+	div.dup-store-pro img {height:14px; width:14px; vertical-align: text-top}
+	div.dup-store-pro a {text-decoration: underline}
 	
 	/*GENERAL*/
 	div#dup-name-info {display: none; font-size:11px; line-height:20px; margin:4px 0 0 0}
@@ -170,13 +176,18 @@ STORAGE -->
 				</tr>
 				<tr>
 					<td colspan="4">
-						<div style="font-size:12px; font-style:italic;"> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/amazon-64.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/dropbox-64.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/google_drive_64px.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/ftp-64.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
+						<div class="dup-store-pro"> 
+							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/amazon-64.png" /> 
+							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/dropbox-64.png" /> 
+							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/google_drive_64px.png" /> 
+							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/ftp-64.png" /> 
 							<?php echo sprintf(__('%1$s, %2$s, %3$s, %4$s and more storage options available in', 'duplicator'), 'Amazon', 'Dropbox', 'Google Drive', 'FTP'); ?>
-                            <a href="http://snapcreek.com/duplicator/?free-storage-detail" target="_blank">Duplicator Pro</a> 
+                            <a href="http://snapcreek.com/duplicator/?free-storage-detail" target="_blank"><?php _e('Professional', 'duplicator');?></a> 
+							 <i class="fa fa-lightbulb-o" 
+								data-tooltip-title="<?php DUP_Util::_e("Additional Storage:"); ?>" 
+								data-tooltip="<?php DUP_Util::_e('Professional allows you to create a package and then store it at a custom location on this server or to a cloud'
+										. 'based location such as Google Drive or Dropbox.'); ?>">
+							 </i>
                         </div>                            
 					</td>
 				</tr>
@@ -224,15 +235,24 @@ ARCHIVE -->
 			<td><?php DUP_Util::_e("Extensions") ?>: </td>
 			<td>
 				<?php
-					echo isset($package->Archive->Extensions) && strlen($package->Archive->Extensions) 
-						? $package->Archive->Extensions
+					echo isset($package->Archive->FilterExts) && strlen($package->Archive->FilterExts) 
+						? $package->Archive->FilterExts
 						: DUP_Util::__('- no filters -');
 				?>
 			</td>
 		</tr>
 		<tr class="sub-item <?php echo $css_file_filter_on ?>">
 			<td><?php DUP_Util::_e("Files") ?>: </td>
-			<td><i><?php DUP_Util::_e("Available in Duplicator Pro") ?></i></td>
+			<td>
+				<i>
+					<?php DUP_Util::_e("Available in") ?> 
+					<a href="http://snapcreek.com/duplicator/?free-file-filters" target="_blank"><?php _e('Professional', 'duplicator');?></a> 
+				</i>
+				<i class="fa fa-lightbulb-o" 
+				   data-tooltip-title="<?php DUP_Util::_e("File Filters:"); ?>" 
+				   data-tooltip="<?php DUP_Util::_e('File filters allows you to select individual files and add them to an exclusion list that will filter them from the package.'); ?>">
+				</i>
+			</td>
 		</tr>			
 	</table><br/>
 
@@ -264,8 +284,8 @@ ARCHIVE -->
 			<td><?php DUP_Util::_e("Tables") ?>: </td>
 			<td>
 				<?php 
-					echo isset($package->Archive->FilterTables) && strlen($package->Archive->FilterTables) 
-						? str_replace(';', '<br/>', $package->Database->FilterTables)
+					echo isset($package->Database->FilterTables) && strlen($package->Database->FilterTables) 
+						? str_replace(',', '&nbsp;|&nbsp;', $package->Database->FilterTables)
 						: DUP_Util::__('- no filters -');	
 				?>
 			</td>
@@ -304,7 +324,7 @@ INSTALLER -->
 </div>
 </div>
 
-<?php if ($global->package_debug) : ?>
+<?php if ($debug_on) : ?>
 	<div style="margin:0">
 		<a href="javascript:void(0)" onclick="jQuery(this).parent().find('.dup-pack-debug').toggle()">[<?php DUP_Util::_e("View Package Object") ?>]</a><br/>
 		<pre class="dup-pack-debug" style="display:none"><?php @print_r($package); ?> </pre>

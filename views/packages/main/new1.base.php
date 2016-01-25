@@ -237,7 +237,7 @@ META-BOX1: SYSTEM REQUIREMENTS -->
         <!-- ONLINE SUPPORT -->
         <div class="dup-sys-contact">
             <?php
-            printf("<i class='fa fa-question-circle'></i> %s <a href='admin.php?page=duplicator-help'>[%s]</a>", __("For additional help please see the ", 'duplicator'), __("help page", 'duplicator'));
+            printf("%s <a href='admin.php?page=duplicator-help'>[%s]</a>", __("For additional help please see the ", 'duplicator'), __("help page", 'duplicator'));
             ?>
         </div>
 
