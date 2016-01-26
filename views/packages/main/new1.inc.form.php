@@ -1,3 +1,41 @@
+<style>
+    /* -----------------------------
+    PACKAGE OPTS*/
+    form#dup-form-opts label {line-height:22px}
+    form#dup-form-opts input[type=checkbox] {margin-top:3px}
+    form#dup-form-opts fieldset {border-radius:4px;  border-top:1px solid #dfdfdf;  line-height:20px}
+    form#dup-form-opts fieldset{padding:10px 15px 15px 15px; min-height:275px; margin:0 10px 10px 10px}
+    form#dup-form-opts textarea, input[type="text"] {width:100%}
+    form#dup-form-opts textarea#filter-dirs {height:85px}
+    form#dup-form-opts textarea#filter-exts {height:27px}
+    textarea#package_notes {height:37px;}
+	div.dup-notes-add {float:right; margin:-4px 2px 4px 0;}
+    div#dup-notes-area {display:none}
+
+    /*ARCHIVE SECTION*/
+    form#dup-form-opts div.tabs-panel{max-height:550px; padding:10px; min-height:280px}
+    form#dup-form-opts ul li.tabs{font-weight:bold}
+    ul.category-tabs li {padding:4px 15px 4px 15px}
+    select#archive-format {min-width:100px; margin:1px 0px 4px 0px}
+    span#dup-archive-filter-file {color:#A62426; display:none}
+    span#dup-archive-filter-db {color:#A62426; display:none}
+    div#dup-file-filter-items, div#dup-db-filter-items {padding:2px 0px 0px 15px; font-stretch:ultra-condensed; font-family: Calibri; }
+    label.dup-enable-filters {display:inline-block; margin:-5px 0px 5px 0px}
+    div.dup-quick-links {font-size:11px; float:right; display:inline-block; margin-top:2px; font-style:italic}
+    div.dup-tabs-opts-help {font-style:italic; font-size:11px; margin:10px 0px 0px 10px; color:#777}
+    table#dup-dbtables td {padding:1px 15px 1px 4px}
+	table.dbmysql-compatibility td{padding:2px 20px 2px 2px}
+	div.dup-store-pro {font-size:12px; font-style:italic;}
+	div.dup-store-pro img {height:14px; width:14px; vertical-align: text-top}
+	div.dup-store-pro a {text-decoration: underline}
+	span.dup-tabs-opts-filter {font-style:italic; font-size:12px; color:#555; font-style: italic }
+
+    /*INSTALLER SECTION*/
+    div.dup-installer-header-1 {font-weight:bold; padding-bottom:2px; width:100%}
+    div.dup-installer-header-2 {font-weight:bold; border-bottom:1px solid #dfdfdf; padding-bottom:2px; width:100%}
+    label.chk-labels {display:inline-block; margin-top:1px}
+    table.dup-installer-tbl {width:95%; margin-left:20px}
+</style>
 
 <form id="dup-form-opts" method="post" action="?page=duplicator&tab=new2" data-validate="parsley">
 <input type="hidden" id="dup-form-opts-action" name="action" value="">
@@ -41,14 +79,18 @@ META-BOX: STORAGE -->
 				</tr>
 				<tr>
 					<td colspan="4">
-						<div style="font-size:12px; font-style:italic;"> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/amazon-64.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/dropbox-64.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/google_drive_64px.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/ftp-64.png" style='height:16px; width:16px; vertical-align: text-top'  /> 
-							
+						<div class="dup-store-pro"> 
+							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/amazon-64.png" /> 
+							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/dropbox-64.png" /> 
+							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/google_drive_64px.png" /> 
+							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/ftp-64.png" /> 
 							<?php echo sprintf(__('%1$s, %2$s, %3$s, %4$s and other storage options available in', 'duplicator'), 'Amazon', 'Dropbox', 'Google Drive', 'FTP'); ?>
-                            <a href="http://snapcreek.com/duplicator/?free-storage" target="_blank">Duplicator Pro</a> 
+                            <a href="http://snapcreek.com/duplicator/?free-storage" target="_blank"><?php _e('Professional', 'duplicator');?></a> 
+							<i class="fa fa-lightbulb-o" 
+								data-tooltip-title="<?php DUP_Util::_e("Additional Storage:"); ?>" 
+								data-tooltip="<?php DUP_Util::_e('Professional allows you to create a package and then store it at a custom location on this server or to a cloud '
+										. 'based location such as Google Drive, Amazon, Dropbox or FTP.'); ?>">
+							 </i>
                         </div>                            
 					</td>
 				</tr>
@@ -58,7 +100,8 @@ META-BOX: STORAGE -->
 </div><br/>
 <!-- end meta-box storage  -->
 
-<!-- META-BOX: ARCHIVE -->
+<!-- ============================
+ARCHIVE -->
 <div class="dup-box">
     <div class="dup-box-title">
         <i class="fa fa-file-archive-o"></i> <?php _e('Archive', 'duplicator') ?> &nbsp;
@@ -74,7 +117,7 @@ META-BOX: STORAGE -->
         <div class="categorydiv" id="dup-pack-opts-tabs">
             <ul class="category-tabs">
                 <li class="tabs"><a href="javascript:void(0)" onclick="Duplicator.Pack.ToggleOptTabs(1, this)"><?php _e('Files', 'duplicator') ?></a></li>
-                <li><a href="javascript:void(0)"onclick="Duplicator.Pack.ToggleOptTabs(2, this)"><?php _e('Database', 'duplicator') ?></a></li>
+                <li><a href="javascript:void(0)" onclick="Duplicator.Pack.ToggleOptTabs(2, this)"><?php _e('Database', 'duplicator') ?></a></li>
             </ul>
 
             <!-- TAB1: PACKAGE -->
@@ -111,9 +154,13 @@ META-BOX: STORAGE -->
                         <?php _e("Use the full path for directories and semicolons to separate all items.", 'duplicator'); ?>
                     </div>
 					<br/>
-					<span style="font-style:italic; font-size:12px ">
+					<span class="dup-tabs-opts-filter">
 						<?php echo sprintf(DUP_Util::__('%1$s are available in'), 'Individual file filters'); ?>
-						<a href="http://snapcreek.com/duplicator/?free-file-filters" target="_blank">Duplicator Pro</a>
+						<a href="http://snapcreek.com/duplicator/?free-file-filters" target="_blank"><?php _e('Professional', 'duplicator');?></a>
+						<i class="fa fa-lightbulb-o" 
+							data-tooltip-title="<?php DUP_Util::_e("File Filters:"); ?>" 
+							data-tooltip="<?php DUP_Util::_e('File filters allows you to select individual files and add them to an exclusion list that will filter them from the package.'); ?>">
+						 </i>
 					</span>
                 </div>
             </div>
@@ -226,10 +273,10 @@ META-BOX: STORAGE -->
         </div>		
     </div>
 </div><br/>
-<!-- end meta-box options  -->
 
 
-<!-- META-BOX: INSTALLER -->
+<!-- ============================
+INSTALLER -->
 <div class="dup-box">
     <div class="dup-box-title">
         <i class="fa fa-bolt"></i> <?php _e('Installer', 'duplicator') ?>
@@ -237,7 +284,7 @@ META-BOX: STORAGE -->
     </div>			
 
     <div class="dup-box-panel" id="dup-pack-installer-panel" style="<?php echo $ui_css_installer ?>">
-        <div class="dup-installer-header-1"><?php echo _e('STEP 1 - INPUTS', 'duplicator'); ?></div><br/>
+        <div class="dup-installer-header-1"><i class="fa fa-caret-square-o-right"></i> <?php echo _e('STEP 1 - INPUTS', 'duplicator'); ?></div><br/>
         <table class="dup-installer-tbl">
             <tr>
                 <td colspan="2"><div class="dup-installer-header-2"><?php _e("MySQL Server", 'duplicator') ?></div></td>
@@ -291,7 +338,7 @@ META-BOX: STORAGE -->
             </tr>
         </table><br />
 
-        <div class="dup-installer-header-1"><?php echo _e('STEP 2 - INPUTS', 'duplicator'); ?></div>
+        <div class="dup-installer-header-1"><i class="fa fa-caret-square-o-right"></i> <?php echo _e('STEP 2 - INPUTS', 'duplicator'); ?></div>
 
         <table class="dup-installer-tbl">
             <tr>
@@ -306,7 +353,6 @@ META-BOX: STORAGE -->
 
     </div>		
 </div><br/>
-<!-- end meta-box: installer  -->
 
 
 <div class="dup-button-footer">
@@ -317,34 +363,103 @@ META-BOX: STORAGE -->
 </form>
 
 <script>
-    jQuery(document).ready(function ($) {
-        var DUP_NAMEDEFAULT = '<?php echo $default_name ?>';
-        var DUP_NAMELAST = $('#package-name').val();
+jQuery(document).ready(function ($) 
+{
+	var DUP_NAMEDEFAULT = '<?php echo $default_name ?>';
+	var DUP_NAMELAST = $('#package-name').val();
+	
+	
+	/* Toggle Options tabs*/
+	Duplicator.Pack.ToggleOptTabs = function (tab, label) 
+	{
+		$('.category-tabs li').removeClass('tabs');
+		$(label).parent().addClass('tabs');
+		if (tab == 1) {
+			$('#dup-pack-opts-tabs-panel-1').show();
+			$('#dup-pack-opts-tabs-panel-2').hide();
+		} else {
+			$('#dup-pack-opts-tabs-panel-2').show();
+			$('#dup-pack-opts-tabs-panel-1').hide();
+		}
+	}
 
-        Duplicator.Pack.ResetSettings = function () {
-            var key = 'duplicator_package_active';
-            var result = confirm('<?php _e("This will reset all of the current package settings.  Would you like to continue?", "duplicator"); ?>');
-            if (!result)
-                return;
+	/* Enable/Disable the file filter elements */
+	Duplicator.Pack.ToggleFileFilters = function () 
+	{
+		var $filterItems = $('#dup-file-filter-items');
+		if ($("#filter-on").is(':checked')) {
+			$filterItems.removeAttr('disabled').css({color: '#000'});
+			$('#filter-exts,#filter-dirs').removeAttr('readonly').css({color: '#000'});
+			$('#dup-archive-filter-file').show();
+		} else {
+			$filterItems.attr('disabled', 'disabled').css({color: '#999'});
+			$('#filter-dirs, #filter-exts').attr('readonly', 'readonly').css({color: '#999'});
+			$('#dup-archive-filter-file').hide();
+		}
+	};
 
-            jQuery('#dup-form-opts-action').val(key);
-            jQuery('#dup-form-opts').attr('action', '?page=duplicator&tab=new1')
-            jQuery('#dup-form-opts').submit();
-        }
+	/* Appends a path to the directory filter */
+	Duplicator.Pack.ToggleDBFilters = function () 
+	{
+		var $filterItems = $('#dup-db-filter-items');
 
-        Duplicator.Pack.ResetName = function () {
-            var current = $('#package-name').val();
-            $('#package-name').val((current == DUP_NAMELAST) ? DUP_NAMEDEFAULT : DUP_NAMELAST)
-        }
+		if ($("#dbfilter-on").is(':checked')) {
+			$filterItems.removeAttr('disabled').css({color: '#000'});
+			$('#dup-dbtables input').removeAttr('readonly').css({color: '#000'});
+			$('#dup-archive-filter-db').show();
+		} else {
+			$filterItems.attr('disabled', 'disabled').css({color: '#999'});
+			$('#dup-dbtables input').attr('readonly', 'readonly').css({color: '#999'});
+			$('#dup-archive-filter-db').hide();
+		}
+	};
 
-        Duplicator.Pack.ExcludeTable = function (check) {
-            var $cb = $(check);
-            if ($cb.is(":checked")) {
-                $cb.closest("label").css('textDecoration', 'line-through');
-            } else {
-                $cb.closest("label").css('textDecoration', 'none');
-            }
-        }
 
-    });
+	/* Appends a path to the directory filter  */
+	Duplicator.Pack.AddExcludePath = function (path) 
+	{
+		var text = $("#filter-dirs").val() + path + ';\n';
+		$("#filter-dirs").val(text);
+	};
+
+	/* Appends a path to the extention filter  */
+	Duplicator.Pack.AddExcludeExts = function (path) 
+	{
+		var text = $("#filter-exts").val() + path + ';';
+		$("#filter-exts").val(text);
+	};
+	
+
+	Duplicator.Pack.ResetSettings = function () 
+	{
+		var key = 'duplicator_package_active';
+		var result = confirm('<?php _e("This will reset all of the current package settings.  Would you like to continue?", "duplicator"); ?>');
+		if (!result)
+			return;
+
+		jQuery('#dup-form-opts-action').val(key);
+		jQuery('#dup-form-opts').attr('action', '?page=duplicator&tab=new1')
+		jQuery('#dup-form-opts').submit();
+	}
+
+	Duplicator.Pack.ResetName = function () 
+	{
+		var current = $('#package-name').val();
+		$('#package-name').val((current == DUP_NAMELAST) ? DUP_NAMEDEFAULT : DUP_NAMELAST)
+	}
+
+	Duplicator.Pack.ExcludeTable = function (check) 
+	{
+		var $cb = $(check);
+		if ($cb.is(":checked")) {
+			$cb.closest("label").css('textDecoration', 'line-through');
+		} else {
+			$cb.closest("label").css('textDecoration', 'none');
+		}
+	}
+	
+	//Init: Toggle OptionTabs
+	Duplicator.Pack.ToggleFileFilters();
+	Duplicator.Pack.ToggleDBFilters();
+});
 </script>

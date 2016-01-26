@@ -1,5 +1,5 @@
 <?php
-	require_once(DUPLICATOR_PLUGIN_PATH . '/views/javascript.php'); 
+	require_once(DUPLICATOR_PLUGIN_PATH . '/assets/js/javascript.php'); 
 	require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php'); 
 
 	global $wp_version;

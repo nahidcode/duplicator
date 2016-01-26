@@ -185,8 +185,8 @@ STORAGE -->
                             <a href="http://snapcreek.com/duplicator/?free-storage-detail" target="_blank"><?php _e('Professional', 'duplicator');?></a> 
 							 <i class="fa fa-lightbulb-o" 
 								data-tooltip-title="<?php DUP_Util::_e("Additional Storage:"); ?>" 
-								data-tooltip="<?php DUP_Util::_e('Professional allows you to create a package and then store it at a custom location on this server or to a cloud'
-										. 'based location such as Google Drive or Dropbox.'); ?>">
+								data-tooltip="<?php DUP_Util::_e('Professional allows you to create a package and then store it at a custom location on this server or to a cloud '
+										. 'based location such as Google Drive, Amazon, Dropbox or FTP.'); ?>">
 							 </i>
                         </div>                            
 					</td>
