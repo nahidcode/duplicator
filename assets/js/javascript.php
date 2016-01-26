@@ -8,7 +8,6 @@ Duplicator.UI		= new Object();
 Duplicator.Pack		= new Object();
 Duplicator.Settings = new Object();
 Duplicator.Tools	= new Object();
-Duplicator.Tasks	= new Object();
 
 //GLOBAL CONSTANTS
 Duplicator.DEBUG_AJAX_RESPONSE = false;
@@ -19,23 +18,23 @@ Duplicator.AJAX_TIMER = null;
 *  BASE NAMESPACE: All methods at the top of the Duplicator Namespace  
 *  ============================================================================	*/
 
-/*	----------------------------------------
-*	METHOD: Starts a timer for Ajax calls */ 
-Duplicator.StartAjaxTimer = function() {
+/*	Starts a timer for Ajax calls */ 
+Duplicator.StartAjaxTimer = function() 
+{
 	Duplicator.AJAX_TIMER = new Date();
 };
 
-/*	----------------------------------------
-*	METHOD: Ends a timer for Ajax calls */ 
-Duplicator.EndAjaxTimer = function() {
+/*	Ends a timer for Ajax calls */ 
+Duplicator.EndAjaxTimer = function() 
+{
 	var endTime = new Date();
 	Duplicator.AJAX_TIMER =  (endTime.getTime()  - Duplicator.AJAX_TIMER) /1000;
 };
 
-/*	----------------------------------------
-*	METHOD: Reloads the current window
+/*	Reloads the current window
 *	@param data		An xhr object  */ 
-Duplicator.ReloadWindow = function(data) {
+Duplicator.ReloadWindow = function(data) 
+{
 	if (Duplicator.DEBUG_AJAX_RESPONSE) {
 		Duplicator.Pack.ShowError('debug on', data);
 	} else {
@@ -44,7 +43,8 @@ Duplicator.ReloadWindow = function(data) {
 };
 
 //Basic Util Methods here:
-Duplicator.OpenLogWindow = function(log) {
+Duplicator.OpenLogWindow = function(log) 
+{
 	var logFile = log || null;
 	if (logFile == null) {
 		window.open('?page=duplicator-tools', 'Log Window');
@@ -58,9 +58,9 @@ Duplicator.OpenLogWindow = function(log) {
 *  UI NAMESPACE: All methods at the top of the Duplicator Namespace  
 *  ============================================================================	*/
 
-/*  ----------------------------------------
- *  METHOD:   */
-Duplicator.UI.SaveViewStateByPost = function (key, value) {
+/*	Saves the state of a UI element */ 
+Duplicator.UI.SaveViewStateByPost = function (key, value) 
+{
 	if (key != undefined && value != undefined ) {
 		jQuery.ajax({
 			type: "POST",
@@ -73,9 +73,9 @@ Duplicator.UI.SaveViewStateByPost = function (key, value) {
 	}
 }
 
-/*  ----------------------------------------
- *  METHOD:   */
-Duplicator.UI.AnimateProgressBar = function(id) {
+/* Animates the progress bar */
+Duplicator.UI.AnimateProgressBar = function(id) 
+{
 	//Create Progress Bar
 	var $mainbar   = jQuery("#" + id);
 	$mainbar.progressbar({ value: 100 });
@@ -89,10 +89,9 @@ Duplicator.UI.AnimateProgressBar = function(id) {
 	}
 }
 
-
-/*	----------------------------------------
-* METHOD: Toggle MetaBoxes */ 
-Duplicator.UI.ToggleMetaBox = function() {
+/* Toggle MetaBoxes */ 
+Duplicator.UI.ToggleMetaBox = function() 
+{
 	var $title = jQuery(this);
 	var $panel = $title.parent().find('.dup-box-panel');
 	var $arrow = $title.parent().find('.dup-box-arrow i');
@@ -106,8 +105,9 @@ Duplicator.UI.ToggleMetaBox = function() {
 	
 }
 
-
-jQuery(document).ready(function($) {
+//Init
+jQuery(document).ready(function($) 
+{
 	//Init: Toggle MetaBoxes
 	$('div.dup-box div.dup-box-title').each(function() { 
 		var $title = $(this);
@@ -136,8 +136,5 @@ jQuery(document).ready(function($) {
 			at: 'bottom center'
 		}
 	});
-	
-	
 });	
-
 </script>
