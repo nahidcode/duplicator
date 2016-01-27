@@ -6,7 +6,7 @@
     form#dup-form-opts fieldset {border-radius:4px;  border-top:1px solid #dfdfdf;  line-height:20px}
     form#dup-form-opts fieldset{padding:10px 15px 15px 15px; min-height:275px; margin:0 10px 10px 10px}
     form#dup-form-opts textarea, input[type="text"] {width:100%}
-    form#dup-form-opts textarea#filter-dirs {height:85px}
+    form#dup-form-opts textarea#filter-dirs {height:100px}
     form#dup-form-opts textarea#filter-exts {height:27px}
     textarea#package_notes {height:37px;}
 	div.dup-notes-add {float:right; margin:-4px 2px 4px 0;}
@@ -28,7 +28,7 @@
 	div.dup-store-pro {font-size:12px; font-style:italic;}
 	div.dup-store-pro img {height:14px; width:14px; vertical-align: text-top}
 	div.dup-store-pro a {text-decoration: underline}
-	span.dup-tabs-opts-filter {font-style:italic; font-size:12px; color:#555; font-style: italic }
+	span.dup-pro-text {font-style:italic; font-size:12px; color:#555; font-style: italic }
 
     /*INSTALLER SECTION*/
     div.dup-installer-header-1 {font-weight:bold; padding-bottom:2px; width:100%}
@@ -78,19 +78,21 @@ META-BOX: STORAGE -->
 					<td><?php echo DUPLICATOR_SSDIR_PATH; ?></td>				
 				</tr>
 				<tr>
-					<td colspan="4">
+					<td colspan="4" style="padding:0 0 7px 7px">
 						<div class="dup-store-pro"> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/amazon-64.png" /> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/dropbox-64.png" /> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/google_drive_64px.png" /> 
-							<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/ftp-64.png" /> 
-							<?php echo sprintf(__('%1$s, %2$s, %3$s, %4$s and other storage options available in', 'duplicator'), 'Amazon', 'Dropbox', 'Google Drive', 'FTP'); ?>
-                            <a href="http://snapcreek.com/duplicator/?free-storage" target="_blank"><?php _e('Professional', 'duplicator');?></a> 
-							<i class="fa fa-lightbulb-o" 
-								data-tooltip-title="<?php DUP_Util::_e("Additional Storage:"); ?>" 
-								data-tooltip="<?php DUP_Util::_e('Professional allows you to create a package and then store it at a custom location on this server or to a cloud '
-										. 'based location such as Google Drive, Amazon, Dropbox or FTP.'); ?>">
-							 </i>
+							<span class="dup-pro-text">
+								<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/amazon-64.png" /> 
+								<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/dropbox-64.png" /> 
+								<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/google_drive_64px.png" /> 
+								<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/ftp-64.png" /> 
+								<?php echo sprintf(__('%1$s, %2$s, %3$s, %4$s and other storage options available in', 'duplicator'), 'Amazon', 'Dropbox', 'Google Drive', 'FTP'); ?>
+								<a href="http://snapcreek.com/duplicator/?free-storage" target="_blank"><?php _e('Professional', 'duplicator');?></a> 
+								<i class="fa fa-lightbulb-o" 
+									data-tooltip-title="<?php DUP_Util::_e("Additional Storage:"); ?>" 
+									data-tooltip="<?php DUP_Util::_e('Professional allows you to create a package and then store it at a custom location on this server or to a cloud '
+											. 'based location such as Google Drive, Amazon, Dropbox or FTP.'); ?>">
+								 </i>
+							</span>
                         </div>                            
 					</td>
 				</tr>
@@ -113,15 +115,17 @@ ARCHIVE -->
     </div>		
     <div class="dup-box-panel" id="dup-pack-archive-panel" style="<?php echo $ui_css_archive ?>">
         <input type="hidden" name="archive-format" value="ZIP" />
+		
+		
         <!-- NESTED TABS -->
-        <div class="categorydiv" id="dup-pack-opts-tabs">
+        <div class="categorydiv" data-dup-tabs='true'>
             <ul class="category-tabs">
-                <li class="tabs"><a href="javascript:void(0)" onclick="Duplicator.Pack.ToggleOptTabs(1, this)"><?php _e('Files', 'duplicator') ?></a></li>
-                <li><a href="javascript:void(0)" onclick="Duplicator.Pack.ToggleOptTabs(2, this)"><?php _e('Database', 'duplicator') ?></a></li>
+                <li class="tabs"><?php _e('Files', 'duplicator') ?></li>
+                <li><?php _e('Database', 'duplicator') ?></li>
             </ul>
 
             <!-- TAB1: PACKAGE -->
-            <div class="tabs-panel" id="dup-pack-opts-tabs-panel-1">
+            <div class="tabs-panel">
                 <!-- FILTERS -->
                 <?php
                 $uploads = wp_upload_dir();
@@ -154,7 +158,7 @@ ARCHIVE -->
                         <?php _e("Use the full path for directories and semicolons to separate all items.", 'duplicator'); ?>
                     </div>
 					<br/>
-					<span class="dup-tabs-opts-filter">
+					<span class="dup-pro-text">
 						<?php echo sprintf(DUP_Util::__('%1$s are available in'), 'Individual file filters'); ?>
 						<a href="http://snapcreek.com/duplicator/?free-file-filters" target="_blank"><?php _e('Professional', 'duplicator');?></a>
 						<i class="fa fa-lightbulb-o" 
@@ -166,14 +170,14 @@ ARCHIVE -->
             </div>
 
             <!-- TAB2: DATABASE -->
-            <div class="tabs-panel" id="dup-pack-opts-tabs-panel-2" style="display: none;">
+            <div class="tabs-panel">
                 <div class="dup-enable-filters">						
                     <table>
 						<tr>
 							<td colspan="2">
 								<div style="margin:0 0 10px 0">
 									<?php _e("Build Mode", 'duplicator') ?>: &nbsp;
-									<a href="?page=duplicator-settings"><?php echo $dbbuild_mode; ?></a>
+									<a href="?page=duplicator-settings" target="settings"><?php echo $dbbuild_mode; ?></a>
 								</div>
 							</td>
 						</tr>
@@ -349,7 +353,19 @@ INSTALLER -->
 		
         <div class="dup-tabs-opts-help">
 			<?php _e("The installer can have these fields pre-filled at install time.", 'duplicator'); ?> <b><?php _e('All values are optional.', 'duplicator'); ?></b>
-        </div>		
+        </div>	
+		
+		<div style="padding: 10px 0 0 12px; display: none">
+			<span class="dup-pro-text">
+				<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/cpanel-48.png" style="width:16px; height:12px" />
+				<?php _e("Connect to a cPanel database with.", 'duplicator'); ?> 
+				<a href="http://snapcreek.com/duplicator/?free-file-filters" target="_blank"><?php _e('Professional', 'duplicator');?></a>
+				<i class="fa fa-lightbulb-o" 
+					data-tooltip-title="<?php DUP_Util::_e("cPanel Access:"); ?>" 
+					data-tooltip="<?php DUP_Util::_e('If your server supports cPanel API access then you can create new databases and select existing ones with Duplicator Professional.'); ?>">
+				</i>
+			</span>
+		</div>
 
     </div>		
 </div><br/>
@@ -367,21 +383,6 @@ jQuery(document).ready(function ($)
 {
 	var DUP_NAMEDEFAULT = '<?php echo $default_name ?>';
 	var DUP_NAMELAST = $('#package-name').val();
-	
-	
-	/* Toggle Options tabs*/
-	Duplicator.Pack.ToggleOptTabs = function (tab, label) 
-	{
-		$('.category-tabs li').removeClass('tabs');
-		$(label).parent().addClass('tabs');
-		if (tab == 1) {
-			$('#dup-pack-opts-tabs-panel-1').show();
-			$('#dup-pack-opts-tabs-panel-2').hide();
-		} else {
-			$('#dup-pack-opts-tabs-panel-2').show();
-			$('#dup-pack-opts-tabs-panel-1').hide();
-		}
-	}
 
 	/* Enable/Disable the file filter elements */
 	Duplicator.Pack.ToggleFileFilters = function () 
