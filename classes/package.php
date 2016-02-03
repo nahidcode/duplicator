@@ -290,7 +290,9 @@ class DUP_Package {
 			//PACKAGE
 			$this->Version		= DUPLICATOR_VERSION;
 			$this->Name			= $name;
-			$this->Hash			= $post['package-hash'];
+			$this->Hash			= $this->MakeHash();// $post['package-hash'];
+			//RSR
+			//$this->Hash			= $post['package-hash'];
 			$this->NameHash		= "{$this->Name}_{$this->Hash}";;
 			$this->Notes		= esc_html($post['package-notes']);
 			//ARCHIVE
