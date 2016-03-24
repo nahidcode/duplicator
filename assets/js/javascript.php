@@ -109,7 +109,7 @@ Duplicator.UI.ToggleMetaBox = function()
 jQuery(document).ready(function($) 
 {
 	
-	//INIT: DupPro Tabs
+	//INIT: Tabs
 	$("div[data-dup-tabs='true']").each(function () {
 
 		//Load Tab Setup
