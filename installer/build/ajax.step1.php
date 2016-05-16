@@ -57,7 +57,7 @@ if (isset($_GET['dbtest']))
 	$html	 .= "<label>Server Connected:</label> {$tstSrv} <br/>";
 	$html	 .= "<label>Database Found:</label>   {$tstDB} <br/>";
 
-	//DB not empty message
+	//WARNING: DB not empty message
 	if ($_POST['dbaction'] == 'create'){
 		$tblcount = DupUtil::dbtable_count($dbConn, $_POST['dbname']);
 		$html .= ($tblcount > 0)
@@ -65,8 +65,17 @@ if (isset($_GET['dbtest']))
 		: "";
 	}
 	
-	//Input has utf8
-	$dbUTF8_tst = (DupUtil::is_non_ascii($_POST['dbuser']) || DupUtil::is_non_ascii($_POST['dbname']) || DupUtil::is_non_ascii($_POST['dbpass']));
+	//WARNNG: Input has utf8
+	$dbConnItems = array($_POST['dbhost'], $_POST['dbuser'], $_POST['dbname'],$_POST['dbpass']);
+	$dbUTF8_tst  = false;
+	foreach ($dbConnItems as $value)
+	{
+		if (DupUtil::is_non_ascii($value)) {
+			$dbUTF8_tst = true;
+			break;
+		}
+	}
+	
 	if (! $dbConn && $dbUTF8_tst) 
 	{
 		$html .=  "<div class='dup-fail'><b>WARNING</b></div><br/>UTF8 Characters were detected as part of the database connection string. If your connection fails be sure  to update "
