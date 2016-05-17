@@ -9,7 +9,7 @@ if (! defined('DUPLICATOR_INIT')) {
 }
 
 /** * *****************************************************
- * CLASS::DUPDBTEXTSWAP
+ * CLASS::DUPX_Serializer
  * Walks every table in db that then walks every row and column replacing searches with replaces
  * large tables are split into 50k row blocks to save on memory. */
 class DUPX_Serializer {
@@ -348,10 +348,10 @@ class DUPX_Serializer {
 				$serial_string = preg_match('/^s:[0-9]+:"(.*$)/s', trim($data), $matches);
 				//Nested serial string
 				if ($serial_string) {
-					$inner = preg_replace_callback($regex, 'DupDBTextSwap::fix_string_callback', rtrim($matches[1], '";'));
+					$inner = preg_replace_callback($regex, 'DUPX_Serializer::fix_string_callback', rtrim($matches[1], '";'));
 					$serialized_fixed = 's:' . strlen($inner) . ':"' . $inner . '";';
 				} else {
-					$serialized_fixed = preg_replace_callback($regex, 'DupDBTextSwap::fix_string_callback', $data);
+					$serialized_fixed = preg_replace_callback($regex, 'DUPX_Serializer::fix_string_callback', $data);
 				}
 
 				if (self::is_serialized($serialized_fixed)) {
