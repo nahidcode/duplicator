@@ -158,19 +158,18 @@ class DUP_Util {
 	 * List all of the files of a path
 	 * @path path to a system directory
 	 * @return array of all files in that path
+	 * 
+	 * Compatibility Notes:
+	 *		- Avoid using glob() as GLOB_BRACE is not an option on some operating systems
+	 *		- Pre PHP 5.3 DirectoryIterator will crash on unreadable files
 	 */
-	static public function ListFiles($path = '.') {
+	static public function ListFiles($path = '.') 
+	{
 		$files = array();
-		
-		//GLOB_BRACE is not an option on some systems
-		//{,.}*  allows for hidden files to be shown
-		/*if (defined("GLOB_BRACE")) {
-			$files	= glob("{$path}/{,.}*", GLOB_NOSORT | GLOB_BRACE);
-		} else {*/
-			foreach (new DirectoryIterator($path) as $file) {
-				$files[] = str_replace("\\", '/', $file->getPathname());
-			}
-		//}
+		foreach (new DirectoryIterator($path) as $file)
+		{
+			$files[] = str_replace("\\", '/', $file->getPathname());
+		}
 		return $files;
 	}
 	
