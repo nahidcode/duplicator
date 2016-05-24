@@ -1,7 +1,17 @@
 <?php
 if ( ! defined( 'DUPLICATOR_VERSION' ) ) exit; // Exit if accessed directly
 
-class DUP_Util {
+class DUP_Util 
+{
+	
+	public static $on_php_53_plus;
+	public static $on_php_54_plus;
+	
+	public static function init()
+	{
+		self::$on_php_53_plus = version_compare(PHP_VERSION, '5.3.0') >= 0;
+		self::$on_php_54_plus = version_compare(PHP_VERSION, '5.4.0') >= 0;
+	}
 	
 	/**
 	*  PHP_SAPI for fcgi requires a data flush of at least 256
@@ -388,6 +398,8 @@ class DUP_Util {
         return $filepath;
     }
 
-
 }
+
+
+DUP_Util::init();
 ?>
