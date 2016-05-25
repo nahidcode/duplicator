@@ -3,14 +3,16 @@ if ( ! defined( 'DUPLICATOR_VERSION' ) ) exit; // Exit if accessed directly
 
 class DUP_Util 
 {
-	
+	public static $on_php_529_plus;
 	public static $on_php_53_plus;
 	public static $on_php_54_plus;
 	
+	
 	public static function init()
 	{
-		self::$on_php_53_plus = version_compare(PHP_VERSION, '5.3.0') >= 0;
-		self::$on_php_54_plus = version_compare(PHP_VERSION, '5.4.0') >= 0;
+		self::$on_php_529_plus = version_compare(PHP_VERSION, '5.2.9') >= 0;
+		self::$on_php_53_plus  = version_compare(PHP_VERSION, '5.3.0') >= 0;
+		self::$on_php_54_plus  = version_compare(PHP_VERSION, '5.4.0') >= 0;
 	}
 	
 	/**
