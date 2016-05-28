@@ -201,6 +201,7 @@ class DUPX_Serializer {
 							$report['scan_cells']++;
 							$edited_data = $data_to_fix = $row[$column];
 							$base64coverted = false;
+							$txt_found = false;
 
 							//Only replacing string values
 							if (!empty($row[$column]) && !is_numeric($row[$column])) {
@@ -212,6 +213,18 @@ class DUPX_Serializer {
 										$edited_data = $decoded;
 										$base64coverted = true;
 									}
+								}
+								
+								//Skip table cell if match not found
+								foreach ($list as $item) 
+								{
+									if (strpos($edited_data, $item['search']) !== false) {
+										$txt_found = true;
+										break;
+									}
+								}
+								if (! $txt_found) {
+									continue;
 								}
 
 								//Replace logic - level 1: simple check on basic serilized strings
