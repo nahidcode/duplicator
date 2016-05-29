@@ -66,22 +66,27 @@
 
 	/* ============================
 	STEP 1 VIEW */
+	table.s1-opts {width:100%; border:0px;}
+	table.s1-opts td{white-space:nowrap; padding:3px;}
+	table.s1-opts td:first-child{width:125px;}
+	table.s1-opts-dbhost td {padding:0; margin:0}
+	table.s1-advopts td:first-child{width:125px; font-weight:bold}
+	
 	i#dup-step1-sys-req-msg {font-weight:normal; display:block; padding:0px 0 0 20px;}
 	div.circle-pass, div.circle-fail {display:block;width:13px;height:13px;border-radius:50px;font-size:20px;color:#fff;line-height:100px;text-align:center;text-decoration:none;box-shadow:1px 1px 2px #000;background:#207D1D;opacity:0.95; display:inline-block;}
 	div.circle-fail {background:#9A0D1D !important;}
 	select#logging {font-size:11px}
-	table.dup-step1-inputs {width:100%; border:0px;}
-	table.dup-step1-inputs td{white-space:nowrap; padding:2px;}
-	table.dup-step1-inputs td:first-child{width:125px}
 	div.dup-step1-modes {padding:0px 15px 0 0px;}
 	div#dup-step1-dbconn {margin:auto; text-align:center; margin:15px 0 20px 0px}
-	table.dup-step1-inputs-dbhost td {padding:0; margin:0}
+	
 	input#dup-step1-dbconn-btn {font-size:11px; height:20px; border:1px solid gray; border-radius:3px; cursor:pointer}
 	input#dup-step1-dbport-btn {font-size:11px; height:20px; border:1px solid gray; border-radius:3px; cursor:pointer; width:80px}
 	div.dup-db-test label{display:inline-block; width:150px; font-weight:bold; white-space:nowrap;}
 	div.dup-db-test small{display:block; margin:5px 0 5px 0px; font-style:italic; color:#444}
 	div#dbconn-test-msg {font-size:12px}
 	div#dup-step1-dbconn-status {border:1px solid silver; border-radius:3px; background-color:#f9f9f9; padding:2px 5px; margin-top:10px; height:125px; overflow-y: scroll}
+	
+
 	
 	/*Warning Area and Message */
 	div#dup-step1-warning {margin-top:40px;padding:5px;font-size:11px; color:gray; line-height:12px;font-style:italic; overflow-y:scroll; height:75px; border:1px solid #dfdfdf; background-color:#fff; border-radius:3px}
