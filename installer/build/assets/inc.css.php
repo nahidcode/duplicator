@@ -86,8 +86,6 @@
 	div#dbconn-test-msg {font-size:12px}
 	div#dup-step1-dbconn-status {border:1px solid silver; border-radius:3px; background-color:#f9f9f9; padding:2px 5px; margin-top:10px; height:125px; overflow-y: scroll}
 	
-
-	
 	/*Warning Area and Message */
 	div#dup-step1-warning {margin-top:40px;padding:5px;font-size:11px; color:gray; line-height:12px;font-style:italic; overflow-y:scroll; height:75px; border:1px solid #dfdfdf; background-color:#fff; border-radius:3px}
 	div#dup-step1-warning-check {padding:5px; font-size:12px; font-weight:normal; font-style:italic;}
@@ -136,6 +134,21 @@
 		color: #000; box-shadow: 5px 5px 5px -5px #949494; text-decoration: none; text-align: center; border-radius: 4px;
 	}
 	a.s3-final-btns:hover {background-color: #dfdfdf;}
+	div.s3-gopro-btn {text-align:center; font-family: 'Oswald', sans-serif; font-size:14px; margin:auto; width:200px}
+	div.s3-gopro-btn a {
+		background: #e2e2e2;
+		background: -moz-linear-gradient(top,  #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);
+		background: -webkit-linear-gradient(top,  #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%);
+		background: linear-gradient(to bottom,  #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 );
+	}
+	div.s3-gopro-btn a:hover {
+		background: #ebf1f6;
+		background: -moz-linear-gradient(top,  #ebf1f6 0%, #abd3ee 50%, #89c3eb 51%, #d5ebfb 100%);
+		background: -webkit-linear-gradient(top,  #ebf1f6 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%);
+		background: linear-gradient(to bottom,  #ebf1f6 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebf1f6', endColorstr='#d5ebfb',GradientType=0 );
+	}
 
 	/* ============================
 	BUTTONS */	
@@ -160,11 +173,7 @@
 	.top_goodPass{background:#ffffe0; border:1px solid #e6db55;	display:block;}
 	.top_strongPass{background:#d3edab;	border:1px solid #73bc00; display:block;}
 
-	/* ============================
-	CUSTOME OVERIDE */
-	/*Hide X button on close dialog*/
-	div.ui-dialog-titlebar button.ui-dialog-titlebar-close {display:none !important}
-	
+
 	/*================================================
 	PARSLEY:Overrides*/
 	input.parsley-error, textarea.parsley-error, select.parsley-error {
