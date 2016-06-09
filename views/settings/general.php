@@ -163,13 +163,17 @@ $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
 					
 						<div style="padding:2px 0 0 40px">
 							<small>
+								<i style="cursor: pointer" 
+									data-tooltip-title="<?php _e("Host Recommendation:", 'duplicator'); ?>" 
+									data-tooltip="<?php _e('Duplicator recommends going with the high performance pro plan or better from Bluehost.com', 'duplicator'); ?>">
 								<i class="fa fa-lightbulb-o" aria-hidden="true"></i>
-								<?php
-									printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
-										__("Duplicator Recommends ", 'duplicator'), 
-										__("Bluehost", 'duplicator'),
-										__("for reliable access to Mysqldump", 'duplicator'));
-								?>
+									<?php
+										printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
+											__("Duplicator Recommends ", 'duplicator'), 
+											__("Bluehost", 'duplicator'),
+											__("for reliable access to mysqldump", 'duplicator'));
+									?>
+								</i>
 							</small>
 						</div>
 					<br/>

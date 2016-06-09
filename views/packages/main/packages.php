@@ -79,15 +79,13 @@ TOOL-BAR -->
 					<i class="fa fa-archive"></i> 
 					<?php _e("No Packages Found.", 'duplicator'); ?><br/>
 					<?php _e("Click the 'Create New' button to build a package.", 'duplicator'); ?> <br/><br/>
-					<i>
-						<i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+						<i class="fa fa-lightbulb-o"></i>
 						<?php
 							printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
 								__("Duplicator Recommends ", 'duplicator'), 
 								__("Bluehost", 'duplicator'),
-								__("for a better optimized experiance", 'duplicator'));
+								__("for a better optimized experience", 'duplicator'));
 						?>
-					</i>
 					<div style="height:75px">&nbsp;</div>
 				</div>
 				</td>
@@ -194,8 +192,10 @@ TOOL-BAR -->
 	<tfoot>
 		<tr>
 			<th colspan="4">
-				<i style="font-size:12px">
-					<i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+				<i style="font-size:12px; cursor: pointer" 
+				   data-tooltip-title="<?php _e("Host Recommendation:", 'duplicator'); ?>" 
+				   data-tooltip="<?php _e('Duplicator recommends going with the high performance pro plan or better from Bluehost.com', 'duplicator'); ?>">
+				<i class="fa fa-lightbulb-o"></i>		
 					<?php
 						printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a>",
 						__("Duplicator Recommends ", 'duplicator'), 
