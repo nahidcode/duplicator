@@ -163,10 +163,11 @@ $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
 					
 						<div style="padding:2px 0 0 40px">
 							<small>
+								<i class="fa fa-lightbulb-o" aria-hidden="true"></i>
 								<?php
-									printf("%s <a href='https://secure1.inmotionhosting.com/cgi-bin/gby/clickthru.cgi?id=snapcreek&page=3'>%s</a> %s",
+									printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
 										__("Duplicator Recommends ", 'duplicator'), 
-										__("InMotion Hosting", 'duplicator'),
+										__("Bluehost", 'duplicator'),
 										__("for reliable access to Mysqldump", 'duplicator'));
 								?>
 							</small>

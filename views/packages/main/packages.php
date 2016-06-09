@@ -80,11 +80,12 @@ TOOL-BAR -->
 					<?php _e("No Packages Found.", 'duplicator'); ?><br/>
 					<?php _e("Click the 'Create New' button to build a package.", 'duplicator'); ?> <br/><br/>
 					<i>
+						<i class="fa fa-lightbulb-o" aria-hidden="true"></i>
 						<?php
-							printf("%s <a href='https://secure1.inmotionhosting.com/cgi-bin/gby/clickthru.cgi?id=snapcreek&page=3'>%s</a> %s",
+							printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
 								__("Duplicator Recommends ", 'duplicator'), 
-								__("InMotion Hosting", 'duplicator'),
-								__("for the best optimized experiance", 'duplicator'));
+								__("Bluehost", 'duplicator'),
+								__("for a better optimized experiance", 'duplicator'));
 						?>
 					</i>
 					<div style="height:75px">&nbsp;</div>
@@ -194,11 +195,12 @@ TOOL-BAR -->
 		<tr>
 			<th colspan="4">
 				<i style="font-size:12px">
-				<?php
-					printf("%s <a href='https://secure1.inmotionhosting.com/cgi-bin/gby/clickthru.cgi?id=snapcreek&page=3'>%s</a>",
-					__("Duplicator Recommends ", 'duplicator'), 
-					__("InMotion Hosting", 'duplicator'));
-				?>
+					<i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+					<?php
+						printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a>",
+						__("Duplicator Recommends ", 'duplicator'), 
+						__("Bluehost", 'duplicator'));
+					?>
 				</i>
 			</th>
 			<th colspan="7" style='text-align:right; font-size:12px'>						

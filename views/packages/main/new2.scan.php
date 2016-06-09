@@ -422,7 +422,7 @@ TOOL BAR: STEPS -->
 							echo '<br/><br/>';
 							echo '<b>' . __('Options:', 'duplicator') . '</b><br/>';
 							$lnk = '<a href="maint/repair.php" target="_blank">' . __('Repair and Optimization', 'duplicator') . '</a>';
-							printf(__('1. Run a %1$s on the table to improve the overall size, performance.', 'duplicator'), $lnk);
+							printf(__('1. Run a %1$s on the table to improve the overall size and performance.', 'duplicator'), $lnk);
 							echo '<br/><br/>';
 							_e('2. Remove stale date from tables such as logging, statistical or other non-critical data.', 'duplicator');
 							echo '<br/><br/>';
