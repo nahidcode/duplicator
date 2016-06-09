@@ -79,13 +79,14 @@ TOOL-BAR -->
 					<i class="fa fa-archive"></i> 
 					<?php _e("No Packages Found.", 'duplicator'); ?><br/>
 					<?php _e("Click the 'Create New' button to build a package.", 'duplicator'); ?> <br/><br/>
-						<i class="fa fa-lightbulb-o"></i>
+						<div style='font-style: italic'>
 						<?php
 							printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
 								__("Duplicator Recommends ", 'duplicator'), 
 								__("Bluehost", 'duplicator'),
-								__("for a better optimized experience", 'duplicator'));
+								__("for a better optimized experience!", 'duplicator'));
 						?>
+						</div>
 					<div style="height:75px">&nbsp;</div>
 				</div>
 				</td>
