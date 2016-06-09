@@ -161,7 +161,7 @@ jQuery(document).ready(function($) {
 						 <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
 						 <?php 
 							 printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
-								 __("Duplicator Recommends ", 'duplicator'), 
+								 __("Duplicator recommends ", 'duplicator'), 
 								 __("Bluehost", 'duplicator'),
 								 __("for more reliable conversions", 'duplicator'));
 						 ?>
