@@ -81,10 +81,10 @@ TOOL-BAR -->
 					<?php _e("Click the 'Create New' button to build a package.", 'duplicator'); ?> <br/><br/>
 					<i>
 						<?php
-							printf("%s <a href='admin.php?page=duplicator-help'>%s</a> %s",
-								__("Please visit the", 'duplicator'), 
-								__("help page", 'duplicator'),
-								__("for additional support", 'duplicator'));
+							printf("%s <a href='https://secure1.inmotionhosting.com/cgi-bin/gby/clickthru.cgi?id=snapcreek&page=3'>%s</a> %s",
+								__("Duplicator Recommends ", 'duplicator'), 
+								__("InMotion Hosting", 'duplicator'),
+								__("for the best optimized experiance", 'duplicator'));
 						?>
 					</i>
 					<div style="height:75px">&nbsp;</div>
@@ -192,7 +192,16 @@ TOOL-BAR -->
 	?>
 	<tfoot>
 		<tr>
-			<th colspan="8" style='text-align:right; font-size:12px'>						
+			<th colspan="4">
+				<i style="font-size:12px">
+				<?php
+					printf("%s <a href='https://secure1.inmotionhosting.com/cgi-bin/gby/clickthru.cgi?id=snapcreek&page=3'>%s</a>",
+					__("Duplicator Recommends ", 'duplicator'), 
+					__("InMotion Hosting", 'duplicator'));
+				?>
+				</i>
+			</th>
+			<th colspan="7" style='text-align:right; font-size:12px'>						
 				<?php echo _e("Packages", 'duplicator') . ': ' . $totalElements; ?> |
 				<?php echo _e("Total Size", 'duplicator') . ': ' . DUP_Util::ByteSize($totalSize); ?> 
 			</th>

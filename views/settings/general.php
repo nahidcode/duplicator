@@ -159,7 +159,19 @@ $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
                 <?php else : ?>
                     <input type="radio" name="package_dbmode" value="mysql" id="package_mysqldump" <?php echo ($package_mysqldump) ? 'checked="checked"' : ''; ?> />
                     <label for="package_mysqldump"><?php _e("Use mysqldump", 'duplicator'); ?></label> &nbsp;
-                    <i style="font-size:12px">(<?php _e("recommended for large databases", 'duplicator'); ?>)</i> <br/><br/>
+                    <i style="font-size:12px">(<?php _e("recommended for large databases", 'duplicator'); ?>)</i> <br/>
+					
+						<div style="padding:2px 0 0 40px">
+							<small>
+								<?php
+									printf("%s <a href='https://secure1.inmotionhosting.com/cgi-bin/gby/clickthru.cgi?id=snapcreek&page=3'>%s</a> %s",
+										__("Duplicator Recommends ", 'duplicator'), 
+										__("InMotion Hosting", 'duplicator'),
+										__("for reliable access to Mysqldump", 'duplicator'));
+								?>
+							</small>
+						</div>
+					<br/>
 
                     <div style="margin:5px 0px 0px 25px">
                         <?php if ($mysqlDumpFound) : ?>
@@ -170,7 +182,7 @@ $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
                         <?php else : ?>
                             <div class="dup-feature-notfound">
                                 <?php
-                                _e('Mysqldump was not found at its default location or the location provided.  Please enter a path to a valid location where mysqldump can run.  If the problem persist contact your server administrator.', 'duplicator');
+									_e('Mysqldump was not found at its default location or the location provided.  Please enter a path to a valid location where mysqldump can run.  If the problem persist contact your server administrator.', 'duplicator');
                                 ?>
                             </div><br/>
                         <?php endif; ?>
