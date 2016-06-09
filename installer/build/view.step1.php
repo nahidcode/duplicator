@@ -358,7 +358,10 @@ VIEW: STEP 1- INPUT -->
     		    
     	<div class="dup-footer-buttons">
     	    <input id="dup-step1-deploy-btn" type="button" value=" Run Deployment " onclick="Duplicator.runDeployment()" />
-    	</div>				
+    	</div>		
+		<div style="color: black;font-style: italic;margin-top: 10px;">
+			<span>*Create the database and user <strong>right in the installer</strong> with <a target="_blank" href="https://snapcreek.com/?InstallerDatabaseCreate">Duplicator Pro!</a> - Requires cPanel.</span>
+		</div>	
 	<?php endif; ?>	
 </form>
 

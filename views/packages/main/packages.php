@@ -81,7 +81,7 @@ TOOL-BAR -->
 					<?php _e("Click the 'Create New' button to build a package.", 'duplicator'); ?> <br/><br/>
 						<div style='font-style: italic'>
 						<?php
-							printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
+							printf("%s <a target='_blank' href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
 								__("Duplicator recommends ", 'duplicator'), 
 								__("Bluehost", 'duplicator'),
 								__("for a more optimized experience!", 'duplicator'));
@@ -198,7 +198,7 @@ TOOL-BAR -->
 				   data-tooltip="<?php _e('Duplicator recommends going with the high performance pro plan or better from Bluehost.com', 'duplicator'); ?>">
 				<i class="fa fa-lightbulb-o"></i>		
 					<?php
-						printf("%s <a href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a>",
+						printf("%s <a target='_blank' href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a>",
 						__("Duplicator Recommends ", 'duplicator'), 
 						__("Bluehost", 'duplicator'));
 					?>
