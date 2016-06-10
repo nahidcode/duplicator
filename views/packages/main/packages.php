@@ -78,7 +78,7 @@ TOOL-BAR -->
 				<div id='dup-list-alert-nodata'>
 					<i class="fa fa-archive"></i> 
 					<?php _e("No Packages Found.", 'duplicator'); ?><br/>
-					<?php _e("Click the 'Create New' button to build a package.", 'duplicator'); ?> <br/><br/>
+					<?php _e("Click the 'Create New' button to build a package.", 'duplicator'); ?> 
 						<!--div style='font-style: italic'>
 						<?php
 							/*printf("%s <a target='_blank' href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
@@ -87,7 +87,7 @@ TOOL-BAR -->
 								__("for a more optimized experience!", 'duplicator'));*/
 						?>
 						</div-->
-					<div style="height:100px">&nbsp;</div>
+					<div style="height:75px">&nbsp;</div>
 				</div>
 				</td>
 			</tr>
