@@ -186,7 +186,7 @@ VIEW: STEP 3- INPUT -->
 			<a href="#" id="dup-step2-errs-warn-anchor"></a>
 			<b>GENERAL NOTICES</b><br/>
 			<div class="info">
-				The following is a list of warnings that may need to be fixed in order to finalize your setup.  For more details about
+				The following is a list of notices that may need to be fixed in order to finalize your setup.  For more details about
 				warnings see the <a href="http://codex.wordpress.org/" target="_blank">wordpress codex.</a>.
 			</div>
 			<div class="content">
