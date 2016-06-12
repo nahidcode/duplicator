@@ -186,15 +186,15 @@ VIEW: STEP 3- INPUT -->
 			<a href="#" id="dup-step2-errs-warn-anchor"></a>
 			<b>GENERAL NOTICES</b><br/>
 			<div class="info">
-				The following is a list of notices that may need to be fixed in order to finalize your setup.  For more details about
-				warnings see the <a href="http://codex.wordpress.org/" target="_blank">wordpress codex.</a>.
+				The following is a list of notices that may need to be fixed in order to finalize your setup.  These values should only be investigated if your running into
+				issues with your site. For more details see the <a href="http://codex.wordpress.org/" target="_blank">wordpress codex.</a>.
 			</div>
 			<div class="content">
 				<div data-bind="foreach: status.step2.warnlist">
 					 <div data-bind="text: $data"></div>
 				</div>
 				<div data-bind="visible: status.step2.warnlist.length == 0">
-					No warnings found
+					No notices found
 				</div>
 			</div>
 		</div><br/>
