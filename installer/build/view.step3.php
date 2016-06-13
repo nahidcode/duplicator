@@ -187,7 +187,7 @@ VIEW: STEP 3- INPUT -->
 			<b>GENERAL NOTICES</b><br/>
 			<div class="info">
 				The following is a list of notices that may need to be fixed in order to finalize your setup.  These values should only be investigated if your running into
-				issues with your site. For more details see the <a href="http://codex.wordpress.org/" target="_blank">wordpress codex.</a>.
+				issues with your site. For more details see the <a href="https://codex.wordpress.org/Editing_wp-config.php" target="_blank">WordPress Codex</a>.
 			</div>
 			<div class="content">
 				<div data-bind="foreach: status.step2.warnlist">
