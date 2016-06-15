@@ -342,6 +342,7 @@ $dbvar_maxtime = DupUtil::mysql_variable_value($dbh, 'wait_timeout');
 $dbvar_maxpacks = DupUtil::mysql_variable_value($dbh, 'max_allowed_packet');
 $dbvar_maxtime = is_null($dbvar_maxtime) ? 300 : $dbvar_maxtime;
 $dbvar_maxpacks = is_null($dbvar_maxpacks) ? 1048576 : $dbvar_maxpacks;
+$dbvar_version = DupUtil::mysql_version($dbh);
 
 
 DUPX_Log::Info("{$GLOBALS['SEPERATOR1']}");
@@ -350,7 +351,7 @@ DUPX_Log::Info("{$GLOBALS['SEPERATOR1']}");
 DUPX_Log::Info("--------------------------------------");
 DUPX_Log::Info("SERVER ENVIROMENT");
 DUPX_Log::Info("--------------------------------------");
-DUPX_Log::Info("MYSQL VERSION:\t" . mysqli_get_server_info($dbh));
+DUPX_Log::Info("MYSQL VERSION:\tThis Server: {$dbvar_version} -- Build Server: {$GLOBALS['FW_VERSION_DB']}");
 DUPX_Log::Info("TIMEOUT:\t{$dbvar_maxtime}");
 DUPX_Log::Info("MAXPACK:\t{$dbvar_maxpacks}");
 
