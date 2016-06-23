@@ -56,7 +56,7 @@ if (isset($_GET['dbtest']))
 	$dbvar_version = DupUtil::mysql_version($dbConn);
 	$dbvar_version_fail = version_compare($dbvar_version, $GLOBALS['FW_VERSION_DB']) < 0;
 	$tstCompat = ($dbvar_version_fail)
-		? "<div class='dup-fail'>This Server: [{$dbvar_version}] -- Package Server: [{$GLOBALS['FW_VERSION_DB']}]</div>" 
+		? "<div class='dup-notice'>This Server: [{$dbvar_version}] -- Package Server: [{$GLOBALS['FW_VERSION_DB']}]</div>" 
 		: "<div class='dup-pass'>This Server: [{$dbvar_version}] -- Package Server: [{$GLOBALS['FW_VERSION_DB']}]</div>";
 	
 	$html	 .= <<<DATA
@@ -290,13 +290,16 @@ file_put_contents('wp-config.php', $wpconfig);
 $wpconfig = null;
 
 //CONFIG FILE RESETS
-DUPX_Config::Reset();
+DUPX_ServerConfig::Reset();
 
 
 //===============================
 //DATABASE SCRIPT
 //===============================
 @chmod("{$root_path}/database.sql", 0777);
+if (filesize("{$root_path}/database.sql") > 100000000) {
+	DUPX_Log::Info("\nWARNING: Database Script is larger than 100MB this may lead to PHP memory allocation issues on some budget hosts.");
+}
 $sql_file = @file_get_contents('database.sql', true);
 if ($sql_file == false || strlen($sql_file) < 10) {
 	$sql_file = file_get_contents('installer-data.sql', true);

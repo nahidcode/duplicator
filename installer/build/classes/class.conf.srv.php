@@ -9,10 +9,9 @@ if (! defined('DUPLICATOR_INIT')) {
 }
 
 /** * *****************************************************
- * DUPX_Config 
  * Class used to update and edit web server configuration files  */
 
-class DUPX_Config {
+class DUPX_ServerConfig {
 	
 
     /** 

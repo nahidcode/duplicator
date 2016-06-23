@@ -195,7 +195,7 @@ if ($_POST['action_step'] == 1) {
 
 @@CLASS.UTILS.PHP@@
 
-@@CLASS.CONFIG.PHP@@
+@@CLASS.CONF.SRV.PHP@@
 
 @@CLASS.SERIALIZER.PHP@@
 

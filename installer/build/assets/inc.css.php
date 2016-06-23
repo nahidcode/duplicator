@@ -104,6 +104,7 @@
 	.dup-pass {display:inline-block; color:green;}
 	.dup-ok {display:inline-block; color:#5860C7;}
 	.dup-fail {display:inline-block; color:#AF0000;}
+	.dup-notice {display:inline-block; color:#20425F;}
 	hr.dup-dots { border:none; border-top:1px dotted silver; height:1px; width:100%;}
 	div.dup-ui-error {padding-top:2px; font-size:14px}
 	div.help {color:#555; font-style:italic; font-size:11px}

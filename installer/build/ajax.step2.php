@@ -260,7 +260,7 @@ mysqli_close($dbh);
 @unlink('database.sql');
 
 //CONFIG Setup
-DUPX_Config::Setup();
+DUPX_ServerConfig::Setup();
 
 $ajax2_end = DupUtil::get_microtime();
 $ajax2_sum = DupUtil::elapsed_time($ajax2_end, $ajax2_start);
