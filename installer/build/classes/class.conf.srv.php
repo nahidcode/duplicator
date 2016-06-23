@@ -1,8 +1,7 @@
 <?php
 // Exit if accessed directly 
 if (! defined('DUPLICATOR_INIT')) {
-	$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-	$_baseURL =  "http://" . $_baseURL;
+	$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Location: $_baseURL");
 	exit; 
@@ -48,8 +47,8 @@ class DUPX_ServerConfig {
 		DUPX_Log::Info("\nWEB SERVER CONFIGURATION FILE BASIC SETUP:");
 		$currdata = parse_url($_POST['url_old']);
 		$newdata  = parse_url($_POST['url_new']);
-		$currpath = DupUtil::add_slash(isset($currdata['path']) ? $currdata['path'] : "");
-		$newpath  = DupUtil::add_slash(isset($newdata['path'])  ? $newdata['path'] : "");
+		$currpath = DUPX_Util::add_slash(isset($currdata['path']) ? $currdata['path'] : "");
+		$newpath  = DUPX_Util::add_slash(isset($newdata['path'])  ? $newdata['path'] : "");
 
 		$tmp_htaccess = <<<HTACCESS
 # BEGIN WordPress
