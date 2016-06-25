@@ -336,22 +336,35 @@ class DUPX_UpdateEngine
 			elseif (is_array($data)) 
 			{
 				$_tmp = array();
-				foreach ($data as $key => $value) {
+				foreach ($data as $key => $value) 
+				{
 					$_tmp[$key] = self::recursive_unserialize_replace($from, $to, $value, false);
 				}
 				$data = $_tmp;
 				unset($_tmp);
+				
+				/* CJL
+					Check for an update to the key of an array e.g.   [http://localhost/projects/wpplugins/] => 1.41
+					This could have unintended consequences would need to enable with full-search needs more testing
+				if (array_key_exists($from, $data)) 
+				{
+					$data[$to] = $data[$from];
+					unset($data[$from]);
+				}*/				
+				
 			} 
 			elseif (is_object($data)) 
 			{
-				// RSR Old logic that didn't work with Beaver Builder - they didn't want to create a brand new object instead reused the existing one...  Non public members?
-				/*	$dataClass = get_class($data);
+				/* RSR Old logic that didn't work with Beaver Builder - they didn't want to create a brand new 
+				object instead reused the existing one... 
+				$dataClass = get_class($data);
 				$_tmp = new $dataClass();
 				foreach ($data as $key => $value) {
 					$_tmp->$key = self::recursive_unserialize_replace($from, $to, $value, false);
 				}
 				$data = $_tmp;
 				unset($_tmp);*/
+				
 				// RSR NEW LOGIC
 				$_tmp = $data; 
 				$props = get_object_vars( $data );
@@ -359,7 +372,6 @@ class DUPX_UpdateEngine
 				{
 					$_tmp->$key = self::recursive_unserialize_replace( $from, $to, $value, false );
 				}
-
 				$data = $_tmp;
 				unset($_tmp);
 			} 
