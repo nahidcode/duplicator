@@ -188,8 +188,8 @@ class DUPX_UpdateEngine
 				}
 
 				//Paged Records
-				for ($page = 0; $page < $pages; $page++) {
-
+				for ($page = 0; $page < $pages; $page++) 
+				{
 					$current_row = 0;
 					$start = $page * $page_size;
 					$end   = $start + $page_size;
@@ -203,7 +203,8 @@ class DUPX_UpdateEngine
 					DUPX_Log::Info("\tScan => {$start} of {$scan_count}", 2);
 
 					//Loops every row
-					while ($row = mysqli_fetch_array($data)) {
+					while ($row = mysqli_fetch_array($data)) 
+					{
 						$report['scan_rows']++;
 						$current_row++;
 						$upd_col = array();
@@ -251,7 +252,7 @@ class DUPX_UpdateEngine
 									$edited_data = self::recursive_unserialize_replace($item['search'], $item['replace'], $edited_data);
 								}
 
-								//Replace logic - level 2: repair larger/complex serilized strings not fixed in level 1
+								//Replace logic - level 2: repair serilized strings that have become broken
 								$serial_check = self::fix_serial_string($edited_data);
 								if ($serial_check['fixed']) 
 								{
@@ -282,7 +283,8 @@ class DUPX_UpdateEngine
 						}
 
 						//PERFORM ROW UPDATE
-						if ($upd && !empty($where_sql)) {
+						if ($upd && !empty($where_sql)) 
+						{
 							$sql = "UPDATE `{$table}` SET " . implode(', ', $upd_sql) . ' WHERE ' . implode(' AND ', array_filter($where_sql));
 							$result = mysqli_query($conn, $sql) or $report['errsql'][] = mysqli_error($conn);
 							//DEBUG ONLY:
