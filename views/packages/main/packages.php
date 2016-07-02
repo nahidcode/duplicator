@@ -5,41 +5,6 @@
 	$statusCount	= count($qryStatus);
 	$package_debug	= DUP_Settings::Get('package_debug');
     $ajax_nonce		= wp_create_nonce('package_list');
-	
-	/*-- AFFILIATES --*/
-	$aff_urls[0] = 'https://snapcreek.com/visit/bluehost';
-	$aff_urls[1] = 'https://snapcreek.com/visit/inmotion';
-	$aff_urls[2] = 'https://snapcreek.com/visit/elegantthemes';
-	$aff_urls[3] = 'https://snapcreek.com/visit/ninjaforms';
-	$aff_urls[4] = 'https://snapcreek.com/visit/optinmonster';
-	$aff_urls[5] = 'https://snapcreek.com/visit/managewp';
-	$aff_urls[6] = 'https://snapcreek.com/visit/maxcdn';	
-	
-	$aff_text = array();
-	$aff_text[0] = __('Need a new host? Check out Duplicator-approved Bluehost today!', 'duplicator');	// Bluehost
-	$aff_text[1] = __('On a bad host? Trade up to InMotion today - with FREE SSDs!', 'duplicator');						// InMotion
-	$aff_text[2] = __('Have a cheesy looking theme? Change to an Elegant Theme today!', 'duplicator');		// Elegant Themes
-	$aff_text[3] = __('Need a great formbuilder? Get Ninja Forms today!', 'duplicator');						// Ninja Forms
-	$aff_text[4] = __('Site visitors leaving too quickly? Snag \'em with Optinmonster!', 'duplicator');					// Optinmonster	
-	$aff_text[5] = __('Are you juggling multiple sites? Control them all from ONE dashboard with ManageWP!', 'duplicator');			// ManageWP
-	$aff_text[6] = __('Slow site? Supercharge it with MaxCDN today!', 'duplicator');							// MaxCDN
-
-	
-	$aff_index = rand(0, count($aff_urls) - 1);
-	
-	if($aff_index <= 1)
-	{
-		$aff_fa = 'fa-server';
-	} 
-	else if($aff_index <= 4)
-	{
-		$aff_fa = 'fa-plug';
-	}
-	else
-	{
-		$aff_fa = 'fa-cloud';
-	}
-	
 ?>
 
 <style>
@@ -71,12 +36,6 @@
 
 <form id="form-duplicator" method="post">
 
-<?php if($statusCount >= 3)  :	?>
-	<div style="font-size:13px; position: absolute; top:10px; right:20px">
-		<a href="admin.php?page=duplicator-about"  style="color:maroon"><i><i class="fa fa-check-circle"></i> <?php _e("Help Support Duplicator", 'duplicator') ?></i> </a>
-	</div>
-<?php endif; ?>	
-
 <!-- ====================
 TOOL-BAR -->
 <table id="dup-toolbar">
@@ -94,8 +53,10 @@ TOOL-BAR -->
 		<td align="center" >
 			<a href="?page=duplicator-tools" id="btn-logs-dialog" class="button"  title="<?php _e("Package Logs", 'duplicator') ?>..."><i class="fa fa-list-alt"></i>
 		</td>
-		<td align="center" style="min-width:600px" valign="middle">
-			<span style="font-style:italic; margin-right:75px; "><i style="margin-right:5px;" class="fa <?php echo $aff_fa; ?>"></i><?php printf("<a style='font-style:italic;font-size:14px;font-weight:normal' target='_blank' href='%s'>%s</a>", $aff_urls[$aff_index], $aff_text[$aff_index]); ?></span>
+		<td style="min-width:600px" valign="middle">
+			<span style="font-style:italic; margin-left:10px;">
+				<?php echo DUP_UI::ShowRandomAffilateLink(); ?>
+			</span>
 		</td>
 		<td class="dup-toolbar-btns">						
 			<span><i class="fa fa-archive"></i> <?php _e("All Packages", 'duplicator'); ?></span> &nbsp;
@@ -116,15 +77,7 @@ TOOL-BAR -->
 				<div id='dup-list-alert-nodata'>
 					<i class="fa fa-archive"></i> 
 					<?php _e("No Packages Found.", 'duplicator'); ?><br/>
-					<?php _e("Click the 'Create New' button to build a package.", 'duplicator'); ?> 
-						<!--div style='font-style: italic'>
-						<?php
-							/*printf("%s <a target='_blank' href='//www.bluehost.com/track/snapcreek/?page=wordpress'>%s</a> %s",
-								__("Duplicator recommends ", 'duplicator'), 
-								__("Bluehost", 'duplicator'),
-								__("for a more optimized experience!", 'duplicator'));*/
-						?>
-						</div-->
+					<?php _e("Click the 'Create New' button to build a package.", 'duplicator'); ?>
 					<div style="height:75px">&nbsp;</div>
 				</div>
 				</td>
@@ -231,6 +184,11 @@ TOOL-BAR -->
 	<tfoot>
 		<tr>
 			<th colspan="4">
+				<?php if($statusCount >= 3)  :	?>
+					<div style="font-size:13px;">
+						<a href="admin.php?page=duplicator-about"><i><i class="fa fa-check-circle"></i> <?php _e("Help Support Duplicator", 'duplicator') ?></i> </a>
+					</div>
+				<?php endif; ?>	
 			</th>
 			<th colspan="7" style='text-align:right; font-size:12px'>						
 				<?php echo _e("Packages", 'duplicator') . ': ' . $totalElements; ?> |
