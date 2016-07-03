@@ -133,26 +133,59 @@ class DUP_UI {
 		$aff_urls[6] = 'https://snapcreek.com/visit/maxcdn';	
 
 		$aff_text = array();
-		$aff_text[0] = __('Need a new host? Try Duplicator-approved Bluehost today!', 'duplicator');	// Bluehost
-		$aff_text[1] = __('On a bad host? Trade up to InMotion - with FREE SSDs!', 'duplicator');		// InMotion
-		$aff_text[2] = __('Have a cheesy theme? Change to an Elegant Theme today!', 'duplicator');		// Elegant Themes
-		$aff_text[3] = __('Need a great formbuilder? Get Ninja Forms!', 'duplicator');					// Ninja Forms
-		$aff_text[4] = __('Visitors leaving too quickly? Snag \'em with Optinmonster!', 'duplicator');	// Optinmonster	
-		$aff_text[5] = __('Juggling multiple sites? Control them all from ONE dashboard!', 'duplicator');	// ManageWP
-		$aff_text[6] = __('Slow site? Supercharge it with MaxCDN today!', 'duplicator');				// MaxCDN
-		
+		// Bluehost
+		$aff_text[0] = sprintf("<b>%s</b> <i>%s</i>", 
+							__('Need a new host?', 'duplicator'), 
+							__('Try Duplicator-approved Bluehost today!', 'duplicator'));
+		// InMotion
+		$aff_text[1] = sprintf("<b>%s</b> <i>%s</i>", 
+							__('On a bad host?', 'duplicator'), 
+							__('Trade up to InMotion - with FREE SSDs!', 'duplicator'));
+		// Elegant Themes
+		$aff_text[2] = sprintf("<b>%s</b> <i>%s</i>", 
+							__('Have a cheesy theme?', 'duplicator'), 
+							__('Change to an Elegant Theme today!', 'duplicator'));
+		// Ninja Forms
+		$aff_text[3] = sprintf("<b>%s</b> <i>%s</i>", 
+							__('Need a great formbuilder?', 'duplicator'), 
+							__('Get Ninja Forms!', 'duplicator'));
+		// Optinmonster	
+		$aff_text[4] = sprintf("<b>%s</b> <i>%s</i>", 
+							__('Visitors leaving too quickly?', 'duplicator'), 
+							__('Snag \'em with Optinmonster!', 'duplicator'));
+		// ManageWP
+		$aff_text[5] = sprintf("<b>%s</b> <i>%s</i>", 
+							__('Juggling multiple sites?', 'duplicator'), 
+							__('Control them all from ONE dashboard!', 'duplicator'));
+		// MaxCDN
+		$aff_text[6] = sprintf("<b>%s</b> <i>%s</i>", 
+							__('Slow site?', 'duplicator'), 
+							__('Supercharge it with MaxCDN today!', 'duplicator'));		
+	
 		$aff_icon = array();
-		$aff_fa[0] = "fa-thumbs-up";
+		$aff_fa[0] = "fa-th";
 		$aff_fa[1] = "fa-cube";
-		$aff_fa[2] = "fa-plug";
+		$aff_fa[2] = "fa-asterisk";
 		$aff_fa[3] = "fa-check-square-o";
 		$aff_fa[4] = "fa-envelope";
 		$aff_fa[5] = "fa-sitemap";
 		$aff_fa[6] = "fa-maxcdn";
 
 		$aff_index = rand(0, count($aff_urls) - 1);
+		$html  = "<i class='fa {$aff_fa[$aff_index]}'></i>&nbsp; <a target='_blank' href='{$aff_urls[$aff_index]}'>$aff_text[$aff_index]</a> &nbsp; ";
+		$html .= "<a href='admin.php?page=duplicator-perks' target='_blank'>&raquo; <small>See All Perks...</small></a>";
 		
-		return 	"<i class='fa {$aff_fa[$aff_index]}'></i>&nbsp; <a style='font-style:italic;font-size:15px;font-weight:normal' target='_blank' href='{$aff_urls[$aff_index]}'>$aff_text[$aff_index]</a>";
+		
+		
+		/*$html = '<div id="dup-add-slider"><ul>';
+		for ($index = 0; $index < count($aff_urls); $index++)
+		{
+			$html .= "<li><i class='fa {$aff_fa[$index]}'></i>&nbsp; <a target='_blank' href='{$aff_urls[$index]}'>$aff_text[$index]</a></li>";
+		}
+		$html .= '</ul></div>';*/
+		
+		return $html;
+		
 	}
 	
 }
