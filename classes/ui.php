@@ -136,23 +136,23 @@ class DUP_UI {
 		// Bluehost
 		$aff_text[0] = sprintf("<b>%s</b> <i>%s</i>", 
 							__('Need a new host?', 'duplicator'), 
-							__('Try Duplicator-approved Bluehost today!', 'duplicator'));
+							__('Get Bluehost Hosting for 50% off today!', 'duplicator'));
 		// InMotion
 		$aff_text[1] = sprintf("<b>%s</b> <i>%s</i>", 
 							__('On a bad host?', 'duplicator'), 
-							__('Trade up to InMotion - with FREE SSDs!', 'duplicator'));
+							__('Trade up to InMotion - with FREE SSDs and up to 25% off!', 'duplicator'));
 		// Elegant Themes
 		$aff_text[2] = sprintf("<b>%s</b> <i>%s</i>", 
 							__('Have a cheesy theme?', 'duplicator'), 
-							__('Change to an Elegant Theme today!', 'duplicator'));
+							__('Change to an Elegant Theme and get 10% off today!', 'duplicator'));
 		// ManageWP
 		$aff_text[3] = sprintf("<b>%s</b> <i>%s</i>", 
 							__('Juggling multiple sites?', 'duplicator'), 
-							__('Control them all from ONE dashboard!', 'duplicator'));
+							__('Control them all from ONE dashboard - 10% off ManageWP today!', 'duplicator'));
 		// MaxCDN
 		$aff_text[4] = sprintf("<b>%s</b> <i>%s</i>", 
 							__('Slow site?', 'duplicator'), 
-							__('Supercharge it with MaxCDN today!', 'duplicator'));		
+							__('Supercharge it with MaxCDN and get 25% off today!', 'duplicator'));		
 		
 		// Ninja Forms
 		$aff_text[5] = sprintf("<b>%s</b> <i>%s</i>", 

@@ -49,7 +49,7 @@ $_GET['a'] = isset($_GET['a']) ? $_GET['a'] : -1;
             <div class="dup-perks-txt">
 				<a href="https://snapcreek.com/visit/bluehost" target="_blank">
 					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_bluehost.png" style="padding:10px 0 15px 0" /><br/>
-					<?php _e('Special Duplicator 50% Off Offer!', 'duplicator') ?>
+					<?php _e('50% Off Normal Price!', 'duplicator') ?>
 				</a>
             </div>
         </div>
@@ -62,7 +62,7 @@ $_GET['a'] = isset($_GET['a']) ? $_GET['a'] : -1;
             <div class="dup-perks-txt">
 				<a href="https://snapcreek.com/visit/inmotion" target="_blank">
 					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_inmotion.png" style="padding:10px 0 5px 0" /><br/>
-					<?php _e('Upto 25% Off - With FREE SSDs', 'duplicator') ?>
+					<?php _e('Up to 25% Off - With FREE SSDs', 'duplicator') ?>
 				</a>
             </div>
         </div>
