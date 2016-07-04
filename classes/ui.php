@@ -186,11 +186,9 @@ class DUP_UI {
 		{
 			//Return single item
 			$aff_index = rand(0, count($aff_urls) - 1);
-			$html  = "<span id='dup-add-link'><i class='fa {$aff_fa[$aff_index]}'></i>&nbsp; <a target='_blank' href='{$aff_urls[$aff_index]}'>$aff_text[$aff_index]</a> &nbsp; ";
-			$html .= "<a href='admin.php?page=duplicator-perks' target='_blank'>&raquo; View All Perks...</a></span>";	
+			$html  = "<span id='dup-add-link'><i class='fa {$aff_fa[$aff_index]}'></i>&nbsp; <a href='admin.php?page=duplicator-perks&amp;a={$aff_index}'>$aff_text[$aff_index]</a> &nbsp; ";
 		}
 		return $html;
 	}
-	
 }
 ?>

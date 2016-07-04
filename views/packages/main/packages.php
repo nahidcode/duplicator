@@ -34,9 +34,7 @@
 	td.error-msg span {display:inline-block; padding:7px 18px 0px 0px; color:maroon}
 	
 	/*Add Rotator */
-	div#dup-add-slider ul, li {margin:0; padding: 0;}
-	div#dup-add-slider li {display:none}
-	span#dup-add-link {display:none}
+	span#dup-add-link {display:none; font-size:13px}
 </style>
 
 <form id="form-duplicator" method="post">
@@ -58,11 +56,13 @@ TOOL-BAR -->
 		<td align="center" >
 			<a href="?page=duplicator-tools" id="btn-logs-dialog" class="button"  title="<?php _e("Package Logs", 'duplicator') ?>..."><i class="fa fa-list-alt"></i>
 		</td>
-		<!--td style="min-width:600px" valign="middle">
+		<td style="min-width:600px" valign="middle">
 			<span style="font-style:italic; margin-left:10px; font-size:16px;">
-				
+				<?php if($statusCount >= 3)  :	?>
+					<!--a href="admin.php?page=duplicator-about"><i><i class="fa fa-check-circle"></i> <?php _e("Help Support Duplicator", 'duplicator') ?></i> </a-->
+				<?php endif; ?>	
 			</span>
-		</td-->
+		</td>
 		<td class="dup-toolbar-btns">						
 			<span><i class="fa fa-archive"></i> <?php _e("All Packages", 'duplicator'); ?></span> &nbsp;
 			<a id="dup-pro-create-new"  href="?page=duplicator&tab=new1" class="add-new-h2"><?php _e("Create New", 'duplicator'); ?></a>
@@ -188,13 +188,7 @@ TOOL-BAR -->
 	?>
 	<tfoot>
 		<tr>
-			<th colspan="4">
-				<?php if($statusCount >= 3)  :	?>
-					<!--div style="font-size:13px;">
-						<a href="admin.php?page=duplicator-about"><i><i class="fa fa-check-circle"></i> <?php _e("Help Support Duplicator", 'duplicator') ?></i> </a>
-					</div-->
-				<?php endif; ?>	
-					
+			<th colspan="4">					
 				<?php echo DUP_UI::ShowRandomAffilateLink(); ?>
 			</th>
 			<th colspan="7" style='text-align:right; font-size:12px'>						
@@ -246,7 +240,7 @@ jQuery(document).ready(function($)
 			event.preventDefault(); 
 	};
 	
-	/*  METHOD: Toogles the Bulk Action Check boxes */
+	/* Toogles the Bulk Action Check boxes */
 	Duplicator.Pack.SetDeleteAll = function() 
 	{
 		var state = $('input#dup-bulk-action-all').is(':checked') ? 1 : 0;
@@ -255,16 +249,12 @@ jQuery(document).ready(function($)
 		});
 	}
 	
-	/*	METHOD: Opens detail screen */
+	/*	Opens detail screen */
 	Duplicator.Pack.OpenPackageDetails = function (package_id) 
 	{
 		window.location.href = '?page=duplicator&action=detail&tab=detail&id=' + package_id;
 	}
 	
-	$('#dup-add-link').slideDown(1000);
-	//var random = Math.floor(Math.random() * $("#dup-add-slider li").length) ;
-	//$($("#dup-add-slider li").get(random)).show();
-
-
+	$('#dup-add-link').slideDown(1500);
 });
 </script>
