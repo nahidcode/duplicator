@@ -120,17 +120,17 @@ class DUP_UI {
 	 * Shows a random affilate link
 	 * @return type string
 	 */
-	public static function ShowRandomAffilateLink() 
+	public static function ShowRandomAffilateLink($format = 'one') 
 	{
 		/*-- AFFILIATES --*/
 		$aff_urls = array();
 		$aff_urls[0] = 'https://snapcreek.com/visit/bluehost';
 		$aff_urls[1] = 'https://snapcreek.com/visit/inmotion';
 		$aff_urls[2] = 'https://snapcreek.com/visit/elegantthemes';
-		$aff_urls[3] = 'https://snapcreek.com/visit/ninjaforms';
-		$aff_urls[4] = 'https://snapcreek.com/visit/optinmonster';
-		$aff_urls[5] = 'https://snapcreek.com/visit/managewp';
-		$aff_urls[6] = 'https://snapcreek.com/visit/maxcdn';	
+		$aff_urls[3] = 'https://snapcreek.com/visit/managewp';
+		$aff_urls[4] = 'https://snapcreek.com/visit/maxcdn';
+		//$aff_urls[5] = 'https://snapcreek.com/visit/ninjaforms';
+		//$aff_urls[6] = 'https://snapcreek.com/visit/optinmonster';
 
 		$aff_text = array();
 		// Bluehost
@@ -145,47 +145,51 @@ class DUP_UI {
 		$aff_text[2] = sprintf("<b>%s</b> <i>%s</i>", 
 							__('Have a cheesy theme?', 'duplicator'), 
 							__('Change to an Elegant Theme today!', 'duplicator'));
-		// Ninja Forms
-		$aff_text[3] = sprintf("<b>%s</b> <i>%s</i>", 
-							__('Need a great formbuilder?', 'duplicator'), 
-							__('Get Ninja Forms!', 'duplicator'));
-		// Optinmonster	
-		$aff_text[4] = sprintf("<b>%s</b> <i>%s</i>", 
-							__('Visitors leaving too quickly?', 'duplicator'), 
-							__('Snag \'em with Optinmonster!', 'duplicator'));
 		// ManageWP
-		$aff_text[5] = sprintf("<b>%s</b> <i>%s</i>", 
+		$aff_text[3] = sprintf("<b>%s</b> <i>%s</i>", 
 							__('Juggling multiple sites?', 'duplicator'), 
 							__('Control them all from ONE dashboard!', 'duplicator'));
 		// MaxCDN
-		$aff_text[6] = sprintf("<b>%s</b> <i>%s</i>", 
+		$aff_text[4] = sprintf("<b>%s</b> <i>%s</i>", 
 							__('Slow site?', 'duplicator'), 
 							__('Supercharge it with MaxCDN today!', 'duplicator'));		
+		
+		// Ninja Forms
+		$aff_text[5] = sprintf("<b>%s</b> <i>%s</i>", 
+							__('Need a great formbuilder?', 'duplicator'), 
+							__('Get Ninja Forms!', 'duplicator'));
+		// Optinmonster	
+		$aff_text[6] = sprintf("<b>%s</b> <i>%s</i>", 
+							__('Visitors leaving too quickly?', 'duplicator'), 
+							__('Snag \'em with Optinmonster!', 'duplicator'));
 	
 		$aff_icon = array();
 		$aff_fa[0] = "fa-th";
 		$aff_fa[1] = "fa-cube";
 		$aff_fa[2] = "fa-asterisk";
-		$aff_fa[3] = "fa-check-square-o";
-		$aff_fa[4] = "fa-envelope";
-		$aff_fa[5] = "fa-sitemap";
-		$aff_fa[6] = "fa-maxcdn";
+		$aff_fa[3] = "fa-sitemap";
+		$aff_fa[4] = "fa-maxcdn";
+		$aff_fa[5] = "fa-check-square-o";
+		$aff_fa[6] = "fa-envelope";
 
-		$aff_index = rand(0, count($aff_urls) - 1);
-		$html  = "<i class='fa {$aff_fa[$aff_index]}'></i>&nbsp; <a target='_blank' href='{$aff_urls[$aff_index]}'>$aff_text[$aff_index]</a> &nbsp; ";
-		$html .= "<a href='admin.php?page=duplicator-perks' target='_blank'>&raquo; <small>See All Perks...</small></a>";
-		
-		
-		
-		/*$html = '<div id="dup-add-slider"><ul>';
-		for ($index = 0; $index < count($aff_urls); $index++)
+		if ($format == 'list')
 		{
-			$html .= "<li><i class='fa {$aff_fa[$index]}'></i>&nbsp; <a target='_blank' href='{$aff_urls[$index]}'>$aff_text[$index]</a></li>";
+			//Generate a list
+			$html = '<div id="dup-add-slider"><ul>';
+			for ($i = 0; $i < count($aff_urls); $i++)
+			{
+				$html .= "<li><i class='fa {$aff_fa[$i]}'></i>&nbsp; <a target='_blank' href='{$aff_urls[$i]}'>$aff_text[$i]</a></li>";
+			}
+			$html .= '</ul></div>';
+		} 
+		else 
+		{
+			//Return single item
+			$aff_index = rand(0, count($aff_urls) - 1);
+			$html  = "<span id='dup-add-link'><i class='fa {$aff_fa[$aff_index]}'></i>&nbsp; <a target='_blank' href='{$aff_urls[$aff_index]}'>$aff_text[$aff_index]</a> &nbsp; ";
+			$html .= "<a href='admin.php?page=duplicator-perks' target='_blank'>&raquo; View All Perks...</a></span>";	
 		}
-		$html .= '</ul></div>';*/
-		
 		return $html;
-		
 	}
 	
 }

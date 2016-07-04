@@ -39,7 +39,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
             </div>
             <div class="dup-perks-txt">
 				<a href="https://snapcreek.com/visit/bluehost" target="_blank">
-					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_bluehost.png" style="padding:5px 0 10px 0" /><br/>
+					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_bluehost.png" style="padding:10px 0 15px 0" /><br/>
 					<?php _e('Special Duplicator 50% Off Offer!', 'duplicator') ?>
 				</a>
             </div>
@@ -53,7 +53,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
             <div class="dup-perks-txt">
 				<a href="https://snapcreek.com/visit/inmotion" target="_blank">
 					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_inmotion.png" style="padding:10px 0 5px 0" /><br/>
-					<?php _e('Upto 25% Off - with FREE SSDs', 'duplicator') ?>
+					<?php _e('Upto 25% Off - With FREE SSDs', 'duplicator') ?>
 				</a>
             </div>
         </div>
@@ -68,27 +68,69 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
             <div class="dup-perks-txt">
 				<a href="https://snapcreek.com/visit/elegantthemes" target="_blank">
 					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_ethemes.png" style="padding:0 0 5px 0" /><br/>
-					<?php _e('10% off Lifetime Access!', 'duplicator') ?>
+					<?php _e('10% Off Lifetime Access!', 'duplicator') ?>
 				</a>
             </div>
         </div>
 		
-		<!-- NINJA FORMS -->
+		<!-- MAX CDN -->
+        <div class="dup-perks-hlp-area">
+            <div class="dup-perks-hlp-hdrs">
+                <i class="fa fa-maxcdn fa-1x"></i> <?php _e('MaxCDN', 'duplicator') ?>
+            </div>
+            <div class="dup-perks-txt">
+				<a href="https://snapcreek.com/visit/maxcdn" target="_blank">
+					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_maxcdn.png" style="padding:5px 0 10px 0" /><br/>
+					<?php _e('Get 25% Off &amp; a Supercharged Site', 'duplicator') ?>
+				</a>
+            </div>
+        </div>
+	
+
+		<!-- ==========================================================
+		ROW 3  -->
+		<!-- MANAGE WP -->
+        <div class="dup-perks-hlp-area">
+            <div class="dup-perks-hlp-hdrs">
+                <i class="fa fa-sitemap fa-1x"></i> <?php _e('ManageWP', 'duplicator') ?>
+            </div>
+            <div class="dup-perks-txt">
+				<a href="https://snapcreek.com/visit/managewp" target="_blank">
+					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_managewp.png" style="padding:5px 0 10px 0" /><br/>
+					<?php _e('Exclusive 10% Off Deal!', 'duplicator') ?>
+				</a>
+            </div>
+        </div>
+		
+		<!-- DUPLICATOR PRO -->
+        <div class="dup-perks-hlp-area">
+            <div class="dup-perks-hlp-hdrs">
+                <i class="fa fa-share-alt fa-1x"></i> <?php _e('Duplicator Pro', 'duplicator') ?>
+            </div>
+            <div class="dup-perks-txt">
+				<a href="https://snapcreek.com/visit/managewp" target="_blank">
+					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo-dpro-300x50-nosnap.png" style="padding:10px 0 10px 0; width:250px" /><br/>
+					<?php _e('Go Professional!', 'duplicator') ?>
+				</a>
+            </div>
+        </div>		
+        
+		<!-- ==========================================================
+		ROW 4  -->
+		<!-- NINJA FORMS 
         <div class="dup-perks-hlp-area">
             <div class="dup-perks-hlp-hdrs">
                 <i class="fa fa-check-square-o fa-1x"></i> <?php _e('Ninja Forms', 'duplicator') ?>
             </div>
             <div class="dup-perks-txt">
-				<a href="https://snapcreek.com/visit/managewp" target="_blank">
+				<a href="https://snapcreek.com/visit/ninjaforms" target="_blank">
 					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_ninjaforms.png" style="padding:5px 0 10px 0; " /><br/>
 					<?php _e('Power Manage It All!', 'duplicator') ?>
 				</a>
             </div>
-        </div>
+        </div>	-->
 		
-		<!-- ==========================================================
-		ROW 3  -->
-		<!-- OPTIN MONSTER -->
+		<!-- OPTIN MONSTER
         <div class="dup-perks-hlp-area">
             <div class="dup-perks-hlp-hdrs">
                 <i class="fa fa-envelope fa-1x"></i> <?php _e('OptinMonster', 'duplicator') ?>
@@ -99,51 +141,8 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 					<?php _e('Power Manage It All!', 'duplicator') ?>
 				</a>
             </div>
-        </div>
-		
-		<!-- MANAGE WP -->
-        <div class="dup-perks-hlp-area">
-            <div class="dup-perks-hlp-hdrs">
-                <i class="fa fa-sitemap fa-1x"></i> <?php _e('ManageWP', 'duplicator') ?>
-            </div>
-            <div class="dup-perks-txt">
-				<a href="https://snapcreek.com/visit/managewp" target="_blank">
-					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_managewp.png" style="padding:5px 0 10px 0" /><br/>
-					<?php _e('Power Manage It All!', 'duplicator') ?>
-				</a>
-            </div>
-        </div>
-		
-        
-		<!-- ==========================================================
-		ROW 4  -->		
-		
-		        <!-- MAX CDN -->
-        <div class="dup-perks-hlp-area">
-            <div class="dup-perks-hlp-hdrs">
-                <i class="fa fa-maxcdn fa-1x"></i> <?php _e('MaxCDN', 'duplicator') ?>
-            </div>
-            <div class="dup-perks-txt">
-				<a href="https://snapcreek.com/visit/maxcdn" target="_blank">
-					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/perks_maxcdn.png" style="padding:5px 0 10px 0" /><br/>
-					<?php _e('Supercharge Your Site!', 'duplicator') ?>
-				</a>
-				
-            </div>
-        </div>
-	
-		<!-- DUPLICATOR PRO -->
-        <div class="dup-perks-hlp-area">
-            <div class="dup-perks-hlp-hdrs">
-                <i class="fa fa-share-alt fa-1x"></i> <?php _e('Duplicator Pro', 'duplicator') ?>
-            </div>
-            <div class="dup-perks-txt">
-				<a href="https://snapcreek.com/visit/managewp" target="_blank">
-					<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/logo-dpro-300x50-nosnap.png" style="padding:5px 0 10px 0; width:250px" /><br/>
-					<?php _e('Go Professional!', 'duplicator') ?>
-				</a>
-            </div>
-        </div>
+        </div> -->
+
 		<br style="clear:both"/>
 	
 		<div style="margin:60px 20px; text-align: center"><small>Some promotions may change</small></div>

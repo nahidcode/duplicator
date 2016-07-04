@@ -36,6 +36,7 @@
 	/*Add Rotator */
 	div#dup-add-slider ul, li {margin:0; padding: 0;}
 	div#dup-add-slider li {display:none}
+	span#dup-add-link {display:none}
 </style>
 
 <form id="form-duplicator" method="post">
@@ -260,13 +261,10 @@ jQuery(document).ready(function($)
 		window.location.href = '?page=duplicator&action=detail&tab=detail&id=' + package_id;
 	}
 	
-	var random = Math.floor(Math.random() * $("#dup-add-slider li").length) ;
+	$('#dup-add-link').slideDown(1000);
+	//var random = Math.floor(Math.random() * $("#dup-add-slider li").length) ;
+	//$($("#dup-add-slider li").get(random)).show();
 
-	$($("#dup-add-slider li").get(random)).show();
-
-	
-	
-	
 
 });
 </script>
