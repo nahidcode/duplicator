@@ -19,10 +19,12 @@ if (function_exists('plugin_dir_url'))
     }
 	
 	//PATH CONSTANTS
+	if (! defined('DUPLICATOR_WPROOTPATH')) {
+		define('DUPLICATOR_WPROOTPATH', str_replace('\\', '/', ABSPATH));
+	}
 	define("DUPLICATOR_SSDIR_NAME",     'wp-snapshots');
 	define('DUPLICATOR_PLUGIN_PATH',    str_replace("\\", "/", plugin_dir_path(__FILE__)));
-    define('DUPLICATOR_WPROOTPATH',     str_replace("\\", "/", ABSPATH));
-    define("DUPLICATOR_SSDIR_PATH",     str_replace("\\", "/", DUPLICATOR_WPROOTPATH . DUPLICATOR_SSDIR_NAME));
+	define("DUPLICATOR_SSDIR_PATH",     str_replace("\\", "/", DUPLICATOR_WPROOTPATH . DUPLICATOR_SSDIR_NAME));
 	define("DUPLICATOR_SSDIR_PATH_TMP", DUPLICATOR_SSDIR_PATH . '/tmp');
 	define("DUPLICATOR_SSDIR_URL",      DUPLICATOR_SITE_URL . "/" . DUPLICATOR_SSDIR_NAME);
     define("DUPLICATOR_INSTALL_PHP",    'installer.php');
@@ -30,6 +32,7 @@ if (function_exists('plugin_dir_url'))
     define("DUPLICATOR_INSTALL_SQL",    'installer-data.sql');
     define("DUPLICATOR_INSTALL_LOG",    'installer-log.txt');
 	define("DUPLICATOR_INSTALL_DB",     'database.sql');
+	
 	
 	//GENERAL CONSTRAINTS
     define("DUPLICATOR_PHP_MAX_MEMORY",  '2048M');
