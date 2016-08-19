@@ -30,7 +30,7 @@ class DUP_Server
 		$dup_tests['PHP']['FUNC_3']  = function_exists("mb_strlen")				? 'Pass' : 'Fail';
 		$dup_tests['PHP']['ALL']	 = ! in_array('Fail', $dup_tests['PHP'])	? 'Pass' : 'Fail';		
 		
-		//PERMISSIONS
+		//REQUIRED PATHS
 		if (file_exists(DUPLICATOR_SSDIR_PATH) && is_writeable(DUPLICATOR_SSDIR_PATH)) 
 		{
 			$dup_tests['IO']['SSDIR']	= 'Pass';
