@@ -143,7 +143,7 @@ SYSTEM REQUIREMENTS -->
 				<div style="font-size:11px">
 					<?php 
 						_e("If Duplicator does not have enough permissions then you will need to manually create the paths above. &nbsp; ", 'duplicator'); 
-						if ($dup_tests['IO']['WPROOT'] == 'Pass')
+						if ($dup_tests['IO']['WPROOT'] == 'Fail')
 						{
 							echo sprintf( __('The root WordPress path [%s] is currently not writable by PHP.', 'duplicator'), 	DUPLICATOR_WPROOTPATH);
 						}
