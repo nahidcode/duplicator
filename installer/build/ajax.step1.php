@@ -276,6 +276,8 @@ DUPX_Util::fcgi_flush();
 @mysqli_query($dbh, "SET max_allowed_packet = {$GLOBALS['DB_MAX_PACKETS']}");
 DUPX_Util::mysql_set_charset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
 
+//Will set mode to null only for this db handle session
+//sql_mode can cause db create issues on some systems
 if ($_POST['dbmysqlmode'])
 {
 	@mysqli_query($dbh, "SET SESSION sql_mode = ''");
@@ -290,7 +292,6 @@ $dbvar_maxpacks		= is_null($dbvar_maxpacks) ? 1048576 : $dbvar_maxpacks;
 $dbvar_sqlmode		= empty($dbvar_sqlmode) ? 'NOT_SET' : $dbvar_sqlmode;
 $dbvar_version		= DUPX_Util::mysql_version($dbh);
 $dbwarning_modes	= explode(',','NO_ENGINE_SUBSTITUTION,MYSQL323');
-
 
 DUPX_Log::Info("{$GLOBALS['SEPERATOR1']}");
 DUPX_Log::Info('DATABASE-ROUTINES');
