@@ -1,4 +1,4 @@
-#[Duplicator v1.1.17](http://lifeinthegrid.com/labs/duplicator)
+#[Duplicator v1.1.19](http://lifeinthegrid.com/labs/duplicator)
 ###Easy WordPress Cloning
 
 Duplicate, clone, backup, move and transfer an entire site from one location to another.
@@ -17,7 +17,7 @@ Get started at http://wordpress.org/plugins/duplicator/
 
 ##Versioning
 
-Duplicator is maintained under the Semantic Versioning as much as possible. Releases will be numbered with the following format:
+Duplicator is maintained under the Semantic Versions as much as possible. Releases will be numbered with the following format:
 
 `<major>.<minor>.<patch>`
 
