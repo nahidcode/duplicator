@@ -17,7 +17,35 @@ Duplicate, clone, backup, move and transfer an entire site from one location to 
 http://www.youtube.com/watch?v=yZ7pHmR9JC8
 
 = Admins/Developers/Designers =
- This tool is great to move or backup Wordpress sites and for pulling production sites down to your local machine for testing and validation. It also works good for developing locally and then pushing up to a production server for site releases/updates or just demoing a site.
+Duplicator can be an essential tool in your development workflow.  For instance, you can:
+* Move sites from bad hosts
+* Pull down your live site to localhost for development.
+* Duplicate a life site to a staging area or vice versa.
+
+= Bundled Sites Make Duplicator an Essential Tool for Web Development Shops =
+Besides the core move capability, Duplicator's bundling of entire WordPress sites into a single package gives web development studios real power.
+
+**The Old Way**
+
+1. Create a new WordPress install
+1. Track down and install the standard set of plugins you install on all client sites.
+1. Install a theme
+1. Make 'standard' theme customizations
+1. Make client-specific customization.
+
+Compare the above with the new way
+
+**The Duplicator Way**
+
+1. Install a site you already bundled that contains your favorite plugins, theme and 'standard customizations'
+1. Make client-specific customizations
+
+As you can see, Duplicator can save you a TON of time.  
+
+Additionally, you can make bundled sites from a library of packaged WordPress sites to be able to quickly show clients a variety of starting points.
+
+With WordPress bundled sites, the possibilities are endless!
+ 
 
 = Duplicator Pro =
 Duplicator Pro takes Duplicator to the next level with features you'll really appreciate, such as:
