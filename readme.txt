@@ -20,7 +20,7 @@ For complete details visit [lifeinthegrid.com](http://lifeinthegrid.com/).
 = Quick Video Demo =
 http://www.youtube.com/watch?v=yZ7pHmR9JC8
 
-= Admins/Developers/Designers =
+= Overview =
 Duplicator can be an essential tool in your development workflow and enables you to:
 
 * Move a site between domains or hosts
@@ -31,10 +31,10 @@ Duplicator can be an essential tool in your development workflow and enables you
 = Move and Backup =
 Duplicator creates a package that bundles all the site's plugins, themes, content and WordPress core into a simple zip file. This package can be then used to easily restore a site to any location you wish.
 
-= Spin Up Pre-Configured Sites =
-You may have a set of plugins you always install or a particular theme you install and tweak on all sites you create.  No sense reinventing the wheel each time. Make a website package once, then simply install the package each time you need a new site. The site will be up in a couple minutes - already configured!
+= Save Time With Pre-Configured Sites =
+You may have a favorite theme and set of plugins you install and configure on all sites you create.  Duplicator can eliminate this re-work. Instead, would you just configure a single site and then bundle it up into a Duplicator package. From that point forward, simply install the package to get a new pre-configured site!
 
-Web developers may even want to create a bundled site collection covering the various site types they regularly install.
+Web developers may even want to create a package collection of the various starter sites they regularly install.
 
 = Duplicator Pro =
 Duplicator Pro takes Duplicator to the next level with features you'll really appreciate, such as:
