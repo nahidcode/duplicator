@@ -18,34 +18,24 @@ http://www.youtube.com/watch?v=yZ7pHmR9JC8
 
 = Admins/Developers/Designers =
 Duplicator can be an essential tool in your development workflow.  For instance, you can:
+
 * Move sites from bad hosts
 * Pull down your live site to localhost for development.
-* Duplicate a life site to a staging area or vice versa.
+* Duplicate a live site to a staging area or vice versa.
+* Bundle up an entire WordPress site for reuse or distribution.
 
-= Bundled Sites Make Duplicator an Essential Tool for Web Development Shops =
-Besides the core move capability, Duplicator's bundling of entire WordPress sites into a single package gives web development studios real power.
+= Faster Site Creation with Bundled Websites =
+Duplicator packages are snapshots of a WordPress site and include all the site's plugins, themes, content and the WordPress core.
 
-**The Old Way**
+Packages enable you to quickly spin up personal, development or client starter sites much quicker than having to construct a site from scratch.
 
-1. Create a new WordPress install
-1. Track down and install the standard set of plugins you install on all client sites.
-1. Install a theme
-1. Make 'standard' theme customizations
-1. Make client-specific customization.
+And since WordPress itself is included in a package, you don’t need to install that beforehand!
 
-Compare the above with the new way
+In other words, Duplicator bundled sites can save you a TON of time.  
 
-**The Duplicator Way**
+With the package list you have your own virtual bundled site library which lets you to quickly install a pre-configured WordPress site in minutes.
 
-1. Install a site you already bundled that contains your favorite plugins, theme and 'standard customizations'
-1. Make client-specific customizations
-
-As you can see, Duplicator can save you a TON of time.  
-
-Additionally, you can make bundled sites from a library of packaged WordPress sites to be able to quickly show clients a variety of starting points.
-
-With WordPress bundled sites, the possibilities are endless!
- 
+With Duplicator bundled sites, the possibilities are endless!
 
 = Duplicator Pro =
 Duplicator Pro takes Duplicator to the next level with features you'll really appreciate, such as:
