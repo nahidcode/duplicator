@@ -11,9 +11,9 @@ Duplicate, clone, backup, move and transfer an entire site from one location to 
 
 == Description ==
 
-> The Duplicator gives WordPress administrators the ability to migrate, copy or clone a site from one location to another. The plugin also serves as a simple backup utility.
+> Duplicator gives WordPress administrators the ability to migrate, copy or clone a site from one location to another. The plugin also serves as a simple backup utility.
 
-The Duplicator supports both serialized and base64 serialized string replacement.  If you need to move WordPress or backup WordPress this plugin can help simplify the process.
+Duplicator supports both serialized and base64 serialized string replacement.  If you need to move WordPress or backup WordPress this plugin can help simplify the process.
 
 For complete details visit [lifeinthegrid.com](http://lifeinthegrid.com/).  
 
@@ -21,10 +21,11 @@ For complete details visit [lifeinthegrid.com](http://lifeinthegrid.com/).
 http://www.youtube.com/watch?v=yZ7pHmR9JC8
 
 = Overview =
-Duplicator can be an essential tool in your development workflow and enables you to:
+Duplicator enables you to:
 
 * Move a site between domains or hosts
-* Pull down your live site to localhost for development
+* Pull down a live site to localhost for development
+* Manually back up a site
 * Duplicate a live site to a staging area or vice versa
 * Bundle up an entire WordPress site for easy reuse or distribution
 
@@ -32,7 +33,9 @@ Duplicator can be an essential tool in your development workflow and enables you
 Duplicator creates a package that bundles all the site's plugins, themes, content and WordPress core into a simple zip file. This package can be then used to easily restore a site to any location you wish.
 
 = Save Time With Pre-Configured Sites =
-You may have a favorite theme and set of plugins you install and configure on all sites you create.  Duplicator can eliminate this re-work. Instead, would you just configure a single site and then bundle it up into a Duplicator package. From that point forward, simply install the package to get a new pre-configured site!
+Duplicator can also eliminate repeat site configuration work if you have a favorite theme, set of plugin or content you install on all sites you create.  
+
+Instead of manually configuring these over and over, with Duplicator you just need to configure a single site which you then bundle up into a package. From that point forward, you can install the package in different locations to instantly create pre-configured sites!
 
 Web developers may even want to create a package collection of the various starter sites they regularly install.
 
