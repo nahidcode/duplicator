@@ -91,33 +91,33 @@ HELP FORM -->
 			<br/><br/>	
 			
 			<b>Mysql Mode:</b><br/>
-			The <a href="http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html" target="_blank">sql_mode option</a> will control additional options you can pass to the MySQL server during the
-			database import process.  This option is only set per session (during the Duplicator step 1 install process) and any modes set will go back to their original state after step one is ran.
-			This option creates a query such as <i>SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION,NO_ZERO_IN_DATE'</i> and passes it to the MySQL server before any tables or data are created.
+			The <a href="http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html" target="_blank">sql_mode option</a> controls additional options you can pass to the MySQL server during the
+			database import process.  This option is only set <i>per session</i> (during the Duplicator step 1 install process) and the modes here will return to their original state after step one runs.<br/><br/>
+			This option creates a SET SESSION query such as <i>SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION,NO_ZERO_IN_DATE'</i> and passes it to the MySQL server before any tables or data are created.
 			The following options are available:
 			<br/><br/>
 			<ul>
 				<li>
-					<b>Default:</b> This option will not do anything and used the default setting of the my.ini sql_mode value or the servers default sql_mode settings. 
+					<b>Default:</b> This option will not do anything and uses the default setting specified by the my.ini sql_mode value or the server's default sql_mode setting. 
 					The installer-log.txt SQL_MODE value will show as NOT_SET if the my.ini sql_mode is not present or is set to empty.
 					<br/><br/>
 				</li>
 				<li>
-					<b>Disable:</b> This will basically set the sql_mode to empty such as <i>SET SESSION sql_mode = ''</i>. 
+					<b>Disable:</b> This sets the sql_mode to an empty string which results in <i>SET SESSION sql_mode = ''</i>. 
 					The installer-log.txt SQL_MODE value will show as NOT_SET<br/><br/>
 				</li>
 				<li>
-					<b>Custom:</b> This setting will allow you to pass in a custom set of sql_mode options such as <i>SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION,NO_ZERO_IN_DATE'</i>.
+					<b>Custom:</b> This setting allows you to pass in a custom set of sql_mode options such as <i>SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION,NO_ZERO_IN_DATE'</i>.
 					In the custom field input box enter in the <a href="http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html" target="_blank">sql_mode options</a> that you need for
-					your particular server setup.
+					your particular server setup. 
 					<br/><br/>
-					These values should be comma separated with no spaces.  Please be sure to pay attention to your MySQL server version and that is supports the correct options.
-					The installer-log.txt file will help report any errors that may happen while trying to use this advanced option.
+					Enter the sql mode as comma-separated values with no spaces, and <i>do not</i> include the 'SET SESSION' instruction. Be sure to pay attention to the MySQL server version and ensure it supports the specified options.
+					The installer-log.txt file will record any errors that may occur while using this advanced option.
 				</li>
 			</ul>	
 			
-			Please note that if the SQL_MODE in the installer-log.txt is not showing correctly that you may need to check your database users privileges.  Also be sure that your Mysql
-			server version supports all the the sql_mode options you are trying to pass. 
+			Please note that if the SQL_MODE in the installer-log.txt is not showing correctly that you may need to check your database users privileges.  Also be sure that your MySQL
+			server version supports all the the sql_mode options you're trying to pass. 
 			<br/><br/>
 
 			<b>MySQL Charset &amp; MySQL Collation:</b><br/>
