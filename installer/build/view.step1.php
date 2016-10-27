@@ -326,7 +326,7 @@ VIEW: STEP 1- INPUT -->
 						<input type="radio" name="dbmysqlmode" id="dbmysqlmode_3" value="CUSTOM"/> <label for="dbmysqlmode_3">Custom</label> &nbsp;
 						<div id="dbmysqlmode_3_view" style="display:none; padding:5px">
 							<input type="text" name="dbmysqlmode_opts" value="" /><br/>
-							<small>Separate additional <a href="http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html" target="_blank">sql modes</a> with commas &amp; no spaces.<br/>
+							<small>Separate additional <a href="?help#help-mysql-mode" target="_blank">sql modes</a> with commas &amp; no spaces.<br/>
 								Example: <i>NO_ENGINE_SUBSTITUTION,NO_ZERO_IN_DATE,...</i>.</small>
 						</div>
 					</td>
