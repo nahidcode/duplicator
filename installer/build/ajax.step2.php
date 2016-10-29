@@ -213,7 +213,7 @@ if ($mu_updates) {
 
 /* ==============================
  * UPDATE WP-CONFIG FILE */
-DUPX_WPConfig::UpdateStep2();
+$config_file = DUPX_WPConfig::UpdateStep2();
 
 //Create snapshots directory in order to
 //compensate for permissions on some servers
@@ -230,21 +230,23 @@ DUPX_Log::Info("\n--------------------------------------");
 DUPX_Log::Info("NOTICES");
 DUPX_Log::Info("--------------------------------------");
 $config_vars = array('WP_CONTENT_DIR', 'WP_CONTENT_URL', 'WPCACHEHOME', 'COOKIE_DOMAIN', 'WP_SITEURL', 'WP_HOME', 'WP_TEMP_DIR');
-$config_found = DUPX_Util::string_has_value($config_vars, $config_file);
+$config_items = DUPX_Util::search_list_values($config_vars, $config_file);
 
-//Files
-if ($config_found) {
-	$msg = 'WP-CONFIG NOTICE: The wp-config.php has one or more of the following values set [' . implode(", ", $config_vars) . '].  Please validate these values are correct by opening the file and checking the values.';
+//Files:
+if (! empty($config_items)) {
+	$msg  = 'NOTICE: The wp-config.php has one or more of the following values set [' . implode(", ", $config_items) . '].  ';
+	$msg .= 'Please validate these values are correct by opening the file and checking the values.  To validate the meaning and proper usage of each parameter used the codex link above.';
 	$JSON['step2']['warnlist'][] = $msg;
 	DUPX_Log::Info($msg);
 }
 
-//Database
+//Database: 
 $result = @mysqli_query($dbh, "SELECT option_value FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE option_name IN ('upload_url_path','upload_path')");
 if ($result) {
 	while ($row = mysqli_fetch_row($result)) {
 		if (strlen($row[0])) {
-			$msg = "MEDIA SETTINGS NOTICE: The table '{$GLOBALS['FW_TABLEPREFIX']}options' has at least one the following values ['upload_url_path','upload_path'] set please validate settings. These settings can be changed in the wp-admin by going to Settings->Media area see 'Uploading Files'";
+			$msg  = "NOTICE: The media settings values in the table '{$GLOBALS['FW_TABLEPREFIX']}options' has at least one the following values ['upload_url_path','upload_path'] set.  ";
+			$msg .= "Please validate these settings by logging into your wp-admin and going to Settings->Media area and validating the 'Uploading Files' section";
 			$JSON['step2']['warnlist'][] = $msg;
 			DUPX_Log::Info($msg);
 			break;

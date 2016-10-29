@@ -8,7 +8,7 @@ if (!defined('DUPLICATOR_INIT')) {
 }
 
 /** 
- * Class used to update and edit web server configuration files */
+ * Class used to update and edit and update the wp-config.php */
 class DUPX_WPConfig
 {
 	/** 
@@ -89,9 +89,11 @@ class DUPX_WPConfig
 	 * Updates the web server config files in Step 2 */
     public static function UpdateStep2() 
 	{
-		if (! file_exists('wp-config.php'))	
-			return;
-		
+		$config_file = '';
+		if (! file_exists('wp-config.php'))	{
+			return $config_file;
+		}
+			
 		$patterns = array("/('|\")WP_HOME.*?\)\s*;/", 
 						  "/('|\")WP_SITEURL.*?\)\s*;/",
 						  "/('|\")DOMAIN_CURRENT_SITE.*?\)\s*;/",
@@ -100,11 +102,12 @@ class DUPX_WPConfig
 						  "'WP_SITEURL', '{$_POST['url_new']}');",
 						  "'DOMAIN_CURRENT_SITE', '{$mu_newDomainHost}');",
 						  "'PATH_CURRENT_SITE', '{$mu_newUrlPath}');");
-
+						  
 		$config_file = file_get_contents('wp-config.php', true);
 		$config_file = preg_replace($patterns, $replace, $config_file);
 		file_put_contents('wp-config.php', $config_file);
+		
+		return $config_file;
 	}
-	
 }
 ?>

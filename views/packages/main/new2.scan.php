@@ -505,9 +505,9 @@ TOOL BAR: STEPS -->
 </div> <!-- end #dup-progress-area -->
 
 <div class="dup-button-footer" style="display:none">
-	<input type="button" value="&#9668; <?php _e("Back", 'duplicator') ?>" onclick="window.location.assign('?page=duplicator&tab=new1')" class="button button-large" />
+	<input type="button" value="&#9664; <?php _e("Back", 'duplicator') ?>" onclick="window.location.assign('?page=duplicator&tab=new1')" class="button button-large" />
 	<input type="button" value="<?php _e("Rescan", 'duplicator') ?>" onclick="Duplicator.Pack.Rescan()" class="button button-large" />
-	<input type="submit" value="<?php _e("Build", 'duplicator') ?> &#9658" class="button button-primary button-large" id="dup-build-button" />
+	<input type="submit" value="<?php _e("Build", 'duplicator') ?> &#9654" class="button button-primary button-large" id="dup-build-button" />
 </div>
 </form>
 
