@@ -1,4 +1,4 @@
-#[Duplicator v1.1.19](http://lifeinthegrid.com/labs/duplicator)
+#[Duplicator v1.1.21](http://lifeinthegrid.com/labs/duplicator)
 ###Easy WordPress Cloning
 
 Duplicate, clone, backup, move and transfer an entire site from one location to another.
