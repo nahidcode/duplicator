@@ -153,7 +153,7 @@ if ($_POST['zip_manual']) {
 }
 
 DUPX_Log::Info("********************************************************************************");
-DUPX_Log::Info('DUPLICATOR INSTALL-LOG');
+DUPX_Log::Info('DUPLICATOR-LITE INSTALL-LOG');
 DUPX_Log::Info('STEP1 START @ ' . @date('h:i:s'));
 DUPX_Log::Info('NOTICE: Do NOT post to public sites or forums');
 DUPX_Log::Info("********************************************************************************");
@@ -263,7 +263,7 @@ if (!is_readable($sql_result_file_path) || filesize($sql_result_file_path) == 0)
 
 DUPX_Log::Info("\nUPDATED FILES:");
 DUPX_Log::Info("- SQL FILE:  '{$sql_result_file_path}'");
-DUPX_Log::Info("- WP-CONFIG: '{$root_path}/wp-config.php'");
+DUPX_Log::Info("- WP-CONFIG: '{$root_path}/wp-config.php' (if present)");
 $zip_end = DUPX_Util::get_microtime();
 DUPX_Log::Info("\nARCHIVE RUNTIME: " . DUPX_Util::elapsed_time($zip_end, $zip_start));
 DUPX_Log::Info("\n");

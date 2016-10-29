@@ -232,7 +232,7 @@ VIEW: STEP 3- INPUT -->
 <script type="text/javascript">
 	MyViewModel = function() { 
 		this.status = <?php echo urldecode($_POST['json']); ?>;
-		var errorCount =  this.status.step2.query_errs || 0;
+		var errorCount =  this.status.step1.query_errs || 0;
 		(errorCount >= 1 )
 			? $('#dup-step3-install-report-count').css('color', '#BE2323')
 			: $('#dup-step3-install-report-count').css('color', '#197713')

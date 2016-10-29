@@ -90,7 +90,8 @@ TOOL BAR: STEPS -->
 					<small><i><?php _e("click buttons to download", 'duplicator') ?></i></small>
 				</div>
 				<div class="dup-msg-success-links">
-					<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?> 
+					<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?>  &nbsp;
+					<?php printf("<a href='?page=duplicator&tab=new1'>[ %s ]</a>", 	__('Create New', 'duplicator'));?> 
 				</div><br/>
 				
 				<!-- Used for iMacros testing do not remove -->
