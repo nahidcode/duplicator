@@ -2,7 +2,7 @@
 ###Easy WordPress Cloning
 
 Duplicate, clone, backup, move and transfer an entire site from one location to another.
-maintained by [Cory Lamle](http://twitter.com/lifeinthegrid). 
+maintained by [Cory Lamle](http://snapcreek.com). 
 
 Get started at http://wordpress.org/plugins/duplicator/
 
@@ -13,7 +13,7 @@ Get started at http://wordpress.org/plugins/duplicator/
   - `WordPress Duplicator by Cory Lamle' - http://lifeinthegrid.com/duplicator
 
 ##Changelog
-- see: http://lifeinthegrid.com/duplicator-logs
+- see: https://snapcreek.com/duplicator/docs/changelog/?lite
 
 ##Versioning
 
