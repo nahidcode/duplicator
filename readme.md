@@ -29,5 +29,5 @@ And constructed with the following guidelines:
 
 
 ##Author
-- Twitter: http://twitter.com/lifeinthegrid
+- Twitter: http://twitter.com/snapcreek
 - GitHub: https://github.com/lifeinthegrid
