@@ -31,7 +31,7 @@ VIEW: STEP 3- INPUT -->
 		Step 3: Test Site
 	</div><br />
 	
-	<div class="title-header">
+	<div class="hdr-sub">
 		<div class="s3-final-title">FINAL STEPS!</div>
 	</div>
 		
