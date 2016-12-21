@@ -18,14 +18,14 @@ ul.category-tabs li {cursor: pointer}
 
 /*BOXES: Expandable sections */
 div.dup-box {padding:0px; display: block; background-color: #fff; border: 1px solid #e5e5e5; box-shadow: 0 1px 1px rgba(0,0,0,.04);}
-div.dup-box-title {font-size: 16px; padding: 10px 0 0 10px; font-weight: bold; cursor: pointer; height:27px; margin:0px; }
+div.dup-box-title {font-size: 16px; padding: 10px 0 0 10px; font-weight: bold; cursor: pointer; height:27px; margin:0px; color:#000 }
 div.dup-box-title:hover {background-color: #FCFCFC;}
 div.dup-box-arrow {text-decoration:none!important; float:right; width:27px; height:30px; font-size:16px; cursor:pointer; padding:1px 0 0 0; white-space: nowrap}
 div.dup-box-panel {padding:10px 15px 10px 15px;  border-top:1px solid #EEEEEE; margin:-1px 0 0 0;}
 
 /*PANELS: Boxes that do not exapand */
 div.dup-panel {padding:0px; display: block; background-color: #fff; border: 1px solid #e5e5e5; box-shadow: 0 1px 1px rgba(0,0,0,.04);}
-div.dup-panel-title {font-size: 14px; padding: 10px 0 0 15px; font-weight: 600; height:28px; margin:0px; }
+div.dup-panel-title {font-size: 14px; padding: 10px 0 0 15px; font-weight: 600; height:28px; margin:0px; color:#000; }
 div.dup-panel-panel {padding:10px 15px 10px 15px;  border-top:1px solid #EEEEEE; margin:-1px 0 0 0;}
 
 /*PANELS: Fancy */
@@ -37,7 +37,7 @@ div.dup-info-box {padding:8px; border:1px solid #ccc; border-radius:4px; backgro
 div.dup-info-box small {margin-top:10px; display:block}
 
 /*PACKAGE:Progress Boxes */
-div#dup-progress-bar-area {width:500px; margin:40px auto 0px auto; padding:25px 50px 35px 50px; border:1px solid #ccc; box-shadow:0 8px 6px -6px #999; text-align:center; border-radius:4px;}
+div#dup-progress-bar-area {width:500px; margin:40px auto 0px auto; padding:25px 50px 35px 50px; border:1px solid #ccc; box-shadow:0 8px 6px -6px #999; text-align:center; border-radius:4px; color:#000;}
 div#dup-progress-bar-area h2 {margin-bottom:15px}
 
 /*HEADER MESSAGES*/
