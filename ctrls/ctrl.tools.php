@@ -10,12 +10,9 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/classes/scan.validator.php');
  */
 class DUP_CTRL_Tools extends DUP_CTRL_Base
 {
-	
-	
+
 	/** 
-     * Save the view state of UI elements
-	 * @param string $key A unique key to define the ui element
-	 * @param string $value A generic value to use for the view state
+     * Calls the ScanValidator and returns a JSON result
 	 * 
 	 * @notes: Testing = /wp-admin/admin-ajax.php?action=DUP_CTRL_Tools_RunScanValidator
      */
@@ -29,20 +26,12 @@ class DUP_CTRL_Tools extends DUP_CTRL_Base
 		
 		$ScanChecker = new DUP_ScanValidator();
 		$JSON_Result  = $ScanChecker->Run(DUPLICATOR_WPROOTPATH);
-		
-
-		$Result->Payload = $JSON_Result;
-		
 	
+		$Result->Payload = $JSON_Result;
 		$Result->GetProcessTime();
 		
 		//Show Results as JSON
 		die(json_encode($Result));
     }
-	
-	
-	
-
-	
 }
 ?>
