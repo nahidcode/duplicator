@@ -75,7 +75,7 @@ jQuery(document).ready(function($)
 	Duplicator.Tools.RunScanValidator = function() 
 	{
 		var result = confirm('<?php _e('This will run the scan validation check.  This may take several minutes.\nDo you want to Continue?', 'duplicator'); ?>');
-		var data = {action : 'DUP_CTRL_Tools_RunScanValidator', nonce: '<?php echo $ajax_nonce; ?>'};
+		var data = {action : 'DUP_CTRL_Tools_RunScanValidator', nonce: '<?php echo $ajax_nonce; ?>', 'scan-recursive': true};
 		
 		if (! result) 	
 			return;

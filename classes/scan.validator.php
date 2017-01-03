@@ -15,11 +15,15 @@ class DUP_ScanValidator
 	/*The maximum count of directories before the recursive function stops */
 	public $MaxDirs = 75000;
 	
+	public $Recursion = true;
+	
 	/*Stores a list of symbolic link files */
 	public $SymLinks = array();
 	
 	/*Stores a list of files unreadable by PHP */
 	public $Unreadable = array();
+	
+
 
 	public function Run($dir, &$results = array())
 	{
@@ -53,7 +57,7 @@ class DUP_ScanValidator
 					//Dirs
 					else if($value != "." && $value != "..") 
 					{
-						if (! $this->_is_link($path)) 
+						if (! $this->_is_link($path)  && $this->Recursion) 
 						{
 							$this->Run($path, $results);
 						}

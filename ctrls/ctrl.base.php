@@ -1,5 +1,19 @@
 <?php
 
+if (!class_exists('DUP_CTRL_ResultStatus'))
+{
+
+	final class DUP_CTRL_ResultStatus
+	{
+		const FAILED = -2;
+		const ERROR = -1;
+		const PARTIAL_SUCCESS = 0;
+		const SUCCESS = 1;
+	}
+
+}
+
+
 class DUP_CTRL_Base
 {
 	
@@ -10,6 +24,7 @@ class DUP_CTRL_Report
 	//Properties
 	public $Process;
 	public $Results;
+	public $TestStatus;
 }
 
 class DUP_CTRL_Result

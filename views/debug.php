@@ -5,7 +5,10 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/assets/js/javascript.php');
 require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 ?>
 <style>
-	div.debug-area form {margin: 10px 0 0 0}
+	div.debug-area {line-height: 26px}
+	div.debug-area form {margin: 15px 0 0 0; border-top: 1px solid #dfdfdf}
+	div.debug-area label {width:150px; display:inline-block}
+	div.debug-area input[type=text] {width:400px}
 </style>
 
 <div class="wrap dup-wrap dup-support-all">
@@ -14,11 +17,18 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
     <hr size="1" />
 
 	<div class="debug-area">
-		<h2>Controller Debug</h2>
+		<h2>TOOLS CONTROLLER</h2>
 		
 		<form action="admin-ajax.php?action=DUP_CTRL_Tools_RunScanValidator" method="post" target="duplicator_debug">
 			<?php wp_nonce_field('DUP_CTRL_Tools_RunScanValidator', 'nonce'); ?>
-			<b>DUP_CTRL_Tools_RunScanValidator:</b> <br/>
+			<b>DUP_CTRL_Tools_RunScanValidator</b> <br/>
+			
+			<label>Search Path:</label> 
+			<input type="text" name="scan-path" class="param" value="<?php echo DUPLICATOR_WPROOTPATH ?>" /> <br/>
+			
+			<label>Allow Recursion:</label>
+			<input type="checkbox" name="scan-recursive" class="param" /><br/>
+		
 			<a href="javascript:void(0)" onclick="jQuery(this).parent('form').submit()">[Run Test]</a>
 		</form>
 		
