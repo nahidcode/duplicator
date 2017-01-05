@@ -23,12 +23,12 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<?php wp_nonce_field('DUP_CTRL_Tools_RunScanValidator', 'nonce'); ?>
 			<b>DUP_CTRL_Tools_RunScanValidator</b> <br/>
 			
+			<label>Allow Recursion:</label>
+			<input type="checkbox" name="scan-recursive" class="param" /><br/>
+			
 			<label>Search Path:</label> 
 			<input type="text" name="scan-path" class="param" value="<?php echo DUPLICATOR_WPROOTPATH ?>" /> <br/>
 			
-			<label>Allow Recursion:</label>
-			<input type="checkbox" name="scan-recursive" class="param" /><br/>
-		
 			<a href="javascript:void(0)" onclick="jQuery(this).parent('form').submit()">[Run Test]</a>
 		</form>
 		
