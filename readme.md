@@ -1,4 +1,4 @@
-#[Duplicator v1.1.27](http://lifeinthegrid.com/labs/duplicator)
+#[Duplicator v1.1.27](http://snapcreek.com/duplicator)
 ###Easy WordPress Cloning
 
 Duplicate, clone, backup, move and transfer an entire site from one location to another.
@@ -10,7 +10,7 @@ Get started at http://wordpress.org/plugins/duplicator/
 - The Duplicator is licensed under the GPLv2 or later:
   - http://www.gnu.org/licenses/gpl-2.0.html
 - Attribution is required for Duplicator, and very much appreciated:
-  - `WordPress Duplicator by Cory Lamle' - http://lifeinthegrid.com/duplicator
+  - `WordPress Duplicator by Cory Lamle' - http://snapcreek.com/duplicator
 
 ##Changelog
 - see: https://snapcreek.com/duplicator/docs/changelog/?lite
