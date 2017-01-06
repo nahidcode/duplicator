@@ -167,7 +167,7 @@ if (is_admin() == true) {
                 break;
             case 'duplicator-tools':	include('views/tools/controller.php');
                 break;
-			case 'duplicator-debug':	include('views/debug.php');
+			case 'duplicator-debug':	include('debug/main.php');
                 break;
             case 'duplicator-help':		include('views/help/help.php');
                 break;

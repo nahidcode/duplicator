@@ -21,29 +21,36 @@ class DUP_CTRL_Tools extends DUP_CTRL_Base
      */
 	public static function RunScanValidator() 
 	{
-		//SETUP		
-		$Result = new DUP_CTRL_Result();
-		DUP_Util::CheckPermissions('read');
-		check_ajax_referer('DUP_CTRL_Tools_RunScanValidator', 'nonce');
-		header('Content-Type: application/json');
+		$result = new DUP_CTRL_Result();
 		
-		//====================
-		//CONTROLLER LOGIC
-		$path = isset($_POST['scan-path']) ? $_POST['scan-path'] : DUPLICATOR_WPROOTPATH;
-		$ScanChecker = new DUP_ScanValidator();
-		$ScanChecker->Recursion = isset($_POST['scan-recursive']) ? true : false;
-		$payload = $ScanChecker->Run($path);
+		try 
+		{
+			//SETUP		
+			DUP_Util::CheckPermissions('read');
+			check_ajax_referer('DUP_CTRL_Tools_RunScanValidator', 'nonce');
+			header('Content-Type: application/json');
+			
+			//====================
+			//CONTROLLER LOGIC
+			$path = isset($_POST['scan-path']) ? $_POST['scan-path'] : DUPLICATOR_WPROOTPATH;
+			if (!is_dir($path)) {
+				throw new Exception("Invalid directory provided '{$path}'!");
+			}
+			$scanner = new DUP_ScanValidator();
+			$scanner->Recursion = (isset($_POST['scan-recursive']) && $_POST['scan-recursive'] != 'false') ? true : false;
+			$payload = $scanner->Run($path);
 
-	
-		//====================
-		//RETURN RESULT
-		$Result->Payload = $payload;
-		$Result->Report->Results = 1;
-		$Result->Report->TestStatus = ($Result->Payload->FileCount > 0) 
-				? DUP_CTRL_ResultStatus::SUCCESS
-				: DUP_CTRL_ResultStatus::FAILED;
-		$Result->GetProcessTime();
-		die(json_encode($Result));
+			//====================
+			//RETURN RESULT
+			$test = ($payload->FileCount > 0) 
+					? DUP_CTRL_ResultStatus::SUCCESS
+					: DUP_CTRL_ResultStatus::FAILED;
+			$result->Process($payload, $test);			
+		} 
+		catch (Exception $exc) 
+		{
+			$result->ProcessError($exc);
+		}
     }
 }
 ?>

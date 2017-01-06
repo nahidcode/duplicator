@@ -23,10 +23,9 @@ class DUP_ScanValidator
 	/*Stores a list of files unreadable by PHP */
 	public $Unreadable = array();
 	
-
-
 	public function Run($dir, &$results = array())
 	{
+		//Stop Recursion if Max search is reached
 		if ($this->FileCount > $this->MaxFiles || $this->DirCount > $this->MaxDirs) 
 		{	
 			$this->LimitReached = true;
