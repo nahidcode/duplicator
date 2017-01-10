@@ -5,19 +5,21 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/assets/js/javascript.php');
 require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 
 
-function DUP_DEBUG_Make_Keys($CTRL) 
+function DUP_DEBUG_TestSetup($CTRL) 
 {
 	$title	= $CTRL['Title'];
 	$action = $CTRL['Action'];
-	$test   = $CTRL['Test'] ? '' : 'style="display:none"';
+	$testable  = $CTRL['Test'] ? 1 : 0;
+	$test_css  = $testable ? '' : 'style="display:none"';
 	$nonce = wp_create_nonce($action);
 	
 	$html = <<<EOT
 		<div class="keys">
+			<input type="hidden" name="testable" value="{$testable}" />
 			<input type="hidden" name="action" value="{$action}" />
 			<input type="hidden" name="nonce" value="{$nonce}" />
 			<span class="result"><i class="fa fa-cube  fa-lg"></i></span>
-			<input type='checkbox' id='{$action}' name='{$action}' {$test} /> 
+			<input type='checkbox' id='{$action}' name='{$action}' {$test_css} /> 
 			<label for='{$action}'>{$title}</label> &nbsp;
 			<a href="javascript:void(0)" onclick="jQuery(this).closest('form').find('div.params').toggle()">Params</a> |
 			<a href="javascript:void(0)" onclick="jQuery(this).closest('form').submit()">Test</a>
@@ -29,7 +31,7 @@ EOT;
 ?>
 <style>
 	div.debug-area {line-height: 26px}
-	table.debug-toolbar {width:100%; border: 1px solid silver; border-radius: 5px; background: #dfdfdf; margin: 3px 0 0 -5px }
+	table.debug-toolbar {width:100%; margin: 3px 0 -10px -5px; }
 	table.debug-toolbar td {padding:3px; white-space: nowrap}
 	table.debug-toolbar td:last-child {width: 100%}
 	
@@ -38,7 +40,7 @@ EOT;
 	div.debug-area div.params label {width:150px; display:inline-block}
 	div.debug-area input[type=text] {width:400px}
 	
-	div.section-hdr {margin: 25px 0 0 0; font-size: 18px; font-weight: bold}
+	div.section-hdr {margin:35px 0 0 0; font-size: 16px; font-weight: bold; border:1px solid silver; border-radius: 3px; padding:1px 5px 1px 5px; background: #dfdfdf;}
 	div.params {display:none}
 	i.result-pass {color:green}
 	i.result-fail {color:red}
@@ -64,6 +66,7 @@ EOT;
 	<div class="debug-area">
 		<?php
 			include_once 'tst.tools.php';
+			include_once 'tst.ui.php';
 			include_once 'tst.packages.php';	
 		?>
 	</div>
@@ -75,14 +78,17 @@ jQuery(document).ready(function($)
 	var STATUS_PASS;
 	var STATUS_CHKS;
 	var STATUS_RUNS;
+	var FORM_TESTS;
 	
 	Duplicator.Debug.RunTests = function() 
 	{
 		STATUS_PASS = true;
 		STATUS_RUNS = 0;
 		STATUS_CHKS = $("div.keys input[type='checkbox']:checked").length;
-
-		$("form.testable").each(function(index) 
+		
+		FORM_TESTS = $("div.keys input[name='testable'][value='1']").closest('form');
+		
+		$(FORM_TESTS).each(function(index) 
 		{
 			var $form = $(this);
 			var $result = $form.find('span.result');
@@ -96,6 +102,11 @@ jQuery(document).ready(function($)
 			{
 				$('#results-all').html('<i class="fa fa-cog fa-spin fa-fw fa-lg"></i>');
 				$result.html('<i class="fa fa-circle-o-notch fa-spin fa-fw fa-lg"></i>');
+				
+				//Run any callbacks if defined
+				if ($form.attr("onsubmit") != undefined) {
+					$form.submit();
+				}
 				
 				$.ajax({
 					type: "POST",
@@ -140,5 +151,17 @@ jQuery(document).ready(function($)
 				: $(this).removeAttr('checked');
 		});
 	}
+	
+	
+	//INIT
+	$("form").each(function(index) 
+	{	
+		var $form = $(this);
+		$form.attr('action', 'admin-ajax.php');
+		$form.attr('target', 'dup_debug');
+		$form.attr('method', 'post');
+		
+	});
+	
 });	
 </script>
