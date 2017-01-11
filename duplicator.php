@@ -129,7 +129,7 @@ if (is_admin() == true) {
 	add_action('wp_ajax_DUP_CTRL_UI_SaveViewState',	      array('DUP_CTRL_UI',	  'SaveViewState'));
 	
 	
-    add_action('admin_notices', array('DUP_UI', 'ShowReservedFilesNotice'));
+    add_action('admin_notices',  array('DUP_UI', 'ShowReservedFilesNotice'));
     add_action('plugins_loaded', 'duplicator_wpfront_integrate');
 
     //FILTERS

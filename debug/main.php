@@ -100,7 +100,7 @@ jQuery(document).ready(function($)
 				var $form = $(this);
 				var $result = $form.find('span.result');
 				var $check  = $form.find('div.keys input[type="checkbox"]');
-				var input	= $form.serialize();
+				var input;
 
 				if ($check.is(':checked')) 
 				{
@@ -111,6 +111,7 @@ jQuery(document).ready(function($)
 					if ($form.attr("onsubmit") != undefined) {
 						$form.submit();
 					}
+					input	= $form.serialize();
 
 					$.ajax({
 						type: "POST",
