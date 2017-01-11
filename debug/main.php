@@ -46,8 +46,16 @@ EOT;
 	i.result-fail {color:red}
 </style>
 
+<script>	
+	var UNIT_TEST_FORMS;
+	var UNIT_TEST_CHKBOXES;
+	var UNIT_TEST_PASSED;
+	var UNIT_TEST_COUNTER;
+	var UNIT_TEST_RUNNING = false;
+</script>
+
 <div class="wrap dup-wrap dup-support-all">
-	<h1><?php _e('Service Debug', 'duplicator'); ?></h1>
+	<h1><?php _e('Testing Interface', 'duplicator'); ?></h1>
     <hr size="1" />
 	
 	<table class="debug-toolbar">
@@ -58,8 +66,9 @@ EOT;
 			</td>
 			<td>
 				<input type="button" class="button button-small" value="<?php _e('Run Tests', 'duplicator'); ?>" onclick="Duplicator.Debug.RunTests()" />
-				<input type="button" class="button button-small" value="<?php _e('Refresh Tests', 'duplicator'); ?>" onclick="window.location.reload();" />
+				<input type="button" class="button button-small" value="<?php _e('Refresh Page', 'duplicator'); ?>" onclick="window.location.reload();" />
 			</td>
+			<td> <input type="checkbox" id="test-openwindow" onchange="Duplicator.Debug.TestNewWindow()" /> <label for="test-openwindow">Tests in new window</label> </td>
 		</tr>
 	</table>
 
@@ -75,73 +84,76 @@ EOT;
 <script>	
 jQuery(document).ready(function($) 
 {
-	var STATUS_PASS;
-	var STATUS_CHKS;
-	var STATUS_RUNS;
-	var FORM_TESTS;
-	
+	//Run test on all checked options
 	Duplicator.Debug.RunTests = function() 
 	{
-		STATUS_PASS = true;
-		STATUS_RUNS = 0;
-		STATUS_CHKS = $("div.keys input[type='checkbox']:checked").length;
-		
-		FORM_TESTS = $("div.keys input[name='testable'][value='1']").closest('form');
-		
-		$(FORM_TESTS).each(function(index) 
+		try 
 		{
-			var $form = $(this);
-			var $result = $form.find('span.result');
-			var $check  = $form.find('div.keys input[type="checkbox"]');
-			var input	= $form.serialize();
-			
-			//validate input
-			//console.log($form.serializeArray());
+			UNIT_TEST_RUNNING	= true;
+			UNIT_TEST_PASSED	= true;
+			UNIT_TEST_COUNTER	= 0;
+			UNIT_TEST_CHKBOXES	= $("div.keys input[type='checkbox']:checked").length;
+			UNIT_TEST_FORMS		= $("div.keys input[name='testable'][value='1']").closest('form');
 
-			if ($check.is(':checked')) 
+			$(UNIT_TEST_FORMS).each(function(index) 
 			{
-				$('#results-all').html('<i class="fa fa-cog fa-spin fa-fw fa-lg"></i>');
-				$result.html('<i class="fa fa-circle-o-notch fa-spin fa-fw fa-lg"></i>');
-				
-				//Run any callbacks if defined
-				if ($form.attr("onsubmit") != undefined) {
-					$form.submit();
+				var $form = $(this);
+				var $result = $form.find('span.result');
+				var $check  = $form.find('div.keys input[type="checkbox"]');
+				var input	= $form.serialize();
+
+				if ($check.is(':checked')) 
+				{
+					$('#results-all').html('<i class="fa fa-cog fa-spin fa-fw fa-lg"></i>');
+					$result.html('<i class="fa fa-circle-o-notch fa-spin fa-fw fa-lg"></i>');
+
+					//Run any callbacks if defined
+					if ($form.attr("onsubmit") != undefined) {
+						$form.submit();
+					}
+
+					$.ajax({
+						type: "POST",
+						url: ajaxurl,
+						dataType: "json",
+						data: input,
+						success: function(data) { Duplicator.Debug.ProcessResult(data, $result) },
+						error: function(data) {},
+						done: function(data) {}
+					});
 				}
-				
-				$.ajax({
-					type: "POST",
-					url: ajaxurl,
-					dataType: "json",
-					data: input,
-					success: function(data) { Duplicator.Debug.ProcessResult(data, $result) },
-					error: function(data) {},
-					done: function(data) {}
-				});
-			}
-		});
+			});
+		} 
+		catch (e) {
+			console.log(e);
+		} finally {
+			UNIT_TEST_RUNNING = false;
+		}			
 	}
 	
-	
+	//Call back used to test the status of a result
 	Duplicator.Debug.ProcessResult = function(data, result) 
 	{	
-		STATUS_RUNS++;
+		UNIT_TEST_COUNTER++;
 		var status = data.Report.Status || 0;
+		//console.log(data);
 		
 		if (status > 0) {
 			result.html('<i class="fa fa-check-circle fa-lg result-pass"></i>');
 		} else {
-			STATUS_PASS = false;
+			UNIT_TEST_PASSED = false;
 			result.html('<i class="fa fa-check-circle fa-lg result-fail"></i>');
 		}
 		
 		//Set after all tests have ran
-		if (STATUS_RUNS >= STATUS_CHKS) {
-			(STATUS_PASS)
+		if (UNIT_TEST_COUNTER >= UNIT_TEST_CHKBOXES) {
+			(UNIT_TEST_PASSED)
 				? $('#results-all').html('<i class="fa fa-check-circle fa-lg result-pass"></i>')
 				: $('#results-all').html('<i class="fa fa-check-circle fa-lg result-fail"></i>');
 		}
 	}
 	
+	//Check all of the check boxes
 	Duplicator.Debug.CheckAllTests = function() 
 	{
 		var checkAll = $('#test-checkall').is(':checked');
@@ -152,6 +164,19 @@ jQuery(document).ready(function($)
 		});
 	}
 	
+	//Test links will open in seperate window if checked
+	Duplicator.Debug.TestNewWindow = function() 
+	{
+		var check = $('#test-openwindow').is(':checked');
+		var count = 0;
+		$("form").each(function(index) 
+		{	
+			count++;
+			(check) 
+				? $(this).attr('target', 'dup_debug' + count)
+				: $(this).attr('target', 'dup_debug');
+		});
+	}
 	
 	//INIT
 	$("form").each(function(index) 
@@ -160,7 +185,6 @@ jQuery(document).ready(function($)
 		$form.attr('action', 'admin-ajax.php');
 		$form.attr('target', 'dup_debug');
 		$form.attr('method', 'post');
-		
 	});
 	
 });	

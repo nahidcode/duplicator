@@ -4,11 +4,12 @@
 
 	<!-- METHOD TEST -->
 	<script>
-		//value param must be dynamic with each submit
 		function JS_DUP_CTRL_UI_SaveViewState(form) 
 		{
+			//value param must be dynamic with each submit or else 
+			//wp update_option method will return false
 			jQuery(form).find('input[name="value"]').val(new Date(jQuery.now()));
-			return false;
+			return ! UNIT_TEST_RUNNING;
 		}
 	</script>
 	<form onsubmit="return JS_DUP_CTRL_UI_SaveViewState(this);">
@@ -27,5 +28,4 @@
 		</div>
 	</form>
 	
-
 </div>
