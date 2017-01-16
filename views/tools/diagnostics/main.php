@@ -8,6 +8,18 @@
 	global $wpdb;
 	
 	$action_response = null;
+	
+	$ctrl_ui = new DUP_CTRL_UI();
+	$ctrl_ui->SetResponseType('PHP');
+	$ctrl_data = $ctrl_ui->GetViewStateList();
+	
+
+	echo "<pre>";
+	//echo $ctrl_data->Report->RunTime;
+	print_r($ctrl_data);
+	echo "</pre>";
+	
+	die();
 
 	$view_state = DUP_UI::GetViewStateArray();
 	$ui_css_srv_panel   = (isset($view_state['dup-settings-diag-srv-panel'])  && $view_state['dup-settings-diag-srv-panel'])   ? 'display:block' : 'display:none';
