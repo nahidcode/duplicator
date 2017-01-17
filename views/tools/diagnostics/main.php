@@ -65,7 +65,6 @@
 		include_once 'inc.validator.php';
 		include_once 'inc.phpinfo.php';
 	?>
-
 </form>
 
 

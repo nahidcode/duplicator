@@ -11,8 +11,6 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/classes/ui.php');
 class DUP_CTRL_UI extends DUP_CTRL_Base
 {	 
 	
-	public $Nonce;
-	
 	function __construct() 
 	{
 		add_action('wp_ajax_DUP_CTRL_UI_SaveViewState',	      array($this,	  'SaveViewState'));
@@ -92,7 +90,6 @@ class DUP_CTRL_UI extends DUP_CTRL_Base
 					? DUP_CTRL_Status::SUCCESS
 					: DUP_CTRL_Status::FAILED;
 			return $result->Process($payload, $test);
-			
 		} 
 		catch (Exception $exc) 
 		{
