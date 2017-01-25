@@ -66,6 +66,7 @@
 
 	/* ============================
 	STEP 1 VIEW */
+	div#dup-s1-warning-check label {cursor: pointer}
 	table.s1-opts {width:100%; border:0px;}
 	table.s1-opts td{white-space:nowrap; padding:3px;}
 	table.s1-opts td:first-child{width:125px;}
@@ -77,7 +78,7 @@
 	div.circle-fail {background:#9A0D1D !important;}
 	select#logging {font-size:11px}
 	div.s1-modes {padding:0px 15px 0 0px;}
-	div#s1-dbconn {margin:auto; text-align:center; margin:15px 0 20px 0px}
+	div#s1-dbconn {margin:auto; text-align:center; margin:15px 0 10px 0px}
 	
 	input.s1-small-btn {font-size:11px; height:20px; border:1px solid gray; border-radius:3px; cursor:pointer}
 	input#s1-dbport-btn { width:80px}
@@ -93,9 +94,9 @@
 	div.s1-advopts-section {margin:15px 0 25px 0}
 	div.s1-advopts-section label {cursor: pointer}
 	div.s1-advopts-help {text-align: center; margin:10px}
-	div.dup-s1-gopro {color: black;font-style: italic;margin-top: 11px; text-align:center;margin-top:30px; padding:5px}
-	div#dup-s1-warning {padding:5px;font-size:11px; color:gray; line-height:12px;font-style:italic; overflow-y:scroll; height:75px; border:1px solid #dfdfdf; background-color:#fff; border-radius:3px}
-	div#dup-s1-warning-check {padding:5px; font-size:12px; font-weight:normal; font-style:italic;}
+	div.dup-s1-gopro {color: black;font-style: italic;margin-top: 11px; text-align:center;margin-top:20px; padding:5px}
+	div#dup-s1-warning {padding:5px;font-size:12px; color:gray; line-height:12px;font-style:italic; overflow-y:scroll; height:75px; border:1px solid #dfdfdf; background-color:#fff; border-radius:3px}
+	div#dup-s1-warning-check {padding:5px; font-size:14px; font-weight:normal; font-style:italic;}
 	div#dup-s1-warning-emptydb {display:none; color:#AF2222; margin:0px 0 0 20px}
 
 	/*Dialog*/

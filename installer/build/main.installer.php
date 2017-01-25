@@ -127,7 +127,7 @@ $GLOBALS['DB_MAX_PACKETS'] = 268435456;
 ini_set('mysql.connect_timeout', '5000');
 
 //PHP SETUP: all time in seconds
-ini_set('memory_limit', '2048M');
+//ini_set('memory_limit', '2048M');
 ini_set("max_execution_time", '5000');
 ini_set("max_input_time", '5000');
 ini_set('default_socket_timeout', '5000');
@@ -173,7 +173,7 @@ $GLOBALS['CHOWN_LOG_PATH'] = @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}/{$GLOBALS['
 $GLOBALS['URL_SSL'] = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? true : false;
 $GLOBALS['URL_PATH'] = ($GLOBALS['URL_SSL']) ? "https://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}" : "http://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}";
 $GLOBALS['PHP_MEMORY_LIMIT'] = ini_get('memory_limit') === false ? 'n/a' : ini_get('memory_limit');
-$GLOBALS['PHP_SUHOSIN_ON'] = extension_loaded('suhosin') ? 'enabled' : 'disabled';
+$GLOBALS['PHP_SUHOSIN_ON']	 = extension_loaded('suhosin') ? 'enabled' : 'disabled';
 
 //Restart log if user starts from step 1
 if ($_POST['action_step'] == 1) {
@@ -230,12 +230,12 @@ if (isset($_POST['action_ajax'])) {
 					<!-- !!DO NOT CHANGE/EDIT OR REMOVE PRODUCT NAME!!
 					If your interested in Private Label Rights please contact us at the URL below to discuss
 					customizations to product labeling: http://snapcreek.com	-->
-					&nbsp; Duplicator - Installer
+					&nbsp; Duplicator Lite - Installer
 				</div>
 			</td>
 			<td style="white-space:nowrap; text-align:right">
 				<select id="dup-hlp-lnk">
-					<option value="null"> - Online Resources -</option>
+					<option value="null"> - Resources -</option>
 					<option value="https://snapcreek.com/duplicator/docs/">&raquo; Knowledge Base</option>
 					<option value="https://snapcreek.com/duplicator/docs/guide/">&raquo; User Guide</option>
 					<option value="https://snapcreek.com/duplicator/docs/faqs-tech/">&raquo; Common FAQs</option>
@@ -274,7 +274,7 @@ if (isset($_POST['action_ajax'])) {
 			<td style="white-space:nowrap">
 
 				<i style='font-size:11px; color:#999'>
-					version: <?php echo $GLOBALS['FW_DUPLICATOR_VERSION'] ?>&nbsp;&nbsp;<a href="?help=1" target="_blank">[Help]</a>
+					version: <?php echo $GLOBALS['FW_DUPLICATOR_VERSION'] ?> &raquo; <a href="?help=1" target="_blank">help</a>
 				</i> &nbsp;
 				
 			</td>

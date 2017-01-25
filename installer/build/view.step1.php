@@ -247,7 +247,7 @@ VIEW: STEP 1- INPUT -->
 				</td>
 			</tr>
 			<tr>
-				<td>Name</td>
+				<td>Database</td>
 				<td><input type="text" name="dbname" id="dbname"  required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBNAME']); ?>"  placeholder="new or existing database name"  /></td>
 			</tr>
 			<tr>
@@ -272,18 +272,13 @@ VIEW: STEP 1- INPUT -->
 				<small><input type="button" onclick="$('#s1-dbconn-status').hide(500)" class="s1-small-btn" value="Hide Message" /></small>
 			</div>
 		</div>
-
-    	<!-- !!DO NOT CHANGE/EDIT OR REMOVE THIS SECTION!!
-    	If your interested in Private Label Rights please contact us at the URL below to discuss
-    	customizations to product labeling: http://snapcreek.com	-->
-    	<a href="javascript:void(0)" onclick="$('#dup-step1-cpanel').toggle(250)"><b style="font-size: 14px">Need Setup Help...</b></a>
-    	<div id='dup-step1-cpanel' style="display:none">
-    	    <div style="padding:10px 0px 0px 10px;line-height:22px">
-    		&raquo; Check out the <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-070-q" target="_blank">video tutorials &amp; guides</a> <br/>
-    		&raquo; Get help from our <a href="https://snapcreek.com/duplicator/docs/faqs-tech/" target="_blank">resources section</a>
-    	    </div>
-    	</div><br/><br/>
-    		    
+		
+		<div class="dup-s1-gopro">
+			Create the database and users <b>from the installer</b> <br/> with <a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_install_step1&utm_campaign=duplicator_pro">Duplicator Pro!</a> - Requires cPanel.
+		</div>
+		<br/>
+		
+		<!-- ADVANCED OPTIONS -->
     	<a href="javascript:void(0)" onclick="$('#dup-step1-adv-opts').toggle(250)"><b style="font-size:14px">Advanced Options...</b></a>
     	<div id='dup-step1-adv-opts' style="display:none">
 
@@ -350,14 +345,22 @@ VIEW: STEP 1- INPUT -->
 				<small><i>For an overview of these settings see the <a href="?help=1" target="_blank">help page</a></i></small>
 			</div>
     	</div>
+		<br/><br/>
 		
-		
-		<div class="dup-s1-gopro">
-			*Create the database and users <b>from the installer</b> with <a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_install_step1&utm_campaign=duplicator_pro">Duplicator Pro!</a> - Requires cPanel.
-		</div>	
+	    <!-- SETUP HELP	-->
+    	<a href="javascript:void(0)" onclick="$('#dup-step1-cpanel').toggle(250)"><b style="font-size: 14px">Need Setup Help...</b></a>
+    	<div id='dup-step1-cpanel' style="display:none">
+    	    <div style="padding:10px 0px 0px 10px;line-height:22px">
+    		&raquo; View the <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-070-q" target="_blank">video tutorials</a> <br/>
+    		&raquo; Read helpful <a href="https://snapcreek.com/duplicator/docs/faqs-tech/" target="_blank">articles</a> <br/>
+			&raquo; Visit the <a href="https://snapcreek.com/duplicator/docs/quick-start/" target="_blank">quick start guides</a>
+    	    </div>
+    	</div>
+		<br/><br/>
 
 		<!-- NOTICES  -->
-    	<div id="dup-s1-warning">
+		<a href="javascript:void(0)" onclick="$('#dup-s1-warning').toggle(250)"><b style="font-size:14px">Warnings &amp; Notices...</b></a>
+    	<div id="dup-s1-warning" style="display: none">
     	    <b>WARNINGS &amp; NOTICES</b> 
     	    <p>
 				<b>Disclaimer:</b> 
@@ -388,9 +391,10 @@ VIEW: STEP 1- INPUT -->
     	</div>
     		    
     	<div id="dup-s1-warning-check">
-    	    <input id="accept-warnings" name="accpet-warnings" type="checkbox" onclick="Duplicator.acceptWarning()" /> <label for="accept-warnings">I have read all warnings &amp; notices</label><br/>
+    	    <input id="accept-warnings" name="accpet-warnings" type="checkbox" onclick="Duplicator.acceptWarning()" style='vertical-align: bottom' /> 
+			<label for="accept-warnings">I have read and accept all warnings &amp; notices <small>(required to run deployment)</small></label><br/>
 			<div id="dup-s1-warning-emptydb">
-				The remove action will delete <u>all</u> tables and data from the database!
+				<label for="accept-warnings">The 'Connect and Remove All Data' action will delete <u>all</u> tables and data from the database!</label>
 			</div>
     	</div><br/><br/>
     		    
