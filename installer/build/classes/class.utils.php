@@ -274,6 +274,28 @@ class DUPX_Util
     }
 	
 	/**
+	* Converts shorthand memory notation value to bytes
+	* From http://php.net/manual/en/function.ini-get.php
+	*
+	* @param $val Memory size shorthand notation string
+	*/
+	public static function return_bytes($val) 
+	{
+		$val = trim($val);
+		$last = strtolower($val[strlen($val)-1]);
+		switch($last) {
+			// The 'G' modifier is available since PHP 5.1.0
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
+		}
+		return $val;
+    }
+	
+	/**
      *  The characters that are special in the replacement value of preg_replace are not the 
 	 *  same characters that are special in the pattern
      *  @param string $str		The string to replace on

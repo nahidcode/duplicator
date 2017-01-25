@@ -53,7 +53,7 @@
 	div#dup-main-help h3 {background-color:#dfdfdf; border:1px solid silver; border-radius:5px; padding:3px; margin-bottom:8px;}
 
 	div#progress-area {padding:5px; margin:150px 0 0 0px; text-align:center;}
-	div#ajaxerr-data {padding:5px; height:350px; width:99%; border:1px solid silver; border-radius:5px; background-color:#efefef; font-size:12px; overflow-y:scroll}
+	div#ajaxerr-data {padding:5px; height:350px; width:99%; border:1px solid silver; border-radius:5px; background-color:#efefef; font-size:14px; overflow-y:scroll}
 	div.hdr-main {font-size:18px; padding:0 0 5px 0; border-bottom:1px solid #999; font-weight:bold; margin:5px 0 10px 0;}
 	div.hdr-sub {font-size:15px; padding:2px 2px 2px 0; border-bottom:1px solid #dfdfdf; font-weight:bold; margin-bottom:5px;}
 	
@@ -107,7 +107,7 @@
 	.dup-fail {display:inline-block; color:#AF0000;}
 	.dup-notice {display:inline-block; color:#000;}
 	hr.dup-dots { border:none; border-top:1px dotted silver; height:1px; width:100%;}
-	div.dup-ui-error {padding-top:2px; font-size:14px}
+	div.dup-ui-error {padding-top:2px; font-size:14px; line-height: 20px}
 	div.help {color:#555; font-style:italic; font-size:11px}
 
 	/* ============================

@@ -552,7 +552,7 @@ PANEL: SERVER CHECKS  -->
 
 	<hr class='dup-dots' />
 	<!-- SAPI -->
-	<b>PHP MAX MEMORY:</b> <?php echo @ini_get('memory_limit') ?><br/>
+	<b>PHP MAX MEMORY:</b> <?php echo $GLOBALS['PHP_MEMORY_LIMIT'] ?><br/>
 	<b>PHP SAPI:</b>  <?php echo php_sapi_name(); ?><br/>
 	<b>PHP ZIP Archive:</b> <?php echo class_exists('ZipArchive') ? 'Is Installed' : 'Not Installed'; ?> <br/>
 	<b>CDN Accessible:</b> <?php echo ( DUPX_Util::is_url_active("ajax.aspnetcdn.com", 443) && DUPX_Util::is_url_active("ajax.googleapis.com", 443)) ? 'Yes' : 'No'; ?> 

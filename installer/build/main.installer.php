@@ -42,10 +42,6 @@ if (file_exists('dtoken.php')) {
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
             header('Content-Length: ' . filesize($filename));
-            //FIXME: We should consider removing all error supression like this
-            //as it makes troubleshooting a wild goose chase for times that the
-            //script failes on such a line.  The same can and should be accomplished
-            //at the server level by turning off displaying errors in PHP.
             @ob_clean();
             @flush();
             if (@readfile($filename) == false) {
@@ -139,6 +135,7 @@ ini_set('default_socket_timeout', '5000');
 
 $GLOBALS['DBCHARSET_DEFAULT'] = 'utf8';
 $GLOBALS['DBCOLLATE_DEFAULT'] = 'utf8_general_ci';
+$GLOBALS['FAQ_URL'] = 'https://snapcreek.com/duplicator/docs/faqs-tech';
 
 //UPDATE TABLE SETTINGS
 $GLOBALS['REPLACE_LIST'] = array();
@@ -175,9 +172,8 @@ $GLOBALS['CHOWN_ROOT_PATH'] = @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}", 0755);
 $GLOBALS['CHOWN_LOG_PATH'] = @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}/{$GLOBALS['LOG_FILE_NAME']}", 0644);
 $GLOBALS['URL_SSL'] = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? true : false;
 $GLOBALS['URL_PATH'] = ($GLOBALS['URL_SSL']) ? "https://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}" : "http://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}";
-
-
-
+$GLOBALS['PHP_MEMORY_LIMIT'] = ini_get('memory_limit') === false ? 'n/a' : ini_get('memory_limit');
+$GLOBALS['PHP_SUHOSIN_ON'] = extension_loaded('suhosin') ? 'enabled' : 'disabled';
 
 //Restart log if user starts from step 1
 if ($_POST['action_step'] == 1) {
