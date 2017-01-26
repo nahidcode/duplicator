@@ -237,7 +237,7 @@ $php_mem_range = DUPX_Util::return_bytes($GLOBALS['PHP_MEMORY_LIMIT']);
 $php_mem_range = $php_mem_range == null ?  0 : $php_mem_range - 5000000; //5 MB Buffer
 
 //Fatal Memory errors from file_get_contents is not catchable.  
-//Try to warn ahead of time with a buffer it memory difference
+//Try to warn ahead of time with a buffer in memory difference
 if ($db_file_size >= $php_mem_range  && $php_mem_range != 0) 
 {
 	$db_file_size = DUPX_Util::readable_bytesize($db_file_size);
