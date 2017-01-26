@@ -231,6 +231,24 @@ DUPX_ServerConfig::Reset();
 //DATABASE ROUTINES
 //====================================================================================================
 $faq_url = $GLOBALS['FAQ_URL'];
+$db_file_size = filesize('database.sql');
+$php_mem = $GLOBALS['PHP_MEMORY_LIMIT'];
+$php_mem_range = DUPX_Util::return_bytes($GLOBALS['PHP_MEMORY_LIMIT']);
+$php_mem_range = $php_mem_range == null ?  0 : $php_mem_range - 5000000; //5 MB Buffer
+
+//Fatal Memory errors from file_get_contents is not catchable.  
+//Try to warn ahead of time with a buffer it memory difference
+if ($db_file_size >= $php_mem_range  && $php_mem_range != 0) 
+{
+	$db_file_size = DUPX_Util::readable_bytesize($db_file_size);
+	$msg = "\nWARNING: The database script is '{$db_file_size}' in size.  The PHP memory allocation is set\n";
+	$msg .= "at '{$php_mem}'.  There is a high possibility that the installer script will fail with\n";
+	$msg .= "a memory allocation error when trying to load the database.sql file.  It is\n";
+	$msg .= "recommended to increase the 'memory_limit' setting in the php.ini config file.\n";
+	$msg .= "see: {$faq_url}#faq-trouble-056-q \n";
+	DUPX_Log::Info($msg);
+}
+
 @chmod("{$root_path}/database.sql", 0777);
 $sql_file = file_get_contents('database.sql', true);
 

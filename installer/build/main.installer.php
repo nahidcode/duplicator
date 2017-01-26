@@ -127,7 +127,7 @@ $GLOBALS['DB_MAX_PACKETS'] = 268435456;
 ini_set('mysql.connect_timeout', '5000');
 
 //PHP SETUP: all time in seconds
-//ini_set('memory_limit', '2048M');
+ini_set('memory_limit', '2048M');
 ini_set("max_execution_time", '5000');
 ini_set("max_input_time", '5000');
 ini_set('default_socket_timeout', '5000');
@@ -230,7 +230,7 @@ if (isset($_POST['action_ajax'])) {
 					<!-- !!DO NOT CHANGE/EDIT OR REMOVE PRODUCT NAME!!
 					If your interested in Private Label Rights please contact us at the URL below to discuss
 					customizations to product labeling: http://snapcreek.com	-->
-					&nbsp; Duplicator Lite - Installer
+					&nbsp; Duplicator - Installer
 				</div>
 			</td>
 			<td style="white-space:nowrap; text-align:right">

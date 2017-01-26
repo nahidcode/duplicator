@@ -95,8 +95,8 @@
 	div.s1-advopts-section label {cursor: pointer}
 	div.s1-advopts-help {text-align: center; margin:10px}
 	div.dup-s1-gopro {color: black;font-style: italic;margin-top: 11px; text-align:center;margin-top:20px; padding:5px}
-	div#dup-s1-warning {padding:5px;font-size:12px; color:gray; line-height:12px;font-style:italic; overflow-y:scroll; height:75px; border:1px solid #dfdfdf; background-color:#fff; border-radius:3px}
-	div#dup-s1-warning-check {padding:5px; font-size:14px; font-weight:normal; font-style:italic;}
+	div#dup-s1-warning {padding:5px;font-size:12px; color:gray; line-height:12px;font-style:italic; overflow-y:scroll; height:150px; border:1px solid #dfdfdf; background-color:#fff; border-radius:3px}
+	div#dup-s1-warning-check {padding:5px; font-size:12px; font-weight:normal; font-style:italic;}
 	div#dup-s1-warning-emptydb {display:none; color:#AF2222; margin:0px 0 0 20px}
 
 	/*Dialog*/
