@@ -238,7 +238,7 @@ TOOL BAR: STEPS -->
 				<?php _e("Files", 'duplicator'); ?> 
 				<i class="fa fa-question-circle data-size-help"
 					data-tooltip-title="<?php _e("File Size:", 'duplicator'); ?>" 
-					data-tooltip="<?php _e('The files size represents only the included files before compression is applied. It does not include the size of the database script and in most cases the package size once completed will be smaller.', 'duplicator'); ?>"></i>
+					data-tooltip="<?php _e('The files size represents only the included files before compression is applied. It does not include the size of the database script and in most cases the package size once completed will be smaller than this number.', 'duplicator'); ?>"></i>
 				<div id="data-arc-size1"></div>
 				<div class="dup-scan-filter-status">
 					<?php 
