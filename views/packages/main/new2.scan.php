@@ -179,7 +179,6 @@ TOOL BAR: STEPS -->
 					echo "&nbsp;<i><a href='http://php.net/manual/en/mysqli.installation.php' target='_blank'>[" . __('details', 'duplicator') . "]</a></i>";
 					echo '</small>';
 					
-
 					//MAX_EXECUTION_TIME
 					$test = (set_time_limit(0)) ? 0 : ini_get("max_execution_time");
 					echo '<hr size="1" /><span id="data-srv-php-maxtime"></span>&nbsp;<b>' . __('Max Execution Time', 'duplicator') . ":</b>&nbsp; '{$test}' <br/>";
@@ -235,9 +234,8 @@ TOOL BAR: STEPS -->
 					//MU SITE
 					echo '<hr size="1" /><span id="data-srv-wp-ismu"></span>&nbsp;<b>' . __('Multisite Disabled', 'duplicator') . "</b> <br/>";
 					echo '<small>';
-					_e('Duplicator can be used to move a Multisite setup, however additional and custom configurations will need to be performed in order to finalize the install.  ', 'duplicator');
-					_e('Duplicator Pro supports Multisite Basic and Multisite Plus+.  With Multisite Basic you can backup a full multisite network without custom work and with Multisite Plus+ you can additionally install an MU subusite as a full standalone WordPress site at install time.', 'duplicator');
-				
+					_e('Duplicator does not offically support WordPress Multisite setups. However, Duplicator Pro supports Multisite Basic and Multisite Plus+.  ', 'duplicator');
+					_e('With Multisite Basic you can backup a full multisite network without custom configuration work. With Multisite Plus+ you can additionally install an MU subusite as a full standalone WordPress site at install time.', 'duplicator');
 					echo "&nbsp;<i><a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_is_mu_warn&utm_campaign=duplicator_pro' target='_blank'>[" . __('details', 'duplicator') . "]</a></i>";
 					
 					echo '</small>';					
