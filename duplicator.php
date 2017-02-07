@@ -45,7 +45,7 @@ if (is_admin() == true)
 	require_once 'classes/ui.php';
 	 
     //Controllers
-	require_once 'views/actions.php';
+	require_once 'ctrls/ctrl.package.php';
 	require_once 'ctrls/ctrl.tools.php';
 	require_once 'ctrls/ctrl.ui.php';
 

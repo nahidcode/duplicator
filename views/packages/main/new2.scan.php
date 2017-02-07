@@ -156,13 +156,29 @@ TOOL BAR: STEPS -->
 				</div>
 				<div class='dup-scan-info dup-info-box'>
 					<?php 
+					
+					//PHP VERSION
+					echo '<span id="data-srv-php-version"></span>&nbsp;<b>' . __('PHP Version', 'duplicator') . "</b> <br/>";
+					echo '<small>';
+					_e('The minium PHP version supported by Duplicator is 5.2.9, however it is highly recommended to use PHP 5.3 or higher for improved stability.', 'duplicator');
+					echo "&nbsp;<i><a href='http://php.net/ChangeLog-5.php' target='_blank'>[" . __('details', 'duplicator') . "]</a></i>";
+					echo '</small>';
+					
 					//OPEN_BASEDIR
 					$test = ini_get("open_basedir");
-					echo '<span id="data-srv-php-openbase"></span>&nbsp;<b>' . __('Open Base Dir', 'duplicator') . ":</b>&nbsp; '{$test}' <br/>";
+					echo '<hr size="1" /><span id="data-srv-php-openbase"></span>&nbsp;<b>' . __('Open Base Dir', 'duplicator') . ":</b>&nbsp; '{$test}' <br/>";
 					echo '<small>';
 					_e('Issues might occur when [open_basedir] is enabled. Work with your server admin to disable this value in the php.ini file if you’re having issues building a package.', 'duplicator');
 					echo "&nbsp;<i><a href='http://www.php.net/manual/en/ini.core.php#ini.open-basedir' target='_blank'>[" . __('details', 'duplicator') . "]</a></i><br/>";
 					echo '</small>';
+					
+					//MYSQLI
+					echo '<hr size="1" /><span id="data-srv-php-mysqli"></span>&nbsp;<b>' . __('MySQLi', 'duplicator') . "</b> <br/>";
+					echo '<small>';
+					_e('Creating the package does not require the mysqli module.  However the installer.php file requires that the PHP module mysqli be installed on the server it is deployed on.', 'duplicator');
+					echo "&nbsp;<i><a href='http://php.net/manual/en/mysqli.installation.php' target='_blank'>[" . __('details', 'duplicator') . "]</a></i>";
+					echo '</small>';
+					
 
 					//MAX_EXECUTION_TIME
 					$test = (set_time_limit(0)) ? 0 : ini_get("max_execution_time");
@@ -183,12 +199,7 @@ TOOL BAR: STEPS -->
                     
 					echo '</small>';
 					
-					//MYSQLI
-					echo '<hr size="1" /><span id="data-srv-php-mysqli"></span>&nbsp;<b>' . __('MySQLi', 'duplicator') . "</b> <br/>";
-					echo '<small>';
-					_e('Creating the package does not require the mysqli module.  However the installer.php file requires that the PHP module mysqli be installed on the server it is deployed on.', 'duplicator');
-					echo "&nbsp;<i><a href='http://php.net/manual/en/mysqli.installation.php' target='_blank'>[" . __('details', 'duplicator') . "]</a></i>";
-					echo '</small>';
+
 					?>
 				</div>
 			</div>
@@ -220,6 +231,16 @@ TOOL BAR: STEPS -->
 					_e("Cached data will lead to issues at install time and increases your archive size. It is recommended to empty your cache directory at build time. Use caution when removing data from the cache directory. If you have a cache plugin review the documentation for how to empty it; simply removing files might cause errors on your site. The cache size minimum threshold is currently set at ", 'duplicator');
 					echo DUP_Util::ByteSize(DUPLICATOR_SCAN_CACHESIZE) . '.';
 					echo '</small>';
+					
+					//MU SITE
+					echo '<hr size="1" /><span id="data-srv-wp-ismu"></span>&nbsp;<b>' . __('Multisite Disabled', 'duplicator') . "</b> <br/>";
+					echo '<small>';
+					_e('Duplicator can be used to move a Multisite setup, however additional and custom configurations will need to be performed in order to finalize the install.  ', 'duplicator');
+					_e('Duplicator Pro supports Multisite Basic and Multisite Plus+.  With Multisite Basic you can backup a full multisite network without custom work and with Multisite Plus+ you can additionally install an MU subusite as a full standalone WordPress site at install time.', 'duplicator');
+				
+					echo "&nbsp;<i><a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_is_mu_warn&utm_campaign=duplicator_pro' target='_blank'>[" . __('details', 'duplicator') . "]</a></i>";
+					
+					echo '</small>';					
 						
 					?>
 				</div>
@@ -617,12 +638,14 @@ jQuery(document).ready(function($) {
 		$('#data-srv-php-openbase').html(Duplicator.Pack.LoadScanStatus(data.SRV.PHP.openbase));
 		$('#data-srv-php-maxtime').html(Duplicator.Pack.LoadScanStatus(data.SRV.PHP.maxtime));
 		$('#data-srv-php-mysqli').html(Duplicator.Pack.LoadScanStatus(data.SRV.PHP.mysqli));
+		$('#data-srv-php-version').html(Duplicator.Pack.LoadScanStatus(data.SRV.PHP.version));
 		$('#data-srv-php-openssl').html(Duplicator.Pack.LoadScanStatus(data.SRV.PHP.openssl));
 		$('#data-srv-php-all').html(Duplicator.Pack.LoadScanStatus(data.SRV.PHP.ALL));
 
 		$('#data-srv-wp-version').html(Duplicator.Pack.LoadScanStatus(data.SRV.WP.version));
 		$('#data-srv-wp-core').html(Duplicator.Pack.LoadScanStatus(data.SRV.WP.core));
 		$('#data-srv-wp-cache').html(Duplicator.Pack.LoadScanStatus(data.SRV.WP.cache));
+		$('#data-srv-wp-ismu').html(Duplicator.Pack.LoadScanStatus(!data.SRV.WP.ismu));
 		$('#data-srv-wp-all').html(Duplicator.Pack.LoadScanStatus(data.SRV.WP.ALL));
 		
 		//****************
