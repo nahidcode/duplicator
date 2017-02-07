@@ -190,11 +190,11 @@ TOOL BAR: STEPS -->
 					echo "&nbsp;<i><a href='http://www.php.net/manual/en/info.configuration.php#ini.max-execution-time' target='_blank'>[" . __('details', 'duplicator')  . "]</a></i>";
                     
                     if ($zip_check != null) {
-                            echo '<br/><br/>';
-                            echo '<span style="font-weight:bold">';
-                            _e('Get faster builds with Duplicator Pro with access to shell_exec zip.', 'duplicator');
-                            echo '</span>';
-                            echo "&nbsp;<i><a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_max_execution_time_warn&utm_campaign=duplicator_pro' target='_blank'>[" . __('details', 'duplicator') . "]</a></i>";
+						echo '<br/><br/>';
+						echo '<span style="font-weight:bold">';
+						_e('Get faster builds with Duplicator Pro with access to shell_exec zip.', 'duplicator');
+						echo '</span>';
+						echo "&nbsp;<i><a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_max_execution_time_warn&utm_campaign=duplicator_pro' target='_blank'>[" . __('details', 'duplicator') . "]</a></i>";
                     }
                     
 					echo '</small>';
