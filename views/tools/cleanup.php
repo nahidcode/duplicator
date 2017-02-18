@@ -164,7 +164,6 @@ THICK-BOX DIALOGS: -->
 	$confirm2->init_confirm();
 ?>
 
-
 <script>	
 jQuery(document).ready(function($) 
 {

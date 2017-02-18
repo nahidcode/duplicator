@@ -41,6 +41,18 @@ class DUP_Dialog
 		return $this->id;
 	}
 	
+	/**
+	 * Gets unique ID:
+	 * Get the unique id that is assigned to each instance of a dialog
+     *
+     * @access public
+     * @return int
+     */
+	public function get_message_id() 
+	{
+		return "{$this->id}_message";
+	}
+	
 
 	/**
 	 * Init Alert:
@@ -110,7 +122,6 @@ HTML;
 				<script> 
 					function {$progress_func1}(obj) 
 					{
-						console.log(jQuery('#{$this->id}'));
 						jQuery(obj).parent().parent().find('.dup-dlg-confirm-progress').show();
 						jQuery(obj).closest('.dup-dlg-confirm-btns').find('input').attr('disabled', 'true');
 					}
@@ -121,7 +132,7 @@ HTML;
 		$html = <<<HTML
 			<div id="{$this->id}" style="display:none">
 				<div class="dup-dlg-confirm-txt">
-					{$this->message}
+					<span id="{$this->id}_message">{$this->message}</span>
 					<br/><br/>
 					{$progress_data}
 				</div>
@@ -147,7 +158,7 @@ HTML;
 	{
 		$this->width  = is_numeric($this->width)  ? $this->width  : 500;
 		$this->height = is_numeric($this->height) ? $this->height : 150;
-		echo "tb_show('{$this->title}', '#TB_inline?width={$this->width}&height={$this->height}&inlineId={$this->id}');";
+		echo  "tb_show('{$this->title}', '#TB_inline?width={$this->width}&height={$this->height}&inlineId={$this->id}');";
 	}
 
 }
