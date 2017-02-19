@@ -44,7 +44,7 @@ OPTIONS DATA -->
 <!-- ==========================================
 THICK-BOX DIALOGS: -->
 <?php
-	$confirm1 = new DUP_Dialog();
+	$confirm1 = new DUP_UI_Dialog();
 	$confirm1->title			= __('Delete Option?', 'duplicator');
 	$confirm1->message			= __('Delete the option value just selected?', 'duplicator');
 	$confirm1->progress_text	= __('Removing Option, Please Wait...', 'duplicator');

@@ -151,13 +151,13 @@ THICK-BOX DIALOGS: -->
 	$msg  = __('This action will remove all legacy settings prior to version %1$s.  ', 'duplicator');
 	$msg .= __('Legacy settings are only needed if you plan to migrate back to an older version of this plugin.', 'duplicator'); 
 
-	$confirm1 = new DUP_Dialog();
+	$confirm1 = new DUP_UI_Dialog();
 	$confirm1->title			= __('Delete Packages?', 'duplicator');
 	$confirm1->message			= sprintf(__($msg, 'duplicator'), DUPLICATOR_VERSION);
 	$confirm1->jscallback		= 'Duplicator.Tools.DeleteLegacy()';
 	$confirm1->init_confirm();
 	
-	$confirm2 = new DUP_Dialog();
+	$confirm2 = new DUP_UI_Dialog();
 	$confirm2->title			= __('Clear Build Cache?', 'duplicator');
 	$confirm2->message			= __('This process will remove all build cache files.  Be sure no packages are currently building or else they will be cancelled.', 'duplicator');
 	$confirm2->jscallback		= 'Duplicator.Tools.ClearBuildCache()';

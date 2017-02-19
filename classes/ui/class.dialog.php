@@ -4,7 +4,7 @@
  * Inline Dialog:
  * Used to generate a thinkbox inline dialog.
  */
-class DUP_Dialog
+class DUP_UI_Dialog
 {
 	//All Dialogs
 	public $title;
@@ -115,7 +115,7 @@ HTML;
 		//Enable the progress spinner
 		if ($this->progress_on)
 		{
-			$progress_func1   = "__dup_dialog_" . $this->uniqid;						
+			$progress_func1   = "__DUP_UI_Dialog_" . $this->uniqid;						
 			$progress_func2   = ";{$progress_func1}(this)";						
 			$progress_data = <<<HTML
 				<div class='dup-dlg-confirm-progress'><i class='fa fa-circle-o-notch fa-spin fa-lg fa-fw'></i> {$this->progress_text}</div>

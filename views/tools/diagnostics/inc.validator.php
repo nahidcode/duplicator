@@ -10,7 +10,7 @@
 <!-- ==========================================
 THICK-BOX DIALOGS: -->
 <?php
-	$confirm1 = new DUP_Dialog();
+	$confirm1 = new DUP_UI_Dialog();
 	$confirm1->title			= __('Run Validator', 'duplicator');
 	$confirm1->message			= __('This will run the scan validation check.  This may take several minutes.  Do you want to Continue?', 'duplicator');
 	$confirm1->progress_on		= false;
