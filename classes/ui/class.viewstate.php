@@ -58,4 +58,3 @@ class DUP_UI_ViewState
 	}
 	
 }
-?>
