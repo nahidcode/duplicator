@@ -1,7 +1,7 @@
 <?php
+
 /**
- * Inline Dialog:
- * Used to generate a thinkbox inline dialog.
+ * Used to generate a thinkbox inline dialog such as an alert or confirm popup
  *
  * Standard: PSR-2
  *
