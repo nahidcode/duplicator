@@ -51,3 +51,4 @@ class DUPX_Log
         die("<div class='dup-ui-error'><hr size='1' /><b style='color:#B80000;'>INSTALL ERROR!</b><br/>{$errorMessage}</div><br/>");
     }
 }
+?>
