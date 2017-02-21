@@ -53,10 +53,9 @@ if (isset($_GET['dbtest']))
 	$tstSrv   = ($dbConn)  ? "<div class='dup-pass'>Success</div>" : "<div class='dup-fail'>Fail</div>";
 	$tstDB    = ($dbFound) ? "<div class='dup-pass'>Success</div>" : "<div class='dup-fail'>Fail</div>";
 
-
     $dbversion_info         = DUPX_Util::mysqldb_version_details($dbConn);
     $dbversion_info         = empty($dbversion_info) ? 'no connection' : $dbversion_info;
-    $dbversion_info_fail    = version_compare(DUPX_Util::mysqldb_version($dbConn), '5.0') < 0;
+    $dbversion_info_fail    = version_compare(DUPX_Util::mysqldb_version($dbConn), '5.5.3') < 0;
 
     $dbversion_compat       = DUPX_Util::mysqldb_version($dbConn);
 	$dbversion_compat       = empty($dbversion_compat) ? 'no connection' : $dbversion_compat;
@@ -70,8 +69,6 @@ if (isset($_GET['dbtest']))
 		? "<div class='dup-notice'>This Server: [{$dbversion_compat}] -- Package Server: [{$GLOBALS['FW_VERSION_DB']}]</div>"
 		: "<div class='dup-pass'>This Server: [{$dbversion_compat}] -- Package Server: [{$GLOBALS['FW_VERSION_DB']}]</div>";
 
-
-	
 	$html	 .= <<<DATA
 	<div class='dup-db-test'>
 		<small>
@@ -118,13 +115,20 @@ DATA;
 			break;
 		}
 	}
+
+    //WARNING: UTF8 Data in Connection String
 	$html .=  (! $dbConn && $dbUTF8_tst) 
 		? "<div class='warn-msg'><b>WARNING:</b> " . ERR_TESTDB_UTF8 .  "</div>"	
 		: '';
 	
-	//WARNING Version Incompat
+	//NOTICE: Version Too Low
+	$html .=  ($dbversion_info_fail)
+		? "<div class='warn-msg'><b>NOTICE:</b> " . ERR_TESTDB_VERSION_INFO . "</div>"
+		: '';
+
+    //NOTICE: Version Incompatibility
 	$html .=  ($dbversion_compat_fail)
-		? "<div class='warn-msg'><b>NOTICE:</b> " . ERR_TESTDB_VERSION . "</div>" 
+		? "<div class='warn-msg'><b>NOTICE:</b> " . ERR_TESTDB_VERSION_COMPAT . "</div>"
 		: '';
 
 	$html .= "</div>";
