@@ -43,6 +43,6 @@ class DUP_DB
             $version = preg_replace('/[^0-9.].*/', '', self::mysqlVariable('version'));
         }
 
-        return  empty($version) ? 0 :  $version;
+        return empty($version) ? 0 : $version;
     }
 }
