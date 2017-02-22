@@ -99,7 +99,7 @@ DATA;
 	//WARNING: DB has tables with create option
 	if ($_POST['dbaction'] == 'create')
 	{
-		$tblcount = DUPX_Util::dbtable_count($dbConn, $_POST['dbname']);
+		$tblcount = DUPX_DB::countTables($dbConn, $_POST['dbname']);
 		$html .= ($tblcount > 0) 
 			? "<div class='warn-msg'><b>WARNING:</b> " . sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount) . "</div>"
 			: '';
@@ -153,7 +153,7 @@ if ($_POST['dbaction'] == 'empty') {
 }
 //ERR_DBEMPTY
 if ($_POST['dbaction'] == 'create' ) {
-	$tblcount = DUPX_Util::dbtable_count($dbh, $_POST['dbname']);
+	$tblcount = DUPX_DB::countTables($dbh, $_POST['dbname']);
 	if ($tblcount > 0) {
 		DUPX_Log::Error(sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount));
 	}
@@ -475,7 +475,7 @@ DUPX_Log::Info("QUERIES RAN:\t{$dbquery_rows}\n");
 $dbtable_count = 0;
 if ($result = mysqli_query($dbh, "SHOW TABLES")) {
 	while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
-		$table_rows = DUPX_Util::table_row_count($dbh, $row[0]);
+		$table_rows = DUPX_DB::countTableRows($dbh, $row[0]);
 		$dbtable_rows += $table_rows;
 		DUPX_Log::Info("{$row[0]}: ({$table_rows})");
 		$dbtable_count++;
