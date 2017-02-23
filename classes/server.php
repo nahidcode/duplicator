@@ -108,7 +108,7 @@ class DUP_Server
 		$Package = DUP_Package::GetActive();
 		$cache_path = DUP_Util::safePath(WP_CONTENT_DIR) .  '/cache';
 		$dirEmpty	= DUP_Util::isDirectoryEmpty($cache_path);
-		$dirSize	= DUP_Util::GetDirectorySize($cache_path); 
+		$dirSize	= DUP_Util::getDirectorySize($cache_path);
 		$cach_filtered = in_array($cache_path, explode(';', $Package->Archive->FilterDirs));
 		$wp_test3 = ($cach_filtered || $dirEmpty  || $dirSize < DUPLICATOR_SCAN_CACHESIZE ) ? true : false;
 		$wp_test4 = is_multisite();

@@ -264,18 +264,23 @@ class DUP_Util
     }
 
     /**
-     * Size of the directory recuresivly in bytes
+     * Size of the directory recursively in bytes
+     *
+     * @param string $path The full path to a system directory
+     *
+     * @return int Returns the size of the directory in bytes
+     *
      */
-    public static function GetDirectorySize($dir)
+    public static function getDirectorySize($path)
     {
-        if (!file_exists($dir)) return 0;
-        if (is_file($dir)) return filesize($dir);
+        if (!file_exists($path)) return 0;
+        if (is_file($path)) return filesize($path);
 
         $size = 0;
-        $list = glob($dir."/*");
+        $list = glob($path."/*");
         if (!empty($list)) {
             foreach ($list as $file)
-                $size += self::GetDirectorySize($file);
+                $size += self::getDirectorySize($file);
         }
         return $size;
     }

@@ -224,7 +224,7 @@ TOOL BAR: STEPS -->
 
 					//CACHE DIR
 					$cache_path = $cache_path = DUP_Util::safePath(WP_CONTENT_DIR) . '/cache';
-					$cache_size = DUP_Util::byteSize(DUP_Util::GetDirectorySize($cache_path));
+					$cache_size = DUP_Util::byteSize(DUP_Util::getDirectorySize($cache_path));
 					echo '<hr size="1" /><span id="data-srv-wp-cache"></span>&nbsp;<b>' . __('Cache Path', 'duplicator') . ":</b>&nbsp; '{$cache_path}' ({$cache_size}) <br/>";
 					echo '<small>';
 					_e("Cached data will lead to issues at install time and increases your archive size. It is recommended to empty your cache directory at build time. Use caution when removing data from the cache directory. If you have a cache plugin review the documentation for how to empty it; simply removing files might cause errors on your site. The cache size minimum threshold is currently set at ", 'duplicator');
