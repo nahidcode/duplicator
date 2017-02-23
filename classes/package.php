@@ -75,7 +75,7 @@ class DUP_Package
         $this->Type      = DUP_PackageType::MANUAL;
         $this->Name      = self::GetDefaultName();
         $this->Notes     = null;
-        $this->StoreURL  = DUP_Util::SSDirURL();
+        $this->StoreURL  = DUP_Util::snapshotURL();
         $this->StorePath = DUPLICATOR_SSDIR_PATH_TMP;
         $this->Database  = new DUP_Database($this);
         $this->Archive   = new DUP_Archive($this);
@@ -90,7 +90,7 @@ class DUP_Package
      */
     public function Scan()
     {
-        $timerStart     = DUP_Util::GetMicrotime();
+        $timerStart     = DUP_Util::getMicrotime();
         $report         = array();
         $this->ScanFile = "{$this->NameHash}_scan.json";
 
@@ -107,7 +107,7 @@ class DUP_Package
         $fileCount = count($this->Archive->Files);
         $fullCount = $dirCount + $fileCount;
 
-        $report['ARC']['Size']      = DUP_Util::ByteSize($this->Archive->Size) or "unknown";
+        $report['ARC']['Size']      = DUP_Util::byteSize($this->Archive->Size) or "unknown";
         $report['ARC']['DirCount']  = number_format($dirCount);
         $report['ARC']['FileCount'] = number_format($fileCount);
         $report['ARC']['FullCount'] = number_format($fullCount);
@@ -147,7 +147,7 @@ class DUP_Package
         $warn_counts               = is_array($warnings) ? array_count_values($warnings) : 0;
         $report['RPT']['Warnings'] = $warn_counts['Warn'];
         $report['RPT']['Success']  = $warn_counts['Good'];
-        $report['RPT']['ScanTime'] = DUP_Util::ElapsedTime(DUP_Util::GetMicrotime(), $timerStart);
+        $report['RPT']['ScanTime'] = DUP_Util::elapsedTime(DUP_Util::getMicrotime(), $timerStart);
         $fp                        = fopen(DUPLICATOR_SSDIR_PATH_TMP."/{$this->ScanFile}", 'w');
         fwrite($fp, json_encode($report));
         fclose($fp);
@@ -166,7 +166,7 @@ class DUP_Package
         global $wpdb;
         global $current_user;
 
-        $timerStart = DUP_Util::GetMicrotime();
+        $timerStart = DUP_Util::getMicrotime();
 
         $this->Archive->File   = "{$this->NameHash}_archive.zip";
         $this->Installer->File = "{$this->NameHash}_installer.php";
@@ -234,9 +234,9 @@ class DUP_Package
         DUP_Log::Info("\n********************************************************************************");
         DUP_Log::Info("INTEGRITY CHECKS:");
         DUP_Log::Info("********************************************************************************");
-        $dbSizeRead  = DUP_Util::ByteSize($this->Database->Size);
-        $zipSizeRead = DUP_Util::ByteSize($this->Archive->Size);
-        $exeSizeRead = DUP_Util::ByteSize($this->Installer->Size);
+        $dbSizeRead  = DUP_Util::byteSize($this->Database->Size);
+        $zipSizeRead = DUP_Util::byteSize($this->Archive->Size);
+        $exeSizeRead = DUP_Util::byteSize($this->Installer->Size);
 
         DUP_Log::Info("SQL File: {$dbSizeRead}");
         DUP_Log::Info("Installer File: {$exeSizeRead}");
@@ -247,14 +247,14 @@ class DUP_Package
         }
 
         //Validate SQL files completed
-        $sql_tmp_path     = DUP_UTIL::SafePath(DUPLICATOR_SSDIR_PATH_TMP.'/'.$this->Database->File);
-        $sql_complete_txt = DUP_Util::TailFile($sql_tmp_path, 3);
+        $sql_tmp_path     = DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP.'/'.$this->Database->File);
+        $sql_complete_txt = DUP_Util::tailFile($sql_tmp_path, 3);
         if (!strstr($sql_complete_txt, 'DUPLICATOR_MYSQLDUMP_EOF')) {
             DUP_Log::Error("ERROR: SQL file not complete.  The end of file marker was not found.  Please try to re-create the package.");
         }
 
-        $timerEnd = DUP_Util::GetMicrotime();
-        $timerSum = DUP_Util::ElapsedTime($timerEnd, $timerStart);
+        $timerEnd = DUP_Util::getMicrotime();
+        $timerSum = DUP_Util::elapsedTime($timerEnd, $timerStart);
 
         $this->Runtime = $timerSum;
         $this->ExeSize = $exeSizeRead;
@@ -532,7 +532,7 @@ class DUP_Package
     private function buildCleanup()
     {
 
-        $files   = DUP_Util::ListFiles(DUPLICATOR_SSDIR_PATH_TMP);
+        $files   = DUP_Util::listFiles(DUPLICATOR_SSDIR_PATH_TMP);
         $newPath = DUPLICATOR_SSDIR_PATH;
 
         if (function_exists('rename')) {
@@ -560,7 +560,7 @@ class DUP_Package
         $dir_array   = array_unique(explode(";", $dirs));
         foreach ($dir_array as $val) {
             if (strlen($val) >= 2) {
-                $filter_dirs .= DUP_Util::SafePath(trim(rtrim($val, "/\\"))).";";
+                $filter_dirs .= DUP_Util::safePath(trim(rtrim($val, "/\\"))).";";
             }
         }
         return $filter_dirs;
@@ -572,7 +572,7 @@ class DUP_Package
         if (strlen($extensions) >= 1 && $extensions != ";") {
             $filter_exts = str_replace(array(' ', '.'), '', $extensions);
             $filter_exts = str_replace(",", ";", $filter_exts);
-            $filter_exts = DUP_Util::StringAppend($extensions, ";");
+            $filter_exts = DUP_Util::appendOnce($extensions, ";");
         }
         return $filter_exts;
     }

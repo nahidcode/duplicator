@@ -101,13 +101,13 @@ class DUP_Server
 		
 		//Core Files
 		$files = array();
-		$files['wp-config.php'] = file_exists(DUP_Util::SafePath(DUPLICATOR_WPROOTPATH .  '/wp-config.php'));
+		$files['wp-config.php'] = file_exists(DUP_Util::safePath(DUPLICATOR_WPROOTPATH .  '/wp-config.php'));
 		$wp_test2 = $files['wp-config.php'];
 		
 		//Cache
 		$Package = DUP_Package::GetActive();
-		$cache_path = DUP_Util::SafePath(WP_CONTENT_DIR) .  '/cache';
-		$dirEmpty	= DUP_Util::IsDirectoryEmpty($cache_path);
+		$cache_path = DUP_Util::safePath(WP_CONTENT_DIR) .  '/cache';
+		$dirEmpty	= DUP_Util::isDirectoryEmpty($cache_path);
 		$dirSize	= DUP_Util::GetDirectorySize($cache_path); 
 		$cach_filtered = in_array($cache_path, explode(';', $Package->Archive->FilterDirs));
 		$wp_test3 = ($cach_filtered || $dirEmpty  || $dirSize < DUPLICATOR_SCAN_CACHESIZE ) ? true : false;
@@ -184,12 +184,12 @@ class DUP_Server
 		if ($peak) {
 			$result = 'Unable to read PHP peak memory usage';
 			if (function_exists('memory_get_peak_usage')) {
-				$result = DUP_Util::ByteSize(memory_get_peak_usage(true));
+				$result = DUP_Util::byteSize(memory_get_peak_usage(true));
 			} 
 		} else {
 			$result = 'Unable to read PHP memory usage';
 			if (function_exists('memory_get_usage')) {
-				$result = DUP_Util::ByteSize(memory_get_usage(true));
+				$result = DUP_Util::byteSize(memory_get_usage(true));
 			} 
 		}
 

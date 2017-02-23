@@ -102,23 +102,23 @@ function duplicator_package_delete() {
 					$delResult	= $wpdb->query($wpdb->prepare( "DELETE FROM `{$tblName}` WHERE id = %d", $id ));
 					if ($delResult != 0) {
 						//Perms
-						@chmod(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_archive.zip"), 0644);
-						@chmod(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_database.sql"), 0644);
-						@chmod(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_installer.php"), 0644);						
-						@chmod(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_archive.zip"), 0644);
-						@chmod(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_database.sql"), 0644);
-						@chmod(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_installer.php"), 0644);
-						@chmod(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_scan.json"), 0644);
-						@chmod(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}.log"), 0644);
+						@chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_archive.zip"), 0644);
+						@chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_database.sql"), 0644);
+						@chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_installer.php"), 0644);						
+						@chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_archive.zip"), 0644);
+						@chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_database.sql"), 0644);
+						@chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_installer.php"), 0644);
+						@chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_scan.json"), 0644);
+						@chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}.log"), 0644);
 						//Remove
-						@unlink(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_archive.zip"));
-						@unlink(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_database.sql"));
-						@unlink(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_installer.php"));
-						@unlink(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_archive.zip"));
-						@unlink(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_database.sql"));
-						@unlink(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_installer.php"));
-						@unlink(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_scan.json"));
-						@unlink(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}.log"));
+						@unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_archive.zip"));
+						@unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_database.sql"));
+						@unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_installer.php"));
+						@unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_archive.zip"));
+						@unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_database.sql"));
+						@unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_installer.php"));
+						@unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}_scan.json"));
+						@unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH . "/{$nameHash}.log"));
 						//Unfinished Zip files
 						$tmpZip = DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_archive.zip.*";
 						if ($tmpZip !== false) {

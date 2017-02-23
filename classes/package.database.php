@@ -35,7 +35,7 @@ class DUP_Database
 
             $this->Package = $package;
 
-            $time_start        = DUP_Util::GetMicrotime();
+            $time_start        = DUP_Util::getMicrotime();
             $this->Package->SetStatus(DUP_PackageStatus::DBSTART);
             $this->dbStorePath = "{$this->Package->StorePath}/{$this->File}";
 
@@ -75,12 +75,12 @@ class DUP_Database
             }
 
             DUP_Log::Info("SQL CREATED: {$this->File}");
-            $time_end = DUP_Util::GetMicrotime();
-            $time_sum = DUP_Util::ElapsedTime($time_end, $time_start);
+            $time_end = DUP_Util::getMicrotime();
+            $time_sum = DUP_Util::elapsedTime($time_end, $time_start);
 
             //File below 10k will be incomplete
             $sql_file_size = filesize($this->dbStorePath);
-            DUP_Log::Info("SQL FILE SIZE: ".DUP_Util::ByteSize($sql_file_size)." ({$sql_file_size})");
+            DUP_Log::Info("SQL FILE SIZE: ".DUP_Util::byteSize($sql_file_size)." ({$sql_file_size})");
             if ($sql_file_size < 10000) {
                 DUP_Log::Error("SQL file size too low.", "File does not look complete.  Check permission on file and parent directory at [{$this->dbStorePath}]");
             }
@@ -140,7 +140,7 @@ class DUP_Database
             $info['Rows'] += ($table["Rows"]);
             $info['TableList'][$name]['Case'] = preg_match('/[A-Z]/', $name) ? 1 : 0;
             $info['TableList'][$name]['Rows'] = number_format($rows);
-            $info['TableList'][$name]['Size'] = DUP_Util::ByteSize($size);
+            $info['TableList'][$name]['Size'] = DUP_Util::byteSize($size);
             $tblCount++;
 
             //Table Uppercase
@@ -174,7 +174,7 @@ class DUP_Database
         $info['Status']['TBL_Rows'] = ($tblRowsFound) ? 'Warn' : 'Good';
         $info['Status']['TBL_Size'] = ($tblSizeFound) ? 'Warn' : 'Good';
 
-        $info['Size']       = DUP_Util::ByteSize($info['Size']) or "unknown";
+        $info['Size']       = DUP_Util::byteSize($info['Size']) or "unknown";
         $info['Rows']       = number_format($info['Rows']) or "unknown";
         $info['TableList']  = $info['TableList'] or "unknown";
         $info['TableCount'] = $tblCount;
@@ -398,7 +398,7 @@ class DUP_Database
 
             //Flush buffer if enabled
             if ($this->networkFlush) {
-                DUP_Util::FcgiFlush();
+                DUP_Util::fcgiFlush();
             }
             $sql  = null;
             $rows = null;

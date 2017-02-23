@@ -1,11 +1,19 @@
 <?php
+// Exit if accessed directly
+if (!defined('DUPLICATOR_VERSION')) {
+    exit;
+}
 
 /**
  * Gets the view state of UI elements to remember its viewable state
  * 
  * Standard: PSR-2
+ * @link http://www.php-fig.org/psr/psr-2
  *
- * @package SC\Dup\UI\Notice
+ * @package Duplicator
+ * @subpackage classes/ui
+ * @copyright (c) 2017, Snapcreek LLC
+ * @since 1.1.0
  * 
  */
 class DUP_UI_ViewState

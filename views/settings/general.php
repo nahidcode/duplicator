@@ -104,7 +104,7 @@ $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
             <th scope="row"><label><?php _e("Storage", 'duplicator'); ?></label></th>
             <td>
                 <?php _e("Full Path", 'duplicator'); ?>: 
-                <?php echo DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH); ?><br/><br/>
+                <?php echo DUP_Util::safePath(DUPLICATOR_SSDIR_PATH); ?><br/><br/>
                 <input type="checkbox" name="storage_htaccess_off" id="storage_htaccess_off" <?php echo ($storage_htaccess_off) ? 'checked="checked"' : ''; ?> /> 
                 <label for="storage_htaccess_off"><?php _e("Disable .htaccess File In Storage Directory", 'duplicator') ?> </label>
                 <p class="description">

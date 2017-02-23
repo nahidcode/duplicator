@@ -28,12 +28,12 @@ class DUP_Zip  extends DUP_Archive
 	{
 		try 
 		{
-			$timerAllStart = DUP_Util::GetMicrotime();
+			$timerAllStart = DUP_Util::getMicrotime();
 			$package_zip_flush = DUP_Settings::Get('package_zip_flush');
 			
-			self::$compressDir		= rtrim(DUP_Util::SafePath($archive->PackDir), '/');
-			self::$sqlPath			= DUP_Util::SafePath("{$archive->Package->StorePath}/{$archive->Package->Database->File}");
-			self::$zipPath			= DUP_Util::SafePath("{$archive->Package->StorePath}/{$archive->File}");
+			self::$compressDir		= rtrim(DUP_Util::safePath($archive->PackDir), '/');
+			self::$sqlPath			= DUP_Util::safePath("{$archive->Package->StorePath}/{$archive->Package->Database->File}");
+			self::$zipPath			= DUP_Util::safePath("{$archive->Package->StorePath}/{$archive->File}");
 			self::$zipArchive		= new ZipArchive();
 			self::$networkFlush		= empty($package_zip_flush) ? false : $package_zip_flush;
 			
@@ -127,7 +127,7 @@ class DUP_Zip  extends DUP_Archive
 						self::$zipArchive->close();
 						self::$zipArchive->open(self::$zipPath);
 						self::$limitItems = 0;
-						DUP_Util::FcgiFlush();
+						DUP_Util::fcgiFlush();
 						DUP_Log::Info("Items archived [{$sumItems}] flushing response.");
 					}
 				}
@@ -157,18 +157,18 @@ class DUP_Zip  extends DUP_Archive
 
 			//--------------------------------
 			//LOG FINAL RESULTS
-			DUP_Util::FcgiFlush();
+			DUP_Util::fcgiFlush();
             $zipCloseResult = self::$zipArchive->close();
 			($zipCloseResult) 
 				? DUP_Log::Info("COMPRESSION RESULT: '{$zipCloseResult}'")
 				: DUP_Log::Error("ZipArchive close failure.", "This hosted server may have a disk quota limit.\nCheck to make sure this archive file can be stored.");
 		
-            $timerAllEnd = DUP_Util::GetMicrotime();
-            $timerAllSum = DUP_Util::ElapsedTime($timerAllEnd, $timerAllStart);
+            $timerAllEnd = DUP_Util::getMicrotime();
+            $timerAllSum = DUP_Util::elapsedTime($timerAllEnd, $timerAllStart);
 
 			
 			self::$zipFileSize = @filesize(self::$zipPath);
-			DUP_Log::Info("COMPRESSED SIZE: " . DUP_Util::ByteSize(self::$zipFileSize));
+			DUP_Log::Info("COMPRESSED SIZE: " . DUP_Util::byteSize(self::$zipFileSize));
             DUP_Log::Info("ARCHIVE RUNTIME: {$timerAllSum}");
 			DUP_Log::Info("MEMORY STACK: " . DUP_Server::GetPHPMemory());
         } 

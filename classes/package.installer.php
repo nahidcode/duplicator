@@ -35,8 +35,8 @@ class DUP_Installer {
 		DUP_Log::Info("Build Start");
 
 		$template_uniqid = uniqid('') . '_' . time();
-		$template_path	= DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH_TMP  . "/installer.template_{$template_uniqid}.php");
-		$main_path		= DUP_Util::SafePath(DUPLICATOR_PLUGIN_PATH . 'installer/build/main.installer.php');
+		$template_path	= DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP  . "/installer.template_{$template_uniqid}.php");
+		$main_path		= DUP_Util::safePath(DUPLICATOR_PLUGIN_PATH . 'installer/build/main.installer.php');
 		@chmod($template_path, 0777);
 		@chmod($main_path, 0777);
 
@@ -98,8 +98,8 @@ class DUP_Installer {
 	*/
 	private function addBackup() {
 		
-		$zipPath   = DUP_Util::SafePath("{$this->Package->StorePath}/{$this->Package->Archive->File}");
-		$installer = DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH_TMP) . "/{$this->Package->NameHash}_installer.php";
+		$zipPath   = DUP_Util::safePath("{$this->Package->StorePath}/{$this->Package->Archive->File}");
+		$installer = DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP) . "/{$this->Package->NameHash}_installer.php";
 		
 		$zipArchive	= new ZipArchive();
 		if ($zipArchive->open($zipPath, ZIPARCHIVE::CREATE) === TRUE) {
@@ -121,7 +121,7 @@ class DUP_Installer {
 		global $wpdb;
 		
 		DUP_Log::Info("Preping for use");
-		$installer = DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH_TMP) . "/{$this->Package->NameHash}_installer.php";
+		$installer = DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP) . "/{$this->Package->NameHash}_installer.php";
 		
 		//Option values to delete at install time
 		$deleteOpts = $GLOBALS['DUPLICATOR_OPTS_DELETE'];

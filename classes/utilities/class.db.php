@@ -1,12 +1,19 @@
 <?php
-if (!defined('DUPLICATOR_VERSION')) exit; // Exit if accessed directly
+// Exit if accessed directly
+if (!defined('DUPLICATOR_VERSION')) {
+    exit;
+}
 
 /**
  * Lightweight abstraction layer for common simple database routines
  *
  * Standard: PSR-2
+ * @link http://www.php-fig.org/psr/psr-2
  *
- * @package SC\Dup\DB
+ * @package Duplicator
+ * @subpackage classes/utilities
+ * @copyright (c) 2017, Snapcreek LLC
+ * @since 1.1.32
  *
  */
 class DUP_DB extends wpdb

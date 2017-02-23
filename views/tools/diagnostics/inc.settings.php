@@ -48,7 +48,7 @@ SERVER SETTINGS -->
 		</tr>
 		<tr>
 			<td><?php _e("APC Enabled", 'duplicator'); ?></td>
-			<td><?php echo DUP_Util::RunAPC() ? 'Yes' : 'No'  ?></td>
+			<td><?php echo DUP_Util::runAPC() ? 'Yes' : 'No'  ?></td>
 		</tr>					   
 		<tr>
 			<td><?php _e("Root Path", 'duplicator'); ?></td>
@@ -60,7 +60,7 @@ SERVER SETTINGS -->
 		</tr>			
 		<tr>
 			<td><?php _e("Plugins Path", 'duplicator'); ?></td>
-			<td><?php echo DUP_Util::SafePath(WP_PLUGIN_DIR) ?></td>
+			<td><?php echo DUP_Util::safePath(WP_PLUGIN_DIR) ?></td>
 		</tr>
 		<tr>
 			<td><?php _e("Loaded PHP INI", 'duplicator'); ?></td>
@@ -173,7 +173,7 @@ SERVER SETTINGS -->
 		 </tr>
 		 <tr valign="top">
 			 <td><?php _e('Free space', 'hyper-cache'); ?></td>
-			 <td><?php echo $perc;?>% -- <?php echo DUP_Util::ByteSize($space_free);?> from <?php echo DUP_Util::ByteSize($space);?><br/>
+			 <td><?php echo $perc;?>% -- <?php echo DUP_Util::byteSize($space_free);?> from <?php echo DUP_Util::byteSize($space);?><br/>
 				  <small>
 					  <?php _e("Note: This value is the physical servers hard-drive allocation.", 'duplicator'); ?> <br/>
 					  <?php _e("On shared hosts check your control panel for the 'TRUE' disk space quota value.", 'duplicator'); ?>

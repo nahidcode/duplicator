@@ -126,7 +126,7 @@ class DUP_Archive
 	
 	public function GetFilterDirAsArray() 
 	{
-		return array_map('DUP_Util::SafePath', explode(";", $this->FilterDirs, -1));
+		return array_map('DUP_Util::safePath', explode(";", $this->FilterDirs, -1));
 	}
 	
 	public function GetFilterExtsAsArray() 
@@ -153,7 +153,7 @@ class DUP_Archive
 		//Add the items generated at create time
 		if ($this->FilterOn)
         {
-			$this->FilterInfo->Dirs->Instance = array_map('DUP_Util::SafePath', explode(";", $this->FilterDirs, -1));
+			$this->FilterInfo->Dirs->Instance = array_map('DUP_Util::safePath', explode(";", $this->FilterDirs, -1));
 			$this->FilterInfo->Exts->Instance = explode(";", $this->FilterExts, -1);
         }
 		
@@ -173,7 +173,7 @@ class DUP_Archive
 	private function getDirs() 
 	{
 		
-		$rootPath = DUP_Util::SafePath(rtrim(DUPLICATOR_WPROOTPATH, '//' ));
+		$rootPath = DUP_Util::safePath(rtrim(DUPLICATOR_WPROOTPATH, '//' ));
 		$this->Dirs = array();
 		
 		//If the root directory is a filter then we will only need the root files
@@ -221,7 +221,7 @@ class DUP_Archive
 	{
 		foreach ($this->Dirs as $key => $val) 
 		{
-			$files = DUP_Util::ListFiles($val);
+			$files = DUP_Util::listFiles($val);
 			foreach ($files as $filePath) 
 			{
 				$fileName = basename($filePath);
@@ -253,7 +253,7 @@ class DUP_Archive
 						
 						if ($fileSize > DUPLICATOR_SCAN_WARNFILESIZE) 
 						{
-							$this->FilterInfo->Files->Size[] = $filePath . ' [' . DUP_Util::ByteSize($fileSize) . ']';
+							$this->FilterInfo->Files->Size[] = $filePath . ' [' . DUP_Util::byteSize($fileSize) . ']';
 						}
 					} 
 				}
@@ -268,7 +268,7 @@ class DUP_Archive
     // - $file->getExtension() is not reliable as it silently fails at least in php 5.2.9 
     // - issues with when a file has a permission such as 705 and trying to get info (had to fallback to pathinfo)
 	// - basic conclusion wait on the SPL libs untill after php 5.4 is a requiremnt
-	// - since we are in a tight recursive loop lets remove the utiltiy call DUP_Util::SafePath("{$path}/{$file}") and 
+	// - since we are in a tight recursive loop lets remove the utiltiy call DUP_Util::safePath("{$path}/{$file}") and 
 	//   squeeze out as much performance as we possible can
 	
 	private function dirsToArray($path, $filterDirsAll)
