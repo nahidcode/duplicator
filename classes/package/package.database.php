@@ -190,7 +190,7 @@ class DUP_Database
     {
 
         //Is shell_exec possible
-        if (!DUP_Util::IsShellExecAvailable()) {
+        if (!DUP_Util::hasShellExec()) {
             return false;
         }
 
@@ -198,7 +198,7 @@ class DUP_Database
         $custom_mysqldump_path = (strlen($custom_mysqldump_path)) ? $custom_mysqldump_path : '';
 
         //Common Windows Paths
-        if (DUP_Util::IsOSWindows()) {
+        if (DUP_Util::isWindows()) {
             $paths = array(
                 $custom_mysqldump_path,
                 'C:/xampp/mysql/bin/mysqldump.exe',

@@ -1,9 +1,4 @@
 <?php
-// Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
-
 /**
  * Lightweight abstraction layer for common simple database routines
  *
@@ -16,6 +11,12 @@ if (!defined('DUPLICATOR_VERSION')) {
  * @since 1.1.32
  *
  */
+
+// Exit if accessed directly
+if (!defined('DUPLICATOR_VERSION')) {
+    exit;
+}
+
 class DUP_DB extends wpdb
 {
 
@@ -26,7 +27,7 @@ class DUP_DB extends wpdb
      *
      * @return string the server variable to query for
      */
-    public static function mysqlVariable($name)
+    public static function getVariable($name)
     {
         global $wpdb;
         $row = $wpdb->get_row("SHOW VARIABLES LIKE '{$name}'", ARRAY_N);
@@ -41,12 +42,12 @@ class DUP_DB extends wpdb
      *
      * @return false|string 0 on failure, version number on success
      */
-    public static function mysqlVersion($full = false)
+    public static function getVersion($full = false)
     {
         if ($full) {
-            $version = self::mysqlVariable('version');
+            $version = self::getVariable('version');
         } else {
-            $version = preg_replace('/[^0-9.].*/', '', self::mysqlVariable('version'));
+            $version = preg_replace('/[^0-9.].*/', '', self::getVariable('version'));
         }
 
         return empty($version) ? 0 : $version;

@@ -1,9 +1,4 @@
 <?php
-// Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
-
 /**
  * Used to display notices in the WordPress Admin area
  * This class takes advatage of the 'admin_notice' action.
@@ -17,6 +12,12 @@ if (!defined('DUPLICATOR_VERSION')) {
  * @since 1.1.0
  *
  */
+
+// Exit if accessed directly
+if (!defined('DUPLICATOR_VERSION')) {
+    exit;
+}
+
 class DUP_UI_Notice
 {
 

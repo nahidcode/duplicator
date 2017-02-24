@@ -1,5 +1,4 @@
 <?php
-require_once (DUPLICATOR_PLUGIN_PATH . 'classes/package.php');
 
 global $wpdb;
 
@@ -15,7 +14,7 @@ if (isset($_POST['action']))
     }
 }
 
-DUP_Util::InitSnapshotDirectory();
+DUP_Util::initSnapshotDirectory();
 
 $Package = DUP_Package::GetActive();
 $dup_tests = array();
@@ -165,7 +164,7 @@ SYSTEM REQUIREMENTS -->
             <div class="dup-sys-info dup-info-box">
                 <table class="dup-sys-info-results">
                     <tr>
-                        <td><?php printf("%s [%s]", __("MySQL Version", 'duplicator'), DUP_DB::mysqlVersion()); ?></td>
+                        <td><?php printf("%s [%s]", __("MySQL Version", 'duplicator'), DUP_DB::getVersion()); ?></td>
                         <td><?php echo $dup_tests['SRV']['MYSQL_VER'] ?></td>
                     </tr>
                     <tr>

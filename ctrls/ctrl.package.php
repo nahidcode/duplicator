@@ -10,12 +10,12 @@
 function duplicator_package_scan() {
 	
 	header('Content-Type: application/json;');
-	DUP_Util::CheckPermissions('export');
+	DUP_Util::hasCapability('export');
 	
 	@set_time_limit(0);
 	$errLevel = error_reporting();
 	error_reporting(E_ERROR);
-	DUP_Util::InitSnapshotDirectory();
+	DUP_Util::initSnapshotDirectory();
 	
 	$Package = DUP_Package::GetActive();
 	$report = $Package->Scan();
@@ -36,7 +36,7 @@ function duplicator_package_scan() {
  */
 function duplicator_package_build() {
 	
-	DUP_Util::CheckPermissions('export');
+	DUP_Util::hasCapability('export');
 	
 	check_ajax_referer( 'dup_package_build', 'nonce');
 	
@@ -45,7 +45,7 @@ function duplicator_package_build() {
 	@set_time_limit(0);
 	$errLevel = error_reporting();
 	error_reporting(E_ERROR);
-	DUP_Util::InitSnapshotDirectory();
+	DUP_Util::initSnapshotDirectory();
 
 	$Package = DUP_Package::GetActive();
 	
@@ -78,7 +78,7 @@ function duplicator_package_build() {
  */
 function duplicator_package_delete() {
 	
-    DUP_Util::CheckPermissions('export');    
+    DUP_Util::hasCapability('export');    
     check_ajax_referer( 'package_list', 'nonce' );
     
     try {

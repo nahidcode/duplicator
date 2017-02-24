@@ -30,14 +30,15 @@ require_once("define.php");
 if (is_admin() == true) 
 {
 	//Classes
-    require_once 'classes/utilities/class.util.php';
-    require_once 'classes/utilities/class.db.php';
     require_once 'classes/logging.php';
     require_once 'classes/settings.php';
-    require_once 'classes/server.php';
-    require_once 'classes/package.php';
+    require_once 'classes/utilities/class.util.php';
+    require_once 'classes/utilities/class.db.php';
+    require_once 'classes/utilities/server.php';
+    
 	require_once 'classes/ui/class.viewstate.php';
 	require_once 'classes/ui/class.notice.php';
+    require_once 'classes/package/package.php';
 	 
     //Controllers
 	require_once 'ctrls/ctrl.package.php';
@@ -86,7 +87,7 @@ if (is_admin() == true)
         update_option('duplicator_version_plugin', DUPLICATOR_VERSION);
 
         //Setup All Directories
-        DUP_Util::InitSnapshotDirectory();
+        DUP_Util::initSnapshotDirectory();
     }
 
 	

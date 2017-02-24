@@ -34,7 +34,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'save') {
     DUP_Settings::Set('wpfront_integrate', isset($_POST['wpfront_integrate']) ? "1" : "0");
     
     $action_updated = DUP_Settings::Save();
-    DUP_Util::InitSnapshotDirectory();
+    DUP_Util::initSnapshotDirectory();
 }
 
 $uninstall_settings = DUP_Settings::Get('uninstall_settings');
@@ -154,7 +154,7 @@ $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
         <tr>
             <th scope="row"><label><?php _e("Database Script", 'duplicator'); ?></label></th>
             <td>
-                <?php if (!DUP_Util::IsShellExecAvailable()) : ?>
+                <?php if (!DUP_Util::hasShellExec()) : ?>
 					<input type="radio" disabled="true" />
                     <label><?php _e("Use mysqldump", 'duplicator'); ?></label>
                     <p class="description" style="width:550px; margin:5px 0 0 20px">

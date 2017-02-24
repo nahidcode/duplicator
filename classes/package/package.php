@@ -1,10 +1,11 @@
 <?php
 if (!defined('DUPLICATOR_VERSION')) exit; // Exit if accessed directly
 
-require_once (DUPLICATOR_PLUGIN_PATH.'classes/package.archive.php');
-require_once (DUPLICATOR_PLUGIN_PATH.'classes/package.installer.php');
-require_once (DUPLICATOR_PLUGIN_PATH.'classes/package.database.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/utilities/class.util.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.archive.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.installer.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.database.php');
+
 
 final class DUP_PackageStatus
 {
@@ -297,9 +298,9 @@ class DUP_Package
             $filter_exts = isset($post['filter-exts']) ? $this->parseExtensionFilter($post['filter-exts']) : '';
             $tablelist   = isset($post['dbtables']) ? implode(',', $post['dbtables']) : '';
             $compatlist  = isset($post['dbcompat']) ? implode(',', $post['dbcompat']) : '';
-            $dbversion   = DUP_DB::mysqlVersion();
+            $dbversion   = DUP_DB::getVersion();
             $dbversion   = is_null($dbversion) ? '- unknown -' : $dbversion;
-            $dbcomments  = DUP_DB::mysqlVariable('version_comment');
+            $dbcomments  = DUP_DB::getVariable('version_comment');
             $dbcomments  = is_null($dbcomments) ? '- unknown -' : $dbcomments;
 
             //PACKAGE

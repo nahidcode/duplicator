@@ -1,5 +1,5 @@
 <?php
-DUP_Util::CheckPermissions('manage_options');
+DUP_Util::hasCapability('manage_options');
 global $wpdb;
 
 //COMMON HEADER DISPLAY

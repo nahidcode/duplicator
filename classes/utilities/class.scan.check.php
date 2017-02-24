@@ -1,9 +1,4 @@
 <?php
-// Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
-
 /**
  * Recursivly scans a directory and finds all sym-links and unreadable files
  *
@@ -16,6 +11,12 @@ if (!defined('DUPLICATOR_VERSION')) {
  * @since 1.1.26
  *
  */
+
+// Exit if accessed directly
+if (!defined('DUPLICATOR_VERSION')) {
+    exit;
+}
+
 class DUP_ScanCheck
 {
     /**

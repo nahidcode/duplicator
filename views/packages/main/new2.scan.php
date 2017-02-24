@@ -1,6 +1,4 @@
 <?php
-	require_once (DUPLICATOR_PLUGIN_PATH . 'classes/package.php');
-	require_once (DUPLICATOR_PLUGIN_PATH . 'classes/utilities/class.util.php');
 	
 	if(empty($_POST))
 	{
@@ -27,7 +25,7 @@
 	$mysqlcompat_on  = ($mysqldump_on && $mysqlcompat_on) ? true : false;
 	$dbbuild_mode    = ($mysqldump_on) ? 'mysqldump (fast)' : 'PHP (slow)';
     
-    $zip_check = DUP_Util::GetZipPath();
+    $zip_check = DUP_Util::getZipPath();
 ?>
 
 <style>

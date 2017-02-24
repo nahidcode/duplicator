@@ -154,7 +154,6 @@ class DUP_Util
         }
     }
 
-
     /**
      * Makes path safe for any OS
      *      Paths should ALWAYS READ be "/"
@@ -287,8 +286,11 @@ class DUP_Util
 
     /**
      * Can shell_exec be called on this server
+     *
+     * @return bool Returns true if shell_exec can be called on server
+     *
      */
-    public static function IsShellExecAvailable()
+    public static function hasShellExec()
     {
         $cmds = array('shell_exec', 'escapeshellarg', 'escapeshellcmd', 'extension_loaded');
 
@@ -308,7 +310,13 @@ class DUP_Util
         return true;
     }
 
-    public static function IsOSWindows()
+    /**
+     * Is the server running Windows operating system
+     *
+     * @return bool Returns true if operating system is Windows
+     *
+     */
+    public static function isWindows()
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return true;
@@ -316,7 +324,12 @@ class DUP_Util
         return false;
     }
 
-    public static function CheckPermissions($permission = 'read')
+    /**
+     * Does the current user have the capability
+     *
+     * @return null Dies if user doesn't have the correct capability
+     */
+    public static function hasCapability($permission = 'read')
     {
         $capability = $permission;
         $capability = apply_filters('wpfront_user_role_editor_duplicator_translate_capability', $capability);
@@ -328,9 +341,11 @@ class DUP_Util
     }
 
     /**
-     *  Creates the snapshot directory if it doesn't already exisit
+     *  Gets the name of the owner of the current PHP script
+     *
+     * @return string The name of the owner of the current PHP script
      */
-    public static function GetCurrentUser()
+    public static function getCurrentUser()
     {
         $unreadable = 'Undetectable';
         if (function_exists('get_current_user') && is_callable('get_current_user')) {
@@ -341,9 +356,11 @@ class DUP_Util
     }
 
     /**
-     *  Gets the owner of the PHP process
+     * Gets the owner of the PHP process
+     *
+     * @return string Gets the owner of the PHP process
      */
-    public static function GetProcessOwner()
+    public static function getProcessOwner()
     {
         $unreadable = 'Undetectable';
         $user       = '';
@@ -364,9 +381,11 @@ class DUP_Util
     }
 
     /**
-     *  Creates the snapshot directory if it doesn't already exisit
+     * Creates the snapshot directory if it doesn't already exisit
+     *
+     * @return null
      */
-    public static function InitSnapshotDirectory()
+    public static function initSnapshotDirectory()
     {
         $path_wproot = DUP_Util::safePath(DUPLICATOR_WPROOTPATH);
         $path_ssdir  = DUP_Util::safePath(DUPLICATOR_SSDIR_PATH);
@@ -427,13 +446,15 @@ class DUP_Util
     }
 
     /**
-     *  Attempts to file zip on a users system
+     * Attempts to get the file zip path on a users system
+     *
+     * @return null
      */
-    public static function GetZipPath()
+    public static function getZipPath()
     {
         $filepath = null;
 
-        if (self::IsShellExecAvailable()) {
+        if (self::hasShellExec()) {
             if (shell_exec('hash zip 2>&1') == NULL) {
                 $filepath = 'zip';
             } else {

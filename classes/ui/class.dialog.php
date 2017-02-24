@@ -1,9 +1,4 @@
 <?php
-// Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
-
 /**
  * Used to generate a thinkbox inline dialog such as an alert or confirm popup
  *
@@ -16,6 +11,12 @@ if (!defined('DUPLICATOR_VERSION')) {
  * @since 1.1.32
  *
  */
+
+// Exit if accessed directly
+if (!defined('DUPLICATOR_VERSION')) {
+    exit;
+}
+
 class DUP_UI_Dialog
 {
     /**

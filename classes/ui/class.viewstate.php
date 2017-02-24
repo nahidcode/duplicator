@@ -1,9 +1,4 @@
 <?php
-// Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
-
 /**
  * Gets the view state of UI elements to remember its viewable state
  * 
@@ -16,6 +11,12 @@ if (!defined('DUPLICATOR_VERSION')) {
  * @since 1.1.0
  * 
  */
+
+// Exit if accessed directly
+if (!defined('DUPLICATOR_VERSION')) {
+    exit;
+}
+
 class DUP_UI_ViewState
 {
     /**
