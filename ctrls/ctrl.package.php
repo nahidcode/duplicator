@@ -17,13 +17,13 @@ function duplicator_package_scan() {
 	error_reporting(E_ERROR);
 	DUP_Util::initSnapshotDirectory();
 	
-	$Package = DUP_Package::GetActive();
-	$report = $Package->Scan();
+	$Package = DUP_Package::getActive();
+	$report = $Package->runScanner();
 	
-	$Package->SaveActiveItem('ScanFile', $Package->ScanFile);
+	$Package->saveActiveItem('ScanFile', $Package->ScanFile);
 	$json_response = json_encode($report);
 	
-	DUP_Package::TmpCleanup();
+	DUP_Package::tempFileCleanup();
 	error_reporting($errLevel);
     die($json_response);
 }
@@ -47,13 +47,13 @@ function duplicator_package_build() {
 	error_reporting(E_ERROR);
 	DUP_Util::initSnapshotDirectory();
 
-	$Package = DUP_Package::GetActive();
+	$Package = DUP_Package::getActive();
 	
 	if (!is_readable(DUPLICATOR_SSDIR_PATH_TMP . "/{$Package->ScanFile}")) {
 		die("The scan result file was not found.  Please run the scan step before building the package.");
 	}
 	
-	$Package->Build();
+	$Package->runBuild();
 	
 	//JSON:Debug Response
 	//Pass = 1, Warn = 2, Fail = 3

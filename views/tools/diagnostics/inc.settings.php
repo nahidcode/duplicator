@@ -10,7 +10,7 @@
 	$mysqldumpPath = DUP_Database::GetMySqlDumpPath();
 	$mysqlDumpSupport = ($mysqldumpPath) ? $mysqldumpPath : 'Path Not Found';
 	
-	$client_ip_address = DUP_Server::GetClientIP();
+	$client_ip_address = DUP_Server::getClientIP();
 ?>
 
 <!-- ==============================

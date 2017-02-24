@@ -36,7 +36,7 @@ class DUP_Database
             $this->Package = $package;
 
             $time_start        = DUP_Util::getMicrotime();
-            $this->Package->SetStatus(DUP_PackageStatus::DBSTART);
+            $this->Package->setStatus(DUP_PackageStatus::DBSTART);
             $this->dbStorePath = "{$this->Package->StorePath}/{$this->File}";
 
             $package_mysqldump        = DUP_Settings::Get('package_mysqldump');
@@ -89,7 +89,7 @@ class DUP_Database
             DUP_Log::Info("SQL RUNTIME: {$time_sum}");
 
             $this->Size = @filesize($this->dbStorePath);
-            $this->Package->SetStatus(DUP_PackageStatus::DBDONE);
+            $this->Package->setStatus(DUP_PackageStatus::DBDONE);
         } catch (Exception $e) {
             DUP_Log::Error("Runtime error in DUP_Database::Build", "Exception: {$e}");
         }
@@ -282,8 +282,7 @@ class DUP_Database
         }
 
         $cmd .= ' -u '.escapeshellarg(DB_USER);
-        $cmd .= (DB_PASSWORD) ?
-            ' -p'.escapeshellarg(DB_PASSWORD) : '';
+        $cmd .= (DB_PASSWORD) ? ' -p'.escapeshellarg(DB_PASSWORD) : '';
         $cmd .= ' -h '.escapeshellarg($host);
         $cmd .= (!empty($port) && is_numeric($port) ) ?
             ' -P '.$port : '';

@@ -17,8 +17,8 @@
 		die('Unauthorized');
 	}
 	
-	$Package->SaveActive($_POST);
-	$Package = DUP_Package::GetActive();
+	$Package->saveActive($_POST);
+	$Package = DUP_Package::getActive();
 	
 	$mysqldump_on	 = DUP_Settings::Get('package_mysqldump') && DUP_Database::GetMySqlDumpPath();
 	$mysqlcompat_on  = isset($Package->Database->Compatible) && strlen($Package->Database->Compatible);

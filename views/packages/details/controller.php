@@ -6,7 +6,7 @@ global $wpdb;
 $current_tab = isset($_REQUEST['tab']) ? esc_html($_REQUEST['tab']) : 'detail';
 $package_id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : 0;
 
-$package			= DUP_Package::GetByID($package_id);
+$package			= DUP_Package::getByID($package_id);
 $err_found		    = ($package == null || $package->Status < 100);
 $link_log			= "{$package->StoreURL}{$package->NameHash}.log";
 $err_link_log		= "<a target='_blank' href='{$link_log}' >" . __('package log', 'duplicator') . '</a>';

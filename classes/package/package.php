@@ -6,7 +6,6 @@ require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.archive.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.installer.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.database.php');
 
-
 final class DUP_PackageStatus
 {
 
@@ -32,6 +31,7 @@ final class DUP_PackageType
 
 /**
  * Class used to store and process all Package logic
+ *
  * @package Dupicator\classes
  */
 class DUP_Package
@@ -74,7 +74,7 @@ class DUP_Package
         $this->Version = DUPLICATOR_VERSION;
 
         $this->Type      = DUP_PackageType::MANUAL;
-        $this->Name      = self::GetDefaultName();
+        $this->Name      = self::getDefaultName();
         $this->Notes     = null;
         $this->StoreURL  = DUP_Util::snapshotURL();
         $this->StorePath = DUPLICATOR_SSDIR_PATH_TMP;
@@ -84,12 +84,13 @@ class DUP_Package
     }
 
     /**
-     * Generates a scan report
+     * Generates a json scan report
+     *
      * @return array of scan results
      *
      * @notes: Testing = /wp-admin/admin-ajax.php?action=duplicator_package_scan
      */
-    public function Scan()
+    public function runScanner()
     {
         $timerStart     = DUP_Util::getMicrotime();
         $report         = array();
@@ -99,7 +100,7 @@ class DUP_Package
         $report['RPT']['ScanFile'] = $this->ScanFile;
 
         //SERVER
-        $srv           = DUP_Server::GetChecks();
+        $srv           = DUP_Server::getChecks();
         $report['SRV'] = $srv['SRV'];
 
         //FILES
@@ -158,9 +159,10 @@ class DUP_Package
 
     /**
      * Starts the package build process
-     * @return DUP_Package
+     *
+     * @return obj Retuns a DUP_Package object
      */
-    public function Build()
+    public function runBuild()
     {
 
         global $wp_version;
@@ -191,7 +193,7 @@ class DUP_Package
         $info .= "SERVER:\t\t{$_SERVER['SERVER_SOFTWARE']} \n";
         $info .= "PHP TIME LIMIT: {$php_max_time} \n";
         $info .= "PHP MAX MEMORY: {$php_max_memory} \n";
-        $info .= "MEMORY STACK: ".DUP_Server::GetPHPMemory();
+        $info .= "MEMORY STACK: ".DUP_Server::getPHPMemory();
         DUP_Log::Info($info);
         $info = null;
 
@@ -201,10 +203,10 @@ class DUP_Package
             DUP_Log::Error("Unable to serialize pacakge object while building record.");
         }
 
-        $this->ID = $this->FindHashKey($this->Hash);
+        $this->ID = $this->getHashKey($this->Hash);
 
         if ($this->ID != 0) {
-            $this->SetStatus(DUP_PackageStatus::START);
+            $this->setStatus(DUP_PackageStatus::START);
         } else {
             $results = $wpdb->insert($wpdb->prefix."duplicator_packages",
                 array(
@@ -267,22 +269,26 @@ class DUP_Package
         $info = "\n********************************************************************************\n";
         $info .= "RECORD ID:[{$this->ID}]\n";
         $info .= "TOTAL PROCESS RUNTIME: {$timerSum}\n";
-        $info .= "PEAK PHP MEMORY USED: ".DUP_Server::GetPHPMemory(true)."\n";
+        $info .= "PEAK PHP MEMORY USED: ".DUP_Server::getPHPMemory(true)."\n";
         $info .= "DONE PROCESSING => {$this->Name} ".@date("Y-m-d H:i:s")."\n";
 
         DUP_Log::Info($info);
         DUP_Log::Close();
 
-        $this->SetStatus(DUP_PackageStatus::COMPLETE);
+        $this->setStatus(DUP_PackageStatus::COMPLETE);
         return $this;
     }
 
     /**
      *  Saves the active options associted with the active(latest) package.
+     *
+     *  @see DUP_Package::getActive
+     *
      *  @param $_POST $post The Post server object
-     *  @see DUP_Package::GetActive
-     *  @return void */
-    public function SaveActive($post = null)
+     * 
+     *  @return null
+     */
+    public function saveActive($post = null)
     {
         global $wp_version;
 
@@ -290,7 +296,7 @@ class DUP_Package
             $post = stripslashes_deep($post);
 
             $name_chars = array(".", "-");
-            $name       = ( isset($post['package-name']) && !empty($post['package-name'])) ? $post['package-name'] : self::GetDefaultName();
+            $name       = ( isset($post['package-name']) && !empty($post['package-name'])) ? $post['package-name'] : self::getDefaultName();
             $name       = substr(sanitize_file_name($name), 0, 40);
             $name       = str_replace($name_chars, '', $name);
 
@@ -304,16 +310,16 @@ class DUP_Package
             $dbcomments  = is_null($dbcomments) ? '- unknown -' : $dbcomments;
 
             //PACKAGE
-            $this->Created                  = date("Y-m-d H:i:s");
-            $this->Version                  = DUPLICATOR_VERSION;
-            $this->VersionOS                = defined('PHP_OS') ? PHP_OS : 'unknown';
-            $this->VersionWP                = $wp_version;
-            $this->VersionPHP               = phpversion();
-            $this->VersionDB                = $dbversion;
-            $this->Name                     = $name;
-            $this->Hash                     = $this->MakeHash();
-            $this->NameHash                 = "{$this->Name}_{$this->Hash}";
-            
+            $this->Created    = date("Y-m-d H:i:s");
+            $this->Version    = DUPLICATOR_VERSION;
+            $this->VersionOS  = defined('PHP_OS') ? PHP_OS : 'unknown';
+            $this->VersionWP  = $wp_version;
+            $this->VersionPHP = phpversion();
+            $this->VersionDB  = $dbversion;
+            $this->Name       = $name;
+            $this->Hash       = $this->makeHash();
+            $this->NameHash   = "{$this->Name}_{$this->Hash}";
+
             $this->Notes                    = esc_html($post['package-notes']);
             //ARCHIVE
             $this->Archive->PackDir         = rtrim(DUPLICATOR_WPROOTPATH, '/');
@@ -342,13 +348,16 @@ class DUP_Package
     }
 
     /**
-     *  Save any property of this class through reflection
-     *  @param $property A valid public property in this class
-     *  @param $value	 The value for the new dynamic property
-     *  @return void */
-    public function SaveActiveItem($property, $value)
+     * Save any property of this class through reflection
+     *
+     * @param $property     A valid public property in this class
+     * @param $value        The value for the new dynamic property
+     *
+     * @return null
+     */
+    public function saveActiveItem($property, $value)
     {
-        $package = self::GetActive();
+        $package = self::getActive();
 
         $reflectionClass = new ReflectionClass($package);
         $reflectionClass->getProperty($property)->setValue($package, $value);
@@ -356,10 +365,13 @@ class DUP_Package
     }
 
     /**
-     *  Sets the status to log the state of the build
-     *  @param $status The status level for where the package is
-     *  @return void */
-    public function SetStatus($status)
+     * Sets the status to log the state of the build
+     *
+     * @param $status The status level for where the package is
+     *
+     * @return void
+     */
+    public function setStatus($status)
     {
         global $wpdb;
 
@@ -381,11 +393,13 @@ class DUP_Package
 
     /**
      * Does a hash already exisit
-     * @return int Returns 0 if no has is found, if found returns the table ID
+     *
+     * @param string $hash An existing hash value
+     *
+     * @return int Returns 0 if no hash is found, if found returns the table ID
      */
-    public function FindHashKey($hash)
+    public function getHashKey($hash)
     {
-
         global $wpdb;
 
         $table = $wpdb->prefix."duplicator_packages";
@@ -399,22 +413,26 @@ class DUP_Package
 
     /**
      *  Makes the hashkey for the package files
-     *  @return string A unique hashkey */
-    public function MakeHash()
+     *
+     *  @return string  Returns a unique hashkey
+     */
+    public function makeHash()
     {
         return uniqid().mt_rand(1000, 9999).date("ymdHis");
     }
 
     /**
-     * Gets the active package.  The active package is defined as the package that was lasted saved.
+     * Gets the active package which is defined as the package that was lasted saved.
      * Do to cache issues with the built in WP function get_option moved call to a direct DB call.
-     * @see DUP_Package::SaveActive
-     * @return DUP_Package
+     *
+     * @see DUP_Package::saveActive
+     *
+     * @return obj  A copy of the DUP_Package object
      */
-    public static function GetActive()
+    public static function getActive()
     {
-
         global $wpdb;
+
         $obj = new DUP_Package();
         $row = $wpdb->get_row($wpdb->prepare("SELECT option_value FROM `{$wpdb->options}` WHERE option_name = %s LIMIT 1", self::OPT_ACTIVE));
         if (is_object($row)) {
@@ -427,10 +445,12 @@ class DUP_Package
 
     /**
      * Gets the Package by ID
-     * @see DUP_Package::GetByID
-     * @return DUP_Package
+     *  
+     * @param int $id A valid package id form the duplicator_packages table
+     *
+     * @return obj  A copy of the DUP_Package object
      */
-    public static function GetByID($id)
+    public static function getByID($id)
     {
 
         global $wpdb;
@@ -447,10 +467,11 @@ class DUP_Package
     }
 
     /**
-     *  Creates a default name
-     *  @return string   A default packagename
+     *  Gets a default name for the package
+     *
+     *  @return string   A default packagename such as 20170218_blogname
      */
-    public static function GetDefaultName()
+    public static function getDefaultName()
     {
         //Remove specail_chars from final result
         $special_chars = array(".", "-");
@@ -462,12 +483,13 @@ class DUP_Package
 
     /**
      *  Cleanup all tmp files
+     *
      *  @param all empty all contents
-     *  @return void
+     *
+     *  @return null
      */
-    public static function TmpCleanup($all = false)
+    public static function tempFileCleanup($all = false)
     {
-
         //Delete all files now
         if ($all) {
             $dir = DUPLICATOR_SSDIR_PATH_TMP."/*";
@@ -489,12 +511,12 @@ class DUP_Package
     /**
      *  Provides various date formats
      * 
-     *  @param $date The date to format
-     *  @param $format Various date formats to apply
+     *  @param $date    The date to format
+     *  @param $format  Various date formats to apply
      * 
-     *  @return a formated date
+     *  @return a formated date based on the $format
      */
-    public static function FormatCreatedDate($date, $format = 1)
+    public static function getCreatedDateFormat($date, $format = 1)
     {
         $date = new DateTime($date);
         switch ($format) {
@@ -530,6 +552,9 @@ class DUP_Package
         }
     }
 
+    /**
+     *  Cleans up all the tmp files as part of the package build process
+     */
     private function buildCleanup()
     {
 
@@ -554,6 +579,14 @@ class DUP_Package
         }
     }
 
+    /**
+     *  Properly creates the directory filter list that is used for filtering directories
+     *
+     *  @param string $dirs A semi-colon list of dir paths
+     *  /path1_/path/;/path1_/path2/;
+     *
+     *  @returns string A cleaned up list of directory filters
+     */
     private function parseDirectoryFilter($dirs = "")
     {
         $dirs        = str_replace(array("\n", "\t", "\r"), '', $dirs);
@@ -567,6 +600,14 @@ class DUP_Package
         return $filter_dirs;
     }
 
+    /**
+     *  Properly creates the extension filter list that is used for filtering extensions
+     *
+     *  @param string $dirs A semi-colon list of dir paths
+     *  .jpg;.zip;.gif;
+     *
+     *  @returns string A cleaned up list of extension filters
+     */
     private function parseExtensionFilter($extensions = "")
     {
         $filter_exts = "";
