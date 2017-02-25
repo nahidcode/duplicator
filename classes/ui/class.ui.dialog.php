@@ -70,7 +70,7 @@ class DUP_UI_Dialog
     private $uniqid;
 
     /**
-     *  Init this object
+     *  Init this object when created
      */
     public function __construct()
     {
