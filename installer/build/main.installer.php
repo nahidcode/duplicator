@@ -189,7 +189,7 @@ if ($_POST['action_step'] == 1) {
 
 @@CLASS.LOGGING.PHP@@
 
-@@CLASS.SERIALIZER.PHP@@
+@@CLASS.ENGINE.PHP@@
 
 @@CLASS.CONF.WP.PHP@@
 

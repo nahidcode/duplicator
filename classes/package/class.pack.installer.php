@@ -66,7 +66,7 @@ class DUP_Installer
             "classes/util/class.utils.php" => "@@CLASS.UTILS.PHP@@",
             "classes/util/class.db.php" => "@@CLASS.DB.PHP@@",
             "classes/class.logging.php" => "@@CLASS.LOGGING.PHP@@",
-            "classes/class.serializer.php" => "@@CLASS.SERIALIZER.PHP@@",
+            "classes/class.engine.php" => "@@CLASS.ENGINE.PHP@@",
             "classes/config/class.conf.wp.php" => "@@CLASS.CONF.WP.PHP@@",
             "classes/config/class.conf.srv.php" => "@@CLASS.CONF.SRV.PHP@@",
             "ajax.step1.php" => "@@AJAX.STEP1.PHP@@",
