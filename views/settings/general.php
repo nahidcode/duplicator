@@ -55,7 +55,7 @@ $package_ui_created = is_numeric(DUP_Settings::Get('package_ui_created')) ? DUP_
 $wpfront_integrate = DUP_Settings::Get('wpfront_integrate');
 $wpfront_ready = apply_filters('wpfront_user_role_editor_duplicator_integration_ready', false);
 
-$mysqlDumpPath = DUP_Database::GetMySqlDumpPath();
+$mysqlDumpPath = DUP_DB::getMySqlDumpPath();
 $mysqlDumpFound = ($mysqlDumpPath) ? true : false;
 
 

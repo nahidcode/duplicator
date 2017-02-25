@@ -30,28 +30,27 @@ require_once("define.php");
 if (is_admin() == true) 
 {
 	//Classes
-    require_once 'classes/logging.php';
-    require_once 'classes/settings.php';
+    require_once 'classes/class.logging.php';
+    require_once 'classes/class.settings.php';
     require_once 'classes/utilities/class.util.php';
     require_once 'classes/utilities/class.db.php';
-    require_once 'classes/utilities/server.php';
-    
-	require_once 'classes/ui/class.viewstate.php';
-	require_once 'classes/ui/class.notice.php';
-    require_once 'classes/package/package.php';
+    require_once 'classes/utilities/class.server.php';
+	require_once 'classes/ui/class.ui.viewstate.php';
+	require_once 'classes/ui/class.ui.notice.php';
+    require_once 'classes/package/class.pack.php';
 	 
     //Controllers
 	require_once 'ctrls/ctrl.package.php';
 	require_once 'ctrls/ctrl.tools.php';
 	require_once 'ctrls/ctrl.ui.php';
 
-	/* =====================================
-	 * ACTIVATE/DEACTIVE/UPDATE HOOKS */
+	/** ========================================================
+	 * ACTIVATE/DEACTIVE/UPDATE HOOKS
+     * =====================================================  */
 	register_activation_hook(__FILE__,   'duplicator_activate');
     register_deactivation_hook(__FILE__, 'duplicator_deactivate');
 		
     /**
-     * Activation Hook:
 	 * Hooked into `register_activation_hook`.  Routines used to activate the plugin
      *
      * @access global
@@ -90,9 +89,7 @@ if (is_admin() == true)
         DUP_Util::initSnapshotDirectory();
     }
 
-	
     /**
-     * Activation Hook:
 	 * Hooked into `plugins_loaded`.  Routines used to update the plugin
      *
      * @access global
@@ -106,9 +103,7 @@ if (is_admin() == true)
 		load_plugin_textdomain( 'duplicator' );
     }
 
-	
 	/**
-     * Deactivation Hook:
 	 * Hooked into `register_deactivation_hook`.  Routines used to deactivae the plugin
 	 * For uninstall see uninstall.php  Wordpress by default will call the uninstall.php file
      *
@@ -120,9 +115,9 @@ if (is_admin() == true)
         //Logic has been added to uninstall.php
     }
 
-
-    /* =====================================
-	 * ACTION HOOKS */
+	/** ========================================================
+	 * ACTION HOOKS
+     * =====================================================  */
     add_action('plugins_loaded',	'duplicator_update');
     add_action('plugins_loaded',	'duplicator_wpfront_integrate');
 	add_action('admin_init',		'duplicator_init');
@@ -136,9 +131,7 @@ if (is_admin() == true)
 	$GLOBALS['CTRLS_DUP_CTRL_UI']    = new DUP_CTRL_UI();
 	$GLOBALS['CTRLS_DUP_CTRL_Tools'] = new DUP_CTRL_Tools();
 	
-	
 	/**
-     * Action Hook:
 	 * User role editor integration 
      *
      * @access global
@@ -151,9 +144,7 @@ if (is_admin() == true)
         }
     }
 	
-
 	/**
-     * Action Hook:
 	 * Hooked into `admin_init`.  Init routines for all admin pages 
      *
      * @access global
@@ -172,9 +163,7 @@ if (is_admin() == true)
 		wp_register_script('dup-jquery-qtip', DUPLICATOR_PLUGIN_URL . 'assets/js/jquery.qtip/jquery.qtip.min.js', array('jquery'), '2.2.1');
     }
 	
-
 	/**
-     * Menu Redirect:
 	 * Redirects the clicked menu item to the correct location
      *
      * @access global
@@ -195,9 +184,7 @@ if (is_admin() == true)
         }
     }
 
-	
 	/**
-     * Action Hook:
 	 * Hooked into `admin_menu`.  Loads all of the wp left nav admin menus for Duplicator
      *
      * @access global
@@ -274,9 +261,7 @@ if (is_admin() == true)
 		
     }
 
-	
     /**
-     * Enqueue Scripts:
 	 * Loads all required javascript libs/source for DupPro
      *
      * @access global
@@ -292,9 +277,7 @@ if (is_admin() == true)
 		
     }
 
-	
     /**
-     * Enqueue CSS Styles:
 	 * Loads all CSS style libs/source for DupPro
      *
      * @access global
@@ -309,13 +292,13 @@ if (is_admin() == true)
     }
 
 
-	/* =====================================
-	 * FILTERS */
+	/** ========================================================
+	 * FILTERS
+     * =====================================================  */
 	add_filter('plugin_action_links', 'duplicator_manage_link', 10, 2);
     add_filter('plugin_row_meta', 'duplicator_meta_links', 10, 2);
 	
 	/**
-     * Plugin MetaData:
 	 * Adds the manage link in the plugins list 
      *
      * @access global
@@ -334,9 +317,7 @@ if (is_admin() == true)
         return $links;
     }
 	
-	
 	/**
-     * Plugin MetaData:
 	 * Adds links to the plugins manager page
      *
      * @access global

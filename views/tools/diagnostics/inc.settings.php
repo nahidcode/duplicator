@@ -7,7 +7,7 @@
 	$space = @disk_total_space(DUPLICATOR_WPROOTPATH);
 	$space_free = @disk_free_space(DUPLICATOR_WPROOTPATH);
 	$perc = @round((100/$space)*$space_free,2);
-	$mysqldumpPath = DUP_Database::GetMySqlDumpPath();
+	$mysqldumpPath = DUP_DB::getMySqlDumpPath();
 	$mysqlDumpSupport = ($mysqldumpPath) ? $mysqldumpPath : 'Path Not Found';
 	
 	$client_ip_address = DUP_Server::getClientIP();

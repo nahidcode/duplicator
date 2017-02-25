@@ -1,9 +1,8 @@
 <?php
 if (!defined('DUPLICATOR_VERSION')) exit; // Exit if accessed directly
-require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.archive.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.php');
 
 /**
- *  DUP_ZIP
  *  Creates a zip file using the built in PHP ZipArchive class
  */
 class DUP_Zip extends DUP_Archive
@@ -21,9 +20,9 @@ class DUP_Zip extends DUP_Archive
     private static $scanReport;
 
     /**
-     *  CREATE
-     *  Creates the zip file and adds the SQL file to the archive */
-    static public function Create(DUP_Archive $archive)
+     *  Creates the zip file and adds the SQL file to the archive
+     */
+    public static function create(DUP_Archive $archive)
     {
         try {
             $timerAllStart     = DUP_Util::getMicrotime();
@@ -94,8 +93,6 @@ class DUP_Zip extends DUP_Archive
                 DUP_Log::Info($info);
             }
 
-
-
             /* ZIP FILES: Network Flush
              *  This allows the process to not timeout on fcgi 
              *  setups that need a response every X seconds */
@@ -155,7 +152,7 @@ class DUP_Zip extends DUP_Archive
             DUP_Log::Info("ARCHIVE RUNTIME: {$timerAllSum}");
             DUP_Log::Info("MEMORY STACK: ".DUP_Server::getPHPMemory());
         } catch (Exception $e) {
-            DUP_Log::Error("Runtime error in package.archive.zip.php constructor.", "Exception: {$e}");
+            DUP_Log::Error("Runtime error in class.pack.archive.zip.php constructor.", "Exception: {$e}");
         }
     }
 }

@@ -18,13 +18,22 @@ class DUP_Installer
     //PROTECTED
     protected $Package;
 
-    //CONSTRUCTOR
+    /**
+     *  Init this object
+     */
     function __construct($package)
     {
         $this->Package = $package;
     }
 
-    public function Build($package)
+    /**
+     *  Build the installer script
+     *
+     *  @param obj $package A reference to the package that this installer object belongs to
+     *
+     *  @return null
+     */
+    public function build($package)
     {
 
         $this->Package = $package;
@@ -91,8 +100,9 @@ class DUP_Installer
     }
 
     /**
-     *  createZipBackup
      *  Puts an installer zip file in the archive for backup purposes.
+     *
+     * @return null
      */
     private function addBackup()
     {
@@ -112,8 +122,11 @@ class DUP_Installer
     }
 
     /**
-     *  createFromTemplate
-     *  Generates the final installer file from the template file
+     * Generates the final installer file from the template file
+     *
+     * @param string $template The path to the installer template which is orginally copied from main.installer.php
+     *
+     * @return null
      */
     private function createFromTemplate($template)
     {
@@ -175,7 +188,6 @@ class DUP_Installer
     }
 
     /**
-     *  parseTemplate
      *  Tokenize a file based on an array key 
      *
      *  @param string $filename		The filename to tokenize

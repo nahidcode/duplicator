@@ -1,67 +1,19 @@
 <?php
 if (!defined('DUPLICATOR_VERSION')) exit; // Exit if accessed directly
 
-require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.archive.zip.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.filters.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.zip.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'lib/forceutf8/Encoding.php');
 
 /**
- * The base class for all filter types Directories/Files/Extentions
+ * Used to create the archive file
+ *
+ * @package Duplicator
+ * @subpackage classes/package
+ * @copyright (c) 2017, Snapcreek LLC
+ * @since 1.1.0
+ *
  */
-class DUP_Archive_Filter_Scope_Base
-{
-    //All internal storage items that duplicator decides to filter
-    public $Core = array();
-    //Items when creating a package or template that a user decides to filter
-    public $Instance = array();
-
-}
-
-/**
- * The filter types that belong to directories
- */
-class DUP_Archive_Filter_Scope_Directory extends DUP_Archive_Filter_Scope_Base
-{
-    //Items that are not readable
-    public $Warning = array();
-    //Items that are not readable
-    public $Unreadable = array();
-
-}
-
-/**
- * The filter types that belong to files
- */
-class DUP_Archive_Filter_Scope_File extends DUP_Archive_Filter_Scope_Directory
-{
-    //Items that are too large
-    public $Size = array();
-
-}
-
-/**
- * The filter information object which store all information about the filtered
- * data that is gathered to the execution of a scan process
- */
-class DUP_Archive_Filter_Info
-{
-    //Contains all folder filter info
-    public $Dirs = array();
-    //Contains all file filter info
-    public $Files = array();
-    //Contains all extensions filter info
-    public $Exts = array();
-    public $UDirCount  = 0;
-    public $UFileCount = 0;
-    public $UExtCount  = 0;
-
-    public function __construct()
-    {
-        $this->Dirs  = new DUP_Archive_Filter_Scope_Directory();
-        $this->Files = new DUP_Archive_Filter_Scope_File();
-        $this->Exts  = new DUP_Archive_Filter_Scope_Base();
-    }
-}
-
 class DUP_Archive
 {
     //PUBLIC
@@ -80,6 +32,10 @@ class DUP_Archive
     //PROTECTED
     protected $Package;
 
+
+    /**
+     *  Init this object
+     */
     public function __construct($package)
     {
         $this->Package    = $package;
@@ -87,7 +43,14 @@ class DUP_Archive
         $this->FilterInfo = new DUP_Archive_Filter_Info();
     }
 
-    public function Build($package)
+    /**
+     * Builds the archive based on the archive type
+     *
+     * @param obj $package The package object that started this process
+     *
+     * @return null
+     */
+    public function build($package)
     {
         try {
             $this->Package = $package;
@@ -101,7 +64,7 @@ class DUP_Archive
                 default:
                     if (class_exists(ZipArchive)) {
                         $this->Format = 'ZIP';
-                        DUP_Zip::Create($this);
+                        DUP_Zip::create($this);
                     }
                     break;
             }
@@ -114,21 +77,35 @@ class DUP_Archive
         }
     }
 
-    public function GetFilterDirAsArray()
+    /**
+     * Gets the filter directory paths as an array
+     *
+     * @return array    Returns an array of filter directory paths
+     */
+    public function getFilterDirAsArray()
     {
         return array_map('DUP_Util::safePath', explode(";", $this->FilterDirs, -1));
     }
 
-    public function GetFilterExtsAsArray()
+    /**
+     * Gets the filter file extensions as an array
+     *
+     * @return array    Returns an array of filter file extensions
+     */
+    public function getFilterExtsAsArray()
     {
         return explode(";", $this->FilterExts, -1);
     }
 
     /**
+     *  Builds a list of files and directories to be included in the archive
+     *
      *  Get the directory size recursively, but don't calc the snapshot directory, exclusion diretories
      *  @link http://msdn.microsoft.com/en-us/library/aa365247%28VS.85%29.aspx Windows filename restrictions
+     *
+     *  @return obj Returns a DUP_Archive object
      */
-    public function Stats()
+    public function getScanData()
     {
         $this->createFilterInfo();
         $this->getDirs();
@@ -136,7 +113,11 @@ class DUP_Archive
         return $this;
     }
 
-    //Build Filter Data
+    /**
+     * Creates the filter info setup data used for filtering the archive
+     *
+     * @return null
+     */
     private function createFilterInfo()
     {
         //FILTER: INSTANCE ITEMS
@@ -151,14 +132,16 @@ class DUP_Archive
         $this->FilterInfo->Dirs->Core[] = DUPLICATOR_SSDIR_PATH;
 
         $this->FilterDirsAll = array_merge($this->FilterInfo->Dirs->Instance, $this->FilterInfo->Dirs->Core);
-
         $this->FilterExtsAll = array_merge($this->FilterInfo->Exts->Instance, $this->FilterInfo->Exts->Core);
     }
 
-    //Get All Directories then filter
+    /**
+     * Builds the directory list and directory filter lists
+     *
+     * @return null
+     */
     private function getDirs()
     {
-
         $rootPath   = DUP_Util::safePath(rtrim(DUPLICATOR_WPROOTPATH, '//'));
         $this->Dirs = array();
 
@@ -174,12 +157,11 @@ class DUP_Archive
         //Invalid test contains checks for: characters over 250, invlaid characters,
         //empty string and directories ending with period (Windows incompatable)
         foreach ($this->Dirs as $key => $val) {
-            //WARNING: Find OS items that may have issues
-            // was commented out in pro
             $name = basename($val);
 
-            $warn_test = strlen($val) > 250 || preg_match('/(\/|\*|\?|\>|\<|\:|\\|\|)/', $name) || trim($name) == "" || (strrpos($name, '.') == strlen($name) - 1 && substr($name, -1) == '.') || preg_match('/[^\x20-\x7f]/',
-                    $name);
+            $warn_test = strlen($val) > 250 || preg_match('/(\/|\*|\?|\>|\<|\:|\\|\|)/', $name) 
+                || trim($name) == "" || (strrpos($name, '.') == strlen($name) - 1 && substr($name, -1) == '.')
+                || preg_match('/[^\x20-\x7f]/',  $name);
             if ($warn_test) {
                 $this->FilterInfo->Dirs->Warning[] = DUP_Encoding::toUTF8($val);
             }
@@ -193,7 +175,12 @@ class DUP_Archive
         }
     }
 
-    //Get all files and filter out error prone subsets
+
+    /**
+     * Get all files and filter out error prone subsets
+     *
+     * @return null
+     */
     private function getFiles()
     {
         foreach ($this->Dirs as $key => $val) {
@@ -231,15 +218,24 @@ class DUP_Archive
         }
     }
 
-    //Recursive function to get all Directories in a wp install
-    //Older PHP logic which is more stable on older version of PHP
-    //NOTE RecursiveIteratorIterator is problematic on some systems issues include:
-    // - error 'too many files open' for recursion
-    // - $file->getExtension() is not reliable as it silently fails at least in php 5.2.9 
-    // - issues with when a file has a permission such as 705 and trying to get info (had to fallback to pathinfo)
-    // - basic conclusion wait on the SPL libs untill after php 5.4 is a requiremnt
-    // - since we are in a tight recursive loop lets remove the utiltiy call DUP_Util::safePath("{$path}/{$file}") and
-    //   squeeze out as much performance as we possible can
+
+    /**
+     * Recursive function to get all Directories in a wp install
+     *
+     * @param string $path The path of the directory to add to the array
+     * @param array $filterDirsAll An array of all the filtered directories
+     *
+     * NOTE: Older PHP logic which is more stable on older version of PHP
+     * RecursiveIteratorIterator is problematic on some systems issues include:
+     *    - error 'too many files open' for recursion
+     *    - $file->getExtension() is not reliable as it silently fails at least in php 5.2.9
+     *    - issues with when a file has a permission such as 705 and trying to get info (had to fallback to pathinfo)
+     *    - basic conclusion wait on the SPL libs untill after php 5.4 is a requiremnt
+     *    - inside a tight recursive loop lets remove the utiltiy call DUP_Util::safePath("{$path}/{$file}") and
+     *      squeeze out as much performance as possible
+     *
+     * @return null
+     */
     private function dirsToArray($path, $filterDirsAll)
     {
         $items  = array();

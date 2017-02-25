@@ -2,9 +2,9 @@
 if (!defined('DUPLICATOR_VERSION')) exit; // Exit if accessed directly
 
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/utilities/class.util.php');
-require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.archive.php');
-require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.installer.php');
-require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/package.database.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.installer.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.database.php');
 
 final class DUP_PackageStatus
 {
@@ -104,7 +104,7 @@ class DUP_Package
         $report['SRV'] = $srv['SRV'];
 
         //FILES
-        $this->Archive->Stats();
+        $this->Archive->getScanData();
         $dirCount  = count($this->Archive->Dirs);
         $fileCount = count($this->Archive->Files);
         $fullCount = $dirCount + $fileCount;
@@ -126,7 +126,7 @@ class DUP_Package
         $report['ARC']['Files'] = $this->Archive->Files;
 
         //DATABASE
-        $db           = $this->Database->Stats();
+        $db           = $this->Database->getScanData();
         $report['DB'] = $db;
 
         $warnings = array($report['SRV']['WEB']['ALL'],
@@ -228,9 +228,9 @@ class DUP_Package
         //START BUILD
         //PHPs serialze method will return the object, but the ID above is not passed
         //for one reason or another so passing the object back in seems to do the trick
-        $this->Database->Build($this);
-        $this->Archive->Build($this);
-        $this->Installer->Build($this);
+        $this->Database->build($this);
+        $this->Archive->build($this);
+        $this->Installer->build($this);
 
 
         //INTEGRITY CHECKS

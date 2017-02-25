@@ -52,4 +52,66 @@ class DUP_DB extends wpdb
 
         return empty($version) ? 0 : $version;
     }
+
+
+    /**
+     * Returns the mysqldump path if the server is enabled to execute it
+     * @return boolean|string
+     */
+    public static function getMySqlDumpPath()
+    {
+
+        //Is shell_exec possible
+        if (!DUP_Util::hasShellExec()) {
+            return false;
+        }
+
+        $custom_mysqldump_path = DUP_Settings::Get('package_mysqldump_path');
+        $custom_mysqldump_path = (strlen($custom_mysqldump_path)) ? $custom_mysqldump_path : '';
+
+        //Common Windows Paths
+        if (DUP_Util::isWindows()) {
+            $paths = array(
+                $custom_mysqldump_path,
+                'C:/xampp/mysql/bin/mysqldump.exe',
+                'C:/Program Files/xampp/mysql/bin/mysqldump',
+                'C:/Program Files/MySQL/MySQL Server 6.0/bin/mysqldump',
+                'C:/Program Files/MySQL/MySQL Server 5.5/bin/mysqldump',
+                'C:/Program Files/MySQL/MySQL Server 5.4/bin/mysqldump',
+                'C:/Program Files/MySQL/MySQL Server 5.1/bin/mysqldump',
+                'C:/Program Files/MySQL/MySQL Server 5.0/bin/mysqldump',
+            );
+
+            //Common Linux Paths
+        } else {
+            $path1     = '';
+            $path2     = '';
+            $mysqldump = `which mysqldump`;
+            if (@is_executable($mysqldump)) $path1     = (!empty($mysqldump)) ? $mysqldump : '';
+
+            $mysqldump = dirname(`which mysql`)."/mysqldump";
+            if (@is_executable($mysqldump)) $path2     = (!empty($mysqldump)) ? $mysqldump : '';
+
+            $paths = array(
+                $custom_mysqldump_path,
+                $path1,
+                $path2,
+                '/usr/local/bin/mysqldump',
+                '/usr/local/mysql/bin/mysqldump',
+                '/usr/mysql/bin/mysqldump',
+                '/usr/bin/mysqldump',
+                '/opt/local/lib/mysql6/bin/mysqldump',
+                '/opt/local/lib/mysql5/bin/mysqldump',
+                '/opt/local/lib/mysql4/bin/mysqldump',
+            );
+        }
+
+        // Find the one which works
+        foreach ($paths as $path) {
+            if (@is_executable($path)) return $path;
+        }
+
+        return false;
+    }
+
 }

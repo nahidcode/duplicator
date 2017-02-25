@@ -20,7 +20,9 @@ class DUP_Database
     private $EOFMarker;
     private $networkFlush;
 
-    //CONSTRUCTOR
+    /**
+     *  Init this object
+     */
     function __construct($package)
     {
         $this->Package      = $package;
@@ -29,7 +31,14 @@ class DUP_Database
         $this->networkFlush = empty($package_zip_flush) ? false : $package_zip_flush;
     }
 
-    public function Build($package)
+    /**
+     *  Build the database script
+     *
+     *  @param obj $package A reference to the package that this database object belongs in
+     *
+     *  @return null
+     */
+    public function build($package)
     {
         try {
 
@@ -42,7 +51,7 @@ class DUP_Database
             $package_mysqldump        = DUP_Settings::Get('package_mysqldump');
             $package_phpdump_qrylimit = DUP_Settings::Get('package_phpdump_qrylimit');
 
-            $mysqlDumpPath        = self::GetMySqlDumpPath();
+            $mysqlDumpPath        = DUP_DB::getMySqlDumpPath();
             $mode                 = ($mysqlDumpPath && $package_mysqldump) ? 'MYSQLDUMP' : 'PHP';
             $reserved_db_filepath = DUPLICATOR_WPROOTPATH.'database.sql';
 
@@ -96,12 +105,14 @@ class DUP_Database
     }
 
     /**
-     *  Get the database stats
+     *  Get the database meta-data suc as tables as all there details
+     *
+     *  @return array Returns an array full of meta-data about the database
      */
-    public function Stats()
+    public function getScanData()
     {
-
         global $wpdb;
+
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
         $tblCount     = 0;
 
@@ -183,65 +194,10 @@ class DUP_Database
     }
 
     /**
-     * Returns the mysqldump path if the server is enabled to execute it
-     * @return boolean|string
+     *  Build the database script using mysqldump
+     *
+     *  @return bool  Returns true if the sql script was succesfully created
      */
-    public static function GetMySqlDumpPath()
-    {
-
-        //Is shell_exec possible
-        if (!DUP_Util::hasShellExec()) {
-            return false;
-        }
-
-        $custom_mysqldump_path = DUP_Settings::Get('package_mysqldump_path');
-        $custom_mysqldump_path = (strlen($custom_mysqldump_path)) ? $custom_mysqldump_path : '';
-
-        //Common Windows Paths
-        if (DUP_Util::isWindows()) {
-            $paths = array(
-                $custom_mysqldump_path,
-                'C:/xampp/mysql/bin/mysqldump.exe',
-                'C:/Program Files/xampp/mysql/bin/mysqldump',
-                'C:/Program Files/MySQL/MySQL Server 6.0/bin/mysqldump',
-                'C:/Program Files/MySQL/MySQL Server 5.5/bin/mysqldump',
-                'C:/Program Files/MySQL/MySQL Server 5.4/bin/mysqldump',
-                'C:/Program Files/MySQL/MySQL Server 5.1/bin/mysqldump',
-                'C:/Program Files/MySQL/MySQL Server 5.0/bin/mysqldump',
-            );
-
-            //Common Linux Paths
-        } else {
-            $path1     = '';
-            $path2     = '';
-            $mysqldump = `which mysqldump`;
-            if (@is_executable($mysqldump)) $path1     = (!empty($mysqldump)) ? $mysqldump : '';
-
-            $mysqldump = dirname(`which mysql`)."/mysqldump";
-            if (@is_executable($mysqldump)) $path2     = (!empty($mysqldump)) ? $mysqldump : '';
-
-            $paths = array(
-                $custom_mysqldump_path,
-                $path1,
-                $path2,
-                '/usr/local/bin/mysqldump',
-                '/usr/local/mysql/bin/mysqldump',
-                '/usr/mysql/bin/mysqldump',
-                '/usr/bin/mysqldump',
-                '/opt/local/lib/mysql6/bin/mysqldump',
-                '/opt/local/lib/mysql5/bin/mysqldump',
-                '/opt/local/lib/mysql4/bin/mysqldump',
-            );
-        }
-
-        // Find the one which works
-        foreach ($paths as $path) {
-            if (@is_executable($path)) return $path;
-        }
-
-        return false;
-    }
-
     private function mysqlDump($exePath)
     {
 
@@ -314,6 +270,11 @@ class DUP_Database
         return ($output) ? false : true;
     }
 
+    /**
+     *  Build the database script using php
+     *
+     *  @return bool  Returns true if the sql script was succesfully created
+     */
     private function phpDump()
     {
 
