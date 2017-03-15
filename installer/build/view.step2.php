@@ -141,28 +141,12 @@ VIEW: STEP 2- INPUT -->
 	
 	<div class="dup-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
 	<div class="hdr-main">
-		Step 2: Update Files &amp; Database
+		Step <span class="step">2</span> of 3: Update Files &amp; Database
 	</div><br />
 
-	<div class="hdr-sub">Old Settings</div>
-	<table class="table-inputs-s2">
-		<tr valign="top">
-			<td style="width:80px">URL</td>
-			<td>
-				<input type="text" name="url_old" id="url_old" value="<?php echo $GLOBALS['FW_URL_OLD'] ?>" readonly="readonly"  class="readonly" />
-				<a href="javascript:Duplicator.editOldURL()" id="edit_url_old" style="font-size:12px">edit</a>		
-			</td>
-		</tr>
-		<tr valign="top">
-			<td>Path</td>
-			<td>
-				<input type="text" name="path_old" id="path_old" value="<?php echo $old_path ?>" readonly="readonly"  class="readonly" />
-				<a href="javascript:Duplicator.editOldPath()" id="edit_path_old" style="font-size:12px">edit</a>		
-			</td>
-		</tr>
-	</table>
 
-	<div class="hdr-sub" style="margin-top:8px">New Settings</div>
+
+	<div class="hdr-sub1" style="margin-top:8px">New Settings</div>
 	<table class="table-inputs-s2">		
 		<tr>
 			<td style="width:80px">URL</td>
@@ -184,11 +168,13 @@ VIEW: STEP 2- INPUT -->
 		
 	<!-- ==========================
     ADVANCED OPTIONS -->
-	<a href="javascript:void(0)" onclick="$('#dup-s2-adv-opts').toggle(0)"><b style="font-size:14px">Advanced Options...</b></a>
+     <div class="hdr-sub2">
+        <a href="javascript:void(0)" onclick="$('#dup-s2-adv-opts').toggle(0)">Advanced Options...</a>
+     </div>
 	<div id='dup-s2-adv-opts' style="display:none;">
 		
 		<br/>
-		<div class="hdr-sub">Add New Admin Account</div>
+		<div class="hdr-sub3">Add New Admin Account</div>
 		<table class="table-inputs-s2" style="margin-top:7px">
 			<tr><td colspan="2"><i style="color:gray;font-size: 11px">This feature is optional.  If the username already exists the account will NOT be created or updated.</i></td></tr>
 			<tr>
@@ -203,7 +189,24 @@ VIEW: STEP 2- INPUT -->
 		<br/><br/>
 		
 		
-		<div class="hdr-sub">Scan Options</div>
+		<div class="hdr-sub3">Scan Options</div>
+        <table class="table-inputs-s2">
+            <tr valign="top">
+                <td style="width:80px">Old URL</td>
+                <td>
+                    <input type="text" name="url_old" id="url_old" value="<?php echo $GLOBALS['FW_URL_OLD'] ?>" readonly="readonly"  class="readonly" />
+                    <a href="javascript:Duplicator.editOldURL()" id="edit_url_old" style="font-size:12px">edit</a>
+                </td>
+            </tr>
+            <tr valign="top">
+                <td>Old Path</td>
+                <td>
+                    <input type="text" name="path_old" id="path_old" value="<?php echo $old_path ?>" readonly="readonly"  class="readonly" />
+                    <a href="javascript:Duplicator.editOldPath()" id="edit_path_old" style="font-size:12px">edit</a>
+                </td>
+            </tr>
+        </table>
+
 		<table style="width: 100%;">
 			<tr>
 				<td valign="top" style="width:80px">Site URL</td>
@@ -255,7 +258,7 @@ VIEW: STEP 2- INPUT -->
 	</div>
 
 	<div class="dup-footer-buttons" style='position: absolute; bottom:20px'>
-		<input id="dup-step2-next" type="button" value=" Run Update " onclick="Duplicator.runUpdate()"  />
+		<input id="dup-step2-next"  class="default-btn" type="button" value=" Next " onclick="Duplicator.runUpdate()"  />
 	</div>	
 </form>
 

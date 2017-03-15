@@ -28,10 +28,10 @@ VIEW: STEP 3- INPUT -->
 	<div class="dup-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
 
 	<div class="hdr-main">
-		Step 3: Test Site
+        Step <span class="step">3</span> of 3: Test Site
 	</div><br />
 	
-	<div class="hdr-sub">
+	<div class="hdr-sub1">
 		<div class="s3-final-title">FINAL STEPS!</div>
 	</div>
 		

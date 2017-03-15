@@ -45,7 +45,7 @@ VIEW: STEP 1- INPUT -->
 	<input type="hidden" name="package_name"  value="<?php echo $zip_name ?>" />
 	
 	<div class="hdr-main">
-		Step 1: Deploy Files &amp; Database
+        Step <span class="step">1</span> of 3: Deploy Data
 	</div>
 	
 	<!-- CHECKS: FAIL -->
@@ -86,8 +86,8 @@ VIEW: STEP 1- INPUT -->
 			</div> 
 		</div><br/>
 	
-    	<div class="hdr-sub">
-    	    MySQL Database
+    	<div class="hdr-sub1">
+    	    Database Setup
     	</div>
     	<table class="s1-opts">
 			<tr>
@@ -135,7 +135,7 @@ VIEW: STEP 1- INPUT -->
 		<!-- =========================================
 		DIALOG: DB CONNECTION CHECK  -->
 		<div id="s1-dbconn">
-			<input type="button" onclick="Duplicator.dlgTestDB()" class="s1-small-btn" value="Test Connection" />
+			
 			<div id="s1-dbconn-status" style="display:none">
 				<div style="padding: 0px 10px 10px 10px;">		
 					<div id="dbconn-test-msg" style="min-height:80px"></div>
@@ -150,12 +150,14 @@ VIEW: STEP 1- INPUT -->
 		<br/>
 		
 		<!-- ADVANCED OPTIONS -->
-    	<a href="javascript:void(0)" onclick="$('#dup-step1-adv-opts').toggle(250)"><b style="font-size:14px">Advanced Options...</b></a>
+        <div class="hdr-sub2">
+            <a href="javascript:void(0)" onclick="$('#dup-step1-adv-opts').toggle(250)">Advanced Options...</a>
+        </div>
     	<div id='dup-step1-adv-opts' style="display:none">
 
 			<!-- GENERAL -->
 			<div class="s1-advopts-section">
-				<div class="hdr-sub">General</div>
+				<div class="hdr-sub3">General</div>
 				<table class="s1-opts s1-advopts">
 					<tr>
 						<td>Extraction</td>
@@ -193,7 +195,7 @@ VIEW: STEP 1- INPUT -->
 			
 			<!-- MYSQL -->
 			<div class="s1-advopts-section">
-				<div class="hdr-sub">MySQL</div>			
+				<div class="hdr-sub3">MySQL</div>
 				<table class="s1-opts s1-advopts">
 					<tr>
 						<td>Spacing</td>
@@ -222,119 +224,81 @@ VIEW: STEP 1- INPUT -->
 			<div class="s1-advopts-help">
 				<small><i>For an overview of these settings see the <a href="?help=1" target="_blank">help page</a></i></small>
 			</div>
-    	</div>
-		<br/><br/>
+    	</div><br/>
 		
 	    <!-- SETUP HELP	-->
-    	<a href="javascript:void(0)" onclick="$('#dup-step1-cpanel').toggle(250)"><b style="font-size: 14px">Need Setup Help...</b></a>
+        <div class="hdr-sub2">
+          <a href="javascript:void(0)" onclick="$('#dup-step1-cpanel').toggle(250)">Need Setup Help...</a>  
+        </div>
+    	
     	<div id='dup-step1-cpanel' style="display:none">
     	    <div style="padding:10px 0px 0px 10px;line-height:22px">
     		&raquo; View the <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-070-q" target="_blank">video tutorials</a> <br/>
     		&raquo; Read helpful <a href="https://snapcreek.com/duplicator/docs/faqs-tech/" target="_blank">articles</a> <br/>
 			&raquo; Visit the <a href="https://snapcreek.com/duplicator/docs/quick-start/" target="_blank">quick start guides</a>
     	    </div>
-    	</div>
-		<br/><br/>
+    	</div><br/>
 
 		<!-- NOTICES  -->
-		<a href="javascript:void(0)" onclick="$('#dup-s1-warning').toggle(250)"><b style="font-size:14px">Warnings &amp; Notices...</b></a>
-    	<div id="dup-s1-warning" style="display: none"><pre>Duplicator
-Copyright (c) 2017 Snapcreek LLC
+        <div class="hdr-sub2">
+            <a href="javascript:void(0)" onclick="$('#dup-s1-warning').toggle(250)">Terms &amp; Notices...</a>
+        </div>
+		
+    	<div id="dup-s1-warning" style="display: none">
+            Duplicator <br/>
+            Copyright (c) 2017 Snapcreek LLC
+            <br/><br/>
 
-*** WARNINGS &amp; NOTICES *** 
+            <b>DISCLAIMER:</b><br/>
+            This plugin require above average technical knowledge. Please use it at your own risk and always back up your database and files beforehand using another backup
+            system besides the Duplicator. If you're not sure about how to use this tool then please enlist the guidance of a technical professional.  Always test this installer
+            in a sandbox environment before trying to deploy into a production setting.
+            <br/><br/>
 
-DISCLAIMER:
-This plugin require above average technical knowledge. Please use it at your own risk and always back up your database and files beforehand using another backup 
-system besides the Duplicator. If you're not sure about how to use this tool then please enlist the guidance of a technical professional.  Always test this installer
-in a sandbox environment before trying to deploy into a production setting.
+             <b>DATABASE:</b><br/>
+            Do not connect to an existing database unless you are 100% sure you want to remove all of it's data.  Connecting to a database that already exists will permanently
+            DELETE all data in that database. This tool is designed to populate and fill a database with NEW data from a duplicated database using the SQL script in the package
+            name above.
+            <br/><br/>
 
-DATABASE:
-Do not connect to an existing database unless you are 100% sure you want to remove all of it's data.  Connecting to a database that already exists will permanently 
-DELETE all data in that database. This tool is designed to populate and fill a database with NEW data from a duplicated database using the SQL script in the package name above.
+             <b>SETUP:</b><br/>
+            Only the archive and installer.php file should be in the install directory, unless you have manually extracted the package and checked the 'Manual Package Extraction' checkbox.
+            All other files will be OVERWRITTEN during install.  Make sure you have full backups of all your databases and files before continuing with an installation.
+            <br/><br/>
 
-SETUP:
-Only the archive and installer.php file should be in the install directory, unless you have manually extracted the package and checked the 'Manual Package Extraction' checkbox. 
-All other files will be OVERWRITTEN during install.  Make sure you have full backups of all your databases and files before continuing with an installation.
+             <b>MANUAL EXTRACTION:</b><br/>
+            Manual extraction requires that all contents in the package are extracted to the same directory as the installer.php file.  Manual extraction is only needed when your server
+            does not support the ZipArchive extension.  Please see the online help for more details.
+            <br/><br/>
 
-MANUAL EXTRACTION:
-Manual extraction requires that all contents in the package are extracted to the same directory as the installer.php file.  Manual extraction is only needed when your server 
-does not support the ZipArchive extension.  Please see the online help for more details.
+             <b>AFTER INSTALL:</b><br/>
+            When you are done with the installation remove the installer.php, installer-data.sql and the installer-log.txt files from your directory.  These files contain sensitive information
+             and should not remain on a production system.
+             <br/><br/>
 
-AFTER INSTALL:
-When you are done with the installation remove the installer.php, installer-data.sql and the installer-log.txt files from your directory.  These files contain sensitive information
- and should not remain on a production system.
+             <b>*** USER LICENSE AGREEMENT ***</b>
+            <br/><br/>
 
+            IMPORTANT: PLEASE READ THIS LICENSE CAREFULLY BEFORE USING THIS SOFTWARE.
+            <br/><br/>
 
-*** END USER LICENSE AGREEMENT ***
+            <b>LICENSE OVERVIEW</b><br/>
+            Duplicator is licensed under the GPL v3 https://www.gnu.org/licenses/gpl-3.0.en.html including the following disclaimers and limitation of liability.
+            <br/><br/>
 
-IMPORTANT: PLEASE READ THIS LICENSE CAREFULLY BEFORE USING THIS SOFTWARE.
+            <b>DISCLAIMER OF WARRANTY</b><br/>
+            THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+            PROVIDE THE PROGRAM “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+            FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME
+            THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+            <br/><br/>
 
-1. LICENSE
-
-By receiving, opening the file package, and/or using Duplicator("Software") containing this software, you agree that this End User User License Agreement(EULA) is 
-a legally binding and valid contract and agree to be bound by it. You agree to abide by the intellectual property laws and all of the terms and conditions of this Agreement.
-
-Unless you have a different license agreement signed by Snapcreek LLC your use of Duplicator indicates your acceptance of this license agreement and warranty.
-
-Subject to the terms of this Agreement, Snapcreek LLC grants to you a limited, non-exclusive, non-transferable free license, without right to sub-license, to use Duplicator 
-in accordance with this Agreement and any other written agreement with Snapcreek LLC. Snapcreek LLC does not transfer the title of Duplicator to you; the license granted 
-to you is not a sale the plugin is given free and as is. This agreement is a binding legal agreement between Snapcreek LLC and the purchasers or users of Duplicator.
-
-If you do not agree to be bound by this agreement, remove Duplicator from your computer now and, if applicable, promptly all related documentation and files relating to 
-Duplicator in your possession.
-
-
-2. DISTRIBUTION
-
-Duplicator and the license herein granted shall not be sold, offered for re-sale, transferred or sub-licensed in whole. For information about redistribution of Duplicator 
-contact Snapcreek LLC.
-
-
-3. USER AGREEMENT
-
-3.1 Use
-
-Duplicator is a free plugin offered for download at https://wordpress.org/plugins/duplicator and https://github.com/lifeinthegrid/duplicator
-
-3.2 USE RESTRICTIONS
-
-You shall use Duplicator in compliance with all applicable laws and not for any unlawful purpose. 
-
-
-3.3 LIMITATION OF RESPONSIBILITY
-
-You will indemnify, hold harmless, and defend Snapcreek LLC , its employees, agents and distributors against any and all claims, proceedings, demand and costs resulting from or in 
-any way connected with your use of Snapcreek LLC's Software.
-
-In no event (including, without limitation, in the event of negligence) will Snapcreek LLC , its employees, agents or distributors be liable for any consequential, incidental, 
-indirect, special or punitive damages whatsoever (including, without limitation, damages for loss of profits, loss of use, business interruption, loss of information or data, 
-or pecuniary loss), in connection with or arising out of or related to this Agreement, Duplicator or the use or inability to use Duplicator or the furnishing, performance or use
-of any other matters hereunder whether based upon contract, tort or any other theory including negligence.
-
-Snapcreek LLC's entire liability, without exception, is limited to no monetary or financial costs
-
-3.4 WARRANTIES
-
-Except as expressly stated in writing, Snapcreek LLC makes no representation or warranties in respect of this Software and expressly excludes all other warranties, expressed or implied,
-oral or written, including, without limitation, any implied warranties of merchantable quality or fitness for a particular purpose.
-
-3.5 GOVERNING LAW
-
-This Agreement shall be governed by the law of the United States applicable therein. You hereby irrevocably attorn and submit to the non-exclusive jurisdiction of the courts of
-United States therefrom. If any provision shall be considered unlawful, void or otherwise unenforceable, then that provision shall be deemed severable from this License and not 
-affect the validity and enforceability of any other provisions.
-
-3.6 TERMINATION
-
-Any failure to comply with the terms and conditions of this Agreement will result in automatic and immediate termination of this license. Upon termination of this license granted 
-herein for any reason, you agree to immediately cease use of Duplicator and destroy all copies of Duplicator supplied under this Agreement. The financial obligations incurred by you
-shall survive the expiration or termination of this license.
-
-4. DISCLAIMER OF WARRANTY
-
-THIS SOFTWARE AND THE ACCOMPANYING FILES ARE FREE AND OFFERED "AS IS" AND WITHOUT WARRANTIES AS TO PERFORMANCE OR MERCHANTABILITY OR ANY OTHER WARRANTIES WHETHER EXPRESSED OR IMPLIED. 
-THIS DISCLAIMER CONCERNS ALL FILES GENERATED AND EDITED BY Duplicator AS WELL.
-</pre>	
+            <b>LIMITATION OF LIABILITY</b><br/>
+            IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS THE PROGRAM AS
+            PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
+            PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO
+            OPERATE WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+            <br/><br/>
     	</div>
     		    
     	<div id="dup-s1-warning-check">
@@ -346,7 +310,8 @@ THIS DISCLAIMER CONCERNS ALL FILES GENERATED AND EDITED BY Duplicator AS WELL.
     	</div><br/><br/>
     		    
     	<div class="dup-footer-buttons">
-    	    <input id="dup-step1-deploy-btn" type="button" value=" Run Deployment " onclick="Duplicator.confirmDeployment()" />
+            <input type="button" onclick="Duplicator.dlgTestDB()" class="default-btn" value="Test Database" />
+    	    <input id="dup-step1-deploy-btn" type="button" class="default-btn" value=" Next " onclick="Duplicator.confirmDeployment()" title="To enable this button the checkbox above under the 'Terms & Notices' must be checked." />
     	</div>		
 
 	<?php endif; ?>	

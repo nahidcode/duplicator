@@ -9,7 +9,6 @@
 ?>
 <style>
 	body {font-family:"Open Sans",sans-serif;}
-	body,td,th {font-size:13px;color:#000;}
 	fieldset {border:1px solid silver; border-radius:5px; padding:10px}
 	h3 {margin:1px; padding:1px; font-size:14px;}
 	a {color:#222}
@@ -20,42 +19,31 @@
 
 	/* ============================
 	COMMON VIEW ELEMENTS*/
-	div#content {border:1px solid #CDCDCD;  width:750px; min-height:550px; margin:auto; margin-top:18px; border-radius:5px;  box-shadow:0 8px 6px -6px #333;}
+	div#content {border:1px solid #CDCDCD; width:750px; min-height:550px; margin:auto; margin-top:18px; border-radius:5px; box-shadow:0 8px 6px -6px #333; font-size:14px; color:#000;}
 	div#content-inner {padding:10px 30px; min-height:550px}
 	form.content-form {min-height:550px; position:relative; line-height:17px}	
 	div.dup-logfile-link {float:right; font-weight:normal; font-size:12px}
 	
 	/* WIZARD STEPS */
-	table.header-wizard {border-top-left-radius:5px; border-top-right-radius:5px; width:100%; box-shadow:0 6px 4px -4px #777;	background-color:#F1F1F1}
-	div#dup-wiz {padding:0px; margin:7px 0 10px 20px; height:20px }
-	div#dup-wiz-steps {margin:0px 0 0 10px; padding:0px;  clear:both; font-weight:bold;font-size:12px; min-width:250px }
-	#dup-wiz span {display:block;float:left; text-align:center; width:15px; margin:3px 4px 0 0px; line-height:15px; color:#ccc; border:1px solid #CCCCCC; border-radius:4px;}
-	/* WIZ-DEFAULT*/
-	#dup-wiz a { position:relative; display:block; width:auto; height:24px; margin-right:18px; padding:0px 10px 0 3px; float:left;  line-height:24px; color:#000; background:#E4E4E4; }
-	#dup-wiz a:before { width:0px; height:0px; border-top:12px solid #E4E4E4; border-bottom:12px solid #E4E4E4; border-left:12px solid transparent; position:absolute; content:""; top:0px; left:-12px; }
-	#dup-wiz a:after { width:0; height:0; border-top:12px solid transparent; border-bottom:12px solid transparent; border-left:12px solid #E4E4E4; position:absolute; content:""; top:0px; right:-12px; }
-	/* WIZ-COMPLETED */
-	#dup-wiz .completed-step a {color:#ccc; background:#999;}
-	#dup-wiz .completed-step a:before {border-top:12px solid #999; border-bottom:12px solid #999;}
-	#dup-wiz .completed-step a:after {border-left:12px solid #999;}
-	#dup-wiz .completed-step span {color:#ccc;}
-	/* WIZ-ACTIVE */
-	#dup-wiz .active-step a {color:#fff; background:#999;}
-	#dup-wiz .active-step a:before {border-top:12px solid #999; border-bottom:12px solid #999;}
-	#dup-wiz .active-step a:after {border-left:12px solid #999;}
-	#dup-wiz .active-step span {color:#fff;}
-	
-	/*Help */
-	select#dup-hlp-lnk {border-radius:3px; font-size:11px; margin:3px 5px 0 0px; background-color:#efefef; border:1px solid silver}
-	div.dup-help-page {padding:5px 0 0 5px}
-	div.dup-help-page fieldset {margin-bottom:25px}
-	div#dup-main-help {line-height:18px}
-	div#dup-main-help h3 {background-color:#dfdfdf; border:1px solid silver; border-radius:5px; padding:3px; margin-bottom:8px;}
-
+	table.header-wizard {border-top-left-radius:5px; border-top-right-radius:5px; width:100%; box-shadow:0 5px 3px -3px #999;	background-color:#F1F1F1}
+    .wiz-dupx-version {white-space:nowrap; color:#999; font-size:11px; font-style:italic; text-align:right;  padding:0 15px 5px 0; line-height:14px}
+	.wiz-dupx-version a { color:#999; }
 	div#progress-area {padding:5px; margin:150px 0 0 0px; text-align:center;}
 	div#ajaxerr-data {padding:5px; height:350px; width:99%; border:1px solid silver; border-radius:5px; background-color:#efefef; font-size:14px; overflow-y:scroll}
-	div.hdr-main {font-size:18px; padding:0 0 5px 0; border-bottom:1px solid #999; font-weight:bold; margin:5px 0 10px 0;}
-	div.hdr-sub {font-size:15px; padding:2px 2px 2px 0; border-bottom:1px solid #dfdfdf; font-weight:bold; margin-bottom:5px;}
+
+    /*TITLE HEADERS */
+    div.hdr-main {font-size:22px; padding:0 0 5px 0; border-bottom:1px solid #D3D3D3; font-weight:bold; margin:10px 0 20px 0;}
+	div.hdr-main span.step {color:#DB4B38}
+	div.hdr-sub1 {font-size:18px; margin-bottom:5px; border-bottom:1px solid #D3D3D3;padding:2px 2px 5px 0;font-weight:bold;}
+	div.hdr-sub1 a {cursor:pointer; text-decoration: none !important}
+	div.hdr-sub2 {font-size:16px; padding:2px 2px 2px 0; border-bottom:1px solid #C0C0C0; font-weight:bold; margin-bottom:5px; border:none}
+	div.hdr-sub3 {font-size:16px; padding:2px 2px 2px 0; border-bottom:1px solid #C0C0C0; font-weight:bold; margin-bottom:5px;}
+
+    /* BUTTONS */
+	div.dup-footer-buttons {padding:10px; width:100%; text-align:right;}
+	div.dup-footer-buttons input[disabled=disabled]{background-color:#F4F4F4; color:silver; border:1px solid silver;}
+	div.dup-footer-buttons  input, button {cursor:pointer; border:1px solid #000; }
+     button.default-btn, input.default-btn {cursor:pointer; color:#fff; font-size:16px; border-radius:5px; padding:6px 20px 4px 20px; height:32px; background-color:#13659C;}
 	
 	/*BOXES:Expandable sections */
 	div.dup-box {padding:0px; display:block; background-color:#fff; border:1px solid #e5e5e5; box-shadow:0 1px 1px rgba(0,0,0,.04);}
@@ -65,8 +53,9 @@
 	div.dup-box-panel {padding:10px 15px 10px 15px;  border-top:1px solid #EEEEEE; margin:-1px 0 0 0px; background-color:#F9F9F9;   box-shadow:0 8px 6px -6px #999;}
 
 	/* ============================
-	STEP 1 VIEW */
-	div#dup-s1-warning-check label {cursor: pointer}
+	STEP 1 VIEW
+    ============================ */
+	div#dup-s1-warning-check label {cursor: pointer; line-height: 16px}
 	table.s1-opts {width:100%; border:0px;}
 	table.s1-opts td{white-space:nowrap; padding:3px;}
 	table.s1-opts td:first-child{width:125px;}
@@ -74,7 +63,7 @@
 	table.s1-advopts td:first-child{width:125px; font-weight:bold}
 	
 	i#s1-sys-req-msg {font-weight:normal; display:block; padding:0px 0 0 20px;}
-	div.circle-pass, div.circle-fail {display:block;width:13px;height:13px;border-radius:50px;font-size:20px;color:#fff;line-height:100px;text-align:center;text-decoration:none;box-shadow:1px 1px 2px #000;background:#207D1D;opacity:0.95; display:inline-block;}
+	div.circle-pass, div.circle-fail {display:block;width:13px;height:14px;border-radius:50px;font-size:20px;color:#fff;line-height:100px;text-align:center;text-decoration:none;background:#207D1D;opacity:0.95; display:inline-block;}
 	div.circle-fail {background:#9A0D1D !important;}
 	select#logging {font-size:11px}
 	div.s1-modes {padding:0px 15px 0 0px;}
@@ -113,14 +102,16 @@
 	div.help {color:#555; font-style:italic; font-size:11px}
 
 	/* ============================
-	STEP 2 VIEW */
+	STEP 2 VIEW
+    ============================ */
 	table.table-inputs-s2{width:100%; border:0px;}
 	table.table-inputs-s2 td{white-space:nowrap; padding:2px;}
 	div#dup-s2-adv-opts {margin-top:5px; }
 	div.dup-s2-allnonelinks {font-size:11px; float:right;}
 
 	/* ============================
-	STEP 3 VIEW */
+	STEP 3 VIEW
+    ============================ */
 	div.s3-final-title {color:#BE2323;}
 	div.s3-connect {font-size:12px; text-align:center; font-style:italic; position:absolute; bottom:10px; padding:10px; width:100%; margin-top:20px}
 	table.s3-report-results,
@@ -147,17 +138,15 @@
 	div.s3-gopro-btn {text-align:center; font-size:14px; margin:auto; width:200px; font-style: italic}
 
 	/* ============================
-	BUTTONS */	
-	div.dup-footer-buttons {padding:10px; width:100%; text-align:right;}
-	div.dup-footer-buttons  input, button {
-		color:#000; font-size:12px; border-radius:5px;	padding:6px 8px 4px 8px; border:1px solid #999;
-		background-color:#F1F1F1;
-		background-image:-ms-linear-gradient(top, #F9F9F9, #ECECEC);
-		background-image:-moz-linear-gradient(top, #F9F9F9, #ECECEC);
-		background-image:linear-gradient(top, #F9F9F9, #ECECEC);
-	}
-	div.dup-footer-buttons input[disabled=disabled]{background-color:#F4F4F4; color:silver; border:1px solid silver;}
-	div.dup-footer-buttons  input, button {cursor:pointer; border:1px solid #000; }
+	STEP 4 HELP
+	============================	*/
+	select#dup-hlp-lnk {border-radius:3px; font-size:11px; margin:3px 5px 0 0px; background-color:#efefef; border:1px solid silver}
+	div.dup-help-page {padding:5px 0 0 5px}
+	div.dup-help-page fieldset {margin-bottom:25px}
+	div#dup-main-help {line-height:18px}
+	div#dup-main-help h3 {background-color:#dfdfdf; border:1px solid silver; border-radius:5px; padding:3px; margin-bottom:8px;}
+
+
 
 	/*!
 	 * password indicator
