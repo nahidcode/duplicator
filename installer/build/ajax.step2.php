@@ -4,275 +4,523 @@ if (! defined('DUPLICATOR_INIT')) {
 	$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Location: $_baseURL");
-	exit; 
+	exit;
 }
 
-/* JSON RESPONSE: Most sites have warnings turned off by default, but if they're turned on the warnings
-cause errors in the JSON data Here we hide the status so warning level is reset at it at the end*/
-$ajax2_error_level = error_reporting();
-error_reporting(E_ERROR);
-
-//====================================================================================================
-//DATABASE UPDATES
-//====================================================================================================
-
-$ajax2_start = DUPX_Util::get_microtime();
-
-//MYSQL CONNECTION
-$dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], html_entity_decode($_POST['dbpass']), $_POST['dbname'], $_POST['dbport']);
-$charset_server = @mysqli_character_set_name($dbh);
-@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
-DUPX_DB::setCharset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
-
 //POST PARAMS
-$_POST['blogname'] = mysqli_real_escape_string($dbh, $_POST['blogname']);
-$_POST['postguid'] = isset($_POST['postguid']) && $_POST['postguid'] == 1 ? 1 : 0;
-$_POST['fullsearch'] = isset($_POST['fullsearch']) && $_POST['fullsearch'] == 1 ? 1 : 0;
-$_POST['path_old'] = isset($_POST['path_old']) ? trim($_POST['path_old']) : null;
-$_POST['path_new'] = isset($_POST['path_new']) ? trim($_POST['path_new']) : null;
-$_POST['siteurl'] = isset($_POST['siteurl']) ? rtrim(trim($_POST['siteurl']), '/') : null;
-$_POST['tables'] = isset($_POST['tables']) && is_array($_POST['tables']) ? array_map('stripcslashes', $_POST['tables']) : array();
-$_POST['url_old'] = isset($_POST['url_old']) ? trim($_POST['url_old']) : null;
-$_POST['url_new'] = isset($_POST['url_new']) ? rtrim(trim($_POST['url_new']), '/') : null;
+$_POST['dbaction']			= isset($_POST['dbaction']) ? $_POST['dbaction'] : 'create';
+$_POST['dbnbsp']			= (isset($_POST['dbnbsp']) && $_POST['dbnbsp'] == '1') ? true : false;
+$_POST['ssl_admin']			= (isset($_POST['ssl_admin']))  ? true : false;
+$_POST['ssl_login']			= (isset($_POST['ssl_login']))  ? true : false;
+$_POST['cache_wp']			= (isset($_POST['cache_wp']))   ? true : false;
+$_POST['cache_path']		= (isset($_POST['cache_path'])) ? true : false;
+$_POST['package_name']		= isset($_POST['package_name']) ? $_POST['package_name'] : null;
+$_POST['zip_manual']		= (isset($_POST['zip_manual']) && $_POST['zip_manual'] == '1') ? true : false;
+$_POST['zip_filetime']		= (isset($_POST['zip_filetime'])) ? $_POST['zip_filetime'] : 'current';
 
 //LOGGING
 $POST_LOG = $_POST;
-unset($POST_LOG['tables']);
-unset($POST_LOG['plugins']);
 unset($POST_LOG['dbpass']);
 ksort($POST_LOG);
 
-$date = @date('h:i:s');
-$charset_client = @mysqli_character_set_name($dbh);
-
-$log = <<<LOG
-\n\n
-********************************************************************************
-DUPLICATOR-LITE INSTALL-LOG
-STEP2 START @ {$date}
-NOTICE: Do not post to public sites or forums
-********************************************************************************
-CHARSET SERVER:\t{$charset_server}
-CHARSET CLIENT:\t {$charset_client} \n
-LOG;
-DUPX_Log::info($log);
-
-//Detailed logging
-$log  = "--------------------------------------\n";
-$log .= "POST DATA\n";
-$log .= "--------------------------------------\n";
-$log .= print_r($POST_LOG, true);		
-$log .= "--------------------------------------\n";
-$log .= "SCANNED TABLES\n";
-$log .= "--------------------------------------\n";
-$log .= (isset($_POST['tables']) && count($_POST['tables'] > 0)) 
-		? print_r($_POST['tables'], true) 
-		: 'No tables selected to update';
-$log .= "--------------------------------------\n";
-$log .= "KEEP PLUGINS ACTIVE\n";
-$log .= "--------------------------------------\n";
-$log .= (isset($_POST['plugins']) && count($_POST['plugins'] > 0)) 
-		? print_r($_POST['plugins'], true) 
-		: 'No plugins selected for activation';
-DUPX_Log::info($log, 2);
-
-//UPDATE SETTINGS
-$serial_plugin_list = (isset($_POST['plugins']) && count($_POST['plugins'] > 0)) ? @serialize($_POST['plugins']) : '';
-mysqli_query($dbh, "UPDATE `{$GLOBALS['FW_TABLEPREFIX']}options` SET option_value = '{$_POST['blogname']}' WHERE option_name = 'blogname' ");
-mysqli_query($dbh, "UPDATE `{$GLOBALS['FW_TABLEPREFIX']}options` SET option_value = '{$serial_plugin_list}'  WHERE option_name = 'active_plugins' ");
-
-$log  = "--------------------------------------\n";
-$log .= "SERIALIZER ENGINE\n";
-$log .= "[*] scan every column\n";
-$log .= "[~] scan only text columns\n";
-$log .= "[^] no searchable columns\n";
-$log .= "--------------------------------------";
-DUPX_Log::info($log);
-
-$url_old_json = str_replace('"', "", json_encode($_POST['url_old']));
-$url_new_json = str_replace('"', "", json_encode($_POST['url_new']));
-$path_old_json = str_replace('"', "", json_encode($_POST['path_old']));
-$path_new_json = str_replace('"', "", json_encode($_POST['path_new']));
-
-array_push($GLOBALS['REPLACE_LIST'], 
-		array('search' => $_POST['url_old'],			 'replace' => $_POST['url_new']), 
-		array('search' => $_POST['path_old'],			 'replace' => $_POST['path_new']), 
-		array('search' => $url_old_json,				 'replace' => $url_new_json), 
-		array('search' => $path_old_json,				 'replace' => $path_new_json), 	
-		array('search' => urlencode($_POST['path_old']), 'replace' => urlencode($_POST['path_new'])), 
-		array('search' => urlencode($_POST['url_old']),  'replace' => urlencode($_POST['url_new'])),
-		array('search' => rtrim(DUPX_Util::unset_safe_path($_POST['path_old']), '\\'), 'replace' => rtrim($_POST['path_new'], '/'))
-);
-
-//Remove trailing slashes
-function _dupx_array_rtrim(&$value) {
-    $value = rtrim($value, '\/');
-}
-array_walk_recursive($GLOBALS['REPLACE_LIST'], _dupx_array_rtrim);
-
-@mysqli_autocommit($dbh, false);
-$report = DUPX_UpdateEngine::load($dbh, $GLOBALS['REPLACE_LIST'], $_POST['tables'], $_POST['fullsearch']);
-@mysqli_commit($dbh);
-@mysqli_autocommit($dbh, true);
-
-
-//BUILD JSON RESPONSE
+//PAGE VARS
+$root_path		= DUPX_U::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
+$package_path	= "{$root_path}/{$_POST['package_name']}";
+$package_size	= @filesize($package_path);
+$ajax1_start	= DUPX_U::get_microtime();
+$zip_support	= class_exists('ZipArchive') ? 'Enabled' : 'Not Enabled';
 $JSON = array();
-$JSON['step1'] = json_decode(urldecode($_POST['json']));
-$JSON['step2'] = $report;
-$JSON['step2']['warn_all'] = 0;
-$JSON['step2']['warnlist'] = array();
+$JSON['pass'] = 0;
 
-DUPX_UpdateEngine::logStats($report);
-DUPX_UpdateEngine::logErrors($report);
-
-//Reset the postguid data
-if ($_POST['postguid']) {
-	mysqli_query($dbh, "UPDATE `{$GLOBALS['FW_TABLEPREFIX']}posts` SET guid = REPLACE(guid, '{$_POST['url_new']}', '{$_POST['url_old']}')");
-	$update_guid = @mysqli_affected_rows($dbh) or 0;
-	DUPX_Log::info("Reverted '{$update_guid}' post guid columns back to '{$_POST['url_old']}'");
-}
-
-/* FINAL UPDATES: Must happen after the global replace to prevent double pathing
-  http://xyz.com/abc01 will become http://xyz.com/abc0101  with trailing data */
-mysqli_query($dbh, "UPDATE `{$GLOBALS['FW_TABLEPREFIX']}options` SET option_value = '{$_POST['url_new']}'  WHERE option_name = 'home' ");
-mysqli_query($dbh, "UPDATE `{$GLOBALS['FW_TABLEPREFIX']}options` SET option_value = '{$_POST['siteurl']}'  WHERE option_name = 'siteurl' ");
-
+/* JSON RESPONSE: Most sites have warnings turned off by default, but if they're turned on the warnings
+cause errors in the JSON data Here we hide the status so warning level is reset at it at the end*/
+$ajax1_error_level = error_reporting();
+error_reporting(E_ERROR);
 
 //====================================================================================================
-//FINAL CLEANUP
+//DATABASE TEST CONNECTION
 //====================================================================================================
-DUPX_Log::info("\n********************************************************************************");
-DUPX_Log::info('START FINAL CLEANUP: ' . @date('h:i:s'));
-DUPX_Log::info("********************************************************************************");
+if (isset($_GET['dbtest']))
+{
+	$html     = "";
+	$baseport =  parse_url($_POST['dbhost'], PHP_URL_PORT);
+	$dbConn   = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
+	$dbErr	  = mysqli_connect_error();
 
-/*CREATE NEW USER LOGIC */
-if (strlen($_POST['wp_username']) >= 4 && strlen($_POST['wp_password']) >= 6) {
-	
-	$newuser_check = mysqli_query($dbh, "SELECT COUNT(*) AS count FROM `{$GLOBALS['FW_TABLEPREFIX']}users` WHERE user_login = '{$_POST['wp_username']}' ");
-	$newuser_row   = mysqli_fetch_row($newuser_check);
-    $newuser_count = is_null($newuser_row) ? 0 : $newuser_row[0];
-	
-	if ($newuser_count == 0) {
-	
-		$newuser_datetime =	@date("Y-m-d H:i:s");
-		$newuser_security = mysqli_real_escape_string($dbh, 'a:1:{s:13:"administrator";s:1:"1";}');
+	$dbFound  = mysqli_select_db($dbConn, $_POST['dbname']);
+	$port_view = (is_int($baseport) || substr($_POST['dbhost'], -1) == ":") ? "Port=[Set in Host]" : "Port={$_POST['dbport']}";
 
-		$newuser_test1 = @mysqli_query($dbh, "INSERT INTO `{$GLOBALS['FW_TABLEPREFIX']}users` 
-			(`user_login`, `user_pass`, `user_nicename`, `user_email`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) 
-			VALUES ('{$_POST['wp_username']}', MD5('{$_POST['wp_password']}'), '{$_POST['wp_username']}', '', '{$newuser_datetime}', '', '0', '{$_POST['wp_username']}')");
+	$tstSrv   = ($dbConn)  ? "<div class='dupx-pass'>Success</div>" : "<div class='dupx-fail'>Fail</div>";
+	$tstDB    = ($dbFound) ? "<div class='dupx-pass'>Success</div>" : "<div class='dupx-fail'>Fail</div>";
 
-		$newuser_insert_id = mysqli_insert_id($dbh);
+    $dbversion_info         = DUPX_DB::getServerInfo($dbConn);
+    $dbversion_info         = empty($dbversion_info) ? 'no connection' : $dbversion_info;
+    $dbversion_info_fail    = version_compare(DUPX_DB::getVersion($dbConn), '5.5.3') < 0;
 
-		$newuser_test2 = @mysqli_query($dbh, "INSERT INTO `{$GLOBALS['FW_TABLEPREFIX']}usermeta` 
-				(`user_id`, `meta_key`, `meta_value`) VALUES ('{$newuser_insert_id}', '{$GLOBALS['FW_TABLEPREFIX']}capabilities', '{$newuser_security}')");
+    $dbversion_compat       = DUPX_DB::getVersion($dbConn);
+	$dbversion_compat       = empty($dbversion_compat) ? 'no connection' : $dbversion_compat;
+    $dbversion_compat_fail  = version_compare($dbversion_compat, $GLOBALS['FW_VERSION_DB']) < 0;
 
-		$newuser_test3 = @mysqli_query($dbh, "INSERT INTO `{$GLOBALS['FW_TABLEPREFIX']}usermeta` 
-				(`user_id`, `meta_key`, `meta_value`) VALUES ('{$newuser_insert_id}', '{$GLOBALS['FW_TABLEPREFIX']}user_level', '10')");
-				
-		//Misc Meta-Data Settings:
-		@mysqli_query($dbh, "INSERT INTO `{$GLOBALS['FW_TABLEPREFIX']}usermeta` (`user_id`, `meta_key`, `meta_value`) VALUES ('{$newuser_insert_id}', 'rich_editing', 'true')");
-		@mysqli_query($dbh, "INSERT INTO `{$GLOBALS['FW_TABLEPREFIX']}usermeta` (`user_id`, `meta_key`, `meta_value`) VALUES ('{$newuser_insert_id}', 'admin_color',  'fresh')");
-		@mysqli_query($dbh, "INSERT INTO `{$GLOBALS['FW_TABLEPREFIX']}usermeta` (`user_id`, `meta_key`, `meta_value`) VALUES ('{$newuser_insert_id}', 'nickname', '{$_POST['wp_username']}')");
+    $tstInfo = ($dbversion_info_fail)
+		? "<div class='dupx-notice'>{$dbversion_info}</div>"
+        : "<div class='dupx-pass'>{$dbversion_info}</div>";
 
-		if ($newuser_test1 && $newuser_test2 && $newuser_test3) {
-			DUPX_Log::info("NEW WP-ADMIN USER: New username '{$_POST['wp_username']}' was created successfully \n ");
-		} else {
-			$newuser_warnmsg = "NEW WP-ADMIN USER: Failed to create the user '{$_POST['wp_username']}' \n ";
-			$JSON['step2']['warnlist'][] = $newuser_warnmsg;
-			DUPX_Log::info($newuser_warnmsg);
-		}			
-	} 
-	else {
-		$newuser_warnmsg = "NEW WP-ADMIN USER: Username '{$_POST['wp_username']}' already exists in the database.  Unable to create new account \n";
-		$JSON['step2']['warnlist'][] = $newuser_warnmsg;
-		DUPX_Log::info($newuser_warnmsg);
+	$tstCompat = ($dbversion_compat_fail)
+		? "<div class='dupx-notice'>This Server: [{$dbversion_compat}] -- Package Server: [{$GLOBALS['FW_VERSION_DB']}]</div>"
+		: "<div class='dupx-pass'>This Server: [{$dbversion_compat}] -- Package Server: [{$GLOBALS['FW_VERSION_DB']}]</div>";
+
+	$html	 .= <<<DATA
+	<div class='s2-db-test'>
+		<small>
+			Using Connection String:<br/>
+			Host={$_POST['dbhost']}; Database={$_POST['dbname']}; Uid={$_POST['dbuser']}; Pwd={$_POST['dbpass']}; {$port_view}
+		</small>
+		<table class='s2-db-test-dtls'>
+			<tr>
+				<td>Host:</td>
+				<td>{$tstSrv}</td>
+			</tr>
+			<tr>
+				<td>Database:</td>
+				<td>{$tstDB}</td>
+			</tr>
+			<tr>
+				<td>Version:</td>
+				<td>{$tstInfo}</td>
+			</tr>
+            <tr>
+				<td>Compatibility:</td>
+				<td>{$tstCompat}</td>
+			</tr>
+		</table>
+DATA;
+
+	//--------------------------------
+	//WARNING: DB has tables with create option
+	if ($_POST['dbaction'] == 'create')
+	{
+		$tblcount = DUPX_DB::countTables($dbConn, $_POST['dbname']);
+		$html .= ($tblcount > 0)
+			? "<div class='warn-msg'><b>WARNING:</b> " . sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount) . "</div>"
+			: '';
 	}
-}
 
-/* ==============================
- * MU Updates*/
-$mu_newDomain = parse_url($_POST['url_new']);
-$mu_oldDomain = parse_url($_POST['url_old']);
-$mu_newDomainHost = $mu_newDomain['host'];
-$mu_oldDomainHost = $mu_oldDomain['host'];
-$mu_newUrlPath = parse_url($_POST['url_new'], PHP_URL_PATH);
-$mu_oldUrlPath = parse_url($_POST['url_old'], PHP_URL_PATH);
-
-//Force a path for PATH_CURRENT_SITE
-$mu_newUrlPath = (empty($mu_newUrlPath) || ($mu_newUrlPath == '/')) ? '/'  : rtrim($mu_newUrlPath, '/') . '/';
-$mu_oldUrlPath = (empty($mu_oldUrlPath) || ($mu_oldUrlPath == '/')) ? '/'  : rtrim($mu_oldUrlPath, '/') . '/';
-
-$mu_updates = @mysqli_query($dbh, "UPDATE `{$GLOBALS['FW_TABLEPREFIX']}blogs` SET domain = '{$mu_newDomainHost}' WHERE domain = '{$mu_oldDomainHost}'");
-if ($mu_updates) {
-	DUPX_Log::info("Update MU table blogs: domain {$mu_newDomainHost} ");
-} else {
-	DUPX_Log::info("UPDATE `{$GLOBALS['FW_TABLEPREFIX']}blogs` SET domain = '{$mu_newDomainHost}' WHERE domain = '{$mu_oldDomainHost}'");
-}
-
-
-/* ==============================
- * UPDATE WP-CONFIG FILE */
-$config_file = DUPX_WPConfig::updateStep2();
-
-//Create snapshots directory in order to
-//compensate for permissions on some servers
-if (!file_exists(DUPLICATOR_SSDIR_NAME)) {
-	mkdir(DUPLICATOR_SSDIR_NAME, 0755);
-}
-$fp = fopen(DUPLICATOR_SSDIR_NAME . '/index.php', 'w');
-fclose($fp);
-
-
-/* ==============================
-NOTICE TESTS */
-DUPX_Log::info("\n--------------------------------------");
-DUPX_Log::info("NOTICES");
-DUPX_Log::info("--------------------------------------");
-$config_vars = array('WP_CONTENT_DIR', 'WP_CONTENT_URL', 'WPCACHEHOME', 'COOKIE_DOMAIN', 'WP_SITEURL', 'WP_HOME', 'WP_TEMP_DIR');
-$config_items = DUPX_Util::search_list_values($config_vars, $config_file);
-
-//Files:
-if (! empty($config_items)) {
-	$msg  = 'NOTICE: The wp-config.php has one or more of the following values set [' . implode(", ", $config_items) . '].  ';
-	$msg .= 'Please validate these values are correct by opening the file and checking the values.  To validate the meaning and proper usage of each parameter used the codex link above.';
-	$JSON['step2']['warnlist'][] = $msg;
-	DUPX_Log::info($msg);
-}
-
-//Database: 
-$result = @mysqli_query($dbh, "SELECT option_value FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE option_name IN ('upload_url_path','upload_path')");
-if ($result) {
-	while ($row = mysqli_fetch_row($result)) {
-		if (strlen($row[0])) {
-			$msg  = "NOTICE: The media settings values in the table '{$GLOBALS['FW_TABLEPREFIX']}options' has at least one the following values ['upload_url_path','upload_path'] set.  ";
-			$msg .= "Please validate these settings by logging into your wp-admin and going to Settings->Media area and validating the 'Uploading Files' section";
-			$JSON['step2']['warnlist'][] = $msg;
-			DUPX_Log::info($msg);
+	//WARNNG: Input has utf8
+	$dbConnItems = array($_POST['dbhost'], $_POST['dbuser'], $_POST['dbname'],$_POST['dbpass']);
+	$dbUTF8_tst  = false;
+	foreach ($dbConnItems as $value)
+	{
+		if (DUPX_U::is_non_ascii($value)) {
+			$dbUTF8_tst = true;
 			break;
 		}
 	}
+
+    //WARNING: UTF8 Data in Connection String
+	$html .=  (! $dbConn && $dbUTF8_tst)
+		? "<div class='warn-msg'><b>WARNING:</b> " . ERR_TESTDB_UTF8 .  "</div>"
+		: '';
+
+	//NOTICE: Version Too Low
+	$html .=  ($dbversion_info_fail)
+		? "<div class='warn-msg'><b>NOTICE:</b> " . ERR_TESTDB_VERSION_INFO . "</div>"
+		: '';
+
+    //NOTICE: Version Incompatibility
+	$html .=  ($dbversion_compat_fail)
+		? "<div class='warn-msg'><b>NOTICE:</b> " . ERR_TESTDB_VERSION_COMPAT . "</div>"
+		: '';
+
+	$html .= "</div>";
+	die($html);
 }
 
-if (empty($JSON['step2']['warnlist'])) {
-	DUPX_Log::info("No Notices Found\n");
+//===============================
+//ERROR MESSAGES
+//===============================
+//ERR_MAKELOG
+($GLOBALS['LOG_FILE_HANDLE'] != false) or DUPX_Log::error(ERR_MAKELOG);
+
+//ERR_MYSQLI_SUPPORT
+function_exists('mysqli_connect') or DUPX_Log::error(ERR_MYSQLI_SUPPORT);
+
+//ERR_DBCONNECT
+$dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
+@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
+($dbh) or DUPX_Log::error(ERR_DBCONNECT . mysqli_connect_error());
+if ($_POST['dbaction'] == 'empty') {
+	mysqli_select_db($dbh, $_POST['dbname']) or DUPX_Log::error(sprintf(ERR_DBCREATE, $_POST['dbname']));
+}
+//ERR_DBEMPTY
+if ($_POST['dbaction'] == 'create' ) {
+	$tblcount = DUPX_DB::countTables($dbh, $_POST['dbname']);
+	if ($tblcount > 0) {
+		DUPX_Log::error(sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount));
+	}
 }
 
-$JSON['step2']['warn_all'] = empty($JSON['step2']['warnlist']) ? 0 : count($JSON['step2']['warnlist']);
+//ERR_ZIPMANUAL
+if ($_POST['zip_manual']) {
+	if (!file_exists("wp-config.php") && !file_exists("database.sql")) {
+		DUPX_Log::error(ERR_ZIPMANUAL);
+	}
+} else {
+	//ERR_CONFIG_FOUND
+	(!file_exists('wp-config.php'))
+		or DUPX_Log::error(ERR_CONFIG_FOUND);
+	//ERR_ZIPNOTFOUND
+	(is_readable("{$package_path}"))
+		or DUPX_Log::error(ERR_ZIPNOTFOUND);
+}
 
-mysqli_close($dbh);
-@unlink('database.sql');
-
-//CONFIG Setup
-DUPX_ServerConfig::setup();
-
-$ajax2_end = DUPX_Util::get_microtime();
-$ajax2_sum = DUPX_Util::elapsed_time($ajax2_end, $ajax2_start);
 DUPX_Log::info("********************************************************************************");
-DUPX_Log::info('STEP 2 COMPLETE @ ' . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax2_sum}");
+DUPX_Log::info('DUPLICATOR-LITE INSTALL-LOG');
+DUPX_Log::info('STEP1 START @ ' . @date('h:i:s'));
+DUPX_Log::info('NOTICE: Do NOT post to public sites or forums');
 DUPX_Log::info("********************************************************************************");
+DUPX_Log::info("VERSION:\t{$GLOBALS['FW_DUPLICATOR_VERSION']}");
+DUPX_Log::info("PHP:\t\t" . phpversion() . ' | SAPI: ' . php_sapi_name());
+DUPX_Log::info("PHP MEMORY:\t" . $GLOBALS['PHP_MEMORY_LIMIT'] . ' | SUHOSIN: ' . $GLOBALS['PHP_SUHOSIN_ON'] );
+DUPX_Log::info("SERVER:\t\t{$_SERVER['SERVER_SOFTWARE']}");
+DUPX_Log::info("DOC ROOT:\t{$root_path}");
+DUPX_Log::info("DOC ROOT 755:\t" . var_export($GLOBALS['CHOWN_ROOT_PATH'], true));
+DUPX_Log::info("LOG FILE 644:\t" . var_export($GLOBALS['CHOWN_LOG_PATH'], true));
+DUPX_Log::info("BUILD NAME:\t{$GLOBALS['FW_SECURE_NAME']}");
+DUPX_Log::info("REQUEST URL:\t{$GLOBALS['URL_PATH']}");
 
-$JSON['step2']['pass'] = 1;
-error_reporting($ajax2_error_level);
-die(json_encode($JSON));
+$log  = "--------------------------------------\n";
+$log .= "POST DATA\n";
+$log .= "--------------------------------------\n";
+$log .= print_r($POST_LOG, true);
+DUPX_Log::info($log, 2);
+
+
+//====================================================================================================
+//UNZIP & FILE SETUP - Extract the zip file and prep files
+//====================================================================================================
+$log  = "\n********************************************************************************\n";
+$log .= "ARCHIVE SETUP\n";
+$log .= "********************************************************************************\n";
+$log .= "NAME:\t{$_POST['package_name']}\n";
+$log .= "SIZE:\t" . DUPX_U::readable_bytesize(@filesize($_POST['package_name'])) . "\n";
+$log .= "ZIP:\t{$zip_support} (ZipArchive Support)";
+DUPX_Log::info($log);
+
+$zip_start = DUPX_U::get_microtime();
+
+if ($_POST['zip_manual'])
+{
+	DUPX_Log::info("\n** PACKAGE EXTRACTION IS IN MANUAL MODE ** \n");
+}
+else
+{
+	if ($GLOBALS['FW_PACKAGE_NAME'] != $_POST['package_name']) {
+		$log  = "\n--------------------------------------\n";
+		$log .= "WARNING: This package set may be incompatible!  \nBelow is a summary of the package this installer was built with and the package used. \n";
+		$log .= "To guarantee accuracy the installer and archive should match. For details see the online FAQs.";
+		$log .= "\nCREATED WITH:\t{$GLOBALS['FW_PACKAGE_NAME']} \nPROCESSED WITH:\t{$_POST['package_name']}  \n";
+		$log .= "--------------------------------------\n";
+		DUPX_Log::info($log);
+	}
+
+	if (! class_exists('ZipArchive')) {
+		DUPX_Log::info("ERROR: Stopping install process.  Trying to extract without ZipArchive module installed.  Please use the 'Manual Package extraction' mode to extract zip file.");
+		DUPX_Log::error(ERR_ZIPARCHIVE);
+	}
+
+	$target = $root_path;
+	$zip = new ZipArchive();
+	if ($zip->open($_POST['package_name']) === TRUE)
+	{
+		DUPX_Log::info("\nEXTRACTING");
+		if (! $zip->extractTo($target)) {
+			DUPX_Log::error(ERR_ZIPEXTRACTION);
+		}
+		$log  = print_r($zip, true);
+
+		//Keep original timestamp on the file
+		if ($_POST['zip_filetime'] == 'original')
+		{
+			$log .=  "File timestamp set to Original\n";
+			for ($idx = 0; $s = $zip->statIndex($idx); $idx++) {
+				touch( $target . DIRECTORY_SEPARATOR . $s['name'], $s['mtime'] );
+			}
+		}
+		else
+		{
+			$now = date("Y-m-d H:i:s");
+			$log .=  "File timestamp set to Current: {$now}\n";
+		}
+
+		$close_response = $zip->close();
+		$log .= "COMPLETE: " . var_export($close_response, true);
+		DUPX_Log::info($log);
+	} else {
+		DUPX_Log::error(ERR_ZIPOPEN);
+	}
+	$zip = null;
+}
+
+
+//CONFIG FILE RESETS
+$log = '';
+DUPX_WPConfig::UpdateStep1();
+DUPX_ServerConfig::reset();
+
+
+//====================================================================================================
+//DATABASE ROUTINES
+//====================================================================================================
+$faq_url = $GLOBALS['FAQ_URL'];
+$db_file_size = filesize('database.sql');
+$php_mem = $GLOBALS['PHP_MEMORY_LIMIT'];
+$php_mem_range = DUPX_U::return_bytes($GLOBALS['PHP_MEMORY_LIMIT']);
+$php_mem_range = $php_mem_range == null ?  0 : $php_mem_range - 5000000; //5 MB Buffer
+
+//Fatal Memory errors from file_get_contents is not catchable.
+//Try to warn ahead of time with a buffer in memory difference
+if ($db_file_size >= $php_mem_range  && $php_mem_range != 0)
+{
+	$db_file_size = DUPX_U::readable_bytesize($db_file_size);
+	$msg = "\nWARNING: The database script is '{$db_file_size}' in size.  The PHP memory allocation is set\n";
+	$msg .= "at '{$php_mem}'.  There is a high possibility that the installer script will fail with\n";
+	$msg .= "a memory allocation error when trying to load the database.sql file.  It is\n";
+	$msg .= "recommended to increase the 'memory_limit' setting in the php.ini config file.\n";
+	$msg .= "see: {$faq_url}#faq-trouble-056-q \n";
+	DUPX_Log::info($msg);
+}
+
+@chmod("{$root_path}/database.sql", 0777);
+$sql_file = file_get_contents('database.sql', true);
+
+//ERROR: Reading database.sql file
+if ($sql_file === FALSE || strlen($sql_file) < 10)
+{
+	$msg = "<b>Unable to read the database.sql file from the archive.  Please check these items:</b> <br/>";
+	$msg .= "1. Validate permissions and/or group-owner rights on these items: <br/>";
+	$msg .= " - File: database.sql <br/> - Directory: [{$root_path}] <br/>";
+	$msg .= "<i>see: <a href='{$faq_url}#faq-trouble-055-q' target='_blank'>{$faq_url}#faq-trouble-055-q</a></i> <br/>";
+	$msg .= "2. Validate the database.sql file exists and is in the root of the archive.zip file <br/>";
+	$msg .= "<i>see: <a href='{$faq_url}#faq-installer-020-q' target='_blank'>{$faq_url}#faq-installer-020-q</a></i> <br/>";
+	DUPX_Log::error($msg);
+}
+
+//Removes invalid space characters
+//Complex Subject See: http://webcollab.sourceforge.net/unicode.html
+if ($_POST['dbnbsp'])
+{
+	DUPX_Log::info("NOTICE: Ran fix non-breaking space characters\n");
+	$sql_file = preg_replace('/\xC2\xA0/', ' ', $sql_file);
+}
+
+//Write new contents to install-data.sql
+$sql_file_copy_status   = file_put_contents($GLOBALS['SQL_FILE_NAME'], $sql_file);
+$sql_result_file_data	= explode(";\n", $sql_file);
+$sql_result_file_length = count($sql_result_file_data);
+$sql_result_file_path	= "{$root_path}/{$GLOBALS['SQL_FILE_NAME']}";
+$sql_file = null;
+
+//WARNING: Create installer-data.sql failed
+if ($sql_file_copy_status === FALSE || filesize($sql_result_file_path) == 0 || !is_readable($sql_result_file_path))
+{
+	$sql_file_size = DUPX_U::readable_bytesize(filesize('database.sql'));
+	$msg  = "\nWARNING: Unable to properly copy database.sql ({$sql_file_size}) to {$GLOBALS['SQL_FILE_NAME']}.  Please check these items:\n";
+	$msg .= "- Validate permissions and/or group-owner rights on database.sql and directory [{$root_path}] \n";
+	$msg .= "- see: {$faq_url}#faq-trouble-055-q \n";
+	DUPX_Log::info($msg);
+}
+
+DUPX_Log::info("\nUPDATED FILES:");
+DUPX_Log::info("- SQL FILE:  '{$sql_result_file_path}'");
+DUPX_Log::info("- WP-CONFIG: '{$root_path}/wp-config.php' (if present)");
+DUPX_Log::info("\nARCHIVE RUNTIME: " . DUPX_U::elapsed_time(DUPX_U::get_microtime(), $zip_start) . "\n");
+DUPX_U::fcgi_flush();
+
+//=================================
+//START DB RUN
+@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
+@mysqli_query($dbh, "SET max_allowed_packet = {$GLOBALS['DB_MAX_PACKETS']}");
+DUPX_DB::setCharset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
+
+//Will set mode to null only for this db handle session
+//sql_mode can cause db create issues on some systems
+$qry_session_custom = true;
+switch ($_POST['dbmysqlmode']) {
+    case 'DISABLE':
+        @mysqli_query($dbh, "SET SESSION sql_mode = ''");
+        break;
+    case 'CUSTOM':
+		$dbmysqlmode_opts = $_POST['dbmysqlmode_opts'];
+		$qry_session_custom = @mysqli_query($dbh, "SET SESSION sql_mode = '{$dbmysqlmode_opts}'");
+        if ($qry_session_custom == false)
+		{
+			$sql_error = mysqli_error($dbh);
+			$log  = "WARNING: A custom sql_mode setting issue has been detected:\n{$sql_error}.\n";
+			$log .= "For more details visit: http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html\n";
+		}
+        break;
+}
+
+//Set defaults in-case the variable could not be read
+$dbvar_maxtime		= DUPX_DB::getVariable($dbh, 'wait_timeout');
+$dbvar_maxpacks		= DUPX_DB::getVariable($dbh, 'max_allowed_packet');
+$dbvar_sqlmode		= DUPX_DB::getVariable($dbh, 'sql_mode');
+$dbvar_maxtime		= is_null($dbvar_maxtime) ? 300 : $dbvar_maxtime;
+$dbvar_maxpacks		= is_null($dbvar_maxpacks) ? 1048576 : $dbvar_maxpacks;
+$dbvar_sqlmode		= empty($dbvar_sqlmode) ? 'NOT_SET'  : $dbvar_sqlmode;
+$dbvar_version		= DUPX_DB::getVersion($dbh);
+$sql_file_size1		= DUPX_U::readable_bytesize(@filesize("database.sql"));
+$sql_file_size2		= DUPX_U::readable_bytesize(@filesize("{$GLOBALS['SQL_FILE_NAME']}"));
+
+
+DUPX_Log::info("{$GLOBALS['SEPERATOR1']}");
+DUPX_Log::info('DATABASE-ROUTINES');
+DUPX_Log::info("{$GLOBALS['SEPERATOR1']}");
+DUPX_Log::info("--------------------------------------");
+DUPX_Log::info("SERVER ENVIRONMENT");
+DUPX_Log::info("--------------------------------------");
+DUPX_Log::info("MYSQL VERSION:\tThis Server: {$dbvar_version} -- Build Server: {$GLOBALS['FW_VERSION_DB']}");
+DUPX_Log::info("FILE SIZE:\tdatabase.sql ({$sql_file_size1}) - installer-data.sql ({$sql_file_size2})");
+DUPX_Log::info("TIMEOUT:\t{$dbvar_maxtime}");
+DUPX_Log::info("MAXPACK:\t{$dbvar_maxpacks}");
+DUPX_Log::info("SQLMODE:\t{$dbvar_sqlmode}");
+
+if ($qry_session_custom == false)
+{
+	DUPX_Log::info("\n{$log}\n");
+}
+
+//CREATE DB
+switch ($_POST['dbaction']) {
+	case "create":
+		mysqli_query($dbh, "CREATE DATABASE IF NOT EXISTS `{$_POST['dbname']}`");
+		mysqli_select_db($dbh, $_POST['dbname'])
+		or DUPX_Log::error(sprintf(ERR_DBCONNECT_CREATE, $_POST['dbname']));
+		break;
+	case "empty":
+		//DROP DB TABLES
+		$drop_log = "Database already empty. Ready for install.";
+		$sql = "SHOW TABLES FROM `{$_POST['dbname']}`";
+		$found_tables = null;
+		if ($result = mysqli_query($dbh, $sql)) {
+			while ($row = mysqli_fetch_row($result)) {
+				$found_tables[] = $row[0];
+			}
+			if (count($found_tables) > 0) {
+				foreach ($found_tables as $table_name) {
+					$sql = "DROP TABLE `{$_POST['dbname']}`.`{$table_name}`";
+					if (!$result = mysqli_query($dbh, $sql)) {
+						DUPX_Log::error(sprintf(ERR_DBTRYCLEAN, $_POST['dbname']));
+					}
+				}
+			}
+			$drop_log = 'removed (' . count($found_tables) . ') tables';
+		}
+		break;
+}
+
+
+//WRITE DATA
+DUPX_Log::info("--------------------------------------");
+DUPX_Log::info("DATABASE RESULTS");
+DUPX_Log::info("--------------------------------------");
+$profile_start = DUPX_U::get_microtime();
+$fcgi_buffer_pool = 5000;
+$fcgi_buffer_count = 0;
+$dbquery_rows = 0;
+$dbtable_rows = 1;
+$dbquery_errs = 0;
+$counter = 0;
+@mysqli_autocommit($dbh, false);
+while ($counter < $sql_result_file_length) {
+
+	$query_strlen = strlen(trim($sql_result_file_data[$counter]));
+	if ($dbvar_maxpacks < $query_strlen) {
+		DUPX_Log::info("**ERROR** Query size limit [length={$query_strlen}] [sql=" . substr($sql_result_file_data[$counter], 75) . "...]");
+		$dbquery_errs++;
+	} elseif ($query_strlen > 0) {
+		@mysqli_free_result(@mysqli_query($dbh, ($sql_result_file_data[$counter])));
+		$err = mysqli_error($dbh);
+		//Check to make sure the connection is alive
+		if (!empty($err)) {
+
+			if (!mysqli_ping($dbh)) {
+				mysqli_close($dbh);
+				$dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport'] );
+				// Reset session setup
+				@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
+				DUPX_DB::setCharset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
+			}
+			DUPX_Log::info("**ERROR** database error write '{$err}' - [sql=" . substr($sql_result_file_data[$counter], 0, 75) . "...]");
+			$dbquery_errs++;
+
+		//Buffer data to browser to keep connection open
+		} else {
+			if ($fcgi_buffer_count++ > $fcgi_buffer_pool) {
+				$fcgi_buffer_count = 0;
+				DUPX_U::fcgi_flush();
+			}
+			$dbquery_rows++;
+		}
+	}
+	$counter++;
+}
+@mysqli_commit($dbh);
+@mysqli_autocommit($dbh, true);
+
+DUPX_Log::info("ERRORS FOUND:\t{$dbquery_errs}");
+DUPX_Log::info("DROP TABLE:\t{$drop_log}");
+DUPX_Log::info("QUERIES RAN:\t{$dbquery_rows}\n");
+
+$dbtable_count = 0;
+if ($result = mysqli_query($dbh, "SHOW TABLES")) {
+	while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
+		$table_rows = DUPX_DB::countTableRows($dbh, $row[0]);
+		$dbtable_rows += $table_rows;
+		DUPX_Log::info("{$row[0]}: ({$table_rows})");
+		$dbtable_count++;
+	}
+	@mysqli_free_result($result);
+}
+
+if ($dbtable_count == 0) {
+	DUPX_Log::error("No tables where created during step 1 of the install.  Please review the <a href='installer-log.txt' target='_blank'>installer-log.txt</a> file for
+		ERROR messages.  You may have to manually run the installer-data.sql with a tool like phpmyadmin to validate the data input.  If you have enabled compatibility mode
+		during the package creation process then the database server version your using may not be compatible with this script.\n");
+}
+
+
+//DATA CLEANUP: Perform Transient Cache Cleanup
+//Remove all duplicator entries and record this one since this is a new install.
+$dbdelete_count = 0;
+@mysqli_query($dbh, "DELETE FROM `{$GLOBALS['FW_TABLEPREFIX']}duplicator_packages`");
+$dbdelete_count1 = @mysqli_affected_rows($dbh) or 0;
+@mysqli_query($dbh, "DELETE FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE `option_name` LIKE ('_transient%') OR `option_name` LIKE ('_site_transient%')");
+$dbdelete_count2 = @mysqli_affected_rows($dbh) or 0;
+$dbdelete_count = (abs($dbdelete_count1) + abs($dbdelete_count2));
+DUPX_Log::info("Removed '{$dbdelete_count}' cache/transient rows");
+//Reset Duplicator Options
+foreach ($GLOBALS['FW_OPTS_DELETE'] as $value) {
+	mysqli_query($dbh, "DELETE FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE `option_name` = '{$value}'");
+}
+
+@mysqli_close($dbh);
+
+$profile_end = DUPX_U::get_microtime();
+DUPX_Log::info("\nSECTION RUNTIME: " . DUPX_U::elapsed_time($profile_end, $profile_start));
+
+//FINAL RESULTS
+$ajax1_end = DUPX_U::get_microtime();
+$ajax1_sum = DUPX_U::elapsed_time($ajax1_end, $ajax1_start);
+DUPX_Log::info("\n{$GLOBALS['SEPERATOR1']}");
+DUPX_Log::info('STEP1 COMPLETE @ ' . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax1_sum}");
+DUPX_Log::info("{$GLOBALS['SEPERATOR1']}");
+
+$JSON['pass'] = 1;
+$JSON['table_count'] = $dbtable_count;
+$JSON['table_rows']  = $dbtable_rows;
+$JSON['query_errs']  = $dbquery_errs;
+echo json_encode($JSON);
+error_reporting($ajax1_error_level);
+die('');
 ?>

@@ -63,8 +63,8 @@ class DUPX_ServerConfig
         DUPX_Log::info("\nWEB SERVER CONFIGURATION FILE BASIC SETUP:");
         $currdata = parse_url($_POST['url_old']);
         $newdata  = parse_url($_POST['url_new']);
-        $currpath = DUPX_Util::add_slash(isset($currdata['path']) ? $currdata['path'] : "");
-        $newpath  = DUPX_Util::add_slash(isset($newdata['path'])  ? $newdata['path']  : "");
+        $currpath = DUPX_U::add_slash(isset($currdata['path']) ? $currdata['path'] : "");
+        $newpath  = DUPX_U::add_slash(isset($newdata['path'])  ? $newdata['path']  : "");
 
         $tmp_htaccess = <<<HTACCESS
 # BEGIN WordPress

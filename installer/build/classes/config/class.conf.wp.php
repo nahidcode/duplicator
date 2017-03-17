@@ -28,7 +28,7 @@ class DUPX_WPConfig
     {
         if (!file_exists('wp-config.php')) return;
 
-        $root_path = DUPX_Util::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
+        $root_path = DUPX_U::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
         $wpconfig  = @file_get_contents('wp-config.php', true);
 
         $patterns = array(
@@ -42,7 +42,7 @@ class DUPX_WPConfig
         $replace = array(
             "'DB_NAME', ".'\''.$_POST['dbname'].'\'',
             "'DB_USER', ".'\''.$_POST['dbuser'].'\'',
-            "'DB_PASSWORD', ".'\''.DUPX_Util::preg_replacement_quote($_POST['dbpass']).'\'',
+            "'DB_PASSWORD', ".'\''.DUPX_U::preg_replacement_quote($_POST['dbpass']).'\'',
             "'DB_HOST', ".'\''.$db_host.'\'');
 
         //SSL CHECKS

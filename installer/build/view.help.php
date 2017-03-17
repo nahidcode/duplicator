@@ -9,11 +9,11 @@
 ?>
 <!-- =========================================
 HELP FORM -->
-<div id="dup-main-help">
+<div id="dupx-main-help">
 	<div style="text-align:center">For in-depth help please see the <a href="https://snapcreek.com/duplicator/docs/" target="_blank">online resources</a></div>
 
 	<h3>Step 1 - Deploy</h3>
-	<div id="dup-help-step1" class="dup-help-page">
+	<div id="dup-help-step1" class="dupx-help-page">
 		<!-- MYSQL SERVER -->
 		<fieldset>
 			<legend><b>MySQL Server</b></legend>
@@ -142,7 +142,7 @@ HELP FORM -->
 	</div>
 
 	<h3>Step 2 - Update</h3>
-	<div id="dup-help-step2" class="dup-help-page">
+	<div id="dup-help-step2" class="dupx-help-page">
 
 		<!-- SETTINGS-->
 		<fieldset>
@@ -195,7 +195,7 @@ HELP FORM -->
 	</div>
 
 	<h3>Step 3 - Test</h3>
-	<div id="dup-help-step3" class="dup-help-page">
+	<div id="dup-help-step3" class="dupx-help-page">
 		<fieldset>
 			<legend><b>Final Steps</b></legend>
 
@@ -219,7 +219,7 @@ HELP FORM -->
 
 	
 	<h3>Troubleshooting Tips</h3>
-	<div id="troubleshoot" class="dup-help-page">
+	<div id="troubleshoot" class="dupx-help-page">
 		<fieldset>
 			<legend><b>Quick Overview</b></legend>
 

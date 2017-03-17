@@ -1,9 +1,9 @@
 <?php
 /*
-  Copyright 2011-16  snapcreek.com
+  Copyright 2011-17  snapcreek.com
 
   This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License, version 2, as
+  it under the terms of the GNU General Public License, version 3, as
   published by the Free Software Foundation.
 
   This program is distributed in the hope that it will be useful,
@@ -14,11 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-  SOURCE CONTRIBUTORS:
-  Gaurav Aggarwal
-  David Coveney of Interconnect IT Ltd
-  https://github.com/interconnectit/Search-Replace-DB/
+  GPL v3 https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 if (file_exists('dtoken.php')) {
@@ -163,17 +159,19 @@ $_POST['dbcharset'] = isset($_POST['dbcharset'])  ? trim($_POST['dbcharset']) : 
 $_POST['dbcollate'] = isset($_POST['dbcollate'])  ? trim($_POST['dbcollate']) : $GLOBALS['DBCOLLATE_DEFAULT'];
 
 //GLOBALS
-$GLOBALS['SQL_FILE_NAME'] = "installer-data.sql";
-$GLOBALS['LOG_FILE_NAME'] = "installer-log.txt";
-$GLOBALS['SEPERATOR1'] = str_repeat("********", 10);
-$GLOBALS['LOGGING'] = isset($_POST['logging']) ? $_POST['logging'] : 1;
-$GLOBALS['CURRENT_ROOT_PATH'] = dirname(__FILE__);
-$GLOBALS['CHOWN_ROOT_PATH'] = @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}", 0755);
-$GLOBALS['CHOWN_LOG_PATH'] = @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}/{$GLOBALS['LOG_FILE_NAME']}", 0644);
-$GLOBALS['URL_SSL'] = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? true : false;
-$GLOBALS['URL_PATH'] = ($GLOBALS['URL_SSL']) ? "https://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}" : "http://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}";
-$GLOBALS['PHP_MEMORY_LIMIT'] = ini_get('memory_limit') === false ? 'n/a' : ini_get('memory_limit');
-$GLOBALS['PHP_SUHOSIN_ON']	 = extension_loaded('suhosin') ? 'enabled' : 'disabled';
+$GLOBALS['SQL_FILE_NAME']       = "installer-data.sql";
+$GLOBALS['LOG_FILE_NAME']       = "installer-log.txt";
+$GLOBALS['SEPERATOR1']          = str_repeat("********", 10);
+$GLOBALS['LOGGING']             = isset($_POST['logging']) ? $_POST['logging'] : 1;
+$GLOBALS['CURRENT_ROOT_PATH']   = dirname(__FILE__);
+$GLOBALS['CHOWN_ROOT_PATH']     = @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}", 0755);
+$GLOBALS['CHOWN_LOG_PATH']      = @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}/{$GLOBALS['LOG_FILE_NAME']}", 0644);
+$GLOBALS['URL_SSL']             = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? true : false;
+$GLOBALS['URL_PATH']            = ($GLOBALS['URL_SSL']) ? "https://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}" : "http://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}";
+$GLOBALS['PHP_MEMORY_LIMIT']    = ini_get('memory_limit') === false ? 'n/a' : ini_get('memory_limit');
+$GLOBALS['PHP_SUHOSIN_ON']      = extension_loaded('suhosin') ? 'enabled' : 'disabled';
+$GLOBALS['ARCHIVE_PATH']        = $GLOBALS['CURRENT_ROOT_PATH'] . '/' . $GLOBALS['FW_PACKAGE_NAME'];
+$GLOBALS['ARCHIVE_PATH']        = str_replace("\\", "/", $GLOBALS['ARCHIVE_PATH']);
 
 //Restart log if user starts from step 1
 if ($_POST['action_step'] == 1) {
@@ -183,7 +181,9 @@ if ($_POST['action_step'] == 1) {
 }
 ?>
 	
-@@CLASS.UTILS.PHP@@
+@@CLASS.U.PHP@@
+
+@@CLASS.SERVER.PHP@@
 
 @@CLASS.DB.PHP@@
 
@@ -202,7 +202,9 @@ if (isset($_POST['action_ajax'])) {
         case "1" :
             ?> @@AJAX.STEP1.PHP@@ <?php break;
         case "2" :
-            ?> @@AJAX.STEP2.PHP@@ <?php
+            ?> @@AJAX.STEP2.PHP@@ <?php break;
+        case "3" :
+            ?> @@AJAX.STEP3.PHP@@ <?php
             break;
     }
     @fclose($GLOBALS["LOG_FILE_HANDLE"]);
@@ -224,29 +226,29 @@ if (isset($_POST['action_ajax'])) {
 <body>
 
 <div id="content">
-	<!-- =========================================
-	HEADER TEMPLATE: Common header on all steps -->
-	<table cellspacing="0" class="header-wizard">
-		<tr>
-			<td style="width:100%;">
-				<div style="font-size:26px; padding:5px 0 5px 0">
-					<!-- !!DO NOT CHANGE/EDIT OR REMOVE PRODUCT NAME!!
-					If your interested in Private Label Rights please contact us at the URL below to discuss
-					customizations to product labeling: http://snapcreek.com	-->
-					&nbsp; Duplicator
-				</div>
-			</td>
-            <td class="wiz-dupx-version">
-                version: <?php echo $GLOBALS['FW_DUPLICATOR_VERSION'] ?><br/>
-                &raquo; <a href="?help=1" target="_blank">help</a>
-                &raquo; <a href="https://snapcreek.com/duplicator/docs/" target="_blank">docs</a> &nbsp;
-            </td>
-		</tr>
-	</table>	
+<!-- =========================================
+HEADER TEMPLATE: Common header on all steps -->
+<table cellspacing="0" class="dupx-header">
+    <tr>
+        <td style="width:100%;">
+            <div style="font-size:26px; padding:5px 0 5px 0">
+                <!-- !!DO NOT CHANGE/EDIT OR REMOVE PRODUCT NAME!!
+                If your interested in Private Label Rights please contact us at the URL below to discuss
+                customizations to product labeling: http://snapcreek.com	-->
+                &nbsp; Duplicator
+            </div>
+        </td>
+        <td class="dupx-header-version">
+            version: <?php echo $GLOBALS['FW_DUPLICATOR_VERSION'] ?><br/>
+            &raquo; <a href="?help=1" target="_blank">help</a>
+            &raquo; <a href="https://snapcreek.com/duplicator/docs/" target="_blank">docs</a> &nbsp;
+        </td>
+    </tr>
+</table>	
 
-	<!-- =========================================
-	FORM DATA: Data Steps -->
-	<div id="content-inner">
+<!-- =========================================
+FORM DATA: Data Steps -->
+<div id="content-inner">
 <?php
 
 if (! isset($_GET['help'])) {
@@ -260,13 +262,16 @@ switch ($_POST['action_step']) {
 	case "3" :
 	?> @@VIEW.STEP3.PHP@@ <?php
 	break;
+	case "4" :
+	?> @@VIEW.STEP4.PHP@@ <?php
+	break;
 }
 } else {
 	?> @@VIEW.HELP.PHP@@ <?php
 }
 	
 ?>
-	</div>
+</div>
 </div><br/>
 
 

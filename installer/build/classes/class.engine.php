@@ -156,7 +156,7 @@ class DUPX_UpdateEngine
 
         $walk_function = create_function('&$str', '$str = "`$str`";');
 
-        $profile_start = DUPX_Util::get_microtime();
+        $profile_start = DUPX_U::get_microtime();
         if (is_array($tables) && !empty($tables)) {
 
             foreach ($tables as $table) {
@@ -302,7 +302,7 @@ class DUPX_UpdateEngine
                             $report['errkey'][] = sprintf("Row [%s] on Table [%s] requires a manual update.", $current_row, $table);
                         }
                     }
-                    DUPX_Util::fcgi_flush();
+                    DUPX_U::fcgi_flush();
                     @mysqli_free_result($data);
                 }
 
@@ -311,8 +311,8 @@ class DUPX_UpdateEngine
                 }
             }
         }
-        $profile_end          = DUPX_Util::get_microtime();
-        $report['time']       = DUPX_Util::elapsed_time($profile_end, $profile_start);
+        $profile_end          = DUPX_U::get_microtime();
+        $report['time']       = DUPX_U::elapsed_time($profile_end, $profile_start);
         $report['errsql_sum'] = empty($report['errsql']) ? 0 : count($report['errsql']);
         $report['errser_sum'] = empty($report['errser']) ? 0 : count($report['errser']);
         $report['errkey_sum'] = empty($report['errkey']) ? 0 : count($report['errkey']);

@@ -13,7 +13,7 @@ if (!defined('DUPLICATOR_INIT')) {
  * @package SC\DUPX\Util
  *
  */
-class DUPX_Util
+class DUPX_U
 {
 
     /**
