@@ -8,7 +8,7 @@ $arcSize    = is_numeric($arcSize) ? $arcSize : 0;
 
 //REQUIRMENTS
 $req      	= array();
-$req['01']	= DUPX_Server::is_dir_writable($GLOBALS["CURRENT_ROOT_PATH"]) ? 'Pass' : 'Fail';
+$req['01']	= DUPX_Server::isDirWritable($GLOBALS["CURRENT_ROOT_PATH"]) ? 'Pass' : 'Fail';
 $req['02']	= 'Pass'; //Place-holder for future check
 $req['03']	= (! DUPX_Server::$php_safe_mode_on) ? 'Pass' : 'Fail';
 $req['04']	= function_exists('mysqli_connect')	 ? 'Pass' : 'Fail';
@@ -22,7 +22,7 @@ $scancount		= is_array($scanfiles) ? (count($scanfiles)) : -1;
 $datetime1		= $GLOBALS['FW_CREATED'];
 $datetime2		= date("Y-m-d H:i:s");
 $fulldays		= round(abs(strtotime($datetime1) - strtotime($datetime2))/86400);
-$root_path		= DUPX_U::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
+$root_path		= DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
 $wpconf_path	= "{$root_path}/wp-config.php";
 $max_time_zero  = set_time_limit(0);
 $max_time_size  = 314572800;  //300MB
@@ -72,7 +72,7 @@ ARCHIVE FILE
     <table class="s1-archive-local">
         <tr>
             <td>Size:</td>
-            <td><?php echo DUPX_U::readable_bytesize($arcSize); ;?> </td>
+            <td><?php echo DUPX_U::readableByteSize($arcSize); ;?> </td>
         </tr>
         <tr>
             <td>Name:</td>
@@ -99,7 +99,7 @@ ARCHIVE FILE
             must be completely downloaded to the server before trying to run step 1.  The following zip files where found at the deployment path:<br/>
             <?php
                 //DETECT ARCHIVE FILES
-                $zip_files = DUPX_U::get_zip_files();
+                $zip_files = DUPX_Server::getZipFiles();
                 $zip_count = count($zip_files);
 
                 if ($zip_count >= 1) {
@@ -276,7 +276,7 @@ SYSTEM CHECKS
 		<div class="status <?php echo ($notice['07'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['07']; ?></div>
 		<div class="title" data-type="toggle" data-target="#s1-notice07">+ PHP Timeout</div>
 		<div class="info" id="s1-notice07">
-			<b>Archive Size:</b> <?php echo DUPX_U::readable_bytesize($arcSize) ?>  <small>(detection limit is set at <?php echo DUPX_U::readable_bytesize($max_time_size) ?>) </small><br/>
+			<b>Archive Size:</b> <?php echo DUPX_U::readableByteSize($arcSize) ?>  <small>(detection limit is set at <?php echo DUPX_U::readableByteSize($max_time_size) ?>) </small><br/>
 			<b>PHP max_execution_time:</b> <?php echo "{$max_time_ini}"; ?> <small>(zero means not limit)</small> <br/>
 			<b>PHP set_time_limit:</b> <?php echo ($max_time_zero) ? '<i style="color:green">Success</i>' : '<i style="color:maroon">Failed</i>' ?>
 			<br/><br/>

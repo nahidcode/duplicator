@@ -7,7 +7,7 @@
 		exit; 
 	}
 ?>
-<?php if( DUPX_U::is_url_active("ajax.googleapis.com", 443) ): ?>
+<?php if( DUPX_U::isURLActive("ajax.googleapis.com", 443) ): ?>
 	<link rel='stylesheet' href='//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css' type='text/css' media='all' />
 <?php else: ?>
 	<style type="text/css">

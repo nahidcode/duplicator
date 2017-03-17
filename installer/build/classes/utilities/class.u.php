@@ -1,16 +1,11 @@
 <?php
-// Exit if accessed directly
-if (!defined('DUPLICATOR_INIT')) {
-    $_baseURL = "http://".strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-    header("HTTP/1.1 301 Moved Permanently");
-    header("Location: $_baseURL");
-    exit;
-}
-
 /**
  * Various Static Utility methods for working with the installer
  *
- * @package SC\DUPX\Util
+ * Standard: PSR-2
+ * @link http://www.php-fig.org/psr/psr-2 Full Documentation
+ *
+ * @package SC\DUPX\U
  *
  */
 class DUPX_U
@@ -21,9 +16,9 @@ class DUPX_U
      *
      * @param string $path		A path
      *
-     * @return string The orginal $path with a with '/'.
+     * @return string The orginal $path with a with '/' added to the end.
      */
-    public static function add_slash($path)
+    public static function addSlash($path)
     {
         $last_char = substr($path, strlen($path) - 1, 1);
         if ($last_char != '/') {
@@ -33,36 +28,16 @@ class DUPX_U
     }
 
     /**
-     *  A safe method used to copy larger files
-     *
-     *  @param string $source		The path to the file being copied
-     *  @param string $destination	The path to the file being made
-     */
-    public static function copy_file($source, $destination)
-    {
-        $sp = fopen($source, 'r');
-        $op = fopen($destination, 'w');
-
-        while (!feof($sp)) {
-            $buffer = fread($sp, 512);  // use a buffer of 512 bytes
-            fwrite($op, $buffer);
-        }
-        // close handles
-        fclose($op);
-        fclose($sp);
-    }
-
-    /**
      * Return a string with the elapsed time
      *
-     * @see get_microtime()
+     * @see getMicrotime()
      *
      * @param mixed number $end     The final time in the sequence to measure
      * @param mixed number $start   The start time in the sequence to measure
      *
      * @return  string   The time elapsed from $start to $end
      */
-    public static function elapsed_time($end, $start)
+    public static function elapsedTime($end, $start)
     {
         return sprintf("%.4f sec.", abs($end - $start));
     }
@@ -75,7 +50,7 @@ class DUPX_U
      *
      * @return string    Escaped string.
      */
-    public static function esc_html_attr($string = '', $echo = false)
+    public static function escapeHTML($string = '', $echo = false)
     {
         $output = htmlentities($string, ENT_QUOTES, 'UTF-8');
         if ($echo) {
@@ -93,7 +68,7 @@ class DUPX_U
      *
      * @return string A series of 256 spaces ' '
      */
-    public static function fcgi_flush()
+    public static function fcgiFlush()
     {
         echo(str_repeat(' ', 256));
         @flush();
@@ -102,11 +77,11 @@ class DUPX_U
     /**
      * Get current microtime as a float.  Method is used for simple profiling
      *
-     * @see elapsed_time
+     * @see elapsedTime
      *
      * @return  string   A float in the form "msec sec", where sec is the number of seconds since the Unix epoch
      */
-    public static function get_microtime()
+    public static function getMicrotime()
     {
         return microtime(true);
     }
@@ -115,9 +90,10 @@ class DUPX_U
      *  Returns the active plugins for the WordPress website in the package
      *
      *  @param  obj    $dbh	 A database connection handle
+	 *
      *  @return array  $list A list of active plugins
      */
-    public static function get_active_plugins($dbh)
+    public static function getActivePlugins($dbh)
     {
         $query = @mysqli_query($dbh, "SELECT option_value FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE option_name = 'active_plugins' ");
         if ($query) {
@@ -131,39 +107,6 @@ class DUPX_U
     }
 
     /**
-     *  Returns an array of zip files found in the current executing directory
-     *
-     *  @return array of zip files
-     */
-    public static function get_zip_files()
-    {
-        $files = array();
-        foreach (glob("*.zip") as $name) {
-            if (file_exists($name)) {
-                $files[] = $name;
-            }
-        }
-
-        if (count($files) > 0) {
-            return $files;
-        }
-
-        //FALL BACK: Windows XP has bug with glob,
-        //add secondary check for PHP lameness
-        if ($dh = opendir('.')) {
-            while (false !== ($name = readdir($dh))) {
-                $ext = substr($name, strrpos($name, '.') + 1);
-                if (in_array($ext, array("zip"))) {
-                    $files[] = $name;
-                }
-            }
-            closedir($dh);
-        }
-
-        return $files;
-    }
-
-    /**
      *  Check to see if the internet is accessable
      *
      *  Note: fsocketopen on windows doesn't seem to honor $timeout setting.
@@ -171,9 +114,9 @@ class DUPX_U
      *  @param string $url		A url e.g without prefix "ajax.googleapis.com"
      *  @param string $port		A valid port number
      *
-     *  @return bool
+     *  @return bool	Returns true PHP can request the URL
      */
-    public static function is_url_active($url, $port, $timeout = 5)
+    public static function isURLActive($url, $port, $timeout = 5)
     {
         if (function_exists('fsockopen')) {
             @ini_set("default_socket_timeout", 5);
@@ -195,9 +138,8 @@ class DUPX_U
      * @param string $string Any string blob
      *
      * @return bool Returns true if any non ascii character is found in the blob
-     *
      */
-    public static function is_non_ascii($string)
+    public static function isNonASCII($string)
     {
         return preg_match('/[^\x20-\x7f]/', $string);
     }
@@ -209,7 +151,7 @@ class DUPX_U
      *
      *  @param string $str		The string to replace on
      */
-    public static function preg_replacement_quote($str)
+    public static function pregReplacementQuote($str)
     {
         return preg_replace('/(\$|\\\\)(?=\d)/', '\\\\\1', $str);
     }
@@ -221,7 +163,7 @@ class DUPX_U
      *
      * @return string Human readable bytes such as 50MB, 1GB
      */
-    public static function readable_bytesize($size)
+    public static function readableByteSize($size)
     {
         try {
             $units = array('B', 'KB', 'MB', 'GB', 'TB');
@@ -240,7 +182,7 @@ class DUPX_U
      *
      * @returns int The byte representation of the shortand $val
      */
-    public static function return_bytes($val)
+    public static function getBytes($val)
     {
         $val  = trim($val);
         $last = strtolower($val[strlen($val) - 1]);
@@ -270,7 +212,7 @@ class DUPX_U
      *
      *  @return string The orginal $path with a with all slashes facing '/'.
      */
-    public static function set_safe_path($path)
+    public static function setSafePath($path)
     {
         return str_replace("\\", "/", $path);
     }
@@ -283,7 +225,7 @@ class DUPX_U
      *
      *  @return array An array of strings from the $list array fround in the $haystack
      */
-    public static function search_list_values($list, $haystack)
+    public static function getListValues($list, $haystack)
     {
         $found = array();
         foreach ($list as $var) {
@@ -302,11 +244,10 @@ class DUPX_U
      *
      *  @return string The orginal $path with a with all slashes facing '\'.
      */
-    public static function unset_safe_path($path)
+    public static function unsetSafePath($path)
     {
         return str_replace("/", "\\", $path);
     }
-
 
 }
 ?>

@@ -2,11 +2,11 @@
 	$dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport']);
 
 	$all_tables     = DUPX_DB::getTables($dbh);
-	$active_plugins = DUPX_U::get_active_plugins($dbh);
+	$active_plugins = DUPX_U::getActivePlugins($dbh);
 
 	$old_path = $GLOBALS['FW_WPROOT'];
-	$new_path = DUPX_U::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
-	$new_path = ((strrpos($old_path, '/') + 1) == strlen($old_path)) ? DUPX_U::add_slash($new_path) : $new_path;
+	$new_path = DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
+	$new_path = ((strrpos($old_path, '/') + 1) == strlen($old_path)) ? DUPX_U::addSlash($new_path) : $new_path;
 ?>
 
 
@@ -61,8 +61,10 @@ VIEW: STEP 3- INPUT -->
 
 		<br/>
 		<div class="hdr-sub3">Add New Admin Account</div>
-		<table class="s3-table-inputs" style="margin-top:7px">
-			<tr><td colspan="2"><i style="color:gray;font-size: 11px">This feature is optional.  If the username already exists the account will NOT be created or updated.</i></td></tr>
+		<div style="text-align: center; margin-top:7px">
+			<i style="color:gray;font-size: 11px">This feature is optional.  If the username already exists the account will NOT be created or updated.</i>
+		</div>
+		<table class="s3-table-inputs">
 			<tr>
 				<td>Username </td>
 				<td><input type="text" name="wp_username" id="wp_username" value="" title="4 characters minimum" placeholder="(4 or more characters)" /></td>
@@ -71,20 +73,18 @@ VIEW: STEP 3- INPUT -->
 				<td valign="top">Password</td>
 				<td><input type="text" name="wp_password" id="wp_password" value="" title="6 characters minimum"  placeholder="(6 or more characters)" /></td>
 			</tr>
-		</table>
-		<br/><br/>
-
+		</table><br/>
 
 		<div class="hdr-sub3">Scan Options</div>
         <table class="s3-table-inputs">
-            <tr valign="top">
-                <td style="width:80px">Old URL</td>
+            <tr>
+                <td>Old URL</td>
                 <td>
                     <input type="text" name="url_old" id="url_old" value="<?php echo $GLOBALS['FW_URL_OLD'] ?>" readonly="readonly"  class="readonly" />
                     <a href="javascript:Duplicator.editOldURL()" id="edit_url_old" style="font-size:12px">edit</a>
                 </td>
             </tr>
-            <tr valign="top">
+            <tr>
                 <td>Old Path</td>
                 <td>
                     <input type="text" name="path_old" id="path_old" value="<?php echo $old_path ?>" readonly="readonly"  class="readonly" />
@@ -111,7 +111,7 @@ VIEW: STEP 3- INPUT -->
 					<select id="tables" name="tables[]" multiple="multiple" style="width:315px; height:100px">
 						<?php
 						foreach( $all_tables as $table ) {
-							echo '<option selected="selected" value="' . DUPX_U::esc_html_attr( $table ) . '">' . $table . '</option>';
+							echo '<option selected="selected" value="' . DUPX_U::escapeHTML( $table ) . '">' . $table . '</option>';
 						}
 						?>
 					</select>
@@ -126,7 +126,7 @@ VIEW: STEP 3- INPUT -->
 					<select id="plugins" name="plugins[]" multiple="multiple" style="width:315px; height:100px">
 						<?php
 						foreach ($active_plugins as $plugin) {
-							echo '<option selected="selected" value="' . DUPX_U::esc_html_attr( $plugin ) . '">' . dirname($plugin) . '</option>';
+							echo '<option selected="selected" value="' . DUPX_U::escapeHTML( $plugin ) . '">' . dirname($plugin) . '</option>';
 						}
 						?>
 					</select>

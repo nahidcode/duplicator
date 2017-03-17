@@ -16,7 +16,7 @@ error_reporting(E_ERROR);
 //DATABASE UPDATES
 //====================================================================================================
 
-$ajax2_start = DUPX_U::get_microtime();
+$ajax2_start = DUPX_U::getMicrotime();
 
 //MYSQL CONNECTION
 $dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], html_entity_decode($_POST['dbpass']), $_POST['dbname'], $_POST['dbport']);
@@ -101,7 +101,7 @@ array_push($GLOBALS['REPLACE_LIST'],
 		array('search' => $path_old_json,				 'replace' => $path_new_json), 	
 		array('search' => urlencode($_POST['path_old']), 'replace' => urlencode($_POST['path_new'])), 
 		array('search' => urlencode($_POST['url_old']),  'replace' => urlencode($_POST['url_new'])),
-		array('search' => rtrim(DUPX_U::unset_safe_path($_POST['path_old']), '\\'), 'replace' => rtrim($_POST['path_new'], '/'))
+		array('search' => rtrim(DUPX_U::unsetSafePath($_POST['path_old']), '\\'), 'replace' => rtrim($_POST['path_new'], '/'))
 );
 
 //Remove trailing slashes
@@ -230,7 +230,7 @@ DUPX_Log::info("\n--------------------------------------");
 DUPX_Log::info("NOTICES");
 DUPX_Log::info("--------------------------------------");
 $config_vars = array('WP_CONTENT_DIR', 'WP_CONTENT_URL', 'WPCACHEHOME', 'COOKIE_DOMAIN', 'WP_SITEURL', 'WP_HOME', 'WP_TEMP_DIR');
-$config_items = DUPX_U::search_list_values($config_vars, $config_file);
+$config_items = DUPX_U::getListValues($config_vars, $config_file);
 
 //Files:
 if (! empty($config_items)) {
@@ -266,8 +266,8 @@ mysqli_close($dbh);
 //CONFIG Setup
 DUPX_ServerConfig::setup();
 
-$ajax2_end = DUPX_U::get_microtime();
-$ajax2_sum = DUPX_U::elapsed_time($ajax2_end, $ajax2_start);
+$ajax2_end = DUPX_U::getMicrotime();
+$ajax2_sum = DUPX_U::elapsedTime($ajax2_end, $ajax2_start);
 DUPX_Log::info("********************************************************************************");
 DUPX_Log::info('STEP 2 COMPLETE @ ' . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax2_sum}");
 DUPX_Log::info("********************************************************************************");

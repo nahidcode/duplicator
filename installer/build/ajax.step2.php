@@ -24,10 +24,10 @@ unset($POST_LOG['dbpass']);
 ksort($POST_LOG);
 
 //PAGE VARS
-$root_path		= DUPX_U::set_safe_path($GLOBALS['CURRENT_ROOT_PATH']);
+$root_path		= DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
 $package_path	= "{$root_path}/{$_POST['package_name']}";
 $package_size	= @filesize($package_path);
-$ajax1_start	= DUPX_U::get_microtime();
+$ajax1_start	= DUPX_U::getMicrotime();
 $zip_support	= class_exists('ZipArchive') ? 'Enabled' : 'Not Enabled';
 $JSON = array();
 $JSON['pass'] = 0;
@@ -110,7 +110,7 @@ DATA;
 	$dbUTF8_tst  = false;
 	foreach ($dbConnItems as $value)
 	{
-		if (DUPX_U::is_non_ascii($value)) {
+		if (DUPX_U::isNonASCII($value)) {
 			$dbUTF8_tst = true;
 			break;
 		}
@@ -202,11 +202,11 @@ $log  = "\n*********************************************************************
 $log .= "ARCHIVE SETUP\n";
 $log .= "********************************************************************************\n";
 $log .= "NAME:\t{$_POST['package_name']}\n";
-$log .= "SIZE:\t" . DUPX_U::readable_bytesize(@filesize($_POST['package_name'])) . "\n";
+$log .= "SIZE:\t" . DUPX_U::readableByteSize(@filesize($_POST['package_name'])) . "\n";
 $log .= "ZIP:\t{$zip_support} (ZipArchive Support)";
 DUPX_Log::info($log);
 
-$zip_start = DUPX_U::get_microtime();
+$zip_start = DUPX_U::getMicrotime();
 
 if ($_POST['zip_manual'])
 {
@@ -274,14 +274,14 @@ DUPX_ServerConfig::reset();
 $faq_url = $GLOBALS['FAQ_URL'];
 $db_file_size = filesize('database.sql');
 $php_mem = $GLOBALS['PHP_MEMORY_LIMIT'];
-$php_mem_range = DUPX_U::return_bytes($GLOBALS['PHP_MEMORY_LIMIT']);
+$php_mem_range = DUPX_U::getBytes($GLOBALS['PHP_MEMORY_LIMIT']);
 $php_mem_range = $php_mem_range == null ?  0 : $php_mem_range - 5000000; //5 MB Buffer
 
 //Fatal Memory errors from file_get_contents is not catchable.
 //Try to warn ahead of time with a buffer in memory difference
 if ($db_file_size >= $php_mem_range  && $php_mem_range != 0)
 {
-	$db_file_size = DUPX_U::readable_bytesize($db_file_size);
+	$db_file_size = DUPX_U::readableByteSize($db_file_size);
 	$msg = "\nWARNING: The database script is '{$db_file_size}' in size.  The PHP memory allocation is set\n";
 	$msg .= "at '{$php_mem}'.  There is a high possibility that the installer script will fail with\n";
 	$msg .= "a memory allocation error when trying to load the database.sql file.  It is\n";
@@ -323,7 +323,7 @@ $sql_file = null;
 //WARNING: Create installer-data.sql failed
 if ($sql_file_copy_status === FALSE || filesize($sql_result_file_path) == 0 || !is_readable($sql_result_file_path))
 {
-	$sql_file_size = DUPX_U::readable_bytesize(filesize('database.sql'));
+	$sql_file_size = DUPX_U::readableByteSize(filesize('database.sql'));
 	$msg  = "\nWARNING: Unable to properly copy database.sql ({$sql_file_size}) to {$GLOBALS['SQL_FILE_NAME']}.  Please check these items:\n";
 	$msg .= "- Validate permissions and/or group-owner rights on database.sql and directory [{$root_path}] \n";
 	$msg .= "- see: {$faq_url}#faq-trouble-055-q \n";
@@ -333,8 +333,8 @@ if ($sql_file_copy_status === FALSE || filesize($sql_result_file_path) == 0 || !
 DUPX_Log::info("\nUPDATED FILES:");
 DUPX_Log::info("- SQL FILE:  '{$sql_result_file_path}'");
 DUPX_Log::info("- WP-CONFIG: '{$root_path}/wp-config.php' (if present)");
-DUPX_Log::info("\nARCHIVE RUNTIME: " . DUPX_U::elapsed_time(DUPX_U::get_microtime(), $zip_start) . "\n");
-DUPX_U::fcgi_flush();
+DUPX_Log::info("\nARCHIVE RUNTIME: " . DUPX_U::elapsedTime(DUPX_U::getMicrotime(), $zip_start) . "\n");
+DUPX_U::fcgiFlush();
 
 //=================================
 //START DB RUN
@@ -369,8 +369,8 @@ $dbvar_maxtime		= is_null($dbvar_maxtime) ? 300 : $dbvar_maxtime;
 $dbvar_maxpacks		= is_null($dbvar_maxpacks) ? 1048576 : $dbvar_maxpacks;
 $dbvar_sqlmode		= empty($dbvar_sqlmode) ? 'NOT_SET'  : $dbvar_sqlmode;
 $dbvar_version		= DUPX_DB::getVersion($dbh);
-$sql_file_size1		= DUPX_U::readable_bytesize(@filesize("database.sql"));
-$sql_file_size2		= DUPX_U::readable_bytesize(@filesize("{$GLOBALS['SQL_FILE_NAME']}"));
+$sql_file_size1		= DUPX_U::readableByteSize(@filesize("database.sql"));
+$sql_file_size2		= DUPX_U::readableByteSize(@filesize("{$GLOBALS['SQL_FILE_NAME']}"));
 
 
 DUPX_Log::info("{$GLOBALS['SEPERATOR1']}");
@@ -424,7 +424,7 @@ switch ($_POST['dbaction']) {
 DUPX_Log::info("--------------------------------------");
 DUPX_Log::info("DATABASE RESULTS");
 DUPX_Log::info("--------------------------------------");
-$profile_start = DUPX_U::get_microtime();
+$profile_start = DUPX_U::getMicrotime();
 $fcgi_buffer_pool = 5000;
 $fcgi_buffer_count = 0;
 $dbquery_rows = 0;
@@ -458,7 +458,7 @@ while ($counter < $sql_result_file_length) {
 		} else {
 			if ($fcgi_buffer_count++ > $fcgi_buffer_pool) {
 				$fcgi_buffer_count = 0;
-				DUPX_U::fcgi_flush();
+				DUPX_U::fcgiFlush();
 			}
 			$dbquery_rows++;
 		}
@@ -506,12 +506,12 @@ foreach ($GLOBALS['FW_OPTS_DELETE'] as $value) {
 
 @mysqli_close($dbh);
 
-$profile_end = DUPX_U::get_microtime();
-DUPX_Log::info("\nSECTION RUNTIME: " . DUPX_U::elapsed_time($profile_end, $profile_start));
+$profile_end = DUPX_U::getMicrotime();
+DUPX_Log::info("\nSECTION RUNTIME: " . DUPX_U::elapsedTime($profile_end, $profile_start));
 
 //FINAL RESULTS
-$ajax1_end = DUPX_U::get_microtime();
-$ajax1_sum = DUPX_U::elapsed_time($ajax1_end, $ajax1_start);
+$ajax1_end = DUPX_U::getMicrotime();
+$ajax1_sum = DUPX_U::elapsedTime($ajax1_end, $ajax1_start);
 DUPX_Log::info("\n{$GLOBALS['SEPERATOR1']}");
 DUPX_Log::info('STEP1 COMPLETE @ ' . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax1_sum}");
 DUPX_Log::info("{$GLOBALS['SEPERATOR1']}");

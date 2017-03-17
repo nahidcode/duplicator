@@ -4,7 +4,7 @@
 	h3 {margin:1px; padding:1px; font-size:14px;}
 	a {color:#222}
 	a:hover{color:gray}
-	input[type=text], input[type=password], select {width:99%; border-radius:3px; height:17px; font-size:12px !important; border:1px solid silver; padding:2px}
+	input[type=text], input[type=password], select {width:97%; border-radius:3px; height:17px; font-size:12px !important; border:1px solid silver; padding:2px}
 	select {height:22px;padding-left:0; width:100%}
 	select:disabled {background:#EBEBE4}
 	input.readonly {background-color:#efefef;}
@@ -111,7 +111,7 @@
     ====================================== */
 	table.s3-table-inputs {width:100%; border:0px;}
 	table.s3-table-inputs td{white-space:nowrap; padding:2px;}
-    table.s3-table-inputs td:first-child{font-weight: bold}
+    table.s3-table-inputs td:first-child{font-weight: bold; width:125px}
 	div#s3-adv-opts {margin-top:5px; }
 	div.s3-allnonelinks {font-size:11px; float:right;}
 
@@ -142,7 +142,7 @@
 	div.s4-err-msg div.info-notice{padding:7px; background-color:#FCFEC5; border:1px solid silver; border-radius:5px; font-size:12px; line-height:16px;}
 	table.s4-final-step {width:100%;}
 	table.s4-final-step td {padding:5px 15px 5px 5px}
-	table.s4-final-step td:first-child {white-space:nowrap; font-weight:bold}
+	table.s4-final-step td:first-child {white-space:nowrap;}
 	div.s4-go-back {border-bottom:1px dotted #dfdfdf; border-top:1px dotted #dfdfdf; margin:auto; text-align:center; font-size: 12px}
 	div.s4-btns-msg {text-align: center; font-size:10px; color:#777; margin:5px 0 15px 0}
 	a.s4-final-btns {display: block; width:135; padding:5px; line-height: 1.4; background-color:#F1F1F1; border:1px solid silver;

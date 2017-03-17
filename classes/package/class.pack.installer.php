@@ -59,25 +59,25 @@ class DUP_Installer
         }
 
         $embeded_files = array(
-            "assets/inc.libs.css.php"           => "@@INC.LIBS.CSS.PHP@@",
-            "assets/inc.css.php"                => "@@INC.CSS.PHP@@",
-            "assets/inc.libs.js.php"            => "@@INC.LIBS.JS.PHP@@",
-            "assets/inc.js.php"                 => "@@INC.JS.PHP@@",
-            "classes/util/class.u.php"          => "@@CLASS.U.PHP@@",
-            "classes/util/class.server.php"     => "@@CLASS.SERVER.PHP@@",
-            "classes/util/class.db.php"         => "@@CLASS.DB.PHP@@",
-            "classes/class.logging.php"         => "@@CLASS.LOGGING.PHP@@",
-            "classes/class.engine.php"          => "@@CLASS.ENGINE.PHP@@",
-            "classes/config/class.conf.wp.php"  => "@@CLASS.CONF.WP.PHP@@",
-            "classes/config/class.conf.srv.php" => "@@CLASS.CONF.SRV.PHP@@",
-            "ajax.step1.php"                    => "@@AJAX.STEP1.PHP@@",
-            "ajax.step2.php"                    => "@@AJAX.STEP2.PHP@@",
-            "ajax.step3.php"                    => "@@AJAX.STEP3.PHP@@",
-            "view.step1.php"                    => "@@VIEW.STEP1.PHP@@",
-            "view.step2.php"                    => "@@VIEW.STEP2.PHP@@",
-            "view.step3.php"                    => "@@VIEW.STEP3.PHP@@",
-            "view.step4.php"                    => "@@VIEW.STEP4.PHP@@",
-            "view.help.php"                     => "@@VIEW.HELP.PHP@@",);
+            "assets/inc.libs.css.php"				=> "@@INC.LIBS.CSS.PHP@@",
+            "assets/inc.css.php"					=> "@@INC.CSS.PHP@@",
+            "assets/inc.libs.js.php"				=> "@@INC.LIBS.JS.PHP@@",
+            "assets/inc.js.php"						=> "@@INC.JS.PHP@@",
+            "classes/utilities/class.u.php"			=> "@@CLASS.U.PHP@@",
+            "classes/utilities/class.server.php"	=> "@@CLASS.SERVER.PHP@@",
+            "classes/utilities/class.db.php"		=> "@@CLASS.DB.PHP@@",
+            "classes/class.logging.php"				=> "@@CLASS.LOGGING.PHP@@",
+            "classes/class.engine.php"				=> "@@CLASS.ENGINE.PHP@@",
+            "classes/config/class.conf.wp.php"		=> "@@CLASS.CONF.WP.PHP@@",
+            "classes/config/class.conf.srv.php"		=> "@@CLASS.CONF.SRV.PHP@@",
+            "ajax.step1.php"						=> "@@AJAX.STEP1.PHP@@",
+            "ajax.step2.php"						=> "@@AJAX.STEP2.PHP@@",
+            "ajax.step3.php"						=> "@@AJAX.STEP3.PHP@@",
+            "view.step1.php"						=> "@@VIEW.STEP1.PHP@@",
+            "view.step2.php"						=> "@@VIEW.STEP2.PHP@@",
+            "view.step3.php"						=> "@@VIEW.STEP3.PHP@@",
+            "view.step4.php"						=> "@@VIEW.STEP4.PHP@@",
+            "view.help.php"							=> "@@VIEW.HELP.PHP@@",);
 
         foreach ($embeded_files as $name => $token) {
             $file_path = DUPLICATOR_PLUGIN_PATH."installer/build/{$name}";
