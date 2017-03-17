@@ -82,6 +82,15 @@
     /* ======================================
 	STEP 2 VIEW
     ====================================== */
+	/*Toggle Buttons */
+	div.s2-btngrp {text-align:center; margin:10px 0 0 0}
+	div.s2-btngrp input[type=button] {font-size:14px; padding:5px; width:120px; border:1px solid silver;  cursor:pointer}
+	div.s2-btngrp input[type=button]:first-child {border-radius:5px 0 0 5px; margin-right:-2px}
+	div.s2-btngrp input[type=button]:last-child {border-radius:0 5px 5px 0; margin-left:-2px}
+	div.s2-btngrp input[type=button].active {background:#999999; color:#fff; font-weight:bold;  box-shadow:inset 0 0 10px #444;}
+	div.s2-btngrp input[type=button].in-active {background:#E4E4E4; }
+	div.s2-btngrp input[type=button]:hover {border:1px solid #999}
+
 	div.s2-modes {padding:0px 15px 0 0px;}
 	div#s2-dbconn {margin:auto; text-align:center; margin:15px 0 10px 0px}
 	input.s2-small-btn {font-size:11px; height:23px; border:1px solid gray; border-radius:3px; cursor:pointer}
@@ -94,12 +103,17 @@
 	div#s2-dbconn-status {border:1px solid silver; border-radius:3px; background-color:#f9f9f9; padding:2px 5px; margin-top:10px; height:175px; overflow-y: scroll}
 	div#s2-dbconn-status div.warn-msg {text-align: left; padding:5px; margin:10px 0 10px 0}
 	div#s2-dbconn-status div.warn-msg b{color:maroon}
+
+	/*cPanel Tab */
+	div#s2-cpnl-pane {display: none; min-height: 190px;}
+	div.s2-gopro {color: black; margin-top:10px; padding:0 20px 10px 20px; border: 1px solid silver; background-color:#F6F6F6; border-radius: 4px}
+	div.s2-gopro h2 {text-align: center; margin:10px}
+	div.s2-gopro small {font-style: italic}
 	
 	/*Advanced Options & Warning Area*/
 	div.s2-advopts-section {margin:15px 0 25px 0}
 	div.s2-advopts-section label {cursor: pointer}
 	div.s2-advopts-help {text-align: center; margin:10px}
-	div.s2-gopro {color: black;font-style: italic;margin-top: 11px; text-align:center;margin-top:20px; padding:5px}
 	div#s2-warning {padding:5px;font-size:12px; color:gray; line-height:12px;font-style:italic; overflow-y:scroll; height:150px; border:1px solid #dfdfdf; background-color:#fff; border-radius:3px}
 	div#s2-warning-check {padding:5px; font-size:12px; font-weight:normal; font-style:italic;}
     div#s2-warning-check label {cursor: pointer; line-height: 16px}

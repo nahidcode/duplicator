@@ -200,11 +200,11 @@ if ($_POST['action_step'] == 1) {
 if (isset($_POST['action_ajax'])) {
     switch ($_POST['action_ajax']) {
         case "1" :
-            ?> @@AJAX.STEP1.PHP@@ <?php break;
+            ?> @@CTRL.STEP1.PHP@@ <?php break;
         case "2" :
-            ?> @@AJAX.STEP2.PHP@@ <?php break;
+            ?> @@CTRL.STEP2.PHP@@ <?php break;
         case "3" :
-            ?> @@AJAX.STEP3.PHP@@ <?php
+            ?> @@CTRL.STEP3.PHP@@ <?php
             break;
     }
     @fclose($GLOBALS["LOG_FILE_HANDLE"]);

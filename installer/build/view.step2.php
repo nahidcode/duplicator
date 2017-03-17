@@ -16,57 +16,98 @@ VIEW: STEP 2- INPUT -->
         Step <span class="step">2</span> of 4: Deploy Files &amp; Database
 	</div><br/>
 
-    <div class="hdr-sub1">
-        Database Setup
-    </div>
-    <table class="dupx-opts">
-        <tr>
-            <td>Action</td>
-            <td>
-                <select name="dbaction" id="dbaction">
-                    <option value="create" selected="true">Create New Database</option>
-                    <option value="empty">Connect and Remove All Data</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Host</td>
-            <td>
-                <table class="s2-opts-dbhost">
-                    <tr>
-                        <td><input type="text" name="dbhost" id="dbhost" required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBHOST']); ?>" placeholder="localhost" style="width:450px" /></td>
-                        <td style="vertical-align:top">
-                            <input id="s2-dbport-btn" type="button" onclick="DUPX.togglePort()" class="s2-small-btn" value="Port: <?php echo htmlspecialchars($GLOBALS['FW_DBPORT']); ?>" />
-                            <input name="dbport" id="dbport" type="text" style="width:80px; display:none" value="<?php echo htmlspecialchars($GLOBALS['FW_DBPORT']); ?>" />
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>Database</td>
-            <td>
-                <input type="text" name="dbname" id="dbname"  required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBNAME']); ?>"  placeholder="new or existing database name"  />
-                 <div id="s2-warning-emptydb">
-                    <label for="accept-warnings">Warning: This action will remove any and all data from the database name above!</label>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>User</td>
-            <td><input type="text" name="dbuser" id="dbuser" required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBUSER']); ?>" placeholder="valid database username" /></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="text" name="dbpass" id="dbpass" value="<?php echo htmlspecialchars($GLOBALS['FW_DBPASS']); ?>"  placeholder="valid database user password"   /></td>
-        </tr>
-    </table>
+	<div class="s2-btngrp">
+		<input id="s2-basic-btn" type="button" value="Basic" class="active" onclick="DUPX.togglePanels('basic')" />
+		<input id="s2-cpnl-btn" type="button" value="cPanel" class="in-active" onclick="DUPX.togglePanels('cpanel')" />
+	</div>
 
+
+	<!-- =========================================
+	BASIC PANEL -->
+	<div id="s2-basic-pane">
+		<div class="hdr-sub1">
+			Database Setup
+		</div>
+		<table class="dupx-opts">
+			<tr>
+				<td>Action</td>
+				<td>
+					<select name="dbaction" id="dbaction">
+						<option value="create" selected="true">Create New Database</option>
+						<option value="empty">Connect and Remove All Data</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Host</td>
+				<td>
+					<table class="s2-opts-dbhost">
+						<tr>
+							<td><input type="text" name="dbhost" id="dbhost" required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBHOST']); ?>" placeholder="localhost" style="width:450px" /></td>
+							<td style="vertical-align:top">
+								<input id="s2-dbport-btn" type="button" onclick="DUPX.togglePort()" class="s2-small-btn" value="Port: <?php echo htmlspecialchars($GLOBALS['FW_DBPORT']); ?>" />
+								<input name="dbport" id="dbport" type="text" style="width:80px; display:none" value="<?php echo htmlspecialchars($GLOBALS['FW_DBPORT']); ?>" />
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>Database</td>
+				<td>
+					<input type="text" name="dbname" id="dbname"  required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBNAME']); ?>"  placeholder="new or existing database name"  />
+					 <div id="s2-warning-emptydb">
+						<label for="accept-warnings">Warning: This action will remove any and all data from the database name above!</label>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>User</td>
+				<td><input type="text" name="dbuser" id="dbuser" required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBUSER']); ?>" placeholder="valid database username" /></td>
+			</tr>
+			<tr>
+				<td>Password</td>
+				<td><input type="text" name="dbpass" id="dbpass" value="<?php echo htmlspecialchars($GLOBALS['FW_DBPASS']); ?>"  placeholder="valid database user password"   /></td>
+			</tr>
+		</table>
+	</div>
+
+
+
+	<!-- =========================================
+	C-PANEL PANEL -->
+	<div id="s2-cpnl-pane">
+
+		<div class="s2-gopro">
+
+			<h2>cPanel Connectivity</h2>
+
+			<div style="text-align: center">
+				<a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_install_step1&utm_campaign=duplicator_pro">Duplicator Pro</a>
+				takes advantage of your hosts <br/>
+				cPanel interface directly <b>from this installer!</b>
+			</div>
+			
+			<b>Features Include:</b>
+			<ul>
+				<li>Fast cPanel Login</li>
+				<li>Create New Databases</li>
+				<li>Create New Database Users</li>
+				<li>Preview and Select Existing Databases and Users</li>
+			</ul>
+
+			<small>
+				Note: Most hosting providers do not allow applications to create new databases or database users directly from PHP.  However with the cPanel API these restrictions
+				are removed opening up a robust interface for direct access to existing database resources.  You can take advantage of these great features and improve your work-flow with
+				<a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_install_step1&utm_campaign=duplicator_pro">Duplicator Pro!</a>
+			</small>
+		</div>
+
+	</div>
 
     <!-- =========================================
     DIALOG: DB CONNECTION CHECK  -->
     <div id="s2-dbconn">
-
         <div id="s2-dbconn-status" style="display:none">
             <div style="padding: 0px 10px 10px 10px;">
                 <div id="s2-dbconn-test-msg" style="min-height:80px"></div>
@@ -75,9 +116,7 @@ VIEW: STEP 2- INPUT -->
         </div>
     </div>
 
-    <div class="s2-gopro">
-        Create the database and users <b>from the installer</b> <br/> with <a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_install_step1&utm_campaign=duplicator_pro">Duplicator Pro!</a> - Requires cPanel.
-    </div>
+
     <br/>
 
     <!-- ====================================
@@ -154,7 +193,7 @@ VIEW: STEP 2- INPUT -->
     <br/><br/><br/>
 
     <div class="dupx-footer-buttons">
-        <input type="button" onclick="DUPX.dlgTestDB()" class="default-btn" value="Test Database" />
+        <input type="button" onclick="DUPX.testDatabase()" class="default-btn" value="Test Database" />
         <input id="dup-step1-deploy-btn" type="button" class="default-btn" value=" Next " onclick="DUPX.confirmDeployment()" />
     </div>
 
@@ -309,6 +348,23 @@ Auto Posts to view.step2.php
 
 	}
 
+	/**
+     *  Toggles the cpanel Login area  */
+    DUPX.togglePanels = function (pane)
+    {
+        $('#s2-basic-pane, #s2-cpnl-pane').hide();
+        $('#s2-basic-btn, #s2-cpnl-btn').removeClass('active in-active');
+        if (pane == 'basic') {
+            $('#s2-basic-pane').show();
+            $('#s2-basic-btn').addClass('active');
+            $('#s2-cpnl-btn').addClass('in-active');
+        } else {
+            $('#s2-cpnl-pane').show(200);
+            $('#s2-cpnl-btn').addClass('active');
+            $('#s2-basic-btn').addClass('in-active');
+        }
+    }
+
 
 	/** Go back on AJAX result view */
 	DUPX.hideErrorResult = function()
@@ -320,7 +376,7 @@ Auto Posts to view.step2.php
 
 	/** Shows results of database connection
 	* Timeout (45000 = 45 secs) */
-	DUPX.dlgTestDB = function ()
+	DUPX.testDatabase = function ()
     {
 		$.ajax({
 			type: "POST",
