@@ -63,17 +63,12 @@ if (file_exists('dtoken.php')) {
 <?php if (false) : ?>
     <!DOCTYPE html>
     <html>
-        <head>
-            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-            <title>Error: PHP is not running</title>
-        </head>
         <body>
             <h2>Error: PHP is not running</h2>
             <p>Duplicator requires that your web server is running PHP. Your server does not have PHP installed, or PHP is turned off.</p>
         </body>
     </html>
 <?php endif; ?> 
-
 
 <?php
 /* ==============================================================================================
@@ -88,6 +83,7 @@ $GLOBALS['REPLACE_LIST']
   ================================================================================================= */
 
 //COMPARE VALUES
+$GLOBALS['DUPX_DEBUG']		= false;
 $GLOBALS['FW_CREATED']		= '%fwrite_created%';
 $GLOBALS['FW_VERSION_DUP']	= '%fwrite_version_dup%';
 $GLOBALS['FW_VERSION_WP']	= '%fwrite_version_wp%';
@@ -98,7 +94,7 @@ $GLOBALS['FW_VERSION_OS']	= '%fwrite_version_os%';
 $GLOBALS['FW_TABLEPREFIX'] = '%fwrite_wp_tableprefix%';
 $GLOBALS['FW_URL_OLD'] = '%fwrite_url_old%';
 $GLOBALS['FW_URL_NEW'] = '%fwrite_url_new%';
-$GLOBALS['FW_PACKAGE_NAME'] = '%fwrite_package_name%';
+$GLOBALS['FW_PACKAGE_NAME'] = '%fwrite_archive_name%';
 $GLOBALS['FW_PACKAGE_NOTES'] = '%fwrite_package_notes%';
 $GLOBALS['FW_SECURE_NAME'] = '%fwrite_secure_name%';
 $GLOBALS['FW_DBHOST'] = '%fwrite_dbhost%';
@@ -137,7 +133,7 @@ $GLOBALS['FAQ_URL'] = 'https://snapcreek.com/duplicator/docs/faqs-tech';
 $GLOBALS['REPLACE_LIST'] = array();
 
 
-/* ================================================================================================
+/** ================================================================================================
   END ADVANCED FEATURES: Do not edit below here.
   =================================================================================================== */
 
@@ -148,7 +144,7 @@ define("DUPLICATOR_SSDIR_NAME", 'wp-snapshots');  //This should match DUPLICATOR
 //SHARED POST PARMS
 $_POST['action_step'] = isset($_POST['action_step']) ? $_POST['action_step'] : "1";
 
-/* Host has several combinations : 
+/** Host has several combinations :
 localhost | localhost:55 | localhost: | http://localhost | http://localhost:55 */
 $_POST['dbhost']	= isset($_POST['dbhost']) ? trim($_POST['dbhost']) : null;
 $_POST['dbport']    = isset($_POST['dbport']) ? trim($_POST['dbport']) : 3306;
@@ -180,44 +176,36 @@ if ($_POST['action_step'] == 1) {
     $GLOBALS['LOG_FILE_HANDLE'] = @fopen($GLOBALS['LOG_FILE_NAME'], "a+");
 }
 ?>
-	
 @@CLASS.U.PHP@@
-
 @@CLASS.SERVER.PHP@@
-
 @@CLASS.DB.PHP@@
-
 @@CLASS.LOGGING.PHP@@
-
 @@CLASS.ENGINE.PHP@@
-
 @@CLASS.CONF.WP.PHP@@
-
 @@CLASS.CONF.SRV.PHP@@
 
+<?php if (isset($_POST['action_ajax'])) :?>
+@@CTRL.BASE.PHP@@
+
+<?php switch ($_POST['action_ajax']): ?>
+<?php case "1": ?>@@CTRL.STEP1.PHP@@<?php break;?>
+<?php case "2": ?>@@CTRL.STEP2.PHP@@<?php break;?>
+<?php case "3": ?>@@CTRL.STEP3.PHP@@<?php break;?>
+<?php endswitch ?>
 
 <?php
-if (isset($_POST['action_ajax'])) {
-    switch ($_POST['action_ajax']) {
-        case "1" :
-            ?> @@CTRL.STEP1.PHP@@ <?php break;
-        case "2" :
-            ?> @@CTRL.STEP2.PHP@@ <?php break;
-        case "3" :
-            ?> @@CTRL.STEP3.PHP@@ <?php
-            break;
-    }
     @fclose($GLOBALS["LOG_FILE_HANDLE"]);
     die("");
-}
 ?>
-
+<?php endif; ?>
+	
+	
 <!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="robots" content="noindex,nofollow">
-	<title>Wordpress Duplicator</title>
+	<title>Duplicator</title>
 	@@INC.LIBS.CSS.PHP@@	
 	@@INC.CSS.PHP@@	
 	@@INC.LIBS.JS.PHP@@

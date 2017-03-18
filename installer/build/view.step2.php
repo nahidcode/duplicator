@@ -8,12 +8,12 @@ VIEW: STEP 2- INPUT -->
 <form id='s2-input-form' method="post" class="content-form"  data-parsley-validate="true" data-parsley-excluded="input[type=hidden], [disabled], :hidden">
 <input type="hidden" name="action_ajax" value="2" />
 <input type="hidden" name="action_step" value="2" />
-<input type="hidden" name="package_name"  value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
+<input type="hidden" name="archive_name"  value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
 <input type="hidden" name="logging" id="logging" value="<?php echo $_POST['logging'] ?>" />
 
-    <!--div class="logfile-link"><a href="../installer-log.txt" target="_blank">installer-log.txt</a></div-->
+    <div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
 	<div class="hdr-main">
-        Step <span class="step">2</span> of 4: Deploy Files &amp; Database
+        Step <span class="step">2</span> of 4: Install Database
 	</div><br/>
 
 	<div class="s2-btngrp">
@@ -131,19 +131,7 @@ VIEW: STEP 2- INPUT -->
         <div class="s2-advopts-section">
             <div class="hdr-sub3">General</div>
             <table class="dupx-opts dupx-advopts">
-                <tr>
-                    <td>Extraction</td>
-                    <td colspan="2">
-                        <input type="checkbox" name="zip_manual" id="zip_manual" value="1" /> <label for="zip_manual">Manual package extraction</label><br/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>File Timestamp</td>
-                    <td colspan="2">
-                        <input type="radio" name="zip_filetime" id="zip_filetime_now" value="current" checked="checked" /> <label class="radio" for="zip_filetime_now" title='Set the files current date time to now'>Current</label>
-                        <input type="radio" name="zip_filetime" id="zip_filetime_orginal" value="original" /> <label class="radio" for="zip_filetime_orginal" title="Keep the files date time the same">Original</label>
-                    </td>
-                </tr>
+
                 <tr>
                     <td>WP-Config Cache</td>
                     <td style="width:125px"><input type="checkbox" name="cache_wp" id="cache_wp" <?php echo ($GLOBALS['FW_CACHE_WP']) ? "checked='checked'" : ""; ?> /> <label for="cache_wp">Keep Enabled</label></td>
@@ -204,9 +192,9 @@ VIEW: STEP 2- INPUT -->
 VIEW: STEP 2 - AJAX RESULT
 Auto Posts to view.step2.php
 ========================================= -->
-<form id='dup-step1-result-form' method="post" class="content-form" style="display:none">
+<form id='s2-result-form' method="post" class="content-form" style="display:none">
 	<input type="hidden" name="action_step" value="3" />
-	<input type="hidden" name="package_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
+	<input type="hidden" name="archive_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
 	<input type="hidden" name="logging" id="ajax-logging"  />
 	<input type="hidden" name="dbhost" id="ajax-dbhost" />
 	<input type="hidden" name="dbport" id="ajax-dbport" />
@@ -217,9 +205,9 @@ Auto Posts to view.step2.php
 	<input type="hidden" name="dbcharset" id="ajax-dbcharset" />
 	<input type="hidden" name="dbcollate" id="ajax-dbcollate" />
 
-    <!--div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div-->
+    <div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
 	<div class="hdr-main">
-        Step <span class="step">2</span> of 4: Deploy Files &amp; Database
+        Step <span class="step">2</span> of 4: Install Database
 	</div>
 
 	<!--  PROGRESS BAR -->
@@ -320,7 +308,7 @@ Auto Posts to view.step2.php
 			beforeSend: function() {
 				DUPX.showProgressBar();
 				$form.hide();
-				$('#dup-step1-result-form').show();
+				$('#s2-result-form').show();
 			},
 			success: function(data, textStatus, xhr){
 				if (typeof(data) != 'undefined' && data.pass == 1) {
@@ -333,7 +321,7 @@ Auto Posts to view.step2.php
 					$("#ajax-dbcollate").val($("#dbcollate").val());
 					$("#ajax-logging").val($("#logging").val());
 					$("#ajax-json").val(escape(JSON.stringify(data)));
-					setTimeout(function() {$('#dup-step1-result-form').submit();}, 1000);
+					setTimeout(function() {$('#s2-result-form').submit();}, 1000);
 					$('#progress-area').fadeOut(700);
 				} else {
 					DUPX.hideProgressBar();
@@ -369,7 +357,7 @@ Auto Posts to view.step2.php
 	/** Go back on AJAX result view */
 	DUPX.hideErrorResult = function()
     {
-		$('#dup-step1-result-form').hide();
+		$('#s2-result-form').hide();
 		$('#s2-input-form').show(200);
 	}
 

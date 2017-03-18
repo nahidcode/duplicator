@@ -51,10 +51,10 @@ $agree_msg    = "To enable this button the checkbox above under the 'Terms & Not
 <form id='s1-input-form' method="post" class="content-form" >
 <input type="hidden" name="action_ajax" value="1" />
 <input type="hidden" name="action_step" value="1" />
-<input type="hidden" name="package_name"  value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
+<input type="hidden" name="archive_name"  value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
 
 <div class="hdr-main">
-    Step <span class="step">1</span> of 4: System Setup
+    Step <span class="step">1</span> of 4: Extract Archive
 </div><br/>
 	
 
@@ -310,11 +310,24 @@ ADVANCED OPTIONS
     <div class="hdr-sub3">General</div>
 	<table class="dupx-opts dupx-advopts">
 		<tr>
+			<td>Extraction:</td>
+			<td>
+				<input type="checkbox" name="archive_manual" id="archive_manual" value="1" /> <label for="archive_manual">Manual package extraction</label><br/>
+			</td>
+		</tr>
+		<tr>
 			<td>Logging:</td>
-			<td colspan="2">
-				<input type="radio" name="logging" id="logging-light" value="1" checked="true"> <label for="logging-light">Light</label> &nbsp;
-				<input type="radio" name="logging" id="logging-detailed" value="2"> <label for="logging-detailed">Detailed</label> &nbsp;
+			<td>
+				<input type="radio" name="logging" id="logging-light" value="1" checked="true"> <label for="logging-light">Light</label>
+				<input type="radio" name="logging" id="logging-detailed" value="2"> <label for="logging-detailed">Detailed</label>
 				<input type="radio" name="logging" id="logging-debug" value="3"> <label for="logging-debug">Debug</label>
+			</td>
+		</tr>
+		<tr>
+			<td>File Timestamp</td>
+			<td>
+				<input type="radio" name="archive_filetime" id="archive_filetime_now" value="current" checked="checked" /> <label class="radio" for="archive_filetime_now" title='Set the files current date time to now'>Current</label>
+				<input type="radio" name="archive_filetime" id="archive_filetime_orginal" value="original" /> <label class="radio" for="archive_filetime_orginal" title="Keep the files date time the same">Original</label>
 			</td>
 		</tr>
 	</table>
@@ -424,29 +437,35 @@ TERMS & NOTICES
     </div>
 <?php endif; ?>
 
-
 </form>
 
 
 
 <!-- =========================================
 VIEW: STEP 1 - AJAX RESULT
-Auto Posts to view.step2.php  -->
-<form id='dup-step1-result-form' method="post" class="content-form" style="display:none">
-	<input type="hidden" name="action_step" value="2" />
-	<input type="hidden" name="package_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
-	<input type="text" name="logging" id="ajax-logging"  />
-	<input type="text" name="json"   id="ajax-json" />
+Auto Posts to view.step2.php
+========================================= -->
+<form id='s1-result-form' method="post" class="content-form" style="display:none">
 
-    <div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
+	 <div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
 	<div class="hdr-main">
-        Step <span class="step">1</span> of 4: System Setup
+        Step <span class="step">1</span> of 4: Extract Archive
+	</div>
+
+	<!--  POST PARAMS -->
+	<div class="dupx-debug">
+		<input type="text" name="action_step" value="2" />
+		<input type="text" name="archive_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
+		<input type="text" name="logging" id="ajax-logging"  />
+		<input type="text" name="json"    id="ajax-json" />
+		<textarea id='ajax-json-debug' name='json_debug_view'></textarea>
+		<input type='submit' value='manual submit'>
 	</div>
 
 	<!--  PROGRESS BAR -->
 	<div id="progress-area">
 	    <div style="width:500px; margin:auto">
-		<h3>Processing Files &amp; Database Please Wait...</h3>
+		<h3>Extracting Archive Files Please Wait...</h3>
 		<div id="progress-bar"></div>
 		<i>This may take several minutes</i>
 	    </div>
@@ -479,30 +498,29 @@ Auto Posts to view.step2.php  -->
 			url: window.location.href,
 			data: $form.serialize(),
 			beforeSend: function() {
-				//DUPX.showProgressBar();
-				//$form.hide();
-				//$('#dup-step1-result-form').show();
+				DUPX.showProgressBar();
+				$form.hide();
+				$('#s1-result-form').show();
 			},			
-			success: function(data, textStatus, xhr){
-
-                $("#ajax-logging").val($("input:radio[name=logging]:checked").val());
-                $("#ajax-json").val(escape(JSON.stringify(data)));
-                setTimeout(function() {$('#dup-step1-result-form').submit();}, 1000);
-
-				/* @todo: Phase 2 of migration
-                 * if (typeof(data) != 'undefined' && data.pass == 1) {
+			success: function(data) {
+				var dataJSON = JSON.stringify(data);
+				$("#ajax-json-debug").val(dataJSON);
+                if (typeof(data) != 'undefined' && data.pass == 1) {
 					$("#ajax-logging").val($("input:radio[name=logging]:checked").val());
-					$("#ajax-json").val(escape(JSON.stringify(data)));
-					setTimeout(function() {$('#dup-step1-result-form').submit();}, 1000);
+					$("#ajax-json").val(escape(dataJSON));
+					<?php if (! $GLOBALS['DUPX_DEBUG']) : ?>
+						setTimeout(function() {$('#s1-result-form').submit();}, 1000);
+					<?php endif; ?>
 					$('#progress-area').fadeOut(700);
 				} else {
+					$('#ajaxerr-data').html('Error Processing Step 1');
 					DUPX.hideProgressBar();
-				}*/
+				}
 			},
 			error: function(xhr) { 
 				var status = "<b>server code:</b> " + xhr.status + "<br/><b>status:</b> " + xhr.statusText + "<br/><b>response:</b> " +  xhr.responseText;
 				$('#ajaxerr-data').html(status);
-				//DUPX.hideProgressBar();
+				DUPX.hideProgressBar();
 			}
 		});	
 		
@@ -521,7 +539,7 @@ Auto Posts to view.step2.php  -->
 	/** Go back on AJAX result view */
 	DUPX.hideErrorResult = function()
     {
-		$('#dup-step1-result-form').hide();			
+		$('#s1-result-form').hide();
 		$('#s1-input-form').show(200);
 	}
 	

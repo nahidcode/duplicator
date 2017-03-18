@@ -44,6 +44,7 @@
 	table.dupx-opts td{white-space:nowrap; padding:3px;}
 	table.dupx-opts td:first-child{width:125px; font-weight: bold}
 	table.dupx-advopts td:first-child{width:125px; font-weight:bold}
+	table.dupx-advopts td label{min-width:60px; display:inline-block}
 
     .dupx-pass {display:inline-block; color:green;}
 	.dupx-fail {display:inline-block; color:#AF0000;}
@@ -180,4 +181,14 @@
 	div.dupx-help-page fieldset {margin-bottom:25px}
 	div#dupx-main-help {line-height:18px}
 	div#dupx-main-help h3 {background-color:#dfdfdf; border:1px solid silver; border-radius:5px; padding:3px; margin-bottom:8px;}
+
+
+	<?php if ($GLOBALS['DUPX_DEBUG']) : ?>
+		.dupx-debug {display:block; margin:4px 0 30px 0; font-size:11px;}
+		.dupx-debug label {font-weight:bold; display:block; margin:6px 0 2px 0}
+		.dupx-debug textarea {width:95%; height:100px; font-size:11px}
+	<?php else : ?>
+		.dupx-debug {display:none}
+	<?php endif; ?>
+
 </style>

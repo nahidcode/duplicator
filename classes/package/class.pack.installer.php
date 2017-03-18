@@ -70,7 +70,8 @@ class DUP_Installer
             "classes/class.engine.php"				=> "@@CLASS.ENGINE.PHP@@",
             "classes/config/class.conf.wp.php"		=> "@@CLASS.CONF.WP.PHP@@",
             "classes/config/class.conf.srv.php"		=> "@@CLASS.CONF.SRV.PHP@@",
-            "ctrls/ctrl.step1.php"					=> "@@CTRL.STEP1.PHP@@",
+            "ctrls/ctrl.base.php"					=> "@@CTRL.BASE.PHP@@",
+			"ctrls/ctrl.step1.php"					=> "@@CTRL.STEP1.PHP@@",
             "ctrls/ctrl.step2.php"					=> "@@CTRL.STEP2.PHP@@",
             "ctrls/ctrl.step3.php"					=> "@@CTRL.STEP3.PHP@@",
             "view.step1.php"						=> "@@VIEW.STEP1.PHP@@",
@@ -152,7 +153,7 @@ class DUP_Installer
             "fwrite_version_os" => $this->Package->VersionOS,
             //GENERAL
             "fwrite_url_old" => get_option('siteurl'),
-            "fwrite_package_name" => "{$this->Package->NameHash}_archive.zip",
+            "fwrite_archive_name" => "{$this->Package->NameHash}_archive.zip",
             "fwrite_package_notes" => $this->Package->Notes,
             "fwrite_secure_name" => $this->Package->NameHash,
             "fwrite_url_new" => $this->Package->Installer->OptsURLNew,

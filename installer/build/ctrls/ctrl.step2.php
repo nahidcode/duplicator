@@ -14,9 +14,9 @@ $_POST['ssl_admin']			= (isset($_POST['ssl_admin']))  ? true : false;
 $_POST['ssl_login']			= (isset($_POST['ssl_login']))  ? true : false;
 $_POST['cache_wp']			= (isset($_POST['cache_wp']))   ? true : false;
 $_POST['cache_path']		= (isset($_POST['cache_path'])) ? true : false;
-$_POST['package_name']		= isset($_POST['package_name']) ? $_POST['package_name'] : null;
-$_POST['zip_manual']		= (isset($_POST['zip_manual']) && $_POST['zip_manual'] == '1') ? true : false;
-$_POST['zip_filetime']		= (isset($_POST['zip_filetime'])) ? $_POST['zip_filetime'] : 'current';
+$_POST['archive_name']		= isset($_POST['archive_name']) ? $_POST['archive_name'] : null;
+$_POST['archive_manual']		= (isset($_POST['archive_manual']) && $_POST['archive_manual'] == '1') ? true : false;
+$_POST['archive_filetime']		= (isset($_POST['archive_filetime'])) ? $_POST['archive_filetime'] : 'current';
 
 //LOGGING
 $POST_LOG = $_POST;
@@ -25,7 +25,7 @@ ksort($POST_LOG);
 
 //PAGE VARS
 $root_path		= DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
-$package_path	= "{$root_path}/{$_POST['package_name']}";
+$package_path	= "{$root_path}/{$_POST['archive_name']}";
 $package_size	= @filesize($package_path);
 $ajax1_start	= DUPX_U::getMicrotime();
 $zip_support	= class_exists('ZipArchive') ? 'Enabled' : 'Not Enabled';
@@ -160,7 +160,7 @@ if ($_POST['dbaction'] == 'create' ) {
 }
 
 //ERR_ZIPMANUAL
-if ($_POST['zip_manual']) {
+if ($_POST['archive_manual']) {
 	if (!file_exists("wp-config.php") && !file_exists("database.sql")) {
 		DUPX_Log::error(ERR_ZIPMANUAL);
 	}
@@ -201,24 +201,24 @@ DUPX_Log::info($log, 2);
 $log  = "\n********************************************************************************\n";
 $log .= "ARCHIVE SETUP\n";
 $log .= "********************************************************************************\n";
-$log .= "NAME:\t{$_POST['package_name']}\n";
-$log .= "SIZE:\t" . DUPX_U::readableByteSize(@filesize($_POST['package_name'])) . "\n";
+$log .= "NAME:\t{$_POST['archive_name']}\n";
+$log .= "SIZE:\t" . DUPX_U::readableByteSize(@filesize($_POST['archive_name'])) . "\n";
 $log .= "ZIP:\t{$zip_support} (ZipArchive Support)";
 DUPX_Log::info($log);
 
 $zip_start = DUPX_U::getMicrotime();
 
-if ($_POST['zip_manual'])
+if ($_POST['archive_manual'])
 {
 	DUPX_Log::info("\n** PACKAGE EXTRACTION IS IN MANUAL MODE ** \n");
 }
 else
 {
-	if ($GLOBALS['FW_PACKAGE_NAME'] != $_POST['package_name']) {
+	if ($GLOBALS['FW_PACKAGE_NAME'] != $_POST['archive_name']) {
 		$log  = "\n--------------------------------------\n";
 		$log .= "WARNING: This package set may be incompatible!  \nBelow is a summary of the package this installer was built with and the package used. \n";
 		$log .= "To guarantee accuracy the installer and archive should match. For details see the online FAQs.";
-		$log .= "\nCREATED WITH:\t{$GLOBALS['FW_PACKAGE_NAME']} \nPROCESSED WITH:\t{$_POST['package_name']}  \n";
+		$log .= "\nCREATED WITH:\t{$GLOBALS['FW_PACKAGE_NAME']} \nPROCESSED WITH:\t{$_POST['archive_name']}  \n";
 		$log .= "--------------------------------------\n";
 		DUPX_Log::info($log);
 	}
@@ -230,7 +230,7 @@ else
 
 	$target = $root_path;
 	$zip = new ZipArchive();
-	if ($zip->open($_POST['package_name']) === TRUE)
+	if ($zip->open($_POST['archive_name']) === TRUE)
 	{
 		DUPX_Log::info("\nEXTRACTING");
 		if (! $zip->extractTo($target)) {
@@ -239,7 +239,7 @@ else
 		$log  = print_r($zip, true);
 
 		//Keep original timestamp on the file
-		if ($_POST['zip_filetime'] == 'original')
+		if ($_POST['archive_filetime'] == 'original')
 		{
 			$log .=  "File timestamp set to Original\n";
 			for ($idx = 0; $s = $zip->statIndex($idx); $idx++) {

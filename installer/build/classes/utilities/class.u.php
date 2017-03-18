@@ -145,6 +145,18 @@ class DUPX_U
     }
 
 
+	/**
+     * Is the string json
+     *
+     * @param string $string Any string blob
+     *
+     * @return bool Returns true if the string is json encoded
+     */
+    public static function isJSON($string)
+    {
+        return is_string($string) && is_array(json_decode($string, true)) ? true : false;
+    }
+
     /**
      *  The characters that are special in the replacement value of preg_replace are not the
      *  same characters that are special in the pattern.  Allows for '$' to be safely passed.
