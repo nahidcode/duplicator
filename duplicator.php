@@ -339,5 +339,24 @@ if (is_admin() == true)
         return $links;
     }
 
+
+	/** ========================================================
+	 * GENERAL
+     * =====================================================  */
+
+	/**
+	 * Used for installer files to redirect if accessed directly
+     *
+     * @access global
+     * @return null
+     */
+    function duplicator_secure_check()
+	{
+		$baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+		header("HTTP/1.1 301 Moved Permanently");
+		header("Location: $baseURL");
+		exit;
+    }
+
 }
 ?>

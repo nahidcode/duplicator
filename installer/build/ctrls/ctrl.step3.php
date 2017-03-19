@@ -1,10 +1,7 @@
 <?php
-// Exit if accessed directly
-if (! defined('DUPLICATOR_INIT')) {
-	$_baseURL = "http://" . strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-	header("HTTP/1.1 301 Moved Permanently");
-	header("Location: $_baseURL");
-	exit; 
+// Exit if accessed directly from admin
+if (function_exists('duplicator_secure_check')) {
+	duplicator_secure_check();
 }
 
 /* JSON RESPONSE: Most sites have warnings turned off by default, but if they're turned on the warnings
@@ -46,10 +43,9 @@ $date = @date('h:i:s');
 $charset_client = @mysqli_character_set_name($dbh);
 
 $log = <<<LOG
-\n\n
 ********************************************************************************
 DUPLICATOR-LITE INSTALL-LOG
-STEP2 START @ {$date}
+STEP-3 START @ {$date}
 NOTICE: Do not post to public sites or forums
 ********************************************************************************
 CHARSET SERVER:\t{$charset_server}
@@ -213,7 +209,8 @@ if ($mu_updates) {
 
 /* ==============================
  * UPDATE WP-CONFIG FILE */
-$config_file = DUPX_WPConfig::updateStep2();
+DUPX_WPConfig::updateStandard();
+$config_file = DUPX_WPConfig::updateExtended();
 
 //Create snapshots directory in order to
 //compensate for permissions on some servers
@@ -269,7 +266,7 @@ DUPX_ServerConfig::setup();
 $ajax2_end = DUPX_U::getMicrotime();
 $ajax2_sum = DUPX_U::elapsedTime($ajax2_end, $ajax2_start);
 DUPX_Log::info("********************************************************************************");
-DUPX_Log::info('STEP 2 COMPLETE @ ' . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax2_sum}");
+DUPX_Log::info('STEP 3 COMPLETE @ ' . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax2_sum}");
 DUPX_Log::info("********************************************************************************");
 
 $JSON['step2']['pass'] = 1;

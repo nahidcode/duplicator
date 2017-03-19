@@ -26,7 +26,6 @@ error_reporting(E_ERROR);
 //===============================
 //ERROR MESSAGES
 //===============================
-//ERR_MAKELOG
 ($GLOBALS['LOG_FILE_HANDLE'] != false) or DUPX_Log::error(ERR_MAKELOG);
 
 //ERR_ZIPMANUAL
@@ -76,7 +75,7 @@ $log .= "SIZE:\t".DUPX_U::readableByteSize(@filesize($_POST['archive_name']))."\
 $log .= "ZIP:\t{$zip_support} (ZipArchive Support)";
 DUPX_Log::info($log);
 
-$zip_start = DUPX_U::getMicrotime();
+
 
 if ($_POST['archive_manual']) {
 	DUPX_Log::info("\n** PACKAGE EXTRACTION IS IN MANUAL MODE ** \n");
@@ -121,21 +120,18 @@ if ($_POST['archive_manual']) {
 	} else {
 		DUPX_Log::error(ERR_ZIPOPEN);
 	}
-	$zip = null;
 }
 
-//CONFIG FILE RESETS
-$log = '';
-DUPX_ServerConfig::reset();
-
-DUPX_Log::info("\nARCHIVE RUNTIME: ".DUPX_U::elapsedTime(DUPX_U::getMicrotime(), $zip_start));
 DUPX_U::fcgiFlush();
+
+//CONFIG FILE RESETS
+DUPX_ServerConfig::reset();
 
 //FINAL RESULTS
 $ajax1_end	 = DUPX_U::getMicrotime();
 $ajax1_sum	 = DUPX_U::elapsedTime($ajax1_end, $ajax1_start);
 DUPX_Log::info("\n{$GLOBALS['SEPERATOR1']}");
-DUPX_Log::info('STEP1 COMPLETE @ '.@date('h:i:s')." - TOTAL RUNTIME: {$ajax1_sum}");
+DUPX_Log::info('STEP-1 COMPLETE @ '.@date('h:i:s')." - TOTAL RUNTIME: {$ajax1_sum}");
 DUPX_Log::info("{$GLOBALS['SEPERATOR1']}");
 
 $JSON['pass'] = 1;

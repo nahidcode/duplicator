@@ -37,14 +37,13 @@
 	div.dupx-footer-buttons {position:absolute; bottom:10px; padding:10px;  right:0}
 	div.dupx-footer-buttons  input:hover, button:hover {border:1px solid #000}
 	div.dupx-footer-buttons input[disabled=disabled]{background-color:#F4F4F4; color:silver; border:1px solid silver;}
-	div.dupx-footer-buttons  input, button {cursor:pointer; border:1px solid #000; }
-    button.default-btn, input.default-btn {cursor:pointer; color:#fff; font-size:16px; border-radius:5px; padding:6px 20px 4px 20px; height:32px; background-color:#13659C;}
-
+    button.default-btn, input.default-btn {cursor:pointer; color:#fff; font-size:16px; border-radius:5px; padding:6px 20px 4px 20px; height:32px; background-color:#13659C; border:1px solid #000;}
+	
     table.dupx-opts {width:100%; border:0px;}
 	table.dupx-opts td{white-space:nowrap; padding:3px;}
 	table.dupx-opts td:first-child{width:125px; font-weight: bold}
 	table.dupx-advopts td:first-child{width:125px; font-weight:bold}
-	table.dupx-advopts td label{min-width:60px; display:inline-block}
+	table.dupx-advopts td label{min-width:60px; display:inline-block; cursor:pointer}
 
     .dupx-pass {display:inline-block; color:green;}
 	.dupx-fail {display:inline-block; color:#AF0000;}
@@ -67,7 +66,7 @@
 	div.s1-reqs div.status {float:right; border-radius:4px; color:#fff; padding:0 4px 0 4px; margin:4px 5px 0 0; font-size:12px; min-width:30px; text-align:center}
 	div.s1-reqs div.pass {background-color:green;}
 	div.s1-reqs div.fail {background-color:maroon;}
-	div.s1-reqs div.title {padding:4px; font-size:14px;font-weight: bold}
+	div.s1-reqs div.title {padding:4px; font-size:14px;}
 	div.s1-reqs div.title:hover {background-color:#dfdfdf; cursor:pointer}
 	div.s1-reqs div.info {padding:8px 8px 20px 8px; background-color:#fff; display:none; line-height:18px; font-size: 12px}
 	div.s1-reqs div.info a {color:#485AA3;}

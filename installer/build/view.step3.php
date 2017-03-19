@@ -28,8 +28,8 @@ VIEW: STEP 3- INPUT -->
 
 	<div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
 	<div class="hdr-main">
-		Step <span class="step">3</span> of 4: Update Files &amp; Database
-	</div><br />
+		Step <span class="step">3</span> of 4: Data Replacement
+	</div>
 
 	<div class="hdr-sub1" style="margin-top:8px">New Settings</div>
 	<table class="s3-table-inputs">
@@ -60,7 +60,7 @@ VIEW: STEP 3- INPUT -->
 	<div id='s3-adv-opts' style="display:none;">
 
 		<br/>
-		<div class="hdr-sub3">Add New Admin Account</div>
+		<div class="hdr-sub3">New Admin Account</div>
 		<div style="text-align: center; margin-top:7px">
 			<i style="color:gray;font-size: 11px">This feature is optional.  If the username already exists the account will NOT be created or updated.</i>
 		</div>
@@ -73,7 +73,24 @@ VIEW: STEP 3- INPUT -->
 				<td valign="top">Password</td>
 				<td><input type="text" name="wp_password" id="wp_password" value="" title="6 characters minimum"  placeholder="(6 or more characters)" /></td>
 			</tr>
-		</table><br/>
+		</table>
+		<br/><br/>
+
+		 <!-- GENERAL -->
+		<div class="hdr-sub3">WP-Config File</div>
+		<table class="dupx-opts dupx-advopts">
+			<tr>
+				<td>Cache</td>
+				<td style="width:125px"><input type="checkbox" name="cache_wp" id="cache_wp" <?php echo ($GLOBALS['FW_CACHE_WP']) ? "checked='checked'" : ""; ?> /> <label for="cache_wp">Keep Enabled</label></td>
+				<td><input type="checkbox" name="cache_path" id="cache_path" <?php echo ($GLOBALS['FW_CACHE_PATH']) ? "checked='checked'" : ""; ?> /> <label for="cache_path">Keep Home Path</label></td>
+			</tr>
+			<tr>
+				<td>SSL</td>
+				<td><input type="checkbox" name="ssl_admin" id="ssl_admin" <?php echo ($GLOBALS['FW_SSL_ADMIN']) ? "checked='checked'" : ""; ?> /> <label for="ssl_admin">Enforce on Admin</label></td>
+				<td><input type="checkbox" name="ssl_login" id="ssl_login" <?php echo ($GLOBALS['FW_SSL_LOGIN']) ? "checked='checked'" : ""; ?> /> <label for="ssl_login">Enforce on Login</label></td>
+			</tr>
+		</table>
+		<br/><br/>
 
 		<div class="hdr-sub3">Scan Options</div>
         <table class="s3-table-inputs">
@@ -158,7 +175,7 @@ VIEW: STEP 3 - AJAX RESULT
 
 	<div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
 	<div class="hdr-main">
-		Step <span class="step">3</span> of 4: Update Files &amp; Database
+		Step <span class="step">3</span> of 4: Data Replacement
 	</div><br />
 
 	<!--  PROGRESS BAR -->
@@ -176,7 +193,7 @@ VIEW: STEP 3 - AJAX RESULT
 		<div style="padding: 0px 10px 10px 10px;">
 			<div id="ajaxerr-data">An unknown issue has occurred with the data replacement setup process.  Please see the installer-log.txt file for more details.</div>
 			<div style="text-align:center; margin:10px auto 0px auto">
-				<input type="button" onclick='DUPX.hideErrorResult2()' value="&laquo; Try Again" /><br/><br/>
+				<input type="button"  class="default-btn" onclick='DUPX.hideErrorResult2()' value="&laquo; Try Again" /><br/><br/>
 				<i style='font-size:11px'>See online help for more details at <a href='https://snapcreek.com/ticket' target='_blank'>snapcreek.com</a></i>
 			</div>
 		</div>
@@ -212,8 +229,8 @@ VIEW: STEP 3 - AJAX RESULT
 				if (typeof(data) != 'undefined' && data.step2.pass == 1) {
 					$("#ajax-url_new").val($("#url_new").val());
 					$("#ajax-json").val(escape(JSON.stringify(data)));
-					setTimeout(function(){$('#dup-step2-result-form').submit();}, 1000);
-					$('#progress-area').fadeOut(1800);
+					setTimeout(function(){$('#dup-step2-result-form').submit();}, 500);
+					$('#progress-area').fadeOut(1000);
 				} else {
 					DUPX.hideProgressBar();
 				}

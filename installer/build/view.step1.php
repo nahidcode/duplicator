@@ -379,7 +379,6 @@ TERMS & NOTICES
 
 			<b>After Install:</b> When you are done with the installation you must remove remove the these files/directories:
 			<ul>
-                <li>dpro-installer</li>
 				<li>installer.php</li>
 				<li>installer-data.sql</li>
 				<li>installer-backup.php</li>
@@ -477,7 +476,7 @@ Auto Posts to view.step2.php
 	    <div style="padding: 0px 10px 10px 0px;">
 			<div id="ajaxerr-data">An unknown issue has occurred with the file and database setup process.  Please see the installer-log.txt file for more details.</div>
 			<div style="text-align:center; margin:10px auto 0px auto">
-				<input type="button" onclick='DUPX.hideErrorResult()' value="&laquo; Try Again" /><br/><br/>
+				<input type="button" class="default-btn" onclick="DUPX.hideErrorResult()" value="&laquo; Try Again" /><br/><br/>
 				<i style='font-size:11px'>See online help for more details at <a href='https://snapcreek.com/ticket' target='_blank'>snapcreek.com</a></i>
 			</div>
 	    </div>
@@ -509,9 +508,9 @@ Auto Posts to view.step2.php
 					$("#ajax-logging").val($("input:radio[name=logging]:checked").val());
 					$("#ajax-json").val(escape(dataJSON));
 					<?php if (! $GLOBALS['DUPX_DEBUG']) : ?>
-						setTimeout(function() {$('#s1-result-form').submit();}, 1000);
+						setTimeout(function() {$('#s1-result-form').submit();}, 500);
 					<?php endif; ?>
-					$('#progress-area').fadeOut(700);
+					$('#progress-area').fadeOut(1000);
 				} else {
 					$('#ajaxerr-data').html('Error Processing Step 1');
 					DUPX.hideProgressBar();

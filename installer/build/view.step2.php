@@ -14,7 +14,7 @@ VIEW: STEP 2- INPUT -->
     <div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
 	<div class="hdr-main">
         Step <span class="step">2</span> of 4: Install Database
-	</div><br/>
+	</div>
 
 	<div class="s2-btngrp">
 		<input id="s2-basic-btn" type="button" value="Basic" class="active" onclick="DUPX.togglePanels('basic')" />
@@ -126,28 +126,7 @@ VIEW: STEP 2- INPUT -->
         <a data-type="toggle" data-target="#dup-step1-adv-opts"><i class="dupx-plus-square"></i> Advanced Options</a>
     </div>
     <div id='dup-step1-adv-opts' style="display:none">
-
-        <!-- GENERAL -->
         <div class="s2-advopts-section">
-            <div class="hdr-sub3">General</div>
-            <table class="dupx-opts dupx-advopts">
-
-                <tr>
-                    <td>WP-Config Cache</td>
-                    <td style="width:125px"><input type="checkbox" name="cache_wp" id="cache_wp" <?php echo ($GLOBALS['FW_CACHE_WP']) ? "checked='checked'" : ""; ?> /> <label for="cache_wp">Keep Enabled</label></td>
-                    <td><input type="checkbox" name="cache_path" id="cache_path" <?php echo ($GLOBALS['FW_CACHE_PATH']) ? "checked='checked'" : ""; ?> /> <label for="cache_path">Keep Home Path</label></td>
-                </tr>
-                <tr>
-                    <td>WP-Config SSL</td>
-                    <td><input type="checkbox" name="ssl_admin" id="ssl_admin" <?php echo ($GLOBALS['FW_SSL_ADMIN']) ? "checked='checked'" : ""; ?> /> <label for="ssl_admin">Enforce on Admin</label></td>
-                    <td><input type="checkbox" name="ssl_login" id="ssl_login" <?php echo ($GLOBALS['FW_SSL_LOGIN']) ? "checked='checked'" : ""; ?> /> <label for="ssl_login">Enforce on Login</label></td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- MYSQL -->
-        <div class="s2-advopts-section">
-            <div class="hdr-sub3">MySQL</div>
             <table class="dupx-opts dupx-advopts">
                 <tr>
                     <td>Spacing</td>
@@ -213,7 +192,7 @@ Auto Posts to view.step2.php
 	<!--  PROGRESS BAR -->
 	<div id="progress-area">
 	    <div style="width:500px; margin:auto">
-		<h3>Processing Files &amp; Database Please Wait...</h3>
+		<h3>Installing Database Please Wait...</h3>
 		<div id="progress-bar"></div>
 		<i>This may take several minutes</i>
 	    </div>
@@ -225,7 +204,7 @@ Auto Posts to view.step2.php
 	    <div style="padding: 0px 10px 10px 0px;">
 			<div id="ajaxerr-data">An unknown issue has occurred with the file and database setup process.  Please see the installer-log.txt file for more details.</div>
 			<div style="text-align:center; margin:10px auto 0px auto">
-				<input type="button" onclick='DUPX.hideErrorResult()' value="&laquo; Try Again" /><br/><br/>
+				<input type="button" class="default-btn" onclick='DUPX.hideErrorResult()' value="&laquo; Try Again" /><br/><br/>
 				<i style='font-size:11px'>See online help for more details at <a href='https://snapcreek.com/ticket' target='_blank'>snapcreek.com</a></i>
 			</div>
 	    </div>
@@ -321,8 +300,8 @@ Auto Posts to view.step2.php
 					$("#ajax-dbcollate").val($("#dbcollate").val());
 					$("#ajax-logging").val($("#logging").val());
 					$("#ajax-json").val(escape(JSON.stringify(data)));
-					setTimeout(function() {$('#s2-result-form').submit();}, 1000);
-					$('#progress-area').fadeOut(700);
+					setTimeout(function() {$('#s2-result-form').submit();}, 500);
+					$('#progress-area').fadeOut(1000);
 				} else {
 					DUPX.hideProgressBar();
 				}
@@ -376,7 +355,7 @@ Auto Posts to view.step2.php
 		});
 
 		$('#s2-dbconn-test-msg').html("Attempting Connection.  Please wait...");
-		$("#s2-dbconn-status").show(500);
+		$("#s2-dbconn-status").show(100);
 
 	}
 
@@ -384,8 +363,8 @@ Auto Posts to view.step2.php
 	DUPX.showDeleteWarning = function ()
     {
 		($('#dbaction').val() == 'empty')
-			? $('#s2-warning-emptydb').show(300)
-			: $('#s2-warning-emptydb').hide(300);
+			? $('#s2-warning-emptydb').show(200)
+			: $('#s2-warning-emptydb').hide(200);
 	}
 
 

@@ -17,7 +17,7 @@ class DUPX_WPConfig
 	 *
 	 *  @return null
 	 */
-	public static function updateStep1()
+	public static function updateStandard()
 	{
 		if (!file_exists('wp-config.php')) return;
 
@@ -89,7 +89,7 @@ class DUPX_WPConfig
 	 *
 	 *  @return null
 	 */
-	public static function updateStep2()
+	public static function updateExtended()
 	{
 		$config_file = '';
 		if (!file_exists('wp-config.php')) {
