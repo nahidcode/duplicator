@@ -1,4 +1,5 @@
 <?php
+
 //POST PARAMS
 $_POST['archive_name']		 = isset($_POST['archive_name']) ? $_POST['archive_name'] : null;
 $_POST['archive_manual']	 = (isset($_POST['archive_manual']) && $_POST['archive_manual'] == '1') ? true : false;
@@ -20,6 +21,9 @@ $JSON['pass']	 = 0;
 
 /** JSON RESPONSE: Most sites have warnings turned off by default, but if they're turned on the warnings
   cause errors in the JSON data Here we hide the status so warning level is reset at it at the end */
+if (!headers_sent())  {
+	header('Content-Type: application/json');
+}
 $ajax1_error_level = error_reporting();
 error_reporting(E_ERROR);
 
@@ -122,7 +126,7 @@ if ($_POST['archive_manual']) {
 	}
 }
 
-DUPX_U::fcgiFlush();
+//DUPX_U::fcgiFlush();
 
 //CONFIG FILE RESETS
 DUPX_ServerConfig::reset();

@@ -70,7 +70,6 @@ class DUP_Installer
             "classes/class.engine.php"				=> "@@CLASS.ENGINE.PHP@@",
             "classes/config/class.conf.wp.php"		=> "@@CLASS.CONF.WP.PHP@@",
             "classes/config/class.conf.srv.php"		=> "@@CLASS.CONF.SRV.PHP@@",
-            "ctrls/ctrl.base.php"					=> "@@CTRL.BASE.PHP@@",
 			"ctrls/ctrl.step1.php"					=> "@@CTRL.STEP1.PHP@@",
             "ctrls/ctrl.step2.php"					=> "@@CTRL.STEP2.PHP@@",
             "ctrls/ctrl.step3.php"					=> "@@CTRL.STEP3.PHP@@",

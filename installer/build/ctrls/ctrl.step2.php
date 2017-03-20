@@ -234,7 +234,7 @@ DUPX_Log::info("\nUPDATED FILES:");
 DUPX_Log::info("- SQL FILE:  '{$sql_result_file_path}'");
 DUPX_Log::info("- WP-CONFIG: '{$root_path}/wp-config.php' (if present)");
 //DUPX_Log::info("\nARCHIVE RUNTIME: " . DUPX_U::elapsedTime(DUPX_U::getMicrotime(), $zip_start) . "\n");
-DUPX_U::fcgiFlush();
+//DUPX_U::fcgiFlush();
 
 //=================================
 //START DB RUN
@@ -358,7 +358,7 @@ while ($counter < $sql_result_file_length) {
 		} else {
 			if ($fcgi_buffer_count++ > $fcgi_buffer_pool) {
 				$fcgi_buffer_count = 0;
-				DUPX_U::fcgiFlush();
+				//DUPX_U::fcgiFlush();
 			}
 			$dbquery_rows++;
 		}

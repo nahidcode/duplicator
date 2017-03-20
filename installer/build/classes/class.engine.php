@@ -294,7 +294,7 @@ class DUPX_UpdateEngine
                             $report['errkey'][] = sprintf("Row [%s] on Table [%s] requires a manual update.", $current_row, $table);
                         }
                     }
-                    DUPX_U::fcgiFlush();
+                    //DUPX_U::fcgiFlush();
                     @mysqli_free_result($data);
                 }
 

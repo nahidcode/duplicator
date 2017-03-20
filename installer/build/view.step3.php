@@ -13,6 +13,8 @@
 <!-- =========================================
 VIEW: STEP 3- INPUT -->
 <form id='s3-input-form' method="post" class="content-form">
+
+	<!--  POST PARAMS -->
 	<input type="hidden" name="action_ajax"	 value="3" />
 	<input type="hidden" name="action_step"	 value="3" />
 	<input type="hidden" name="logging"		 value="<?php echo $_POST['logging'] ?>" />
@@ -37,7 +39,7 @@ VIEW: STEP 3- INPUT -->
 			<td style="width:80px">URL</td>
 			<td>
 				<input type="text" name="url_new" id="url_new" value="<?php echo $GLOBALS['FW_URL_NEW'] ?>" />
-				<a href="javascript:Duplicator.getNewURL('url_new')" style="font-size:12px">get</a>
+				<a href="javascript:DUPX.getNewURL('url_new')" style="font-size:12px">get</a>
 			</td>
 		</tr>
 		<tr>
@@ -98,21 +100,21 @@ VIEW: STEP 3- INPUT -->
                 <td>Old URL</td>
                 <td>
                     <input type="text" name="url_old" id="url_old" value="<?php echo $GLOBALS['FW_URL_OLD'] ?>" readonly="readonly"  class="readonly" />
-                    <a href="javascript:Duplicator.editOldURL()" id="edit_url_old" style="font-size:12px">edit</a>
+                    <a href="javascript:DUPX.editOldURL()" id="edit_url_old" style="font-size:12px">edit</a>
                 </td>
             </tr>
             <tr>
                 <td>Old Path</td>
                 <td>
                     <input type="text" name="path_old" id="path_old" value="<?php echo $old_path ?>" readonly="readonly"  class="readonly" />
-                    <a href="javascript:Duplicator.editOldPath()" id="edit_path_old" style="font-size:12px">edit</a>
+                    <a href="javascript:DUPX.editOldPath()" id="edit_path_old" style="font-size:12px">edit</a>
                 </td>
             </tr>
 			<tr>
 				<td>Site URL</td>
 				<td>
 					<input type="text" name="siteurl" id="siteurl" value="" />
-					<a href="javascript:Duplicator.getNewURL('siteurl')" style="font-size:12px">get</a><br/>
+					<a href="javascript:DUPX.getNewURL('siteurl')" style="font-size:12px">get</a><br/>
 				</td>
 			</tr>            
         </table><br/>
@@ -158,7 +160,7 @@ VIEW: STEP 3- INPUT -->
 	</div>
 
 	<div class="dupx-footer-buttons">
-		<input id="dup-step2-next"  class="default-btn" type="button" value=" Next " onclick="Duplicator.runUpdate()"  />
+		<input id="dup-step2-next"  class="default-btn" type="button" value=" Next " onclick="DUPX.runUpdate()"  />
 	</div>
 </form>
 
@@ -166,17 +168,22 @@ VIEW: STEP 3- INPUT -->
 <!-- =========================================
 VIEW: STEP 3 - AJAX RESULT 
 ========================================= -->
-<form id='dup-step2-result-form' method="post" class="content-form" style="display:none">
-	<input type="hidden" name="action_step"  value="4" />
-	<input type="hidden" name="archive_name" value="<?php echo $_POST['archive_name'] ?>" />
-	<!-- Set via jQuery -->
-	<input type="hidden" name="url_new" id="ajax-url_new"  />
-	<input type="hidden" name="json"    id="ajax-json" />
+<form id='s3-result-form' method="post" class="content-form" style="display:none">
 
 	<div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
 	<div class="hdr-main">
 		Step <span class="step">3</span> of 4: Data Replacement
-	</div><br />
+	</div>
+
+	<!--  POST PARAMS -->
+	<div class="dupx-debug">
+		<input type="hidden" name="action_step"  value="4" />
+		<input type="hidden" name="archive_name" value="<?php echo $_POST['archive_name'] ?>" />
+		<input type="hidden" name="url_new" id="ajax-url_new"  />
+		<input type="hidden" name="json"    id="ajax-json" />
+		<br/>
+		<input type='submit' value='manual submit'>
+	</div>
 
 	<!--  PROGRESS BAR -->
 	<div id="progress-area">
@@ -203,7 +210,7 @@ VIEW: STEP 3 - AJAX RESULT
 <script>
 	/** 
 	* Timeout (10000000 = 166 minutes) */
-	Duplicator.runUpdate = function()
+	DUPX.runUpdate = function()
     {
 		//Validation
 		var wp_username = $.trim($("#wp_username").val()).length || 0;
@@ -223,13 +230,15 @@ VIEW: STEP 3 - AJAX RESULT
 			beforeSend: function() {
 				DUPX.showProgressBar();
 				$('#s3-input-form').hide();
-				$('#dup-step2-result-form').show();
+				$('#s3-result-form').show();
 			},
 			success: function(data){
 				if (typeof(data) != 'undefined' && data.step2.pass == 1) {
 					$("#ajax-url_new").val($("#url_new").val());
 					$("#ajax-json").val(escape(JSON.stringify(data)));
-					setTimeout(function(){$('#dup-step2-result-form').submit();}, 500);
+					<?php if (! $GLOBALS['DUPX_DEBUG']) : ?>
+						setTimeout(function(){$('#s3-result-form').submit();}, 500);
+					<?php endif; ?>
 					$('#progress-area').fadeOut(1000);
 				} else {
 					DUPX.hideProgressBar();
@@ -244,14 +253,14 @@ VIEW: STEP 3 - AJAX RESULT
 	}
 
 	/** Returns the windows active url */
-	Duplicator.getNewURL = function(id)
+	DUPX.getNewURL = function(id)
     {
 		var filename= window.location.pathname.split('/').pop() || 'installer.php' ;
 		$("#" + id).val(window.location.href.replace(filename, ''));
 	}
 
 	/** Allows user to edit the package url  */
-	Duplicator.editOldURL = function()
+	DUPX.editOldURL = function()
     {
 		var msg = 'This is the URL that was generated when the package was created.\n';
 		msg += 'Changing this value may cause issues with the install process.\n\n';
@@ -267,7 +276,7 @@ VIEW: STEP 3 - AJAX RESULT
 	}
 
 	/** Allows user to edit the package path  */
-	Duplicator.editOldPath = function()
+	DUPX.editOldPath = function()
     {
 		var msg = 'This is the SERVER URL that was generated when the package was created.\n';
 		msg += 'Changing this value may cause issues with the install process.\n\n';
@@ -284,15 +293,15 @@ VIEW: STEP 3 - AJAX RESULT
 	/** Go back on AJAX result view */
 	DUPX.hideErrorResult2 = function()
     {
-		$('#dup-step2-result-form').hide();
+		$('#s3-result-form').hide();
 		$('#s3-input-form').show(200);
 	}
 
 	//DOCUMENT LOAD
 	$(document).ready(function()
     {
-		Duplicator.getNewURL('url_new');
-		Duplicator.getNewURL('siteurl');
+		DUPX.getNewURL('url_new');
+		DUPX.getNewURL('siteurl');
         $("*[data-type='toggle']").click(DUPX.toggleClick);
 		$("#wp_password").passStrength({
 				shortPass: 		"top_shortPass",

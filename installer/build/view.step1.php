@@ -453,10 +453,10 @@ Auto Posts to view.step2.php
 
 	<!--  POST PARAMS -->
 	<div class="dupx-debug">
-		<input type="text" name="action_step" value="2" />
-		<input type="text" name="archive_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
-		<input type="text" name="logging" id="ajax-logging"  />
-		<input type="text" name="json"    id="ajax-json" />
+		<input type="hidden" name="action_step" value="2" />
+		<input type="hidden" name="archive_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
+		<input type="hidden" name="logging" id="ajax-logging"  />
+		<input type="hidden" name="json"    id="ajax-json" />
 		<textarea id='ajax-json-debug' name='json_debug_view'></textarea>
 		<input type='submit' value='manual submit'>
 	</div>

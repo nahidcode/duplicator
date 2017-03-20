@@ -19,8 +19,8 @@
 	
 	/* WIZARD STEPS */
 	table.dupx-header {border-top-left-radius:5px; border-top-right-radius:5px; width:100%; box-shadow:0 5px 3px -3px #999;	background-color:#F1F1F1}
-    .dupx-header-version {white-space:nowrap; color:#999; font-size:11px; font-style:italic; text-align:right;  padding:0 15px 5px 0; line-height:14px}
-	.dupx-header-version a {color:#999;}
+    .dupx-header-version {white-space:nowrap; color:#555; font-size:11px; font-style:italic; text-align:right;  padding:0 15px 5px 0; line-height:14px}
+	.dupx-header-version a {color:#555;}
     div.dupx-logfile-link {float:right; font-weight:normal; font-size:12px}
 	div#progress-area {padding:5px; margin:150px 0 0 0px; text-align:center;}
 	div#ajaxerr-data {padding:5px; height:350px; width:99%; border:1px solid silver; border-radius:5px; background-color:#efefef; font-size:14px; overflow-y:scroll}
@@ -172,14 +172,15 @@
 	}
 	ul.parsley-errors-list {margin:1px 0 0 -40px; list-style-type:none; font-size:10px}
 
-	/* ======================================
-	HELP
-	======================================	*/
-    div.help {color:#555; font-style:italic; font-size:11px}
-	div.dupx-help-page {padding:5px 0 0 5px}
-	div.dupx-help-page fieldset {margin-bottom:25px}
-	div#dupx-main-help {line-height:18px}
-	div#dupx-main-help h3 {background-color:#dfdfdf; border:1px solid silver; border-radius:5px; padding:3px; margin-bottom:8px;}
+	/* ============================
+	STEP 5 HELP
+	============================	*/
+	div.help {color:#555; font-style:italic; font-size:11px; padding:4px; border-top:1px solid #dfdfdf}
+	div.help-page {padding:5px 0 0 5px}
+	div.help-page fieldset {margin-bottom:25px}
+    div#main-help {font-size:14px; line-height:17px}
+	div#main-help h3 {background-color:#dfdfdf; border:1px solid silver; border-radius:4px; padding:5px; margin:20px 0 8px 0; font-size:18px}
+    div#main-help span.step {color:#DB4B38}
 
 
 	<?php if ($GLOBALS['DUPX_DEBUG']) : ?>

@@ -2,7 +2,7 @@
 <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 <script>
 	/** Posts to page to remove install files */
-	Duplicator.removeInstallerFiles = function(archive_name)
+	DUPX.removeInstallerFiles = function(archive_name)
     {
 		var msg = "You will now be redirected to the cleanup page.\nSelect 'Delete Reserved Files' to remove installer files.";
 		alert(msg);
@@ -37,7 +37,7 @@ VIEW: STEP 4 - INPUT -->
 			<td><i>Validate all pages, links images and plugins</i></td>
 		</tr>
 		<tr>
-			<td><a  class="s4-final-btns" href="javascript:void(0)" onclick="Duplicator.removeInstallerFiles('<?php echo $_POST['archive_name'] ?>')">Security Cleanup</a></td>
+			<td><a  class="s4-final-btns" href="javascript:void(0)" onclick="DUPX.removeInstallerFiles('<?php echo $_POST['archive_name'] ?>')">Security Cleanup</a></td>
 			<td><i>Validate installer files are removed (requires login)</i></td>
 		</tr>
 		<tr>

@@ -172,21 +172,27 @@ VIEW: STEP 2 - AJAX RESULT
 Auto Posts to view.step2.php
 ========================================= -->
 <form id='s2-result-form' method="post" class="content-form" style="display:none">
-	<input type="hidden" name="action_step" value="3" />
-	<input type="hidden" name="archive_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
-	<input type="hidden" name="logging" id="ajax-logging"  />
-	<input type="hidden" name="dbhost" id="ajax-dbhost" />
-	<input type="hidden" name="dbport" id="ajax-dbport" />
-	<input type="hidden" name="dbuser" id="ajax-dbuser" />
-	<input type="hidden" name="dbpass" id="ajax-dbpass" />
-	<input type="hidden" name="dbname" id="ajax-dbname" />
-	<input type="hidden" name="json"   id="ajax-json" />
-	<input type="hidden" name="dbcharset" id="ajax-dbcharset" />
-	<input type="hidden" name="dbcollate" id="ajax-dbcollate" />
 
     <div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
 	<div class="hdr-main">
         Step <span class="step">2</span> of 4: Install Database
+	</div>
+
+	<!--  POST PARAMS -->
+	<div class="dupx-debug">
+		<input type="hidden" name="action_step" value="3" />
+		<input type="hidden" name="archive_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
+		<input type="hidden" name="logging" id="ajax-logging"  />
+		<input type="hidden" name="dbhost" id="ajax-dbhost" />
+		<input type="hidden" name="dbport" id="ajax-dbport" />
+		<input type="hidden" name="dbuser" id="ajax-dbuser" />
+		<input type="hidden" name="dbpass" id="ajax-dbpass" />
+		<input type="hidden" name="dbname" id="ajax-dbname" />
+		<input type="hidden" name="json"   id="ajax-json" />
+		<input type="hidden" name="dbcharset" id="ajax-dbcharset" />
+		<input type="hidden" name="dbcollate" id="ajax-dbcollate" />
+		<br/>
+		<input type='submit' value='manual submit'>
 	</div>
 
 	<!--  PROGRESS BAR -->
@@ -300,7 +306,9 @@ Auto Posts to view.step2.php
 					$("#ajax-dbcollate").val($("#dbcollate").val());
 					$("#ajax-logging").val($("#logging").val());
 					$("#ajax-json").val(escape(JSON.stringify(data)));
-					setTimeout(function() {$('#s2-result-form').submit();}, 500);
+					<?php if (! $GLOBALS['DUPX_DEBUG']) : ?>
+						setTimeout(function() {$('#s2-result-form').submit();}, 500);
+					<?php endif; ?>
 					$('#progress-area').fadeOut(1000);
 				} else {
 					DUPX.hideProgressBar();

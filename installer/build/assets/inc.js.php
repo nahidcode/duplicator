@@ -1,6 +1,5 @@
 <script type="text/javascript">
 	//Unique namespace
-	Duplicator = new Object();
     DUPX = new Object();
 
 	DUPX.showProgressBar = function ()
@@ -63,11 +62,15 @@
 	$(document).ready(function()
     {
 		<?php if ($GLOBALS['DUPX_DEBUG']) : ?>
-			$("div.dupx-debug input[type=text], div.dupx-debug textarea").each(function() {
+			$("div.dupx-debug input[type=hidden], div.dupx-debug textarea").each(function() {
 				var label = '<label>' + $(this).attr('name') + ':</label>';
 				$(this).before(label);
 				$(this).after('<br/>');
 			 });
+			 $("div.dupx-debug input[type=hidden]").each(function() {
+				$(this).attr('type', 'text');
+			 });
+
 			 $("div.dupx-debug").prepend('<h2>Debug View</h2>');
 		<?php endif; ?>
 	});

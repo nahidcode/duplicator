@@ -53,24 +53,11 @@ if (file_exists('dtoken.php')) {
             header("Status: 404 Not Found");
         }
     }
-
 	//Prevent Access from rovers or direct browsing in snapshop directory, or when
     //requesting to download a file, should not go past this point.
     exit;
 }
-?>
 
-<?php if (false) : ?>
-    <!DOCTYPE html>
-    <html>
-        <body>
-            <h2>Error: PHP is not running</h2>
-            <p>Duplicator requires that your web server is running PHP. Your server does not have PHP installed, or PHP is turned off.</p>
-        </body>
-    </html>
-<?php endif; ?> 
-
-<?php
 /* ==============================================================================================
 ADVANCED FEATURES - Allows admins to perform aditional logic on the import.
 
@@ -91,27 +78,27 @@ $GLOBALS['FW_VERSION_DB']	= '%fwrite_version_db%';
 $GLOBALS['FW_VERSION_PHP']	= '%fwrite_version_php%';
 $GLOBALS['FW_VERSION_OS']	= '%fwrite_version_os%';
 //GENERAL
-$GLOBALS['FW_TABLEPREFIX'] = '%fwrite_wp_tableprefix%';
-$GLOBALS['FW_URL_OLD'] = '%fwrite_url_old%';
-$GLOBALS['FW_URL_NEW'] = '%fwrite_url_new%';
-$GLOBALS['FW_PACKAGE_NAME'] = '%fwrite_archive_name%';
-$GLOBALS['FW_PACKAGE_NOTES'] = '%fwrite_package_notes%';
-$GLOBALS['FW_SECURE_NAME'] = '%fwrite_secure_name%';
-$GLOBALS['FW_DBHOST'] = '%fwrite_dbhost%';
-$GLOBALS['FW_DBHOST'] = empty($GLOBALS['FW_DBHOST']) ? 'localhost' : $GLOBALS['FW_DBHOST'];
-$GLOBALS['FW_DBPORT'] = '%fwrite_dbport%';
-$GLOBALS['FW_DBPORT'] = empty($GLOBALS['FW_DBPORT']) ? 3306 : $GLOBALS['FW_DBPORT'];
-$GLOBALS['FW_DBNAME'] = '%fwrite_dbname%';
-$GLOBALS['FW_DBUSER'] = '%fwrite_dbuser%';
-$GLOBALS['FW_DBPASS'] = '%fwrite_dbpass%';
-$GLOBALS['FW_SSL_ADMIN'] = '%fwrite_ssl_admin%';
-$GLOBALS['FW_SSL_LOGIN'] = '%fwrite_ssl_login%';
-$GLOBALS['FW_CACHE_WP'] = '%fwrite_cache_wp%';
-$GLOBALS['FW_CACHE_PATH'] = '%fwrite_cache_path%';
-$GLOBALS['FW_BLOGNAME'] = '%fwrite_blogname%';
-$GLOBALS['FW_WPROOT'] = '%fwrite_wproot%';
+$GLOBALS['FW_TABLEPREFIX']		= '%fwrite_wp_tableprefix%';
+$GLOBALS['FW_URL_OLD']			= '%fwrite_url_old%';
+$GLOBALS['FW_URL_NEW']			= '%fwrite_url_new%';
+$GLOBALS['FW_PACKAGE_NAME']		= '%fwrite_archive_name%';
+$GLOBALS['FW_PACKAGE_NOTES']	= '%fwrite_package_notes%';
+$GLOBALS['FW_SECURE_NAME']		= '%fwrite_secure_name%';
+$GLOBALS['FW_DBHOST']			= '%fwrite_dbhost%';
+$GLOBALS['FW_DBHOST']			= empty($GLOBALS['FW_DBHOST']) ? 'localhost' : $GLOBALS['FW_DBHOST'];
+$GLOBALS['FW_DBPORT']			= '%fwrite_dbport%';
+$GLOBALS['FW_DBPORT']			= empty($GLOBALS['FW_DBPORT']) ? 3306 : $GLOBALS['FW_DBPORT'];
+$GLOBALS['FW_DBNAME']			= '%fwrite_dbname%';
+$GLOBALS['FW_DBUSER']			= '%fwrite_dbuser%';
+$GLOBALS['FW_DBPASS']			= '%fwrite_dbpass%';
+$GLOBALS['FW_SSL_ADMIN']		= '%fwrite_ssl_admin%';
+$GLOBALS['FW_SSL_LOGIN']		= '%fwrite_ssl_login%';
+$GLOBALS['FW_CACHE_WP']			= '%fwrite_cache_wp%';
+$GLOBALS['FW_CACHE_PATH']		= '%fwrite_cache_path%';
+$GLOBALS['FW_BLOGNAME']			= '%fwrite_blogname%';
+$GLOBALS['FW_WPROOT']			= '%fwrite_wproot%';
+$GLOBALS['FW_OPTS_DELETE']		= json_decode("%fwrite_opts_delete%", true);
 $GLOBALS['FW_DUPLICATOR_VERSION'] = '%fwrite_duplicator_version%';
-$GLOBALS['FW_OPTS_DELETE'] = json_decode("%fwrite_opts_delete%", true);
 
 //DATABASE SETUP: all time in seconds	
 $GLOBALS['DB_MAX_TIME'] = 5000;
@@ -183,16 +170,12 @@ if ($_POST['action_step'] == 1) {
 @@CLASS.ENGINE.PHP@@
 @@CLASS.CONF.WP.PHP@@
 @@CLASS.CONF.SRV.PHP@@
-
 <?php if (isset($_POST['action_ajax'])) :?>
-@@CTRL.BASE.PHP@@
-
 <?php switch ($_POST['action_ajax']): ?>
 <?php case "1": ?>@@CTRL.STEP1.PHP@@<?php break;?>
 <?php case "2": ?>@@CTRL.STEP2.PHP@@<?php break;?>
 <?php case "3": ?>@@CTRL.STEP3.PHP@@<?php break;?>
 <?php endswitch ?>
-
 <?php
     @fclose($GLOBALS["LOG_FILE_HANDLE"]);
     die("");
@@ -228,8 +211,8 @@ HEADER TEMPLATE: Common header on all steps -->
         </td>
         <td class="dupx-header-version">
             version: <?php echo $GLOBALS['FW_DUPLICATOR_VERSION'] ?><br/>
-            &raquo; <a href="?help=1" target="_blank">help</a>
-            &raquo; <a href="https://snapcreek.com/duplicator/docs/" target="_blank">docs</a> &nbsp;
+            &raquo; <a href="https://snapcreek.com/duplicator/docs/" target="_blank">docs</a>
+			&raquo; <a href="?help=1" target="_blank">help</a> &nbsp;
         </td>
     </tr>
 </table>	
