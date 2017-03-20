@@ -286,7 +286,7 @@ Auto Posts to view.step2.php
 
 		$.ajax({
 			type: "POST",
-			timeout: 10000000,
+			timeout: 1800000,
 			dataType: "json",
 			url: window.location.href,
 			data: $form.serialize(),
@@ -315,7 +315,13 @@ Auto Posts to view.step2.php
 				}
 			},
 			error: function(xhr) {
-				var status = "<b>server code:</b> " + xhr.status + "<br/><b>status:</b> " + xhr.statusText + "<br/><b>response:</b> " +  xhr.responseText;
+				var status  = "<b>Server Code:</b> "	+ xhr.status		+ "<br/>";
+				status += "<b>Status:</b> "				+ xhr.statusText	+ "<br/>";
+				status += "<b>Response:</b> "			+ xhr.responseText  + "<br/><br/>";
+				status += "<b>Troubleshooting Tips:</b><br/>";
+				status += "- Check the <a href='installer-log.txt' target='_blank'>installer-log.txt</a> file for warnings or errors.<br/>";
+				status += "- Check the web server and PHP error logs. <br/>";
+				status += "- For timeout issues visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>Timeout FAQ Section</a><br/>";
 				$('#ajaxerr-data').html(status);
 				DUPX.hideProgressBar();
 			}

@@ -11,6 +11,8 @@ unset($POST_LOG['dbpass']);
 ksort($POST_LOG);
 
 //PAGE VARS
+$php_max_time   = @ini_get("max_execution_time");
+$php_max_time   = ($php_max_time == 0) ? "[0] time limit restriction disabled" : "[{$php_max_time}] time limit restriction enabled";
 $root_path		 = DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
 $package_path	 = "{$root_path}/{$_POST['archive_name']}";
 $package_size	 = @filesize($package_path);
@@ -52,7 +54,8 @@ DUPX_Log::info('STEP-1 START @ '.@date('h:i:s'));
 DUPX_Log::info('NOTICE: Do NOT post to public sites or forums');
 DUPX_Log::info("********************************************************************************");
 DUPX_Log::info("VERSION:\t{$GLOBALS['FW_DUPLICATOR_VERSION']}");
-DUPX_Log::info("PHP:\t\t".phpversion().' | SAPI: '.php_sapi_name());
+DUPX_Log::info("PHP VERSION:\t".phpversion().' | SAPI: '.php_sapi_name());
+DUPX_Log::info("PHP TIME LIMIT:\t{$php_max_time}");
 DUPX_Log::info("PHP MEMORY:\t".$GLOBALS['PHP_MEMORY_LIMIT'].' | SUHOSIN: '.$GLOBALS['PHP_SUHOSIN_ON']);
 DUPX_Log::info("SERVER:\t\t{$_SERVER['SERVER_SOFTWARE']}");
 DUPX_Log::info("DOC ROOT:\t{$root_path}");
