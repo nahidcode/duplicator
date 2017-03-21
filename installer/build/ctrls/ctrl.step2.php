@@ -151,7 +151,7 @@ $log = <<<LOG
 \n\n********************************************************************************
 * DUPLICATOR-LITE: INSTALL-LOG
 * STEP-2 START @ {$date_time}
-* NOTICE: Do not post to public sites or forums
+* NOTICE: Do NOT post to public sites or forums
 ********************************************************************************
 LOG;
 DUPX_Log::info($log);

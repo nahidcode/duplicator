@@ -46,7 +46,7 @@ $log = <<<LOG
 \n\n********************************************************************************
 * DUPLICATOR-LITE: INSTALL-LOG
 * STEP-3 START @ {$date}
-* NOTICE: Do not post to public sites or forums
+* NOTICE: Do NOT post to public sites or forums
 ********************************************************************************
 CHARSET SERVER:\t{$charset_server}
 CHARSET CLIENT:\t{$charset_client}
