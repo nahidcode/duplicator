@@ -101,8 +101,9 @@ $GLOBALS['FW_OPTS_DELETE']		= json_decode("%fwrite_opts_delete%", true);
 $GLOBALS['FW_DUPLICATOR_VERSION'] = '%fwrite_duplicator_version%';
 
 //DATABASE SETUP: all time in seconds	
-$GLOBALS['DB_MAX_TIME'] = 5000;
-$GLOBALS['DB_MAX_PACKETS'] = 268435456;
+$GLOBALS['DB_MAX_TIME']		= 5000;
+$GLOBALS['DB_MAX_PACKETS']	= 268435456;
+$GLOBALS['DB_FCGI_FLUSH']	= false;
 ini_set('mysql.connect_timeout', '5000');
 
 //PHP SETUP: all time in seconds
@@ -144,7 +145,6 @@ $_POST['dbcollate'] = isset($_POST['dbcollate'])  ? trim($_POST['dbcollate']) : 
 //GLOBALS
 $GLOBALS['SQL_FILE_NAME']       = "installer-data.sql";
 $GLOBALS['LOG_FILE_NAME']       = "installer-log.txt";
-$GLOBALS['SEPERATOR1']          = str_repeat("********", 10);
 $GLOBALS['LOGGING']             = isset($_POST['logging']) ? $_POST['logging'] : 1;
 $GLOBALS['CURRENT_ROOT_PATH']   = dirname(__FILE__);
 $GLOBALS['CHOWN_ROOT_PATH']     = @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}", 0755);

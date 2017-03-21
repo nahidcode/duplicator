@@ -49,11 +49,11 @@ if ($_POST['archive_manual']) {
 }
 
 DUPX_Log::info("********************************************************************************");
-DUPX_Log::info('DUPLICATOR-LITE INSTALL-LOG');
-DUPX_Log::info('STEP-1 START @ '.@date('h:i:s'));
-DUPX_Log::info('NOTICE: Do NOT post to public sites or forums');
+DUPX_Log::info('* DUPLICATOR-LITE: INSTALL-LOG');
+DUPX_Log::info("* VERSION: {$GLOBALS['FW_DUPLICATOR_VERSION']}");
+DUPX_Log::info('* STEP-1 START @ '.@date('h:i:s'));
+DUPX_Log::info('* NOTICE: Do NOT post this data to public sites or forums');
 DUPX_Log::info("********************************************************************************");
-DUPX_Log::info("VERSION:\t{$GLOBALS['FW_DUPLICATOR_VERSION']}");
 DUPX_Log::info("PHP VERSION:\t".phpversion().' | SAPI: '.php_sapi_name());
 DUPX_Log::info("PHP TIME LIMIT:\t{$php_max_time}");
 DUPX_Log::info("PHP MEMORY:\t".$GLOBALS['PHP_MEMORY_LIMIT'].' | SUHOSIN: '.$GLOBALS['PHP_SUHOSIN_ON']);
@@ -61,7 +61,6 @@ DUPX_Log::info("SERVER:\t\t{$_SERVER['SERVER_SOFTWARE']}");
 DUPX_Log::info("DOC ROOT:\t{$root_path}");
 DUPX_Log::info("DOC ROOT 755:\t".var_export($GLOBALS['CHOWN_ROOT_PATH'], true));
 DUPX_Log::info("LOG FILE 644:\t".var_export($GLOBALS['CHOWN_LOG_PATH'], true));
-DUPX_Log::info("BUILD NAME:\t{$GLOBALS['FW_SECURE_NAME']}");
 DUPX_Log::info("REQUEST URL:\t{$GLOBALS['URL_PATH']}");
 
 $log = "--------------------------------------\n";
@@ -70,18 +69,13 @@ $log .= "--------------------------------------\n";
 $log .= print_r($POST_LOG, true);
 DUPX_Log::info($log, 2);
 
-
-//====================================================================================================
-//UNZIP & FILE SETUP - Extract the zip file and prep files
-//====================================================================================================
-$log = "\n********************************************************************************\n";
-$log .= "ARCHIVE SETUP\n";
-$log .= "********************************************************************************\n";
+$log = "--------------------------------------\n";
+$log .= "ARCHIVE EXTRACTION\n";
+$log .= "--------------------------------------\n";
 $log .= "NAME:\t{$_POST['archive_name']}\n";
 $log .= "SIZE:\t".DUPX_U::readableByteSize(@filesize($_POST['archive_name']))."\n";
 $log .= "ZIP:\t{$zip_support} (ZipArchive Support)";
 DUPX_Log::info($log);
-
 
 
 if ($_POST['archive_manual']) {
@@ -104,7 +98,8 @@ if ($_POST['archive_manual']) {
 	$target	 = $root_path;
 	$zip	 = new ZipArchive();
 	if ($zip->open($_POST['archive_name']) === TRUE) {
-		DUPX_Log::info("\nEXTRACTING");
+
+		DUPX_Log::info("\n>>> START EXTRACTION:");
 		if (!$zip->extractTo($target)) {
 			DUPX_Log::error(ERR_ZIPEXTRACTION);
 		}
@@ -112,24 +107,22 @@ if ($_POST['archive_manual']) {
 
 		//Keep original timestamp on the file
 		if ($_POST['archive_filetime'] == 'original') {
-			$log .= "File timestamp set to Original\n";
+			$log .= "File timestamp is 'Original' mode.\n";
 			for ($idx = 0; $s = $zip->statIndex($idx); $idx++) {
 				touch($target.DIRECTORY_SEPARATOR.$s['name'], $s['mtime']);
 			}
 		} else {
 			$now = date("Y-m-d H:i:s");
-			$log .= "File timestamp set to Current: {$now}\n";
+			$log .= "File timestamp is 'Current' mode: {$now}\n";
 		}
 
 		$close_response = $zip->close();
-		$log .= "COMPLETE: ".var_export($close_response, true);
+		$log .= "<<< EXTRACTION COMPLETE: " . var_export($close_response, true);
 		DUPX_Log::info($log);
 	} else {
 		DUPX_Log::error(ERR_ZIPOPEN);
 	}
 }
-
-//DUPX_U::fcgiFlush();
 
 //CONFIG FILE RESETS
 DUPX_ServerConfig::reset();
@@ -137,9 +130,8 @@ DUPX_ServerConfig::reset();
 //FINAL RESULTS
 $ajax1_end	 = DUPX_U::getMicrotime();
 $ajax1_sum	 = DUPX_U::elapsedTime($ajax1_end, $ajax1_start);
-DUPX_Log::info("\n{$GLOBALS['SEPERATOR1']}");
-DUPX_Log::info('STEP-1 COMPLETE @ '.@date('h:i:s')." - TOTAL RUNTIME: {$ajax1_sum}");
-DUPX_Log::info("{$GLOBALS['SEPERATOR1']}");
+DUPX_Log::info("\nSTEP-1 COMPLETE @ " . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax1_sum}");
+
 
 $JSON['pass'] = 1;
 echo json_encode($JSON);

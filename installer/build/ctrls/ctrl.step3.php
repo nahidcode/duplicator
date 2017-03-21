@@ -4,7 +4,7 @@ if (function_exists('duplicator_secure_check')) {
 	duplicator_secure_check();
 }
 
-/* JSON RESPONSE: Most sites have warnings turned off by default, but if they're turned on the warnings
+/** JSON RESPONSE: Most sites have warnings turned off by default, but if they're turned on the warnings
 cause errors in the JSON data Here we hide the status so warning level is reset at it at the end*/
 $ajax2_error_level = error_reporting();
 error_reporting(E_ERROR);
@@ -43,13 +43,13 @@ $date = @date('h:i:s');
 $charset_client = @mysqli_character_set_name($dbh);
 
 $log = <<<LOG
-********************************************************************************
-DUPLICATOR-LITE INSTALL-LOG
-STEP-3 START @ {$date}
-NOTICE: Do not post to public sites or forums
+\n\n********************************************************************************
+* DUPLICATOR-LITE: INSTALL-LOG
+* STEP-3 START @ {$date}
+* NOTICE: Do not post to public sites or forums
 ********************************************************************************
 CHARSET SERVER:\t{$charset_server}
-CHARSET CLIENT:\t {$charset_client} \n
+CHARSET CLIENT:\t{$charset_client}
 LOG;
 DUPX_Log::info($log);
 
@@ -138,11 +138,10 @@ mysqli_query($dbh, "UPDATE `{$GLOBALS['FW_TABLEPREFIX']}options` SET option_valu
 //====================================================================================================
 //FINAL CLEANUP
 //====================================================================================================
-DUPX_Log::info("\n********************************************************************************");
-DUPX_Log::info('START FINAL CLEANUP: ' . @date('h:i:s'));
-DUPX_Log::info("********************************************************************************");
+DUPX_Log::info("\n====================================");
+DUPX_Log::info('START FINAL CLEANUP: ');
 
-/*CREATE NEW USER LOGIC */
+/** CREATE NEW USER LOGIC */
 if (strlen($_POST['wp_username']) >= 4 && strlen($_POST['wp_password']) >= 6) {
 	
 	$newuser_check = mysqli_query($dbh, "SELECT COUNT(*) AS count FROM `{$GLOBALS['FW_TABLEPREFIX']}users` WHERE user_login = '{$_POST['wp_username']}' ");
@@ -202,15 +201,15 @@ $mu_oldUrlPath = (empty($mu_oldUrlPath) || ($mu_oldUrlPath == '/')) ? '/'  : rtr
 $mu_updates = @mysqli_query($dbh, "UPDATE `{$GLOBALS['FW_TABLEPREFIX']}blogs` SET domain = '{$mu_newDomainHost}' WHERE domain = '{$mu_oldDomainHost}'");
 if ($mu_updates) {
 	DUPX_Log::info("Update MU table blogs: domain {$mu_newDomainHost} ");
-} else {
 	DUPX_Log::info("UPDATE `{$GLOBALS['FW_TABLEPREFIX']}blogs` SET domain = '{$mu_newDomainHost}' WHERE domain = '{$mu_oldDomainHost}'");
-}
+} 
 
 
-/* ==============================
+/** ==============================
  * UPDATE WP-CONFIG FILE */
 DUPX_WPConfig::updateStandard();
 $config_file = DUPX_WPConfig::updateExtended();
+DUPX_Log::info("\nUPDATED WP-CONFIG: {$root_path}/wp-config.php' (if present)");
 
 //Create snapshots directory in order to
 //compensate for permissions on some servers
@@ -231,8 +230,8 @@ $config_items = DUPX_U::getListValues($config_vars, $config_file);
 
 //Files:
 if (! empty($config_items)) {
-	$msg  = 'NOTICE: The wp-config.php has one or more of the following values set [' . implode(", ", $config_items) . '].  ';
-	$msg .= 'Please validate these values are correct by opening the file and checking the values.  To validate the meaning and proper usage of each parameter used the codex link above.';
+	$msg  = "NOTICE: The wp-config.php has one or more of the following values set [" . implode(", ", $config_items) . "]. \n";
+	$msg .= 'Please validate these values are correct in your wp-config.php file.  Please see the codex link for more details: https://codex.wordpress.org/Editing_wp-config.php';
 	$JSON['step2']['warnlist'][] = $msg;
 	DUPX_Log::info($msg);
 }
@@ -242,7 +241,7 @@ $result = @mysqli_query($dbh, "SELECT option_value FROM `{$GLOBALS['FW_TABLEPREF
 if ($result) {
 	while ($row = mysqli_fetch_row($result)) {
 		if (strlen($row[0])) {
-			$msg  = "NOTICE: The media settings values in the table '{$GLOBALS['FW_TABLEPREFIX']}options' has at least one the following values ['upload_url_path','upload_path'] set.  ";
+			$msg  = "NOTICE: The media settings values in the table '{$GLOBALS['FW_TABLEPREFIX']}options' has at least one the following values ['upload_url_path','upload_path'] set. \n";
 			$msg .= "Please validate these settings by logging into your wp-admin and going to Settings->Media area and validating the 'Uploading Files' section";
 			$JSON['step2']['warnlist'][] = $msg;
 			DUPX_Log::info($msg);
@@ -265,9 +264,7 @@ DUPX_ServerConfig::setup();
 
 $ajax2_end = DUPX_U::getMicrotime();
 $ajax2_sum = DUPX_U::elapsedTime($ajax2_end, $ajax2_start);
-DUPX_Log::info("********************************************************************************");
-DUPX_Log::info('STEP 3 COMPLETE @ ' . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax2_sum}");
-DUPX_Log::info("********************************************************************************");
+DUPX_Log::info("\nSTEP 3 COMPLETE @ " . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax2_sum}\n\n");
 
 $JSON['step2']['pass'] = 1;
 error_reporting($ajax2_error_level);

@@ -8,13 +8,13 @@ $_POST['cache_wp']			= (isset($_POST['cache_wp']))   ? true : false;
 $_POST['cache_path']		= (isset($_POST['cache_path'])) ? true : false;
 $_POST['archive_name']		= isset($_POST['archive_name']) ? $_POST['archive_name'] : null;
 
-
 //LOGGING
 $POST_LOG = $_POST;
 unset($POST_LOG['dbpass']);
 ksort($POST_LOG);
 
 //PAGE VARS
+$date_time      = @date('h:i:s');
 $root_path		= DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
 $ajax2_start	= DUPX_U::getMicrotime();
 $JSON = array();
@@ -148,10 +148,10 @@ if ($_POST['dbaction'] == 'create' ) {
 }
 
 $log = <<<LOG
-********************************************************************************
-DUPLICATOR-LITE INSTALL-LOG
-STEP-2 START @ {$date}
-NOTICE: Do not post to public sites or forums
+\n\n********************************************************************************
+* DUPLICATOR-LITE: INSTALL-LOG
+* STEP-2 START @ {$date_time}
+* NOTICE: Do not post to public sites or forums
 ********************************************************************************
 LOG;
 DUPX_Log::info($log);
@@ -161,10 +161,6 @@ $log .= "POST DATA\n";
 $log .= "--------------------------------------\n";
 $log .= print_r($POST_LOG, true);
 DUPX_Log::info($log, 2);
-
-
-
-
 
 
 //====================================================================================================
@@ -230,12 +226,6 @@ if ($sql_file_copy_status === FALSE || filesize($sql_result_file_path) == 0 || !
 	DUPX_Log::info($msg);
 }
 
-DUPX_Log::info("\nUPDATED FILES:");
-DUPX_Log::info("- SQL FILE:  '{$sql_result_file_path}'");
-DUPX_Log::info("- WP-CONFIG: '{$root_path}/wp-config.php' (if present)");
-//DUPX_Log::info("\nARCHIVE RUNTIME: " . DUPX_U::elapsedTime(DUPX_U::getMicrotime(), $zip_start) . "\n");
-//DUPX_U::fcgiFlush();
-
 //=================================
 //START DB RUN
 @mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
@@ -273,17 +263,15 @@ $sql_file_size1		= DUPX_U::readableByteSize(@filesize("database.sql"));
 $sql_file_size2		= DUPX_U::readableByteSize(@filesize("{$GLOBALS['SQL_FILE_NAME']}"));
 
 
-DUPX_Log::info("{$GLOBALS['SEPERATOR1']}");
-DUPX_Log::info('DATABASE-ROUTINES');
-DUPX_Log::info("{$GLOBALS['SEPERATOR1']}");
 DUPX_Log::info("--------------------------------------");
-DUPX_Log::info("SERVER ENVIRONMENT");
+DUPX_Log::info("DATABASE ENVIRONMENT");
 DUPX_Log::info("--------------------------------------");
 DUPX_Log::info("MYSQL VERSION:\tThis Server: {$dbvar_version} -- Build Server: {$GLOBALS['FW_VERSION_DB']}");
 DUPX_Log::info("FILE SIZE:\tdatabase.sql ({$sql_file_size1}) - installer-data.sql ({$sql_file_size2})");
 DUPX_Log::info("TIMEOUT:\t{$dbvar_maxtime}");
 DUPX_Log::info("MAXPACK:\t{$dbvar_maxpacks}");
 DUPX_Log::info("SQLMODE:\t{$dbvar_sqlmode}");
+DUPX_Log::info("NEW SQL FILE:\t[{$sql_result_file_path}]");
 
 if ($qry_session_custom == false)
 {
@@ -314,7 +302,7 @@ switch ($_POST['dbaction']) {
 					}
 				}
 			}
-			$drop_log = 'removed (' . count($found_tables) . ') tables';
+			$drop_log = count($found_tables);
 		}
 		break;
 }
@@ -332,15 +320,21 @@ $dbtable_rows = 1;
 $dbquery_errs = 0;
 $counter = 0;
 @mysqli_autocommit($dbh, false);
+
 while ($counter < $sql_result_file_length) {
 
 	$query_strlen = strlen(trim($sql_result_file_data[$counter]));
+
 	if ($dbvar_maxpacks < $query_strlen) {
+
 		DUPX_Log::info("**ERROR** Query size limit [length={$query_strlen}] [sql=" . substr($sql_result_file_data[$counter], 75) . "...]");
 		$dbquery_errs++;
+
 	} elseif ($query_strlen > 0) {
+
 		@mysqli_free_result(@mysqli_query($dbh, ($sql_result_file_data[$counter])));
 		$err = mysqli_error($dbh);
+
 		//Check to make sure the connection is alive
 		if (!empty($err)) {
 
@@ -356,9 +350,9 @@ while ($counter < $sql_result_file_length) {
 
 		//Buffer data to browser to keep connection open
 		} else {
-			if ($fcgi_buffer_count++ > $fcgi_buffer_pool) {
+			if ($GLOBALS['DB_FCGI_FLUSH'] && $fcgi_buffer_count++ > $fcgi_buffer_pool) {
 				$fcgi_buffer_count = 0;
-				//DUPX_U::fcgiFlush();
+				DUPX_U::fcgiFlush();
 			}
 			$dbquery_rows++;
 		}
@@ -369,7 +363,7 @@ while ($counter < $sql_result_file_length) {
 @mysqli_autocommit($dbh, true);
 
 DUPX_Log::info("ERRORS FOUND:\t{$dbquery_errs}");
-DUPX_Log::info("DROP TABLE:\t{$drop_log}");
+DUPX_Log::info("TABLES DROPPED:\t{$drop_log}");
 DUPX_Log::info("QUERIES RAN:\t{$dbquery_rows}\n");
 
 $dbtable_count = 0;
@@ -398,7 +392,7 @@ $dbdelete_count1 = @mysqli_affected_rows($dbh) or 0;
 @mysqli_query($dbh, "DELETE FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE `option_name` LIKE ('_transient%') OR `option_name` LIKE ('_site_transient%')");
 $dbdelete_count2 = @mysqli_affected_rows($dbh) or 0;
 $dbdelete_count = (abs($dbdelete_count1) + abs($dbdelete_count2));
-DUPX_Log::info("Removed '{$dbdelete_count}' cache/transient rows");
+DUPX_Log::info("\nRemoved '{$dbdelete_count}' cache/transient rows");
 //Reset Duplicator Options
 foreach ($GLOBALS['FW_OPTS_DELETE'] as $value) {
 	mysqli_query($dbh, "DELETE FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE `option_name` = '{$value}'");
@@ -406,15 +400,12 @@ foreach ($GLOBALS['FW_OPTS_DELETE'] as $value) {
 
 @mysqli_close($dbh);
 
-$profile_end = DUPX_U::getMicrotime();
-DUPX_Log::info("\nSECTION RUNTIME: " . DUPX_U::elapsedTime($profile_end, $profile_start));
-
 //FINAL RESULTS
-$ajax2_end = DUPX_U::getMicrotime();
-$ajax1_sum = DUPX_U::elapsedTime($ajax2_end, $ajax2_start);
-DUPX_Log::info("\n{$GLOBALS['SEPERATOR1']}");
+$profile_end	= DUPX_U::getMicrotime();
+$ajax2_end		= DUPX_U::getMicrotime();
+$ajax1_sum		= DUPX_U::elapsedTime($ajax2_end, $ajax2_start);
+DUPX_Log::info("\nCREATE/INSTALL RUNTIME: " . DUPX_U::elapsedTime($profile_end, $profile_start));
 DUPX_Log::info('STEP-2 COMPLETE @ ' . @date('h:i:s') . " - TOTAL RUNTIME: {$ajax1_sum}");
-DUPX_Log::info("{$GLOBALS['SEPERATOR1']}");
 
 $JSON['pass'] = 1;
 $JSON['table_count'] = $dbtable_count;
