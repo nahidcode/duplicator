@@ -432,7 +432,7 @@ TERMS & NOTICES
     <br/><br/><br/>
     <br/><br/><br/>
     <div class="dupx-footer-buttons">
-        <input id="dup-step1-deploy-btn" type="button" class="default-btn" value=" Next " onclick="DUPX.runExtraction()" title="To enable this button the checkbox above under the 'Terms & Notices' must be checked." />
+        <input id="s1-deploy-btn" type="button" class="default-btn" value=" Next " onclick="DUPX.runExtraction()" title="<?php echo $agree_msg; ?>" />
     </div>
 <?php endif; ?>
 
@@ -538,10 +538,12 @@ Auto Posts to view.step2.php
 	DUPX.acceptWarning = function()
     {
 		if ($("#accept-warnings").is(':checked')) {
-			$("#dup-step1-deploy-btn").removeAttr("disabled");
-		} else {
-			$("#dup-step1-deploy-btn").attr("disabled", "true");
-		}
+            $("#s1-deploy-btn").removeAttr("disabled");
+			$("#s1-deploy-btn").removeAttr("title");
+        } else {
+            $("#s1-deploy-btn").attr("disabled", "true");
+			$("#s1-deploy-btn").attr("title", "<?php echo $agree_msg; ?>");
+        }
 	}
 
 	/** Go back on AJAX result view */
@@ -556,9 +558,7 @@ Auto Posts to view.step2.php
     {
 		DUPX.acceptWarning();
         $("*[data-type='toggle']").click(DUPX.toggleClick);
-
         <?php echo ($arcCheck == 'Fail') 	? "$('#s1-area-archive-file-link').trigger('click');" 	: ""; ?>
-		<?php echo (! $all_success)         ? "$('#s1-area-sys-setup-link').trigger('click');"              : ""; ?>
-
+		<?php echo (! $all_success)         ? "$('#s1-area-sys-setup-link').trigger('click');"      : ""; ?>
 	})
 </script>
