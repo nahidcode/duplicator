@@ -543,7 +543,7 @@ TOOL BAR: STEPS -->
 </div>
 </form>
 
-<script type="text/javascript">
+<script>
 jQuery(document).ready(function($) {
 		
 	/*	Performs Ajax post to create check system  */

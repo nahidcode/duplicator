@@ -2,13 +2,13 @@
 <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 <script>
 	/** Posts to page to remove install files */
-	DUPX.removeInstallerFiles = function(archive_name)
+	DUPX.removeInstallerFiles = function()
     {
 		var msg = "You will now be redirected to the cleanup page.\nSelect 'Delete Reserved Files' to remove installer files.";
-		alert(msg);
-
-        var nurl = '<?php echo rtrim($_POST['url_new'], "/"); ?>/wp-admin/admin.php?page=duplicator-tools&tab=cleanup';
-		window.open(nurl, "_blank");
+		 if (confirm(msg)) {
+			var nurl = '<?php echo rtrim($_POST['url_new'], "/"); ?>/wp-admin/admin.php?page=duplicator-tools&tab=cleanup';
+			window.open(nurl, "_blank");
+		}
 	};
 </script>
 
@@ -222,7 +222,7 @@ VIEW: STEP 4 - INPUT -->
 	</div><br/>
 </form>
 
-<script type="text/javascript">
+<script>
 	MyViewModel = function() {
 		this.status = <?php echo urldecode($_POST['json']); ?>;
 		var errorCount =  this.status.step1.query_errs || 0;
