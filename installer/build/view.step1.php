@@ -35,7 +35,7 @@ $notice['01']   = ! file_exists($wpconf_path)	? 'Good' : 'Warn';
 $notice['02']   = $scancount <= 40 ? 'Good' : 'Warn';
 $notice['03']	= $fulldays <= 180 ? 'Good' : 'Warn';
 $notice['04']	= 'Good'; //Place-holder for future check
-$notice['05']	= $GLOBALS['FW_VERSION_OS'] == PHP_OS ? 'Good' : 'Warn';
+$notice['05']	= 'Good'; //Place-holder for future check $GLOBALS['FW_VERSION_OS'] == PHP_OS ? 'Good' : 'Warn';
 $notice['06']	= empty($openbase)	 ? 'Good' : 'Warn';
 $notice['07']	= ! $max_time_warn	 ? 'Good' : 'Warn';
 $all_notice  	= in_array('Warn', $notice) ? 'Warn' : 'Good';
@@ -241,7 +241,7 @@ SYSTEM CHECKS
 		</div>-->
 
 
-		<!-- NOTICE 5 -->
+		<!-- NOTICE 5 
 		<div class="status <?php echo ($notice['05'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['05']; ?></div>
 		<div class="title" data-type="toggle" data-target="#s1-notice05">+ OS Compatibility</div>
 		<div class="info" id="s1-notice05">
@@ -250,7 +250,7 @@ SYSTEM CHECKS
 				echo "The current OS (operating system) is '{$currentOS}'.  The package was built on '{$GLOBALS['FW_VERSION_OS']}'.  Moving from one OS to another
 				is typically very safe and normal, however if any issues do arise be sure that you don't have any items on your site that were OS specific";
 			?>
-		</div>
+		</div>-->
 
 		<!-- NOTICE 6 -->
 		<div class="status <?php echo ($notice['06'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['06']; ?></div>
@@ -337,9 +337,10 @@ ADVANCED OPTIONS
      <div class="hdr-sub3">Setup Help</div>
      <div id='s1-area-setup-help'>
         <div style="padding:10px 0px 0px 10px;line-height:22px">
-            &raquo; View the <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-070-q" target="_blank">video tutorials</a> <br/>
+            &raquo; Watch the <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-070-q" target="_blank">video tutorials</a> <br/>
             &raquo; Read helpful <a href="https://snapcreek.com/duplicator/docs/faqs-tech/" target="_blank">articles</a> <br/>
-            &raquo; Visit the <a href="https://snapcreek.com/duplicator/docs/quick-start/" target="_blank">quick start guides</a>
+            &raquo; Visit the <a href="https://snapcreek.com/duplicator/docs/quick-start/" target="_blank">quick start guides</a> <br/>
+			&raquo; Browse the <a href="https://snapcreek.com/duplicator/docs/" target="_blank">online docs</a> <br/>
         </div>
      </div><br/>
 
