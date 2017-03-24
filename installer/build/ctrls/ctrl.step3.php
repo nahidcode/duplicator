@@ -257,7 +257,7 @@ if (empty($JSON['step2']['warnlist'])) {
 $JSON['step2']['warn_all'] = empty($JSON['step2']['warnlist']) ? 0 : count($JSON['step2']['warnlist']);
 
 mysqli_close($dbh);
-@unlink('database.sql');
+//@unlink('database.sql');
 
 //CONFIG Setup
 DUPX_ServerConfig::setup();
