@@ -17,7 +17,7 @@
 VIEW: STEP 4 - INPUT -->
 <form id='s4-input-form' method="post" class="content-form" style="line-height:20px">
 	<input type="hidden" name="url_new" id="url_new" value="<?php echo rtrim($_POST['url_new'], "/"); ?>" />
-	<div class="dupx-logfile-link"><a href="installer-log.txt" target="_blank">installer-log.txt</a></div>
+	<div class="dupx-logfile-link"><a href="installer-log.txt?now=<?php echo $GLOBALS['NOW_DATE'] ?>" target="_blank">installer-log.txt</a></div>
 
 	<div class="hdr-main">
         Step <span class="step">4</span> of 4: Test Site
@@ -33,7 +33,7 @@ VIEW: STEP 4 - INPUT -->
 			<td><i>Updates URL rewrite rules in .htaccess (requires login)</i></td>
 		</tr>
 		<tr>
-			<td><a  class="s4-final-btns" href='<?php echo $_POST['url_new']; ?>' target='_blank'>Test Site</a></td>
+			<td><a  class="s4-final-btns" href='<?php echo rtrim($_POST['url_new'], "/") . '?now=' . $GLOBALS['NOW_DATE']; ?>' target='_blank'>Test Site</a></td>
 			<td><i>Validate all pages, links images and plugins</i></td>
 		</tr>
 		<tr>
