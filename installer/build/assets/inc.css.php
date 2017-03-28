@@ -4,7 +4,7 @@
 	h3 {margin:1px; padding:1px; font-size:14px;}
 	a {color:#222}
 	a:hover{color:gray}
-	input[type=text], input[type=password], select {width:97%; border-radius:2px; border:1px solid silver; padding:4px}
+	input[type=text], input[type=password], select {width:97%; border-radius:2px; border:1px solid silver; padding:4px;  font-family:Verdana,Arial,sans-serif;}
 	select {padding-left:0; width:99%}
 	select:disabled {background:#EBEBE4}
 	input.readonly {background-color:#efefef;}
