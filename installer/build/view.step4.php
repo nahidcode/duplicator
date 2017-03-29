@@ -217,8 +217,7 @@ VIEW: STEP 4 - INPUT -->
 
 	<div class='s4-connect'>
 		<a href="installer.php?help=1#troubleshoot" target="_blank">Troubleshoot</a> |
-		<a href='https://snapcreek.com/duplicator/docs/faqs-tech/' target='_blank'>FAQs</a> |
-		<a href='https://snapcreek.com/ticket' target='_blank'>Support</a>
+		<a href='https://snapcreek.com/duplicator/docs/faqs-tech/' target='_blank'>FAQs</a>
 	</div><br/>
 </form>
 

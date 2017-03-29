@@ -57,7 +57,7 @@
 	div.dlg-serv-info {line-height:22px; font-size:12px; margin:0}
 	div.dlg-serv-info div.info-txt {text-align: center; font-size:11px; font-style:italic}
 	div.dlg-serv-info label {display:inline-block; width:175px; font-weight: bold}
-    div.dlg-serv-info div.hdr {background-color: #dfdfdf; font-weight: bold; margin-top:5px; border-radius: 4px; padding:2px; border: 1px solid silver; font-size: 16px}
+    div.dlg-serv-info div.hdr {background-color: #dfdfdf; font-weight: bold; margin-top:5px; border-radius: 4px; padding:2px 5px 2px 5px; border: 1px solid silver; font-size: 16px}
 	div#modal-window div.modal-title {background-color:#D0D0D0}
 	div#modal-window div.modal-text {padding-top:10px !important}
 	
@@ -103,7 +103,7 @@
 
 	div.s2-modes {padding:0px 15px 0 0px;}
 	div#s2-dbconn {margin:auto; text-align:center; margin:15px 0 10px 0px}
-	input.s2-small-btn {font-size:11px; height:23px; border:1px solid gray; border-radius:3px; cursor:pointer}
+	input.s2-small-btn {height:25px; border:1px solid gray; border-radius:3px; cursor:pointer}
     table.s2-opts-dbhost td {padding:0; margin:0}
 	input#s2-dbport-btn { width:80px}
 	div.s2-db-test small{display:block; font-style:italic; color:#333; padding:3px 2px 5px 2px; border-bottom:1px dashed silver; margin-bottom:10px; text-align: center }
