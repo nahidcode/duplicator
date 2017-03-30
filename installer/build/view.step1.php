@@ -55,7 +55,8 @@ $agree_msg    = "To enable this button the checkbox above under the 'Terms & Not
 
 <div class="hdr-main">
     Step <span class="step">1</span> of 4: Extract Archive
-</div><br/>
+</div>
+<br/>
 	
 
 <!-- ====================================
