@@ -185,7 +185,7 @@ if (strlen($_POST['wp_username']) >= 4 && strlen($_POST['wp_password']) >= 6) {
 	}
 }
 
-/* ==============================
+/** ==============================
  * MU Updates*/
 $mu_newDomain = parse_url($_POST['url_new']);
 $mu_oldDomain = parse_url($_POST['url_old']);
@@ -220,18 +220,20 @@ $fp = fopen(DUPLICATOR_SSDIR_NAME . '/index.php', 'w');
 fclose($fp);
 
 
-/* ==============================
-NOTICE TESTS */
-DUPX_Log::info("\n--------------------------------------");
-DUPX_Log::info("NOTICES");
-DUPX_Log::info("--------------------------------------");
-$config_vars = array('WP_CONTENT_DIR', 'WP_CONTENT_URL', 'WPCACHEHOME', 'COOKIE_DOMAIN', 'WP_SITEURL', 'WP_HOME', 'WP_TEMP_DIR');
-$config_items = DUPX_U::getListValues($config_vars, $config_file);
 
-//Files:
-if (! empty($config_items)) {
-	$msg  = "NOTICE: The wp-config.php has one or more of the following values set [" . implode(", ", $config_items) . "]. \n";
-	$msg .= 'Please validate these values are correct in your wp-config.php file.  Please see the codex link for more details: https://codex.wordpress.org/Editing_wp-config.php';
+//===============================================
+//NOTICES TESTS
+//===============================================
+DUPX_Log::info("\n====================================");
+DUPX_Log::info("NOTICES");
+DUPX_Log::info("====================================\n");
+$config_vars = array('WP_CONTENT_DIR', 'WP_CONTENT_URL', 'WPCACHEHOME', 'COOKIE_DOMAIN', 'WP_SITEURL', 'WP_HOME', 'WP_TEMP_DIR');
+$config_found = DUPX_U::getListValues($config_vars, $config_file);
+
+//Config File:
+if (! empty($config_found)) {
+	$msg  = "NOTICE: The wp-config.php has the following values set [" . implode(", ", $config_found) . "]. \n";
+	$msg .= 'Please validate these values are correct in your wp-config.php file.  See the codex link for more details: https://codex.wordpress.org/Editing_wp-config.php';
 	$JSON['step2']['warnlist'][] = $msg;
 	DUPX_Log::info($msg);
 }
@@ -257,7 +259,6 @@ if (empty($JSON['step2']['warnlist'])) {
 $JSON['step2']['warn_all'] = empty($JSON['step2']['warnlist']) ? 0 : count($JSON['step2']['warnlist']);
 
 mysqli_close($dbh);
-//@unlink('database.sql');
 
 //CONFIG Setup
 DUPX_ServerConfig::setup();

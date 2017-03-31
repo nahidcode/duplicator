@@ -31,8 +31,8 @@
 	div.hdr-main span.step {color:#DB4B38}
 	div.hdr-sub1 {font-size:18px; margin-bottom:5px; border-bottom:1px solid #D3D3D3;padding:2px 2px 5px 0;font-weight:bold;}
 	div.hdr-sub1 a {cursor:pointer; text-decoration: none !important}
-	div.hdr-sub2 {font-size:16px; padding:2px 2px 2px 0; border-bottom:1px solid #D3D3D3; font-weight:bold; margin-bottom:5px; border:none}
-	div.hdr-sub3 {font-size:16px; padding:2px 2px 2px 0; border-bottom:1px solid #D3D3D3; font-weight:bold; margin-bottom:5px;}
+	div.hdr-sub2 {font-size:15px; padding:2px 2px 2px 0; border-bottom:1px solid #D3D3D3; font-weight:bold; margin-bottom:5px; border:none}
+	div.hdr-sub3 {font-size:15px; padding:2px 2px 2px 0; border-bottom:1px solid #D3D3D3; font-weight:bold; margin-bottom:5px;}
 
     /* BUTTONS */
 	div.dupx-footer-buttons {position:absolute; bottom:10px; padding:10px;  right:0}
