@@ -30,7 +30,7 @@ VIEW: STEP 2- INPUT -->
 		</div>
 		<table class="dupx-opts">
 			<tr>
-				<td>Action</td>
+				<td>Action:</td>
 				<td>
 					<select name="dbaction" id="dbaction">
 						<option value="create" selected="true">Create New Database</option>
@@ -39,7 +39,7 @@ VIEW: STEP 2- INPUT -->
 				</td>
 			</tr>
 			<tr>
-				<td>Host</td>
+				<td>Host:</td>
 				<td>
 					<table class="s2-opts-dbhost">
 						<tr>
@@ -53,7 +53,7 @@ VIEW: STEP 2- INPUT -->
 				</td>
 			</tr>
 			<tr>
-				<td>Database</td>
+				<td>Database:</td>
 				<td>
 					<input type="text" name="dbname" id="dbname"  required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBNAME']); ?>"  placeholder="new or existing database name"  />
 					 <div id="s2-warning-emptydb">
@@ -62,11 +62,11 @@ VIEW: STEP 2- INPUT -->
 				</td>
 			</tr>
 			<tr>
-				<td>User</td>
+				<td>User:</td>
 				<td><input type="text" name="dbuser" id="dbuser" required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBUSER']); ?>" placeholder="valid database username" /></td>
 			</tr>
 			<tr>
-				<td>Password</td>
+				<td>Password:</td>
 				<td><input type="text" name="dbpass" id="dbpass" value="<?php echo htmlspecialchars($GLOBALS['FW_DBPASS']); ?>"  placeholder="valid database user password"   /></td>
 			</tr>
 		</table>
@@ -130,13 +130,13 @@ VIEW: STEP 2- INPUT -->
 		
 		<table class="dupx-opts dupx-advopts">
 			<tr>
-				<td>Spacing</td>
+				<td>Spacing:</td>
 				<td colspan="2">
 					<input type="checkbox" name="dbnbsp" id="dbnbsp" value="1" /> <label for="dbnbsp">Fix non-breaking space characters</label>
 				</td>
 			</tr>
 			<tr>
-				<td style="vertical-align:top">Mode</td>
+				<td style="vertical-align:top">Mode:</td>
 				<td colspan="2">
 					<input type="radio" name="dbmysqlmode" id="dbmysqlmode_1" checked="true" value="DEFAULT"/> <label for="dbmysqlmode_1">Default</label> &nbsp;
 					<input type="radio" name="dbmysqlmode" id="dbmysqlmode_2" value="DISABLE"/> <label for="dbmysqlmode_2">Disable</label> &nbsp;
@@ -148,8 +148,8 @@ VIEW: STEP 2- INPUT -->
 					</div>
 				</td>
 			</tr>
-			<tr><td style="width:130px">Charset</td><td><input type="text" name="dbcharset" id="dbcharset" value="<?php echo $_POST['dbcharset'] ?>" /> </td></tr>
-			<tr><td>Collation </td><td><input type="text" name="dbcollate" id="dbcollate" value="<?php echo $_POST['dbcollate'] ?>" /> </tr>
+			<tr><td style="width:130px">Charset:</td><td><input type="text" name="dbcharset" id="dbcharset" value="<?php echo $_POST['dbcharset'] ?>" /> </td></tr>
+			<tr><td>Collation:</td><td><input type="text" name="dbcollate" id="dbcollate" value="<?php echo $_POST['dbcollate'] ?>" /> </tr>
 		</table>
     
     </div>

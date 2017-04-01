@@ -36,18 +36,18 @@ VIEW: STEP 3- INPUT -->
 	<div class="hdr-sub1" style="margin-top:8px">New Settings</div>
 	<table class="s3-table-inputs">
 		<tr>
-			<td style="width:80px">URL</td>
+			<td style="width:80px">URL:</td>
 			<td>
 				<input type="text" name="url_new" id="url_new" value="<?php echo $GLOBALS['FW_URL_NEW'] ?>" />
 				<a href="javascript:DUPX.getNewURL('url_new')" style="font-size:12px">get</a>
 			</td>
 		</tr>
 		<tr>
-			<td>Path</td>
+			<td>Path:</td>
 			<td><input type="text" name="path_new" id="path_new" value="<?php echo $new_path ?>" /></td>
 		</tr>
 		<tr>
-			<td>Title</td>
+			<td>Title:</td>
 			<td><input type="text" name="blogname" id="blogname" value="<?php echo $GLOBALS['FW_BLOGNAME'] ?>" /></td>
 		</tr>
 	</table>
@@ -68,11 +68,11 @@ VIEW: STEP 3- INPUT -->
 		</div>
 		<table class="s3-table-inputs">
 			<tr>
-				<td>Username </td>
+				<td>Username:</td>
 				<td><input type="text" name="wp_username" id="wp_username" value="" title="4 characters minimum" placeholder="(4 or more characters)" /></td>
 			</tr>
 			<tr>
-				<td valign="top">Password</td>
+				<td valign="top">Password:</td>
 				<td><input type="text" name="wp_password" id="wp_password" value="" title="6 characters minimum"  placeholder="(6 or more characters)" /></td>
 			</tr>
 		</table>
@@ -82,12 +82,12 @@ VIEW: STEP 3- INPUT -->
 		<div class="hdr-sub3">WP-Config File</div>
 		<table class="dupx-opts dupx-advopts">
 			<tr>
-				<td>Cache</td>
+				<td>Cache:</td>
 				<td style="width:125px"><input type="checkbox" name="cache_wp" id="cache_wp" <?php echo ($GLOBALS['FW_CACHE_WP']) ? "checked='checked'" : ""; ?> /> <label for="cache_wp">Keep Enabled</label></td>
 				<td><input type="checkbox" name="cache_path" id="cache_path" <?php echo ($GLOBALS['FW_CACHE_PATH']) ? "checked='checked'" : ""; ?> /> <label for="cache_path">Keep Home Path</label></td>
 			</tr>
 			<tr>
-				<td>SSL</td>
+				<td>SSL:</td>
 				<td><input type="checkbox" name="ssl_admin" id="ssl_admin" <?php echo ($GLOBALS['FW_SSL_ADMIN']) ? "checked='checked'" : ""; ?> /> <label for="ssl_admin">Enforce on Admin</label></td>
 				<td><input type="checkbox" name="ssl_login" id="ssl_login" <?php echo ($GLOBALS['FW_SSL_LOGIN']) ? "checked='checked'" : ""; ?> /> <label for="ssl_login">Enforce on Login</label></td>
 			</tr>
@@ -97,21 +97,21 @@ VIEW: STEP 3- INPUT -->
 		<div class="hdr-sub3">Scan Options</div>
         <table class="s3-table-inputs">
             <tr>
-                <td>Old URL</td>
+                <td>Old URL:</td>
                 <td>
                     <input type="text" name="url_old" id="url_old" value="<?php echo $GLOBALS['FW_URL_OLD'] ?>" readonly="readonly"  class="readonly" />
                     <a href="javascript:DUPX.editOldURL()" id="edit_url_old" style="font-size:12px">edit</a>
                 </td>
             </tr>
             <tr>
-                <td>Old Path</td>
+                <td>Old Path:</td>
                 <td>
                     <input type="text" name="path_old" id="path_old" value="<?php echo $old_path ?>" readonly="readonly"  class="readonly" />
                     <a href="javascript:DUPX.editOldPath()" id="edit_path_old" style="font-size:12px">edit</a>
                 </td>
             </tr>
 			<tr>
-				<td>Site URL</td>
+				<td>Site URL:</td>
 				<td>
 					<input type="text" name="siteurl" id="siteurl" value="" />
 					<a href="javascript:DUPX.getNewURL('siteurl')" style="font-size:12px">get</a><br/>
@@ -122,7 +122,7 @@ VIEW: STEP 3- INPUT -->
 		<table>
 			<tr>
 				<td style="padding-right:10px">
-                    <b>Scan Tables</b>
+                    <b>Scan Tables:</b>
 					<div class="s3-allnonelinks">
 						<a href="javascript:void(0)" onclick="$('#tables option').prop('selected',true);">[All]</a>
 						<a href="javascript:void(0)" onclick="$('#tables option').prop('selected',false);">[None]</a>
@@ -137,7 +137,7 @@ VIEW: STEP 3- INPUT -->
 
 				</td>
 				<td valign="top">
-                    <b>Activate Plugins</b>
+                    <b>Activate Plugins:</b>
 					<div class="s3-allnonelinks">
 						<a href="javascript:void(0)" onclick="$('#plugins option').prop('selected',true);">[All]</a>
 						<a href="javascript:void(0)" onclick="$('#plugins option').prop('selected',false);">[None]</a>

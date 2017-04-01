@@ -324,7 +324,7 @@ ADVANCED OPTIONS
 			</td>
 		</tr>
 		<tr>
-			<td>File Timestamp</td>
+			<td>File Timestamp:</td>
 			<td>
 				<input type="radio" name="archive_filetime" id="archive_filetime_now" value="current" checked="checked" /> <label class="radio" for="archive_filetime_now" title='Set the files current date time to now'>Current</label>
 				<input type="radio" name="archive_filetime" id="archive_filetime_orginal" value="original" /> <label class="radio" for="archive_filetime_orginal" title="Keep the files date time the same">Original</label>
