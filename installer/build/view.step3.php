@@ -157,7 +157,7 @@ VIEW: STEP 3- INPUT -->
 
 
 		<input type="checkbox" name="postguid" id="postguid" value="1" /> <label for="postguid">Keep Post GUID unchanged</label><br/>
-		<input type="checkbox" name="fullsearch" id="fullsearch" value="1" /> <label for="fullsearch">Enable Full Search <small>(very slow)</small> </label><br/>
+		<input type="checkbox" name="fullsearch" id="fullsearch" value="1" /> <label for="fullsearch">Enable Full Search <small>(slower to process)</small> </label><br/>
 		<br/><br/><br/><br/>
 
 	</div>

@@ -186,7 +186,7 @@ STEP 2
 				cPanel account.
 				<br/><br/>
 
-				<b>Connect and Delete Any Existing Data:</b> This options will DELETE all tables in the database you are connecting to.  Please make sure you have
+				<b>Connect and Remove All Data:</b> This options will DELETE all tables in the database you are connecting to.  Please make sure you have
 				backups of all your data before using an portion of the installer, as this option WILL remove all data.
 				<br/><br/>
 

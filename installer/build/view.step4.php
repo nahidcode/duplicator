@@ -45,7 +45,7 @@ VIEW: STEP 4 - INPUT -->
 			<td>
 				<i id="dup-step3-install-report-count">
 					<span data-bind="with: status.step1">Install Results: (<span data-bind="text: query_errs"></span>)</span> &nbsp;
-					<span data-bind="with: status.step2">Date Replace Results: (<span data-bind="text: err_all"></span>)</span> &nbsp; &nbsp;
+					<span data-bind="with: status.step2">Replace Results: (<span data-bind="text: err_all"></span>)</span> &nbsp; &nbsp;
 					<span data-bind="with: status.step2" style="color:#888"><b>General Notices:</b> (<span data-bind="text: warn_all"></span>)</span>
 				</i>
 			</td>
@@ -98,7 +98,7 @@ VIEW: STEP 4 - INPUT -->
 					<a href="javascript:void(0);" onclick="$('#dup-step3-errs-create').toggle(400)">Step 2: Install Results (<span data-bind="text: query_errs"></span>)</a><br/>
 				</td>
 				<td data-bind="with: status.step2">
-					<a href="javascript:void(0);" onclick="$('#dup-step3-errs-upd').toggle(400)">Step 3: Data Replace Results (<span data-bind="text: err_all"></span>)</a>
+					<a href="javascript:void(0);" onclick="$('#dup-step3-errs-upd').toggle(400)">Step 3: Replace Results (<span data-bind="text: err_all"></span>)</a>
 				</td>
 				<td data-bind="with: status.step2">
 					<a href="#dup-step2-errs-warn-anchor" onclick="$('#dup-step3-warnlist').toggle(400)">General Notices (<span data-bind="text: warn_all"></span>)</a>

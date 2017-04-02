@@ -125,7 +125,7 @@
 	div#s2-warning {padding:5px;font-size:12px; color:gray; line-height:12px;font-style:italic; overflow-y:scroll; height:150px; border:1px solid #dfdfdf; background-color:#fff; border-radius:3px}
 	div#s2-warning-check {padding:5px; font-size:12px; font-weight:normal; font-style:italic;}
     div#s2-warning-check label {cursor: pointer; line-height: 14px}
-	div#s2-warning-emptydb {display:none; color:#AF2222; margin:2px 0 0 20px; font-size: 12px}
+	div#s2-warning-emptydb {display:none; color:#AF2222; margin:2px 0 0 0; font-size: 11px}
 	table.s2-advopts label.radio {width:50px; display:inline-block}
 
 	/* ======================================

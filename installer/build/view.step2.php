@@ -33,8 +33,8 @@ VIEW: STEP 2- INPUT -->
 				<td>Action:</td>
 				<td>
 					<select name="dbaction" id="dbaction">
-						<option value="create" selected="true">Create New Database</option>
-						<option value="empty">Connect and Remove All Data</option>
+						<option value="create">Create New Database</option>
+						<option value="empty" selected="true">Connect and Remove All Data</option>
 					</select>
 				</td>
 			</tr>
@@ -57,7 +57,7 @@ VIEW: STEP 2- INPUT -->
 				<td>
 					<input type="text" name="dbname" id="dbname"  required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBNAME']); ?>"  placeholder="new or existing database name"  />
 					 <div id="s2-warning-emptydb">
-						<label for="accept-warnings">Warning: This action will remove any and all data from the database name above!</label>
+						 <label for="accept-warnings">Warning: This action will remove <u>all data</u> from the database name above!</label>
 					</div>
 				</td>
 			</tr>
@@ -391,6 +391,7 @@ Auto Posts to view.step2.php
     {
 		$('#dup-s2-dialog-data').appendTo('#dup-s2-result-container');
 		$("select#dbaction").click(DUPX.showDeleteWarning);
+		DUPX.showDeleteWarning();
 
 		//MySQL Mode
 		$("input[name=dbmysqlmode]").click(function() {
