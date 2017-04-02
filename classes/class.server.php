@@ -11,7 +11,7 @@
  * @since 1.1.0
  * 
  */
-require_once (DUPLICATOR_PLUGIN_PATH.'classes/utilities/class.util.php');
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/utilities/class.u.php');
 
 // Exit if accessed directly
 if (!defined('DUPLICATOR_VERSION')) {

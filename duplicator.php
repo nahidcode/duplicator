@@ -36,9 +36,9 @@ if (is_admin() == true)
 	//Classes
     require_once 'classes/class.logging.php';
     require_once 'classes/class.settings.php';
-    require_once 'classes/utilities/class.util.php';
-    require_once 'classes/utilities/class.db.php';
-    require_once 'classes/utilities/class.server.php';
+    require_once 'classes/utilities/class.u.php';
+    require_once 'classes/class.db.php';
+    require_once 'classes/class.server.php';
 	require_once 'classes/ui/class.ui.viewstate.php';
 	require_once 'classes/ui/class.ui.notice.php';
     require_once 'classes/package/class.pack.php';
