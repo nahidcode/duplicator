@@ -24,7 +24,7 @@ VIEW: STEP 4 - INPUT -->
 	</div><br />
 
 	<div class="hdr-sub1">
-		<div class="s4-final-title">FINAL STEPS</div>
+		<div class="s4-final-title">Final Steps</div>
 	</div>
 
 	<table class="s4-final-step">
