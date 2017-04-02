@@ -83,7 +83,7 @@ VIEW: STEP 2- INPUT -->
 			<h2>cPanel Connectivity</h2>
 
 			<div style="text-align: center">
-				<a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_install_step1&utm_campaign=duplicator_pro">Duplicator Pro</a>
+				<a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_install_step2&utm_campaign=duplicator_pro">Duplicator Pro</a>
 				takes advantage of your hosts <br/>
 				cPanel interface directly <b>from this installer!</b>
 			</div>
@@ -99,7 +99,7 @@ VIEW: STEP 2- INPUT -->
 			<small>
 				Note: Most hosting providers do not allow applications to create new databases or database users directly from PHP.  However with the cPanel API these restrictions
 				are removed opening up a robust interface for direct access to existing database resources.  You can take advantage of these great features and improve your work-flow with
-				<a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_install_step1&utm_campaign=duplicator_pro">Duplicator Pro!</a>
+				<a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_install_step2&utm_campaign=duplicator_pro">Duplicator Pro!</a>
 			</small>
 		</div>
 
@@ -158,7 +158,7 @@ VIEW: STEP 2- INPUT -->
 
     <div class="dupx-footer-buttons">
         <input type="button" onclick="DUPX.testDatabase()" class="default-btn" value="Test Database" />
-        <input id="dup-step1-deploy-btn" type="button" class="default-btn" value=" Next " onclick="DUPX.confirmDeployment()" />
+        <input id="dup-step2-deploy-btn" type="button" class="default-btn" value=" Next " onclick="DUPX.confirmDeployment()" />
     </div>
 
 </form>
@@ -166,7 +166,7 @@ VIEW: STEP 2- INPUT -->
 
 <!-- =========================================
 VIEW: STEP 2 - AJAX RESULT
-Auto Posts to view.step2.php
+Auto Posts to view.step3.php
 ========================================= -->
 <form id='s2-result-form' method="post" class="content-form" style="display:none">
 

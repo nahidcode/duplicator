@@ -114,10 +114,10 @@ $report = DUPX_UpdateEngine::load($dbh, $GLOBALS['REPLACE_LIST'], $_POST['tables
 
 //BUILD JSON RESPONSE
 $JSON = array();
-$JSON['step1'] = json_decode(urldecode($_POST['json']));
-$JSON['step2'] = $report;
-$JSON['step2']['warn_all'] = 0;
-$JSON['step2']['warnlist'] = array();
+$JSON['step2'] = json_decode(urldecode($_POST['json']));
+$JSON['step3'] = $report;
+$JSON['step3']['warn_all'] = 0;
+$JSON['step3']['warnlist'] = array();
 
 DUPX_UpdateEngine::logStats($report);
 DUPX_UpdateEngine::logErrors($report);
@@ -174,13 +174,13 @@ if (strlen($_POST['wp_username']) >= 4 && strlen($_POST['wp_password']) >= 6) {
 			DUPX_Log::info("NEW WP-ADMIN USER: New username '{$_POST['wp_username']}' was created successfully \n ");
 		} else {
 			$newuser_warnmsg = "NEW WP-ADMIN USER: Failed to create the user '{$_POST['wp_username']}' \n ";
-			$JSON['step2']['warnlist'][] = $newuser_warnmsg;
+			$JSON['step3']['warnlist'][] = $newuser_warnmsg;
 			DUPX_Log::info($newuser_warnmsg);
 		}			
 	} 
 	else {
 		$newuser_warnmsg = "NEW WP-ADMIN USER: Username '{$_POST['wp_username']}' already exists in the database.  Unable to create new account \n";
-		$JSON['step2']['warnlist'][] = $newuser_warnmsg;
+		$JSON['step3']['warnlist'][] = $newuser_warnmsg;
 		DUPX_Log::info($newuser_warnmsg);
 	}
 }
@@ -234,7 +234,7 @@ $config_found = DUPX_U::getListValues($config_vars, $config_file);
 if (! empty($config_found)) {
 	$msg  = "NOTICE: The wp-config.php has the following values set [" . implode(", ", $config_found) . "]. \n";
 	$msg .= 'Please validate these values are correct in your wp-config.php file.  See the codex link for more details: https://codex.wordpress.org/Editing_wp-config.php';
-	$JSON['step2']['warnlist'][] = $msg;
+	$JSON['step3']['warnlist'][] = $msg;
 	DUPX_Log::info($msg);
 }
 
@@ -245,18 +245,18 @@ if ($result) {
 		if (strlen($row[0])) {
 			$msg  = "NOTICE: The media settings values in the table '{$GLOBALS['FW_TABLEPREFIX']}options' has at least one the following values ['upload_url_path','upload_path'] set. \n";
 			$msg .= "Please validate these settings by logging into your wp-admin and going to Settings->Media area and validating the 'Uploading Files' section";
-			$JSON['step2']['warnlist'][] = $msg;
+			$JSON['step3']['warnlist'][] = $msg;
 			DUPX_Log::info($msg);
 			break;
 		}
 	}
 }
 
-if (empty($JSON['step2']['warnlist'])) {
+if (empty($JSON['step3']['warnlist'])) {
 	DUPX_Log::info("No Notices Found\n");
 }
 
-$JSON['step2']['warn_all'] = empty($JSON['step2']['warnlist']) ? 0 : count($JSON['step2']['warnlist']);
+$JSON['step3']['warn_all'] = empty($JSON['step3']['warnlist']) ? 0 : count($JSON['step3']['warnlist']);
 
 mysqli_close($dbh);
 
@@ -267,7 +267,7 @@ $ajax2_end = DUPX_U::getMicrotime();
 $ajax2_sum = DUPX_U::elapsedTime($ajax2_end, $ajax2_start);
 DUPX_Log::info("\nSTEP 3 COMPLETE @ " . @date('h:i:s') . " - RUNTIME: {$ajax2_sum}\n\n");
 
-$JSON['step2']['pass'] = 1;
+$JSON['step3']['pass'] = 1;
 error_reporting($ajax2_error_level);
 die(json_encode($JSON));
 ?>

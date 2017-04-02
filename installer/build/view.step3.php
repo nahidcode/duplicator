@@ -167,7 +167,7 @@ VIEW: STEP 3- INPUT -->
 	</div>
 
 	<div class="dupx-footer-buttons">
-		<input id="dup-step2-next"  class="default-btn" type="button" value=" Next " onclick="DUPX.runUpdate()"  />
+		<input id="dup-step3-next"  class="default-btn" type="button" value=" Next " onclick="DUPX.runUpdate()"  />
 	</div>
 </form>
 
@@ -240,7 +240,7 @@ DUPX.runUpdate = function()
 			$('#s3-result-form').show();
 		},
 		success: function(data){
-			if (typeof(data) != 'undefined' && data.step2.pass == 1) {
+			if (typeof(data) != 'undefined' && data.step3.pass == 1) {
 				$("#ajax-url_new").val($("#url_new").val());
 				$("#ajax-json").val(escape(JSON.stringify(data)));
 				<?php if (! $GLOBALS['DUPX_DEBUG']) : ?>
