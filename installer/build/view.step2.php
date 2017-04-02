@@ -57,7 +57,7 @@ VIEW: STEP 2- INPUT -->
 				<td>
 					<input type="text" name="dbname" id="dbname"  required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBNAME']); ?>"  placeholder="new or existing database name"  />
 					 <div id="s2-warning-emptydb">
-						 <label for="accept-warnings">Warning: This action will remove <u>all data</u> from the database name above!</label>
+						 <label for="accept-warnings">Warning: The selected 'Action' above will remove <u>all data</u> from this database!</label>
 					</div>
 				</td>
 			</tr>

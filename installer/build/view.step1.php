@@ -424,7 +424,7 @@ TERMS & NOTICES
 
 <div id="s1-warning-check">
 	<input id="accept-warnings" name="accpet-warnings" type="checkbox" onclick="DUPX.acceptWarning()" />
-	<label for="accept-warnings">I have read and accept all terms &amp; notices <small style="font-style:italic">(required for install)</small></label><br/>
+	<label for="accept-warnings">I have read and accept all terms &amp; notices <small style="font-style:italic">(required to continue)</small></label><br/>
 </div>
 
 

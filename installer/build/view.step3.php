@@ -33,24 +33,28 @@ VIEW: STEP 3- INPUT -->
 		Step <span class="step">3</span> of 4: Data Replacement
 	</div>
 
-	<div class="hdr-sub1" style="margin-top:8px">New Settings</div>
-	<table class="s3-table-inputs">
-		<tr>
-			<td style="width:80px">URL:</td>
-			<td>
-				<input type="text" name="url_new" id="url_new" value="<?php echo $GLOBALS['FW_URL_NEW'] ?>" />
-				<a href="javascript:DUPX.getNewURL('url_new')" style="font-size:12px">get</a>
-			</td>
-		</tr>
-		<tr>
-			<td>Path:</td>
-			<td><input type="text" name="path_new" id="path_new" value="<?php echo $new_path ?>" /></td>
-		</tr>
-		<tr>
-			<td>Title:</td>
-			<td><input type="text" name="blogname" id="blogname" value="<?php echo $GLOBALS['FW_BLOGNAME'] ?>" /></td>
-		</tr>
-	</table>
+	<div class="hdr-sub1" style="margin-top:8px">
+		<a data-type="toggle" data-target="#s3-new-settings"><i class="dupx-minus-square"></i> New Settings</a>
+	</div>
+	<div id='s3-new-settings'>
+		<table class="s3-table-inputs">
+			<tr>
+				<td style="width:80px">URL:</td>
+				<td>
+					<input type="text" name="url_new" id="url_new" value="<?php echo $GLOBALS['FW_URL_NEW'] ?>" />
+					<a href="javascript:DUPX.getNewURL('url_new')" style="font-size:12px">get</a>
+				</td>
+			</tr>
+			<tr>
+				<td>Path:</td>
+				<td><input type="text" name="path_new" id="path_new" value="<?php echo $new_path ?>" /></td>
+			</tr>
+			<tr>
+				<td>Title:</td>
+				<td><input type="text" name="blogname" id="blogname" value="<?php echo $GLOBALS['FW_BLOGNAME'] ?>" /></td>
+			</tr>
+		</table>
+	</div>
 	<br/><br/>
 
     <!-- ====================================
