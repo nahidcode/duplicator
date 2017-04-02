@@ -316,18 +316,18 @@ ADVANCED OPTIONS
 			</td>
 		</tr>
 		<tr>
+			<td>File Timestamp:</td>
+			<td>
+				<input type="radio" name="archive_filetime" id="archive_filetime_now" value="current" checked="checked" /> <label class="radio" for="archive_filetime_now" title='Set the files current date time to now'>Current</label>
+				<input type="radio" name="archive_filetime" id="archive_filetime_orginal" value="original" /> <label class="radio" for="archive_filetime_orginal" title="Keep the files date time the same">Original</label>
+			</td>
+		</tr>
+		<tr>
 			<td>Logging:</td>
 			<td>
 				<input type="radio" name="logging" id="logging-light" value="1" checked="true"> <label for="logging-light">Light</label>
 				<input type="radio" name="logging" id="logging-detailed" value="2"> <label for="logging-detailed">Detailed</label>
 				<input type="radio" name="logging" id="logging-debug" value="3"> <label for="logging-debug">Debug</label>
-			</td>
-		</tr>
-		<tr>
-			<td>File Timestamp:</td>
-			<td>
-				<input type="radio" name="archive_filetime" id="archive_filetime_now" value="current" checked="checked" /> <label class="radio" for="archive_filetime_now" title='Set the files current date time to now'>Current</label>
-				<input type="radio" name="archive_filetime" id="archive_filetime_orginal" value="original" /> <label class="radio" for="archive_filetime_orginal" title="Keep the files date time the same">Original</label>
 			</td>
 		</tr>
 	</table>
