@@ -245,166 +245,166 @@ Auto Posts to view.step3.php
 
 
 <script>
-	/* Confirm Dialog to validate run */
-	DUPX.confirmDeployment = function()
-	{
-		var $form = $('#s2-input-form');
-        $form.parsley().validate();
-        if (!$form.parsley().isValid()) {
-            return;
-        }
-
-		$('#dlg-dbhost').html($("#dbhost").val());
-		$('#dlg-dbname').html($("#dbname").val());
-		$('#dlg-dbuser').html($("#dbuser").val());
-
-		modal({
-			type: 'confirm',
-			title: 'Install Confirmation',
-			text: $('#dialog-confirm-content').html(),
-			callback: function(result)
-			{
-				if (result == true) {
-					DUPX.runDeployment();
-				}
-			}
-		});
+/* Confirm Dialog to validate run */
+DUPX.confirmDeployment = function()
+{
+	var $form = $('#s2-input-form');
+	$form.parsley().validate();
+	if (!$form.parsley().isValid()) {
+		return;
 	}
 
+	$('#dlg-dbhost').html($("#dbhost").val());
+	$('#dlg-dbname').html($("#dbname").val());
+	$('#dlg-dbuser').html($("#dbuser").val());
 
-	/* Performs Ajax post to extract files and create db
-	 * Timeout (10000000 = 166 minutes) */
-	DUPX.runDeployment = function()
-	{
-		var $form = $('#s2-input-form');
-		var dbhost = $("#dbhost").val();
-        var dbname = $("#dbname").val();
-		var dbuser = $("#dbuser").val();
+	modal({
+		type: 'confirm',
+		title: 'Install Confirmation',
+		text: $('#dialog-confirm-content').html(),
+		callback: function(result)
+		{
+			if (result == true) {
+				DUPX.runDeployment();
+			}
+		}
+	});
+}
 
-		$.ajax({
-			type: "POST",
-			timeout: 1800000,
-			dataType: "json",
-			url: window.location.href,
-			data: $form.serialize(),
-			beforeSend: function() {
-				DUPX.showProgressBar();
-				$form.hide();
-				$('#s2-result-form').show();
-			},
-			success: function(data, textStatus, xhr){
-				if (typeof(data) != 'undefined' && data.pass == 1) {
-					$("#ajax-dbhost").val($("#dbhost").val());
-					$("#ajax-dbport").val($("#dbport").val());
-					$("#ajax-dbuser").val($("#dbuser").val());
-					$("#ajax-dbpass").val($("#dbpass").val());
-					$("#ajax-dbname").val($("#dbname").val());
-					$("#ajax-dbcharset").val($("#dbcharset").val());
-					$("#ajax-dbcollate").val($("#dbcollate").val());
-					$("#ajax-logging").val($("#logging").val());
-					$("#ajax-json").val(escape(JSON.stringify(data)));
-					<?php if (! $GLOBALS['DUPX_DEBUG']) : ?>
-						setTimeout(function() {$('#s2-result-form').submit();}, 500);
-					<?php endif; ?>
-					$('#progress-area').fadeOut(1000);
-				} else {
-					DUPX.hideProgressBar();
-				}
-			},
-			error: function(xhr) {
-				var status  = "<b>Server Code:</b> "	+ xhr.status		+ "<br/>";
-				status += "<b>Status:</b> "				+ xhr.statusText	+ "<br/>";
-				status += "<b>Response:</b> "			+ xhr.responseText  + "";
-				status += "<hr/><b>Additional Troubleshooting Tips:</b><br/>";
-				status += "- Check the <a href='installer-log.txt' target='_blank'>installer-log.txt</a> file for warnings or errors.<br/>";
-				status += "- Check the web server and PHP error logs. <br/>";
-				status += "- For timeout issues visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>Timeout FAQ Section</a><br/>";
-				$('#ajaxerr-data').html(status);
+
+/* Performs Ajax post to extract files and create db
+ * Timeout (10000000 = 166 minutes) */
+DUPX.runDeployment = function()
+{
+	var $form = $('#s2-input-form');
+	var dbhost = $("#dbhost").val();
+	var dbname = $("#dbname").val();
+	var dbuser = $("#dbuser").val();
+
+	$.ajax({
+		type: "POST",
+		timeout: 1800000,
+		dataType: "json",
+		url: window.location.href,
+		data: $form.serialize(),
+		beforeSend: function() {
+			DUPX.showProgressBar();
+			$form.hide();
+			$('#s2-result-form').show();
+		},
+		success: function(data, textStatus, xhr){
+			if (typeof(data) != 'undefined' && data.pass == 1) {
+				$("#ajax-dbhost").val($("#dbhost").val());
+				$("#ajax-dbport").val($("#dbport").val());
+				$("#ajax-dbuser").val($("#dbuser").val());
+				$("#ajax-dbpass").val($("#dbpass").val());
+				$("#ajax-dbname").val($("#dbname").val());
+				$("#ajax-dbcharset").val($("#dbcharset").val());
+				$("#ajax-dbcollate").val($("#dbcollate").val());
+				$("#ajax-logging").val($("#logging").val());
+				$("#ajax-json").val(escape(JSON.stringify(data)));
+				<?php if (! $GLOBALS['DUPX_DEBUG']) : ?>
+					setTimeout(function() {$('#s2-result-form').submit();}, 500);
+				<?php endif; ?>
+				$('#progress-area').fadeOut(1000);
+			} else {
 				DUPX.hideProgressBar();
 			}
-		});
-
-	}
-
-	/**
-     *  Toggles the cpanel Login area  */
-    DUPX.togglePanels = function (pane)
-    {
-        $('#s2-basic-pane, #s2-cpnl-pane').hide();
-        $('#s2-basic-btn, #s2-cpnl-btn').removeClass('active in-active');
-        if (pane == 'basic') {
-            $('#s2-basic-pane').show();
-            $('#s2-basic-btn').addClass('active');
-            $('#s2-cpnl-btn').addClass('in-active');
-        } else {
-            $('#s2-cpnl-pane').show(200);
-            $('#s2-cpnl-btn').addClass('active');
-            $('#s2-basic-btn').addClass('in-active');
-        }
-    }
-
-
-	/** Go back on AJAX result view */
-	DUPX.hideErrorResult = function()
-    {
-		$('#s2-result-form').hide();
-		$('#s2-input-form').show(200);
-	}
-
-
-	/** Shows results of database connection
-	* Timeout (45000 = 45 secs) */
-	DUPX.testDatabase = function ()
-    {
-		$.ajax({
-			type: "POST",
-			timeout: 45000,
-			url: window.location.href + '?' + 'dbtest=1',
-			data: $('#s2-input-form').serialize(),
-			success: function(data){ $('#s2-dbconn-test-msg').html(data); },
-			error:   function(data){ alert('An error occurred while testing the database connection!  Contact your server admin to make sure the connection inputs are correct!'); }
-		});
-
-		$('#s2-dbconn-test-msg').html("Attempting Connection.  Please wait...");
-		$("#s2-dbconn-status").show(100);
-
-	}
-
-
-	DUPX.showDeleteWarning = function ()
-    {
-		($('#dbaction').val() == 'empty')
-			? $('#s2-warning-emptydb').show(200)
-			: $('#s2-warning-emptydb').hide(200);
-	}
-
-
-	DUPX.togglePort = function ()
-    {
-		$('#s2-dbport-btn').hide();
-		$('#dbport').show();
-	}
-
-
-	//DOCUMENT LOAD
-	$(document).ready(function()
-    {
-		$('#dup-s2-dialog-data').appendTo('#dup-s2-result-container');
-		$("select#dbaction").click(DUPX.showDeleteWarning);
-		DUPX.showDeleteWarning();
-
-		//MySQL Mode
-		$("input[name=dbmysqlmode]").click(function() {
-			if ($(this).val() == 'CUSTOM') {
-				$('#dbmysqlmode_3_view').show();
-			} else {
-				$('#dbmysqlmode_3_view').hide();
-			}
-		});
-
-		if ($("input[name=dbmysqlmode]:checked").val() == 'CUSTOM') {
-			$('#dbmysqlmode_3_view').show();
+		},
+		error: function(xhr) {
+			var status  = "<b>Server Code:</b> "	+ xhr.status		+ "<br/>";
+			status += "<b>Status:</b> "				+ xhr.statusText	+ "<br/>";
+			status += "<b>Response:</b> "			+ xhr.responseText  + "";
+			status += "<hr/><b>Additional Troubleshooting Tips:</b><br/>";
+			status += "- Check the <a href='installer-log.txt' target='_blank'>installer-log.txt</a> file for warnings or errors.<br/>";
+			status += "- Check the web server and PHP error logs. <br/>";
+			status += "- For timeout issues visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>Timeout FAQ Section</a><br/>";
+			$('#ajaxerr-data').html(status);
+			DUPX.hideProgressBar();
 		}
-        $("*[data-type='toggle']").click(DUPX.toggleClick);
 	});
+
+}
+
+/**
+ *  Toggles the cpanel Login area  */
+DUPX.togglePanels = function (pane)
+{
+	$('#s2-basic-pane, #s2-cpnl-pane').hide();
+	$('#s2-basic-btn, #s2-cpnl-btn').removeClass('active in-active');
+	if (pane == 'basic') {
+		$('#s2-basic-pane').show();
+		$('#s2-basic-btn').addClass('active');
+		$('#s2-cpnl-btn').addClass('in-active');
+	} else {
+		$('#s2-cpnl-pane').show(200);
+		$('#s2-cpnl-btn').addClass('active');
+		$('#s2-basic-btn').addClass('in-active');
+	}
+}
+
+
+/** Go back on AJAX result view */
+DUPX.hideErrorResult = function()
+{
+	$('#s2-result-form').hide();
+	$('#s2-input-form').show(200);
+}
+
+
+/** Shows results of database connection
+* Timeout (45000 = 45 secs) */
+DUPX.testDatabase = function ()
+{
+	$.ajax({
+		type: "POST",
+		timeout: 45000,
+		url: window.location.href + '?' + 'dbtest=1',
+		data: $('#s2-input-form').serialize(),
+		success: function(data){ $('#s2-dbconn-test-msg').html(data); },
+		error:   function(data){ alert('An error occurred while testing the database connection!  Contact your server admin to make sure the connection inputs are correct!'); }
+	});
+
+	$('#s2-dbconn-test-msg').html("Attempting Connection.  Please wait...");
+	$("#s2-dbconn-status").show(100);
+
+}
+
+
+DUPX.showDeleteWarning = function ()
+{
+	($('#dbaction').val() == 'empty')
+		? $('#s2-warning-emptydb').show(200)
+		: $('#s2-warning-emptydb').hide(200);
+}
+
+
+DUPX.togglePort = function ()
+{
+	$('#s2-dbport-btn').hide();
+	$('#dbport').show();
+}
+
+
+//DOCUMENT LOAD
+$(document).ready(function()
+{
+	$('#dup-s2-dialog-data').appendTo('#dup-s2-result-container');
+	$("select#dbaction").click(DUPX.showDeleteWarning);
+	DUPX.showDeleteWarning();
+
+	//MySQL Mode
+	$("input[name=dbmysqlmode]").click(function() {
+		if ($(this).val() == 'CUSTOM') {
+			$('#dbmysqlmode_3_view').show();
+		} else {
+			$('#dbmysqlmode_3_view').hide();
+		}
+	});
+
+	if ($("input[name=dbmysqlmode]:checked").val() == 'CUSTOM') {
+		$('#dbmysqlmode_3_view').show();
+	}
+	$("*[data-type='toggle']").click(DUPX.toggleClick);
+});
 </script>
