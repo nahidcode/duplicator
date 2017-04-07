@@ -418,7 +418,7 @@ class DUP_Package
      */
     public function makeHash()
     {
-        return uniqid().mt_rand(1000, 9999).date("ymdHis");
+         return bin2hex(random_bytes(8)).mt_rand(1000, 9999).date("ymdHis");
     }
 
     /**
