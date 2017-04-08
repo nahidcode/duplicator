@@ -490,9 +490,8 @@ class DUP_Util
 	 * 
 	 * @return string
 	 */
-   public static function GUIDv4($trim = true, $nodash = true, $gtrail = true)
+	public static function GUIDv4($trim = true, $nodash = true, $gtrail = true)
 	{
-
 		// Windows
 		if (function_exists('com_create_guid') === true) {
 			if ($trim === true) {
