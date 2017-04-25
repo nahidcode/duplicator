@@ -1,19 +1,19 @@
-=== Duplicator ===
+=== Duplicator - WordPress Migration Plugin ===
 Contributors: corylamleorg, bobriley
 Donate link: www.lifeinthegrid.com/partner
-Tags: migration, backup, restore, move, migrate, duplicate, clone, automate, copy site
+Tags: migration, backup, restore, move, migrate, duplicate, transfer, clone, automate, copy site
 Requires at least: 4.0
 Tested up to: 4.7
 Stable tag: 1.2.4
 License: GPLv2
 
-Duplication, migration, clone, backup, move and transfer an entire site from one location to another. 
+Duplication and WordPress migration couldn't be easier! Clone, backup, move and transfer an entire site from one location to another. 
 
 == Description ==
 
-> Duplicator gives WordPress users the ability to migrate, copy, move or clone a site from one location to another. The plugin also serves as a simple backup utility.  Duplicator supports both serialized and base64 serialized string replacement.  WordPress migration and WordPress backups are much easier with this plugin and help simplify the process.
+> Duplicator gives WordPress users the ability to migrate, copy, move or clone a site from one location to another and also serves as a simple backup utility. Duplicator handles both serialized and base64 serialized string replacement.  WordPress migration and WordPress backups are easily handled by this plugin.
 
-For complete details visit [snapcreek.com](http://snapcreek.com/).  
+For complete details visit [snapcreek.com](https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wp_org&utm_content=free_more_details&utm_campaign=duplicator_free).  
 
 = Quick Video Demo =
 http://www.youtube.com/watch?v=yZ7pHmR9JC8
@@ -21,26 +21,27 @@ http://www.youtube.com/watch?v=yZ7pHmR9JC8
 = Overview =
 Duplicator enables you to:
 
-* Move a site between domains or hosts
+* Move / migrate a site between domains or hosts
 * Pull down a live site to localhost for development
 * Manually back up a site
 * Duplicate a live site to a staging area or vice versa
 * Bundle up an entire WordPress site for easy reuse or distribution
 
 = Move and Backup =
-Duplicator creates a package that bundles all the site's plugins, themes, content, database and WordPress core files into a simple zip file called a package. This package can then be used to easily restore a site to any location you wish.  Move on the same server, across servers and pretty much any location a WordPress site can be hosted.
+Duplicator creates a package that bundles all the site's plugins, themes, content, database and WordPress core files into a simple zip file called a package. This package can then be used to easily restore a site to any location you wish.  Move on the same server, across servers and pretty much any location a WordPress site can be hosted.  *WordPress is not required for installation* since the package contains all site files.
 
-= Improve Your Workflow =
-Duplicator can also eliminate repeat site configuration work if you have a favorite theme, set of plugins or content you install on all sites. Instead of manually configuring these over and over, with Duplicator you just need to configure a single site which you then bundle up into a package. From that point forward, you can install the package in different locations to instantly create pre-configured sites!  Web designers/developers can even create a package collection of the various starter sites they regularly install to save them setup time.
+= Improve Your Workflow with Pre-Bundled Sites =
+Duplicator lets you make your own pre-configured sites to eliminate rework.  Instead of manually configuring your favorite theme, set of plugins or content over and over, now just configure a single site and bundle it up into a Duplicator package. Once you have the bundled site, you can install it over and over to different locations to instantly create many pre-configured sites! 
 
 = Duplicator Pro =
 Duplicator Pro takes Duplicator to the next level with features you'll really appreciate, such as:
 
 * Scheduled backups
 * Cloud Storage to Dropbox, Google Drive, Amazon S3 and FTP
-* MultiThreaded to support larger web sites &amp; databases
-* Multisite (MU) support
-* Database creation *in the installer*
+* Multi-threaded to support larger web sites &amp; databases
+* Migrate an entire multisite network in one shot
+* Install a multisite subsite as a new standalone website
+* Database and user creation *in the installer*
 * Connect to cPanel directly from installer
 * Email notifications
 * Professional support
@@ -52,8 +53,7 @@ Check out [Duplicator Pro](https://snapcreek.com/duplicator/?utm_source=duplicat
 The underlying logic to backup WordPress, move WordPress and transfer WordPress are very complex. It's impossible to know how each system is setup; this is why your feedback is important to us.  Thanks for helping us to make WordPress the best blogging platform in the world.
 
 = Disclaimer =
-This plugin does require some technical knowledge.  If you plan to move WordPress or backup WordPress please use it at your own risk and do not forget to back up your files and databases beforehand.  If you're new to WordPress or have a very limited technical background you may consider seeking out professional help your first time using the plugin.  If you need to move or backup WordPress and would like additional help please visit the Duplicator [resources section](https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-030-q) .
-
+This plugin does require some technical knowledge.  If you plan to move WordPress or backup WordPress please use it at your own risk and do not forget to back up your files and databases beforehand. If you need to move or backup WordPress and would like additional help please visit the Duplicator [resources section](https://snapcreek.com/duplicator/docs/faqs-tech/#faq-resource-030-q?utm_source=duplicator_free&utm_medium=wp_org&utm_content=free_disclaimer&utm_campaign=duplicator_free) .
 
 = Active Contributors =
 <li>[Paal Joachim Romdahl](http://www.easywebdesigntutorials.com) (Training)</li>
