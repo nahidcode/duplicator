@@ -1,7 +1,7 @@
 === Duplicator ===
 Contributors: corylamleorg, bobriley
 Donate link: www.lifeinthegrid.com/partner
-Tags: migration, backup, restore, move, migrate, synchronize, duplicate, clone, automate, niche site 
+Tags: migration, backup, restore, move, migrate, duplicate, clone, automate, copy site
 Requires at least: 4.0
 Tested up to: 4.7
 Stable tag: 1.2.4
