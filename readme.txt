@@ -7,7 +7,7 @@ Tested up to: 4.7
 Stable tag: 1.2.4
 License: GPLv2
 
-Duplication and WordPress migration couldn't be easier! Clone, backup, move and transfer an entire site from one location to another. 
+WordPress migration and backups are much easier with Duplicator! Clone, backup, move and transfer an entire site from one location to another. 
 
 == Description ==
 
@@ -26,9 +26,10 @@ Duplicator enables you to:
 * Manually back up a site
 * Duplicate a live site to a staging area or vice versa
 * Bundle up an entire WordPress site for easy reuse or distribution
+* Perform a full WordPress migration without messy import/export sql scripts
 
 = Move and Backup =
-Duplicator creates a package that bundles all the site's plugins, themes, content, database and WordPress core files into a simple zip file called a package. This package can then be used to easily restore a site to any location you wish.  Move on the same server, across servers and pretty much any location a WordPress site can be hosted.  *WordPress is not required for installation* since the package contains all site files.
+Duplicator creates a package that bundles all the site's plugins, themes, content, database and WordPress files into a simple zip file called a package. This package can then be used to easily restore a site to any location you wish.  Move on the same server, across servers and pretty much any location a WordPress site can be hosted.  *WordPress is not required for installation* since the package contains all site files.
 
 = Improve Your Workflow with Pre-Bundled Sites =
 Duplicator lets you make your own pre-configured sites to eliminate rework.  Instead of manually configuring your favorite theme, set of plugins or content over and over, now just configure a single site and bundle it up into a Duplicator package. Once you have the bundled site, you can install it over and over to different locations to instantly create many pre-configured sites! 
@@ -41,7 +42,7 @@ Duplicator Pro takes Duplicator to the next level with features you'll really ap
 * Multi-threaded to support larger web sites &amp; databases
 * Migrate an entire multisite network in one shot
 * Install a multisite subsite as a new standalone website
-* Database and user creation *in the installer*
+* Database and user creation *in the installer* with cPanel API
 * Connect to cPanel directly from installer
 * Email notifications
 * Professional support
@@ -53,7 +54,7 @@ Check out [Duplicator Pro](https://snapcreek.com/duplicator/?utm_source=duplicat
 The underlying logic to backup WordPress, move WordPress and transfer WordPress are complex and it's impossible to know how each system is setup; this is why your feedback is important to us.  Thanks for helping us to make WordPress the best blogging platform in the world.
 
 = Disclaimer =
-This plugin does require some technical knowledge.  If you plan to move WordPress or backup WordPress please use it at your own risk and don't forget to back up your files and databases beforehand. If you need to move or backup WordPress and would like additional help please visit the Duplicator [resources section](https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wp_org&utm_content=free_disclaimer&utm_campaign=duplicator_free#faq-resource-030-q)
+This plugin does require some technical knowledge.  If you plan to migrate WordPress or backup WordPress please use it at your own risk and don't forget to back up your files and databases beforehand. If you need to move or backup WordPress and would like additional help please visit the Duplicator [resources section](https://snapcreek.com/duplicator/docs/faqs-tech?utm_source=duplicator_free&utm_medium=wp_org&utm_content=free_disclaimer&utm_campaign=duplicator_free#faq-resource-030-q) .
 
 = Active Contributors =
 <li>[Paal Joachim Romdahl](http://www.easywebdesigntutorials.com) (Training)</li>
@@ -77,13 +78,13 @@ Yes. Please see [all documents](https://snapcreek.com/duplicator/docs/?utm_sourc
 
 
 = Are there any videos I can watch? =
-Yes.  Please see the [video section](https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wp_org&utm_content=faq_videos&utm_campaign=duplicator_free#faq-resource-070-q) on the FAQ.
+Yes.  Please see the [video section](https://snapcreek.com/duplicator/docs/faqs-tech?utm_source=duplicator_free&utm_medium=wp_org&utm_content=faq_videos&utm_campaign=duplicator_free#faq-resource-070-q) on the FAQ.
 
 = Is this plugin compatible with WordPress multisite (MU)? =
 Duplicator isn't, however [Duplicator Pro](https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wp_org&utm_content=faq_dpro_multisiteinfo&utm_campaign=duplicator_pro) supports full multisite network migrations/backups and also can install a multisite subsite as a standalone site.
 
 = Where can I get more help and support for this plugin? =
-Visit the [Duplicator support](https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wp_org&utm_content=faq_support&utm_campaign=duplicator_free#faq-resource-030-q) section at snapcreek.com
+Visit the [Duplicator support](https://snapcreek.com/duplicator/docs/faqs-tech?utm_source=duplicator_free&utm_medium=wp_org&utm_content=faq_support&utm_campaign=duplicator_free#faq-resource-030-q) section at snapcreek.com
 
 
 == Screenshots ==
@@ -97,7 +98,8 @@ Visit the [Duplicator support](https://snapcreek.com/duplicator/docs/faqs-tech/?
 
 == Changelog ==
 
-[The changelog can be found here](https://snapcreek.com/duplicator/docs/changelog?lite&utm_source=duplicator_free&utm_medium=wp_org&utm_content=changelog_support&utm_campaign=duplicator_free)
+Please see the following url:
+[https://snapcreek.com/duplicator/docs/changelog?lite](https://snapcreek.com/duplicator/docs/changelog?lite&utm_source=duplicator_free&utm_medium=wp_org&utm_content=changelog_support&utm_campaign=duplicator_free)
 
 
 
