@@ -21,18 +21,18 @@ http://www.youtube.com/watch?v=yZ7pHmR9JC8
 = Overview =
 Duplicator enables you to:
 
-* Move / migrate a site between domains or hosts
+* Move, migrate or clone a WordPress site between domains or hosts
 * Pull down a live site to localhost for development
-* Manually back up a site
+* Manually backup a WordPress site or parts of a site
 * Duplicate a live site to a staging area or vice versa
 * Bundle up an entire WordPress site for easy reuse or distribution
-* Perform a full WordPress migration without messy import/export sql scripts
+* Perform a full WordPress migration without struggling with messy import/export sql scripts
 
-= Move and Backup =
-Duplicator creates a package that bundles all the site's plugins, themes, content, database and WordPress files into a simple zip file called a package. This package can then be used to easily restore a site to any location you wish.  Move on the same server, across servers and pretty much any location a WordPress site can be hosted.  *WordPress is not required for installation* since the package contains all site files.
+= Migrate WordPress and Run WordPress Backups =
+Duplicator creates a package that bundles all the site's plugins, themes, content, database and WordPress files into a simple zip file called a package. This package can then be used to easily migrate a WordPress site to any location you wish.  Move on the same server, across servers and pretty much any location a WordPress site can be hosted.  *WordPress is not required for installation* since the package contains all site files.
 
 = Improve Your Workflow with Pre-Bundled Sites =
-Duplicator lets you make your own pre-configured sites to eliminate rework.  Instead of manually configuring your favorite theme, set of plugins or content over and over, now just configure a single site and bundle it up into a Duplicator package. Once you have the bundled site, you can install it over and over to different locations to instantly create many pre-configured sites! 
+Duplicator lets you make your own pre-configured sites to eliminate rework.  Instead of manually configuring your favorite theme, set of plugins or content over and over, now just configure a single site and bundle it up into a Duplicator package. Once you have the bundled site, you can migrate the WordPress site over and over to different locations to instantly create many pre-configured sites! 
 
 = Duplicator Pro =
 Duplicator Pro takes Duplicator to the next level with features you'll really appreciate, such as:
@@ -40,7 +40,7 @@ Duplicator Pro takes Duplicator to the next level with features you'll really ap
 * Scheduled backups
 * Cloud Storage to Dropbox, Google Drive, Amazon S3 and FTP
 * Multi-threaded to support larger web sites &amp; databases
-* Migrate an entire multisite network in one shot
+* Migrate an entire multisite WordPress network in one shot
 * Install a multisite subsite as a new standalone website
 * Database and user creation *in the installer* with cPanel API
 * Connect to cPanel directly from installer
