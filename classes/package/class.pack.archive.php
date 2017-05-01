@@ -145,6 +145,10 @@ class DUP_Archive
         $rootPath   = DUP_Util::safePath(rtrim(DUPLICATOR_WPROOTPATH, '//'));
         $this->Dirs = array();
 
+		if(trim($rootPath) == '') {
+            $rootPath = '/';
+        }
+
         //@todo remove after 1.2.8 no reason to include files with root filter
         //If the root directory is a filter then we will only need the root files
         /*if (in_array($this->PackDir, $this->FilterDirsAll)) {
@@ -238,7 +242,7 @@ class DUP_Archive
      * RecursiveIteratorIterator is problematic on some systems issues include:
      *    - error 'too many files open' for recursion
      *    - $file->getExtension() is not reliable as it silently fails at least in php 5.2.9
-     *    - issues with when a file has a permission such as 705 and trying to get info (had to fallback to pathinfo)
+     *    - issues when a file has a permission such as 705 and trying to get info (had to fallback to pathinfo)
      *    - basic conclusion wait on the SPL libs untill after php 5.4 is a requiremnt
      *    - inside a tight recursive loop lets remove the utiltiy call DUP_Util::safePath("{$path}/{$file}") and
      *      squeeze out as much performance as possible
