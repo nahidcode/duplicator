@@ -61,20 +61,26 @@ This plugin does require some technical knowledge.  If you plan to migrate WordP
 <li>[Hans-M. Herbrand](http://www.web266.de) (German) </li>
 <li>[Nicolas Richer](http://nicolasricher.fr) (French)</li>
 
+== Screenshots ==
+ 
+1. Main Interface for all Packages
+2. Create Package Step 1
+3. Create Package Step 2
+4. Build Process
+5. Installer Screen
 
+== Frequently Asked Questions ==
 
-== Installation ==
+= Does Duplicator have a knowledge base or FAQ? =
+Yes. Please see [all documents](https://snapcreek.com/duplicator/docs/?utm_source=duplicator_free&utm_medium=wp_org&utm_content=faq_docs&utm_campaign=duplicator_free) at snapcreek.com.
+
+= Installation Instructions =
 1. Upload `duplicator` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Click on the Duplicator link from the main menu
 4. Check out the help by clicking the help icon and create your first package.
 
 The Duplicator requires php 5.3 or higher.
-
-== Frequently Asked Questions ==
-
-= Does Duplicator have a knowledge base or FAQ? =
-Yes. Please see [all documents](https://snapcreek.com/duplicator/docs/?utm_source=duplicator_free&utm_medium=wp_org&utm_content=faq_docs&utm_campaign=duplicator_free) at snapcreek.com.
 
 
 = Are there any videos I can watch? =
@@ -86,15 +92,6 @@ Duplicator isn't, however [Duplicator Pro](https://snapcreek.com/duplicator/?utm
 = Where can I get more help and support for this plugin? =
 Visit the [Duplicator support](https://snapcreek.com/duplicator/docs/faqs-tech?utm_source=duplicator_free&utm_medium=wp_org&utm_content=faq_support&utm_campaign=duplicator_free#faq-resource-030-q) section at snapcreek.com
 
-
-== Screenshots ==
- 
-1. Main Interface for all Packages
-2. Create Package Step 1
-3. Create Package Step 2
-4. Build Process
-5. Installer Screen
- 
 
 == Changelog ==
 
