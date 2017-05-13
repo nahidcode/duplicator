@@ -6,12 +6,16 @@ require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.zip.php
 require_once (DUPLICATOR_PLUGIN_PATH.'lib/forceutf8/Encoding.php');
 
 /**
- * Used to create the archive file
+ * Class for handleing archive setup and build process
  *
- * @package Duplicator
+ * Standard: PSR-2 (almost)
+ * @link http://www.php-fig.org/psr/psr-2
+ *
+ * @package DUP
  * @subpackage classes/package
  * @copyright (c) 2017, Snapcreek LLC
- * @since 1.1.0
+ * @license	https://opensource.org/licenses/GPL-3.0 GNU Public License
+ * @since 1.0.0
  *
  */
 class DUP_Archive
@@ -165,7 +169,6 @@ class DUP_Archive
 				$this->FilterInfo->Dirs->Warning[] = DUP_Encoding::toUTF8($val);
 			}
 
-
 			//@todo: CJL addEmptyDir works with unreadable dirs, this check maybe unnessary
 			//@todo: CJL Move unset logic out of loop
             //Dir is not readble remove and flag
@@ -174,7 +177,6 @@ class DUP_Archive
                 $unreadable_dir = DUP_Encoding::toUTF8($val);
                 $this->FilterInfo->Dirs->Unreadable[] = $unreadable_dir;
             }
-
         }
     }
 
@@ -279,7 +281,6 @@ class DUP_Archive
 		}
 		return $this->Dirs;
 	}
-
 
 
 }
