@@ -270,7 +270,7 @@ TOOL BAR: STEPS -->
 				<div id="data-arc-size1"></div>
 				<div class="dup-scan-filter-status">
 					<?php 
-						if ($Package->Archive->FilterOn) {
+						if ($Package->Archive->FilterOn || $Package->Archive->ExportOnlyDB) {
 							echo '<i class="fa fa-filter"></i> '; _e('Enabled', 'duplicator');
 						} 
 					?> 

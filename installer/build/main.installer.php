@@ -102,6 +102,7 @@ $GLOBALS['FW_BLOGNAME']			= '%fwrite_blogname%';
 $GLOBALS['FW_WPROOT']			= '%fwrite_wproot%';
 $GLOBALS['FW_OPTS_DELETE']		= json_decode("%fwrite_opts_delete%", true);
 $GLOBALS['FW_DUPLICATOR_VERSION'] = '%fwrite_duplicator_version%';
+$GLOBALS['FW_ARCHIVE_ONLYDB']	= '%fwrite_archive_onlydb%';
 
 //DATABASE SETUP: all time in seconds	
 $GLOBALS['DB_MAX_TIME']		= 5000;
