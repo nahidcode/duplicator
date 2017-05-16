@@ -33,19 +33,23 @@ error_reporting(E_ERROR);
 //===============================
 ($GLOBALS['LOG_FILE_HANDLE'] != false) or DUPX_Log::error(ERR_MAKELOG);
 
-//ERR_ZIPMANUAL
-if ($_POST['archive_engine'] == 'manual') {
-	if (!file_exists("wp-config.php") && !file_exists("database.sql")) {
-		DUPX_Log::error(ERR_ZIPMANUAL);
+if (!$GLOBALS['FW_ARCHIVE_ONLYDB']) {
+	//ERR_ZIPMANUAL
+	if ($_POST['archive_engine'] == 'manual') {
+		if (!file_exists("wp-config.php") && !file_exists("database.sql")) {
+			DUPX_Log::error(ERR_ZIPMANUAL);
+		}
+	} else {
+		//ERR_CONFIG_FOUND
+		(!file_exists('wp-config.php'))
+			or DUPX_Log::error(ERR_CONFIG_FOUND);
+		//ERR_ZIPNOTFOUND
+		(is_readable("{$package_path}"))
+			or DUPX_Log::error(ERR_ZIPNOTFOUND);
 	}
-} else {
-	//ERR_CONFIG_FOUND
-	(!file_exists('wp-config.php'))
-		or DUPX_Log::error(ERR_CONFIG_FOUND);
-	//ERR_ZIPNOTFOUND
-	(is_readable("{$package_path}"))
-		or DUPX_Log::error(ERR_ZIPNOTFOUND);
 }
+
+
 
 DUPX_Log::info("********************************************************************************");
 DUPX_Log::info('* DUPLICATOR-LITE: INSTALL-LOG');

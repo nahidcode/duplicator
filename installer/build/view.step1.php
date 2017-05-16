@@ -119,6 +119,15 @@ ARCHIVE
             <td>Notes:</td>
             <td><?php echo strlen($GLOBALS['FW_PACKAGE_NOTES']) ? "{$GLOBALS['FW_PACKAGE_NOTES']}" : " - no notes - ";?></td>
         </tr>
+		<?php if ($GLOBALS['FW_ARCHIVE_ONLYDB']) :?>
+		<tr>
+			<td>Mode:</td>
+			<td>Archive only database was enabled during package package creation.</td>
+		</tr>
+		<?php endif; ?>
+	</table>
+
+	<table class="s1-archive-local">
 		<tr>
 			<td colspan="2"><div class="hdr-sub3">File Details</div></td>
 		</tr>
@@ -139,7 +148,7 @@ ARCHIVE
 			<td>Status:</td>
 			<td>
 				<?php if ($arcStatus != 'Fail') : ?>
-					<span class="dupx-pass">File found</span>
+					<span class="dupx-pass">File Found</span>
 				<?php else : ?>
 					<div class="s1-archive-failed-msg">
 						<b class="dupx-fail">Archive File Not Found!</b><br/>
@@ -172,7 +181,7 @@ ARCHIVE
 			<td>Format:</td>
 			<td>
 				<?php if ($arcFormat == 'Pass') : ?>
-					<span class="dupx-pass">Structure is good</span>
+					<span class="dupx-pass">Good structure</span>
 				<?php elseif ($arcFormat == 'StatusFailed') : ?>
 					<span class="dupx-fail">Unable to validate format</span><br/>
 				<?php elseif ($arcFormat == 'NoZipArchive') : ?>
@@ -292,39 +301,42 @@ VALIDATION
 			</table>
 		</div>
 
-		<!-- NOTICE 1 -->
-		<div class="status <?php echo ($notice['01'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['01']; ?></div>
-		<div class="title" data-type="toggle" data-target="#s1-notice01">+ Configuration File</div>
-		<div class="info" id="s1-notice01">
-			Duplicator works best by placing the installer and archive files into an empty directory.  If a wp-config.php file is found in the extraction
-			directory it might indicate that a pre-existing WordPress site exists which can lead to a bad install.  If this is a database only install then this notice
-			can be ignored.
-			<br/><br/>
-			<b>Options:</b>
-			<ul style="margin-bottom: 0">
-				<li>If the archive was already manually extracted then <a href="javascript:void(0)" onclick="DUPX.getManaualArchiveOpt()">[Enable Manual Archive Extraction]</a></li>
-				<li>If the wp-config file is not needed then remove it.</li>
-			</ul>
-		</div>
+		<?php if (!$GLOBALS['FW_ARCHIVE_ONLYDB']) :?>
 
-		<!-- NOTICE 2 -->
-		<div class="status <?php echo ($notice['02'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['02']; ?></div>
-		<div class="title" data-type="toggle" data-target="#s1-notice02">+ Directory Setup</div>
-		<div class="info" id="s1-notice02">
-			<b>Deployment Path:</b> <i><?php echo "{$GLOBALS['CURRENT_ROOT_PATH']}"; ?></i>
-			<br/><br/>
-			There are currently <?php echo "<b>[{$scancount}]</b>";?>  items in the deployment path. These items will be overwritten if they also exist
-			inside the archive file.  The notice is to prevent overwriting an existing site or trying to install on-top of one which
-			can have un-intended results. <i>This notice shows if it detects more than 40 items.</i>
+			<!-- NOTICE 1 -->
+			<div class="status <?php echo ($notice['01'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['01']; ?></div>
+			<div class="title" data-type="toggle" data-target="#s1-notice01">+ Configuration File</div>
+			<div class="info" id="s1-notice01">
+				Duplicator works best by placing the installer and archive files into an empty directory.  If a wp-config.php file is found in the extraction
+				directory it might indicate that a pre-existing WordPress site exists which can lead to a bad install.
+				<br/><br/>
+				<b>Options:</b>
+				<ul style="margin-bottom: 0">
+					<li>If the archive was already manually extracted then <a href="javascript:void(0)" onclick="DUPX.getManaualArchiveOpt()">[Enable Manual Archive Extraction]</a></li>
+					<li>If the wp-config file is not needed then remove it.</li>
+				</ul>
+			</div>
 
-			<br/><br/>
-			<b>Options:</b>
-			<ul style="margin-bottom: 0">
-				<li>If the archive was already manually extracted then <a href="javascript:void(0)" onclick="DUPX.getManaualArchiveOpt()">[Enable Manual Archive Extraction]</a></li>
-				<li>If the files/directories are not the same as those in the archive then this notice can be ignored.</li>
-				<li>Remove the files if they are not needed and refresh this page.</li>
-			</ul>
-		</div>
+			<!-- NOTICE 2 -->
+			<div class="status <?php echo ($notice['02'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['02']; ?></div>
+			<div class="title" data-type="toggle" data-target="#s1-notice02">+ Directory Setup</div>
+			<div class="info" id="s1-notice02">
+				<b>Deployment Path:</b> <i><?php echo "{$GLOBALS['CURRENT_ROOT_PATH']}"; ?></i>
+				<br/><br/>
+				There are currently <?php echo "<b>[{$scancount}]</b>";?>  items in the deployment path. These items will be overwritten if they also exist
+				inside the archive file.  The notice is to prevent overwriting an existing site or trying to install on-top of one which
+				can have un-intended results. <i>This notice shows if it detects more than 40 items.</i>
+
+				<br/><br/>
+				<b>Options:</b>
+				<ul style="margin-bottom: 0">
+					<li>If the archive was already manually extracted then <a href="javascript:void(0)" onclick="DUPX.getManaualArchiveOpt()">[Enable Manual Archive Extraction]</a></li>
+					<li>If the files/directories are not the same as those in the archive then this notice can be ignored.</li>
+					<li>Remove the files if they are not needed and refresh this page.</li>
+				</ul>
+			</div>
+
+		<?php endif; ?>
 
 		<!-- NOTICE 3 -->
 		<div class="status <?php echo ($notice['03'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['03']; ?></div>
@@ -411,7 +423,7 @@ OPTIONS
 		<?php if ($GLOBALS['FW_ARCHIVE_ONLYDB']) :?>
 		<tr>
 			<td>Mode:</td>
-			<td>Archive only database file was enabled during package package creation.</td>
+			<td>Archive only database was enabled during package package creation.</td>
 		</tr>
 		<?php endif; ?>
 		<tr>

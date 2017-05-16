@@ -230,10 +230,15 @@ HEADER TEMPLATE: Common header on all steps -->
             version: <?php echo $GLOBALS['FW_DUPLICATOR_VERSION'] ?><br/>
 			&raquo; <a href="javascript:void(0)" onclick="DUPX.showServerInfo()">info</a>
 			&raquo; <a href="?help=1" target="_blank">help</a>
-			
         </td>
     </tr>
-</table>	
+</table>
+
+<?php if ($GLOBALS['FW_ARCHIVE_ONLYDB']) :?>
+	<div style="position: relative">
+		<div class="archive-onlydb">Database Only Mode</div>
+	</div>
+<?php endif; ?>
 
 <!-- =========================================
 FORM DATA: Data Steps -->
