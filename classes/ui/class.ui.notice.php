@@ -21,6 +21,7 @@ if (!defined('DUPLICATOR_VERSION')) {
 class DUP_UI_Notice
 {
 
+
     /**
      * Shows a display message in the wp-admin if any researved files are found
      * 
@@ -32,20 +33,42 @@ class DUP_UI_Notice
         $dup_active = is_plugin_active('duplicator/duplicator.php');
         $dup_perm   = current_user_can('manage_options');
         if (!$dup_active || !$dup_perm) return;
+		
+		$screen = get_current_screen();
+        if (!isset($screen)) return;
+
+
+
+        //Hide on save permalinks to prevent user distraction
+        //if ($screen->id == 'options-permalink') return;
 
         if (DUP_Server::hasInstallerFiles()) {
-            $screen        = get_current_screen();
-            $on_active_tab = isset($_GET['tab']) && $_GET['tab'] == 'cleanup' ? true : false;
 
-            echo '<div class="error" id="dup-global-error-reserved-files"><p>';
-            if ($screen->id == 'duplicator_page_duplicator-tools' && $on_active_tab) {
-                _e('Reserved Duplicator install files have been detected in the root directory.  Please delete these reserved files to avoid security issues.', 'duplicator');
-            } else {
-                $duplicator_nonce = wp_create_nonce('duplicator_cleanup_page');
-                _e('Reserved Duplicator install files have been detected in the root directory.  Please delete these reserved files to avoid security issues.', 'duplicator');
-                @printf("<br/><a href='admin.php?page=duplicator-tools&tab=cleanup&_wpnonce=%s'>%s</a>", $duplicator_nonce, __('Take me to the cleanup page!', 'duplicator'));
-            }
-            echo "</p></div>";
-        }
+            $screen         = get_current_screen();
+            $on_active_tab  = isset($_GET['tab']) && $_GET['tab'] == 'cleanup' ? true : false;
+			$dup_nonce		= wp_create_nonce('duplicator_cleanup_page');
+			$msg1			= __('This site has been successfully migrated!', 'duplicator');
+			$msg2			= __('Please complete these final steps:', 'duplicator');
+
+			echo '<div class="updated notice" id="dup-global-error-reserved-files"><p>';
+			echo "<b class='pass-msg'>{$msg1}</b> <br/>";
+			//On Cleanup Page
+			if ($screen->id == 'duplicator_page_duplicator-tools' && $on_active_tab) {
+				echo "{$msg2}";
+				echo '<p class="pass-lnks">';
+				@printf("1. <a href='https://wordpress.org/support/plugin/duplicator/reviews/#new-post' target='wporg'>%s</a> <br/>", __('Optionally, rate the plugin at WordPress.org.', 'duplicator'));
+				@printf("2. <a href='javascript:void(0)' onclick='jQuery(\"#dup-remove-installer-files-btn\").click()'>%s</a>", __('Delete installation files now to remove this message!', 'duplicator'));
+				echo '</p>';
+			//All other Pages
+			} else {
+				echo '<p class="pass-lnks">';
+				_e('Reserved Duplicator installation files have been detected in the root directory.  Please delete these installation files to complete setup and avoid security issues. <br/>', 'duplicator');
+				_e('Go to: Tools > Cleanup > and click the "Delete Installation Files" button.', 'duplicator');
+				@printf("<br/><a href='admin.php?page=duplicator-tools&tab=cleanup&_wpnonce={$dup_nonce}'>%s</a> <br/>", __('Take me there now!', 'duplicator'));
+				echo '</p>';
+			}
+
+			echo "</p></div>";
+        } 
     }
 }

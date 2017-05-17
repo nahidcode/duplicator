@@ -95,7 +95,7 @@ class DUP_CTRL_Result
 			$this->Report->Results = count($this->Payload);
 		} else {
 			$this->Payload = $payload;
-			$this->Report->Results = 1;
+			$this->Report->Results = (is_array($payload)) ? count($payload) : 1;
 		}
 		
 		$this->Report->Status = $test;

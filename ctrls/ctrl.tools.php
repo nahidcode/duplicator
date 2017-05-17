@@ -16,6 +16,7 @@ class DUP_CTRL_Tools extends DUP_CTRL_Base
 	function __construct() 
 	{
 		add_action('wp_ajax_DUP_CTRL_Tools_RunScanValidator', array($this, 'RunScanValidator'));
+		add_action('wp_ajax_DUP_CTRL_Tools_deleteInstallerFiles', array($this, 'deleteInstallerFiles'));
 	}
 	
 	/** 
@@ -56,6 +57,41 @@ class DUP_CTRL_Tools extends DUP_CTRL_Base
 			$result->ProcessError($exc);
 		}
     }
+
+
+	/**
+     * Removed all reserved installer files names
+	 *
+	 *
+	 * @notes: Testing = /wp-admin/admin-ajax.php?action=DUP_CTRL_Tools_deleteInstallerFiles
+     */
+	public function deleteInstallerFiles($post)
+	{
+		$post = $this->PostParamMerge($post);
+		check_ajax_referer($post['action'], 'nonce');
+		$result = new DUP_CTRL_Result($this);
+
+		try
+		{
+			//CONTROLLER LOGIC
+			$installer_files = DUP_Server::getInstallerFiles();
+			foreach($installer_files as $file => $path) {
+				$payload[] = array(
+							'file' => $path,
+							'removed' => unlink($path),
+							'exists' => file_exists($path));
+			}
+
+			//RETURN RESULT
+			$test = (! in_array(false, $payload['removed']))
+					? DUP_CTRL_Status::SUCCESS
+					: DUP_CTRL_Status::FAILED;
+			$result->Process($payload, $test);
+		}
+		catch (Exception $exc)
+		{
+			$result->ProcessError($exc);
+		}
+    }
 	
 }
-?>

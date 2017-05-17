@@ -52,6 +52,10 @@ div.dup-dlg-confirm-txt {padding:10px 0; font-size:16px}
 div.dup-dlg-confirm-btns {position:absolute; bottom:20px; right:20px;}
 div.dup-dlg-confirm-progress {display:none}
 
+/*ADMIN: NOTICES   */
+div#dup-global-error-reserved-files {}
+div#dup-global-error-reserved-files b.pass-msg {color:green; font-size:17px}
+div#dup-global-error-reserved-files p.pass-lnks {line-height:20px; margin:-7px 0 0 5px}
 
 /*================================================
 PARSLEY:Overrides*/
