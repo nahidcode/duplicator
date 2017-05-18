@@ -74,7 +74,7 @@ $log .= (isset($_POST['plugins']) && count($_POST['plugins'] > 0))
 DUPX_Log::info($log, 2);
 
 //UPDATE SETTINGS
-$blog_name   = mysqli_real_escape_string($dbh, $_POST['blogname']);
+$blog_name   = $_POST['blogname'];
 $plugin_list = (isset($_POST['plugins'])) ? $_POST['plugins'] : array();
 // Force Duplicator active so we the security cleanup will be available
 if (!in_array('duplicator/duplicator.php', $plugin_list)) {

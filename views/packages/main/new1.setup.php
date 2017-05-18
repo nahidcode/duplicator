@@ -23,7 +23,7 @@ $default_name = DUP_Package::getDefaultName();
 
 //View State
 $ctrl_ui = new DUP_CTRL_UI();
-$ctrl_ui->SetResponseType('PHP');
+$ctrl_ui->setResponseType('PHP');
 $data = $ctrl_ui->GetViewStateList();
 
 $ui_css_storage = (isset($data->Payload['dup-pack-storage-panel']) && $data->Payload['dup-pack-storage-panel']) ? 'display:block' : 'display:none';

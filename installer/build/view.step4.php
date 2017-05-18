@@ -1,6 +1,8 @@
 <?php
+
+	$_POST['archive_name'] = isset($_POST['archive_name']) ? $_POST['archive_name'] : '';
 	$admin_base		= basename($GLOBALS['FW_WPLOGIN_URL']);
-	$admin_redirect = rtrim($_POST['url_new'], "/") . "/wp-admin/admin.php?page=duplicator-tools&tab=cleanup";
+	$admin_redirect = rtrim($_POST['url_new'], "/") . "/wp-admin/admin.php?page=duplicator-tools&tab=cleanup&package={$_POST['archive_name']}";
 	$admin_redirect = urlencode($admin_redirect);
 	$admin_login	= rtrim($_POST['url_new'], '/') . "/{$admin_base}?redirect_to={$admin_redirect}";
 ?>
@@ -46,7 +48,7 @@ VIEW: STEP 4 - INPUT -->
 			<td><i>Validate installer files are removed (requires login)</i></td>
 		</tr-->
 		<tr>
-			<td><a class="s4-final-btns" href="javascript:void(0)" onclick="DUPX.getAdminLogin('<?php echo $_POST['archive_name'] ?>')">Site Login</a></td>
+			<td><a class="s4-final-btns" href="javascript:void(0)" onclick="DUPX.getAdminLogin()">Site Login</a></td>
 			<td><i>Login to the administrator section to finalize the setup</i></td>
 		</tr>
 		<tr>

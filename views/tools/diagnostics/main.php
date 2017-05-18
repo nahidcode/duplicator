@@ -10,7 +10,7 @@
 	$action_response = null;
 	
 	$ctrl_ui = new DUP_CTRL_UI();
-	$ctrl_ui->SetResponseType('PHP');
+	$ctrl_ui->setResponseType('PHP');
 	$data = $ctrl_ui->GetViewStateList();
 
 	$ui_css_srv_panel   = (isset($data->Payload['dup-settings-diag-srv-panel'])  && $data->Payload['dup-settings-diag-srv-panel'])   ? 'display:block' : 'display:none';

@@ -22,19 +22,19 @@ class DUP_CTRL_Base
 	public $Action;
 	
 	//The return type valiad options: PHP, JSON-AJAX, JSON
-	public $ReturnType = 'JSON-AJAX';
+	public $returnType = 'JSON-AJAX';
 
-	public function SetResponseType($type)
+	public function setResponseType($type)
 	{
 		$opts = array('PHP', 'JSON-AJAX', 'JSON');
 		if (!in_array($type, $opts)) 
 		{
 			throw new Exception('The $type param must be one of the following: ' . implode(',', $opts) . ' for the following function [' . __FUNCTION__.']');
 		}
-		$this->ReturnType = $type;
+		$this->returnType = $type;
 	}
 	
-	public function PostParamMerge($post)
+	public function postParamMerge($post)
 	{
 		$post   = is_array($post) ? $post : array();
 		return array_merge($_POST, $post);
@@ -51,10 +51,10 @@ class DUP_CTRL_Base
 class DUP_CTRL_Report
 {
 	//Properties
-	public $RunTime;
-	public $ReturnType;
-	public $Results;
-	public $Status;
+	public $runTime;
+	public $returnType;
+	public $results;
+	public $status;
 }
 
 
@@ -72,36 +72,36 @@ class DUP_CTRL_Result
 	public $Report;
 	public $Payload;
 
-	private $time_start;
-	private $time_end;
+	private $timeStart;
+	private $timeEnd;
 	private $CTRL;
 	
 	function __construct(DUP_CTRL_Base $CTRL_OBJ) 
 	{
 		DUP_Util::hasCapability('read');
-		$this->time_start	= $this->microtimeFloat();
+		$this->timeStart	= $this->microtimeFloat();
 		$this->CTRL			= $CTRL_OBJ;
 		
 		//Report Data
 		$this->Report		=  new DUP_CTRL_Report();
-		$this->Report->ReturnType = $CTRL_OBJ->ReturnType;
+		$this->Report->returnType = $CTRL_OBJ->returnType;
 	}
 	
-	public function Process($payload, $test = DUP_CTRL_Status::UNDEFINED) 
+	public function process($payload, $test = DUP_CTRL_Status::UNDEFINED)
 	{
 		if (is_array($this->Payload))
 		{
 			$this->Payload[] = $payload;
-			$this->Report->Results = count($this->Payload);
+			$this->Report->results = count($this->Payload);
 		} else {
 			$this->Payload = $payload;
-			$this->Report->Results = (is_array($payload)) ? count($payload) : 1;
+			$this->Report->results = (is_array($payload)) ? count($payload) : 1;
 		}
 		
-		$this->Report->Status = $test;
+		$this->Report->status = $test;
 		$this->getProcessTime();
 		
-		switch ($this->CTRL->ReturnType) 
+		switch ($this->CTRL->returnType) 
 		{
 			case 'JSON' :	
 				return json_encode($this);
@@ -120,21 +120,21 @@ class DUP_CTRL_Result
 		}
 	}
 	
-	public function ProcessError($exception) 
+	public function processError($exception) 
 	{
 		$payload = array();
 		$payload['Message'] = $exception->getMessage();
 		$payload['File']	= $exception->getFile();
 		$payload['Line']	= $exception->getLine();
 		$payload['Trace']	= $exception->getTraceAsString();
-		$this->Process($payload, DUP_CTRL_Status::ERROR);	
+		$this->process($payload, DUP_CTRL_Status::ERROR);
 		die(json_encode($this));
 	}
 	
 	private function getProcessTime()
 	{
-		$this->time_end = $this->microtimeFloat();
-		$this->Report->RunTime = $this->time_end - $this->time_start;
+		$this->timeEnd = $this->microtimeFloat();
+		$this->Report->runTime = $this->timeEnd - $this->timeStart;
 	}
 	
 	private function microtimeFloat()

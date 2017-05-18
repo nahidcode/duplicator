@@ -1,5 +1,4 @@
 <?php
-
     $nonce = wp_create_nonce('duplicator_cleanup_page');
 	$ajax_nonce	= wp_create_nonce('DUP_CTRL_Tools_deleteInstallerFiles');
 	$_GET['action'] = isset($_GET['action']) ? $_GET['action'] : 'display';
@@ -13,14 +12,10 @@
 		}
 	}
 
-	$installer_files = DUP_Server::getInstallerFiles();
-        
 	switch ($_GET['action']) {            
 		case 'installer' :     
 			$action_response = __('Installer file cleanup ran!', 'duplicator');
 			$css_hide_msg = 'div.error {display:none}';
-			get_option('duplicator_tried_installer_cleanup');
-			
 			break;		
 		case 'legacy': 
 			DUP_Settings::LegacyClean();			
@@ -32,10 +27,15 @@
 			break;		
 	} 
 
-	$txt_found = __('File Found', 'duplicator');
-	$txt_not_found = __('File Removed', 'duplicator');
-	$package_name = (isset($_GET['package'])) ? DUPLICATOR_WPROOTPATH . esc_html($_GET['package']) : '';
-	
+	$installer_files = DUP_Server::getInstallerFiles();
+	$package_name = (isset($_GET['package'])) ?  esc_html($_GET['package']) : '';
+	$package_path = (isset($_GET['package'])) ?  DUPLICATOR_WPROOTPATH . esc_html($_GET['package']) : '';
+
+	$txt_found		 = __('File Found', 'duplicator');
+	$txt_removed	 = __('File Removed', 'duplicator');
+	$txt_archive_msg = __("<b>Archive File:</b> The archive file has a unique name when downloaded.  Leaving the archive file on your server does not impose a security"
+						. " risk as long the name was not changed and left with the unique hash name.  However it is still recommended to remove the archive file after install,"
+						. " especially if it was renamed.", 'duplicator');
 ?>
 
 <style>
@@ -53,52 +53,44 @@
 	
 	<?php if ($_GET['action'] != 'display')  :	?>
 		<div id="message" class="updated below-h2">
-			<p><?php echo $action_response; ?></p>
+			<p><b><?php echo $action_response; ?></b></p>
 			<?php if ( $_GET['action'] == 'installer') :  ?>
 				<?php	
-//					$html = "";
-//
-//					$package_name = (isset($_GET['package'])) ? DUPLICATOR_WPROOTPATH . esc_html($_GET['package']) : '';
-//					foreach($installer_files as $file => $path)
-//					{
-//						@unlink($path);
-//						echo (file_exists($path))
-//							? "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$path}  </div>"
-//							: "<div class='success'> <i class='fa fa-check'></i> {$txt_not_found} - {$path}	</div>";
-//					}
-//
-//
-//					//No way to know exact name of archive file except from installer.
-//					//The only place where the package can be remove is from installer
-//					//So just show a message if removing from plugin.
-//					if (! empty($package_name) )
-//					{
-//						$path_parts = pathinfo($package_name);
-//						$path_parts = (isset($path_parts['extension'])) ? $path_parts['extension'] : '';
-//						if ($path_parts  == "zip"  && ! is_dir($package_name))
-//						{
-//							$lang1 = __('Successfully removed', 'duplicator');
-//							$lang2 = __('Does not exist or unable to remove archive file.', 'duplicator');
-//							$html .= (@unlink($package_name))
-//								?  "<div class='success'>{$lang1} {$package_name}</div>"
-//								:  "<div class='failed'>{$lang2}</div>";
-//						}
-//						else
-//						{
-//							$lang = __('Does not exist or unable to remove archive file.  Please validate that an archive file exists.', 'duplicator');
-//							$html .= "<div class='failed'>{$lang}</div>";
-//						}
-//					} else {
-//						$lang = __('It is recommended to remove your archive file from the root of your WordPress install.  This will need to be done manually', 'duplicator');
-//						$html .= "<br/><div>{$lang}</div>";
-//					}
-//					echo $html;
-				 ?>
+					$html = "";
 
-				<i><br/>
-				 <?php _e('If the installer files did not successfully get removed, then you WILL need to remove them manually', 'duplicator')?>. <br/>
-				 <?php _e('Please remove all installer files to avoid leaving open security issues on your server', 'duplicator')?>. <br/><br/>
-				</i>
+					//REMOVE CORE INSTALLER FILES
+					$installer_files = DUP_Server::getInstallerFiles();
+					foreach ($installer_files as $file => $path) {
+						@unlink($path);
+						echo (file_exists($path)) 
+							? "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$path}  </div>"
+							: "<div class='success'> <i class='fa fa-check'></i> {$txt_removed} - {$path}	</div>";
+					}
+
+					//No way to know exact name of archive file except from installer.
+					//The only place where the package can be removed is from installer
+					//So just show a message if removing from plugin.
+					if (file_exists($package_path)) {
+						$path_parts	 = pathinfo($package_name);
+						$path_parts	 = (isset($path_parts['extension'])) ? $path_parts['extension'] : '';
+						if ($path_parts == "zip" && !is_dir($package_path)) {
+							@unlink($package_path);
+							$html .= (file_exists($package_path))
+										? "<div class='success'><i class='fa fa-check'></i> {$txt_removed} - {$package_path}</div>"
+										: "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$package_path}</div>";
+						} 
+					}
+
+					echo $html;
+				 ?><br/>
+
+				<div style="font-style: italic; max-width: 800px">
+					<b><?php _e('Security Notes', 'duplicator')?>:</b>
+					<?php _e('If the installer files do not successfully get removed, then they WILL need to be removed manually through your hosts control panel or FTP.  '
+						 . 'Please remove all installer files to avoid leaving open security issues on your server.  Click the more info link below for details.', 'duplicator')?>
+					<br/><br/>
+					<?php echo $txt_archive_msg; ?>
+				</div>
 			
 			<?php endif; ?>
 		</div>
@@ -115,21 +107,21 @@
 			</td>
 			<td>
 				<?php _e("Removes all reserved installer files.", 'duplicator'); ?>
-				<a href="javascript:void(0)" onclick="jQuery('#dup-tools-delete-moreinfo').toggle()">[<?php _e("more info", 'duplicator'); ?>]</a>
-				<br/>
+				<a href="javascript:void(0)" onclick="jQuery('#dup-tools-delete-moreinfo').toggle()">[<?php _e("more info", 'duplicator'); ?>]</a><br/>
+
 				<div id="dup-tools-delete-moreinfo">
 					<?php
-						_e("Clicking on the 'Delete Reserved Files' button will remove the following reserved files.  These files are typically from a previous Duplicator install. "
-								. "If you are unsure of the source, please validate the files.  These files should never be left on production systems for security reasons.  "
-								. "Below is a list of all the reserved files used by Duplicator.  Please be sure these are removed from your server.", 'duplicator');
+						_e("Clicking on the 'Delete Installation Files' button will remove the files used by Duplicator to install this site.  "
+						. "These files should not be left on production systems for security reasons.  Please be sure they are removed from your server.", 'duplicator');
 						echo "<br/><br/>";
 						
-						foreach($installer_files as $file => $path) 
-						{
+						foreach($installer_files as $file => $path) {
 							echo (file_exists($path)) 
-								? "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$file}  </div>"
-								: "<div class='success'> <i class='fa fa-check'></i> {$txt_not_found} - {$file}	</div>";		
+								? "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$file}</div>"
+								: "<div class='success'><i class='fa fa-check'></i> {$txt_removed} - {$file}</div>";
 						}
+						echo "<br/>";
+						echo $txt_archive_msg;
 					?>
 				</div>
 			</td>
@@ -145,10 +137,9 @@
 	</table>
 </form>
 
-<!-- ==========================================
-THICK-BOX DIALOGS: -->
+<!-- ================
+THICK-BOX DIALOG: -->
 <?php	
-
 	$confirm2 = new DUP_UI_Dialog();
 	$confirm2->title			= __('Clear Build Cache?', 'duplicator');
 	$confirm2->message			= __('This process will remove all build cache files.  Be sure no packages are currently building or else they will be cancelled.', 'duplicator');
@@ -157,25 +148,29 @@ THICK-BOX DIALOGS: -->
 ?>
 
 <script>
+Duplicator.Tools.deleteInstallerFiles = function()
+{
+	var data = {
+		action: 'DUP_CTRL_Tools_deleteInstallerFiles',
+		nonce: '<?php echo $ajax_nonce; ?>',
+		'archive-name':  '<?php echo $package_name; ?>'
+	};
 
-	Duplicator.Tools.deleteInstallerFiles = function()
-	{
-		var data = {action : 'DUP_CTRL_Tools_deleteInstallerFiles', nonce: '<?php echo $ajax_nonce; ?>', 'archive-path': '<?php echo $package_name;?>'};
-
-		jQuery.ajax({
-			type: "POST",
-			url: ajaxurl,
-			dataType: "json",
-			data: data,
-			success: function(data) {
-				window.location = '?page=duplicator-tools&tab=cleanup&action=installer&_wpnonce=<?php echo $nonce; ?>';
-			},
-			error: function(data) {console.log(data)},
-			done: function(data) {console.log(data)}
-		});
-	}
-
-
+	jQuery.ajax({
+		type: "POST",
+		url: ajaxurl,
+		dataType: "json",
+		data: data,
+		complete: function() {
+		<?php
+			$url = "?page=duplicator-tools&tab=cleanup&action=installer&_wpnonce={$nonce}&package={$package_name}";
+			echo "window.location = '{$url}';";
+		?>
+		},
+		error: function(data) {console.log(data)},
+		done: function(data) {console.log(data)}
+	});
+}
 
 jQuery(document).ready(function($) 
 {
