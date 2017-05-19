@@ -34,7 +34,7 @@
 		</div>
 	</form>
 
-		<!-- METHOD TEST -->
+	<!-- METHOD TEST -->
 	<form>
 		<?php
 			$CTRL['Title']  = 'DUP_CTRL_Tools_deleteInstallerFiles';
@@ -42,10 +42,7 @@
 			$CTRL['Test']	= true;
 			DUP_DEBUG_TestSetup($CTRL);
 		?>
-		<div class="params">
-			<label>Archive File Name:</label>
-			<input type="text" name="archive-name" value="" /> <br/>
-		</div>
+		<div class="params">No Params</div>
 	</form>
 	
 

@@ -71,8 +71,6 @@ class DUP_CTRL_Tools extends DUP_CTRL_Base
 		$post = $this->postParamMerge($post);
 		check_ajax_referer($post['action'], 'nonce');
 		$result = new DUP_CTRL_Result($this);
-		//$package_path = DUPLICATOR_WPROOTPATH . '/' . $post['archive-name'];
-
 		try
 		{
 			//CONTROLLER LOGIC
@@ -80,9 +78,11 @@ class DUP_CTRL_Tools extends DUP_CTRL_Base
 			//array_push($installer_files, $package_path);
 			foreach($installer_files as $file => $path) {
 				if (! is_dir($path)) {
+					@chmod($path, 0777);
+					$status = (@unlink($path) === false) ? false : true;
 					$payload[] = array(
 						'file' => $path,
-						'removed' => @unlink($path),
+						'removed' => $status,
 						'writable' => is_writable($path),
 						'readable' => is_readable($path),
 						'exists' => file_exists($path)

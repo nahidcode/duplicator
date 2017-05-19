@@ -13,8 +13,8 @@
 	$ctrl_ui->setResponseType('PHP');
 	$data = $ctrl_ui->GetViewStateList();
 
-	$ui_css_srv_panel   = (isset($data->Payload['dup-settings-diag-srv-panel'])  && $data->Payload['dup-settings-diag-srv-panel'])   ? 'display:block' : 'display:none';
-	$ui_css_opts_panel  = (isset($data->Payload['dup-settings-diag-opts-panel']) && $data->Payload['dup-settings-diag-opts-panel'])  ? 'display:block' : 'display:none';
+	$ui_css_srv_panel   = (isset($data->payload['dup-settings-diag-srv-panel'])  && $data->payload['dup-settings-diag-srv-panel'])   ? 'display:block' : 'display:none';
+	$ui_css_opts_panel  = (isset($data->payload['dup-settings-diag-opts-panel']) && $data->payload['dup-settings-diag-opts-panel'])  ? 'display:block' : 'display:none';
 	
 	
 	//POST BACK

@@ -98,4 +98,3 @@ class DUP_CTRL_UI extends DUP_CTRL_Base
     }	
 	
 }
-?>
