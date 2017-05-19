@@ -33,8 +33,8 @@
 
 	$txt_found		 = __('File Found', 'duplicator');
 	$txt_removed	 = __('File Removed', 'duplicator');
-	$txt_archive_msg = __("<b>Archive File:</b> The archive file has a unique name when downloaded.  Leaving the archive file on your server does not impose a security"
-						. " risk as long the name was not changed and left with the unique hash name.  However it is still recommended to remove the archive file after install,"
+	$txt_archive_msg = __("<b>Archive File:</b> The archive file has a unique hashed name when downloaded.  Leaving the archive file on your server does not impose a security"
+						. " risk if the file was not renamed.  It is still recommended to remove the archive file after install,"
 						. " especially if it was renamed.", 'duplicator');
 ?>
 
@@ -74,8 +74,7 @@
 						$path_parts	 = pathinfo($package_name);
 						$path_parts	 = (isset($path_parts['extension'])) ? $path_parts['extension'] : '';
 						if ($path_parts == "zip" && !is_dir($package_path)) {
-							@unlink($package_path);
-							$html .= (file_exists($package_path))
+							$html .= (@unlink($package_path))
 										? "<div class='success'><i class='fa fa-check'></i> {$txt_removed} - {$package_path}</div>"
 										: "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$package_path}</div>";
 						} 
@@ -84,12 +83,13 @@
 					echo $html;
 				 ?><br/>
 
-				<div style="font-style: italic; max-width: 800px">
+				<div style="font-style: italic; max-width:900px">
 					<b><?php _e('Security Notes', 'duplicator')?>:</b>
-					<?php _e('If the installer files do not successfully get removed, then they WILL need to be removed manually through your hosts control panel or FTP.  '
-						 . 'Please remove all installer files to avoid leaving open security issues on your server.  Click the more info link below for details.', 'duplicator')?>
+					<?php _e('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel,  '
+						 . ' file system or FTP.  Please remove all installer files listed above to avoid leaving open security issues on your server.', 'duplicator')?>
 					<br/><br/>
 					<?php echo $txt_archive_msg; ?>
+					<br/><br/>
 				</div>
 			
 			<?php endif; ?>
@@ -102,7 +102,7 @@
 		<tr style="vertical-align:text-top">
 			<td>
 				<button id="dup-remove-installer-files-btn" type="button" class="button button-small dup-fixed-btn" onclick="Duplicator.Tools.deleteInstallerFiles();">
-					<?php _e("Delete Installation Files", 'duplicator'); ?>
+					<?php _e("Remove Installation Files", 'duplicator'); ?>
 				</button>
 			</td>
 			<td>
@@ -111,8 +111,8 @@
 
 				<div id="dup-tools-delete-moreinfo">
 					<?php
-						_e("Clicking on the 'Delete Installation Files' button will remove the files used by Duplicator to install this site.  "
-						. "These files should not be left on production systems for security reasons.  Please be sure they are removed from your server.", 'duplicator');
+						_e("Clicking on the 'Remove Installation Files' button will remove the files used by Duplicator to install this site.  "
+						. "These files should not be left on production systems for security reasons.", 'duplicator');
 						echo "<br/><br/>";
 						
 						foreach($installer_files as $file => $path) {

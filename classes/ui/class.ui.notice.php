@@ -32,15 +32,12 @@ class DUP_UI_Notice
         //Show only on Duplicator pages and Dashboard when plugin is active
         $dup_active = is_plugin_active('duplicator/duplicator.php');
         $dup_perm   = current_user_can('manage_options');
-        if (!$dup_active || !$dup_perm) return;
+        if (!$dup_active || !$dup_perm)
+			return;
 		
 		$screen = get_current_screen();
-        if (!isset($screen)) return;
-
-
-
-        //Hide on save permalinks to prevent user distraction
-        //if ($screen->id == 'options-permalink') return;
+        if (!isset($screen))
+			return;
 
         if (DUP_Server::hasInstallerFiles()) {
 
@@ -51,7 +48,7 @@ class DUP_UI_Notice
 			$msg2			= __('Migration Almost Complete!', 'duplicator');
 			$msg3			= __('Please complete these final steps:', 'duplicator');
 			$msg4			= __('This message will be removed after all installer files are removed.  Installer files must be removed to maintain a secure site.<br/>'
-				. 'Click the link above or button below to remove all installer files and complete the migration.', 'duplicator');
+							. 'Click the link above or button below to remove all installer files and complete the migration.', 'duplicator');
 
 			echo '<div class="updated notice" id="dup-global-error-reserved-files"><p>';
 		
@@ -61,7 +58,7 @@ class DUP_UI_Notice
 				echo "{$msg3}";
 				echo '<p class="pass-lnks">';
 				@printf("1. <a href='https://wordpress.org/support/plugin/duplicator/reviews/#new-post' target='wporg'>%s</a> <br/> ", __('Optionally, Review Duplicator at WordPress.org...', 'duplicator'));
-				@printf("2. <a href='javascript:void(0)' onclick='jQuery(\"#dup-remove-installer-files-btn\").click()'>%s</a><br/>", __('Delete Installation Files Now!', 'duplicator'));
+				@printf("2. <a href='javascript:void(0)' onclick='jQuery(\"#dup-remove-installer-files-btn\").click()'>%s</a><br/>", __('Remove Installation Files Now!', 'duplicator'));
 				echo '</p>';
 				echo "<div class='pass-msg'>{$msg4}</div>";
 
@@ -69,8 +66,8 @@ class DUP_UI_Notice
 			} else {
 				echo "<b>{$msg2}</b> <br/>";
 				echo '<p class="pass-lnks">';
-				_e('Reserved Duplicator installation still exist in the root directory.  Please delete these installation files to complete setup and avoid security issues. <br/>', 'duplicator');
-				_e('Go to: Duplicator > Tools > Cleanup > and click the "Delete Installation Files" button.', 'duplicator');
+				_e('Reserved Duplicator installation still exist in the root directory.  Please remove these installation files to complete setup and avoid security issues. <br/>', 'duplicator');
+				_e('Go to: Duplicator > Tools > Cleanup > and click the "Remove Installation Files" button.', 'duplicator');
 				@printf("<br/><a href='admin.php?page=duplicator-tools&tab=cleanup&_wpnonce={$dup_nonce}'>%s</a> <br/>", __('Take me there now!', 'duplicator'));
 				echo '</p>';
 			}
