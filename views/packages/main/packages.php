@@ -34,7 +34,6 @@
 	td.error-msg a {color:maroon}
 	td.error-msg a i {color:maroon}
 	td.error-msg span {display:inline-block; padding:7px 18px 0px 0px; color:maroon}
-	
 </style>
 
 <form id="form-duplicator" method="post">
@@ -67,7 +66,7 @@ TOOL-BAR -->
 </table>	
 
 
-<?php if($totalElements == 0)  :	?>
+<?php if($totalElements == 0)  : ?>
 	<!-- ====================
 	NO-DATA MESSAGES-->
 	<table class="widefat dup-pack-table">
@@ -241,15 +240,13 @@ jQuery(document).ready(function($)
 	/*	Provides the correct confirmation items when deleting packages */
 	Duplicator.Pack.ConfirmDelete = function () 
 	{
-		if ($("#dup-pack-bulk-actions").val() != "delete") 
-		{
+		if ($("#dup-pack-bulk-actions").val() != "delete") {
 			<?php $alert1->showAlert(); ?>
 			return;
 		}
 		
 		var list = Duplicator.Pack.GetDeleteList();
-		if (list.length == 0) 
-		{
+		if (list.length == 0) {
 			<?php $alert2->showAlert(); ?>
 			return;
 		}
