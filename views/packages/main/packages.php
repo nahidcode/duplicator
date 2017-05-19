@@ -24,6 +24,7 @@
 	table.dup-pack-table {word-break:break-all;}
 	table.dup-pack-table th {white-space:nowrap !important;}
 	table.dup-pack-table td.pack-name {text-overflow:ellipsis; white-space:nowrap}
+	table.dup-pack-table td.pack-name sup {font-style:italic;font-size:10px; cursor: pointer }
 	table.dup-pack-table input[name="delete_confirm"] {margin-left:15px}
 	table.dup-pack-table td.fail {border-left: 4px solid #d54e21;}
 	table.dup-pack-table td.pass {border-left: 4px solid #2ea2cc;}
@@ -103,15 +104,18 @@ TOOL-BAR -->
 		<?php
 		$rowCount = 0;
 		$totalSize = 0;
+		$txt_dbonly  = __('Database Only', 'duplicator');
 		$rows = $qryResult;
 		foreach ($rows as $row) {
 			$Package = unserialize($row['package']);
-			
+			$pack_dbonly = false;
+
 			if (is_object($Package)) {
 				 $pack_name			= $Package->Name;
 				 $pack_archive_size = $Package->Archive->Size;
 				 $pack_storeurl		= $Package->StoreURL;
-				 $pack_namehash	    = $Package->NameHash;		
+				 $pack_namehash	    = $Package->NameHash;
+				 $pack_dbonly       = $Package->Archive->ExportOnlyDB;
 			} else {
 				 $pack_archive_size = 0;
 				 $pack_storeurl		= 'unknown';
@@ -133,7 +137,9 @@ TOOL-BAR -->
 					<td class="pass"><input name="delete_confirm" type="checkbox" id="<?php echo $row['id'] ;?>" /></td>
 					<td><?php echo DUP_Package::getCreatedDateFormat($row['created'], $ui_create_frmt);?></td>
 					<td><?php echo DUP_Util::byteSize($pack_archive_size); ?></td>
-					<td class='pack-name'><?php	echo  $pack_name ;?></td>
+					<td class='pack-name'>
+						<?php	echo ($pack_dbonly) ? "{$pack_name} <sup title='{$txt_dbonly}'>DB</sup>" : $pack_name ; ?>
+					</td>
 					<td class="get-btns">
 						<button id="<?php echo "{$uniqueid}_installer.php" ?>" class="button no-select" onclick="Duplicator.Pack.DownloadFile('<?php echo $installfilelink; ?>', this); return false;">
 							<i class="fa fa-bolt"></i> <?php _e("Installer", 'duplicator') ?>
