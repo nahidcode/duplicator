@@ -91,7 +91,7 @@ TOOL BAR: STEPS -->
 			</div>	
 		</td>
 		<td>
-			<a id="dup-pro-create-new"  href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e('All Packages', 'duplicator'); ?></a> 
+			<a id="dup-pro-create-new"  href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e('Packages', 'duplicator'); ?></a> 
 			<span> <?php _e('Create New', 'duplicator'); ?></span>
 		</td>
 	</tr>
