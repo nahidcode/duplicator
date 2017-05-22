@@ -108,7 +108,7 @@ VIEW: STEP 4 - INPUT -->
 		</table>
 
 		<div id="dup-step3-errs-create" class="s4-err-msg">
-			<div class="s4-err-title">STEP 2 - INSTALL RESULTS:</div>
+			<div class="s4-err-title">STEP 2 - INSTALL NOTICES:</div>
 			<b data-bind="with: status.step2">ERRORS (<span data-bind="text: query_errs"></span>)</b><br/>
 			<div class="info-error">
 				Queries that error during the deploy step are logged to the <a href="../installer-log.txt" target="dpro-installer">install-log.txt</a> file and
@@ -132,7 +132,7 @@ VIEW: STEP 4 - INPUT -->
 		</div>
 
 		<div id="dup-step3-errs-upd" class="s4-err-msg">
-			<div class="s4-err-title">STEP 3 - UPDATE RESULTS:</div>
+			<div class="s4-err-title">STEP 3 - UPDATE NOTICES:</div>
 			<!-- MYSQL QUERY ERRORS -->
 			<b data-bind="with: status.step3">ERRORS (<span data-bind="text: errsql_sum"></span>) </b><br/>
 			<div class="info-error">
