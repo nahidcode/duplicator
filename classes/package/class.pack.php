@@ -104,7 +104,7 @@ class DUP_Package
         $report['SRV'] = $srv['SRV'];
 
         //FILES
-        $this->Archive->buildScanStats();
+        $this->Archive->getScannerData();
         $dirCount  = count($this->Archive->Dirs);
         $fileCount = count($this->Archive->Files);
         $fullCount = $dirCount + $fileCount;
@@ -126,7 +126,7 @@ class DUP_Package
         $report['ARC']['Files'] = $this->Archive->Files;
 
         //DATABASE
-        $db           = $this->Database->getScanData();
+        $db           = $this->Database->getScannerData();
         $report['DB'] = $db;
 
         $warnings = array($report['SRV']['WEB']['ALL'],

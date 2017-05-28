@@ -91,7 +91,7 @@ class DUP_Archive
      *
      *  @return obj Returns a DUP_Archive object
      */
-    public function buildScanStats()
+    public function getScannerData()
     {
 		$this->createFilterInfo();
 

@@ -139,6 +139,3 @@ function duplicator_package_delete() {
 	$json['removed'] = $delCount;
     die(json_encode($json));
 }
-
-//DO NOT ADD A CARRIAGE RETURN BEYOND THIS POINT (headers issue)!!
-?>
