@@ -300,8 +300,8 @@ class DUP_Package
             $name       = substr(sanitize_file_name($name), 0, 40);
             $name       = str_replace($name_chars, '', $name);
 
-            $filter_dirs = isset($post['filter-dirs']) ? $this->parseDirectoryFilter($post['filter-dirs']) : '';
-            $filter_exts = isset($post['filter-exts']) ? $this->parseExtensionFilter($post['filter-exts']) : '';
+            $filter_dirs = isset($post['filter-dirs']) ? $this->Archive->parseDirectoryFilter($post['filter-dirs']) : '';
+            $filter_exts = isset($post['filter-exts']) ? $this->Archive->parseExtensionFilter($post['filter-exts']) : '';
             $tablelist   = isset($post['dbtables']) ? implode(',', $post['dbtables']) : '';
             $compatlist  = isset($post['dbcompat']) ? implode(',', $post['dbcompat']) : '';
             $dbversion   = DUP_DB::getVersion();
@@ -364,6 +364,8 @@ class DUP_Package
         $reflectionClass->getProperty($property)->setValue($package, $value);
         update_option(self::OPT_ACTIVE, $package);
     }
+
+
 
     /**
      * Sets the status to log the state of the build
@@ -590,44 +592,8 @@ class DUP_Package
         }
     }
 
-    /**
-     *  Properly creates the directory filter list that is used for filtering directories
-     *
-     *  @param string $dirs A semi-colon list of dir paths
-     *  /path1_/path/;/path1_/path2/;
-     *
-     *  @returns string A cleaned up list of directory filters
-     */
-    private function parseDirectoryFilter($dirs = "")
-    {
-        $dirs        = str_replace(array("\n", "\t", "\r"), '', $dirs);
-        $filter_dirs = "";
-        $dir_array   = array_unique(explode(";", $dirs));
-        foreach ($dir_array as $val) {
-            if (strlen($val) >= 2) {
-                $filter_dirs .= DUP_Util::safePath(trim(rtrim($val, "/\\"))).";";
-            }
-        }
-        return $filter_dirs;
-    }
 
-    /**
-     *  Properly creates the extension filter list that is used for filtering extensions
-     *
-     *  @param string $dirs A semi-colon list of dir paths
-     *  .jpg;.zip;.gif;
-     *
-     *  @returns string A cleaned up list of extension filters
-     */
-    private function parseExtensionFilter($extensions = "")
-    {
-        $filter_exts = "";
-        if (strlen($extensions) >= 1 && $extensions != ";") {
-            $filter_exts = str_replace(array(' ', '.'), '', $extensions);
-            $filter_exts = str_replace(",", ";", $filter_exts);
-            $filter_exts = DUP_Util::appendOnce($extensions, ";");
-        }
-        return $filter_exts;
-    }
+
+
 }
 ?>

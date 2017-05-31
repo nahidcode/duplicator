@@ -115,6 +115,67 @@ class DUP_Archive
 
     }
 
+	    /**
+     * Save any property of this class through reflection
+     *
+     * @param $property     A valid public property in this class
+     * @param $value        The value for the new dynamic property
+     *
+     * @return bool	Returns true if the value has changed.
+     */
+    public function saveActiveItem($package, $property, $value)
+    {
+        $package = DUP_Package::getActive();
+
+        $reflectionClass = new ReflectionClass($package->Archive);
+        $reflectionClass->getProperty($property)->setValue($package->Archive, $value);
+        return update_option($package::OPT_ACTIVE, $package);
+    }
+
+
+	/**
+     *  Properly creates the directory filter list that is used for filtering directories
+     *
+     *  @param string $dirs A semi-colon list of dir paths
+     *  /path1_/path/;/path1_/path2/;
+     *
+     *  @returns string A cleaned up list of directory filters
+     */
+    public function parseDirectoryFilter($dirs = "")
+    {
+        $dirs			= str_replace(array("\n", "\t", "\r"), '', $dirs);
+        $filters		= "";
+        $dir_array		= array_unique(explode(";", $dirs));
+		$clean_array	= array();
+        foreach ($dir_array as $val) {
+            if (strlen($val) >= 2) {
+				$clean_array[] = DUP_Util::safePath(trim(rtrim($val, "/\\"))) ;
+            }
+        }
+		$clean_array  = array_unique($clean_array);
+		$filters = implode(';', $clean_array);
+        return $filters ;
+    }
+
+	 /**
+     *  Properly creates the extension filter list that is used for filtering extensions
+     *
+     *  @param string $dirs A semi-colon list of dir paths
+     *  .jpg;.zip;.gif;
+     *
+     *  @returns string A cleaned up list of extension filters
+     */
+    public function parseExtensionFilter($extensions = "")
+    {
+        $filter_exts = "";
+        if (strlen($extensions) >= 1 && $extensions != ";") {
+            $filter_exts = str_replace(array(' ', '.'), '', $extensions);
+            $filter_exts = str_replace(",", ";", $filter_exts);
+            $filter_exts = DUP_Util::appendOnce($extensions, ";");
+        }
+        return $filter_exts;
+    }
+
     /**
      * Creates the filter info setup data used for filtering the archive
      *
@@ -186,7 +247,8 @@ class DUP_Archive
     {
         //Init for each call to prevent concatination from stored entity objects
         $this->Size                          = 0;
-        $this->FilterInfo->Files->Size       = array();
+        //$this->FilterInfo->Files->Size       = array();
+		$this->FilterInfo->Files->Size       = array();
         $this->FilterInfo->Files->Warning    = array();
         $this->FilterInfo->Files->Unreadable = array();
 
@@ -211,15 +273,24 @@ class DUP_Archive
 				$this->FilterInfo->Files->Warning[] = $filePath;
 			}
 
-
 			$fileSize = @filesize($filePath);
 			$fileSize = empty($fileSize) ? 0 : $fileSize;
 			$this->Size += $fileSize;
 
 			if ($fileSize > DUPLICATOR_SCAN_WARNFILESIZE) {
-				  $this->FilterInfo->Files->Size[] = $filePath.' ['.DUP_Util::byteSize($fileSize).']';
+				//$this->FilterInfo->Files->Size[] = $filePath.' ['.DUP_Util::byteSize($fileSize).']';
+				$ext = pathinfo($filePath, PATHINFO_EXTENSION);
+				$this->FilterInfo->Files->Size[] = array(
+						'bytes' => DUP_Util::byteSize($fileSize),
+						'sname'	=> strlen($fileName > 75) ? substr($fileName, 0, 75) . '...' . $ext : $fileName,
+						'name'	=> $fileName,
+						'dir'	=> pathinfo($filePath, PATHINFO_DIRNAME),
+						'path'	=> $filePath);
 			 }
 		}
+
+		$this->FilterInfo->Files->Size = DUP_Util::array_group_by($this->FilterInfo->Files->Size, "dir" );
+
     }
 
 	/**
@@ -278,6 +349,7 @@ class DUP_Archive
 		}
 		return $this->Dirs;
 	}
+
 
 
 }
