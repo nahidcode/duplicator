@@ -213,74 +213,12 @@ DATABASE -->
 	</div>
 	<br/>
 
-	<div id="dup-archive-details" style="display: none">
-		<b>DATABASE SETTINGS</b>
-		<hr size="1" />
-		<table id="dup-scan-db-details">
-			<tr><td><b><?php _e('Name:', 'duplicator');?></b></td><td><?php echo DB_NAME ;?> </td></tr>
-			<tr><td><b><?php _e('Host:', 'duplicator');?></b></td><td><?php echo DB_HOST ;?> </td></tr>
-			<tr>
-				<td style="vertical-align: top"><b><?php _e('Build Mode:', 'duplicator');?></b></td>
-				<td style="line-height:18px">
-					<a href="?page=duplicator-settings" target="_blank"><?php echo $dbbuild_mode ;?></a>
-					<?php if ($mysqlcompat_on) :?>
-						<br/>
-						<small style="font-style:italic; color:maroon">
-							<i class="fa fa-exclamation-circle"></i> <?php _e('MySQL Compatibility Mode Enabled', 'duplicator'); ?>
-							<a href="https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html#option_mysqldump_compatible" target="_blank">[<?php _e('details', 'duplicator'); ?>]</a>
-						</small>
-					<?php endif;?>
-				</td>
-			</tr>
-		</table>
-		<br/><br/>
-
-
-		<!-- ============
-		VIEW FILTERS -->
-		<b>FILTER SETTINGS</b>
-		<hr size="1" />
-		<?php if ($Package->Archive->FilterOn) : ?>
-			<div class="info">
-				<b>[<?php _e('Root Directory', 'duplicator');?>]</b><br/>
-				<?php echo DUPLICATOR_WPROOTPATH;?>
-				<br/><br/>
-
-				<b>[<?php _e('Excluded Directories', 'duplicator');?>]</b><br/>
-				<?php
-					if (strlen( $Package->Archive->FilterDirs)) {
-						echo str_replace(";", "<br/>", $Package->Archive->FilterDirs);
-					} else {
-						_e('No directory filters have been set.', 'duplicator');
-					}
-				?>
-				<br/>
-
-				<b>[<?php _e('Excluded File Extensions', 'duplicator');?>]</b><br/>
-				<?php
-					if (strlen( $Package->Archive->FilterExts)) {
-						echo $Package->Archive->FilterExts;
-					} else {
-						_e('No file extension filters have been set.', 'duplicator');
-					}
-				?>
-				<small>
-					<?php
-						_e('The root directory is where Duplicator starts archiving files.  The excluded sections will be skipped during the archive process.  ', 'duplicator');
-						_e('All results are stored in a json file. ', 'duplicator');
-					?>
-					<a href="<?php echo DUPLICATOR_SITE_URL ?>/wp-admin/admin-ajax.php?action=duplicator_package_scan" target="dup_report"><?php _e('[view json report]', 'duplicator');?></a>
-				</small><br/>
-			</div>
-		<?php endif;  ?>
-
-	</div>
-	
 </div><!-- end .dup-scan-db -->
 
 
 <!-- ==========================================
-THICK-BOX DIALOGS: -->
+DETAILS DIALOG:
+========================================== -->
 <?php
 	$alert1 = new DUP_UI_Dialog();
 	$alert1->height     = 600;
@@ -288,9 +226,68 @@ THICK-BOX DIALOGS: -->
 	$alert1->title		= __('Scan Details', 'duplicator');
 	$alert1->message	= "<div id='dup-archive-details-window'></div>";
 	$alert1->initAlert();
-
-
 ?>
+
+<div id="dup-archive-details" style="display:none">
+
+	<b><i class="fa fa-files-o"></i> FILE FILTERS</b>
+	<hr size="1" />
+	<b><?php _e('Filters State', 'duplicator');?>:</b> <?php echo ($Package->Archive->FilterOn) ? __('Enabled', 'duplicator') : __('Disabled', 'duplicator') ;?> <br/>
+	<b><?php _e('Root Directory', 'duplicator');?>:</b> <?php echo DUPLICATOR_WPROOTPATH;?> <br/>
+	
+	
+	<div class="filter-area">
+		<b>[<?php _e('Excluded Directories', 'duplicator');?>]</b><br/>
+		<?php
+			if (strlen( $Package->Archive->FilterDirs)) {
+				$data =  str_replace(";", "/<br/>", $Package->Archive->FilterDirs);
+				$data =  str_replace(DUPLICATOR_WPROOTPATH, '/', $data);
+				echo $data;
+			} else {
+				_e('No directory filters have been set.', 'duplicator');
+			}
+		?>
+		<br/>
+
+		<b>[<?php _e('Excluded File Extensions', 'duplicator');?>]</b><br/>
+		<?php
+			if (strlen( $Package->Archive->FilterExts)) {
+				echo $Package->Archive->FilterExts;
+			} else {
+				_e('No file extension filters have been set.', 'duplicator');
+			}
+		?>
+	</div>
+	<br/>
+	
+	<b><i class="fa fa-table"></i> DATABASE SETTINGS</b>
+	<hr size="1" />
+	<table id="db-area">
+		<tr><td><b><?php _e('Name:', 'duplicator');?></b></td><td><?php echo DB_NAME ;?> </td></tr>
+		<tr><td><b><?php _e('Host:', 'duplicator');?></b></td><td><?php echo DB_HOST ;?> </td></tr>
+		<tr>
+			<td style="vertical-align: top"><b><?php _e('Build Mode:', 'duplicator');?></b></td>
+			<td style="line-height:18px">
+				<a href="?page=duplicator-settings" target="_blank"><?php echo $dbbuild_mode ;?></a>
+				<?php if ($mysqlcompat_on) :?>
+					<br/>
+					<small style="font-style:italic; color:maroon">
+						<i class="fa fa-exclamation-circle"></i> <?php _e('MySQL Compatibility Mode Enabled', 'duplicator'); ?>
+						<a href="https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html#option_mysqldump_compatible" target="_blank">[<?php _e('details', 'duplicator'); ?>]</a>
+					</small>
+				<?php endif;?>
+			</td>
+		</tr>
+	</table><br/>
+	
+	<small>
+		<?php
+			_e('The root directory is where Duplicator starts archiving files.  The excluded sections will be skipped during the archive process.  ', 'duplicator');
+			_e('All results are stored in a json file. ', 'duplicator');
+		?>
+		<a href="<?php echo DUPLICATOR_SITE_URL ?>/wp-admin/admin-ajax.php?action=duplicator_package_scan" target="dup_report"><?php _e('[view json report]', 'duplicator');?></a>
+	</small><br/>
+</div>
 
 <script>
 jQuery(document).ready(function($)

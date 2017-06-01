@@ -60,7 +60,13 @@
 	div.dup-more-details {float:right; font-size: 14px}
 	div.dup-more-details:hover {color:#777; cursor: pointer}
 
-	
+	/*DETAILS WINDOW*/
+	div#dup-archive-details-window {font-size: 12px}
+	div#dup-archive-details-window table#db-area {margin:0;  width:98%}
+	div#dup-archive-details-window table#db-area td {padding:0;}
+	div#dup-archive-details-window table#db-area td:first-child {font-weight: bold;  white-space: nowrap; width:100px}
+	div#dup-archive-details-window div.filter-area {height:200px; overflow-y:scroll; border:1px solid silver; padding:8px; margin:8px 0}
+
 	/*FILES */
 	div#data-arc-size1 {display: inline-block; float:right; font-size:11px; margin-right:5px;}
 	i.data-size-help { float:right; margin-right:5px; display: block; font-size: 11px}
@@ -74,21 +80,13 @@
 	div.hb-files-style div.directory label {font-weight: bold; cursor: pointer}
 	div.hb-files-style div.files {padding: 2px 0 0 35px; font-size: 11px; display:none; line-height: 16px}
 
-		/*DATABASE*/
+	/*DATABASE*/
+	div#dup-scan-db-info {margin:0px 0px 0px 10px}
 	div#data-db-tablelist {max-height: 300px; overflow-y: scroll; border: 1px dashed silver; padding: 5px; margin-top:5px}
 	div#data-db-tablelist div{padding:0px 0px 0px 15px;}
 	div#data-db-tablelist span{display:inline-block; min-width: 75px}
 	div#data-db-size1 {display: inline-block; float:right; font-size:11px; margin-right:5px;}
 	
-	/*DETAILS WINDOW*/
-	div#dup-archive-details-window {font-size: 12px}
-	table#dup-scan-db-details {line-height: 14px; margin:0;  width:98%}
-	table#dup-scan-db-details td {padding:5px;}
-	table#dup-scan-db-details td:first-child {font-weight: bold;  white-space: nowrap; width:120px}
-	div#dup-scan-db-info {margin:0px 0px 0px 10px}
-
-
-
 	/*WARNING*/
 	div#dup-scan-warning-continue {display:none; text-align: center; padding: 0 0 15px 0}
 	div#dup-scan-warning-continue div.msg1 label{font-size:16px; color:maroon}

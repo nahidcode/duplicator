@@ -247,7 +247,6 @@ class DUP_Archive
     {
         //Init for each call to prevent concatination from stored entity objects
         $this->Size                          = 0;
-        //$this->FilterInfo->Files->Size       = array();
 		$this->FilterInfo->Files->Size       = array();
         $this->FilterInfo->Files->Warning    = array();
         $this->FilterInfo->Files->Unreadable = array();
@@ -295,6 +294,7 @@ class DUP_Archive
 		}
 
 		$this->FilterInfo->Files->Size = DUP_Util::array_group_by($this->FilterInfo->Files->Size, "dir" );
+		$this->FilterInfo->Files->Warning = DUP_Util::array_group_by($this->FilterInfo->Files->Warning, "dir" );
 
     }
 
