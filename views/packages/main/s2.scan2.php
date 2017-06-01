@@ -107,6 +107,8 @@ WP SETTINGS -->
 
 <script>
 (function($){
+
+	//Ints the various server data responses from the scan results
 	Duplicator.Pack.intServerData= function(data)
 	{
 		$('#data-srv-web-model').html(Duplicator.Pack.setScanStatus(data.SRV.WEB.model));
@@ -123,5 +125,6 @@ WP SETTINGS -->
 		$('#data-srv-wp-cache').html(Duplicator.Pack.setScanStatus(data.SRV.WP.cache));
 		$('#data-srv-wp-all').html(Duplicator.Pack.setScanStatus(data.SRV.WP.ALL));
 	}
+	
 })(jQuery);
 </script>

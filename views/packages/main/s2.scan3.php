@@ -72,6 +72,10 @@ LARGE FILES -->
 					<?php
 						printf(__('Apply Filters: <i>Files over %1$s are shown below.</i>', 'duplicator'), DUP_Util::byteSize(DUPLICATOR_SCAN_WARNFILESIZE));
 					?>
+					<div style='float:right;  margin:-2px 12px 2px 0'>
+						<i class="fa fa-caret-up fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'close')"></i>
+						<i class="fa fa-caret-down fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'open')"></i>
+					</div>
 				</div>
 				<div class="data">
 				{{#if ARC.FilterInfo.Files.Size}}
@@ -117,6 +121,54 @@ FILE NAME CHECKS -->
 				. 'special characters (such as * ? > < : / \ |) or are unicode might cause issues in a remote enviroment.  It is recommended to remove or filter '
 				. 'these files before building the archive if you have issues at install time.', 'duplicator');
 		?>
+
+		<script id="hb-files-utf8" type="text/x-handlebars-template">
+			<div class="container">
+				<div class="hdrs">
+					<?php
+						_e('Apply Filters:', 'duplicator');
+					?>
+					<div style='float:right;  margin:-2px 12px 2px 0'>
+						<i class="fa fa-caret-up fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'close')"></i>
+						<i class="fa fa-caret-down fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'open')"></i>
+					</div>
+				</div>
+				<div class="data">
+					{{#ifCond  ARC.FilterInfo.Files.Warning 'obj||' ARC.FilterInfo.Dirs.Warning}}
+						{{#each ARC.FilterInfo.Files.Warning as |directory|}}
+							<div class="directory">
+								<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
+								<input type="checkbox" name="dir_paths[]" value="{{@key}}" id="dir_{{@index}}" />
+
+								<label for="dir_{{@index}}" title="{{@key}}">{{shortDirectory @key}}</label> <br/>
+								<div class="files">
+									{{#each directory as |file|}}
+										{{file.sname}} <br/>
+									{{/each}}
+								</div>
+							</div>
+						{{/each}}
+						{{#each ARC.FilterInfo.Dirs.Warning}}
+							<div class="directory">
+								<div style='display:inline-block;width:15px'></div>
+								<input type="checkbox" name="dir_paths[]" value="{{@value}}" id="dir_{{@index}}" />
+								<label for="dir_{{@index}}" title="{{@value}}">{{shortDirectory this}}</label> <br/>
+							</div>
+						{{/each}}
+					{{else}}
+						No name warnings found during this scan.
+					{{/ifCond}}
+				</div>
+			</div>
+			<div style="text-align:right">
+				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters()">
+					<i class="fa fa-filter"></i> <?php _e('Apply Filters &amp; Rescan', 'duplicator');?>
+				</button>
+			</div>
+		</script>
+		<div id="hb-files-large-utf8" class="hb-files-style"></div>
+
+		
 
 	</div>
 </div>
@@ -292,10 +344,9 @@ DETAILS DIALOG:
 <script>
 jQuery(document).ready(function($)
 {
-	Handlebars.registerHelper('if_eq',		function(a, b, opts) { return (a == b) ? opts.fn(this) : opts.inverse(this);});
-	Handlebars.registerHelper('if_neq',		function(a, b, opts) { return (a != b) ? opts.fn(this) : opts.inverse(this);});
 	Handlebars.registerHelper('shortDirectory', function(path) {return  (path.length > 70) ? path.slice(0, 70) + '...' : path;});
 
+	//Opens a dialog to show scan details
 	Duplicator.Pack.showDetails = function ()
 	{
 		$('#dup-archive-details-window').html($('#dup-archive-details').html());
@@ -303,6 +354,7 @@ jQuery(document).ready(function($)
 		return;
 	}
 
+	//Toggles a directory path to show files
 	Duplicator.Pack.toggleDirPath = function(item)
 	{
 		var $dir   = $(item).parents('div.directory');
@@ -317,17 +369,14 @@ jQuery(document).ready(function($)
 		}
 	}
 
-	Duplicator.Pack.toggleScanItem = function(item)
+		//Toggles a directory path to show files
+	Duplicator.Pack.toggleAllDirPath = function(item, toggle)
 	{
-		var $info = $(item).parents('div.scan-item').children('div.info');
-		var $text = $(item).find('div.text i.fa');
-		if ($info.is(":hidden")) {
-			$text.addClass('fa-caret-down').removeClass('fa-caret-right');
-			$info.show();
-		} else {
-			$text.addClass('fa-caret-right').removeClass('fa-caret-down');
-			$info.hide(250);
-		}
+		var $dirs  = $(item).parents('div.container').find('div.data div.directory');
+		 (toggle == 'open') 
+			? $.each($dirs, function() {$(this).find('div.files').show(100);})
+			: $.each($dirs, function() {$(this).find('div.files').hide(100);});
+		
 	}
 
 	Duplicator.Pack.applyFilters = function()
@@ -356,50 +405,52 @@ jQuery(document).ready(function($)
 		});
 	}
 
-	Duplicator.Pack.intLargeFileView = function(data)
+	Duplicator.Pack.initArchiveFilesData = function(data)
 	{
+		//TOTAL SIZE:
+		$('#data-arc-status-size').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Size));
+		$('#data-arc-status-names').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Names));
+		$('#data-arc-status-big').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Big));
+		$('#data-arc-size1').text(data.ARC.Size || errMsg);
+		$('#data-arc-size2').text(data.ARC.Size || errMsg);
+		$('#data-arc-files').text(data.ARC.FileCount || errMsg);
+		$('#data-arc-dirs').text(data.ARC.DirCount || errMsg);
+
+		//LARGE FILES:
 		var template = $('#hb-files-large').html();
 		var templateScript = Handlebars.compile(template);
 		var html = templateScript(data);
 		$('#hb-files-large-result').html(html);
+
+		//NAME CHECKS
+		var template = $('#hb-files-utf8').html();
+		var templateScript = Handlebars.compile(template);
+		var html = templateScript(data);
+		$('#hb-files-large-utf8').html(html);
+
+
+		
+		var html = '';
+		//Dirs
+		if (data.ARC.FilterInfo.Dirs.Warning !== undefined && data.ARC.FilterInfo.Dirs.Warning.length > 0) {
+			$.each(data.ARC.FilterInfo.Dirs.Warning, function (key, val) {
+				html += '<?php _e("DIR", 'duplicator') ?> ' + key + ':<br/>[' + val + ']<br/>';
+			});
+		}
+		//Files
+		if (data.ARC.FilterInfo.Files.Warning !== undefined && data.ARC.FilterInfo.Files.Warning.length > 0) {
+			$.each(data.ARC.FilterInfo.Files.Warning, function (key, val) {
+				html += '<?php _e("FILE", 'duplicator') ?> ' + key + ':<br/>[' + val + ']<br/>';
+			});
+		}
+		html = (html.length == 0) ? '<?php _e("No name warning issues found.", 'duplicator') ?>' : html;
+		$('#data-arc-names-data').html(html);
 	}
 
-	Duplicator.Pack.setScanStatus = function(status)
+
+	Duplicator.Pack.initArchiveDBData = function(data)
 	{
-		var result;
-		switch (status) {
-			case false :    result = '<div class="dup-scan-warn"><i class="fa fa-exclamation-triangle"></i></div>';      break;
-			case 'Warn' :   result = '<div class="badge-warn">Warn</div>'; break;
-			case true :     result = '<div class="dup-scan-good"><i class="fa fa-check"></i></div>';	                 break;
-			case 'Good' :   result = '<div class="badge-pass">Good</div>';                break;
-			default :
-				result = 'unable to read';
-		}
-		return result;
-	}
 
-	/*	Load Scan Data   */
-	Duplicator.Pack.loadScanData = function(data)
-	{
-	
-		$('#dup-progress-bar-area').hide();
-
-		//ERROR: Data object is corrupt or empty return error
-		if (data == undefined || data.RPT == undefined)
-		{
-			Duplicator.Pack.intErrorView();
-			console.log('JSON Report Data:');
-			console.log(data);
-			return;
-		}
-
-		$('#data-rpt-scantime').text(data.RPT.ScanTime || 0);
-		Duplicator.Pack.intServerData(data);
-		Duplicator.Pack.intLargeFileView(data);
-
-
-		//****************
-		//DATABASE
 		var errMsg = "unable to read";
 		var html = "";
 		var DB_TotalSize = 'Good';
@@ -435,49 +486,6 @@ jQuery(document).ready(function($)
 			html = '<?php _e("Unable to report on database stats", 'duplicator') ?>';
 			$('#dup-scan-db').html(html);
 		}
-
-		//****************
-		//ARCHIVE
-		$('#data-arc-status-size').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Size));
-		$('#data-arc-status-names').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Names));
-		$('#data-arc-status-big').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Big));
-		$('#data-arc-size1').text(data.ARC.Size || errMsg);
-		$('#data-arc-size2').text(data.ARC.Size || errMsg);
-		$('#data-arc-files').text(data.ARC.FileCount || errMsg);
-		$('#data-arc-dirs').text(data.ARC.DirCount || errMsg);
-
-		//Name Checks
-		html = '';
-		//Dirs
-		if (data.ARC.FilterInfo.Dirs.Warning !== undefined && data.ARC.FilterInfo.Dirs.Warning.length > 0) {
-			$.each(data.ARC.FilterInfo.Dirs.Warning, function (key, val) {
-				html += '<?php _e("DIR", 'duplicator') ?> ' + key + ':<br/>[' + val + ']<br/>';
-			});
-		}
-		//Files
-		if (data.ARC.FilterInfo.Files.Warning !== undefined && data.ARC.FilterInfo.Files.Warning.length > 0) {
-			$.each(data.ARC.FilterInfo.Files.Warning, function (key, val) {
-				html += '<?php _e("FILE", 'duplicator') ?> ' + key + ':<br/>[' + val + ']<br/>';
-			});
-		}
-		html = (html.length == 0) ? '<?php _e("No name warning issues found.", 'duplicator') ?>' : html;
-
-
-		$('#data-arc-names-data').html(html);
-		$('#dup-msg-success').show();
-
-		//Waring Check
-		var warnCount = data.RPT.Warnings || 0;
-		if (warnCount > 0) {
-			$('#dup-scan-warning-continue').show();
-			$('#dup-build-button').prop("disabled",true).removeClass('button-primary');
-		} else {
-			$('#dup-scan-warning-continue').hide();
-			$('#dup-build-button').prop("disabled",false).addClass('button-primary');
-		}
-
 	}
-
-
 });
 </script>

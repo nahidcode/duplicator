@@ -74,8 +74,9 @@
 
 	div.hb-files-style div.container {border:1px solid #E0E0E0; border-radius:4px; margin:5px 0 10px 0}
 	div.hb-files-style div.data {padding:8px; line-height: 22px; height:175px; overflow-y:scroll; }
-	div.hb-files-style div.hdrs {background: #efefef; padding: 3px}
+	div.hb-files-style div.hdrs {background: #efefef; padding:4px; border-bottom:1px solid #E0E0E0;}
 	div.hb-files-style div.directory i.dup-nav {cursor:pointer}
+	div.hb-files-style i.dup-nav-toggle:hover {cursor:pointer; color:#999}
 	div.hb-files-style div.directory i.fa {width:8px}
 	div.hb-files-style div.directory label {font-weight: bold; cursor: pointer}
 	div.hb-files-style div.files {padding: 2px 0 0 35px; font-size: 11px; display:none; line-height: 16px}
@@ -197,7 +198,7 @@ TOOL BAR: STEPS -->
 <script>
 jQuery(document).ready(function($)
 {
-	/*	Performs Ajax post to create check system  */
+	// Performs ajax call to get scanner retults via JSON response
 	Duplicator.Pack.runScanner = function()
 	{
 		var data = {action : 'duplicator_package_scan'}
@@ -223,6 +224,52 @@ jQuery(document).ready(function($)
 		});
 	}
 
+	//Loads the scanner data results into the various sections of the screen
+	Duplicator.Pack.loadScanData = function(data)
+	{
+		$('#dup-progress-bar-area').hide();
+
+		//ERROR: Data object is corrupt or empty return error
+		if (data == undefined || data.RPT == undefined) {
+			Duplicator.Pack.intErrorView();
+			console.log('JSON Report Data:');
+			console.log(data);
+			return;
+		}
+
+		$('#data-rpt-scantime').text(data.RPT.ScanTime || 0);
+		Duplicator.Pack.intServerData(data);
+		Duplicator.Pack.initArchiveFilesData(data);
+		Duplicator.Pack.initArchiveDBData(data);
+
+		$('#dup-msg-success').show();
+
+		//Waring Check
+		var warnCount = data.RPT.Warnings || 0;
+		if (warnCount > 0) {
+			$('#dup-scan-warning-continue').show();
+			$('#dup-build-button').prop("disabled",true).removeClass('button-primary');
+		} else {
+			$('#dup-scan-warning-continue').hide();
+			$('#dup-build-button').prop("disabled",false).addClass('button-primary');
+		}
+	}
+	
+	//Toggles each scan item to hide/show details
+	Duplicator.Pack.toggleScanItem = function(item)
+	{
+		var $info = $(item).parents('div.scan-item').children('div.info');
+		var $text = $(item).find('div.text i.fa');
+		if ($info.is(":hidden")) {
+			$text.addClass('fa-caret-down').removeClass('fa-caret-right');
+			$info.show();
+		} else {
+			$text.addClass('fa-caret-right').removeClass('fa-caret-down');
+			$info.hide(250);
+		}
+	}
+
+	//Returns the scanner without a page refresh
 	Duplicator.Pack.rescan = function()
 	{
 		$('#dup-msg-success,#dup-msg-error,.dup-button-footer').hide();
@@ -230,6 +277,7 @@ jQuery(document).ready(function($)
 		Duplicator.Pack.runScanner();
 	}
 
+	//Allows user to continue with build if warnings found
 	Duplicator.Pack.warningContinue = function(checkbox)
 	{
 		($(checkbox).is(':checked'))
@@ -237,6 +285,7 @@ jQuery(document).ready(function($)
 			:	$('#dup-build-button').prop('disabled',true).removeClass('button-primary');
 	}
 
+	//Show the error message if the JSON data is corrupted
 	Duplicator.Pack.intErrorView = function()
 	{
 		var html_msg;
@@ -252,6 +301,21 @@ jQuery(document).ready(function($)
 		$('#dup-msg-error-response-status').html('Scan Path Error [<?php echo rtrim(DUPLICATOR_WPROOTPATH, '/'); ?>]');
 		$('#dup-msg-error-response-text').html(html_msg);
 		$('#dup-msg-error').show(200);
+	}
+
+	//Sets various can statuses
+	Duplicator.Pack.setScanStatus = function(status)
+	{
+		var result;
+		switch (status) {
+			case false :    result = '<div class="dup-scan-warn"><i class="fa fa-exclamation-triangle"></i></div>';      break;
+			case 'Warn' :   result = '<div class="badge-warn">Warn</div>'; break;
+			case true :     result = '<div class="dup-scan-good"><i class="fa fa-check"></i></div>';	                 break;
+			case 'Good' :   result = '<div class="badge-pass">Good</div>';                break;
+			default :
+				result = 'unable to read';
+		}
+		return result;
 	}
 
 	//PAGE INIT:
