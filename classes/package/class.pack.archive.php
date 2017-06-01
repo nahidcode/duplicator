@@ -153,7 +153,7 @@ class DUP_Archive
             }
         }
 		$clean_array  = array_unique($clean_array);
-		$filters = implode(';', $clean_array);
+		$filters = implode(';', $clean_array) . ';';
         return $filters ;
     }
 
@@ -270,7 +270,12 @@ class DUP_Archive
 
 			if ($invalid_test) {
 				$filePath = DUP_Encoding::toUTF8($filePath);
-				$this->FilterInfo->Files->Warning[] = $filePath;
+				$this->FilterInfo->Files->Warning[] = array(
+						'sname'	=> strlen($fileName > 75) ? substr($fileName, 0, 75) . '...' . $ext : $fileName,
+						'name'	=> $fileName,
+						'dir'	=> pathinfo($filePath, PATHINFO_DIRNAME),
+						'path'	=> $filePath);
+
 			}
 
 			$fileSize = @filesize($filePath);

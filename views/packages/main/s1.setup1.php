@@ -218,7 +218,7 @@ SYSTEM REQUIREMENTS -->
 <!-- ============================
 FORM PACKAGE OPTIONS -->
 <div style="padding:5px 5px 2px 5px">
-	<?php include('new1.inc.form.php'); ?>
+	<?php include('s1.setup2.php'); ?>
 </div>
 
 <script>

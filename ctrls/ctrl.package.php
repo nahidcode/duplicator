@@ -182,8 +182,9 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
 			$changed = $package->Archive->saveActiveItem($package, 'FilterDirs', $filters);
 
 			//Result
-			$payload = DUP_Package::getActive();
-			$payload = $package->Archive->FilterDirs;
+			$package = DUP_Package::getActive();
+			$payload['in'] = $post['dir_paths'];
+			$payload['out'] = $package->Archive->FilterDirs;
 
 			//RETURN RESULT
 			$test = ($changed) ? DUP_CTRL_Status::SUCCESS : DUP_CTRL_Status::FAILED;
