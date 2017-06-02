@@ -74,12 +74,14 @@
 
 	div.hb-files-style div.container {border:1px solid #E0E0E0; border-radius:4px; margin:5px 0 10px 0}
 	div.hb-files-style div.data {padding:8px; line-height: 22px; height:175px; overflow-y:scroll; }
-	div.hb-files-style div.hdrs {background: #efefef; padding:4px; border-bottom:1px solid #E0E0E0;}
-	div.hb-files-style div.directory i.dup-nav {cursor:pointer}
+	div.hb-files-style div.hdrs {background: #efefef; padding:4px; border-bottom:1px solid #E0E0E0; font-weight: bold}
 	div.hb-files-style i.dup-nav-toggle:hover {cursor:pointer; color:#999}
+	div.hb-files-style div.directory {margin-left:10px}
+	div.hb-files-style div.directory i.dup-nav {cursor:pointer}
+	
 	div.hb-files-style div.directory i.fa {width:8px}
 	div.hb-files-style div.directory label {font-weight: bold; cursor: pointer}
-	div.hb-files-style div.files {padding: 2px 0 0 35px; font-size: 11px; display:none; line-height: 16px}
+	div.hb-files-style div.files {padding: 2px 0 0 35px; font-size:12px; display:none; line-height:18px}
 
 	/*DATABASE*/
 	div#dup-scan-db-info {margin:0px 0px 0px 10px}

@@ -1,3 +1,12 @@
+<?php
+	function _duplicatorGetRootPath() {
+		$txt   = __('Root Path', 'duplicator');
+		$root  = rtrim(DUPLICATOR_WPROOTPATH, '//');
+		$sroot = strlen($root) > 50 ? substr($root, 0, 50) . '...' : $root;
+		echo "<div title='{$root}' style='font-weight:bold'><i class='fa fa-folder-open'></i> {$sroot}</div>";
+	}
+?>
+
 <!-- ================================================================
 ARCHIVE
 ================================================================ -->
@@ -64,41 +73,41 @@ LARGE FILES -->
 	<div class="info">
 		<?php
 			_e('Large files such as movies or zipped content can create large packages and cause issues with timeouts on some hosts.  If your having issues creating a package try '
-			. 'excluding the directory paths below.  Then manually move the filtered files to your new location.', 'duplicator');
+			. 'excluding the directory paths below.  Then manually move the filtered files to your new location.  ', 'duplicator');
+			printf(__('<i>Files over %1$s are shown below.</i>', 'duplicator'), DUP_Util::byteSize(DUPLICATOR_SCAN_WARNFILESIZE));
 		?>
 		<script id="hb-files-large" type="text/x-handlebars-template">
 			<div class="container">
 				<div class="hdrs">
-					<?php
-						printf(__('Apply Filters: <i>Files over %1$s are shown below.</i>', 'duplicator'), DUP_Util::byteSize(DUPLICATOR_SCAN_WARNFILESIZE));
-					?>
+					<b><?php _e('Apply Filters', 'duplicator');?></b>
 					<div style='float:right;  margin:-2px 12px 2px 0'>
 						<i class="fa fa-caret-up fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'close')"></i>
 						<i class="fa fa-caret-down fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'open')"></i>
 					</div>
 				</div>
 				<div class="data">
-				{{#if ARC.FilterInfo.Files.Size}}
-					{{#each ARC.FilterInfo.Files.Size as |directory|}}
-						<div class="directory">
-							<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
-							<input type="checkbox" name="dir_paths[]" value="{{@key}}" id="dir_{{@index}}" />
+					<?php _duplicatorGetRootPath();	?>
+					{{#if ARC.FilterInfo.Files.Size}}
+						{{#each ARC.FilterInfo.Files.Size as |directory|}}
+							<div class="directory">
+								<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
+								<input type="checkbox" name="dir_paths[]" value="{{@key}}" id="lf_dir_{{@index}}" />
 
-							<label for="dir_{{@index}}" title="{{@key}}">{{shortDirectory @key}}</label> <br/>
-							<div class="files">
-								{{#each directory as |file|}}
-									[{{file.bytes}}] &nbsp; {{file.sname}} <br/>
-								{{/each}}
+								<label for="lf_dir_{{@index}}" title="{{@key}}">{{directory.0.sdir}}/</label> <br/>
+								<div class="files">
+									{{#each directory as |file|}}
+										[{{file.bytes}}] &nbsp; {{file.sname}} <br/>
+									{{/each}}
+								</div>
 							</div>
-						</div>
-					{{/each}}
-				{{else}}
-					No large files found during this scan.
-				{{/if}}
+						{{/each}}
+					{{else}}
+						No large files found during this scan.
+					{{/if}}
 				</div>
 			</div>
 			<div style="text-align:right">
-				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters()">
+				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters('large')">
 					<i class="fa fa-filter"></i> <?php _e('Apply Filters &amp; Rescan', 'duplicator');?>
 				</button>
 			</div>
@@ -125,22 +134,21 @@ FILE NAME CHECKS -->
 		<script id="hb-files-utf8" type="text/x-handlebars-template">
 			<div class="container">
 				<div class="hdrs">
-					<?php
-						_e('Apply Filters:', 'duplicator');
-					?>
+					<b><?php _e('Apply Filters', 'duplicator');?></b>
 					<div style='float:right;  margin:-2px 12px 2px 0'>
 						<i class="fa fa-caret-up fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'close')"></i>
 						<i class="fa fa-caret-down fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'open')"></i>
 					</div>
 				</div>
 				<div class="data">
+					<?php _duplicatorGetRootPath();	?>
 					{{#ifCond  ARC.FilterInfo.Files.Warning 'obj||' ARC.FilterInfo.Dirs.Warning}}
 						{{#each ARC.FilterInfo.Files.Warning as |directory|}}
 							<div class="directory">
 								<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
-								<input type="checkbox" name="dir_paths[]" value="{{@key}}" id="dir_{{@index}}" />
+								<input type="checkbox" name="dir_paths[]" value="{{@key}}" id="nc1_dir_{{@index}}" />
 
-								<label for="dir_{{@index}}" title="{{@key}}">{{shortDirectory @key}}</label> <br/>
+								<label for="nc1_dir_{{@index}}" title="{{@key}}">{{directory.0.sdir}}/</label> <br/>
 								<div class="files">
 									{{#each directory as |file|}}
 										{{file.sname}} <br/>
@@ -151,8 +159,8 @@ FILE NAME CHECKS -->
 						{{#each ARC.FilterInfo.Dirs.Warning}}
 							<div class="directory">
 								<div style='display:inline-block;width:15px'></div>
-								<input type="checkbox" name="dir_paths[]" value="{{@value}}" id="dir_{{@index}}" />
-								<label for="dir_{{@index}}" title="{{@value}}">{{shortDirectory this}}</label> <br/>
+								<input type="checkbox" name="dir_paths[]" value="{{@value}}" id="nc2_dir_{{@index}}" />
+								<label for="nc2_dir_{{@index}}" title="{{@value}}">{{this.sdir}}</label> <br/>
 							</div>
 						{{/each}}
 					{{else}}
@@ -161,14 +169,12 @@ FILE NAME CHECKS -->
 				</div>
 			</div>
 			<div style="text-align:right">
-				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters()">
+				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters('utf8')">
 					<i class="fa fa-filter"></i> <?php _e('Apply Filters &amp; Rescan', 'duplicator');?>
 				</button>
 			</div>
 		</script>
-		<div id="hb-files-large-utf8" class="hb-files-style"></div>
-
-		
+		<div id="hb-files-utf8-result" class="hb-files-style"></div>
 
 	</div>
 </div>
@@ -379,10 +385,11 @@ jQuery(document).ready(function($)
 		
 	}
 
-	Duplicator.Pack.applyFilters = function()
+	Duplicator.Pack.applyFilters = function(type)
 	{
+		var id = (type == 'large') ? '#hb-files-large-result' : '#hb-files-utf8-result'
 		var filters = [];
-		$("#hb-files-large-result input[name='dir_paths[]']:checked").each(function (){
+		$(id + " input[name='dir_paths[]']:checked").each(function (){
 			filters.push($(this).val());
 		});
 
@@ -400,8 +407,11 @@ jQuery(document).ready(function($)
 			timeout: 100000,
 			data: data,
 			complete: function() { Duplicator.Pack.rescan();},
-			success:  function(data) {console.log(data);},
-			error: function(data) {	console.log(data);}
+			success:  function() {},
+			error: function(data) { 
+				console.log(data);
+				alert("<?php _e('Error applying filter.  Please go back to Step 1 to add filter!', 'duplicator');?>");
+			}
 		});
 	}
 
@@ -426,7 +436,8 @@ jQuery(document).ready(function($)
 		var template = $('#hb-files-utf8').html();
 		var templateScript = Handlebars.compile(template);
 		var html = templateScript(data);
-		$('#hb-files-large-utf8').html(html);
+		$('#hb-files-utf8-result').html(html);
+
 
 
 		
