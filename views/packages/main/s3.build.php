@@ -42,7 +42,7 @@ TOOL BAR: STEPS -->
 			</div>
 		</td>
 		<td>
-			<a id="dup-pro-create-new"  href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e("Packages", 'duplicator'); ?></a> &nbsp;
+			<a href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e("Packages", 'duplicator'); ?></a> &nbsp;
 			<span> <?php _e("Create New", 'duplicator'); ?></span>
 		</td>
 	</tr>
@@ -90,7 +90,7 @@ TOOL BAR: STEPS -->
 				</div>
 				<div class="dup-msg-success-links">
 					<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?>
-					<?php printf("<a href='?page=duplicator&tab=new1'>[ %s ]</a>", 	__('Create New', 'duplicator'));?> 
+					<?php printf("<a href='?page=duplicator&tab=new1&action=load'>[ %s ]</a>", 	__('Create New', 'duplicator'));?>
 				</div><br/>
 				
 				<!-- Used for iMacros testing do not remove -->

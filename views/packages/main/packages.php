@@ -62,7 +62,7 @@ TOOL-BAR -->
 		</td>
 		<td>						
 			<span><i class="fa fa-archive"></i> <?php _e("Packages", 'duplicator'); ?></span>
-			<a id="dup-pro-create-new"  href="?page=duplicator&tab=new1" class="add-new-h2"><?php _e("Create New", 'duplicator'); ?></a>
+			<a href="?page=duplicator&tab=new1&action=load" class="add-new-h2"><?php _e("Create New", 'duplicator'); ?></a>
 		</td>
 	</tr>
 </table>	

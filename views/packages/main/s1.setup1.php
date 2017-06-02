@@ -2,14 +2,21 @@
 
 global $wpdb;
 
-//POST BACK
-$action_updated = null;
-if (isset($_POST['action']))
-{
+//Reload page if not properly requested
+//if( ! isset($_REQUEST['action'])) {
+//	$redirect = admin_url('admin.php?page=duplicator&tab=new1&action=load');
+//	echo "<script>window.location.href = '{$redirect}'</script>";
+//	exit;
+//}
+
+//POST BACK: Rest Button
+if (isset($_POST['action'])) {
     $action_result = DUP_Settings::DeleteWPOption($_POST['action']);
     switch ($_POST['action'])
     {
-        case 'duplicator_package_active' : $action_response = __('Package settings have been reset.', 'duplicator');
+        case 'duplicator_package_active' :
+			$action_result = DUP_Settings::DeleteWPOption($_POST['action']);
+			$action_response = __('Package settings have been reset.', 'duplicator');
             break;
     }
 }
@@ -65,7 +72,7 @@ TOOL BAR: STEPS -->
             </div>	
         </td>
         <td>
-            <a id="dup-pro-create-new"  href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e("Packages", 'duplicator'); ?></a>
+            <a href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e("Packages", 'duplicator'); ?></a>
 			<span> <?php _e("Create New", 'duplicator'); ?></span>
         </td>
     </tr>

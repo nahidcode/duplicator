@@ -151,7 +151,7 @@ FILE NAME CHECKS -->
 								<label for="nc1_dir_{{@index}}" title="{{@key}}">{{directory.0.sdir}}/</label> <br/>
 								<div class="files">
 									{{#each directory as |file|}}
-										{{file.sname}} <br/>
+										- {{file.sname}} <br/>
 									{{/each}}
 								</div>
 							</div>
@@ -159,8 +159,8 @@ FILE NAME CHECKS -->
 						{{#each ARC.FilterInfo.Dirs.Warning}}
 							<div class="directory">
 								<div style='display:inline-block;width:15px'></div>
-								<input type="checkbox" name="dir_paths[]" value="{{@value}}" id="nc2_dir_{{@index}}" />
-								<label for="nc2_dir_{{@index}}" title="{{@value}}">{{this.sdir}}</label> <br/>
+								<input type="checkbox" name="dir_paths[]" value="{{this.dir}}" id="nc2_dir_{{@index}}" />
+								<label for="nc2_dir_{{@index}}" title="{{this.dir}}">{{this.sdir}}</label> <br/>
 							</div>
 						{{/each}}
 					{{else}}
@@ -398,6 +398,7 @@ jQuery(document).ready(function($)
 			nonce: '<?php echo wp_create_nonce('DUP_CTRL_Package_addDirectoryFilter'); ?>',
 			dir_paths : filters.join(";")
 		};
+		console.log(filters);
 
 		$.ajax({
 			type: "POST",
@@ -408,7 +409,7 @@ jQuery(document).ready(function($)
 			data: data,
 			complete: function() { Duplicator.Pack.rescan();},
 			success:  function() {},
-			error: function(data) { 
+			error: function(data) {
 				console.log(data);
 				alert("<?php _e('Error applying filter.  Please go back to Step 1 to add filter!', 'duplicator');?>");
 			}

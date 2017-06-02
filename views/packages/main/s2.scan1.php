@@ -1,5 +1,6 @@
 <?php
 	wp_enqueue_script('dup-handlebars');
+
 	if(empty($_POST))
 	{
 		//F5 Refresh Check
@@ -81,7 +82,7 @@
 	
 	div.hb-files-style div.directory i.fa {width:8px}
 	div.hb-files-style div.directory label {font-weight: bold; cursor: pointer}
-	div.hb-files-style div.files {padding: 2px 0 0 35px; font-size:12px; display:none; line-height:18px}
+	div.hb-files-style div.files {padding: 2px 0 0 45px; font-size:12px; display:none; line-height:18px}
 
 	/*DATABASE*/
 	div#dup-scan-db-info {margin:0px 0px 0px 10px}
@@ -118,7 +119,7 @@ TOOL BAR: STEPS -->
 			</div>	
 		</td>
 		<td>
-			<a id="dup-pro-create-new"  href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e('Packages', 'duplicator'); ?></a> 
+			<a href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e('Packages', 'duplicator'); ?></a> 
 			<span> <?php _e('Create New', 'duplicator'); ?></span>
 		</td>
 	</tr>
