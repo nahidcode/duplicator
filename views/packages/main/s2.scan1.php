@@ -35,6 +35,7 @@
 	form#form-duplicator {text-align:center; max-width:650px; min-height:200px; margin:0px auto 0px auto; padding:0px;}
 	div.dup-progress-title {font-size:22px; padding:5px 0 20px 0; font-weight: bold}
 	div#dup-msg-success {padding:0 5px 5px 5px; text-align: left}
+	i[data-tooltip].fa-question-circle {color:#555}
 	
 	div#dup-msg-success-subtitle {color:#999; margin:0; font-size: 11px}
 	div#dup-msg-error {color:#A62426; padding:5px; max-width: 790px;}
@@ -74,6 +75,8 @@
 	div#data-arc-names-data {word-wrap: break-word;font-size:10px; border:1px dashed silver; padding:5px; display: none}
 
 	div.hb-files-style div.container {border:1px solid #E0E0E0; border-radius:4px; margin:5px 0 10px 0}
+	div.hb-files-style div.container b {font-weight: bold}
+	div.hb-files-style div.container div.divider {margin-bottom: 2px; font-weight: bold}
 	div.hb-files-style div.data {padding:8px; line-height: 22px; height:175px; overflow-y:scroll; }
 	div.hb-files-style div.hdrs {background: #efefef; padding:4px; border-bottom:1px solid #E0E0E0; font-weight: bold}
 	div.hb-files-style i.dup-nav-toggle:hover {cursor:pointer; color:#999}

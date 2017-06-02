@@ -90,11 +90,9 @@ TOOL BAR: STEPS -->
 				</div>
 				<div class="dup-msg-success-links">
 					<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?>
-					<?php printf("<a href='?page=duplicator&tab=new1&action=load'>[ %s ]</a>", 	__('Create New', 'duplicator'));?>
+					<?php printf("<a href='?page=duplicator&tab=new1'>[ %s ]</a>", 	__('Create New', 'duplicator'));?>
 				</div><br/>
 				
-				<!-- Used for iMacros testing do not remove -->
-				<div id="dup-automation-imacros"></div>
 			</div>
 			
 			<!--  =========================
@@ -179,8 +177,6 @@ jQuery(document).ready(function($) {
 				//Wire Up Downloads
 				$('#dup-btn-installer').on("click", {name: InstallURL }, Duplicator.Pack.DownloadFile  );
 				$('#dup-btn-archive').on("click",   {name: ArchiveURL }, Duplicator.Pack.DownloadFile  );
-				//Imacros testing required
-				$('#dup-automation-imacros').html('<input type="hidden" id="dup-finished" value="done" />');
 					
 			},
 			error: function(data) { 

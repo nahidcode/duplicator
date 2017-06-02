@@ -108,10 +108,15 @@ class DUP_Archive
 			$this->setFileFilters();
         }
 
+		//Remove duplicates from Directory Warning arrays
+		$file_dir_keys = array_keys($this->FilterInfo->Files->Warning);
+		foreach($file_dir_keys as $key) {
+			unset($this->FilterInfo->Dirs->Warning[$key]);
+		}
+
         $this->FilterDirsAll  = array_merge($this->FilterDirsAll, $this->FilterInfo->Dirs->Unreadable);
         $this->FilterFilesAll = array_merge($this->FilterFilesAll, $this->FilterInfo->Files->Unreadable);
         return $this;
-
 
     }
 
@@ -239,7 +244,7 @@ class DUP_Archive
                 $this->FilterInfo->Dirs->Unreadable[] = $unreadable_dir;
             }
         }
-		
+		$this->FilterInfo->Dirs->Warning = DUP_Util::array_group_by($this->FilterInfo->Dirs->Warning, "dir" );
 		ksort($this->FilterInfo->Dirs->Warning);
     }
 

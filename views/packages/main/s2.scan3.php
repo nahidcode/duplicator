@@ -3,7 +3,7 @@
 		$txt   = __('Root Path', 'duplicator');
 		$root  = rtrim(DUPLICATOR_WPROOTPATH, '//');
 		$sroot = strlen($root) > 50 ? substr($root, 0, 50) . '...' : $root;
-		echo "<div title='{$root}' style='font-weight:bold'><i class='fa fa-folder-open'></i> {$sroot}</div>";
+		echo "<div title='{$root}' class='divider'><i class='fa fa-folder-open'></i> {$sroot}</div>";
 	}
 ?>
 
@@ -142,12 +142,12 @@ FILE NAME CHECKS -->
 				</div>
 				<div class="data">
 					<?php _duplicatorGetRootPath();	?>
-					{{#ifCond  ARC.FilterInfo.Files.Warning 'obj||' ARC.FilterInfo.Dirs.Warning}}
+					<!-- FILES-->
+					{{#if  ARC.FilterInfo.Files.Warning}}
 						{{#each ARC.FilterInfo.Files.Warning as |directory|}}
 							<div class="directory">
 								<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
 								<input type="checkbox" name="dir_paths[]" value="{{@key}}" id="nc1_dir_{{@index}}" />
-
 								<label for="nc1_dir_{{@index}}" title="{{@key}}">{{directory.0.sdir}}/</label> <br/>
 								<div class="files">
 									{{#each directory as |file|}}
@@ -156,16 +156,21 @@ FILE NAME CHECKS -->
 								</div>
 							</div>
 						{{/each}}
-						{{#each ARC.FilterInfo.Dirs.Warning}}
+					{{else}}
+						<?php _e('No file name warnings found.', 'duplicator');?>
+					{{/if}}
+					
+					<!-- EMPTY DIRS -->
+					{{#if  ARC.FilterInfo.Dirs.Warning}}
+						<div class='divider'><i><?php _e('Empty Directories', 'duplicator');?></i></div>
+						{{#each ARC.FilterInfo.Dirs.Warning as |directory|}}
 							<div class="directory">
 								<div style='display:inline-block;width:15px'></div>
-								<input type="checkbox" name="dir_paths[]" value="{{this.dir}}" id="nc2_dir_{{@index}}" />
-								<label for="nc2_dir_{{@index}}" title="{{this.dir}}">{{this.sdir}}</label> <br/>
+								<input type="checkbox" name="dir_paths[]" value="{{directory.0.dir}}" id="nc2_dir_{{@index}}" />
+								<label for="nc2_dir_{{@index}}" title="{{this.dir}}">{{directory.0.sdir}}</label> <br/>
 							</div>
 						{{/each}}
-					{{else}}
-						No name warnings found during this scan.
-					{{/ifCond}}
+					{{/if}}
 				</div>
 			</div>
 			<div style="text-align:right">
