@@ -129,7 +129,7 @@ class DUP_Archive
 
         $reflectionClass = new ReflectionClass($package->Archive);
         $reflectionClass->getProperty($property)->setValue($package->Archive, $value);
-        return update_option($package::OPT_ACTIVE, $package);
+        return update_option(DUP_Package::OPT_ACTIVE, $package);
     }
 
 
