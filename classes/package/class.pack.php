@@ -113,6 +113,9 @@ class DUP_Package
         $report['ARC']['DirCount']  = number_format($dirCount);
         $report['ARC']['FileCount'] = number_format($fileCount);
         $report['ARC']['FullCount'] = number_format($fullCount);
+		$report['ARC']['FilterDirsAll'] = $this->Archive->FilterDirsAll;
+		$report['ARC']['FilterFilesAll'] = $this->Archive->FilterFilesAll;
+		$report['ARC']['FilterExtsAll'] = $this->Archive->FilterExtsAll;
 
         $report['ARC']['FilterInfo']['Dirs']  = $this->Archive->FilterInfo->Dirs;
         $report['ARC']['FilterInfo']['Files'] = $this->Archive->FilterInfo->Files;

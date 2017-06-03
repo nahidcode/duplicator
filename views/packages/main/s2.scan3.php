@@ -108,7 +108,7 @@ LARGE FILES -->
 				</div>
 			</div>
 			<div style="text-align:right">
-				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters('large')">
+				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters(this, 'large')">
 					<i class="fa fa-filter"></i> <?php _e('Apply Filters &amp; Rescan', 'duplicator');?>
 				</button>
 			</div>
@@ -124,7 +124,7 @@ FILE NAME CHECKS -->
 		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('Name Checks', 'duplicator');?></div>
 		<div id="data-arc-status-names"></div>
 	</div>
-	<div class="info">
+	<div class="info" style="display: block">
 		<?php
 			_e('File or directory names may cause issues when working across different environments and servers.  Names that are over 250 characters, contain '
 				. 'special characters (such as * ? > < : / \ |) or are unicode might cause issues in a remote enviroment.  It is recommended to remove or filter '
@@ -168,7 +168,7 @@ FILE NAME CHECKS -->
 				</div>
 			</div>
 			<div style="text-align:right">
-				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters('utf8')">
+				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters(this, 'utf8')">
 					<i class="fa fa-filter"></i> <?php _e('Apply Filters &amp; Rescan', 'duplicator');?>
 				</button>
 			</div>
@@ -385,8 +385,12 @@ jQuery(document).ready(function($)
 			: $.each($dirs, function() {$(this).find('div.files').hide(100);});
 	}
 
-	Duplicator.Pack.applyFilters = function(type)
+	Duplicator.Pack.applyFilters = function(btn, type)
 	{
+		var $btn = $(btn);
+		$btn.html('<i class="fa fa-circle-o-notch fa-spin"></i> <?php _e('Initializing Please Wait...', 'duplicator');?>');
+		$btn.attr('disabled', 'true');
+
 		var id = (type == 'large') ? '#hb-files-large-result' : '#hb-files-utf8-result'
 		var filters = [];
 		$(id + " input[name='dir_paths[]']:checked").each(function (){
@@ -406,11 +410,11 @@ jQuery(document).ready(function($)
 			dataType: "json",
 			timeout: 100000,
 			data: data,
-			complete: function() { Duplicator.Pack.rescan();},
-			success:  function() {},
+			complete: function() { },
+			success:  function() {Duplicator.Pack.rescan();},
 			error: function(data) {
 				console.log(data);
-				alert("<?php _e('Error applying filter.  Please go back to Step 1 to add filter!', 'duplicator');?>");
+				alert("<?php _e('Error applying filters.  Please go back to Step 1 to add filter manually!', 'duplicator');?>");
 			}
 		});
 	}

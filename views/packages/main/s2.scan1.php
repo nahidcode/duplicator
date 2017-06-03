@@ -213,13 +213,13 @@ jQuery(document).ready(function($)
 		var data = {action : 'duplicator_package_scan'}
 		$.ajax({
 			type: "POST",
+			cache: false,
 			url: ajaxurl,
 			dataType: "json",
 			timeout: 10000000,
 			data: data,
 			complete: function() {$('.dup-button-footer').show()},
 			success:  function(data) {
-				
 				Duplicator.Pack.loadScanData(data);
 			},
 			error: function(data) {

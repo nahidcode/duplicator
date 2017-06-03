@@ -94,7 +94,6 @@ class DUP_Archive
     public function getScannerData()
     {
 		$this->createFilterInfo();
-
 		$rootPath = DUP_Util::safePath(rtrim(DUPLICATOR_WPROOTPATH, '//'));
         $rootPath = (trim($rootPath) == '') ? '/' : $rootPath;
 
@@ -111,64 +110,13 @@ class DUP_Archive
 
         $this->FilterDirsAll  = array_merge($this->FilterDirsAll, $this->FilterInfo->Dirs->Unreadable);
         $this->FilterFilesAll = array_merge($this->FilterFilesAll, $this->FilterInfo->Files->Unreadable);
+		sort($this->FilterDirsAll);
+		//sort($this->FilterFilesAll);
+		
         return $this;
-
     }
 
-	private function setTreeFilters()
-	{
-		//BUILD: File Size tree
-		$dir_group = DUP_Util::array_group_by($this->FilterInfo->Files->Size, "dir" );
-		ksort($dir_group);
-		foreach ($dir_group as $dir => $files) {
-			$sum = 0;
-			foreach ($files as $key => $value) {
-				$sum += $value['ubytes'];
-			}
-
-			$this->FilterInfo->TreeSize[] = array(
-				'size' => DUP_Util::byteSize($sum),
-				'dir' => $dir,
-				'sdir' => str_replace(DUPLICATOR_WPROOTPATH, "/", $dir),
-				'files' => $files
-			);
-		}
-
-		//BUILD: Warning tree
-		$dir_group = DUP_Util::array_group_by($this->FilterInfo->Files->Warning, "dir" );
-		ksort($dir_group);
-		foreach ($dir_group as $dir => $files) {
-			$this->FilterInfo->TreeWarning[] = array(
-				'dir' => $dir,
-				'sdir' => str_replace(DUPLICATOR_WPROOTPATH, "/", $dir),
-				'count' => count($files),
-				'files' => $files);
-		}
-
-		foreach ($this->FilterInfo->Dirs->Warning as $dir) {
-			$add_dir = true;
-			foreach ($this->FilterInfo->TreeWarning as $key => $value) {
-				if ($value['dir'] == $dir) {
-					$add_dir = false;
-					break;
-				}
-			}
-			if ($add_dir) {
-				$this->FilterInfo->TreeWarning[] = array(
-					'dir' => $dir,
-					'sdir' => str_replace(DUPLICATOR_WPROOTPATH, "/", $dir),
-					'count' => 0);
-			}
-		}
-
-		function _sortDir($a, $b){
-			return strcmp($a["dir"], $b["dir"]);
-		}
-		usort($this->FilterInfo->TreeWarning, "_sortDir");
-
-	}
-
-	    /**
+	/**
      * Save any property of this class through reflection
      *
      * @param $property     A valid public property in this class
@@ -179,12 +127,10 @@ class DUP_Archive
     public function saveActiveItem($package, $property, $value)
     {
         $package = DUP_Package::getActive();
-
         $reflectionClass = new ReflectionClass($package->Archive);
         $reflectionClass->getProperty($property)->setValue($package->Archive, $value);
-        return update_option($package::OPT_ACTIVE, $package);
+        return update_option(DUP_Package::OPT_ACTIVE, $package);
     }
-
 
 	/**
      *  Properly creates the directory filter list that is used for filtering directories
@@ -261,6 +207,9 @@ class DUP_Archive
         $this->FilterInfo->Dirs->Warning    = array();
         $this->FilterInfo->Dirs->Unreadable = array();
 
+		$utf8_key_list = array();
+		$unset_key_list = array();
+
         //Filter directories invalid test checks for:
 		// - characters over 250
 		// - invlaid characters
@@ -268,6 +217,13 @@ class DUP_Archive
 		// - directories ending with period (Windows incompatable)
         foreach ($this->Dirs as $key => $val) {
             $name = basename($val);
+			
+			//Dir is not readble remove flag for removal
+            if (! is_readable($this->Dirs[$key])) {
+				$unset_key_list[] = $key;
+                $this->FilterInfo->Dirs->Unreadable[] = DUP_Encoding::toUTF8($val);
+				continue;
+            }
 
 			//Locate invalid directories and warn
 			$invalid_test = strlen($val) > 250
@@ -277,18 +233,25 @@ class DUP_Archive
 				|| preg_match('/[^\x20-\x7f]/', $name);
 
 			if ($invalid_test) {
-				$this->FilterInfo->Dirs->Warning[] =   DUP_Encoding::toUTF8($val);
+				$utf8_key_list[] = $key;
+				$this->FilterInfo->Dirs->Warning[] = DUP_Encoding::toUTF8($val);
 			}
 
-			//@todo: CJL addEmptyDir works with unreadable dirs, this check maybe unnessary
-			//@todo: CJL Move unset logic out of loop
-            //Dir is not readble remove and flag
-            if (! is_readable($this->Dirs[$key])) {
-                unset($this->Dirs[$key]);
-                $unreadable_dir = DUP_Encoding::toUTF8($val);
-                $this->FilterInfo->Dirs->Unreadable[] = $unreadable_dir;
-            }
         }
+
+		//Try to repair utf8 paths
+		foreach ($utf8_key_list as $key) {
+			$this->Dirs[$key] =  DUP_Encoding::toUTF8($this->Dirs[$key]);
+		}
+
+		//Remove unreadable items outside of main loop for performance
+		if (count($unset_key_list)) {
+			foreach ($unset_key_list as $key) {
+				 unset($this->Dirs[$key]);
+			}
+			$this->Dirs = array_values($this->Dirs);
+		}
+
     }
 
 	/**
@@ -304,13 +267,15 @@ class DUP_Archive
         $this->FilterInfo->Files->Warning    = array();
         $this->FilterInfo->Files->Unreadable = array();
 
+		$utf8_key_list = array();
+		$unset_key_list = array();
+
 		foreach ($this->Files as $key => $filePath) {
 
 			$fileName = basename($filePath);
 
-			//@todo: CJL Move unset logic out of loop
 			if (! is_readable($filePath)) {
-				unset($this->Files[$key]);
+				$unset_key_list[] = $key;
 				$this->FilterInfo->Files->Unreadable[] = $filePath;
 				continue;
 			}
@@ -321,7 +286,9 @@ class DUP_Archive
 				|| preg_match('/[^\x20-\x7f]/', $fileName);
 
 			if ($invalid_test) {
+				$utf8_key_list[] = $key;
 				$filePath = DUP_Encoding::toUTF8($filePath);
+				$fileName = basename($filePath);
 				$this->FilterInfo->Files->Warning[] = array(
 						'sname'	=> strlen($fileName) > 65 ? substr($fileName, 0, 65) . '....' . $ext : $fileName,
 						'name'	=> $fileName,
@@ -346,6 +313,20 @@ class DUP_Archive
 						'path'	 => $filePath);
 			 }
 		}
+		
+		//Try to repair utf8 paths
+		foreach ($utf8_key_list as $key) {
+			$this->Files[$key] =  DUP_Encoding::toUTF8($this->Files[$key]);
+		}
+
+		//Remove unreadable items outside of main loop for performance
+		if (count($unset_key_list)) {
+			foreach ($unset_key_list as $key) {
+				 unset($this->Files[$key]);
+			}
+			$this->Files = array_values($this->Files);
+		}
+
     }
 
 	/**
@@ -405,6 +386,67 @@ class DUP_Archive
 		return $this->Dirs;
 	}
 
+	/**
+     *  Builds a tree for both file size warnings and name check warnings
+	 *  The trees are used to apply filters from the scan screen
+     *
+     *  @return null
+     */
+	private function setTreeFilters()
+	{
+		//-------------------------
+		//SIZE TREE
+		//BUILD: File Size tree
+		$dir_group = DUP_Util::array_group_by($this->FilterInfo->Files->Size, "dir" );
+		ksort($dir_group);
+		foreach ($dir_group as $dir => $files) {
+			$sum = 0;
+			foreach ($files as $key => $value) {
+				$sum += $value['ubytes'];
+			}
+			$this->FilterInfo->TreeSize[] = array(
+				'size' => DUP_Util::byteSize($sum),
+				'dir' => $dir,
+				'sdir' => str_replace(DUPLICATOR_WPROOTPATH, "/", $dir),
+				'files' => $files
+			);
+		}
+
+		//-------------------------
+		//NAME TREE
+		//BUILD: Warning tree for file names
+		$dir_group = DUP_Util::array_group_by($this->FilterInfo->Files->Warning, "dir" );
+		ksort($dir_group);
+		foreach ($dir_group as $dir => $files) {
+			$this->FilterInfo->TreeWarning[] = array(
+				'dir' => $dir,
+				'sdir' => str_replace(DUPLICATOR_WPROOTPATH, "/", $dir),
+				'count' => count($files),
+				'files' => $files);
+		}
+
+		//BUILD: Warning tree for dir names
+		foreach ($this->FilterInfo->Dirs->Warning as $dir) {
+			$add_dir = true;
+			foreach ($this->FilterInfo->TreeWarning as $key => $value) {
+				if ($value['dir'] == $dir) {
+					$add_dir = false;
+					break;
+				}
+			}
+			if ($add_dir) {
+				$this->FilterInfo->TreeWarning[] = array(
+					'dir' => $dir,
+					'sdir' => str_replace(DUPLICATOR_WPROOTPATH, "/", $dir),
+					'count' => 0);
+			}
+		}
+
+		function _sortDir($a, $b){
+			return strcmp($a["dir"], $b["dir"]);
+		}
+		usort($this->FilterInfo->TreeWarning, "_sortDir");
+	}
 
 
 }

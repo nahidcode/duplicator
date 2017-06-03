@@ -46,25 +46,16 @@ class DUP_Util
     }
 
 	/**
-	 * Groups an array by a given key.
-	 *
 	 * Groups an array into arrays by a given key, or set of keys, shared between all array members.
 	 *
 	 * Based on {@author Jake Zatecky}'s {@link https://github.com/jakezatecky/array_group_by array_group_by()} function.
 	 * This variant allows $key to be closures.
 	 *
 	 * @param array $array   The array to have grouping performed on.
-	 * @param mixed $key,... The key to group or split by. Can be a _string_,
-	 *                       an _integer_, a _float_, or a _callable_.
-	 *
-	 *                       If the key is a callback, it must return
-	 *                       a valid key from the array.
-	 *
-	 *                       If the key is _NULL_, the iterated element is skipped.
-	 *
-	 *                       ```
-	 *                       string|int callback ( mixed $item )
-	 *                       ```
+	 * @param mixed $key,... The key to group or split by. Can be a _string_, an _integer_, a _float_, or a _callable_.
+	 *                       - If the key is a callback, it must return a valid key from the array.
+	 *                       - If the key is _NULL_, the iterated element is skipped.
+	 *                       - string|int callback ( mixed $item )
 	 *
 	 * @return array|null Returns a multidimensional array or `null` if `$key` is invalid.
 	 */
@@ -98,46 +89,10 @@ class DUP_Util
 			$args = func_get_args();
 			foreach ($grouped as $key => $value) {
 				$params = array_merge(array( $value ), array_slice($args, 2, func_num_args()));
-				$grouped[$key] = call_user_func_array('array_group_by', $params);
+				$grouped[$key] = call_user_func_array('DUP_Util::array_group_by', $params);
 			}
 		}
 		return $grouped;
-	}
-
-	//Simple function to sort an array by a specific key. Maintains index association.
-	public static function array_sort($array, $on, $order=SORT_ASC)
-	{
-		$new_array		 = array();
-		$sortable_array	 = array();
-
-		if (count($array) > 0) {
-			foreach ($array as $k => $v) {
-				if (is_array($v)) {
-					foreach ($v as $k2 => $v2) {
-						if ($k2 == $on) {
-							$sortable_array[$k] = $v2;
-						}
-					}
-				} else {
-					$sortable_array[$k] = $v;
-				}
-			}
-
-			switch ($order) {
-				case SORT_ASC:
-					asort($sortable_array);
-					break;
-				case SORT_DESC:
-					arsort($sortable_array);
-					break;
-			}
-
-			foreach ($sortable_array as $k => $v) {
-				$new_array[$k] = $array[$k];
-			}
-		}
-
-		return $new_array;
 	}
 
 	/**
