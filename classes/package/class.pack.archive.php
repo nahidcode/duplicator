@@ -106,19 +106,67 @@ class DUP_Archive
 			$this->getFileLists($rootPath);
 			$this->setDirFilters();
 			$this->setFileFilters();
+			$this->setTreeFilters();
         }
-
-		//Remove duplicates from Directory Warning arrays
-		$file_dir_keys = array_keys($this->FilterInfo->Files->Warning);
-		foreach($file_dir_keys as $key) {
-			unset($this->FilterInfo->Dirs->Warning[$key]);
-		}
 
         $this->FilterDirsAll  = array_merge($this->FilterDirsAll, $this->FilterInfo->Dirs->Unreadable);
         $this->FilterFilesAll = array_merge($this->FilterFilesAll, $this->FilterInfo->Files->Unreadable);
         return $this;
 
     }
+
+	private function setTreeFilters()
+	{
+		//BUILD: File Size tree
+		$dir_group = DUP_Util::array_group_by($this->FilterInfo->Files->Size, "dir" );
+		ksort($dir_group);
+		foreach ($dir_group as $dir => $files) {
+			$sum = 0;
+			foreach ($files as $key => $value) {
+				$sum += $value['ubytes'];
+			}
+
+			$this->FilterInfo->TreeSize[] = array(
+				'size' => DUP_Util::byteSize($sum),
+				'dir' => $dir,
+				'sdir' => str_replace(DUPLICATOR_WPROOTPATH, "/", $dir),
+				'files' => $files
+			);
+		}
+
+		//BUILD: Warning tree
+		$dir_group = DUP_Util::array_group_by($this->FilterInfo->Files->Warning, "dir" );
+		ksort($dir_group);
+		foreach ($dir_group as $dir => $files) {
+			$this->FilterInfo->TreeWarning[] = array(
+				'dir' => $dir,
+				'sdir' => str_replace(DUPLICATOR_WPROOTPATH, "/", $dir),
+				'count' => count($files),
+				'files' => $files);
+		}
+
+		foreach ($this->FilterInfo->Dirs->Warning as $dir) {
+			$add_dir = true;
+			foreach ($this->FilterInfo->TreeWarning as $key => $value) {
+				if ($value['dir'] == $dir) {
+					$add_dir = false;
+					break;
+				}
+			}
+			if ($add_dir) {
+				$this->FilterInfo->TreeWarning[] = array(
+					'dir' => $dir,
+					'sdir' => str_replace(DUPLICATOR_WPROOTPATH, "/", $dir),
+					'count' => 0);
+			}
+		}
+
+		function _sortDir($a, $b){
+			return strcmp($a["dir"], $b["dir"]);
+		}
+		usort($this->FilterInfo->TreeWarning, "_sortDir");
+
+	}
 
 	    /**
      * Save any property of this class through reflection
@@ -229,10 +277,7 @@ class DUP_Archive
 				|| preg_match('/[^\x20-\x7f]/', $name);
 
 			if ($invalid_test) {
-				$dir_name = DUP_Encoding::toUTF8($val);
-				$this->FilterInfo->Dirs->Warning[] =  array(
-					'dir'	=> $dir_name,
-					'sdir'	=> str_replace(DUPLICATOR_WPROOTPATH, "/", $dir_name));
+				$this->FilterInfo->Dirs->Warning[] =   DUP_Encoding::toUTF8($val);
 			}
 
 			//@todo: CJL addEmptyDir works with unreadable dirs, this check maybe unnessary
@@ -244,8 +289,6 @@ class DUP_Archive
                 $this->FilterInfo->Dirs->Unreadable[] = $unreadable_dir;
             }
         }
-		$this->FilterInfo->Dirs->Warning = DUP_Util::array_group_by($this->FilterInfo->Dirs->Warning, "dir" );
-		ksort($this->FilterInfo->Dirs->Warning);
     }
 
 	/**
@@ -295,20 +338,14 @@ class DUP_Archive
 			if ($fileSize > DUPLICATOR_SCAN_WARNFILESIZE) {
 				$ext = pathinfo($filePath, PATHINFO_EXTENSION);
 				$this->FilterInfo->Files->Size[] = array(
-						'bytes' => DUP_Util::byteSize($fileSize),
-						'sname'	=> strlen($fileName) > 65 ? substr($fileName, 0, 65) . '....' . $ext : $fileName,
-						'name'	=> $fileName,
-						'dir'	=> pathinfo($filePath, PATHINFO_DIRNAME),
-						'sdir'	=> str_replace(DUPLICATOR_WPROOTPATH, "/", pathinfo($filePath, PATHINFO_DIRNAME)),
-						'path'	=> $filePath);
+						'ubytes' => $fileSize,
+						'bytes'  => DUP_Util::byteSize($fileSize),
+						'sname'	 => strlen($fileName) > 65 ? substr($fileName, 0, 65) . '....' . $ext : $fileName,
+						'name'	 => $fileName,
+						'dir'	 => pathinfo($filePath, PATHINFO_DIRNAME),
+						'path'	 => $filePath);
 			 }
 		}
-
-		$this->FilterInfo->Files->Size = DUP_Util::array_group_by($this->FilterInfo->Files->Size, "dir" );
-		$this->FilterInfo->Files->Warning = DUP_Util::array_group_by($this->FilterInfo->Files->Warning, "dir" );
-		ksort($this->FilterInfo->Files->Size);
-		ksort($this->FilterInfo->Warning->Size);
-
     }
 
 	/**

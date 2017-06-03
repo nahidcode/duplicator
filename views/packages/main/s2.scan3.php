@@ -88,15 +88,16 @@ LARGE FILES -->
 				<div class="data">
 					<?php _duplicatorGetRootPath();	?>
 					{{#if ARC.FilterInfo.Files.Size}}
-						{{#each ARC.FilterInfo.Files.Size as |directory|}}
+						{{#each ARC.FilterInfo.TreeSize as |directory|}}
 							<div class="directory">
 								<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
-								<input type="checkbox" name="dir_paths[]" value="{{@key}}" id="lf_dir_{{@index}}" />
-
-								<label for="lf_dir_{{@index}}" title="{{@key}}">{{directory.0.sdir}}/</label> <br/>
+								<input type="checkbox" name="dir_paths[]" value="{{directory.dir}}" id="lf_dir_{{@index}}" />
+								<label for="lf_dir_{{@index}}" title="{{directory.dir}}">
+									<i class="size">[{{directory.size}}]</i> {{directory.sdir}}/
+								</label> <br/>
 								<div class="files">
-									{{#each directory as |file|}}
-										[{{file.bytes}}] &nbsp; {{file.sname}} <br/>
+									{{#each directory.files as |file|}}
+										<i class="size">[{{file.bytes}}]</i> &nbsp; {{file.sname}} <br/>
 									{{/each}}
 								</div>
 							</div>
@@ -124,13 +125,11 @@ FILE NAME CHECKS -->
 		<div id="data-arc-status-names"></div>
 	</div>
 	<div class="info">
-
 		<?php
 			_e('File or directory names may cause issues when working across different environments and servers.  Names that are over 250 characters, contain '
 				. 'special characters (such as * ? > < : / \ |) or are unicode might cause issues in a remote enviroment.  It is recommended to remove or filter '
 				. 'these files before building the archive if you have issues at install time.', 'duplicator');
 		?>
-
 		<script id="hb-files-utf8" type="text/x-handlebars-template">
 			<div class="container">
 				<div class="hdrs">
@@ -143,33 +142,28 @@ FILE NAME CHECKS -->
 				<div class="data">
 					<?php _duplicatorGetRootPath();	?>
 					<!-- FILES-->
-					{{#if  ARC.FilterInfo.Files.Warning}}
-						{{#each ARC.FilterInfo.Files.Warning as |directory|}}
+					{{#if  ARC.FilterInfo.TreeWarning}}
+						{{#each ARC.FilterInfo.TreeWarning as |directory|}}
 							<div class="directory">
-								<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
-								<input type="checkbox" name="dir_paths[]" value="{{@key}}" id="nc1_dir_{{@index}}" />
-								<label for="nc1_dir_{{@index}}" title="{{@key}}">{{directory.0.sdir}}/</label> <br/>
+								{{#if  directory.count}}
+									<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
+								{{else}}
+									<i class="empty"></i>
+								{{/if}}
+								<input type="checkbox" name="dir_paths[]" value="{{directory.dir}}" id="nc1_dir_{{@index}}" />
+								<label for="nc1_dir_{{@index}}" title="{{@key}}">
+									<i class="count">({{directory.count}})</i>
+									{{directory.sdir}}/
+								</label> <br/>
 								<div class="files">
-									{{#each directory as |file|}}
-										- {{file.sname}} <br/>
+									{{#each directory.files}}
+										- {{sname}} <br/>
 									{{/each}}
 								</div>
 							</div>
 						{{/each}}
 					{{else}}
-						<?php _e('No file name warnings found.', 'duplicator');?>
-					{{/if}}
-					
-					<!-- EMPTY DIRS -->
-					{{#if  ARC.FilterInfo.Dirs.Warning}}
-						<div class='divider'><i><?php _e('Empty Directories', 'duplicator');?></i></div>
-						{{#each ARC.FilterInfo.Dirs.Warning as |directory|}}
-							<div class="directory">
-								<div style='display:inline-block;width:15px'></div>
-								<input type="checkbox" name="dir_paths[]" value="{{directory.0.dir}}" id="nc2_dir_{{@index}}" />
-								<label for="nc2_dir_{{@index}}" title="{{this.dir}}">{{directory.0.sdir}}</label> <br/>
-							</div>
-						{{/each}}
+						<?php _e('No file/directory name warnings found.', 'duplicator');?>
 					{{/if}}
 				</div>
 			</div>
@@ -355,7 +349,9 @@ DETAILS DIALOG:
 <script>
 jQuery(document).ready(function($)
 {
-	Handlebars.registerHelper('shortDirectory', function(path) {return  (path.length > 70) ? path.slice(0, 70) + '...' : path;});
+	Handlebars.registerHelper('dirSize', function(path) {
+		return  (path.length > 70) ? path.slice(0, 70) + '...' : path;
+	});
 
 	//Opens a dialog to show scan details
 	Duplicator.Pack.showDetails = function ()
@@ -380,14 +376,13 @@ jQuery(document).ready(function($)
 		}
 	}
 
-		//Toggles a directory path to show files
+	//Toggles a directory path to show files
 	Duplicator.Pack.toggleAllDirPath = function(item, toggle)
 	{
 		var $dirs  = $(item).parents('div.container').find('div.data div.directory');
 		 (toggle == 'open') 
 			? $.each($dirs, function() {$(this).find('div.files').show(100);})
 			: $.each($dirs, function() {$(this).find('div.files').hide(100);});
-		
 	}
 
 	Duplicator.Pack.applyFilters = function(type)
@@ -403,7 +398,6 @@ jQuery(document).ready(function($)
 			nonce: '<?php echo wp_create_nonce('DUP_CTRL_Package_addDirectoryFilter'); ?>',
 			dir_paths : filters.join(";")
 		};
-		console.log(filters);
 
 		$.ajax({
 			type: "POST",
@@ -423,7 +417,7 @@ jQuery(document).ready(function($)
 
 	Duplicator.Pack.initArchiveFilesData = function(data)
 	{
-		//TOTAL SIZE:
+		//TOTAL SIZE
 		$('#data-arc-status-size').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Size));
 		$('#data-arc-status-names').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Names));
 		$('#data-arc-status-big').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Big));
@@ -432,7 +426,7 @@ jQuery(document).ready(function($)
 		$('#data-arc-files').text(data.ARC.FileCount || errMsg);
 		$('#data-arc-dirs').text(data.ARC.DirCount || errMsg);
 
-		//LARGE FILES:
+		//LARGE FILES
 		var template = $('#hb-files-large').html();
 		var templateScript = Handlebars.compile(template);
 		var html = templateScript(data);
@@ -443,31 +437,11 @@ jQuery(document).ready(function($)
 		var templateScript = Handlebars.compile(template);
 		var html = templateScript(data);
 		$('#hb-files-utf8-result').html(html);
-
-
-
-		
-		var html = '';
-		//Dirs
-		if (data.ARC.FilterInfo.Dirs.Warning !== undefined && data.ARC.FilterInfo.Dirs.Warning.length > 0) {
-			$.each(data.ARC.FilterInfo.Dirs.Warning, function (key, val) {
-				html += '<?php _e("DIR", 'duplicator') ?> ' + key + ':<br/>[' + val + ']<br/>';
-			});
-		}
-		//Files
-		if (data.ARC.FilterInfo.Files.Warning !== undefined && data.ARC.FilterInfo.Files.Warning.length > 0) {
-			$.each(data.ARC.FilterInfo.Files.Warning, function (key, val) {
-				html += '<?php _e("FILE", 'duplicator') ?> ' + key + ':<br/>[' + val + ']<br/>';
-			});
-		}
-		html = (html.length == 0) ? '<?php _e("No name warning issues found.", 'duplicator') ?>' : html;
-		$('#data-arc-names-data').html(html);
 	}
 
 
 	Duplicator.Pack.initArchiveDBData = function(data)
 	{
-
 		var errMsg = "unable to read";
 		var html = "";
 		var DB_TotalSize = 'Good';

@@ -117,6 +117,8 @@ class DUP_Package
         $report['ARC']['FilterInfo']['Dirs']  = $this->Archive->FilterInfo->Dirs;
         $report['ARC']['FilterInfo']['Files'] = $this->Archive->FilterInfo->Files;
         $report['ARC']['FilterInfo']['Exts']  = $this->Archive->FilterInfo->Exts;
+		$report['ARC']['FilterInfo']['TreeSize']  = $this->Archive->FilterInfo->TreeSize;
+		$report['ARC']['FilterInfo']['TreeWarning']  = $this->Archive->FilterInfo->TreeWarning;
 
         $report['ARC']['Status']['Size']  = ($this->Archive->Size > DUPLICATOR_SCAN_SITE) ? 'Warn' : 'Good';
         $report['ARC']['Status']['Names'] = (count($this->Archive->FilterInfo->Files->Warning) + count($this->Archive->FilterInfo->Dirs->Warning)) ? 'Warn' : 'Good';

@@ -72,7 +72,6 @@
 	/*FILES */
 	div#data-arc-size1 {display: inline-block; float:right; font-size:11px; margin-right:5px;}
 	i.data-size-help { float:right; margin-right:5px; display: block; font-size: 11px}
-	div#data-arc-names-data {word-wrap: break-word;font-size:10px; border:1px dashed silver; padding:5px; display: none}
 
 	div.hb-files-style div.container {border:1px solid #E0E0E0; border-radius:4px; margin:5px 0 10px 0}
 	div.hb-files-style div.container b {font-weight: bold}
@@ -81,10 +80,14 @@
 	div.hb-files-style div.hdrs {background: #efefef; padding:4px; border-bottom:1px solid #E0E0E0; font-weight: bold}
 	div.hb-files-style i.dup-nav-toggle:hover {cursor:pointer; color:#999}
 	div.hb-files-style div.directory {margin-left:10px}
+	div.hb-files-style div.directory i.size {font-size: 11px; font-weight: normal; font-style: normal; display: inline-block; min-width:60px}
+	div.hb-files-style div.directory i.count {font-size: 11px; font-weight: normal; font-style: normal; display: inline-block; min-width:20px}
+	div.hb-files-style div.directory i.empty {width:15px; display: inline-block}
 	div.hb-files-style div.directory i.dup-nav {cursor:pointer}
 	
 	div.hb-files-style div.directory i.fa {width:8px}
-	div.hb-files-style div.directory label {font-weight: bold; cursor: pointer}
+	div.hb-files-style div.directory label {font-weight: bold; cursor: pointer; vertical-align: top}
+	div.hb-files-style div.directory label:hover {color:#025d02}
 	div.hb-files-style div.files {padding: 2px 0 0 45px; font-size:12px; display:none; line-height:18px}
 
 	/*DATABASE*/
