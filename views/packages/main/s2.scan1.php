@@ -64,10 +64,11 @@
 
 	/*DETAILS WINDOW*/
 	div#dup-archive-details-window {font-size: 12px}
+	div#dup-archive-details-window hr {margin:3px 0 10px 0}
 	div#dup-archive-details-window table#db-area {margin:0;  width:98%}
 	div#dup-archive-details-window table#db-area td {padding:0;}
 	div#dup-archive-details-window table#db-area td:first-child {font-weight: bold;  white-space: nowrap; width:100px}
-	div#dup-archive-details-window div.filter-area {height:200px; overflow-y:scroll; border:1px solid silver; padding:8px; margin:8px 0}
+	div#dup-archive-details-window div.filter-area {height:175px; overflow-y:scroll; border:1px solid #dfdfdf; padding:8px; margin:8px 0}
 
 	/*FILES */
 	div#data-arc-size1 {display: inline-block; float:right; font-size:11px; margin-right:5px;}

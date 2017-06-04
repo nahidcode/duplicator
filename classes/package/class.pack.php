@@ -156,6 +156,8 @@ class DUP_Package
         $report['RPT']['Success']  = $warn_counts['Good'];
         $report['RPT']['ScanTime'] = DUP_Util::elapsedTime(DUP_Util::getMicrotime(), $timerStart);
         $fp                        = fopen(DUPLICATOR_SSDIR_PATH_TMP."/{$this->ScanFile}", 'w');
+
+
         fwrite($fp, json_encode($report));
         fclose($fp);
 

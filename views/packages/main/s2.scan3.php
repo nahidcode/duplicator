@@ -124,7 +124,7 @@ FILE NAME CHECKS -->
 		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('Name Checks', 'duplicator');?></div>
 		<div id="data-arc-status-names"></div>
 	</div>
-	<div class="info" style="display: block">
+	<div class="info">
 		<?php
 			_e('File or directory names may cause issues when working across different environments and servers.  Names that are over 250 characters, contain '
 				. 'special characters (such as * ? > < : / \ |) or are unicode might cause issues in a remote enviroment.  It is recommended to remove or filter '
@@ -287,24 +287,34 @@ DETAILS DIALOG:
 
 <div id="dup-archive-details" style="display:none">
 
-	<b><i class="fa fa-files-o"></i> FILE FILTERS</b>
+	<b><i class="fa fa-archive"></i> PACKAGE</b>
 	<hr size="1" />
+
+	<b><?php _e('Name', 'duplicator');?>:</b> <?php echo $_POST['package-name']; ?><br/>
+	<b><?php _e('Notes', 'duplicator');?>:</b> <?php echo strlen($_POST['package-notes']) ? $_POST['package-notes'] : __('- no notes -', 'duplicator') ; ?>
+	<br/><br/>
+	
+	
+	<b><i class="fa fa-files-o"></i> FILE SETTINGS</b>
+	<hr size="1" />
+
 	<b><?php _e('Filters State', 'duplicator');?>:</b> <?php echo ($Package->Archive->FilterOn) ? __('Enabled', 'duplicator') : __('Disabled', 'duplicator') ;?> <br/>
-	<b><?php _e('Root Directory', 'duplicator');?>:</b> <?php echo DUPLICATOR_WPROOTPATH;?> <br/>
 	
 	
 	<div class="filter-area">
 		<b>[<?php _e('Excluded Directories', 'duplicator');?>]</b><br/>
-		<?php
-			if (strlen( $Package->Archive->FilterDirs)) {
-				$data =  str_replace(";", "/<br/>", $Package->Archive->FilterDirs);
-				$data =  str_replace(DUPLICATOR_WPROOTPATH, '/', $data);
-				echo $data;
-			} else {
-				_e('No directory filters have been set.', 'duplicator');
-			}
-		?>
-		<br/>
+		<i class="fa fa-folder-open"></i> <?php echo rtrim(DUPLICATOR_WPROOTPATH, "//");?>
+		<div style="padding: 0 0 10px 30px">
+			<?php
+				if (strlen( $Package->Archive->FilterDirs)) {
+					$data =  str_replace(";", "/<br/>", $Package->Archive->FilterDirs);
+					$data =  str_replace(DUPLICATOR_WPROOTPATH, '/', $data);
+					echo $data;
+				} else {
+					_e('No directory filters have been set.', 'duplicator');
+				}
+			?>
+		</div>
 
 		<b>[<?php _e('Excluded File Extensions', 'duplicator');?>]</b><br/>
 		<?php

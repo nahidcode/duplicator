@@ -111,7 +111,7 @@ VIEW: STEP 4 - INPUT -->
 			<div class="s4-err-title">STEP 2 - INSTALL NOTICES:</div>
 			<b data-bind="with: status.step2">ERRORS (<span data-bind="text: query_errs"></span>)</b><br/>
 			<div class="info-error">
-				Queries that error during the deploy step are logged to the <a href="../installer-log.txt" target="dpro-installer">install-log.txt</a> file and
+				Queries that error during the deploy step are logged to the <a href="installer-log.txt" target="dpro-installer">install-log.txt</a> file and
 				and marked with an **ERROR** status.   If you experience a few errors (under 5), in many cases they can be ignored as long as your site is working correctly.
 				However if you see a large amount of errors or you experience an issue with your site then the error messages in the log file will need to be investigated.
 				<br/><br/>
