@@ -1,23 +1,14 @@
 <?php
+	global $wp_version;
 	wp_enqueue_script('dup-handlebars');
 
-	if(empty($_POST))
-	{
+	if (empty($_POST)) {
 		//F5 Refresh Check
 		$redirect = admin_url('admin.php?page=duplicator&tab=new1');
-		echo "<script>window.location.href = '{$redirect}'</script>";
-		exit;
+		die("<script>window.location.href = '{$redirect}'</script>");
 	}
-	
-	global $wp_version;
+
 	$Package = new DUP_Package();
-			
-	if(isset($_POST['package-hash']))
-	{
-		// If someone is trying to pass the hasn into us that is illegal so stop it immediately.
-		die('Unauthorized');
-	}
-	
 	$Package->saveActive($_POST);
 	$Package = DUP_Package::getActive();
 	
@@ -25,95 +16,90 @@
 	$mysqlcompat_on  = isset($Package->Database->Compatible) && strlen($Package->Database->Compatible);
 	$mysqlcompat_on  = ($mysqldump_on && $mysqlcompat_on) ? true : false;
 	$dbbuild_mode    = ($mysqldump_on) ? 'mysqldump (fast)' : 'PHP (slow)';
-    
-    $zip_check = DUP_Util::getZipPath();
+    $zip_check		 = DUP_Util::getZipPath();
 ?>
 
 <style>
-	/* ============
-	PROGRESS ARES-CHECKS */
+	/*PROGRESS-BAR - RESULTS - ERROR */
 	form#form-duplicator {text-align:center; max-width:650px; min-height:200px; margin:0px auto 0px auto; padding:0px;}
-	div.dup-progress-title {font-size:22px; padding:5px 0 20px 0; font-weight: bold}
-	div#dup-msg-success {padding:0 5px 5px 5px; text-align: left}
-	i[data-tooltip].fa-question-circle {color:#555}
-	
-	div#dup-msg-success-subtitle {color:#999; margin:0; font-size: 11px}
-	div#dup-msg-error {color:#A62426; padding:5px; max-width: 790px;}
+	div.dup-progress-title {font-size:22px; padding:5px 0 20px 0; font-weight:bold}
+	div#dup-msg-success {padding:0 5px 5px 5px; text-align:left}
+	div#dup-msg-success div.details {padding:10px 15px 10px 15px; margin:5px 0 10px 0; background:#fff; border-radius:5px}
+	div#dup-msg-success div.details-title {font-size:20px; border-bottom:1px solid #dfdfdf; padding:5px; margin:0 0 10px 0; font-weight:bold}
+	div#dup-msg-success-subtitle {color:#999; margin:0; font-size:11px}
+	div.dup-scan-filter-status {display:inline; float:right; font-size:11px; margin-right:10px; color:maroon;}
+	div#dup-msg-error {color:#A62426; padding:5px; max-width:790px;}
 	div#dup-msg-error-response-text { max-height:500px; overflow-y:scroll; border:1px solid silver; border-radius:3px; padding:10px;background:#fff}
-	div.dup-hdr-error-details {text-align: left; margin:20px 0}
+	div.dup-hdr-error-details {text-align:left; margin:20px 0}
+	i[data-tooltip].fa-question-circle {color:#555}
 
-	div#dup-msg-success div.details {padding:10px 15px 10px 15px; margin:5px 0 10px 0; background: #fff; border-radius: 5px}
-	div#dup-msg-success div.details-title {font-size:20px; border-bottom: 1px solid #dfdfdf; padding:5px; margin:0 0 10px 0; font-weight: bold}
-	div.dup-scan-filter-status {display:inline; float: right; font-size:11px; margin-right:10px; color:maroon;}
-
-	div.scan-header { font-size:16px; padding:7px 5px 5px 7px; font-weight: bold; background-color: #E0E0E0; border-bottom: 0px solid #C0C0C0 }
-	div.scan-item {border:1px solid #E0E0E0; border-bottom: none;}
-	div.scan-item-first { border-top-right-radius: 4px; border-top-left-radius: 4px}
+	/*SCAN ITEMS:Sections */
+	div.scan-header { font-size:16px; padding:7px 5px 5px 7px; font-weight:bold; background-color:#E0E0E0; border-bottom:0px solid #C0C0C0 }
+	div.scan-item {border:1px solid #E0E0E0; border-bottom:none;}
+	div.scan-item-first { border-top-right-radius:4px; border-top-left-radius:4px}
 	div.scan-item-last {border-bottom:1px solid #E0E0E0}
-	div.scan-item div.title {background-color: #F1F1F1; width:100%; padding:4px 0 4px 0; cursor: pointer; height: 20px;}
-	div.scan-item div.title:hover {background-color: #ECECEC;}
-	div.scan-item div.text {font-weight: bold; font-size:14px; float:left;  position: relative; left: 10px}
+	div.scan-item div.title {background-color:#F1F1F1; width:100%; padding:4px 0 4px 0; cursor:pointer; height:20px;}
+	div.scan-item div.title:hover {background-color:#ECECEC;}
+	div.scan-item div.text {font-weight:bold; font-size:14px; float:left;  position:relative; left:10px}
 	div.scan-item div.badge-pass {float:right; background:green; border-radius:5px; color:#fff; min-width:40px; text-align:center; position:relative; right:10px; font-size:12px}
 	div.scan-item div.badge-warn {float:right; background:maroon; border-radius:5px; color:#fff; min-width:40px; text-align:center; position:relative; right:10px; font-size:12px}
-	div.scan-item div.info {display:none; padding:10px; background: #fff}
-
-	div.dup-scan-good {display:inline-block; color:green;font-weight: bold;}
-	div.dup-scan-warn {display:inline-block; color:maroon;font-weight: bold;}
-	div.dup-more-details {float:right; font-size: 14px}
-	div.dup-more-details:hover {color:#777; cursor: pointer}
+	div.scan-item div.info {display:none; padding:10px; background:#fff}
+	div.dup-scan-good {display:inline-block; color:green;font-weight:bold;}
+	div.dup-scan-warn {display:inline-block; color:maroon;font-weight:bold;}
+	div.dup-more-details {float:right; font-size:14px}
+	div.dup-more-details:hover {color:#777; cursor:pointer}
 
 	/*DETAILS WINDOW*/
-	div#dup-archive-details-window {font-size: 12px}
-	div#dup-archive-details-window hr {margin:3px 0 10px 0}
-	div#dup-archive-details-window table#db-area {margin:0;  width:98%}
-	div#dup-archive-details-window table#db-area td {padding:0;}
-	div#dup-archive-details-window table#db-area td:first-child {font-weight: bold;  white-space: nowrap; width:100px}
-	div#dup-archive-details-window div.filter-area {height:175px; overflow-y:scroll; border:1px solid #dfdfdf; padding:8px; margin:8px 0}
+	div#dup-arc-details-dlg {font-size:12px}
+	div#dup-arc-details-dlg hr {margin:3px 0 10px 0}
+	div#dup-arc-details-dlg table#db-area {margin:0;  width:98%}
+	div#dup-arc-details-dlg table#db-area td {padding:0;}
+	div#dup-arc-details-dlg table#db-area td:first-child {font-weight:bold;  white-space:nowrap; width:100px}
+	div#dup-arc-details-dlg div.filter-area {height:175px; overflow-y:scroll; border:1px solid #dfdfdf; padding:8px; margin:8px 0}
 
 	/*FILES */
-	div#data-arc-size1 {display: inline-block; float:right; font-size:11px; margin-right:5px;}
-	i.data-size-help { float:right; margin-right:5px; display: block; font-size: 11px}
-
+	div#data-arc-size1 {display:inline-block; float:right; font-size:11px; margin-right:5px;}
+	i.data-size-help { float:right; margin-right:5px; display:block; font-size:11px}
 	div.hb-files-style div.container {border:1px solid #E0E0E0; border-radius:4px; margin:5px 0 10px 0}
-	div.hb-files-style div.container b {font-weight: bold}
-	div.hb-files-style div.container div.divider {margin-bottom: 2px; font-weight: bold}
-	div.hb-files-style div.data {padding:8px; line-height: 22px; height:175px; overflow-y:scroll; }
-	div.hb-files-style div.hdrs {background: #efefef; padding:4px; border-bottom:1px solid #E0E0E0; font-weight: bold}
+	div.hb-files-style div.container b {font-weight:bold}
+	div.hb-files-style div.container div.divider {margin-bottom:2px; font-weight:bold}
+	div.hb-files-style div.data {padding:8px; line-height:21px; height:150px; overflow-y:scroll; }
+	div.hb-files-style div.hdrs {background:#efefef; padding:4px; border-bottom:1px solid #E0E0E0; font-weight:bold}
 	div.hb-files-style i.dup-nav-toggle:hover {cursor:pointer; color:#999}
 	div.hb-files-style div.directory {margin-left:10px}
-	div.hb-files-style div.directory i.size {font-size: 11px; font-weight: normal; font-style: normal; display: inline-block; min-width:60px}
-	div.hb-files-style div.directory i.count {font-size: 11px; font-weight: normal; font-style: normal; display: inline-block; min-width:20px}
-	div.hb-files-style div.directory i.empty {width:15px; display: inline-block}
+	div.hb-files-style div.directory i.size {font-size:11px; font-weight:normal; font-style:normal; display:inline-block; min-width:60px}
+	div.hb-files-style div.directory i.count {font-size:11px; font-weight:normal; font-style:normal; display:inline-block; min-width:20px}
+	div.hb-files-style div.directory i.empty {width:15px; display:inline-block}
 	div.hb-files-style div.directory i.dup-nav {cursor:pointer}
-	
 	div.hb-files-style div.directory i.fa {width:8px}
-	div.hb-files-style div.directory label {font-weight: bold; cursor: pointer; vertical-align: top}
+	div.hb-files-style div.directory label {font-weight:bold; cursor:pointer; vertical-align:top}
 	div.hb-files-style div.directory label:hover {color:#025d02}
-	div.hb-files-style div.files {padding: 2px 0 0 45px; font-size:12px; display:none; line-height:18px}
+	div.hb-files-style div.files {padding:2px 0 0 45px; font-size:12px; display:none; line-height:18px}
+	div.hb-files-style div.files div.file:hover {color:#777;}
 
 	/*DATABASE*/
 	div#dup-scan-db-info {margin:0px 0px 0px 10px}
-	div#data-db-tablelist {max-height: 300px; overflow-y: scroll; border: 1px dashed silver; padding: 5px; margin-top:5px}
+	div#data-db-tablelist {max-height:300px; overflow-y:scroll; border:1px dashed silver; padding:5px; margin-top:5px}
 	div#data-db-tablelist div{padding:0px 0px 0px 15px;}
-	div#data-db-tablelist span{display:inline-block; min-width: 75px}
-	div#data-db-size1 {display: inline-block; float:right; font-size:11px; margin-right:5px;}
+	div#data-db-tablelist span{display:inline-block; min-width:75px}
+	div#data-db-size1 {display:inline-block; float:right; font-size:11px; margin-right:5px;}
 	
-	/*WARNING*/
-	div#dup-scan-warning-continue {display:none; text-align: center; padding: 0 0 15px 0}
+	/*WARNING-CONTINUE*/
+	div#dup-scan-warning-continue {display:none; text-align:center; padding:0 0 15px 0}
 	div#dup-scan-warning-continue div.msg1 label{font-size:16px; color:maroon}
-	div#dup-scan-warning-continue div.msg2 {padding:2px; line-height: 13px}
+	div#dup-scan-warning-continue div.msg2 {padding:2px; line-height:13px}
 	div#dup-scan-warning-continue div.msg2 label {font-size:11px !important}
 	
-	/*Footer*/
+	/*FOOTER*/
 	div.dup-button-footer {text-align:center; margin:0}
 	button.button {font-size:15px !important; height:30px !important; font-weight:bold; padding:3px 5px 5px 5px !important;}
 </style>
 
 <!-- =========================================
-TOOL BAR: STEPS -->
+TOOL BAR:STEPS -->
 <table id="dup-toolbar">
 	<tr valign="top">
-		<td style="white-space: nowrap">
+		<td style="white-space:nowrap">
 			<div id="dup-wiz">
 				<div id="dup-wiz-steps">
 					<div class="completed-step"><a>1-<?php _e('Setup', 'duplicator'); ?></a></div>
@@ -169,9 +155,11 @@ TOOL BAR: STEPS -->
 		</div>
 
 		<div class="details">
-			<?php include ('s2.scan2.php') ?>
-			<br/><br/>
-			<?php include ('s2.scan3.php') ?>
+			<?php
+				include ('s2.scan2.php');
+				echo '<br/><br/>';
+				include ('s2.scan3.php')
+			?>
 		</div>
 
 		<!-- WARNING CONTINUE -->
@@ -318,10 +306,10 @@ jQuery(document).ready(function($)
 	{
 		var result;
 		switch (status) {
-			case false :    result = '<div class="dup-scan-warn"><i class="fa fa-exclamation-triangle"></i></div>';      break;
+			case false :    result = '<div class="dup-scan-warn"><i class="fa fa-exclamation-triangle"></i></div>'; break;
 			case 'Warn' :   result = '<div class="badge-warn">Warn</div>'; break;
-			case true :     result = '<div class="dup-scan-good"><i class="fa fa-check"></i></div>';	                 break;
-			case 'Good' :   result = '<div class="badge-pass">Good</div>';                break;
+			case true :     result = '<div class="dup-scan-good"><i class="fa fa-check"></i></div>'; break;
+			case 'Good' :   result = '<div class="badge-pass">Good</div>'; break;
 			default :
 				result = 'unable to read';
 		}

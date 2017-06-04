@@ -8,8 +8,7 @@
 ?>
 
 <!-- ================================================================
-ARCHIVE
-================================================================ -->
+ARCHIVE -->
 <div class="details-title">
 	<i class="fa fa-file-archive-o"></i>&nbsp;<?php _e('Archive', 'duplicator');?>
 	<div class="dup-more-details" onclick="Duplicator.Pack.showDetails()"><i class="fa fa-window-maximize"></i></div>
@@ -20,14 +19,15 @@ ARCHIVE
 	<?php _e("Files", 'duplicator'); ?>
 	<i class="fa fa-question-circle data-size-help"
 		data-tooltip-title="<?php _e("File Size:", 'duplicator'); ?>"
-		data-tooltip="<?php _e('The files size represents only the included files before compression is applied. It does not include the size of the database script and in most cases the package size once completed will be smaller than this number.', 'duplicator'); ?>"></i>
+		data-tooltip="<?php _e('The files size represents only the included files before compression is applied. It does not include the size of the '
+					. 'database script and in most cases the package size once completed will be smaller than this number.', 'duplicator'); ?>"></i>
 	<div id="data-arc-size1"></div>
 
 	<div class="dup-scan-filter-status">
 		<?php
 			if ($Package->Archive->ExportOnlyDB) {
 				echo '<i class="fa fa-filter"></i> '; _e('Database Only', 'duplicator');
-			}elseif ($Package->Archive->FilterOn) {
+			} elseif ($Package->Archive->FilterOn) {
 				echo '<i class="fa fa-filter"></i> '; _e('Enabled', 'duplicator');
 			}
 		?>
@@ -97,13 +97,13 @@ LARGE FILES -->
 								</label> <br/>
 								<div class="files">
 									{{#each directory.files as |file|}}
-										<i class="size">[{{file.bytes}}]</i> &nbsp; {{file.sname}} <br/>
+										<div class="file" title="{{file.name}}"><i class="size">[{{file.bytes}}]</i> {{file.sname}}</div>
 									{{/each}}
 								</div>
 							</div>
 						{{/each}}
 					{{else}}
-						No large files found during this scan.
+						 <?php _e('No large files found during this scan.', 'duplicator');?>
 					{{/if}}
 				</div>
 			</div>
@@ -126,9 +126,8 @@ FILE NAME CHECKS -->
 	</div>
 	<div class="info">
 		<?php
-			_e('File or directory names may cause issues when working across different environments and servers.  Names that are over 250 characters, contain '
-				. 'special characters (such as * ? > < : / \ |) or are unicode might cause issues in a remote enviroment.  It is recommended to remove or filter '
-				. 'these files before building the archive if you have issues at install time.', 'duplicator');
+			_e('Unicode and special characters such as "*?><:/\|", can cause issues in some remote enviroment.  If the archive is unable to build '
+				. 'or there are issues at install time, it is recommended to filter these paths.', 'duplicator');
 		?>
 		<script id="hb-files-utf8" type="text/x-handlebars-template">
 			<div class="container">
@@ -151,13 +150,13 @@ FILE NAME CHECKS -->
 									<i class="empty"></i>
 								{{/if}}
 								<input type="checkbox" name="dir_paths[]" value="{{directory.dir}}" id="nc1_dir_{{@index}}" />
-								<label for="nc1_dir_{{@index}}" title="{{@key}}">
+								<label for="nc1_dir_{{@index}}" title="{{directory.dir}}">
 									<i class="count">({{directory.count}})</i>
 									{{directory.sdir}}/
 								</label> <br/>
 								<div class="files">
 									{{#each directory.files}}
-										- {{sname}} <br/>
+										<div class="file" title="{{name}}">- {{sname}}</div>
 									{{/each}}
 								</div>
 							</div>
@@ -174,7 +173,6 @@ FILE NAME CHECKS -->
 			</div>
 		</script>
 		<div id="hb-files-utf8-result" class="hb-files-style"></div>
-
 	</div>
 </div>
 <br/><br/>
@@ -188,7 +186,8 @@ DATABASE -->
 		<?php _e("Database", 'duplicator');	?>
 		<i class="fa fa-question-circle data-size-help"
 			data-tooltip-title="<?php _e("Database Size:", 'duplicator'); ?>"
-			data-tooltip="<?php _e('The database size represents only the included tables. The process for gathering the size uses the query SHOW TABLE STATUS.  The overall size of the database file can impact the final size of the package.', 'duplicator'); ?>"></i>
+			data-tooltip="<?php _e('The database size represents only the included tables. The process for gathering the size uses the query SHOW TABLE STATUS.  '
+				. 'The overall size of the database file can impact the final size of the package.', 'duplicator'); ?>"></i>
 		<div id="data-db-size1"></div>
 		<div class="dup-scan-filter-status">
 			<?php
@@ -281,7 +280,7 @@ DETAILS DIALOG:
 	$alert1->height     = 600;
 	$alert1->width      = 600;
 	$alert1->title		= __('Scan Details', 'duplicator');
-	$alert1->message	= "<div id='dup-archive-details-window'></div>";
+	$alert1->message	= "<div id='dup-arc-details-dlg'></div>";
 	$alert1->initAlert();
 ?>
 
@@ -366,7 +365,7 @@ jQuery(document).ready(function($)
 	//Opens a dialog to show scan details
 	Duplicator.Pack.showDetails = function ()
 	{
-		$('#dup-archive-details-window').html($('#dup-archive-details').html());
+		$('#dup-arc-details-dlg').html($('#dup-archive-details').html());
 		<?php $alert1->showAlert(); ?>
 		return;
 	}
