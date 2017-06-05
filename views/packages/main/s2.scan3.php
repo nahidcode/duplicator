@@ -52,24 +52,22 @@ TOTAL SIZE -->
 				DUP_Util::byteSize(DUPLICATOR_SCAN_WARNFILESIZE));
 		?>
 		<div id="size-more-details">
-
 			<?php
 				echo "<b>" . __('Overview', 'duplicator') . ":</b><br/>";
-					_e('If you initially receive this warning it is still safe to continue with the build process.  On some hosts the size of a package does not matter.  '
-						. 'If after clicking the build button your receive a timeout or build interupt message then this host that has strict processing limits.  See the '
-						. 'options below for building a package on this host.'  , 'duplicator');
+					_e('On some hosts the size of a package does not matter. If you initially receive this warning it is safe to continue with the build process.  '
+						. 'If after clicking the build button a timeout or build interrupt message occurs then this host that has strict processing limits; see '
+						. 'options below.'  , 'duplicator');
 				echo '<br/><br/>';
 				
 				echo "<b>" . __('Timeout Options', 'duplicator') . ":</b><br/>";
 				echo '<ul>';
-				echo '<li>' . __('Apply the recommended filters below or click the back button to apply on previous page.', 'duplicator') . '</li>';
-				echo '<li>' . __('See the FAQ to adjust this servers timout limits: ', 'duplicator') . "&nbsp;<a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>" . __('What can I try for Timeout Issues?', 'duplicator') . '</a></li>';
+				echo '<li>' . __('Apply the "Recommended Filters" below or click the back button to apply on previous page.', 'duplicator') . '</li>';
+				echo '<li>' . __('See the FAQ link to adjust this servers timeout limits: ', 'duplicator') . "&nbsp;<a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>" . __('What can I try for Timeout Issues?', 'duplicator') . '</a></li>';
 				echo '<li>' . __('Consider trying multi-threaded support in ', 'duplicator');
 					echo "<a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_size_warn&utm_campaign=duplicator_pro' target='_blank'>" . __('Duplicator Pro.', 'duplicator') . "</a>";
 				echo '</li>';
 				echo '</ul>';
 			?>
-
 		</div>
 		<script id="hb-files-large" type="text/x-handlebars-template">
 			<div class="container">
