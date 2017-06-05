@@ -18,11 +18,10 @@ ARCHIVE -->
 	<i class="fa fa-files-o"></i>
 	<?php _e("Files", 'duplicator'); ?>
 	<i class="fa fa-question-circle data-size-help"
-		data-tooltip-title="<?php _e("File Size:", 'duplicator'); ?>"
-		data-tooltip="<?php _e('The files size represents only the included files before compression is applied. It does not include the size of the '
-					. 'database script and in most cases the package size once completed will be smaller than this number.', 'duplicator'); ?>"></i>
+		data-tooltip-title="<?php _e('Archive Size', 'duplicator'); ?>"
+		data-tooltip="<?php _e('This size represents only the included files before compression is applied. It does not include the size of the '
+					. 'database script or any applied filters.  In most cases the package size once completed will be smaller than this number.', 'duplicator'); ?>"></i>
 	<div id="data-arc-size1"></div>
-
 	<div class="dup-scan-filter-status">
 		<?php
 			if ($Package->Archive->ExportOnlyDB) {
@@ -38,7 +37,7 @@ ARCHIVE -->
 TOTAL SIZE -->
 <div class="scan-item">
 	<div class="title" onclick="Duplicator.Pack.toggleScanItem(this);">
-		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('Size Checks', 'duplicator');?></div>
+		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('Size Check', 'duplicator');?></div>
 		<div id="data-arc-status-size"></div>
 	</div>
 	<div class="info">
@@ -46,18 +45,32 @@ TOTAL SIZE -->
 		<b><?php _e('File Count', 'duplicator');?>:</b> <span id="data-arc-files"></span>  &nbsp; | &nbsp;
 		<b><?php _e('Directory Count', 'duplicator');?>:</b> <span id="data-arc-dirs"></span> <br/><br/>
 		<?php
-			printf(__('Sites larger that <b>%1$s</b> can run into timeout issues on <i>some budget hosts</i>.  If your on a host that has strict processing limits we '
-				. 'recommend that you setup file filters below or on Step 1.  ', 'duplicator'),	DUP_Util::byteSize(DUPLICATOR_SCAN_SITE));
-	
-			_e('Multi-threaded support is available in ', 'duplicator');
-			echo "<a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_size_warn&utm_campaign=duplicator_pro' target='_blank'>" . __('Duplicator Pro', 'duplicator') . "</a>";
-			_e(' for larger sites on restricted hosts.', 'duplicator');
-
-
-			$txt = sprintf(__('Large files such as movies or zipped content can cause issues with timeouts on some budget hosts.  If your having '
-				. 'issues creating a package try excluding the directory paths below.  Files over %1$s will are listed.', 'duplicator'),
+			printf(__('Sites larger that <b>%1$s</b> may run into timeout issues on some budget hosts.  ', 'duplicator'),	DUP_Util::byteSize(DUPLICATOR_SCAN_SITE));
+			echo "<i>&nbsp; <a href='javascipt:void(0)' onclick='jQuery(\"#size-more-details\").toggle(100)'>[" . __('more details...', 'duplicator') . "]</a></i>";
+			$txt = sprintf(__('Files over %1$s are listed below. Larger files such as movies or zipped content can cause timeout issues on some budget hosts.  If you are having '
+				. 'issues creating a package try excluding the directory paths below or go back to Step 1 and add them.', 'duplicator'),
 				DUP_Util::byteSize(DUPLICATOR_SCAN_WARNFILESIZE));
 		?>
+		<div id="size-more-details">
+
+			<?php
+				echo "<b>" . __('Overview', 'duplicator') . ":</b><br/>";
+					_e('If you initially receive this warning it is still safe to continue with the build process.  On some hosts the size of a package does not matter.  '
+						. 'If after clicking the build button your receive a timeout or build interupt message then this host that has strict processing limits.  See the '
+						. 'options below for building a package on this host.'  , 'duplicator');
+				echo '<br/><br/>';
+				
+				echo "<b>" . __('Timeout Options', 'duplicator') . ":</b><br/>";
+				echo '<ul>';
+				echo '<li>' . __('Apply the recommended filters below or click the back button to apply on previous page.', 'duplicator') . '</li>';
+				echo '<li>' . __('See the FAQ to adjust this servers timout limits: ', 'duplicator') . "&nbsp;<a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>" . __('What can I try for Timeout Issues?', 'duplicator') . '</a></li>';
+				echo '<li>' . __('Consider trying multi-threaded support in ', 'duplicator');
+					echo "<a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_size_warn&utm_campaign=duplicator_pro' target='_blank'>" . __('Duplicator Pro.', 'duplicator') . "</a>";
+				echo '</li>';
+				echo '</ul>';
+			?>
+
+		</div>
 		<script id="hb-files-large" type="text/x-handlebars-template">
 			<div class="container">
 				<div class="hdrs">
@@ -106,17 +119,16 @@ TOTAL SIZE -->
 FILE NAME CHECKS -->
 <div class="scan-item scan-item-last">
 	<div class="title" onclick="Duplicator.Pack.toggleScanItem(this);">
-		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('Name Checks', 'duplicator');?></div>
+		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('Name Check', 'duplicator');?></div>
 		<div id="data-arc-status-names"></div>
 	</div>
 	<div class="info">
 		<?php
-			_e('Unicode and special characters such as "*?><:/\|", can cause issues in some remote enviroment.  If the archive is unable to build '
+			_e('Unicode and special characters such as "*?><:/\|", can cause issues in some remote environment.  If the archive is unable to build '
 				. 'or there are issues at install time, it is recommended to filter these paths.', 'duplicator');
 
-		$txt = __('If your enviroment/system is setup to support unicode and long paths then these filters can be ignored.  If you run into issues with '
-				. 'creating or installing a package, then is recommended to filter these paths.', 'duplicator');
-
+			$txt = __('If this environment/system and the system where it will be installed are setup to support Unicode and long paths then these filters can be ignored.  '
+				. 'If you run into issues with creating or installing a package, then is recommended to filter these paths.', 'duplicator');
 		?>
 		<script id="hb-files-utf8" type="text/x-handlebars-template">
 			<div class="container">
@@ -130,7 +142,6 @@ FILE NAME CHECKS -->
 				</div>
 				<div class="data">
 					<?php _duplicatorGetRootPath();	?>
-					<!-- FILES-->
 					{{#if  ARC.FilterInfo.TreeWarning}}
 						{{#each ARC.FilterInfo.TreeWarning as |directory|}}
 							<div class="directory">
@@ -283,13 +294,10 @@ DETAILS DIALOG:
 	<b><?php _e('Notes', 'duplicator');?>:</b> <?php echo strlen($_POST['package-notes']) ? $_POST['package-notes'] : __('- no notes -', 'duplicator') ; ?>
 	<br/><br/>
 	
-	
 	<b><i class="fa fa-files-o"></i> FILE SETTINGS</b>
 	<hr size="1" />
 
 	<b><?php _e('Filters State', 'duplicator');?>:</b> <?php echo ($Package->Archive->FilterOn) ? __('Enabled', 'duplicator') : __('Disabled', 'duplicator') ;?> <br/>
-	
-	
 	<div class="filter-area">
 		<b>[<?php _e('Excluded Directories', 'duplicator');?>]</b><br/>
 		<i class="fa fa-folder-open"></i> <?php echo rtrim(DUPLICATOR_WPROOTPATH, "//");?>

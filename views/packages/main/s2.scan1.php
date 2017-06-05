@@ -33,7 +33,7 @@
 	div.dup-hdr-error-details {text-align:left; margin:20px 0}
 	i[data-tooltip].fa-question-circle {color:#555}
 
-	/*SCAN ITEMS:Sections */
+	/*SCAN ITEMS: Sections */
 	div.scan-header { font-size:16px; padding:7px 5px 5px 7px; font-weight:bold; background-color:#E0E0E0; border-bottom:0px solid #C0C0C0 }
 	div.scan-item {border:1px solid #E0E0E0; border-bottom:none;}
 	div.scan-item-first { border-top-right-radius:4px; border-top-left-radius:4px}
@@ -80,6 +80,9 @@
 	div.hb-files-style div.files {padding:2px 0 0 45px; font-size:12px; display:none; line-height:18px}
 	div.hb-files-style div.files div.file:hover {color:#777;}
 	div.hb-files-style div.apply-btn {text-align:right; margin: 1px 0 10px 0}
+
+	div#size-more-details {display:none; margin:5px 0 5px 0; border:1px solid #dfdfdf; padding:8px; border-radius: 4px; background-color: #F1F1F1}
+	div#size-more-details ul {list-style-type:circle; padding-left:20px}
 
 	/*DATABASE*/
 	div#dup-scan-db-info {margin:0px 0px 0px 10px}
@@ -182,7 +185,7 @@ TOOL BAR:STEPS -->
 					<?php
 						_e("Scan checks are not required to pass, however they could cause issues on some systems.", 'duplicator');
 						echo '<br/>';
-						_e("Please review the details for each warning by clicking on the detail link.", 'duplicator');
+						_e("Please review the details for each section by clicking on the detail title.", 'duplicator');
 					?>
 				</label>
 			</div>
