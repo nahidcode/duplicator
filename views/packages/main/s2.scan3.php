@@ -45,7 +45,7 @@ TOTAL SIZE -->
 		<b><?php _e('File Count', 'duplicator');?>:</b> <span id="data-arc-files"></span>  &nbsp; | &nbsp;
 		<b><?php _e('Directory Count', 'duplicator');?>:</b> <span id="data-arc-dirs"></span> <br/><br/>
 		<?php
-			printf(__('Sites larger that <b>%1$s</b> may run into timeout issues on some budget hosts.  ', 'duplicator'),	DUP_Util::byteSize(DUPLICATOR_SCAN_SITE));
+			printf(__('Compressing sites larger that <b>%1$s</b> may cause timeouts on some budget hosts.  ', 'duplicator'),	DUP_Util::byteSize(DUPLICATOR_SCAN_SITE));
 			echo "<i>&nbsp; <a href='javascipt:void(0)' onclick='jQuery(\"#size-more-details\").toggle(100)'>[" . __('more details...', 'duplicator') . "]</a></i>";
 			$txt = sprintf(__('Files over %1$s are listed below. Larger files such as movies or zipped content can cause timeout issues on some budget hosts.  If you are having '
 				. 'issues creating a package try excluding the directory paths below or go back to Step 1 and add them.', 'duplicator'),
@@ -62,7 +62,7 @@ TOTAL SIZE -->
 				echo "<b>" . __('Timeout Options', 'duplicator') . ":</b><br/>";
 				echo '<ul>';
 				echo '<li>' . __('Apply the "Recommended Filters" below or click the back button to apply on previous page.', 'duplicator') . '</li>';
-				echo '<li>' . __('See the FAQ link to adjust this servers timeout limits: ', 'duplicator') . "&nbsp;<a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>" . __('What can I try for Timeout Issues?', 'duplicator') . '</a></li>';
+				echo '<li>' . __('See the FAQ link to adjust this hosts timeout limits: ', 'duplicator') . "&nbsp;<a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>" . __('What can I try for Timeout Issues?', 'duplicator') . '</a></li>';
 				echo '<li>' . __('Consider trying multi-threaded support in ', 'duplicator');
 					echo "<a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_size_warn&utm_campaign=duplicator_pro' target='_blank'>" . __('Duplicator Pro.', 'duplicator') . "</a>";
 				echo '</li>';
@@ -223,7 +223,7 @@ DATABASE -->
 				printf(__('1. Running a %1$s on your database will help to improve the overall size, performance and efficiency of the database.', 'duplicator'), $lnk);
 				echo '<br/><br/>';
 				$lnk = '<a href="?page=duplicator-settings" target="_blank">' . __('Duplicator Settings', 'duplicator') . '</a>';
-				printf(__('2. If your server supports shell_exec and mysqldump it is recommended to enable this option from the %1$s menu.', 'duplicator'), $lnk);
+				printf(__('2. If your host supports shell_exec and mysqldump it is recommended to enable this option from the %1$s menu.', 'duplicator'), $lnk);
 				echo '<br/><br/>';
 				_e('3. Consider removing data from tables that store logging, statistical  or other non-critical information about your site.', 'duplicator');
 			?>

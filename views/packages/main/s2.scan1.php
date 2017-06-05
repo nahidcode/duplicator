@@ -81,7 +81,7 @@
 	div.hb-files-style div.files div.file:hover {color:#777;}
 	div.hb-files-style div.apply-btn {text-align:right; margin: 1px 0 10px 0}
 
-	div#size-more-details {display:none; margin:5px 0 5px 0; border:1px solid #dfdfdf; padding:8px; border-radius: 4px; background-color: #F1F1F1}
+	div#size-more-details {display:none; margin:5px 0 20px 0; border:1px solid #dfdfdf; padding:8px; border-radius: 4px; background-color: #F1F1F1}
 	div#size-more-details ul {list-style-type:circle; padding-left:20px}
 
 	/*DATABASE*/
