@@ -47,8 +47,8 @@ TOTAL SIZE -->
 		<?php
 			printf(__('Compressing sites larger that <b>%1$s</b> may cause timeouts on some budget hosts.  ', 'duplicator'),	DUP_Util::byteSize(DUPLICATOR_SCAN_SITE));
 			echo "<i>&nbsp; <a href='javascipt:void(0)' onclick='jQuery(\"#size-more-details\").toggle(100)'>[" . __('more details...', 'duplicator') . "]</a></i>";
-			$txt = sprintf(__('Files over %1$s are listed below. Larger files such as movies or zipped content can cause timeout issues on some budget hosts.  If you are having '
-				. 'issues creating a package try excluding the directory paths below or go back to Step 1 and add them.', 'duplicator'),
+			$txt = sprintf(__('Files over %1$s are listed below and could be candidates for filtering. Larger files such as movies or zipped content can cause timeout issues on some budget hosts.  If you are having '
+				. 'issues creating a package, exclude any <i>non-essential</i> directory paths below.', 'duplicator'),
 				DUP_Util::byteSize(DUPLICATOR_SCAN_WARNFILESIZE));
 		?>
 		<div id="size-more-details">
@@ -61,7 +61,7 @@ TOTAL SIZE -->
 				
 				echo "<b>" . __('Timeout Options', 'duplicator') . ":</b><br/>";
 				echo '<ul>';
-				echo '<li>' . __('Apply the "Recommended Filters" below or click the back button to apply on previous page.', 'duplicator') . '</li>';
+				echo '<li>' . __('Apply the "Quick Filters" below or click the back button to apply on previous page.', 'duplicator') . '</li>';
 				echo '<li>' . __('See the FAQ link to adjust this hosts timeout limits: ', 'duplicator') . "&nbsp;<a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>" . __('What can I try for Timeout Issues?', 'duplicator') . '</a></li>';
 				echo '<li>' . __('Consider trying multi-threaded support in ', 'duplicator');
 					echo "<a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_size_warn&utm_campaign=duplicator_pro' target='_blank'>" . __('Duplicator Pro.', 'duplicator') . "</a>";
@@ -73,7 +73,7 @@ TOTAL SIZE -->
 			<div class="container">
 				<div class="hdrs">
 					<span style="font-weight:bold">
-						<?php _e('Recommended Filters', 'duplicator'); ?>
+						<?php _e('Quick Filters', 'duplicator'); ?>
 						<sup><i class="fa fa-question-circle" data-tooltip-title="<?php _e("Large Files", 'duplicator'); ?>" data-tooltip="<?php echo $txt; ?>"></i></sup>
 					</span>
 					<div class='hdrs-up-down'>
@@ -131,7 +131,7 @@ FILE NAME CHECKS -->
 		<script id="hb-files-utf8" type="text/x-handlebars-template">
 			<div class="container">
 				<div class="hdrs">
-					<span style="font-weight:bold"><?php _e('Recommended Filters', 'duplicator');?></span>
+					<span style="font-weight:bold"><?php _e('Quick Filters', 'duplicator');?></span>
 						<sup><i class="fa fa-question-circle" data-tooltip-title="<?php _e("Name Checks", 'duplicator'); ?>" data-tooltip="<?php echo $txt; ?>"></i></sup>
 					<div class='hdrs-up-down'>
 						<i class="fa fa-caret-up fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'close')"></i>
