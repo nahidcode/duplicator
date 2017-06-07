@@ -16,7 +16,7 @@
 	div.dup-msg-error-area {overflow-y: scroll; padding:5px 15px 5px 15px; max-height:150px; max-width: 700px}
 	div.dup-msg-success-stats{color:#999;margin:10px 0px 0px 0px}
 	div.dup-msg-success-links {margin:20px 5px 5px 5px; font-size: 14px; font-weight: bold}
-	div#dup-msg-error {color:#A62426; padding:5px;}
+	div#dup-msg-error {color:#630f0f; padding:5px;}
 	div#dup-progress-area div.done-title {font-size:22px; font-weight:bold; margin:0px 0px 10px 0px}
 	div#dup-logs {text-align:center; margin:auto; padding:5px; width:350px;}
 	div#dup-logs a {font-size:15px; text-decoration:none !important; display:inline-block; margin:20px 0px 5px 0px}
@@ -98,15 +98,15 @@ TOOL BAR: STEPS -->
 			<!--  =========================
 			ERROR MESSAGE -->
 			<div id="dup-msg-error" style="display:none">
-				<div class="done-title"><i class="fa fa-chain-broken"></i> <?php _e('Build Interrupt', 'duplicator'); ?></div>
-				<b><?php _e('The current build has experienced an issue.', 'duplicator'); ?></b><br/>
+				<div class="done-title"><i class="fa fa-chain-broken"></i> <?php _e('Host Build Interrupt', 'duplicator'); ?></div>
+				<b><?php _e('This host has experienced an issue.', 'duplicator'); ?></b><br/>
 			
 				<i><?php _e('Please try the process again.', 'duplicator'); ?></i><br/><br/>
 				  
 				<input type="button" style="margin-right:10px;" class="button" value="<?php _e('Diagnose', 'duplicator'); ?>" onclick="window.open('https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q', '_blank');return false;" />
                 <input type="button" class="button" value="<?php _e('Try Again', 'duplicator'); ?>" onclick="window.location = 'admin.php?page=duplicator&tab=new1'" />                                
 				<fieldset>
-					<legend><b><i class="fa fa-exclamation"></i> <?php _e('Details', 'duplicator'); ?></b></legend>
+					<legend><b><?php _e('Details', 'duplicator'); ?></b></legend>
 					<div class="dup-msg-error-area">
 						<div id="dup-msg-error-response-status">
 							<span class="label"><?php _e("Server Status:", 'duplicator'); ?></span>
@@ -125,7 +125,8 @@ TOOL BAR: STEPS -->
 						<?php printf('<b><i class="fa fa-folder-o"></i> %s %s</b> <br/> %s',
 							__('Build Folder:'),
 								DUPLICATOR_SSDIR_PATH_TMP,
-							__("Some servers close connections quickly; yet the build can continue to run in the background. To validate if a build is still running; open the 'tmp' folder above and see if the archive file is growing in size. If it is not then your server has strict timeout constraints.  Please visit the support page for additional resources.", 'duplicator')
+							__("Some servers close connections quickly; yet the build can continue to run in the background. To validate if a build is still running; open the 'tmp' "
+								. "folder above and see if the archive file is growing in size. If it is not then your server has strict timeout constraints.", 'duplicator')
 							);
 						?> <br/>
 					</div>
@@ -134,7 +135,7 @@ TOOL BAR: STEPS -->
 				<!-- LOGS -->
 				<div id="dup-logs">
 					<div style="font-weight:bold">
-						<i class="fa fa-list-alt"></i> <a href='javascript:void(0)' style="color:#A62426" onclick='Duplicator.OpenLogWindow()'> <?php _e('Package Log', 'duplicator');?> </a>						
+						<i class="fa fa-list-alt"></i> <a href='javascript:void(0)' style="color:#630f0f" onclick='Duplicator.OpenLogWindow()'> <?php _e('Package Log', 'duplicator');?> </a>
 					</div> 
 					<br/>
 				</div>

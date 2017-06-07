@@ -36,7 +36,8 @@ if (function_exists('plugin_dir_url'))
     define('DUPLICATOR_DB_MAX_TIME',     5000);
 	define('DUPLICATOR_DB_EOF_MARKER',   'DUPLICATOR_MYSQLDUMP_EOF');
 	//SCANNER CONSTRAINTS 
-	define('DUPLICATOR_SCAN_SITE',			104857600);	//100MB
+	define('DUPLICATOR_SCAN_SIZE_DEFAULT',	209715200);	//200MB
+	//define('DUPLICATOR_SCAN_SIZE_DEFAULT',	52428800);	//200MB
 	define('DUPLICATOR_SCAN_WARNFILESIZE',	3145728);	//3MB
 	define('DUPLICATOR_SCAN_CACHESIZE',		1048576);	//1MB
 	define('DUPLICATOR_SCAN_DB_ALL_ROWS',	1000000);	//1 rows million per DB
@@ -45,6 +46,7 @@ if (function_exists('plugin_dir_url'))
 	define('DUPLICATOR_SCAN_DB_TBL_SIZE',	10485760);  //10MB Table
 	define('DUPLICATOR_SCAN_TIMEOUT',		150);		//Seconds
 	define('DUPLICATOR_SCAN_MIN_WP',		'3.9.0');
+	define('DUPLICATOR_BUILD_FORCE_TIMEOUT', true);
 	
     $GLOBALS['DUPLICATOR_SERVER_LIST'] = array('Apache','LiteSpeed', 'Nginx', 'Lighttpd', 'IIS', 'WebServerX', 'uWSGI');
 	$GLOBALS['DUPLICATOR_OPTS_DELETE'] = array('duplicator_ui_view_state', 'duplicator_package_active', 'duplicator_settings');

@@ -179,6 +179,40 @@ class DUP_Archive
         return $filter_exts;
     }
 
+
+	public function getLargestBuildSize() {
+
+		global $wpdb;
+
+		$qry_result = $wpdb->get_results("SELECT id, status, package FROM `{$wpdb->prefix}duplicator_packages` WHERE status >= 100", ARRAY_A);
+
+		$max_archive_size = DUPLICATOR_SCAN_SIZE_DEFAULT;
+		
+		if ($qry_result) {
+			foreach ($qry_result as $row) {
+				$package = unserialize($row['package']);
+				$max_archive_size = ($max_archive_size < $package->Archive->Size) ? $package->Archive->Size : $max_archive_size;
+
+			}
+		}
+
+		return $max_archive_size;
+	}
+	
+
+	public function getEstimatedSizeCheck()
+	{
+
+		$percent_change = 50; //increase/decrease size by 60%
+		$largest_size = $this->getLargestBuildSize();
+		$new_size = round($largest_size * ((100 - $percent_change) / 100), 2);
+
+		return $new_size;
+	}
+
+
+
+
     /**
      * Creates the filter info setup data used for filtering the archive
      *
