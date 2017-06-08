@@ -40,21 +40,20 @@ TOTAL SIZE -->
 		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('Size Check', 'duplicator');?></div>
 		<div id="data-arc-status-size"></div>
 	</div>
-	<div class="info">
+	<div class="info" id="scan-itme-file-size">
 		<b><?php _e('Size', 'duplicator');?>:</b> <span id="data-arc-size2"></span>  &nbsp; | &nbsp;
 		<b><?php _e('File Count', 'duplicator');?>:</b> <span id="data-arc-files"></span>  &nbsp; | &nbsp;
 		<b><?php _e('Directory Count', 'duplicator');?>:</b> <span id="data-arc-dirs"></span> <br/><br/>
 		<?php
-			_e('Compressing larger sites on some budget hosts may cause timeouts.  ' , 'duplicator');
+			_e('Compressing larger sites on <i>some budget hosts</i> may cause timeouts.  ' , 'duplicator');
 			echo "<i>&nbsp; <a href='javascipt:void(0)' onclick='jQuery(\"#size-more-details\").toggle(100)'>[" . __('more details...', 'duplicator') . "]</a></i>";
 		?>
 		<div id="size-more-details">
 			<?php
 				echo "<b>" . __('Overview', 'duplicator') . ":</b><br/>";
 
-				printf(__('On some hosts, the size of a package does not matter. Initially this warning is set at <b id="data-arc-size-check"></b> but will adjust as you attempt a builds.  '
-					. 'If you see this warning it is safe to continue with the build process. If during the build process you receive host build interrupt message '
-					. 'then this host that has strict processing limits.   Below are some options you can take to overcome the hosts constraints.', 'duplicator'),
+				printf(__('This notice is triggered at <b>%s</b> and can be ignored on most hosts.  If during the build process you see a "Host Build Interrupt" message then this '
+					. 'host has strict processing limits.  Below are some options you can take to overcome constraints setup on this host.', 'duplicator'),
 					DUP_Util::byteSize(DUPLICATOR_SCAN_SIZE_DEFAULT));
 
 				echo '<br/><br/>';
@@ -103,7 +102,18 @@ TOTAL SIZE -->
 							</div>
 						{{/each}}
 					{{else}}
-						 <?php _e('No large files found during this scan.', 'duplicator');?>
+						 <?php 
+							if (! isset($_GET['retry'])) {
+								_e('No large files found during this scan.', 'duplicator');
+							} else {
+								echo "<div style='color:maroon'>";
+								_e('No large files found during this scan.  If your having issues building a package click the back button and try '
+									. 'adding the following file filters to non-essential files paths like wp-conent/uploads.   These filtered files can then '
+									. 'be manually moved to the new location after you have ran the migration installer.', 'duplicator');
+								echo "</div>";
+							}
+
+						?>
 					{{/if}}
 				</div>
 			</div>
@@ -436,7 +446,7 @@ jQuery(document).ready(function($)
 		$('#data-arc-status-size').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Size));
 		$('#data-arc-status-names').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Names));
 		$('#data-arc-size1').text(data.ARC.Size || errMsg);
-		$('#data-arc-size-check').text(data.ARC.SizeCheck || errMsg);
+		$('#data-arc-size2').text(data.ARC.Size || errMsg);
 		$('#data-arc-files').text(data.ARC.FileCount || errMsg);
 		$('#data-arc-dirs').text(data.ARC.DirCount || errMsg);
 
@@ -493,5 +503,12 @@ jQuery(document).ready(function($)
 			$('#dup-scan-db').html(html);
 		}
 	}
+
+	<?php
+		if (isset($_GET['retry'])) {
+			echo "$('#scan-itme-file-size').show(300)";
+		}
+	?>
+	
 });
 </script>

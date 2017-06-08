@@ -108,10 +108,8 @@ class DUP_Package
         $dirCount  = count($this->Archive->Dirs);
         $fileCount = count($this->Archive->Files);
         $fullCount = $dirCount + $fileCount;
-		$est_archive_size_check = $this->Archive->getEstimatedSizeCheck();
 
         $report['ARC']['Size']      = DUP_Util::byteSize($this->Archive->Size) or "unknown";
-		$report['ARC']['SizeCheck']  = DUP_Util::byteSize($est_archive_size_check) or DUP_Util::byteSize(DUPLICATOR_SCAN_SIZE_DEFAULT);
         $report['ARC']['DirCount']  = number_format($dirCount);
         $report['ARC']['FileCount'] = number_format($fileCount);
         $report['ARC']['FullCount'] = number_format($fullCount);
@@ -119,7 +117,7 @@ class DUP_Package
 		$report['ARC']['FilterFilesAll'] = $this->Archive->FilterFilesAll;
 		$report['ARC']['FilterExtsAll'] = $this->Archive->FilterExtsAll;
         $report['ARC']['FilterInfo'] = $this->Archive->FilterInfo;
-        $report['ARC']['Status']['Size']  = ($this->Archive->Size > $est_archive_size_check) ? 'Warn' : 'Good';
+        $report['ARC']['Status']['Size']  = ($this->Archive->Size > DUPLICATOR_SCAN_SIZE_DEFAULT) ? 'Warn' : 'Good';
         $report['ARC']['Status']['Names'] = (count($this->Archive->FilterInfo->Files->Warning) + count($this->Archive->FilterInfo->Dirs->Warning)) ? 'Warn' : 'Good';
         $report['ARC']['Status']['Big']   = count($this->Archive->FilterInfo->Files->Size) ? 'Warn' : 'Good';
         $report['ARC']['Dirs']  = $this->Archive->Dirs;
@@ -167,7 +165,6 @@ class DUP_Package
      */
     public function runBuild()
     {
-
         global $wp_version;
         global $wpdb;
         global $current_user;
@@ -234,7 +231,6 @@ class DUP_Package
         $this->Database->build($this);
         $this->Archive->build($this);
         $this->Installer->build($this);
-
 
         //INTEGRITY CHECKS
         DUP_Log::Info("\n********************************************************************************");
