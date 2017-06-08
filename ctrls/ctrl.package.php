@@ -181,6 +181,7 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
 			$filters = $package->Archive->FilterDirs.';'.$post['dir_paths'];
 			$filters = $package->Archive->parseDirectoryFilter($filters);
 			$changed = $package->Archive->saveActiveItem($package, 'FilterDirs', $filters);
+			$changed = $package->Archive->saveActiveItem($package, 'FilterOn', 1);
 
 			//Result
 			$package = DUP_Package::getActive();

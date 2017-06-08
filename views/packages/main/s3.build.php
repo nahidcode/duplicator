@@ -110,7 +110,7 @@ TOOL BAR: STEPS -->
 					<legend><b><?php _e('Details', 'duplicator'); ?></b></legend>
 					<div class="dup-msg-error-area">
 						<div id="dup-msg-error-response-time">
-							<span class="label"><?php _e("Process Runtime:", 'duplicator'); ?></span>
+							<span class="label"><?php _e("Allowed Runtime:", 'duplicator'); ?></span>
 							<span class="data"></span>
 						</div>
 						<div id="dup-msg-error-response-status">
@@ -176,7 +176,7 @@ jQuery(document).ready(function($) {
 				var minutes = Math.floor(millis / 60000);
 				var seconds = ((millis % 60000) / 1000).toFixed(0);
 				var status = minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-				$('#dup-msg-error-response-time span.data').html(status + ' seconds')
+				$('#dup-msg-error-response-time span.data').html(status)
 			},
 			success:    function(data) { 
 				$('#dup-progress-bar-area').hide(); 
