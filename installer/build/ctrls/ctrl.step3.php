@@ -190,8 +190,16 @@ DUPX_Log::info("====================================\n");
 DUPX_WPConfig::updateStandard();
 $config_file = DUPX_WPConfig::updateExtended();
 DUPX_Log::info("UPDATED WP-CONFIG: {$root_path}/wp-config.php' (if present)");
-DUPX_ServerConfig::setup($dbh);
 
+//Web Server Config Updates
+if (!isset($_POST['url_new']) || $_POST['retain_config']) {
+	DUPX_Log::info("\nNOTICE: Retaining the original .htaccess, .user.ini and web.config files may cause");
+	DUPX_Log::info("issues with the initial setup of your site.  If you run into issues with your site or");
+	DUPX_Log::info("during the install process please uncheck the 'Config Files' checkbox labeled:");
+	DUPX_Log::info("'Retain original .htaccess, .user.ini and web.config' and re-run the installer.");
+} else {
+	DUPX_ServerConfig::setup($dbh);
+}
 
 
 //===============================================
