@@ -132,10 +132,11 @@ if ($_POST['archive_engine'] == 'manual') {
 //RESET SERVER CONFIG FILES
 //===============================
 if ($_POST['retain_config']) {
-	DUPX_Log::info("\nNOTICE: Retaining the original .htaccess, .user.ini and web.config files may cause");
-	DUPX_Log::info("issues with the initial setup of your site.  If you run into issues with your site or");
-	DUPX_Log::info("during the install process please uncheck the 'Config Files' checkbox labeled:");
-	DUPX_Log::info("'Retain original .htaccess, .user.ini and web.config' and re-run the installer.");
+	DUPX_Log::info("\nNOTICE: Manual update of permalinks required see:  Admin > Settings > Permalinks > Click Save Changes");
+	DUPX_Log::info("Retaining the original htaccess, user.ini or web.config files may cause issues with the setup of this site.");
+	DUPX_Log::info("If you run into issues during or after the install process please uncheck the 'Config Files' checkbox labeled:");
+	DUPX_Log::info("'Retain original .htaccess, .user.ini and web.config' from Step 1 and re-run the installer. Backups of the");
+	DUPX_Log::info("orginal config files will be made and can be merged per required directive.");
 } else {
 	DUPX_ServerConfig::reset();
 }
