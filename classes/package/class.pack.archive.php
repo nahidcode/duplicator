@@ -532,9 +532,20 @@ class DUP_Archive
 		$dir_group = DUP_Util::array_group_by($this->FilterInfo->Files->Warning, "dir" );
 		ksort($dir_group);
 		foreach ($dir_group as $dir => $files) {
+
+			//Locate core paths, wp-admin, wp-includes, etc.
+			$iscore = 0;
+			foreach ($this->wpCorePaths as $core_dir) {
+				if (strpos($dir, $core_dir) !== false) {
+					$iscore = 1;
+					break;
+				}
+			}
+
 			$this->FilterInfo->TreeWarning[] = array(
 				'dir' => $dir,
 				'sdir' => str_replace(DUPLICATOR_WPROOTPATH, '', $dir),
+				'iscore' => $iscore,
 				'count' => count($files),
 				'files' => $files);
 		}
@@ -553,7 +564,7 @@ class DUP_Archive
 				//Locate core paths, wp-admin, wp-includes, etc.
 				$iscore = 0;
 				foreach ($this->wpCorePaths as $core_dir) {
-					if (strpos($value, $core_dir) !== false) {
+					if (strpos($dir, $core_dir) !== false) {
 						$iscore = 1;
 						break;
 					}
@@ -562,6 +573,7 @@ class DUP_Archive
 				$this->FilterInfo->TreeWarning[] = array(
 					'dir' => $dir,
 					'sdir' => str_replace(DUPLICATOR_WPROOTPATH, '', $dir),
+					'iscore' => $iscore,
 					'count' => 0);
 			}
 		}

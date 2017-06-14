@@ -165,19 +165,28 @@ FILE NAME CHECKS -->
 					{{#if  ARC.FilterInfo.TreeWarning}}
 						{{#each ARC.FilterInfo.TreeWarning as |directory|}}
 							<div class="directory">
-								{{#if  directory.count}}
+								{{#if directory.count}}
 									<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
 								{{else}}
 									<i class="empty"></i>
 								{{/if}}
-								<input type="checkbox" name="dir_paths[]" value="{{directory.dir}}" id="nc1_dir_{{@index}}" />
+										
+								{{#if directory.iscore}}
+									<i class="fa fa-window-close-o  chk-off" title="<?php _e('Core WordPress directories should not be filtered. Use caution when excluding files.', 'duplicator'); ?>"></i>
+								{{else}}		
+									<input type="checkbox" name="dir_paths[]" value="{{directory.dir}}" id="nc1_dir_{{@index}}" onclick="Duplicator.Pack.filesOff(this)" />
+								{{/if}}
+								
 								<label for="nc1_dir_{{@index}}" title="{{directory.dir}}">
 									<i class="count">({{directory.count}})</i>
 									/{{directory.sdir}}/
 								</label> <br/>
 								<div class="files">
 									{{#each directory.files}}
-										<div class="file" title="{{name}}">- {{sname}}</div>
+										<input type="checkbox" name="file_paths[]" value="{{path}}" id="warn_file_{{directory.dir}}-{{@index}}" />
+										<label for="warn_file_{{directory.dir}}-{{@index}}" title="{{path}}">
+											{{sname}}
+										</label> <br/>
 									{{/each}}
 								</div>
 							</div>
