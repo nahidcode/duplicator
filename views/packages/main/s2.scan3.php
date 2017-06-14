@@ -90,7 +90,11 @@ TOTAL SIZE -->
 						{{#each ARC.FilterInfo.TreeSize as |directory|}}
 							<div class="directory">
 								<i class="fa fa-caret-right fa-lg dup-nav" onclick="Duplicator.Pack.toggleDirPath(this)"></i> &nbsp;
-								<input type="checkbox" name="dir_paths[]" value="{{directory.dir}}" id="lf_dir_{{@index}}" onclick="Duplicator.Pack.filesOff(this)" />
+								{{#if directory.iscore}}
+									<i class="fa fa-window-close-o  chk-off" title="<?php _e('Core WordPress directories should not be filtered. Use caution when excluding files.', 'duplicator'); ?>"></i>
+								{{else}}
+									<input type="checkbox" name="dir_paths[]" value="{{directory.dir}}" id="lf_dir_{{@index}}" onclick="Duplicator.Pack.filesOff(this)" />
+								{{/if}}
 								<label for="lf_dir_{{@index}}" title="{{directory.dir}}">
 									<i class="size">[{{directory.size}}]</i> /{{directory.sdir}}/
 								</label> <br/>
@@ -381,8 +385,8 @@ jQuery(document).ready(function($)
 	{
 		var $checks = $(dir).parent('div.directory').find('div.files input[type="checkbox"]');
 		$(dir).is(':checked')
-			? $.each($checks, function() {$(this).attr({disabled : true, checked : false});})
-			: $.each($checks, function() {$(this).removeAttr('disabled checked');});
+			? $.each($checks, function() {$(this).attr({disabled : true, checked : false, title : '<?php _e('Directory applied filter set.', 'duplicator');?>'});})
+			: $.each($checks, function() {$(this).removeAttr('disabled checked title');});
 	}
 
 	//Opens a dialog to show scan details
