@@ -40,7 +40,7 @@ TOTAL SIZE -->
 		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('Size Check', 'duplicator');?></div>
 		<div id="data-arc-status-size"></div>
 	</div>
-	<div class="info" id="scan-itme-file-size" style="display: block">
+	<div class="info" id="scan-itme-file-size">
 		<b><?php _e('Size', 'duplicator');?>:</b> <span id="data-arc-size2"></span>  &nbsp; | &nbsp;
 		<b><?php _e('File Count', 'duplicator');?>:</b> <span id="data-arc-files"></span>  &nbsp; | &nbsp;
 		<b><?php _e('Directory Count', 'duplicator');?>:</b> <span id="data-arc-dirs"></span> <br/>
