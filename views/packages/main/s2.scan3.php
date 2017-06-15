@@ -11,7 +11,7 @@
 ARCHIVE -->
 <div class="details-title">
 	<i class="fa fa-file-archive-o"></i>&nbsp;<?php _e('Archive', 'duplicator');?>
-	<div class="dup-more-details" onclick="Duplicator.Pack.showDetails()"><i class="fa fa-window-maximize"></i></div>
+	<div class="dup-more-details" onclick="Duplicator.Pack.showDetailsDlg()" title="<?php _e('Show Scan Details', 'duplicator');?>"><i class="fa fa-window-maximize"></i></div>
 </div>
 
 <div class="scan-header scan-item-first">
@@ -40,7 +40,7 @@ TOTAL SIZE -->
 		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('Size Check', 'duplicator');?></div>
 		<div id="data-arc-status-size"></div>
 	</div>
-	<div class="info" id="scan-itme-file-size">
+	<div class="info" id="scan-itme-file-size" style="display: block">
 		<b><?php _e('Size', 'duplicator');?>:</b> <span id="data-arc-size2"></span>  &nbsp; | &nbsp;
 		<b><?php _e('File Count', 'duplicator');?>:</b> <span id="data-arc-files"></span>  &nbsp; | &nbsp;
 		<b><?php _e('Directory Count', 'duplicator');?>:</b> <span id="data-arc-dirs"></span> <br/>
@@ -126,7 +126,10 @@ TOTAL SIZE -->
 			</div>
 			<div class="apply-btn">
 				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters(this, 'large')">
-					<i class="fa fa-filter"></i> <?php _e('Apply Filters &amp; Rescan', 'duplicator');?>
+					<i class="fa fa-filter"></i> <?php _e('Add Filters &amp; Rescan', 'duplicator');?>
+				</button>
+				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('large')">
+					<i class="fa fa-clipboard" aria-hidden="true"></i> <?php _e('Copy Paths', 'duplicator');?>
 				</button>
 			</div>
 		</script>
@@ -303,7 +306,7 @@ DATABASE -->
 
 
 <!-- ==========================================
-DETAILS DIALOG:
+DIALOGS:
 ========================================== -->
 <?php
 	$alert1 = new DUP_UI_Dialog();
@@ -312,18 +315,24 @@ DETAILS DIALOG:
 	$alert1->title		= __('Scan Details', 'duplicator');
 	$alert1->message	= "<div id='dup-arc-details-dlg'></div>";
 	$alert1->initAlert();
+	
+	$alert2 = new DUP_UI_Dialog();
+	$alert2->height     = 425;
+	$alert2->width      = 650;
+	$alert2->title		= __('Quick Filter Paths', 'duplicator');
+	$alert2->message	= "<div id='dup-arc-paths-dlg'></div>";
+	$alert2->initAlert();
 ?>
 
 <div id="dup-archive-details" style="display:none">
-
-	<b><i class="fa fa-archive"></i> PACKAGE</b>
+	<b><i class="fa fa-archive"></i> <?php _e('PACKAGE', 'duplicator');?></b>
 	<hr size="1" />
 
 	<b><?php _e('Name', 'duplicator');?>:</b> <?php echo $_POST['package-name']; ?><br/>
 	<b><?php _e('Notes', 'duplicator');?>:</b> <?php echo strlen($_POST['package-notes']) ? $_POST['package-notes'] : __('- no notes -', 'duplicator') ; ?>
 	<br/><br/>
 
-	<b><i class="fa fa-files-o"></i> FILE SETTINGS</b>
+	<b><i class="fa fa-files-o"></i> <?php _e('FILE SETTINGS', 'duplicator');?></b>
 	<hr size="1" />
 
 	<b><?php _e('Filters State', 'duplicator');?>:</b> <?php echo ($Package->Archive->FilterOn) ? __('Enabled', 'duplicator') : __('Disabled', 'duplicator') ;?> <br/>
@@ -353,11 +362,11 @@ DETAILS DIALOG:
 	</div>
 	<br/>
 
-	<b><i class="fa fa-table"></i> DATABASE SETTINGS</b>
+	<b><i class="fa fa-table"></i> <?php _e('DATABASE SETTINGS', 'duplicator');?></b>
 	<hr size="1" />
 	<table id="db-area">
-		<tr><td><b><?php _e('Name:', 'duplicator');?></b></td><td><?php echo DB_NAME ;?> </td></tr>
-		<tr><td><b><?php _e('Host:', 'duplicator');?></b></td><td><?php echo DB_HOST ;?> </td></tr>
+		<tr><td><b><?php _e('Name:', 'duplicator');?></b></td><td><?php echo DB_NAME; ?> </td></tr>
+		<tr><td><b><?php _e('Host:', 'duplicator');?></b></td><td><?php echo DB_HOST; ?> </td></tr>
 		<tr>
 			<td style="vertical-align: top"><b><?php _e('Build Mode:', 'duplicator');?></b></td>
 			<td style="line-height:18px">
@@ -382,6 +391,31 @@ DETAILS DIALOG:
 	</small><br/>
 </div>
 
+<!-- =======================
+DIALOG: PATHS COPY & PASTE -->
+<div id="dup-archive-paths" style="display:none">
+	
+	<b><i class="fa fa-folder"></i> <?php _e('Directories', 'duplicator');?></b>
+	<div class="copy-button">
+		<button type="button" class="button-small" onclick="Duplicator.Pack.copyText(this, '#dup-arc-paths-dlg textarea.path-dirs')">
+			<i class="fa fa-clipboard"></i> <?php _e('Click to Copy', 'duplicator');?>
+		</button>
+	</div>
+	<textarea class="path-dirs"></textarea>
+	<br/><br/>
+
+	<b><i class="fa fa-files-o"></i> <?php _e('Files', 'duplicator');?></b>
+	<div class="copy-button">
+		<button type="button" class="button-small" onclick="Duplicator.Pack.copyText(this, '#dup-arc-paths-dlg textarea.path-files')">
+			<i class="fa fa-clipboard"></i> <?php _e('Click to Copy', 'duplicator');?>
+		</button>
+	</div>
+	<textarea class="path-files"></textarea>
+
+</div>
+
+
+
 <script>
 jQuery(document).ready(function($)
 {
@@ -399,10 +433,35 @@ jQuery(document).ready(function($)
 	}
 
 	//Opens a dialog to show scan details
-	Duplicator.Pack.showDetails = function ()
+	Duplicator.Pack.showDetailsDlg = function ()
 	{
 		$('#dup-arc-details-dlg').html($('#dup-archive-details').html());
 		<?php $alert1->showAlert(); ?>
+		return;
+	}
+	
+		//Opens a dialog to show scan details
+	Duplicator.Pack.showPathsDlg = function (type)
+	{
+		var id = (type == 'large') ? '#hb-files-large-result' : '#hb-files-utf8-result'
+		var dirFilters  = [];
+		var fileFilters = [];
+		$(id + " input[name='dir_paths[]']:checked").each(function()  {dirFilters.push($(this).val());});
+		$(id + " input[name='file_paths[]']:checked").each(function() {fileFilters.push($(this).val());});
+
+		var $dirs  = $('#dup-archive-paths textarea.path-dirs');
+		var $files  = $('#dup-archive-paths textarea.path-files');
+		(dirFilters.length > 0)
+		   ? $dirs.text(dirFilters.join(";\n"))
+		   : $dirs.text("<?php _e('No directories have been selected!', 'duplicator');?>");
+
+	    (fileFilters.length > 0)
+		   ? $files.text(fileFilters.join(";\n"))
+		   : $files.text("<?php _e('No files have been selected!', 'duplicator');?>");
+
+		$('#dup-arc-paths-dlg').html($('#dup-archive-paths').html());
+		<?php $alert2->showAlert(); ?>
+		
 		return;
 	}
 
@@ -430,6 +489,25 @@ jQuery(document).ready(function($)
 			: $.each($dirs, function() {$(this).find('div.files').hide(); $(this).find('i.dup-nav').trigger('click');});
 	}
 
+	Duplicator.Pack.copyText = function(btn, query)
+	{
+		// Select the email link anchor text
+		$(query).select();
+//		 var copyData = document.querySelector(query);
+//		 var range = document.createRange();
+//		 range.selectNode(copyData);
+//		 window.getSelection().addRange(range);
+
+		 try {
+		   // Now that we've selected the anchor text, execute the copy command
+		   var successful = document.execCommand('copy');
+		   $(btn).css({color: '#fff', backgroundColor: 'green'});
+		   $(btn).text("<?php _e('Copied to Clipboard!', 'duplicator');?>");
+		 } catch(err) {
+		   
+		 }
+	}
+
 	Duplicator.Pack.applyFilters = function(btn, type)
 	{
 		var $btn = $(btn);
@@ -439,12 +517,8 @@ jQuery(document).ready(function($)
 		var id = (type == 'large') ? '#hb-files-large-result' : '#hb-files-utf8-result'
 		var dirFilters  = [];
 		var fileFilters = [];
-		$(id + " input[name='dir_paths[]']:checked").each(function (){
-			dirFilters.push($(this).val());
-		});
-		$(id + " input[name='file_paths[]']:checked").each(function (){
-			fileFilters.push($(this).val());
-		});
+		$(id + " input[name='dir_paths[]']:checked").each(function()  {dirFilters.push($(this).val());});
+		$(id + " input[name='file_paths[]']:checked").each(function() {fileFilters.push($(this).val());});
 
 		var data = {
 			action: 'DUP_CTRL_Package_addQuickFilters',
@@ -452,7 +526,6 @@ jQuery(document).ready(function($)
 			dir_paths : dirFilters.join(";"),
 			file_paths : fileFilters.join(";"),
 		};
-		//console.log(dirFilters);
 
 		$.ajax({
 			type: "POST",

@@ -49,7 +49,7 @@
 	div.dup-more-details {float:right; font-size:14px}
 	div.dup-more-details:hover {color:#777; cursor:pointer}
 
-	/*DETAILS WINDOW*/
+	/*DIALOG WINDOWS*/
 	div#dup-arc-details-dlg {font-size:12px}
 	div#dup-arc-details-dlg hr {margin:3px 0 10px 0}
 	div#dup-arc-details-dlg table#db-area {margin:0;  width:98%}
@@ -57,6 +57,11 @@
 	div#dup-arc-details-dlg table#db-area td:first-child {font-weight:bold;  white-space:nowrap; width:100px}
 	div#dup-arc-details-dlg div.filter-area {height:175px; overflow-y:scroll; border:1px solid #dfdfdf; padding:8px; margin:8px 0}
 	div#dup-arc-details-dlg div.file-info {padding:0 0 10px 30px; width:500px; white-space:nowrap;}
+	
+	div#dup-arc-paths-dlg textarea.path-dirs,
+		textarea.path-files {font-size:12px; border: 1px solid silver; padding: 10px; background: #fff; margin:5px; height:125px; width:100%; white-space:pre}
+	div#dup-arc-paths-dlg div.copy-button {float:right;}
+	div#dup-arc-paths-dlg div.copy-button button {font-size:12px}
 
 	/*FILES */
 	div#data-arc-size1 {display:inline-block; float:right; font-size:11px; margin-right:5px;}
