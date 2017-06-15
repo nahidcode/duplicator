@@ -119,7 +119,6 @@ TOTAL SIZE -->
 									. 'be manually moved to the new location after you have ran the migration installer.', 'duplicator');
 								echo "</div>";
 							}
-
 						?>
 					{{/if}}
 				</div>
@@ -128,8 +127,8 @@ TOTAL SIZE -->
 				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters(this, 'large')">
 					<i class="fa fa-filter"></i> <?php _e('Add Filters &amp; Rescan', 'duplicator');?>
 				</button>
-				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('large')">
-					<i class="fa fa-clipboard" aria-hidden="true"></i> <?php _e('Copy Paths', 'duplicator');?>
+				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('large')" title="<?php _e('Copy Paths to Clipboard', 'duplicator');?>">
+					<i class="fa fa-clipboard" aria-hidden="true"></i>
 				</button>
 			</div>
 		</script>
@@ -201,7 +200,10 @@ FILE NAME CHECKS -->
 			</div>
 			<div class="apply-btn">
 				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters(this, 'utf8')">
-					<i class="fa fa-filter"></i> <?php _e('Apply Filters &amp; Rescan', 'duplicator');?>
+					<i class="fa fa-filter"></i> <?php _e('Add Filters &amp; Rescan', 'duplicator');?>
+				</button>
+				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('utf8')" title="<?php _e('Copy Paths to Clipboard', 'duplicator');?>">
+					<i class="fa fa-clipboard" aria-hidden="true"></i>
 				</button>
 			</div>
 		</script>
@@ -319,11 +321,13 @@ DIALOGS:
 	$alert2 = new DUP_UI_Dialog();
 	$alert2->height     = 425;
 	$alert2->width      = 650;
-	$alert2->title		= __('Quick Filter Paths', 'duplicator');
+	$alert2->title		= __('Copy Quick Filter Paths', 'duplicator');
 	$alert2->message	= "<div id='dup-arc-paths-dlg'></div>";
 	$alert2->initAlert();
 ?>
 
+<!-- =======================
+DIALOG: Scan Results -->
 <div id="dup-archive-details" style="display:none">
 	<b><i class="fa fa-archive"></i> <?php _e('PACKAGE', 'duplicator');?></b>
 	<hr size="1" />
@@ -411,7 +415,8 @@ DIALOG: PATHS COPY & PASTE -->
 		</button>
 	</div>
 	<textarea class="path-files"></textarea>
-
+	<br/>
+	<small><?php _e('Copy the paths above and apply them as needed on Step 1 &gt; Archive &gt; Files section.', 'duplicator');?></small>
 </div>
 
 
@@ -419,10 +424,6 @@ DIALOG: PATHS COPY & PASTE -->
 <script>
 jQuery(document).ready(function($)
 {
-	Handlebars.registerHelper('dirSize', function(path) {
-		return  (path.length > 70) ? path.slice(0, 70) + '...' : path;
-	});
-
 	//Opens a dialog to show scan details
 	Duplicator.Pack.filesOff = function (dir)
 	{
@@ -491,20 +492,13 @@ jQuery(document).ready(function($)
 
 	Duplicator.Pack.copyText = function(btn, query)
 	{
-		// Select the email link anchor text
 		$(query).select();
-//		 var copyData = document.querySelector(query);
-//		 var range = document.createRange();
-//		 range.selectNode(copyData);
-//		 window.getSelection().addRange(range);
-
 		 try {
-		   // Now that we've selected the anchor text, execute the copy command
-		   var successful = document.execCommand('copy');
+		   document.execCommand('copy');
 		   $(btn).css({color: '#fff', backgroundColor: 'green'});
 		   $(btn).text("<?php _e('Copied to Clipboard!', 'duplicator');?>");
 		 } catch(err) {
-		   
+		   alert("<?php _e('Manual copy of selected text required on this browser.', 'duplicator');?>")
 		 }
 	}
 
