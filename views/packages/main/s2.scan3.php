@@ -248,20 +248,21 @@ DATABASE -->
 			<?php
 				//OVERVIEW
 				echo '<b>' . __('Overview:', 'duplicator') . '</b><br/>';
-				printf(__('Total size and row count for all database tables are approximate values.  The thresholds that trigger warnings are %1$s OR %2$s records total for the entire database.  The larger the databases the more time it takes to process and execute.  This can cause issues with budget hosts that have cpu/memory limits, and timeout constraints.', 'duplicator'),
+				printf(__('Total size and row counts are approximate values.  The thresholds that trigger warnings are %1$s OR %2$s records total for the entire database.  '
+					. 'The larger the databases the more time it takes to process and execute.  This can cause issues with budget hosts that have cpu/memory limits, and timeout constraints.', 'duplicator'),
 						DUP_Util::byteSize(DUPLICATOR_SCAN_DB_ALL_SIZE),
 						number_format(DUPLICATOR_SCAN_DB_ALL_ROWS));
 
 				//OPTIONS
 				echo '<br/><br/>';
 				echo '<b>' . __('Options:', 'duplicator') . '</b><br/>';
-				$lnk = '<a href="maint/repair.php" target="_blank">' . __('Repair and Optimization', 'duplicator') . '</a>';
-				printf(__('1. Running a %1$s on your database will help to improve the overall size, performance and efficiency of the database.', 'duplicator'), $lnk);
+				$lnk = '<a href="maint/repair.php" target="_blank">' . __('Repair and optimize', 'duplicator') . '</a>';
+				printf(__('1. %1$s the database to improve its size, performance and efficiency.', 'duplicator'), $lnk);
 				echo '<br/><br/>';
-				$lnk = '<a href="?page=duplicator-settings" target="_blank">' . __('Duplicator Settings', 'duplicator') . '</a>';
-				printf(__('2. If your host supports shell_exec and mysqldump it is recommended to enable this option from the %1$s menu.', 'duplicator'), $lnk);
+				$lnk = '<a href="?page=duplicator-settings&tab=package" target="_blank">' . __('Enable mysqldump', 'duplicator') . '</a>';
+				printf(__('2. %1$s if this host supports the option.', 'duplicator'), $lnk);
 				echo '<br/><br/>';
-				_e('3. Consider removing data from tables that store logging, statistical  or other non-critical information about your site.', 'duplicator');
+				_e('3. Consider removing data from tables that store logging, statistical or other non-critical information.', 'duplicator');
 			?>
 		</div>
 	</div>
@@ -329,31 +330,54 @@ DIALOGS:
 <!-- =======================
 DIALOG: Scan Results -->
 <div id="dup-archive-details" style="display:none">
-	<b><i class="fa fa-archive"></i> <?php _e('PACKAGE', 'duplicator');?></b>
-	<hr size="1" />
-
+	<h2><i class="fa fa-archive"></i> <?php _e('Package', 'duplicator');?></h2>
 	<b><?php _e('Name', 'duplicator');?>:</b> <?php echo $_POST['package-name']; ?><br/>
 	<b><?php _e('Notes', 'duplicator');?>:</b> <?php echo strlen($_POST['package-notes']) ? $_POST['package-notes'] : __('- no notes -', 'duplicator') ; ?>
 	<br/><br/>
 
-	<b><i class="fa fa-files-o"></i> <?php _e('FILE SETTINGS', 'duplicator');?></b>
-	<hr size="1" />
+	<h2 style="border: none">
+		<i class="fa fa-filter"></i> <?php _e('File Filters', 'duplicator');?>:
+		<small><?php echo ($Package->Archive->FilterOn) ? __('Enabled', 'duplicator') : __('Disabled', 'duplicator') ;?></small>
+	</h2>
 
-	<b><?php _e('Filters State', 'duplicator');?>:</b> <?php echo ($Package->Archive->FilterOn) ? __('Enabled', 'duplicator') : __('Disabled', 'duplicator') ;?> <br/>
 	<div class="filter-area">
-		<b>[<?php _e('Excluded Directories', 'duplicator');?>]</b><br/>
-		<i class="fa fa-folder-open"></i> <?php echo rtrim(DUPLICATOR_WPROOTPATH, "//");?>
-		<div class="file-info">
-			<?php
-				if (strlen( $Package->Archive->FilterDirs)) {
-					$data =  str_replace(";", "/<br/>", $Package->Archive->FilterDirs);
-					$data =  str_replace(DUPLICATOR_WPROOTPATH, '/', $data);
-					echo $data;
-				} else {
-					_e('No directory filters have been set.', 'duplicator');
-				}
-			?>
-		</div>
+		<b><i class="fa fa-folder-open"></i> <?php echo rtrim(DUPLICATOR_WPROOTPATH, "//");?></b>
+
+		<script id="hb-filter-file-list" type="text/x-handlebars-template">
+			<div class="file-info">
+				<b><?php _e('Directories', 'duplicator');	?>:</b>
+				<div class="file-info">
+					{{#if ARC.FilterInfo.Dirs.Instance}}
+						{{#each ARC.FilterInfo.Dirs.Instance as |dir|}}
+							/{{stripWPRoot dir}}/<br/>
+						{{/each}}
+					{{else}}
+						 <?php	_e('No custom directory filters set.', 'duplicator');	?>
+					{{/if}}
+				</div>
+
+				<b><?php _e('Files', 'duplicator');	?>:</b>
+				<div class="file-info">
+					{{#if ARC.FilterInfo.Files.Instance}}
+						{{#each ARC.FilterInfo.Files.Instance as |file|}}
+							/{{stripWPRoot file}}<br/>
+						{{/each}}
+					{{else}}
+						 <?php	_e('No custom file filters set.', 'duplicator');	?>
+					{{/if}}
+				</div>
+
+				<b><?php _e('Smart Filters', 'duplicator');	?>:</b>
+				<div class="file-info">
+					{{#each ARC.FilterInfo.Dirs.Core as |dir|}}
+						/{{stripWPRoot dir}}/<br/>
+					{{/each}}
+				</div>
+
+			</div>
+		</script>
+		<div class="hb-filter-file-list-result"></div>
+
 
 		<b>[<?php _e('Excluded File Extensions', 'duplicator');?>]</b><br/>
 		<?php
@@ -366,8 +390,8 @@ DIALOG: Scan Results -->
 	</div>
 	<br/>
 
-	<b><i class="fa fa-table"></i> <?php _e('DATABASE SETTINGS', 'duplicator');?></b>
-	<hr size="1" />
+	<h2><i class="fa fa-table"></i> <?php _e('Database', 'duplicator');?></h2>
+
 	<table id="db-area">
 		<tr><td><b><?php _e('Name:', 'duplicator');?></b></td><td><?php echo DB_NAME; ?> </td></tr>
 		<tr><td><b><?php _e('Host:', 'duplicator');?></b></td><td><?php echo DB_HOST; ?> </td></tr>
@@ -388,8 +412,8 @@ DIALOG: Scan Results -->
 
 	<small>
 		<?php
-			_e('The root directory is where Duplicator starts archiving files.  The excluded sections will be skipped during the archive process.  ', 'duplicator');
-			_e('All results are stored in a json file. ', 'duplicator');
+			_e('All path filters will be skipped during the archive process.  ', 'duplicator');
+			_e('Results are stored in a json file. ', 'duplicator');
 		?>
 		<a href="<?php echo DUPLICATOR_SITE_URL ?>/wp-admin/admin-ajax.php?action=duplicator_package_scan" target="dup_report"><?php _e('[view json report]', 'duplicator');?></a>
 	</small><br/>
@@ -424,6 +448,12 @@ DIALOG: PATHS COPY & PASTE -->
 <script>
 jQuery(document).ready(function($)
 {
+
+	Handlebars.registerHelper('stripWPRoot', function(path) {
+		return  path.replace('<?php echo DUPLICATOR_WPROOTPATH ?>', '');
+	});
+
+
 	//Opens a dialog to show scan details
 	Duplicator.Pack.filesOff = function (dir)
 	{
@@ -451,7 +481,7 @@ jQuery(document).ready(function($)
 		$(id + " input[name='file_paths[]']:checked").each(function() {fileFilters.push($(this).val());});
 
 		var $dirs  = $('#dup-archive-paths textarea.path-dirs');
-		var $files  = $('#dup-archive-paths textarea.path-files');
+		var $files = $('#dup-archive-paths textarea.path-files');
 		(dirFilters.length > 0)
 		   ? $dirs.text(dirFilters.join(";\n"))
 		   : $dirs.text("<?php _e('No directories have been selected!', 'duplicator');?>");
@@ -559,6 +589,16 @@ jQuery(document).ready(function($)
 		var templateScript = Handlebars.compile(template);
 		var html = templateScript(data);
 		$('#hb-files-utf8-result').html(html);
+
+
+		//SCANNER DETAILS: Dirs
+		var template = $('#hb-filter-file-list').html();
+		var templateScript = Handlebars.compile(template);
+		var html = templateScript(data);
+		$('div.hb-filter-file-list-result').html(html);
+
+
+
 		Duplicator.UI.loadQtip();
 	}
 
