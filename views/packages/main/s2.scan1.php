@@ -70,8 +70,8 @@
 	div.hb-files-style div.hdrs-up-down {float:right;  margin:2px 12px 0 0}
 	div.hb-files-style i.dup-nav-toggle:hover {cursor:pointer; color:#999}
 	div.hb-files-style div.directory {margin-left:12px}
-	div.hb-files-style div.directory i.size {font-size:11px; font-weight:normal; font-style:normal; display:inline-block; min-width:50px}
-	div.hb-files-style div.directory i.count {font-size:11px; font-weight:normal; font-style:normal; display:inline-block; min-width:20px}
+	div.hb-files-style div.directory i.size {font-size:11px;  font-style:normal; display:inline-block; min-width:50px}
+	div.hb-files-style div.directory i.count {font-size:11px; font-style:normal; display:inline-block; min-width:20px}
 	div.hb-files-style div.directory i.empty {width:15px; display:inline-block}
 	div.hb-files-style div.directory i.dup-nav {cursor:pointer}
 	div.hb-files-style div.directory i.fa {width:8px}
