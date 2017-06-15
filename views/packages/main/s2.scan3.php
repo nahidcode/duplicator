@@ -316,30 +316,53 @@ DIALOGS:
 	$alert1->height     = 600;
 	$alert1->width      = 600;
 	$alert1->title		= __('Scan Details', 'duplicator');
-	$alert1->message	= "<div id='dup-arc-details-dlg'></div>";
+	$alert1->message	= "<div id='arc-details-dlg'></div>";
 	$alert1->initAlert();
 	
 	$alert2 = new DUP_UI_Dialog();
 	$alert2->height     = 425;
 	$alert2->width      = 650;
 	$alert2->title		= __('Copy Quick Filter Paths', 'duplicator');
-	$alert2->message	= "<div id='dup-arc-paths-dlg'></div>";
+	$alert2->message	= "<div id='arc-paths-dlg'></div>";
 	$alert2->initAlert();
 ?>
 
 <!-- =======================
 DIALOG: Scan Results -->
 <div id="dup-archive-details" style="display:none">
+	
+	<!-- PACKATE -->
 	<h2><i class="fa fa-archive"></i> <?php _e('Package', 'duplicator');?></h2>
 	<b><?php _e('Name', 'duplicator');?>:</b> <?php echo $_POST['package-name']; ?><br/>
 	<b><?php _e('Notes', 'duplicator');?>:</b> <?php echo strlen($_POST['package-notes']) ? $_POST['package-notes'] : __('- no notes -', 'duplicator') ; ?>
 	<br/><br/>
 
+
+	<!-- DATABASE -->
+	<h2><i class="fa fa-table"></i> <?php _e('Database', 'duplicator');?></h2>
+	<table id="db-area">
+		<tr><td><b><?php _e('Name:', 'duplicator');?></b></td><td><?php echo DB_NAME; ?> </td></tr>
+		<tr><td><b><?php _e('Host:', 'duplicator');?></b></td><td><?php echo DB_HOST; ?> </td></tr>
+		<tr>
+			<td style="vertical-align: top"><b><?php _e('Build Mode:', 'duplicator');?></b></td>
+			<td style="line-height:18px">
+				<a href="?page=duplicator-settings" target="_blank"><?php echo $dbbuild_mode ;?></a>
+				<?php if ($mysqlcompat_on) :?>
+					<br/>
+					<small style="font-style:italic; color:maroon">
+						<i class="fa fa-exclamation-circle"></i> <?php _e('MySQL Compatibility Mode Enabled', 'duplicator'); ?>
+						<a href="https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html#option_mysqldump_compatible" target="_blank">[<?php _e('details', 'duplicator'); ?>]</a>
+					</small>
+				<?php endif;?>
+			</td>
+		</tr>
+	</table><br/>
+
+	<!-- FILE FILTERS -->
 	<h2 style="border: none">
 		<i class="fa fa-filter"></i> <?php _e('File Filters', 'duplicator');?>:
 		<small><?php echo ($Package->Archive->FilterOn) ? __('Enabled', 'duplicator') : __('Disabled', 'duplicator') ;?></small>
 	</h2>
-
 	<div class="filter-area">
 		<b><i class="fa fa-folder-open"></i> <?php echo rtrim(DUPLICATOR_WPROOTPATH, "//");?></b>
 
@@ -378,7 +401,6 @@ DIALOG: Scan Results -->
 		</script>
 		<div class="hb-filter-file-list-result"></div>
 
-
 		<b>[<?php _e('Excluded File Extensions', 'duplicator');?>]</b><br/>
 		<?php
 			if (strlen( $Package->Archive->FilterExts)) {
@@ -388,27 +410,6 @@ DIALOG: Scan Results -->
 			}
 		?>
 	</div>
-	<br/>
-
-	<h2><i class="fa fa-table"></i> <?php _e('Database', 'duplicator');?></h2>
-
-	<table id="db-area">
-		<tr><td><b><?php _e('Name:', 'duplicator');?></b></td><td><?php echo DB_NAME; ?> </td></tr>
-		<tr><td><b><?php _e('Host:', 'duplicator');?></b></td><td><?php echo DB_HOST; ?> </td></tr>
-		<tr>
-			<td style="vertical-align: top"><b><?php _e('Build Mode:', 'duplicator');?></b></td>
-			<td style="line-height:18px">
-				<a href="?page=duplicator-settings" target="_blank"><?php echo $dbbuild_mode ;?></a>
-				<?php if ($mysqlcompat_on) :?>
-					<br/>
-					<small style="font-style:italic; color:maroon">
-						<i class="fa fa-exclamation-circle"></i> <?php _e('MySQL Compatibility Mode Enabled', 'duplicator'); ?>
-						<a href="https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html#option_mysqldump_compatible" target="_blank">[<?php _e('details', 'duplicator'); ?>]</a>
-					</small>
-				<?php endif;?>
-			</td>
-		</tr>
-	</table><br/>
 
 	<small>
 		<?php
@@ -425,7 +426,7 @@ DIALOG: PATHS COPY & PASTE -->
 	
 	<b><i class="fa fa-folder"></i> <?php _e('Directories', 'duplicator');?></b>
 	<div class="copy-button">
-		<button type="button" class="button-small" onclick="Duplicator.Pack.copyText(this, '#dup-arc-paths-dlg textarea.path-dirs')">
+		<button type="button" class="button-small" onclick="Duplicator.Pack.copyText(this, '#arc-paths-dlg textarea.path-dirs')">
 			<i class="fa fa-clipboard"></i> <?php _e('Click to Copy', 'duplicator');?>
 		</button>
 	</div>
@@ -434,7 +435,7 @@ DIALOG: PATHS COPY & PASTE -->
 
 	<b><i class="fa fa-files-o"></i> <?php _e('Files', 'duplicator');?></b>
 	<div class="copy-button">
-		<button type="button" class="button-small" onclick="Duplicator.Pack.copyText(this, '#dup-arc-paths-dlg textarea.path-files')">
+		<button type="button" class="button-small" onclick="Duplicator.Pack.copyText(this, '#arc-paths-dlg textarea.path-files')">
 			<i class="fa fa-clipboard"></i> <?php _e('Click to Copy', 'duplicator');?>
 		</button>
 	</div>
@@ -466,7 +467,7 @@ jQuery(document).ready(function($)
 	//Opens a dialog to show scan details
 	Duplicator.Pack.showDetailsDlg = function ()
 	{
-		$('#dup-arc-details-dlg').html($('#dup-archive-details').html());
+		$('#arc-details-dlg').html($('#dup-archive-details').html());
 		<?php $alert1->showAlert(); ?>
 		return;
 	}
@@ -490,7 +491,7 @@ jQuery(document).ready(function($)
 		   ? $files.text(fileFilters.join(";\n"))
 		   : $files.text("<?php _e('No files have been selected!', 'duplicator');?>");
 
-		$('#dup-arc-paths-dlg').html($('#dup-archive-paths').html());
+		$('#arc-paths-dlg').html($('#dup-archive-paths').html());
 		<?php $alert2->showAlert(); ?>
 		
 		return;
