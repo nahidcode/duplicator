@@ -368,32 +368,32 @@ DIALOG: Scan Results -->
 
 		<script id="hb-filter-file-list" type="text/x-handlebars-template">
 			<div class="file-info">
-				<b><?php _e('Directories', 'duplicator');	?>:</b>
+				<b><?php _e('DIRECTORIES', 'duplicator');	?>:</b>
 				<div class="file-info">
 					{{#if ARC.FilterInfo.Dirs.Instance}}
 						{{#each ARC.FilterInfo.Dirs.Instance as |dir|}}
-							/{{stripWPRoot dir}}/<br/>
+							{{stripWPRoot dir}}/<br/>
 						{{/each}}
 					{{else}}
-						 <?php	_e('No custom directory filters set.', 'duplicator');	?>
+						 <?php	_e('No custom directory filters set.', 'duplicator');?>
 					{{/if}}
 				</div>
 
-				<b><?php _e('Files', 'duplicator');	?>:</b>
+				<b><?php _e('FILES', 'duplicator');	?>:</b>
 				<div class="file-info">
 					{{#if ARC.FilterInfo.Files.Instance}}
 						{{#each ARC.FilterInfo.Files.Instance as |file|}}
-							/{{stripWPRoot file}}<br/>
+							{{stripWPRoot file}}<br/>
 						{{/each}}
 					{{else}}
-						 <?php	_e('No custom file filters set.', 'duplicator');	?>
+						 <?php	_e('No custom file filters set.', 'duplicator');?>
 					{{/if}}
 				</div>
 
-				<b><?php _e('Smart Filters', 'duplicator');	?>:</b>
+				<b><?php _e('AUTO FILTERS', 'duplicator');	?>:</b>
 				<div class="file-info">
 					{{#each ARC.FilterInfo.Dirs.Core as |dir|}}
-						/{{stripWPRoot dir}}/<br/>
+						{{stripWPRoot dir}}/<br/>
 					{{/each}}
 				</div>
 
@@ -451,7 +451,7 @@ jQuery(document).ready(function($)
 {
 
 	Handlebars.registerHelper('stripWPRoot', function(path) {
-		return  path.replace('<?php echo DUPLICATOR_WPROOTPATH ?>', '');
+		return  path.replace('<?php echo rtrim(DUPLICATOR_WPROOTPATH, "//") ?>', '');
 	});
 
 
@@ -469,6 +469,7 @@ jQuery(document).ready(function($)
 	{
 		$('#arc-details-dlg').html($('#dup-archive-details').html());
 		<?php $alert1->showAlert(); ?>
+		Duplicator.UI.loadQtip();
 		return;
 	}
 	
@@ -596,6 +597,7 @@ jQuery(document).ready(function($)
 		var templateScript = Handlebars.compile(template);
 		var html = templateScript(data);
 		$('div.hb-filter-file-list-result').html(html);
+
 		Duplicator.UI.loadQtip();
 	}
 

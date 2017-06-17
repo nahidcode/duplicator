@@ -58,6 +58,8 @@
 	div#arc-details-dlg table#db-area td:first-child {font-weight:bold;  white-space:nowrap; width:100px}
 	div#arc-details-dlg div.filter-area {height:275px; overflow-y:scroll; border:1px solid #dfdfdf; padding:8px; margin:2px 0}
 	div#arc-details-dlg div.file-info {padding:0 0 10px 15px; width:500px; white-space:nowrap;}
+	div#arc-details-dlg div.file-info i.fa-question-circle { margin-right: 5px;  font-size: 11px;}
+
 	
 	div#arc-paths-dlg textarea.path-dirs,
 		textarea.path-files {font-size:12px; border: 1px solid silver; padding: 10px; background: #fff; margin:5px; height:125px; width:100%; white-space:pre}
