@@ -411,11 +411,8 @@ DIALOG: Scan Results -->
 	</div>
 
 	<small>
-		<?php
-			_e('All path filters will be skipped during the archive process.  ', 'duplicator');
-			_e('Results are stored in a json file. ', 'duplicator');
-		?>
-		<a href="<?php echo DUPLICATOR_SITE_URL ?>/wp-admin/admin-ajax.php?action=duplicator_package_scan" target="dup_report"><?php _e('[view json report]', 'duplicator');?></a>
+		<?php _e('Path filters will be skipped during the archive process when enabled.', 'duplicator');	?>
+		<a href="<?php echo DUPLICATOR_SITE_URL ?>/wp-admin/admin-ajax.php?action=duplicator_package_scan" target="dup_report"><?php _e('[view json result report]', 'duplicator');?></a>
 	</small><br/>
 </div>
 
