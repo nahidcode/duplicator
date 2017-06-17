@@ -337,7 +337,6 @@ DIALOG: Scan Results -->
 	<b><?php _e('Notes', 'duplicator');?>:</b> <?php echo strlen($_POST['package-notes']) ? $_POST['package-notes'] : __('- no notes -', 'duplicator') ; ?>
 	<br/><br/>
 
-
 	<!-- DATABASE -->
 	<h2><i class="fa fa-table"></i> <?php _e('Database', 'duplicator');?></h2>
 	<table id="db-area">
@@ -368,7 +367,7 @@ DIALOG: Scan Results -->
 
 		<script id="hb-filter-file-list" type="text/x-handlebars-template">
 			<div class="file-info">
-				<b><?php _e('DIRECTORIES', 'duplicator');	?>:</b>
+				<b>[<?php _e('Directories', 'duplicator');	?>]</b>
 				<div class="file-info">
 					{{#if ARC.FilterInfo.Dirs.Instance}}
 						{{#each ARC.FilterInfo.Dirs.Instance as |dir|}}
@@ -379,7 +378,7 @@ DIALOG: Scan Results -->
 					{{/if}}
 				</div>
 
-				<b><?php _e('FILES', 'duplicator');	?>:</b>
+				<b>[<?php _e('Files', 'duplicator');	?>]</b>
 				<div class="file-info">
 					{{#if ARC.FilterInfo.Files.Instance}}
 						{{#each ARC.FilterInfo.Files.Instance as |file|}}
@@ -390,7 +389,7 @@ DIALOG: Scan Results -->
 					{{/if}}
 				</div>
 
-				<b><?php _e('AUTO FILTERS', 'duplicator');	?>:</b>
+				<b>[<?php _e('Auto Filters', 'duplicator');	?>]</b>
 				<div class="file-info">
 					{{#each ARC.FilterInfo.Dirs.Core as |dir|}}
 						{{stripWPRoot dir}}/<br/>
