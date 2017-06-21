@@ -26,7 +26,7 @@ $dbbuild_mode    = ($mysqldump_on) ? 'mysqldump' : 'PHP';
 	table.dup-dtl-data-tbl tr {vertical-align: top}
 	table.dup-dtl-data-tbl tr:first-child td {margin:0; padding-top:0 !important;}
 	table.dup-dtl-data-tbl td {padding:0 5px 0 0; padding-top:10px !important;}
-	table.dup-dtl-data-tbl td:first-child {font-weight: bold; width:140px}
+	table.dup-dtl-data-tbl td:first-child {font-weight: bold; width:130px}
 	table.dup-sub-list td:first-child {white-space: nowrap; vertical-align: middle; width: 70px !important;}
 	table.dup-sub-list td {white-space: nowrap; vertical-align:top; padding:0 !important; font-size:12px}
 	div.dup-box-panel-hdr {font-size:14px; display:block; border-bottom: 1px dotted #efefef; margin:5px 0 5px 0; font-weight: bold; padding: 0 0 5px 0}
@@ -44,7 +44,7 @@ $dbbuild_mode    = ($mysqldump_on) ? 'mysqldump' : 'PHP';
 	div#dup-downloads-area {padding: 5px 0 5px 0; }
 	div#dup-downloads-msg {margin-bottom:-5px; font-style: italic}
 	div.sub-section {padding:7px 0 0 0}
-	textarea.file-info {width:100%; height:125px; font-size:12px }
+	textarea.file-info {width:100%; height:100px; font-size:12px }
 </style>
 
 <?php if ($package_id == 0) :?>
