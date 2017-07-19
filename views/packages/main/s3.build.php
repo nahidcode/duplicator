@@ -1,7 +1,20 @@
 <?php
 	$Package = DUP_Package::getActive();
 	$ajax_nonce	= wp_create_nonce('dup_package_build');
-	
+
+    // Allows for auto cycling of message in the future - just add dp_texts[n] and dp_contents[n]
+    $dp_texts = array();
+    $dp_texts[0] = __('Get even <i>more power</i> with Duplicator Pro!');
+    
+    $dp_contents[] = array();
+    $dp_contents[0] = 'package_build_more_power';
+
+    $dp_index = rand(0, count($dp_contents) - 1);
+
+    $dp_text = $dp_texts[$dp_index];
+    $dp_content = $dp_contents[$dp_index];
+    $dp_url = "https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content={$dp_content}&utm_campaign=duplicator_pro";
+
 ?>
 
 <style>
@@ -92,7 +105,9 @@ TOOL BAR: STEPS -->
 					<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?>
 					<?php printf("<a href='?page=duplicator&tab=new1'>[ %s ]</a>", 	__('Create New', 'duplicator'));?>
 				</div><br/>
-				
+				<p style="font-size:.85rem; font-weight:600">
+                    <span><?php echo $dp_text?>&nbsp;<a target="_blank" href="<?php echo $dp_url;?>">[<?php _e('details', 'duplicator'); ?>]</a></i></span></small>
+                </p>
 			</div>
 			
 			<!--  =========================

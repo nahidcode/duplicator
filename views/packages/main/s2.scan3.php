@@ -63,7 +63,7 @@ TOTAL SIZE -->
 				echo '<li>' . __('Apply the "Quick Filters" below or click the back button to apply on previous page.', 'duplicator') . '</li>';
 				echo '<li>' . __('See the FAQ link to adjust this hosts timeout limits: ', 'duplicator') . "&nbsp;<a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>" . __('What can I try for Timeout Issues?', 'duplicator') . '</a></li>';
 				echo '<li>' . __('Consider trying multi-threaded support in ', 'duplicator');
-					echo "<a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_size_warn&utm_campaign=duplicator_pro' target='_blank'>" . __('Duplicator Pro.', 'duplicator') . "</a>";
+				echo "<a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=multithreaded_pro&utm_campaign=duplicator_pro' target='_blank'>" . __('Duplicator Pro.', 'duplicator') . "</a>";
 				echo '</li>';
 				echo '</ul>';
 
@@ -123,13 +123,22 @@ TOTAL SIZE -->
 					{{/if}}
 				</div>
 			</div>
-			<div class="apply-btn">
+			<div class="apply-btn" style="margin-bottom:5px">
 				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters(this, 'large')">
 					<i class="fa fa-filter"></i> <?php _e('Add Filters &amp; Rescan', 'duplicator');?>
 				</button>
 				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('large')" title="<?php _e('Copy Paths to Clipboard', 'duplicator');?>">
 					<i class="fa fa-clipboard" aria-hidden="true"></i>
 				</button>
+
+                    <?php
+                    if ($zip_check != null) {
+                        echo '<p style="text-align: center;margin-top: 17px;">';
+                        echo '<span style="font-weight:bold">Package support up to 2GB available with Duplicator Pro.&nbsp;</span>';
+                        echo '<i><a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&amp;utm_medium=wordpress_plugin&amp;utm_content=free_size_warn&amp;utm_campaign=duplicator_pro" target="_blank">[' . __('details', 'duplicator') . ']</a></i>';
+                        echo '</p>';
+                    }
+                    ?>
 			</div>
 		</script>
 		<div id="hb-files-large-result" class="hb-files-style"></div>
