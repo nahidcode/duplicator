@@ -2,16 +2,18 @@
 	$Package = DUP_Package::getActive();
 	$ajax_nonce	= wp_create_nonce('dup_package_build');
 
-    // Allows for auto cycling of message in the future - just add dp_texts[n] and dp_contents[n]
-    $dp_texts = array();
-    $dp_texts[0] = __('Get even more power & features with', 'duplicator');
-    $dp_contents[]  = array();
-    $dp_contents[0] = 'package_build_more_power';
-    $dp_index = rand(0, count($dp_contents) - 1);
-    $dp_text = $dp_texts[$dp_index];
-    $dp_content = $dp_contents[$dp_index];
-    $dp_url = "https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content={$dp_content}&utm_campaign=duplicator_pro";
+	//Help support Duplicator
+	$atext0  = __('Help support Duplicator with a ', 'duplicator') . "&nbsp;<a target='_blank' href='https://wordpress.org/support/plugin/duplicator/reviews/?filter=5'>";
+	$atext0 .= __('5 star rating', 'duplicator') . '</a>&nbsp;' .  __('on WordPress.org', 'duplicator');
 
+	//Get even more power & features with Professional
+	$atext1 = __('Get even more power & features with', 'duplicator');
+	$atext1 .= "&nbsp;<a target='_blank' href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=package_build_more_power&utm_campaign=duplicator_pro'>";
+	$atext1 .=  __('Professional', 'duplicator') . '</a>';
+
+	$rand_txt = array();
+	$rand_txt[0] = $atext0;
+	$rand_txt[1] = $atext1;
 ?>
 
 <style>
@@ -105,7 +107,7 @@ TOOL BAR: STEPS -->
 				</div>
 				<br/>
 				<p class="get-pro">
-					<?php echo $dp_text ?>&nbsp;<a target="_blank" href="<?php echo $dp_url;?>"><?php _e('Professional', 'duplicator'); ?></a>!
+					<?php echo $rand_txt[array_rand($rand_txt, 1)]; ?>
                 </p>
 			</div>
 			
