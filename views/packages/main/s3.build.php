@@ -9,7 +9,7 @@
 	//Get even more power & features with Professional
 	$atext1 = __('Get even more power & features with', 'duplicator');
 	$atext1 .= "&nbsp;<a target='_blank' href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=package_build_more_power&utm_campaign=duplicator_pro'>";
-	$atext1 .=  __('Professional', 'duplicator') . '</a>';
+	$atext1 .=  __('Professional', 'duplicator') . '</a>!';
 
 	$rand_txt = array();
 	$rand_txt[0] = $atext0;
@@ -35,7 +35,7 @@
 	div.dup-button-footer {text-align:right; margin:20px 10px 0px 0px}
 	button.button {font-size:16px !important; height:30px !important; font-weight:bold; padding:0px 10px 5px 10px !important; min-width: 150px }
 	span.dup-btn-size {font-size:11px;font-weight: normal}
-	p.get-pro {font-size:12px; color:#777; border-top:1px solid #eeeeee; padding:5px 0 0 0; margin:0; font-style:italic}
+	p.get-pro {font-size:12px; color:#999; border-top:1px solid #eeeeee; padding:5px 0 0 0; margin:0; font-style:italic}
 </style>
 
 <!-- =========================================
