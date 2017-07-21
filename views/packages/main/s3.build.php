@@ -4,7 +4,7 @@
 
 	//Help support Duplicator
 	$atext0  = __('Help', 'duplicator') . "&nbsp;<a target='_blank' href='https://wordpress.org/support/plugin/duplicator/reviews/?filter=5'>";
-	$atext0 .= __('review the plugin ', 'duplicator') . '</a>&nbsp;' .  __('on WordPress.org!', 'duplicator');
+	$atext0 .= __('review the plugin', 'duplicator') . '</a>&nbsp;' .  __('on WordPress.org!', 'duplicator');
 
 	//Get even more power & features with Professional
 	$atext1 = __('Get even more power & features with', 'duplicator');
