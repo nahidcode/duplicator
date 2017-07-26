@@ -338,7 +338,6 @@ class DUP_Package
             $this->Installer->OptsSSLLogin  = isset($post['ssl-login']) ? 1 : 0;
             $this->Installer->OptsCacheWP   = isset($post['cache-wp']) ? 1 : 0;
             $this->Installer->OptsCachePath = isset($post['cache-path']) ? 1 : 0;
-            $this->Installer->OptsURLNew    = esc_html($post['url-new']);
             //DATABASE
             $this->Database->FilterOn       = isset($post['dbfilter-on']) ? 1 : 0;
             $this->Database->FilterTables   = esc_html($tablelist);

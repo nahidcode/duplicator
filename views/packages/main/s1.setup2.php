@@ -384,18 +384,6 @@ INSTALLER -->
             </tr-->
         </table><br />
 
-        
-
-         <input type="hidden" name="url-new" id="url-new" value=""/>
-
-         
-        <!--table class="dup-installer-tbl">
-            <tr>
-                <td style="width:130px"><?php _e("New URL", 'duplicator') ?></td>
-                <td><input type="text" name="url-new" id="url-new" value="<?php echo $Package->Installer->OptsURLNew ?>" placeholder="http://mynewsite.com" /></td>
-            </tr>
-        </table-->
-		
 		<div style="padding:10px 0 0 12px;">
 			<span class="dup-pro-text">
 				<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/cpanel-48.png" style="width:16px; height:12px" />

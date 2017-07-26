@@ -83,7 +83,6 @@ $GLOBALS['FW_VERSION_OS']	= '%fwrite_version_os%';
 //GENERAL
 $GLOBALS['FW_TABLEPREFIX']		= '%fwrite_wp_tableprefix%';
 $GLOBALS['FW_URL_OLD']			= '%fwrite_url_old%';
-$GLOBALS['FW_URL_NEW']			= '%fwrite_url_new%';
 $GLOBALS['FW_PACKAGE_NAME']		= '%fwrite_archive_name%';
 $GLOBALS['FW_PACKAGE_NOTES']	= '%fwrite_package_notes%';
 $GLOBALS['FW_SECURE_NAME']		= '%fwrite_secure_name%';

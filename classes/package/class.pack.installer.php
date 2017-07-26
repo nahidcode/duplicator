@@ -14,7 +14,6 @@ class DUP_Installer
     public $OptsSSLLogin;
     public $OptsCacheWP;
     public $OptsCachePath;
-    public $OptsURLNew;
     //PROTECTED
     protected $Package;
 
@@ -156,7 +155,6 @@ class DUP_Installer
 			"fwrite_archive_onlydb" => $this->Package->Archive->ExportOnlyDB,
             "fwrite_package_notes" => $this->Package->Notes,
             "fwrite_secure_name" => $this->Package->NameHash,
-            "fwrite_url_new" => $this->Package->Installer->OptsURLNew,
             "fwrite_dbhost" => $this->Package->Installer->OptsDBHost,
             "fwrite_dbport" => $this->Package->Installer->OptsDBPort,
             "fwrite_dbname" => $this->Package->Installer->OptsDBName,

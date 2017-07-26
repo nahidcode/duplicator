@@ -45,7 +45,7 @@ VIEW: STEP 3- INPUT -->
 			<tr>
 				<td style="width:80px">URL:</td>
 				<td>
-					<input type="text" name="url_new" id="url_new" value="<?php echo $GLOBALS['FW_URL_NEW'] ?>" />
+					<input type="text" name="url_new" id="url_new" value="" />
 					<a href="javascript:DUPX.getNewURL('url_new')" style="font-size:12px">get</a>
 				</td>
 			</tr>
