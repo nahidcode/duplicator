@@ -10,10 +10,6 @@ class DUP_Installer
     public $OptsDBPort;
     public $OptsDBName;
     public $OptsDBUser;
-    public $OptsSSLAdmin;
-    public $OptsSSLLogin;
-    public $OptsCacheWP;
-    public $OptsCachePath;
     //PROTECTED
     protected $Package;
 
@@ -160,9 +156,6 @@ class DUP_Installer
             "fwrite_dbname" => $this->Package->Installer->OptsDBName,
             "fwrite_dbuser" => $this->Package->Installer->OptsDBUser,
             "fwrite_dbpass" => '',
-            "fwrite_ssl_admin" => $this->Package->Installer->OptsSSLAdmin,
-            "fwrite_cache_wp" => $this->Package->Installer->OptsCacheWP,
-            "fwrite_cache_path" => $this->Package->Installer->OptsCachePath,
             "fwrite_wp_tableprefix" => $wpdb->prefix,
             "fwrite_opts_delete" => json_encode($deleteOpts),
             "fwrite_blogname" => esc_html(get_option('blogname')),

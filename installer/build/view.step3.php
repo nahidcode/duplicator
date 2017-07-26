@@ -157,18 +157,17 @@ VIEW: STEP 3- INPUT -->
 		<table class="dupx-opts dupx-advopts">
 			<tr>
 				<td>Cache:</td>
-				<td style="width:125px"><input type="checkbox" name="cache_wp" id="cache_wp" <?php echo ($GLOBALS['FW_CACHE_WP']) ? "checked='checked'" : ""; ?> /> <label for="cache_wp">Keep Enabled</label></td>
-				<td><input type="checkbox" name="cache_path" id="cache_path" <?php echo ($GLOBALS['FW_CACHE_PATH']) ? "checked='checked'" : ""; ?> /> <label for="cache_path">Keep Home Path</label></td>
+				<td style="width:125px"><input type="checkbox" name="cache_wp" id="cache_wp" /> <label for="cache_wp">Keep Enabled</label></td>
+				<td><input type="checkbox" name="cache_path" id="cache_path" /> <label for="cache_path">Keep Home Path</label></td>
 			</tr>
 			<tr>
 				<td>SSL:</td>
-				<td><input type="checkbox" name="ssl_admin" id="ssl_admin" <?php echo ($GLOBALS['FW_SSL_ADMIN']) ? "checked='checked'" : ""; ?> /> <label for="ssl_admin">Enforce on Admin</label></td>
+				<td><input type="checkbox" name="ssl_admin" id="ssl_admin" /> <label for="ssl_admin">Enforce on Admin</label></td>
 				<td></td>
 			</tr>
 		</table>
 		<br/><br/><br/>
 		<br/><br/>
-
 	</div>
 
 	<div class="dupx-footer-buttons">
@@ -275,7 +274,8 @@ DUPX.runUpdate = function()
 DUPX.getNewURL = function(id)
 {
 	var filename= window.location.pathname.split('/').pop() || 'installer.php' ;
-	$("#" + id).val(window.location.href.replace(filename, ''));
+	var path = window.location.href.replace(filename, '').replace(/\/$/, '');
+	$("#" + id).val(path);
 }
 
 /** Allows user to edit the package url  */
