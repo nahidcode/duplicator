@@ -46,7 +46,7 @@
 <form id="form-duplicator" method="post">
 	
 <div class="dup-vote">
-	<a href="javascript:void(0);" onclick="Duplicator.Pack.showFeedbackForm(this)">
+	<a href="javascript:void(0);" onclick="Duplicator.Pack.showFeedbackForm()">
 		<i class="fa fa-bullhorn" aria-hidden="true"></i> <?php _e("Feedback", 'duplicator') ?>
 	</a>
 </div>
@@ -309,11 +309,8 @@ jQuery(document).ready(function($)
 	}
 
 	/*	Toggles the feedback form */
-	Duplicator.Pack.showFeedbackForm = function (button)
+	Duplicator.Pack.showFeedbackForm = function ()
 	{
-		//var off = $(button).offset();
-		//var btnTop = (off.left > 600) ? off.top + 25 : off.top + 40;
-		//$("div#dup-feedback-form").css({"top" : btnTop})
 		$("div#dup-feedback-form").toggle(300);
 	}
 	
