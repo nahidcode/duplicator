@@ -488,6 +488,11 @@ jQuery(document).ready(function ($)
 			$cb.closest("label").css('textDecoration', 'none');
 		}
 	}
+
+	<?php if ($retry_dbenabled) :?>
+		$('#dup-pack-archive-panel').show(500);
+		$('#export-onlydb').prop( "checked", true );
+	<?php endif; ?>
 	
 	//Init:Toggle OptionTabs
 	Duplicator.Pack.ToggleFileFilters();
