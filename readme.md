@@ -1,4 +1,4 @@
-#[Duplicator v1.2.17](http://snapcreek.com/duplicator)
+#[Duplicator v1.2.19](http://snapcreek.com/duplicator)
 ###Easy WordPress Cloning
 
 Duplicate, clone, backup, move and transfer an entire site from one location to another.
