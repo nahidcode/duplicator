@@ -292,7 +292,7 @@ DATABASE -->
 			echo '&nbsp;<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&amp;utm_medium=wordpress_plugin&amp;utm_content=free_size_warn&amp;utm_campaign=duplicator_pro" target="_blank">' . __('Professional', 'duplicator') . '!</a>';
 			echo '</div>';
 		} else {
-			echo '<br/><br/>';
+			echo '<br/>';
 		}
 	?>
 
