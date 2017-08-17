@@ -136,7 +136,7 @@ TOOL BAR: STEPS -->
 					<b class="opt-title"><?php _e('OPTION 1:', 'duplicator'); ?></b><br/>
 
 					<?php _e('The first pass for reading files on some budget hosts is slow and may conflict with strict timeout settings '
-						. 'setup by the hosting provider.  If this is the case its recommended to retry the build.  <i>If the problem persists then consider the other options below.</i>', 'duplicator'); ?><br/><br/>
+						. 'set up by the hosting provider.  If this is the case its recommended to retry the build.  <i>If the problem persists then consider the other options below.</i>', 'duplicator'); ?><br/><br/>
 
 					<div style="text-align: center; margin: 10px">
 						<input type="button" class="button-large button-primary" value="<?php _e('Retry Package Build', 'duplicator'); ?>" onclick="window.location = 'admin.php?page=duplicator&tab=new1&retry=1'" />
@@ -203,7 +203,7 @@ TOOL BAR: STEPS -->
 
 					<b class="opt-title"><?php _e('OPTION 3:', 'duplicator'); ?></b><br/>
 						<?php _e('This option is available on some hosts that allow for users to adjust server configurations.  With this option you will be directed to an FAQ page that will show '
-						. 'various recommendations you can take to improve/unlock constraints setup on this server.', 'duplicator'); ?><br/><br/>
+						. 'various recommendations you can take to improve/unlock constraints set up on this server.', 'duplicator'); ?><br/><br/>
 
 						<div style="text-align: center; margin: 10px">
 							<input type="button" style="margin-right:10px;" class="button-large button-primary" value="<?php _e('Diagnose Server Setup', 'duplicator'); ?>"

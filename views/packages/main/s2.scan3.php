@@ -53,7 +53,7 @@ TOTAL SIZE -->
 				echo "<b>" . __('Overview', 'duplicator') . ":</b><br/>";
 
 				printf(__('This notice is triggered at <b>%s</b> and can be ignored on most hosts.  If during the build process you see a "Host Build Interrupt" message then this '
-					. 'host has strict processing limits.  Below are some options you can take to overcome constraints setup on this host.', 'duplicator'),
+					. 'host has strict processing limits.  Below are some options you can take to overcome constraints set up on this host.', 'duplicator'),
 					DUP_Util::byteSize(DUPLICATOR_SCAN_SIZE_DEFAULT));
 
 				echo '<br/><br/>';
@@ -154,7 +154,7 @@ FILE NAME CHECKS -->
             _e('<b>');
             _e('  Only consider using this filter if the package build is failing. Select files that are not important to your site or you can migrate manually.', 'duplicator');
             _e('</b>');
-			$txt = __('If this environment/system and the system where it will be installed are setup to support Unicode and long paths then these filters can be ignored.  '
+			$txt = __('If this environment/system and the system where it will be installed are set up to support Unicode and long paths then these filters can be ignored.  '
 				. 'If you run into issues with creating or installing a package, then is recommended to filter these paths.', 'duplicator');
 		?>
 		<script id="hb-files-utf8" type="text/x-handlebars-template">

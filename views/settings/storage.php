@@ -23,7 +23,7 @@
 			</ul>
 		</div>
 		<?php
-			_e('Setup a one-time storage location and automatically <br/> push the package to your destination.', 'duplicator');
+			_e('Set up a one-time storage location and automatically <br/> push the package to your destination.', 'duplicator');
 		?>
 	</div><br/>
 	
