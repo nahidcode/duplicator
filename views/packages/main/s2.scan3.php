@@ -288,7 +288,7 @@ DATABASE -->
 	<?php
 		if ($zip_check != null) {
 			echo '<div class="dup-pro-support">&nbsp;';
-			_e('Get larger site support with', 'duplicator');
+			_e('Get large site support with', 'duplicator');
 			echo '&nbsp;<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&amp;utm_medium=wordpress_plugin&amp;utm_content=free_size_warn&amp;utm_campaign=duplicator_pro" target="_blank">' . __('Professional', 'duplicator') . '!</a>';
 			echo '</div>';
 		} else {
