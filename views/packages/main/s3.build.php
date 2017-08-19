@@ -6,10 +6,10 @@
 	$atext0  = __('Help', 'duplicator') . "&nbsp;<a target='_blank' href='https://wordpress.org/support/plugin/duplicator/reviews/?filter=5'>";
 	$atext0 .= __('review the plugin', 'duplicator') . '</a>&nbsp;' .  __('on WordPress.org!', 'duplicator');
 
-	//Get even more power & features with Professional
+	//Get even more power & features with Duplicator Pro
 	$atext1 = __('Get even more power & features with', 'duplicator');
 	$atext1 .= "&nbsp;<a target='_blank' href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=package_build_more_power&utm_campaign=duplicator_pro'>";
-	$atext1 .=  __('Professional', 'duplicator') . '</a>!';
+	$atext1 .=  __('Duplicator Pro', 'duplicator') . '</a>!';
 
 	$rand_txt = array();
 	$rand_txt[0] = $atext0;
