@@ -2,7 +2,7 @@
 HELP FORM -->
 <div id="main-help">
 <div class="help-online">
-	<i class="fa fa-file-text-o"></i> For additional help visit the<br/> <a href="https://snapcreek.com/support/docs/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=error_resolution&utm_content=knowledgebase" target="_blank">Online Knowledge-Base</a><br/>
+	<i class="fa fa-file-text-o"></i> For additional help visit the<br/> <a href="https://snapcreek.com/support/docs/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=knowledgebase" target="_blank">Online Knowledge-Base</a><br/>
 	<small>Features available only in Duplicator Pro are flagged with a <sup>pro</sup> tag.</small>
 </div>
 
@@ -461,7 +461,7 @@ STEP 4
 
 </div>
 
-<div style="text-align:center">For additional help please visit the <a href="https://snapcreek.com/support/docs/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=error_resolution&utm_content=additional_help" target="_blank">online resources</a></div>
+<div style="text-align:center">For additional help please visit the <a href="https://snapcreek.com/support/docs/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=additional_help" target="_blank">online resources</a></div>
 
 <br/><br/>
 </div>

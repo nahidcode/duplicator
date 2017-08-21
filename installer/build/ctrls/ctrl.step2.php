@@ -168,7 +168,7 @@ DUPX_Log::info($log, 2);
 //====================================================================================================
 $log = '';
 $faq_url = $GLOBALS['FAQ_URL'];
-$utm_prefix = '?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=error_resolution&utm_content=';
+$utm_prefix = '?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=';
 $db_file_size = filesize('database.sql');
 $php_mem = $GLOBALS['PHP_MEMORY_LIMIT'];
 $php_mem_range = DUPX_U::getBytes($GLOBALS['PHP_MEMORY_LIMIT']);
