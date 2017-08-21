@@ -95,7 +95,11 @@ TOOL BAR: STEPS -->
 			<div class="dup-msg-success-stats">
 				<b><?php _e('Name', 'duplicator'); ?>:</b> <span id="data-name-hash"></span><br/>
 				<b><?php _e('Process Time', 'duplicator'); ?>:</b> <span id="data-time"></span><br/>
-			</div><br/>
+			</div>
+            <div style="margin: 40px 0 40px 0; font-size: 1.3rem;">
+                <a href="https://snapcreek.com/duplicator/docs/quick-start/?170821181253?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=package_built_install_help&utm_campaign=duplicator_free#quick-040-q" target="_blank"><?php _e('How do I install this Package?', 'duplicator'); ?></a>
+            </div>
+            <br/>
 
 			<button id="dup-btn-installer" class="button button-primary button-large">
 				<i class="fa fa-bolt"></i> <?php _e("Installer", 'duplicator') ?>
@@ -108,6 +112,7 @@ TOOL BAR: STEPS -->
 			<div style='margin: 7px 0 40px 0; color:#999'>
 				<small><i><?php _e("click buttons to download", 'duplicator') ?></i></small>
 			</div>
+             
 			<div class="dup-msg-success-links">
 				<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?>
 				<?php printf("<a href='?page=duplicator&tab=new1'>[ %s ]</a>", 	__('Create New', 'duplicator'));?>
