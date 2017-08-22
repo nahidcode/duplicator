@@ -7,7 +7,7 @@
 	$atext0 .= __('review the plugin', 'duplicator') . '</a>&nbsp;' .  __('on WordPress.org!', 'duplicator');
 
 	//Get even more power & features with Duplicator Pro
-	$atext1 = __('Get even more power & features with', 'duplicator');
+	$atext1 = __('Want more power?  Try', 'duplicator');
 	$atext1 .= "&nbsp;<a target='_blank' href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=package_build_more_power&utm_campaign=duplicator_pro'>";
 	$atext1 .=  __('Duplicator Pro', 'duplicator') . '</a>!';
 
@@ -30,15 +30,15 @@
 	div#dup-progress-area div.dup-panel-title {background-color: #dfdfdf;}
 	
 	div#dup-progress-area div.dup-panel-panel { border-top: 1px solid silver}
-	fieldset.download-area {border:2px dashed #dfdfdf; padding:20px 20px 10px 20px; border-radius:9px; margin: auto; width:450px }
+	fieldset.download-area {border:2px dashed #dfdfdf; padding:20px 20px 10px 20px; border-radius:9px; margin: auto; width:400px }
 	fieldset.download-area legend {font-weight: bold; font-size: 16px}
 	button#dup-btn-installer, button#dup-btn-archive {min-width: 150px}
-	div.one-click-download {margin:15px 10px; font-style: italic; font-size:16px}
+	div.one-click-download {margin:20px 0 10px 0; font-style: italic; font-size:16px}
 
 	div.dup-button-footer {text-align:right; margin:20px 10px 0px 0px}
 	button.button {font-size:16px !important; height:30px !important; font-weight:bold; padding:0px 10px 5px 10px !important; min-width: 150px }
 	span.dup-btn-size {font-size:11px;font-weight: normal}
-	p.get-pro {font-size:12px; color:#999; border-top:1px solid #eeeeee; padding:5px 0 0 0; margin:0; font-style:italic}
+	p.get-pro {font-size:13px; color:#999; border-top:1px solid #eeeeee; padding:5px 0 0 0; margin:0; font-style:italic}
 
 	/*HOST TIMEOUT */
 	div#dup-msg-error {color:maroon; padding:5px;}
@@ -106,9 +106,10 @@ TOOL BAR: STEPS -->
 			</div>
 			<br/><br/>
 
+			<!-- DOWNLOAD FILES -->
 			<fieldset class="download-area">
 				<legend>
-					&nbsp; <i class="fa fa-download"></i> <?php _e("Download Files", 'duplicator') ?> &nbsp; 
+					&nbsp; <i class="fa fa-download"></i> <?php _e("Download Package Files", 'duplicator') ?> &nbsp;
 				</legend>
 				<button id="dup-btn-installer" class="button button-primary button-large" title="<?php _e("Click to download installer file", 'duplicator') ?>">
 					<i class="fa fa-bolt"></i> <?php _e("Installer", 'duplicator') ?> &nbsp;
@@ -120,8 +121,10 @@ TOOL BAR: STEPS -->
 					
 				</button>
 				<div class="one-click-download">
-					<a href="javascript:void(0)" id="dup-link-download-both"><i><?php _e("One Click Download", 'duplicator') ?></i></a>
-					<i class="fa fa-download"></i> 
+					<a href="javascript:void(0)" id="dup-link-download-both" title="<?php _e("Click to download both files", 'duplicator') ?>">
+						<i><?php _e("One Click Download", 'duplicator') ?></i><i class="fa fa-download" style="padding-left:5px; color:#0073AA"></i>
+					</a>
+					
 				</div>
 			</fieldset>
 			<br/><br/>
@@ -137,7 +140,6 @@ TOOL BAR: STEPS -->
 				<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?>
 				<?php printf("<a href='?page=duplicator&tab=new1'>[ %s ]</a>", 	__('Create New', 'duplicator'));?>
 			</div>
-			<br/>
 			<p class="get-pro">
 				<?php echo $rand_txt[array_rand($rand_txt, 1)]; ?>
 			</p>
