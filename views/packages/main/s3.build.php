@@ -30,8 +30,10 @@
 	div#dup-progress-area div.dup-panel-title {background-color: #dfdfdf;}
 	
 	div#dup-progress-area div.dup-panel-panel { border-top: 1px solid silver}
-	button#dup-btn-installer, button#dup-btn-archive {min-width: 190px}
-	div.one-click-download {margin: 7px 0 30px 0; color:#999; font-style: italic; font-size:14px}
+	fieldset.download-area {border:2px dashed #dfdfdf; padding:20px 20px 10px 20px; border-radius:9px; margin: auto; width:450px }
+	fieldset.download-area legend {font-weight: bold; font-size: 16px}
+	button#dup-btn-installer, button#dup-btn-archive {min-width: 150px}
+	div.one-click-download {margin:15px 10px; color:#999; font-style: italic; font-size:16px}
 
 	div.dup-button-footer {text-align:right; margin:20px 10px 0px 0px}
 	button.button {font-size:16px !important; height:30px !important; font-weight:bold; padding:0px 10px 5px 10px !important; min-width: 150px }
@@ -104,26 +106,32 @@ TOOL BAR: STEPS -->
 			</div>
 			<br/><br/>
 
-			<button id="dup-btn-installer" class="button button-primary button-large" title="<?php _e("Click to download installer file", 'duplicator') ?>">
-				<i class="fa fa-bolt"></i> <?php _e("Installer", 'duplicator') ?> &nbsp;
-				<i class="fa fa-download"></i> 
-			</button> &nbsp;
-			<button id="dup-btn-archive" class="button button-primary button-large" title="<?php _e("Click to download archive file", 'duplicator') ?>">
-				<i class="fa fa-file-archive-o"></i> <?php _e("Archive", 'duplicator') ?>
-				<span id="dup-btn-archive-size" class="dup-btn-size"></span> &nbsp;
-				<i class="fa fa-download"></i>
-			</button>
 
-			<div class="one-click-download">
-				<i class="fa fa-download"></i> <a href="javascript:void(0)" id="dup-link-download-both"><i><?php _e("one click download", 'duplicator') ?></i></a>
-			</div>
+			<fieldset class="download-area">
+				<legend>
+					&nbsp; <i class="fa fa-download"></i> <?php _e("Download Files", 'duplicator') ?> &nbsp; 
+				</legend>
+				<button id="dup-btn-installer" class="button button-primary button-large" title="<?php _e("Click to download installer file", 'duplicator') ?>">
+					<i class="fa fa-bolt"></i> <?php _e("Installer", 'duplicator') ?> &nbsp;
+		
+				</button> &nbsp;
+				<button id="dup-btn-archive" class="button button-primary button-large" title="<?php _e("Click to download archive file", 'duplicator') ?>">
+					<i class="fa fa-file-archive-o"></i> <?php _e("Archive", 'duplicator') ?>
+					<span id="dup-btn-archive-size" class="dup-btn-size"></span> &nbsp;
+					
+				</button>
+				<div class="one-click-download">
+					<i class="fa fa-download"></i> <a href="javascript:void(0)" id="dup-link-download-both"><i><?php _e("one click download", 'duplicator') ?></i></a>
+				</div>
+			</fieldset>
+			<br/><br/>
 
-			 <div style="margin:10px; font-size: 1.2em; font-style: italic">
+			 <div style="font-size:13px; font-style: italic">
                 <a href="https://snapcreek.com/duplicator/docs/quick-start/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=package_built_install_help&utm_campaign=duplicator_free#quick-040-q" target="_blank">
 					<?php _e('How do I install this Package?', 'duplicator'); ?>
 				</a>
             </div>
-            <br/> <br/>
+            <br/> 
              
 			<div class="dup-msg-success-links">
 				<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?>
