@@ -33,7 +33,7 @@
 	fieldset.download-area {border:2px dashed #dfdfdf; padding:20px 20px 10px 20px; border-radius:9px; margin: auto; width:450px }
 	fieldset.download-area legend {font-weight: bold; font-size: 16px}
 	button#dup-btn-installer, button#dup-btn-archive {min-width: 150px}
-	div.one-click-download {margin:15px 10px; color:#999; font-style: italic; font-size:16px}
+	div.one-click-download {margin:15px 10px; font-style: italic; font-size:16px}
 
 	div.dup-button-footer {text-align:right; margin:20px 10px 0px 0px}
 	button.button {font-size:16px !important; height:30px !important; font-weight:bold; padding:0px 10px 5px 10px !important; min-width: 150px }
@@ -106,7 +106,6 @@ TOOL BAR: STEPS -->
 			</div>
 			<br/><br/>
 
-
 			<fieldset class="download-area">
 				<legend>
 					&nbsp; <i class="fa fa-download"></i> <?php _e("Download Files", 'duplicator') ?> &nbsp; 
@@ -121,12 +120,13 @@ TOOL BAR: STEPS -->
 					
 				</button>
 				<div class="one-click-download">
-					<i class="fa fa-download"></i> <a href="javascript:void(0)" id="dup-link-download-both"><i><?php _e("one click download", 'duplicator') ?></i></a>
+					<a href="javascript:void(0)" id="dup-link-download-both"><i><?php _e("One Click Download", 'duplicator') ?></i></a>
+					<i class="fa fa-download"></i> 
 				</div>
 			</fieldset>
 			<br/><br/>
 
-			 <div style="font-size:13px; font-style: italic">
+			 <div style="font-size:16px; font-style: italic">
                 <a href="https://snapcreek.com/duplicator/docs/quick-start/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=package_built_install_help&utm_campaign=duplicator_free#quick-040-q" target="_blank">
 					<?php _e('How do I install this Package?', 'duplicator'); ?>
 				</a>
