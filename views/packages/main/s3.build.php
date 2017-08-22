@@ -25,8 +25,14 @@
 	div#dup-msg-success {color:#18592A; padding:5px;}
 	
 	div.dup-msg-success-stats{color:#999;margin:10px 0px 0px 0px}
-	div.dup-msg-success-links {margin:20px 5px 5px 5px; font-size: 14px; font-weight: bold}
+	div.dup-msg-success-links {margin:20px 5px 5px 5px; font-size: 13px;}
 	div#dup-progress-area div.done-title {font-size:22px; font-weight:bold; margin:0px 0px 10px 0px}
+	div#dup-progress-area div.dup-panel-title {background-color: #dfdfdf;}
+	
+	div#dup-progress-area div.dup-panel-panel { border-top: 1px solid silver}
+	button#dup-btn-installer, button#dup-btn-archive {min-width: 190px}
+	div.one-click-download {margin: 7px 0 30px 0; color:#999; font-style: italic; font-size:14px}
+
 	div.dup-button-footer {text-align:right; margin:20px 10px 0px 0px}
 	button.button {font-size:16px !important; height:30px !important; font-weight:bold; padding:0px 10px 5px 10px !important; min-width: 150px }
 	span.dup-btn-size {font-size:11px;font-weight: normal}
@@ -96,22 +102,28 @@ TOOL BAR: STEPS -->
 				<b><?php _e('Name', 'duplicator'); ?>:</b> <span id="data-name-hash"></span><br/>
 				<b><?php _e('Process Time', 'duplicator'); ?>:</b> <span id="data-time"></span><br/>
 			</div>
-            <div style="margin: 40px 0 40px 0; font-size: 1.3rem;">
-                <a href="https://snapcreek.com/duplicator/docs/quick-start/?170821181253?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=package_built_install_help&utm_campaign=duplicator_free#quick-040-q" target="_blank"><?php _e('How do I install this Package?', 'duplicator'); ?></a>
-            </div>
-            <br/>
+			<br/><br/>
 
-			<button id="dup-btn-installer" class="button button-primary button-large">
-				<i class="fa fa-bolt"></i> <?php _e("Installer", 'duplicator') ?>
-				<span id="dup-btn-installer-size" class="dup-btn-size"></span>
+			<button id="dup-btn-installer" class="button button-primary button-large" title="<?php _e("Click to download installer file", 'duplicator') ?>">
+				<i class="fa fa-bolt"></i> <?php _e("Installer", 'duplicator') ?> &nbsp;
+				<i class="fa fa-download"></i> 
 			</button> &nbsp;
-			<button id="dup-btn-archive" class="button button-primary button-large">
+			<button id="dup-btn-archive" class="button button-primary button-large" title="<?php _e("Click to download archive file", 'duplicator') ?>">
 				<i class="fa fa-file-archive-o"></i> <?php _e("Archive", 'duplicator') ?>
-				<span id="dup-btn-archive-size" class="dup-btn-size"></span>
+				<span id="dup-btn-archive-size" class="dup-btn-size"></span> &nbsp;
+				<i class="fa fa-download"></i>
 			</button>
-			<div style='margin: 7px 0 40px 0; color:#999'>
-				<small><i><?php _e("click buttons to download", 'duplicator') ?></i></small>
+
+			<div class="one-click-download">
+				<i class="fa fa-download"></i> <a href="javascript:void(0)" id="dup-link-download-both"><i><?php _e("one click download", 'duplicator') ?></i></a>
 			</div>
+
+			 <div style="margin:10px; font-size: 1.2em; font-style: italic">
+                <a href="https://snapcreek.com/duplicator/docs/quick-start/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=package_built_install_help&utm_campaign=duplicator_free#quick-040-q" target="_blank">
+					<?php _e('How do I install this Package?', 'duplicator'); ?>
+				</a>
+            </div>
+            <br/> <br/>
              
 			<div class="dup-msg-success-links">
 				<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?>
@@ -318,7 +330,14 @@ jQuery(document).ready(function($) {
 				//Wire Up Downloads
 				$('#dup-btn-installer').on("click", {name: InstallURL }, Duplicator.Pack.DownloadFile  );
 				$('#dup-btn-archive').on("click",   {name: ArchiveURL }, Duplicator.Pack.DownloadFile  );
-					
+
+				$('#dup-link-download-both').on("click",   function() {
+					 window.open(InstallURL);
+					 window.open(ArchiveURL);
+
+				});
+
+				
 			},
 			error: function(data) { 
 				$('#dup-progress-bar-area').hide(); 
