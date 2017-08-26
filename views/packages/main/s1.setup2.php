@@ -184,7 +184,7 @@ ARCHIVE -->
 				<div id="dup-exportdb-items-checked"  style="<?php echo ($Package->Archive->ExportOnlyDB) ? 'block' : 'none'; ?>">
 					<?php 
 						_e("<b>Overview:</b><br/> This advanced option excludes all files from the archive.  Only the database and a copy of the installer.php "
-						. "will be included in the archive.zip file. The option can be used for backing up and moving only the database. <i>Please note that this option is currently in *Beta*.</i>", 'duplicator');
+						. "will be included in the archive.zip file. The option can be used for backing up and moving only the database.", 'duplicator');
 						
 						echo '<br/><br/>';
 
