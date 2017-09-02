@@ -53,7 +53,10 @@ TOOL-BAR -->
 		</td>
 		<td align="center" >
 			<a href="javascript:void(0)" id="btn-logs-dialog" class="button"  title="<?php _e("Get Help", 'duplicator') ?>" onclick="Duplicator.Pack.showHelp()">
-				<i class="fa fa-question-circle"></i>
+				<?php echo ($statusCount == 1)  
+						? '<i class="fa fa-question-circle" style="color:green"></i>'
+						: '<i class="fa fa-question-circle"></i>';
+				?>
 			</a>
 		</td>
 		<td>						
@@ -82,7 +85,6 @@ TOOL-BAR -->
 							<?php _e("Check out the 'Quick Start' guide!", 'duplicator'); ?>
 						</a>
 					</div>
-					
 					<div style="height:75px">&nbsp;</div>
 				</div>
 				</td>
