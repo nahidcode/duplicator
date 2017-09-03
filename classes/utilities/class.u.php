@@ -645,7 +645,7 @@ class DUP_Util
 		}	
     }
 
-		/**
+	/**
      * Runs esc_html and sanitize_text_field on a string
 	 *
 	 * @param string   The string to process
