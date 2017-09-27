@@ -10,6 +10,43 @@ SERVER  -->
 <!-- ============
 PHP SETTINGS -->
 <div class="scan-item">
+
+    <?php
+    
+    //TODO Login Need to go here
+
+    $core_dir_included   = array();
+    $core_files_included = array();
+    //by default fault
+    $core_dir_notice     = false;
+    $core_file_notice    = false;
+
+    if (!$Package->Archive->ExportOnlyDB && isset($_POST['filter-on']) && isset($_POST['filter-dirs'])) {
+
+        //findout matched core directories
+        $filter_dirs = explode(";", trim($_POST['filter-dirs']));
+
+        // clean possible blank spaces before and after the paths
+        for ($i = 0; $i < count($filter_dirs); $i++) {
+            $filter_dirs[$i] = trim($filter_dirs[$i]);
+        }
+        $core_dir_included = array_intersect($filter_dirs,
+            DUP_Util::getWPCoreDirs());
+        if (count($core_dir_included)) $core_dir_notice   = true;
+
+
+        //find out core files
+        $filter_files = explode(";", trim($_POST['filter-files']));
+
+        // clean possible blank spaces before and after the paths
+        for ($i = 0; $i < count($filter_files); $i++) {
+            $filter_files[$i] = trim($filter_files[$i]);
+        }
+        $core_files_included = array_intersect($filter_files,
+            DUP_Util::getWPCoreFiles());
+        if (count($core_files_included)) $core_file_notice    = true;
+    }
+    ?>
 	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
 		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('Setup', 'duplicator');?></div>
 		<div id="data-srv-php-all"></div>
@@ -58,6 +95,8 @@ PHP SETTINGS -->
 <!-- ============
 WP SETTINGS -->
 <div class="scan-item scan-item-last">
+
+
 	<div class="title" onclick="Duplicator.Pack.toggleScanItem(this);">
 		<div class="text"><i class="fa fa-caret-right"></i> <?php _e('WordPress', 'duplicator');?></div>
 		<div id="data-srv-wp-all"></div>
@@ -71,7 +110,43 @@ WP SETTINGS -->
 
 		//CORE FILES
 		echo '<hr size="1" /><span id="data-srv-wp-core"></span>&nbsp;<b>' . __('Core Files', 'duplicator') . "</b> <br/>";
-		_e("If the scanner is unable to locate the wp-config.php file in the root directory, then you will need to manually copy it to its new location.", 'duplicator');
+	
+                $filter_text="";
+                if($core_dir_notice):
+                    echo '<small id="data-srv-wp-core-missing-dirs">';
+                       _e("The core WordPress directories shown below are not being included in the archive. These directories are required by a properly operating WordPress site");
+                       echo "<br/>";
+                       foreach($core_dir_included as $core_dir)
+                           echo "<b>".$core_dir , "</b><br/>";
+                   echo '</small><br/>';
+                   $filter_text="directories";
+                endif;
+
+                if($core_file_notice):
+                    echo '<small id="data-srv-wp-core-missing-dirs">';
+                       _e("The core WordPress files shown below are not being included in the archive. These files are required by a properly operating WordPress site");
+                       echo "<br/>";
+                       foreach($core_files_included as $core_file)
+                           echo  "<b>".$core_file , "</b><br/>";
+                  echo '</small><br/>';
+                  if(strlen($filter_text)>0)
+                      $filter_text .= " and files";
+                  else
+                      $filter_text ="files";
+                endif;
+
+
+                if(strlen( $filter_text)>0)
+                    _e("Note: You should change {$filter_text} filters if you wish to have these {$filter_text} included or manually copy them to the new location");
+
+
+                if(!$core_dir_notice && !$core_file_notice):
+                    echo '<small>';
+                        _e("If the scanner is unable to locate the wp-config.php file in the root directory, then you will need to manually copy it to its new location.");
+                    echo '</small>';
+                endif;
+
+
 
 		//CACHE DIR
 		$cache_path = $cache_path = DUP_Util::safePath(WP_CONTENT_DIR) . '/cache';

@@ -186,7 +186,7 @@ TOOL BAR:STEPS -->
 			<?php
 				include ('s2.scan2.php');
 				echo '<br/>';
-				include ('s2.scan3.php')
+				include ('s2.scan3.php');
 			?>
 		</div>
 
@@ -227,7 +227,7 @@ jQuery(document).ready(function($)
 	// Performs ajax call to get scanner retults via JSON response
 	Duplicator.Pack.runScanner = function()
 	{
-		var data = {action : 'duplicator_package_scan'}
+		var data = {action : 'duplicator_package_scan',file_notice:'<?= $core_file_notice; ?>',dir_notice:'<?= $core_dir_notice; ?>'}
 		$.ajax({
 			type: "POST",
 			cache: false,
