@@ -54,7 +54,7 @@ class DUP_Util
 
     public static function getWPCoreDirs()
     {
-        $wp_core_dirs = array(get_home_path().'wp-admin',get_home_path().'wp-include');
+        $wp_core_dirs = array(get_home_path().'wp-admin',get_home_path().'wp-includes');
 
         //if wp_content is overrided
         $wp_path = get_home_path()."wp-content";
