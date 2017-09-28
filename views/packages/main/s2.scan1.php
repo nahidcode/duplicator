@@ -120,6 +120,7 @@
 	/*FOOTER*/
 	div.dup-button-footer {text-align:center; margin:0}
 	button.button {font-size:15px !important; height:30px !important; font-weight:bold; padding:3px 5px 5px 5px !important;}
+        i.scan-warn {color:#630f0f;}
 </style>
 
 <!-- =========================================

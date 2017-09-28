@@ -113,38 +113,43 @@ WP SETTINGS -->
 		//CORE FILES
 		echo '<hr size="1" /><span id="data-srv-wp-core"></span>&nbsp;<b>' . __('Core Files', 'duplicator') . "</b> <br/>";
 	
+               
                 $filter_text="";
-                if($core_dir_notice):
+                if($core_dir_notice) {
                     echo '<small id="data-srv-wp-core-missing-dirs">';
-                       _e("The core WordPress directories shown below are not being included in the archive. These directories are required by a properly operating WordPress site");
+                       _e("The core WordPress paths below will <u>not</u> be included in the archive. These paths are required for WordPress to function!");
                        echo "<br/>";
-                       foreach($core_dir_included as $core_dir)
-                           echo "<b>".$core_dir , "</b><br/>";
+                       foreach($core_dir_included as $core_dir) {
+                           echo '&nbsp; &nbsp; <b><i class="fa fa-exclamation-circle scan-warn"></i>&nbsp;'. $core_dir . '</b><br/>';
+					   }
                    echo '</small><br/>';
                    $filter_text="directories";
-                endif;
+				}
 
-                if($core_file_notice):
+                if($core_file_notice) {
                     echo '<small id="data-srv-wp-core-missing-dirs">';
-                       _e("The core WordPress files shown below are not being included in the archive. These files are required by a properly operating WordPress site");
+                       _e("The core WordPress file below will <u>not</u> be included in the archive. This file is required for WordPress to function!");
                        echo "<br/>";
-                       foreach($core_files_included as $core_file)
-                           echo  "<b>".$core_file , "</b><br/>";
+                       foreach($core_files_included as $core_file) {
+                            echo '&nbsp; &nbsp; <b><i class="fa fa-exclamation-circle scan-warn"></i>&nbsp;'. $core_file . '</b><br/>';
+					   }
                   echo '</small><br/>';
-                  if(strlen($filter_text)>0)
-                      $filter_text .= " and files";
-                  else
-                      $filter_text ="files";
-                endif;
+                  $filter_text .= (strlen($filter_text) > 0) ? " and file" : "files";
 
+				}
 
-                if(strlen( $filter_text)>0)
-                    _e("Note: You should change {$filter_text} filters if you wish to have these {$filter_text} included or manually copy them to the new location");
+                if(strlen($filter_text) > 0) {
+					echo '<small>';
+                    _e("Note: Please change the {$filter_text} filters if you wish to include the WordPress core files otherwise the data will have to be manually copied"
+					. " to the new location for the site to function properly.");
+					echo '</small>';
+				}
 
 
                 if(!$core_dir_notice && !$core_file_notice):
                     echo '<small>';
-                        _e("If the scanner is unable to locate the wp-config.php file in the root directory, then you will need to manually copy it to its new location.");
+                        _e("If the scanner is unable to locate the wp-config.php file in the root directory, then you will need to manually copy it to its new location. "
+							. "This check will also look for core WordPress paths that should be included in the archive for WordPress to work correctly.");
                     echo '</small>';
                 endif;
 
