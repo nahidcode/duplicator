@@ -29,6 +29,8 @@ PHP SETTINGS -->
         // clean possible blank spaces before and after the paths
         for ($i = 0; $i < count($filter_dirs); $i++) {
             $filter_dirs[$i] = trim($filter_dirs[$i]);
+            $filter_dirs[$i] = (substr($filter_dirs[$i], -1) == "/") ? substr($filter_dirs[$i],0, strlen($filter_dirs[$i])-1):$filter_dirs[$i] ;
+
         }
         $core_dir_included = array_intersect($filter_dirs,
             DUP_Util::getWPCoreDirs());
