@@ -192,7 +192,7 @@ jQuery(document).ready(function($)
 						foreach ($logs as $log) { 
 							$time = date('m/d/y h:i:s', filemtime($log));
 							$name = esc_html(basename($log));
-							$url  = '?page=duplicator-tools&logname=' . $name;
+							$url  = '?page=duplicator-tools&tab=diagnostics&section=log&logname=' . $name;
 							echo ($active == $name) 
 								? "<span class='dup-log' title='{$name}'>{$time}-{$name}</span>"
 								: "<a href='javascript:void(0)'  title='{$name}' onclick='Duplicator.Tools.GetLog(\"{$url}\")'>{$time}-{$name}</a>";
