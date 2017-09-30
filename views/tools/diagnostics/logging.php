@@ -85,7 +85,7 @@ jQuery(document).ready(function($)
 	}
 	
 	Duplicator.Tools.WinResize = function() {
-		var height = $(window).height() - 170;
+		var height = $(window).height() - 215;
 		$("#dup-log-content").css({height: height + 'px'});
 	}
 	
