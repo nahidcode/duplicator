@@ -226,7 +226,7 @@ class DUPX_UpdateEngine
 							$txt_found		 = false;
 
 							//Only replacing string values
-							if (!empty($row[$column]) && !is_numeric($row[$column])) {
+							if (!empty($row[$column]) && !is_numeric($row[$column]) && $primary_key != 1) {
 								//Base 64 detection
 								if (base64_decode($row[$column], true)) {
 									$decoded = base64_decode($row[$column], true);
