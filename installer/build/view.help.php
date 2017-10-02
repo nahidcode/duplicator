@@ -333,7 +333,7 @@ STEP 3
 		</tr>
 		<tr>
 			<td colspan="2" class="section">New Admin Account</td>
-		</td>
+		</tr>
 		<tr>
 			<td>Username</td>
 			<td>A new WordPress username to create.  This will create a new WordPress administrator account.  Please note that usernames are not changeable from the within the UI.</td>
@@ -344,7 +344,7 @@ STEP 3
 		</tr>
 		<tr>
 			<td colspan="2" class="section">Scan Options</td>
-		</td>
+		</tr>
 		<tr>
 			<td>Cleanup <sup>pro</sup></td>
 			<td>The checkbox labeled Remove schedules &amp; storage endpoints will empty the Duplicator schedule and storage settings.  This is recommended to keep enabled so that you do not have unwanted schedules and storage options enabled.</td>
