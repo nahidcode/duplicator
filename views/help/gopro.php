@@ -116,7 +116,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
         <tr>
             <td class="feature-column"><?php _e('Large Site Support', 'duplicator') ?><sup><i style="color:#444; margin-left:5px;" class="fa fa-question-circle"
                                                                                               data-tooltip-title="<?php _e("Large Site Support", 'duplicator'); ?>"
-                                                                                              data-tooltip="<?php _e('Migrate multi-gig sites - even on low end hosts!', 'duplicator'); ?>"/></i></sup></td>
+                                                                                              data-tooltip="<?php _e('Migrate multi-gig sites - even on budget hosts!', 'duplicator'); ?>"/></i></sup></td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
@@ -141,7 +141,9 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
         <tr>
-			<td class="feature-column"><?php _e('Multisite Subsite -> Standalone', 'duplicator') ?></td>
+			<td class="feature-column"><?php _e('Multisite Subsite -> Standalone', 'duplicator') ?><sup><i style="color:#444; margin-left:5px;" class="fa fa-question-circle"
+                                                                                              data-tooltip-title="<?php _e("Multisite Subsite to Standalone Conversion", 'duplicator'); ?>"
+                                                                                              data-tooltip="<?php _e('Convert an individual subsite in a Multisite to a new standalone site.', 'duplicator'); ?>"/></i></sup></td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
