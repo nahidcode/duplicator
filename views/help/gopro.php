@@ -193,7 +193,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 		<!--tr>
 			<td class="feature-column"><?php _e('Duplicate Subsite in Network', 'duplicator') ?></td>
 			<td class="check-column"></td>
-			<td class="check-column"><i class="fa fa-star"></i></td>
+			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr-->
 		
 		<!-- =====================
