@@ -160,7 +160,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 				<sup>
 					<i  class="fa fa-question-circle dup-gopro-help"
 						data-tooltip-title="<?php _e("cPanel", 'duplicator'); ?>"
-                        data-tooltip="<?php _e('Create the database and database user directly in the installer.  No need to browse to your hosts cPanel application.', 'duplicator'); ?>"/></i></sup>
+                        data-tooltip="<?php _e('Create the database and database user directly in the installer.  No need to browse to your host\'s cPanel application.', 'duplicator'); ?>"/></i></sup>
 			</td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
@@ -185,7 +185,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<td class="feature-column"><?php _e('Subsite &gt; Standalone', 'duplicator') ?><sup>
 					<i  class="fa fa-question-circle dup-gopro-help"
 						data-tooltip-title="<?php _e("Multisite", 'duplicator'); ?>"
-                        data-tooltip="<?php _e('Install an individual subsite in a Multisite as a standalone site.', 'duplicator'); ?>"/></i></sup>
+                        data-tooltip="<?php _e('Install an individual subsite from a Multisite as a standalone site.', 'duplicator'); ?>"/></i></sup>
 			</td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
