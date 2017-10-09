@@ -19,19 +19,24 @@ ARCHIVE -->
 <div class="scan-header scan-item-first">
 	<i class="fa fa-files-o"></i>
 	<?php _e("Files", 'duplicator'); ?>
-	<i class="fa fa-question-circle data-size-help"
-		data-tooltip-title="<?php _e('Archive Size', 'duplicator'); ?>"
-		data-tooltip="<?php _e('This size includes only files BEFORE compression is applied. It does not include the size of the '
-					. 'database script or any applied filters.  Once complete the package size will be smaller than this number.', 'duplicator'); ?>"></i>
-	<div id="data-arc-size1"></div>
-	<div class="dup-scan-filter-status">
-		<?php
-			if ($Package->Archive->ExportOnlyDB) {
-				echo '<i class="fa fa-filter"></i> '; _e('Database Only', 'duplicator');
-			} elseif ($Package->Archive->FilterOn) {
-				echo '<i class="fa fa-filter"></i> '; _e('Enabled', 'duplicator');
-			}
-		?>
+	
+	<div class="scan-header-details">
+		<div class="dup-scan-filter-status">
+			<?php
+				if ($Package->Archive->ExportOnlyDB) {
+					echo '<i class="fa fa-filter"></i> '; _e('Database Only', 'duplicator');
+				} elseif ($Package->Archive->FilterOn) {
+					echo '<i class="fa fa-filter"></i> '; _e('Enabled', 'duplicator');
+				}
+			?>
+		</div>
+		<div id="data-arc-size1"></div>
+		<i class="fa fa-question-circle data-size-help"
+			data-tooltip-title="<?php _e('Archive Size', 'duplicator'); ?>"
+			data-tooltip="<?php _e('This size includes only files BEFORE compression is applied. It does not include the size of the '
+						. 'database script or any applied filters.  Once complete the package size will be smaller than this number.', 'duplicator'); ?>"></i>
+
+		<div class="dup-data-size-uncompressed"><?php _e("uncompressed"); ?></div>
 	</div>
 </div>
 
@@ -116,7 +121,7 @@ TOTAL SIZE -->
 								_e('No large files found during this scan.', 'duplicator');
 							} else {
 								echo "<div style='color:maroon'>";
-								_e('No large files found during this scan.  If you\'re having issues building a package click the back button and try '
+									_e('No large files found during this scan.  If you\'re having issues building a package click the back button and try '
 									. 'adding a file filter to non-essential files paths like wp-content/uploads.   These excluded files can then '
 									. 'be manually moved to the new location after you have ran the migration installer.', 'duplicator');
 								echo "</div>";
@@ -231,17 +236,22 @@ DATABASE -->
 	<div class="scan-header">
 		<i class="fa fa-table"></i>
 		<?php _e("Database", 'duplicator');	?>
-		<i class="fa fa-question-circle data-size-help"
-			data-tooltip-title="<?php _e("Database Size:", 'duplicator'); ?>"
-			data-tooltip="<?php _e('The database size represents only the included tables. The process for gathering the size uses the query SHOW TABLE STATUS.  '
-				. 'The overall size of the database file can impact the final size of the package.', 'duplicator'); ?>"></i>
-		<div id="data-db-size1"></div>
-		<div class="dup-scan-filter-status">
-			<?php
-				if ($Package->Database->FilterOn) {
-					echo '<i class="fa fa-filter"></i> '; _e('Enabled', 'duplicator');
-				}
-			?>
+		<div class="scan-header-details">
+			<div class="dup-scan-filter-status">
+				<?php
+					if ($Package->Database->FilterOn) {
+						echo '<i class="fa fa-filter"></i> '; _e('Enabled', 'duplicator');
+					}
+				?>
+			</div>
+			<div id="data-db-size1"></div>
+			<i class="fa fa-question-circle data-size-help"
+				data-tooltip-title="<?php _e("Database Size:", 'duplicator'); ?>"
+				data-tooltip="<?php _e('The database size represents only the included tables. The process for gathering the size uses the query SHOW TABLE STATUS.  '
+					. 'The overall size of the database file can impact the final size of the package.', 'duplicator'); ?>"></i>
+
+			<div class="dup-data-size-uncompressed"><?php _e("uncompressed"); ?></div>
+
 		</div>
 	</div>
 
@@ -294,7 +304,7 @@ DATABASE -->
 	</div>
 	<?php
         echo '<div class="dup-pro-support">&nbsp;';
-        _e('Migrate large, multi-GB sites with', 'duplicator');
+        _e('Migrate large, multi-gig sites with', 'duplicator');
         echo '&nbsp;<i><a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&amp;utm_medium=wordpress_plugin&amp;utm_content=free_size_warn_multigig&amp;utm_campaign=duplicator_pro" target="_blank">' . __('Duplicator Pro', 'duplicator') . '!</a></i>';
         echo '</div>';
 	?>
@@ -649,7 +659,7 @@ jQuery(document).ready(function($)
 	}
 
 	<?php
-		if (isset($_GET['retry'])) {
+		if (isset($_GET['retry']) && $_GET['retry'] == '1' ) {
 			echo "$('#scan-itme-file-size').show(300)";
 		}
 	?>

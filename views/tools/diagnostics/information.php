@@ -8,8 +8,8 @@
 	<?php endif; ?>
 
 	<?php
-		include_once 'inc.settings.php';
 		include_once 'inc.data.php';
+		include_once 'inc.settings.php';
 		include_once 'inc.validator.php';
 		include_once 'inc.phpinfo.php';
 	?>
