@@ -2,7 +2,9 @@
 	$_POST['archive_name']  = isset($_POST['archive_name']) ? $_POST['archive_name'] : '';
 	$_POST['retain_config'] = (isset($_POST['retain_config']) && $_POST['retain_config'] == '1') ? true : false;
 	$admin_base		= basename($GLOBALS['FW_WPLOGIN_URL']);
-	$admin_redirect = rtrim($_POST['url_new'], "/") . "/wp-admin/admin.php?page=duplicator-tools&tab=cleanup&package={$_POST['archive_name']}";
+
+        $safe_mode =(isset($_POST['safe_mode_installer']))? $_POST['safe_mode_installer']: 0;
+	$admin_redirect = rtrim($_POST['url_new'], "/") . "/wp-admin/admin.php?page=duplicator-tools&tab=cleanup&package={$_POST['archive_name']}&safe_mode={$safe_mode}";
 	$admin_redirect = urlencode($admin_redirect);
 	$admin_url_qry  = (strpos($admin_base, '?') === false) ? '?' : '&';
 	$admin_login	= rtrim($_POST['url_new'], '/') . "/{$admin_base}{$admin_url_qry}redirect_to={$admin_redirect}";

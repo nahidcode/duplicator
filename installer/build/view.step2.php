@@ -192,6 +192,7 @@ Auto Posts to view.step3.php
 		<input type="hidden" name="archive_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
 		<input type="hidden" name="logging" id="ajax-logging"  />
 		<input type="hidden" name="retain_config" value="<?php echo $_POST['retain_config']; ?>" />
+                <input type="hidden" name="safe_mode_installer" id="safe-mode-installer"  value="<?php echo (isset($_POST['safe_mode_installer']))? $_POST['safe_mode_installer']:0; ?>"/>
 		<input type="hidden" name="dbhost" id="ajax-dbhost" />
 		<input type="hidden" name="dbport" id="ajax-dbport" />
 		<input type="hidden" name="dbuser" id="ajax-dbuser" />
