@@ -467,7 +467,7 @@ OPTIONS
                 <tr>
 			<td>Safe Mode:</td>
 			<td>
-                            <select name="safe_mode_installer" id="safe_mode_installer" onchange="DUPX.onSafeModeSwitch();" style="width:200px;">
+                            <select name="exe_safe_mode" id="exe_safe_mode" onchange="DUPX.onSafeModeSwitch();" style="width:200px;">
                                 <option value="0">Off</option>
                                 <option value="1">Basic</option>
                                 <option value="2">Advance</option>
@@ -626,7 +626,7 @@ Auto Posts to view.step2.php
 		<input type="hidden" name="action_step" value="2" />
 		<input type="hidden" name="archive_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
 		<input type="hidden" name="logging" id="ajax-logging"  />
-                <input type="hidden" name="safe_mode_installer" id="safe-mode-installer"  value="0" />
+                <input type="hidden" name="exe_safe_mode" id="exe-safe-mode"  value="0" />
 		<input type="hidden" name="retain_config" id="ajax-retain-config"  />
 		<input type="hidden" name="json"    id="ajax-json" />
 		<textarea id='ajax-json-debug' name='json_debug_view'></textarea>
@@ -690,7 +690,7 @@ Auto Posts to view.step2.php
                 if (typeof(data) != 'undefined' && data.pass == 1) {
 					$("#ajax-logging").val($("input:radio[name=logging]:checked").val());
 					 $("#ajax-retain-config").val($("#retain_config").is(":checked") ? 1 : 0);
-                                         $("#safe-mode-installer").val($("#safe_mode_installer").val());
+                                         $("#exe-safe-mode").val($("#exe_safe_mode").val());
 					$("#ajax-json").val(escape(dataJSON));
 					<?php if (! $GLOBALS['DUPX_DEBUG']) : ?>
 						setTimeout(function() {$('#s1-result-form').submit();}, 500);
@@ -748,7 +748,7 @@ Auto Posts to view.step2.php
 
         DUPX.onSafeModeSwitch = function ()
         {
-            var mode = $('#safe_mode_installer').val();
+            var mode = $('#exe_safe_mode').val();
             if(mode == 0){
                 $("#retain_config").removeAttr("disabled");
             }else if(mode == 1 || mode ==2){
@@ -757,7 +757,7 @@ Auto Posts to view.step2.php
                 $("#retain_config").attr("disabled", true);
             }
 
-            $('#safe-mode-installer').val(mode);
+            $('#exe-safe-mode').val(mode);
             console.log("mode set to"+mode);
         }
         
