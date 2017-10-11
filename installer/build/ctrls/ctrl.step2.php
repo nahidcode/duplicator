@@ -7,6 +7,7 @@ $_POST['cache_wp']			= (isset($_POST['cache_wp']))   ? true : false;
 $_POST['cache_path']		= (isset($_POST['cache_path'])) ? true : false;
 $_POST['archive_name']		= isset($_POST['archive_name']) ? $_POST['archive_name'] : null;
 $_POST['retain_config']		= (isset($_POST['retain_config']) && $_POST['retain_config'] == '1') ? true : false;
+$_POST['sql_mode']		= (isset($_POST['sql_mode'])) ? $_POST['sql_mode'] : -1;
 
 //LOGGING
 $POST_LOG = $_POST;
@@ -49,6 +50,23 @@ if (isset($_GET['dbtest']))
 	$dbversion_compat       = empty($dbversion_compat) ? 'no connection' : $dbversion_compat;
     $dbversion_compat_fail  = version_compare($dbversion_compat, $GLOBALS['FW_VERSION_DB']) < 0;
 
+    if($dbConn){
+        $tmp_table	 = '__dpro_temp_'.rand(1000, 9999).'_'.date("ymdHis");
+	$qry_create	 = mysqli_query($dbConn, "CREATE TABLE `{$tmp_table}` (
+						`datetimefield` datetime NOT NULL,
+						`datefield` date NOT NULL)");
+        if ($qry_create) {
+           $qry_date    = mysqli_query($dbConn, "INSERT INTO `{$tmp_table}` (`datetimefield`,`datefield`) VALUES ('0000-00-00 00:00:00','0000-00-00')");
+           if($qry_date){
+               $_POST['sql_mode'] = 1;
+           }else{
+               $_POST['sql_mode'] = 0;
+           }
+           mysqli_query($dbConn,"DROP TABLE `{$tmp_table}`");
+        }
+    }
+
+
     $tstInfo = ($dbversion_info_fail)
 		? "<div class='dupx-notice'>{$dbversion_info}</div>"
         : "<div class='dupx-pass'>{$dbversion_info}</div>";
@@ -59,6 +77,7 @@ if (isset($_GET['dbtest']))
 
 	$html	 .= <<<DATA
 	<div class='s2-db-test'>
+                <input type="hidden" name="sql_mode" id="sql_mode" value="{$_POST['sql_mode']}" />
 		<small>
 			Using Connection String:<br/>
 			Host={$_POST['dbhost']}; Database={$_POST['dbname']}; Uid={$_POST['dbuser']}; Pwd={$_POST['dbpass']}; {$port_view}
@@ -215,6 +234,8 @@ $sql_file_copy_status   = file_put_contents($GLOBALS['SQL_FILE_NAME'], $sql_file
 $sql_result_file_data	= explode(";\n", $sql_file);
 $sql_result_file_length = count($sql_result_file_data);
 $sql_result_file_path	= "{$root_path}/{$GLOBALS['SQL_FILE_NAME']}";
+//check if invalid date exits
+$invalid_date = strpos($sql_file,"0000-00-00")? true : false;
 $sql_file = null;
 
 if($_POST['dbcollatefb']){
@@ -280,8 +301,14 @@ switch ($_POST['dbmysqlmode']) {
         @mysqli_query($dbh, "SET SESSION sql_mode = ''");
         break;
     case 'CUSTOM':
-		$dbmysqlmode_opts = $_POST['dbmysqlmode_opts'];
-		$qry_session_custom = @mysqli_query($dbh, "SET SESSION sql_mode = '{$dbmysqlmode_opts}'");
+        $dbmysqlmode_opts = $_POST['dbmysqlmode_opts'];
+        
+        if($invalid_date){
+            $dbmysqlmode_opts = str_replace("STRICT_TRANS_TABLES","",strtoupper($dbmysqlmode_opts));
+            $dbmysqlmode_opts = str_replace(",,",",",$dbmysqlmode_opts);
+        }
+	
+	$qry_session_custom = @mysqli_query($dbh, "SET SESSION sql_mode = '{$dbmysqlmode_opts}'");
         if ($qry_session_custom == false)
 		{
 			$sql_error = mysqli_error($dbh);
@@ -289,8 +316,23 @@ switch ($_POST['dbmysqlmode']) {
 			$log .= "For more details visit: http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html\n";
 		}
         break;
-}
+    default:
+        //if strict mode is set and there is invalid date in sql dump then remove restrict mode
+        if( $_POST['sql_mode'] ==0 && $invalid_date){
+            $dbmysqlmode_opts	 = DUPX_DB::getVariable($dbh, 'sql_mode');
 
+            $dbmysqlmode_opts = str_replace("STRICT_TRANS_TABLES","",strtoupper($dbmysqlmode_opts));
+            $dbmysqlmode_opts = str_replace(",,",",",$dbmysqlmode_opts);
+
+
+            $qry_session_custom	 = mysqli_query($dbh, "SET SESSION sql_mode = '{$dbmysqlmode_opts}'");
+            if ($qry_session_custom == false) {
+                    $sql_error	 = mysqli_error($dbh);
+                    $log		 = "WARNING: A default sql_mode setting issue has been detected:\n{$sql_error}.\n";
+                    $log .= "For more details visit: http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html\n";
+            }
+        }  
+}
 //Set defaults in-case the variable could not be read
 $dbvar_maxtime		= DUPX_DB::getVariable($dbh, 'wait_timeout');
 $dbvar_maxpacks		= DUPX_DB::getVariable($dbh, 'max_allowed_packet');
