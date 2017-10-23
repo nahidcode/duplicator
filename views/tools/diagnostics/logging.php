@@ -190,7 +190,7 @@ jQuery(document).ready(function($)
 						$count=0; 
 						$active = basename($logurl);
 						foreach ($logs as $log) { 
-							$time = date(get_option('date_format')." ".get_option('time_format'), filemtime($log));
+							$time = date('m/d/y h:i:s', filemtime($log));
 							$name = esc_html(basename($log));
 							$url  = '?page=duplicator-tools&tab=diagnostics&section=log&logname=' . $name;
 							echo ($active == $name) 
