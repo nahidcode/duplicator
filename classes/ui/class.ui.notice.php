@@ -39,7 +39,7 @@ class DUP_UI_Notice
   
         if (DUP_Server::hasInstallerFiles()) {
 
-			$on_active_tab = isset($_GET['tab']) && $_GET['tab'] == 'cleanup' ? true : false;
+			$on_active_tab = isset($_GET['section'])? $_GET['section']: '';
             echo '<div class="updated notice-success" id="dup-global-error-reserved-files"><p>';
 
 			//Safe Mode Notice
@@ -52,7 +52,7 @@ class DUP_UI_Notice
 			}
 
 			//On Tools > Cleanup Page
-            if ($screen->id == 'duplicator_page_duplicator-tools' && $on_active_tab) {
+            if ($screen->id == 'duplicator_page_duplicator-tools' && ($on_active_tab == "info" || $on_active_tab == '') ) {
 
 				$title = __('This site has been successfully migrated!');
 				$msg1  = __('Final step:');
@@ -68,10 +68,10 @@ class DUP_UI_Notice
 
 				$title = __('Migration Almost Complete!');
 				$msg   = __('Reserved Duplicator installation files have been detected in the root directory.  Please delete these installation files to '
-						. 'avoid security issues. <br/> Go to:Duplicator > Tools > Cleanup > and click the "Remove Installation Files" button');
+						. 'avoid security issues. <br/> Go to:Duplicator > Tools > Information >Stored Data and click the "Remove Installation Files" button');
 
 				$nonce = wp_create_nonce('duplicator_cleanup_page');
-				$url   = self_admin_url('admin.php?page=duplicator-tools&tab=cleanup&_wpnonce='.$nonce);
+				$url   = self_admin_url('admin.php?page=duplicator-tools&tab=diagnostics&section=info&_wpnonce='.$nonce);
 				echo "<b>{$title}</b><br/> {$safe_html} {$msg}";
 				@printf("<br/><a href='{$url}'>%s</a>", __('Take me there now!'));
 

@@ -6,7 +6,7 @@
 	$admin_base		= basename($GLOBALS['FW_WPLOGIN_URL']);
 
     $safe_mode	= $_POST['exe_safe_mode'];
-	$admin_redirect = rtrim($_POST['url_new'], "/") . "/wp-admin/admin.php?page=duplicator-tools&tab=cleanup&package={$_POST['archive_name']}&safe_mode={$safe_mode}";
+	$admin_redirect = rtrim($_POST['url_new'], "/") . "/wp-admin/admin.php?page=duplicator-tools&tab=diagnostics&section=info&package={$_POST['archive_name']}&safe_mode={$safe_mode}";
 	$admin_redirect = urlencode($admin_redirect);
 	$admin_url_qry  = (strpos($admin_base, '?') === false) ? '?' : '&';
 	$admin_login	= rtrim($_POST['url_new'], '/') . "/{$admin_base}{$admin_url_qry}redirect_to={$admin_redirect}";

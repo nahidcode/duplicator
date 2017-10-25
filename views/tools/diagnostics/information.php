@@ -1,7 +1,6 @@
 <form id="dup-settings-form" action="<?php echo admin_url( 'admin.php?page=duplicator-tools&tab=diagnostics&section=info' ); ?>" method="post">
 	<?php wp_nonce_field( 'duplicator_settings_page', '_wpnonce', false ); ?>
 	<input type="hidden" id="dup-settings-form-action" name="action" value="">
-	<br/>
 
 	<?php if (! empty($action_response))  :	?>
 		<div id="message" class="notice notice-success is-dismissible"><p><?php echo $action_response; ?></p></div>
@@ -13,7 +12,6 @@
 	div.failed {color:red}
 	table.dup-reset-opts td:first-child {font-weight: bold}
 	table.dup-reset-opts td {padding:10px}
-	form#dup-settings-form {padding: 0px 10px 0px 10px}
 	button.dup-fixed-btn {min-width: 150px; text-align: center}
 	div#dup-tools-delete-moreinfo {display: none; padding: 5px 0 0 20px; border:1px solid silver; background-color: #fff; border-radius: 5px; padding:10px; margin:5px; width:750px }
 </style>
