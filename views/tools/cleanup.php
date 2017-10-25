@@ -95,7 +95,53 @@
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>	
+
+	<?php
+
+
+	if(isset($_GET['action']) && $_GET['action']=="installer"){
+		$safe_title = __('This site has been successfully migrated!');
+		$safe_msg = __('Please test the entire site to validate the migration process!');
+
+		switch(get_option("duplicator_lite_exe_safe_mode",0)){
+			//safe_mode basic
+			case 1:
+				$safe_msg = __('NOTICE: Safe mode (Basic) was enabled during install, be sure to re-enable all your plugins.');
+			break;
+
+			//safe_mode advance
+			case 2:
+				$safe_msg = __('NOTICE: Safe mode (Advanced) was enabled during install, be sure to re-enable all your plugins.');
+
+				$temp_theme = null;
+				$active_theme = wp_get_theme();
+				$available_themes = wp_get_themes();
+				foreach($available_themes as $theme){
+					if($temp_theme == null && $theme->stylesheet != $active_theme->stylesheet){
+						$temp_theme = array('stylesheet' => $theme->stylesheet, 'template' => $theme->template);
+						break;
+					}
+				}
+
+				if($temp_theme != null){
+					//switch to another theme then backto default
+					switch_theme($temp_theme['template'], $temp_theme['stylesheet']);
+					switch_theme($active_theme->template, $active_theme->stylesheet);
+				}
+				delete_option("duplicator_lite_exe_safe_mode");
+
+			break;
+		}
+
+
+		if (! DUP_Server::hasInstallerFiles()) {
+			echo  "<div class='notice notice-success cleanup-notice'><p><b class='title'><i class='fa fa-check-circle'></i> {$safe_title}</b> "
+				. "<div class='notice-safemode'>{$safe_msg}</p></div></div>";
+		}
+
+	}
 	
+	?>
 
 	<h2><?php _e('Data Cleanup', 'duplicator')?></h2><hr size="1"/>
 	<table class="dup-reset-opts">
