@@ -229,7 +229,7 @@ class DUPX_UpdateEngine
                             //Unkeyed table code
                             //Added this here to add all columns to $where_sql
                             //The if statement with $txt_found would skip additional columns
-                            if($is_unkeyed && ! empty($data_to_fix)){
+                            if($is_unkeyed && ! empty($data_to_fix)) {
                                 $where_sql[] = $column.' = "'.mysqli_real_escape_string($dbh, $data_to_fix).'"';
                             }
 
