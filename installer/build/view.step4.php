@@ -41,6 +41,13 @@ VIEW: STEP 4 - INPUT -->
 					<br/> <i>Update of Permalinks required see: Admin &gt; Settings &gt; Permalinks &gt; Save</i>
 				<?php endif;?>
 				<br/><br/>
+
+				<!-- WARN: SAFE MODE MESSAGES -->
+				<div class="s4-warn" style="display:<?php echo ($safe_mode > 0 ? 'block' : 'none')?>">
+					<b>Safe Mode</b><br/>
+					Safe mode has <u>deactivated</u> all plugins. Please be sure to enable your plugins after logging in. <i>If you notice that problems arise when activating
+					the plugins then active them one-by-one to isolate the plugin that	could be causing the issue.</i>
+				</div>
 			</td>
 		</tr>
 		<tr>
