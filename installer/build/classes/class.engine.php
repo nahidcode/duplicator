@@ -288,8 +288,13 @@ class DUPX_UpdateEngine
 
 						//PERFORM ROW UPDATE
 						if ($upd && !empty($where_sql)) {
-							$sql				 = "UPDATE `{$table}` SET ".implode(', ', $upd_sql).' WHERE '.implode(' AND ', array_filter($where_sql));
-							$result				 = mysqli_query($dbh, $sql) or $report['errsql'][]	 = mysqli_error($dbh);
+							$sql	= "UPDATE `{$table}` SET ".implode(', ', $upd_sql).' WHERE '.implode(' AND ', array_filter($where_sql));
+							$result	= mysqli_query($dbh, $sql);
+							if ($result === false) {
+								$report['errsql'][]	 = ($GLOBALS["LOGGING"] == 1)
+									? 'DB ERROR: ' . mysqli_error($dbh)
+									: 'DB ERROR: ' . mysqli_error($dbh) . "\nSQL: [{$sql}]\n";
+							}
 							//DEBUG ONLY:
 							DUPX_Log::info("\t{$sql}\n", 3);
 							if ($result) {
