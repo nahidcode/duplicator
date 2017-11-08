@@ -29,21 +29,24 @@
 	div#dup-progress-area span.label {font-weight:bold}
 	div#dup-msg-success {color:#18592A; padding:5px;}
 	
-	div.dup-msg-success-stats{color:#999;margin:10px 0px 0px 0px}
+	div.dup-msg-success-stats{color:#999;margin:5px 0; font-size:11px; line-height:13px}
 	div.dup-msg-success-links {margin:20px 5px 5px 5px; font-size: 13px;}
 	div#dup-progress-area div.done-title {font-size:22px; font-weight:bold; margin:0px 0px 10px 0px}
 	div#dup-progress-area div.dup-panel-title {background-color: #dfdfdf;}
-	
+
+	div#dup-create-area-nolink, div#dup-create-area-link {float:right; font-weight: bold; margin: 0; padding: 0}
+	div#dup-create-area-link {display:none; margin-left: -5px}
 	div#dup-progress-area div.dup-panel-panel { border-top: 1px solid silver}
 	fieldset.download-area {border:2px dashed #dfdfdf; padding:20px 20px 10px 20px; border-radius:9px; margin: auto; width:400px }
 	fieldset.download-area legend {font-weight: bold; font-size: 16px}
 	button#dup-btn-installer, button#dup-btn-archive {min-width: 150px}
-	div.one-click-download {margin:20px 0 10px 0; font-style: italic; font-size:16px; font-weight: bold}
+	div.one-click-download {margin:15px 0 10px 0; font-size:18px; font-weight: bold}
 
 	div.dup-button-footer {text-align:right; margin:20px 10px 0px 0px}
 	button.button {font-size:16px !important; height:30px !important; font-weight:bold; padding:0px 10px 5px 10px !important; min-width: 150px }
 	span.dup-btn-size {font-size:11px;font-weight: normal}
 	p.get-pro {font-size:13px; color:#999; border-top:1px solid #eeeeee; padding:5px 0 0 0; margin:0; font-style:italic}
+	div.dup-howto-exe {font-size:16px; font-style: italic; font-weight: bold; margin:45px 0 40px 0}
 
 	/*HOST TIMEOUT */
 	div#dup-msg-error {color:maroon; padding:5px;}
@@ -74,9 +77,10 @@ TOOL BAR: STEPS -->
 				</div> 
 			</div>
 		</td>
-		<td>
+		<td style="padding-bottom:4px">
 			<a href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e("Packages", 'duplicator'); ?></a> &nbsp;
-			<span> <?php _e("Create New", 'duplicator'); ?></span>
+			<div id="dup-create-area-nolink"><?php _e("Create New", 'duplicator'); ?></div>
+			<div id="dup-create-area-link"><a href="admin.php?page=duplicator&tab=new1" class="add-new-h2"><?php _e("Create New", 'duplicator'); ?></a></div>
 		</td>
 	</tr>
 </table>		
@@ -137,19 +141,17 @@ TOOL BAR: STEPS -->
 					</i></sup>
 				</div>
 			</fieldset>
-			<br/><br/>
 
-			 <div style="font-size:16px; font-style: italic">
+			 <div class="dup-howto-exe">
                 <a href="https://snapcreek.com/duplicator/docs/quick-start/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=package_built_install_help&utm_campaign=duplicator_free#quick-040-q" target="_blank">
 					<?php _e('How do I install this Package?', 'duplicator'); ?>
 				</a>
             </div>
-            <br/> 
              
-			<div class="dup-msg-success-links">
+			<!--div class="dup-msg-success-links">
 				<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?>
 				<?php printf("<a href='?page=duplicator&tab=new1'>[ %s ]</a>", 	__('Create New', 'duplicator'));?>
-			</div>
+			</div-->
 			<p class="get-pro">
 				<?php echo $rand_txt[array_rand($rand_txt, 1)]; ?>
 			</p>
@@ -333,7 +335,9 @@ jQuery(document).ready(function($) {
 				var minutes = Math.floor(millis / 60000);
 				var seconds = ((millis % 60000) / 1000).toFixed(0);
 				var status = minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-				$('#dup-msg-error-response-time span.data').html(status)
+				$('#dup-msg-error-response-time span.data').html(status);
+				$('#dup-create-area-nolink').hide();
+				$('#dup-create-area-link').show();
 			},
 			success:    function(data) { 
 				$('#dup-progress-bar-area').hide(); 
