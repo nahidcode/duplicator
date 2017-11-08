@@ -9,7 +9,7 @@
 
 	//Help support Duplicator
 	$atext0  = __('Help', 'duplicator') . "&nbsp;<a target='_blank' href='https://wordpress.org/support/plugin/duplicator/reviews/?filter=5'>";
-	$atext0 .= __('review the plugin', 'duplicator') . '</a>&nbsp;' .  __('on WordPress.org!', 'duplicator');
+	$atext0 .= __('review the plugin', 'duplicator') . '</a>!';
 
 	//Get even more power & features with Duplicator Pro
 	$atext1 = __('Want more power?  Try', 'duplicator');
@@ -31,8 +31,9 @@
 	
 	div.dup-msg-success-stats{color:#999;margin:5px 0; font-size:11px; line-height:13px}
 	div.dup-msg-success-links {margin:20px 5px 5px 5px; font-size: 13px;}
-	div#dup-progress-area div.done-title {font-size:22px; font-weight:bold; margin:0px 0px 10px 0px}
+	div#dup-progress-area div.done-title {font-size:18px; font-weight:bold; margin:0px 0px 10px 0px}
 	div#dup-progress-area div.dup-panel-title {background-color: #dfdfdf;}
+	div.hdr-pack-complete {font-size:18px; color:green; font-weight: bold}
 
 	div#dup-create-area-nolink, div#dup-create-area-link {float:right; font-weight: bold; margin: 0; padding: 0}
 	div#dup-create-area-link {display:none; margin-left: -5px}
@@ -40,13 +41,15 @@
 	fieldset.download-area {border:2px dashed #dfdfdf; padding:20px 20px 10px 20px; border-radius:9px; margin: auto; width:400px }
 	fieldset.download-area legend {font-weight: bold; font-size: 16px}
 	button#dup-btn-installer, button#dup-btn-archive {min-width: 150px}
-	div.one-click-download {margin:15px 0 10px 0; font-size:18px; font-weight: bold}
+	div.one-click-download {margin:15px 0 10px 0; font-size:16px; font-weight: bold}
+	div.one-click-download i.fa-bolt{padding-right: 5px}
+	div.one-click-download i.fa-file-archive-o{padding-right: 5px}
 
 	div.dup-button-footer {text-align:right; margin:20px 10px 0px 0px}
 	button.button {font-size:16px !important; height:30px !important; font-weight:bold; padding:0px 10px 5px 10px !important; min-width: 150px }
 	span.dup-btn-size {font-size:11px;font-weight: normal}
 	p.get-pro {font-size:13px; color:#999; border-top:1px solid #eeeeee; padding:5px 0 0 0; margin:0; font-style:italic}
-	div.dup-howto-exe {font-size:16px; font-style: italic; font-weight: bold; margin:45px 0 40px 0}
+	div.dup-howto-exe {font-size:16px; font-style: italic; font-weight: bold; margin:45px 0 45px 0}
 
 	/*HOST TIMEOUT */
 	div#dup-msg-error {color:maroon; padding:5px;}
@@ -106,15 +109,14 @@ TOOL BAR: STEPS -->
 		<!--  =========================
 		SUCCESS MESSAGE -->
 		<div id="dup-msg-success" style="display:none">
-			<div class="dup-hdr-success">
+			<div class="hdr-pack-complete">
 				<i class="fa fa-check-square-o fa-lg"></i> <?php _e('Package Completed', 'duplicator'); ?>
 			</div>
 
 			<div class="dup-msg-success-stats">
-				<b><?php _e('Name', 'duplicator'); ?>:</b> <span id="data-name-hash"></span><br/>
+				<!--b><?php _e('Name', 'duplicator'); ?>:</b> <span id="data-name-hash"></span><br/-->
 				<b><?php _e('Process Time', 'duplicator'); ?>:</b> <span id="data-time"></span><br/>
-			</div>
-			<br/><br/>
+			</div><br/>
 
 			<!-- DOWNLOAD FILES -->
 			<fieldset class="download-area">
@@ -123,17 +125,13 @@ TOOL BAR: STEPS -->
 				</legend>
 				<button id="dup-btn-installer" class="button button-primary button-large" title="<?php _e("Click to download installer file", 'duplicator') ?>">
 					<i class="fa fa-bolt"></i> <?php _e("Installer", 'duplicator') ?> &nbsp;
-		
 				</button> &nbsp;
 				<button id="dup-btn-archive" class="button button-primary button-large" title="<?php _e("Click to download archive file", 'duplicator') ?>">
 					<i class="fa fa-file-archive-o"></i> <?php _e("Archive", 'duplicator') ?>
 					<span id="dup-btn-archive-size" class="dup-btn-size"></span> &nbsp;
-					
 				</button>
 				<div class="one-click-download">
-					<a href="javascript:void(0)" id="dup-link-download-both" title="<?php _e("Click to download both files", 'duplicator') ?>">
-						<i class="fa fa-download" style="padding-left:5px; color:#0073AA">&nbsp;</i><?php _e("One-Click Download", 'duplicator') ?></a>
-					
+					<a href="javascript:void(0)" id="dup-link-download-both" title="<?php _e("Click to download both files", 'duplicator') ?>"><i class="fa fa-bolt"></i><i class="fa fa-file-archive-o"></i><?php _e("One-Click Download", 'duplicator') ?></a>
 					<sup><i class="fa fa-question-circle" style='font-size:11px'
 					   data-tooltip-title="<?php _e("One Click:", 'duplicator'); ?>"
 					   data-tooltip="<?php _e('Clicking this link will open both the installer and archive download prompts at the same time. '
@@ -147,11 +145,7 @@ TOOL BAR: STEPS -->
 					<?php _e('How do I install this Package?', 'duplicator'); ?>
 				</a>
             </div>
-             
-			<!--div class="dup-msg-success-links">
-				<?php printf("<a href='?page=duplicator'>[ %s ]</a>", 	__('All Packages', 'duplicator'));?>
-				<?php printf("<a href='?page=duplicator&tab=new1'>[ %s ]</a>", 	__('Create New', 'duplicator'));?>
-			</div-->
+			
 			<p class="get-pro">
 				<?php echo $rand_txt[array_rand($rand_txt, 1)]; ?>
 			</p>
