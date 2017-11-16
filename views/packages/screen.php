@@ -34,6 +34,7 @@ class DUP_Package_Screen extends DUP_UI_Screen
 			case 'LIST':	$content = $this->get_list_help();		break;
 			case 'NEW1':	$content = $this->get_step1_help();		break;
 			case 'NEW2':	$content = $this->get_step2_help(); 	break;
+			case 'NEW3':	$content = $this->get_step3_help(); 	break;
 			case 'DETAIL':	$content = $this->get_details_help(); 	break;
 			default:
 				$content = $this->get_list_help();
@@ -99,6 +100,13 @@ class DUP_Package_Screen extends DUP_UI_Screen
 				. "The plugin will scan your system, files and database to let you know if there are any concerns or issues that may be present.  All items in green mean the checks "
 				. "looked good.  All items in red indicate a warning.  Warnings will not prevent the build from running, however if you do run into issues with the build then checking "
 				. "the warnings should be considered. <br/><br/>",'duplicator');
+	}
+
+	public function get_step3_help()
+	{
+		return __("<b>Packages » 3 Build</b> <br/>"
+				. "The final step where the  created installer script and archive of the the website can be downloaded. You can download installer and archive indivisually or"
+				. " choose one click download to download both installer and archive. <br/><br/>",'duplicator');
 	}
 
 	public function get_details_help()
