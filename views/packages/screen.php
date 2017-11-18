@@ -79,7 +79,7 @@ class DUP_Package_Screen extends DUP_UI_Screen
 		return __("<b>Packages New » 1 Setup</b> <br/>"
 				. "The setup step allows for optional filtered directory paths, files, file extensions and database tables.  To filter specific system files, click the 'Enable File Filters' "
 				. "checkbox and add the full path of the file or directory, followed by a semicolon.  For a file extension add the name (i.e. 'zip') followed by a semicolon.  To exclude a "
-				. "database table check the box labeled 'Enable Table Filters' and check the table name to exclude. Optionally the installer can be pre-filled with data at install time but is "
+				. "database table, check the box labeled 'Enable Table Filters' and check the table name to exclude. Optionally the installer can be pre-filled with data at install time but is "
 				. "not required.  <br/><br/>",'duplicator');
 	}
 
@@ -95,18 +95,18 @@ class DUP_Package_Screen extends DUP_UI_Screen
 	public function get_step3_help()
 	{
 		return __("<b>Packages » 3 Build</b> <br/>"
-				. "The final step where the created installer script and archive of the the website can be downloaded.   To start the install process follow these steps "
+				. "The final step in the build process where the installer script and archive of the website can be downloaded.   To start the install process follow these steps: "
 				. "<ol>"
 				. "<li>Download the installer.php and archive.zip files to your local computer.</li>"
 				. "<li>For localhost installs be sure you have PHP, Apache & MySQL installed on your local computer with software such as XAMPP, Instant WordPress or MAMP for MAC. "
-				. "Place the package.zip and installer.php into any empty directory under your webroot then browse to the installer.php via your web browser.</li>"
+				. "Place the package.zip and installer.php into any empty directory under your webroot then browse to the installer.php via your web browser to launch the install wizard.</li>"
 				. "<li>For remote installs use FTP or cPanel to upload both the archive.zip and installer.php to your hosting provider. Place the files in a new empty directory under "
-				. "your host's webroot where they are accessible from a valid url such as http://your-domain/your-wp-directory/installer.php. On some hosts the root directory will "
-				. "be a something like public_html -or- www.  If your not sure then contact your hosting provider. </li>"
-				. "<li>For complete instructions see:
+				. "your host's webroot accessible from a valid URL such as http://your-domain/your-wp-directory/installer.php to launch the install wizard. On some hosts the root directory "
+				. "will be a something like public_html -or- www.  If your're not sure contact your hosting provider. </li>"
+				. "</ol>"
+				. "For complete instructions see:<br/>
 					<a href='https://snapcreek.com/duplicator/docs/quick-start/?utm_source=duplicator_free&amp;utm_medium=wordpress_plugin&amp;utm_content=package_built_install_help&amp;utm_campaign=duplicator_free#quick-040-q' target='_blank'>
-					How do I install this Package?</a></li>"
-				. "</ol><br/>",'duplicator');
+					How do I install this Package?</a><br/><br/>",'duplicator');
 	}
 
 	public function get_details_help()
