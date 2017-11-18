@@ -44,14 +44,7 @@ class DUP_UI_Screen
                 ."<ul>"
                 ."<li><a href='https://snapcreek.com/duplicator/docs/guide{$guide}' target='_sc-faq'>Full Online User Guide</a></li>"
                 ."<li><a href='https://snapcreek.com/duplicator/docs/faqs-tech{$faq}' target='_sc-faq'>Frequently Asked Questions</a></li>"
-                ."</ul>"
-                ."If the guide or FAQs don't have a solution please follow these instructions:"
-                ."<ol>"
-                ."<li>Go to Duplicator » <a href='admin.php?page=duplicator-settings'>Settings</a> » Debug » Enable Tracing and Save</li>"
-                ."<li>Perform the action you had problems with such as 'Creating a Package'</li>"
-                ."<li>Download the Trace Log in the lower right corner of this screen and attach it to your support ticket.</li></ul>"
-                ."<a href='https://snapcreek.com/ticket/ticket.php' target='_sc-faq'>Existing Ticket</a> | "
-                ."<a href='https://snapcreek.com/ticket/' target='_sc-faq'>New Ticket</a>", 'duplicator');
+                ."</ul>", 'duplicator');
 
         $this->screen->add_help_tab(array(
             'id' => 'dup_help_tab_callback',

@@ -61,25 +61,14 @@ class DUP_Package_Screen extends DUP_UI_Screen
 
 	public function get_list_help()
 	{
-		return  __("<b><i class='fa fa-archive'></i> Packages » All</b><br/> The 'Packages' section is the main interface for managing all the packages that have been created.  A Package consists "
-				. "of two core files. The first is the 'installer.php' file and the second is the 'archive.zip/daf' file.  The installer file is a php file that when browsed to via "
-				. "a web browser presents a wizard that redeploys or installs the website by extracting the archive file.  The archive file is a zip/daf file containing "
+		return  __("<b><i class='fa fa-archive'></i> Packages » All</b><br/> The 'Packages' section is the main interface for managing all the packages that have been created.  "
+				. "A Package consists of two core files, the 'installer.php' and the 'archive.zip' file.  The installer file is a php file that when browsed to via "
+				. "a web browser presents a wizard that redeploys/installs the website by extracting the archive file and installing the database.  The archive file is a zip file containing "
 				. "all your WordPress files and a copy of your WordPress database. To create a package, click the 'Create New' button and follow the prompts. <br/><br/>"
 
                 . "<b><i class='fa fa-download'></i> Downloads</b><br/>"
-			    . "To download the package files click on the Download button.  Choosing the 'Both Files' option will popup two separate save dialogs.
-					On some browsers you may have to enable popups on this site.  In order to download just the 'Installer' or 'Archive' click on that menu item. <i>Note:
-					the archive file will have a copy of the installer inside of it named installer-backup.php</i><br/><br/>"
-
-				. "<b><i class='fa fa-bars'></i> More Items</b><br/>"
-				. " To see the details, transfer or view remote store locations of a package click the 'More Items' menu button.  If a package contains remote storage endpoints a
-					blue dot will show as &nbsp; <i class='fa fa-bars remote-data-pass'></i> &nbsp; on the more items menu button.   <br/><br/>"
-
-				. "<b><i class='fa fa-file-archive-o'></i> Archive Types</b><br/>"
-				. "An archive file can be saved as either a .zip file or .daf file.  A zip file is a common archive format used to compress and group files.  The daf file short for "
-				. "'Duplicator Archive Format' is a custom format used specifically  for working with larger packages and scale-ability issues on many shared hosting platforms.  Both "
-				. "formats work very similar.  The main difference is that the daf file can only be extracted using the installer.php file while the zip file can be used by other zip "
-				. "tools like winrar/7zip or other client-side tools. <br/><br/>"
+			    . "To download the package files click on the Installer or Archive button after creating a package.  The archive file will have a copy of the installer inside of it named "
+				. "installer-backup.php in case the original installer file is lost.  To see the details of a package click on the details button.<br/><br/>"
 
 			,'duplicator');
 	}
@@ -88,25 +77,36 @@ class DUP_Package_Screen extends DUP_UI_Screen
 	public function get_step1_help()
 	{
 		return __("<b>Packages New » 1 Setup</b> <br/>"
-				. "The setup screen allows users to choose where they would like to store thier package, such as Google Drive, Dropbox, on the local server or a combination of both."
-				. "Setup also allow users to setup optional filtered directory paths, files and database tables to change what is included in the archive file.  The optional option "
-				. "to also have the installer pre-filled can be used.  To expedited the workflow consider using a Template. <br/><br/>",'duplicator');
+				. "The setup step allows for optional filtered directory paths, files, file extensions and database tables.  To filter specific system files, click the 'Enable File Filters' "
+				. "checkbox and add the full path of the file or directory, followed by a semicolon.  For a file extension add the name (i.e. 'zip') followed by a semicolon.  To exclude a "
+				. "database table check the box labeled 'Enable Table Filters' and check the table name to exclude. Optionally the installer can be pre-filled with data at install time but is "
+				. "not required.  <br/><br/>",'duplicator');
 	}
 
 
 	public function get_step2_help()
 	{
 		return __("<b>Packages » 2 Scan</b> <br/>"
-				. "The plugin will scan your system, files and database to let you know if there are any concerns or issues that may be present.  All items in green mean the checks "
-				. "looked good.  All items in red indicate a warning.  Warnings will not prevent the build from running, however if you do run into issues with the build then checking "
+				. "The plugin will scan your system files and database to let you know if there are any concerns or issues that may be present.  All items in green mean the checks "
+				. "looked good.  All items in red indicate a warning.  Warnings will not prevent the build from running, however if you do run into issues with the build then investigating "
 				. "the warnings should be considered. <br/><br/>",'duplicator');
 	}
 
 	public function get_step3_help()
 	{
 		return __("<b>Packages » 3 Build</b> <br/>"
-				. "The final step where the  created installer script and archive of the the website can be downloaded. You can download installer and archive indivisually or"
-				. " choose one click download to download both installer and archive. <br/><br/>",'duplicator');
+				. "The final step where the created installer script and archive of the the website can be downloaded.   To start the install process follow these steps "
+				. "<ol>"
+				. "<li>Download the installer.php and archive.zip files to your local computer.</li>"
+				. "<li>For localhost installs be sure you have PHP, Apache & MySQL installed on your local computer with software such as XAMPP, Instant WordPress or MAMP for MAC. "
+				. "Place the package.zip and installer.php into any empty directory under your webroot then browse to the installer.php via your web browser.</li>"
+				. "<li>For remote installs use FTP or cPanel to upload both the archive.zip and installer.php to your hosting provider. Place the files in a new empty directory under "
+				. "your host's webroot where they are accessible from a valid url such as http://your-domain/your-wp-directory/installer.php. On some hosts the root directory will "
+				. "be a something like public_html -or- www.  If your not sure then contact your hosting provider. </li>"
+				. "<li>For complete instructions see:
+					<a href='https://snapcreek.com/duplicator/docs/quick-start/?utm_source=duplicator_free&amp;utm_medium=wordpress_plugin&amp;utm_content=package_built_install_help&amp;utm_campaign=duplicator_free#quick-040-q' target='_blank'>
+					How do I install this Package?</a></li>"
+				. "</ol><br/>",'duplicator');
 	}
 
 	public function get_details_help()
