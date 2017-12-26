@@ -50,14 +50,14 @@ TOOL-BAR -->
 				<option value="delete" title="<?php _e("Delete selected package(s)", 'duplicator') ?>"><?php _e("Delete", 'duplicator') ?></option>
 			</select>
 			<input type="button" id="dup-pack-bulk-apply" class="button action" value="<?php _e("Apply", 'duplicator') ?>" onclick="Duplicator.Pack.ConfirmDelete()">
-		</td>
-		<td align="center" >
+			<span class="btn-separator"></span>
 			<a href="javascript:void(0)" id="btn-logs-dialog" class="button"  title="<?php _e("Get Help", 'duplicator') ?>" onclick="Duplicator.Pack.showHelp()">
 				<?php echo ($statusCount == 1)  
 						? '<i class="fa fa-question-circle" style="color:green"></i>'
-						: '<i class="fa fa-question-circle"></i>';
+						: '<i class="fa fa-question-circle grey-icon"></i>';
 				?>
 			</a>
+			<a href="admin.php?page=duplicator-settings&tab=package" class="button grey-icon" title="<?php _e("Settings", 'duplicator') ?>"><i class="fa fa-gear"></i></a>
 		</td>
 		<td>						
 			<span><i class="fa fa-archive"></i> <?php _e("Packages", 'duplicator'); ?></span>
