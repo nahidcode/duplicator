@@ -31,6 +31,7 @@
 	table.dup-pack-table td.pass {border-left: 4px solid #2ea2cc;}
 	tr.dup-pack-info td {white-space:nowrap; padding:12px 30px 0px 7px;}
 	tr.dup-pack-info td.get-btns {text-align:right; padding:3px 5px 6px 0px !important;}
+	tr.dup-pack-info td.get-btns button {box-shadow:none}
 	textarea.dup-pack-debug {width:98%; height:300px; font-size:11px; display:none}
 	td.error-msg a {color:maroon}
 	td.error-msg a i {color:maroon}
