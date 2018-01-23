@@ -300,7 +300,12 @@ if (!class_exists('DUP_Encoding'))
 	  }
 
 	  protected static function strlen($text){
-		return (function_exists('mb_strlen') && ((int) ini_get('mbstring.func_overload')) & 2) ?
+
+        if(DUPX_U::isVersion('7.2.0'))
+            return (function_exists('mb_strlen')) ?
+			   mb_strlen($text,'8bit') : strlen($text);
+        else
+            return (function_exists('mb_strlen') && ((int) ini_get('mbstring.func_overload')) & 2) ?
 			   mb_strlen($text,'8bit') : strlen($text);
 	  }
 
