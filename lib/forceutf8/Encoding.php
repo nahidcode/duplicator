@@ -34,7 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
  * @version  2.0
  * @link     https://github.com/neitanod/forceutf8
  * @example  https://github.com/neitanod/forceutf8
- * @license  Revised BSD
+ * @license  Revised BSD 
   */
 
 //namespace ForceUTF8;
