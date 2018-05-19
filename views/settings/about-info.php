@@ -26,12 +26,12 @@
     img#dup-img-5stars:hover {opacity:1.0;}
 	
 	/* EMAIL AREA */
-	div.dup-support-email-area {width:825px; height:320px; border:1px solid #dfdfdf; border-radius:4px; margin:10px; line-height:18px;box-shadow: 0 8px 6px -6px #ccc;}
+	div.dup-support-email-area {width:825px; height:355px; border:1px solid #dfdfdf; border-radius:4px; margin:10px; line-height:18px;box-shadow: 0 8px 6px -6px #ccc;}
 	#mce-EMAIL {font-size:20px; height:40px; width:500px}
 	#mce-responses {width:300px}
 	#mc-embedded-subscribe { height: 35px; font-size: 16px; font-weight: bold}
 	div.mce_inline_error {width:300px; margin: auto !important}
-	div#mce-responses {margin: auto; padding: 10px; width:500px}
+	div#mce-responses {margin: auto; padding: 10px; width:500px; font-weight: bold;}
 
 </style>
 
