@@ -161,14 +161,6 @@
             </div>
         </div>
         <br style="clear:both" /><br/>
-		
-		
-		<!--div style='margin: auto; text-align: center; margin-top: 20px'>
-			<a href="http://lifeinthegrid.com/tools" target="_blank"  class="button button-large button-primary">
-				<i class="fa fa-rocket" style="margin-right:8px"></i><?php _e('Get More Great Tools', 'duplicator') ?>...
-			</a>
-		</div-->
-
 
     </div>
 </div><br/><br/><br/><br/>
