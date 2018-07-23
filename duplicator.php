@@ -3,7 +3,7 @@
   Plugin Name: Duplicator
   Plugin URI: https://snapcreek.com/duplicator/duplicator-free/
   Description: Migrate and backup a copy of your WordPress files and database. Duplicate and move a site from one location to another quickly.
-  Version: 1.2.41
+  Version: 1.2.42
   Author: Snap Creek
   Author URI: http://www.snapcreek.com/duplicator/
   Text Domain: duplicator
@@ -25,7 +25,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
   SOURCE CONTRIBUTORS:
-  David Coveney of Interconnect IT Ltd
   https://github.com/interconnectit/Search-Replace-DB/
   ================================================================================ */
 
