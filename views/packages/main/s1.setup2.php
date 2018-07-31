@@ -389,7 +389,7 @@ INSTALLER -->
 						$dup_install_secure_on = isset($Package->Installer->OptsSecureOn) ? $Package->Installer->OptsSecureOn : 0;
 						$dup_install_secure_pass = isset($Package->Installer->OptsSecurePass) ? DUP_Util::installerUnscramble($Package->Installer->OptsSecurePass) : '';
 					?>
-					<input type="checkbox" name="secure-on" id="secure-on" onclick="Duplicator.Pack.ToggleInstallerPassword()" <?php  echo ($dup_install_secure_on) ? 'checked' : ''; ?> />
+					<input type="checkbox" name="secure-on" id="secure-on" onclick="Duplicator.Pack.EnableInstallerPassword()" <?php  echo ($dup_install_secure_on) ? 'checked' : ''; ?> />
 					<label for="secure-on"><?php _e("Enable Password Protection", 'duplicator') ?></label>
 					<i class="fa fa-question-circle"
 					   data-tooltip-title="<?php _e("Password Protection:", 'duplicator'); ?>"
@@ -399,7 +399,7 @@ INSTALLER -->
 
 					<div id="dup-pass-toggle">
 						<input type="password" name="secure-pass" id="secure-pass" required="required" value="<?php echo $dup_install_secure_pass; ?>" />
-						<button type="button" id="secure-btn" class="pass-toggle" onclick="Duplicator.Pack.TogglePassword()" title="<?php _e('Show/Hide Password', 'duplicator'); ?>"><i class="fa fa-lock"></i></button>
+						<button type="button" id="secure-btn" class="pass-toggle" onclick="Duplicator.Pack.ToggleInstallerPassword()" title="<?php _e('Show/Hide Password', 'duplicator'); ?>"><i class="fa fa-lock"></i></button>
 					</div>
 					<br/>
 				</td>
@@ -576,12 +576,12 @@ jQuery(document).ready(function ($)
 		}
 	}
 
-	Duplicator.Pack.ToggleInstallerPassword = function ()
+	Duplicator.Pack.EnableInstallerPassword = function ()
 	{
 		if ($('#secure-on').is(':checked'))
 		{
 			$('#secure-pass').attr('readonly', false);
-			$('#secure-pass').attr('required', 'true');
+			$('#secure-pass').attr('required', 'true').focus();
 		
 		} else {
 			 $('#secure-pass').removeAttr('required');
@@ -589,10 +589,7 @@ jQuery(document).ready(function ($)
 		}
 	};
 
-	/**
-	 * Submits the password for validation
-	 */
-	Duplicator.Pack.TogglePassword = function()
+	Duplicator.Pack.ToggleInstallerPassword = function()
 	{
 		var $input  = $('#secure-pass');
 		var $button =  $('#secure-btn');
@@ -614,7 +611,7 @@ jQuery(document).ready(function ($)
 	Duplicator.Pack.ToggleFileFilters();
 	Duplicator.Pack.ToggleDBFilters();
 	Duplicator.Pack.ExportOnlyDB();
-	Duplicator.Pack.ToggleInstallerPassword();
+	Duplicator.Pack.EnableInstallerPassword();
 
 });
 </script>

@@ -144,7 +144,7 @@ define("DUPLICATOR_INIT", 1);
 define("DUPLICATOR_SSDIR_NAME", 'wp-snapshots');  //This should match DUPLICATOR_SSDIR_NAME in duplicator.php
 
 //SHARED POST PARMS
-$_POST['action_step'] = isset($_POST['action_step']) ? $_POST['action_step'] : "1";
+$_POST['action_step'] = isset($_POST['action_step']) ? $_POST['action_step'] : "0";
 
 /** Host has several combinations :
 localhost | localhost:55 | localhost: | http://localhost | http://localhost:55 */
@@ -184,6 +184,7 @@ if ($_POST['action_step'] == 1 && ! isset($_GET['help'])) {
 @@CLASS.ENGINE.PHP@@
 @@CLASS.CONF.WP.PHP@@
 @@CLASS.CONF.SRV.PHP@@
+@@CLASS.HTTP.PHP@@
 <?php
 if (isset($_POST['action_ajax'])) :
 
@@ -255,6 +256,9 @@ FORM DATA: Data Steps -->
 
 if (! isset($_GET['help'])) {
 switch ($_POST['action_step']) {
+	case "0" :
+	?> @@VIEW.INIT1.PHP@@ <?php
+	break;
 	case "1" :
 	?> @@VIEW.STEP1.PHP@@ <?php
 	break;

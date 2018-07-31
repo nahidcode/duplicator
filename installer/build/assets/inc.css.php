@@ -66,6 +66,13 @@
 	div#modal-window div.modal-title {background-color:#D0D0D0}
 	div#modal-window div.modal-text {padding-top:10px !important}
 	div.archive-onlydb {color:#DB4B38; font-weight:normal; position:absolute; top:5px; right:20px; font-style:italic; font-size:11px}
+
+	/* ======================================
+	STEP 1 INIT
+    ====================================== */
+	div.error-pane {border:1px solid #efefef; border-left:4px solid #D54E21; padding:0 0 0 10px; margin:2px 0 10px 0}
+	div.dupx-ui-error {padding-top:2px; font-size:13px; line-height: 20px}
+	label.secure-lock {cursor:pointer}
 	
 	/* ======================================
 	STEP 1 VIEW
