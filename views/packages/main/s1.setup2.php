@@ -44,12 +44,18 @@
     label.chk-labels {display:inline-block; margin-top:1px}
     table.dup-installer-tbl {width:97%; margin-left:20px}
 	div.dup-installer-panel-optional {text-align: center; font-style: italic; font-size: 12px; color:maroon}
+	div.secure-pass-area {}
+	input#secure-pass
+	label.secure-pass-lbl {display:inline-block; width:125px}
+	div#dup-pass-toggle {position: relative; margin:8px 0 0 0; width:243px}
+	input#secure-pass {border-radius:4px 0 0 4px; width:220px; height: 23px; margin:0}
+	button.pass-toggle {height: 23px; width: 23px; position:absolute; top:0px; right:0px; border:1px solid silver; border-radius:0 4px 4px 0;}
 	
 	/*TABS*/
 	ul.add-menu-item-tabs li, ul.category-tabs li {padding:3px 30px 5px}
 </style>
 
-<form id="dup-form-opts" method="post" action="?page=duplicator&tab=new2<?php echo "&retry={$retry_state}"; ?>" data-validate="parsley">
+<form id="dup-form-opts" method="post" action="?page=duplicator&tab=new2<?php echo "&retry={$retry_state}"; ?>"  data-parsley-validate data-parsley-ui-enabled="true" >
 <input type="hidden" id="dup-form-opts-action" name="action" value="">
 <?php wp_nonce_field('dup_form_opts', 'dup_form_opts_nonce_field', false); ?>
 
@@ -61,7 +67,7 @@
 		</a>
 	</div>
 	<a href="javascript:void(0)" onclick="Duplicator.Pack.ResetName()" title="<?php _e('Toggle a default name', 'duplicator') ?>"><i class="fa fa-undo"></i></a> <br/>
-	<input id="package-name"  name="package-name" type="text" value="<?php echo $Package->Name ?>" maxlength="40"  data-required="true" data-regexp="^[0-9A-Za-z|_]+$" /> <br/>
+	<input id="package-name"  name="package-name" type="text" value="<?php echo $Package->Name ?>" maxlength="40" required="true" data-regexp="^[0-9A-Za-z|_]+$" /> <br/>
 	<div id="dup-notes-area">
 		<label class="lbl-larger"><b>&nbsp;<?php _e('Notes', 'duplicator') ?>:</b></label> <br/>
 		<textarea id="package-notes" name="package-notes" maxlength="300" /><?php echo $Package->Notes ?></textarea>
@@ -370,7 +376,35 @@ INSTALLER -->
 					data-tooltip-title="<?php _e("MySQL Server Prefills", 'duplicator'); ?>"
 					data-tooltip="<?php _e('The values in this section are NOT required! If you know ahead of time the database input fields the installer will use, then you can optionally enter them here.  Otherwise you can just enter them in at install time.', 'duplicator'); ?>">
 			</i>
-		</div>	
+		</div>
+
+
+		<table class="dup-installer-tbl">
+			<tr>
+                <td colspan="2"><div class="dup-installer-header-2"><?php _e(" Security", 'duplicator') ?></div></td>
+            </tr>
+			<tr>
+				<td>
+					<?php
+						$dup_install_secure_on = isset($Package->Installer->OptsSecureOn) ? $Package->Installer->OptsSecureOn : 0;
+						$dup_install_secure_pass = isset($Package->Installer->OptsSecurePass) ? DUP_Util::installerUnscramble($Package->Installer->OptsSecurePass) : '';
+					?>
+					<input type="checkbox" name="secure-on" id="secure-on" onclick="Duplicator.Pack.ToggleInstallerPassword()" <?php  echo ($dup_install_secure_on) ? 'checked' : ''; ?> />
+					<label for="secure-on"><?php _e("Enable Password Protection", 'duplicator') ?></label>
+					<i class="fa fa-question-circle"
+					   data-tooltip-title="<?php _e("Password Protection:", 'duplicator'); ?>"
+					   data-tooltip="<?php _e('Enabling this option will allow for basic password protection on the installer. Before running the installer the '
+							   . 'password below must be entered before proceeding with an install.  This password is a general deterrent and should not be substituted for properly '
+							   . 'keeping your files secure.', 'duplicator'); ?>"></i>
+
+					<div id="dup-pass-toggle">
+						<input type="password" name="secure-pass" id="secure-pass" required="required" value="<?php echo $dup_install_secure_pass; ?>" />
+						<button type="button" id="secure-btn" class="pass-toggle" onclick="Duplicator.Pack.TogglePassword()" title="<?php _e('Show/Hide Password', 'duplicator'); ?>"><i class="fa fa-lock"></i></button>
+					</div>
+					<br/>
+				</td>
+			</tr>
+		</table>
 	
         <table class="dup-installer-tbl">
             <tr>
@@ -542,14 +576,45 @@ jQuery(document).ready(function ($)
 		}
 	}
 
+	Duplicator.Pack.ToggleInstallerPassword = function ()
+	{
+		if ($('#secure-on').is(':checked'))
+		{
+			$('#secure-pass').attr('readonly', false);
+			$('#secure-pass').attr('required', 'true');
+		
+		} else {
+			 $('#secure-pass').removeAttr('required');
+			 $('#secure-pass').attr('readonly', true);
+		}
+	};
+
+	/**
+	 * Submits the password for validation
+	 */
+	Duplicator.Pack.TogglePassword = function()
+	{
+		var $input  = $('#secure-pass');
+		var $button =  $('#secure-btn');
+		if (($input).attr('type') == 'text') {
+			$input.attr('type', 'password');
+			$button.html('<i class="fa fa-lock"></i>');
+		} else {
+			$input.attr('type', 'text');
+			$button.html('<i class="fa fa-unlock"></i>');
+		}
+	}
+
 	<?php if ($retry_state == '2') :?>
 		$('#dup-pack-archive-panel').show();
 		$('#export-onlydb').prop( "checked", true );
 	<?php endif; ?>
-	
+		
 	//Init:Toggle OptionTabs
 	Duplicator.Pack.ToggleFileFilters();
 	Duplicator.Pack.ToggleDBFilters();
 	Duplicator.Pack.ExportOnlyDB();
+	Duplicator.Pack.ToggleInstallerPassword();
+
 });
 </script>

@@ -10,6 +10,8 @@ class DUP_Installer
     public $OptsDBPort;
     public $OptsDBName;
     public $OptsDBUser;
+	public $OptsSecureOn = 0;
+	public $OptsSecurePass;
     //PROTECTED
     protected $Package;
 
@@ -151,13 +153,15 @@ class DUP_Installer
             "fwrite_url_old" => get_option('siteurl'),
             "fwrite_archive_name" => "{$this->Package->NameHash}_archive.zip",
 			"fwrite_archive_onlydb" => $this->Package->Archive->ExportOnlyDB,
-            "fwrite_package_notes" => $this->Package->Notes,
-			"fwrite_package_size" => $this->Package->Archive->Size,
-            "fwrite_secure_name" => $this->Package->NameHash,
-            "fwrite_dbhost" => $this->Package->Installer->OptsDBHost,
-            "fwrite_dbport" => $this->Package->Installer->OptsDBPort,
-            "fwrite_dbname" => $this->Package->Installer->OptsDBName,
-            "fwrite_dbuser" => $this->Package->Installer->OptsDBUser,
+            "fwrite_package_notes"	=> $this->Package->Notes,
+			"fwrite_package_size"	=> $this->Package->Archive->Size,
+            "fwrite_secure_name"	=> $this->Package->NameHash,
+            "fwrite_dbhost"			=> $this->Package->Installer->OptsDBHost,
+            "fwrite_dbport"			=> $this->Package->Installer->OptsDBPort,
+            "fwrite_dbname"			=> $this->Package->Installer->OptsDBName,
+            "fwrite_dbuser"			=> $this->Package->Installer->OptsDBUser,
+			"fwrite_secureon"		=> $this->Package->Installer->OptsSecureOn,
+			"fwrite_securepass"		=> $this->Package->Installer->OptsSecurePass,
             "fwrite_dbpass" => '',
             "fwrite_wp_tableprefix" => $wpdb->prefix,
             "fwrite_opts_delete" => json_encode($deleteOpts),
