@@ -18,7 +18,7 @@
     select#archive-format {min-width:100px; margin:1px 0 4px 0}
     span#dup-archive-filter-file {color:#A62426; display:none}
     span#dup-archive-filter-db {color:#A62426; display:none}
-	span#dup-installer-secure {color:#A62426; display:none}
+	span#dup-installer-secure {color:#A62426; display:none; font-size:14px}
 	span#dup-archive-db-only {color:#A62426; display:none}
     div#dup-file-filter-items, div#dup-db-filter-items {padding:5px 0;}
 	div#dup-db-filter-items {font-stretch:ultra-condensed; font-family:Calibri; }
