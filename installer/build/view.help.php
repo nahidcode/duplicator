@@ -38,15 +38,14 @@ HELP FORM -->
 		<tr>
 			<td>Unlocked</td>
 			<td>
-				This means that if your installer is on a public server that anyone can access the installer and run it if they want.  This is a less secure way to run
-				your installer. If your running the installer very quickly then removing all the installer files the chances of exposing it is going to be low depending
-				on your sites access history.
+				This means that if your installer is on a public server that anyone can access it.  This is a less secure way to run your installer. If your running the
+				installer very quickly then removing all the installer files, then the chances of exposing it is going to be low depending	on your sites access history.
 				<br/><br/>
 
-				While it is not required to	have a password set it is recommended if your URL has been the target of an attack.  If your on a site that has little to no
-				traffic or has never been the target of an attack then running the installer without a password is going to be relatively safe if ran quickly, but a
-				password is always a good idea.  Also it is absolutely required and recommended to remove <u>all</u> installer files after installation is
-				completed by logging into the WordPress admin and following the Duplicator prompts.
+				While it is not required to	have a password set it is recommended.  If your URL has little to no traffic or has never been the target of an attack
+				then running the installer without a password is going to be relatively safe if ran quickly.  However a	password is always a good idea.  Also it is
+				absolutely required and recommended to remove <u>all</u> installer files after installation is completed by logging into the WordPress admin and
+				following the Duplicator prompts.
 			</td>
 		</tr>
 	</table>

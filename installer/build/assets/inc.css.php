@@ -66,6 +66,7 @@
 	div#modal-window div.modal-title {background-color:#D0D0D0}
 	div#modal-window div.modal-text {padding-top:10px !important}
 	div.installer-mode {font-weight:normal; position:absolute; top:5px; right:20px; font-style:italic; font-size:11px}
+	i.secure-unlocked {color:maroon;}
 
 	
 	/* ============================

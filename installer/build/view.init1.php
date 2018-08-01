@@ -7,6 +7,7 @@
 
 $_POST['secure-pass'] = isset($_POST['secure-pass']) ? $_POST['secure-pass'] : '' ;
 $_POST['secure-try']  = isset($_POST['secure-try'])  ? 1 : 0 ;
+$_GET['debug']        = isset($_GET['debug']) ? $_GET['debug'] : 0;
 $page_url = DUPX_HTTP::get_request_uri();
 $page_err = 0;
 $user_pass = base64_decode($GLOBALS['FW_SECUREPASS']);

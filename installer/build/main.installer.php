@@ -245,6 +245,12 @@ HEADER TEMPLATE: Common header on all steps -->
             version: <?php echo $GLOBALS['FW_DUPLICATOR_VERSION'] ?><br/>
 			&raquo; <a href="javascript:void(0)" onclick="DUPX.showServerInfo()">info</a>
 			&raquo; <a href="?help=1" target="_blank">help</a>
+			<?php
+				echo ' &raquo; <a href="?help=1#secure" target="_blank">';
+				echo ($GLOBALS['FW_SECUREON']) ? 'locked</a>' : '<i class="secure-unlocked">unlocked</i></a>';
+
+			?>
+
         </td>
     </tr>
 </table>
@@ -252,11 +258,8 @@ HEADER TEMPLATE: Common header on all steps -->
 <div style="position: relative">
 	<div class="installer-mode">
 		<?php
-			echo ' Mode: ';
+			echo 'Mode: ';
 			echo ($GLOBALS['FW_ARCHIVE_ONLYDB']) ? 'Database Only' : 'Standard';
-			echo ' &raquo; <a href="?help=1#secure" target="_blank">Installer: ';
-			echo ($GLOBALS['FW_SECUREON']) ? 'Locked</a>' : 'Unlocked</a>';
-
 		?>
 	</div>
 </div>
