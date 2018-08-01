@@ -249,18 +249,17 @@ HEADER TEMPLATE: Common header on all steps -->
     </tr>
 </table>
 
-
 <div style="position: relative">
 	<div class="installer-mode">
 		<?php
-			echo '<a href="?help=1#secure" target="_blank">Installer: ';
+			echo ' Mode: ';
+			echo ($GLOBALS['FW_ARCHIVE_ONLYDB']) ? 'Database Only' : 'Standard';
+			echo ' &raquo; <a href="?help=1#secure" target="_blank">Installer: ';
 			echo ($GLOBALS['FW_SECUREON']) ? 'Locked</a>' : 'Unlocked</a>';
-			echo ' &raquo; <a href="?help=1#help-s1" target="_blank">Mode: ';
-			echo ($GLOBALS['FW_ARCHIVE_ONLYDB']) ? 'Database Only</a>' : 'Standard</a>';
+
 		?>
 	</div>
 </div>
-
 
 <!-- =========================================
 FORM DATA: Data Steps -->

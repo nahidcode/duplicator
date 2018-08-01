@@ -20,10 +20,7 @@ HELP FORM -->
     <br/><br/>
 
     If you do not recall the password then login to the site where the package was created and click the details of the package to view the original password.
-    To validate the password just typed you can toggle the view by clicking on the lock icon.
-    <br/><br/>
-
-	For detail on how to override this setting visit the online FAQ for
+    To validate the password just typed you can toggle the view by clicking on the lock icon.	For detail on how to override this setting visit the online FAQ for
 	<a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-030-q" target="_blank">more details</a>.
 
 	<table class="help-opt">
@@ -34,7 +31,7 @@ HELP FORM -->
 		<tr>
 			<td>Locked</td>
 			<td>
-				When the installer shows a status of "Locked" this means the password is protecting each step of the installer.  This option is recommended on all installers
+				When the installer shows a status of "Locked" this means a password is protecting each step of the installer.  This option is recommended on all installers
 				that are accessible via a public URL but not required.
 			</td>
 		</tr>
