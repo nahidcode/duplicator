@@ -145,6 +145,12 @@ define("DUPLICATOR_SSDIR_NAME", 'wp-snapshots');  //This should match DUPLICATOR
 
 //SHARED POST PARMS
 $_POST['action_step'] = isset($_POST['action_step']) ? $_POST['action_step'] : "0";
+$_POST['secure-pass'] = isset($_POST['secure-pass']) ? $_POST['secure-pass'] : "";
+if ($GLOBALS['FW_SECUREON']) {
+	if (base64_decode($GLOBALS['FW_SECUREPASS']) != $_POST['secure-pass']) {
+		$_POST['action_step'] = 0;
+	}
+}
 
 /** Host has several combinations :
 localhost | localhost:55 | localhost: | http://localhost | http://localhost:55 */
@@ -243,11 +249,18 @@ HEADER TEMPLATE: Common header on all steps -->
     </tr>
 </table>
 
-<?php if ($GLOBALS['FW_ARCHIVE_ONLYDB']) :?>
-	<div style="position: relative">
-		<div class="archive-onlydb">Database Only Mode</div>
+
+<div style="position: relative">
+	<div class="installer-mode">
+		<?php
+			echo '<a href="?help=1#secure" target="_blank">Installer: ';
+			echo ($GLOBALS['FW_SECUREON']) ? 'Locked</a>' : 'Unlocked</a>';
+			echo ' &raquo; <a href="?help=1#help-s1" target="_blank">Mode: ';
+			echo ($GLOBALS['FW_ARCHIVE_ONLYDB']) ? 'Database Only</a>' : 'Standard</a>';
+		?>
 	</div>
-<?php endif; ?>
+</div>
+
 
 <!-- =========================================
 FORM DATA: Data Steps -->

@@ -192,6 +192,7 @@ VIEW: STEP 3 - AJAX RESULT
 
 	<!--  POST PARAMS -->
 	<div class="dupx-debug">
+		<input type="hidden" name="secure-pass" value="<?php echo $_POST['secure-pass']; ?>" />
 		<input type="hidden" name="action_step"  value="4" />
 		<input type="hidden" name="archive_name" value="<?php echo $_POST['archive_name'] ?>" />
 		<input type="hidden" name="retain_config" value="<?php echo $_POST['retain_config']; ?>" />

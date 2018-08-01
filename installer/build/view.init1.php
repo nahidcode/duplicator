@@ -19,7 +19,10 @@ if (! $GLOBALS['FW_SECUREON'] && ! $_GET['debug']) {
 
 //POSTBACK: valid password
 if ($_POST['secure-pass'] == $user_pass ) {
-	DUPX_HTTP::post_with_html($page_url, array('action_step' => '1'));
+	DUPX_HTTP::post_with_html($page_url,
+		array(
+			'action_step' => '1',
+			'secure-pass' => $_POST['secure-pass']));
 	exit;
 }
 
@@ -29,10 +32,9 @@ if ($_POST['secure-try'] && $_POST['secure-pass'] != $user_pass ) {
 }
 ?>
 
-
 <!-- =========================================
 VIEW: STEP 0 - PASSWORD -->
-<form method="post" id="i1-pass-form" class="content-form"  data-parsley-validate="">
+<form method="post" id="i1-pass-form" class="content-form"  data-parsley-validate="" autocomplete="oldpassword">
 	<input type="hidden" name="view" value="secure" />
 	<input type="hidden" name="secure-try" value="1" />
 
@@ -47,26 +49,24 @@ VIEW: STEP 0 - PASSWORD -->
 	<?php endif; ?>
 
 	<div style="text-align: center">
-		This file was password protected when it was created.   If you do not remember the password	check the details of the package on	the site where it was created.
-	</div>
-	<br/>
+		This file was password protected when it was created.   If you do not remember the password	check the details of the package on	the site where it was created or visit
+		the online FAQ for <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-030-q" target="_blank">more details</a>.
+		<br/><br/><br/>
 
-	<div class="i1-pass-area">
-		<div class="i1-pass-data">
-			<label for="secure-pass">&nbsp; Enter Password</label>
+		<div class="i1-pass-area">
+			<label for="secure-pass">Enter Password</label>
 			<div id="i1-pass-input">
-				<input type="password" name="secure-pass" id="secure-pass" required="required" /><br/>
-				
-				<input type="checkbox" class="pass-toggle" id="secure-lock" onclick="DUPX.togglePassword()" title="Show/Hide the password">
-				<label class="secure-lock" for="secure-lock">Show Password</label>
+				<input type="password" name="secure-pass" id="secure-pass" required="required"  autocomplete="oldpassword" /><br/>
+				<div style="margin-top:7px">
+					<input type="checkbox" class="pass-toggle" id="secure-lock" onclick="DUPX.togglePassword()" title="Show/Hide the password">
+					<label class="secure-lock" for="secure-lock">Show Password</label>
+				</div>
 			</div>
-			<div style="text-align:right; margin-top: 10px">
-				<button type="button" name="secure-btn" id="secure-btn" onclick="DUPX.checkPassword()">Submit</button>
+			<div style="margin-top: 15px">
+				<button type="button" class="default-btn" name="secure-btn" id="secure-btn" onclick="DUPX.checkPassword()">Submit</button>
 			</div>
-            
 		</div>
 	</div>
-
 </form>
 
 <script>

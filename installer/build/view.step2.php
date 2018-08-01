@@ -189,6 +189,7 @@ Auto Posts to view.step3.php
 
 	<!--  POST PARAMS -->
 	<div class="dupx-debug">
+		<input type="hidden" name="secure-pass" value="<?php echo $_POST['secure-pass']; ?>" />
 		<input type="hidden" name="action_step" value="3" />
 		<input type="hidden" name="archive_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
 		<input type="hidden" name="logging" id="ajax-logging"  />
