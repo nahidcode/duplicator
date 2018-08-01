@@ -18,6 +18,7 @@
     select#archive-format {min-width:100px; margin:1px 0 4px 0}
     span#dup-archive-filter-file {color:#A62426; display:none}
     span#dup-archive-filter-db {color:#A62426; display:none}
+	span#dup-installer-secure {color:#A62426; display:none}
 	span#dup-archive-db-only {color:#A62426; display:none}
     div#dup-file-filter-items, div#dup-db-filter-items {padding:5px 0;}
 	div#dup-db-filter-items {font-stretch:ultra-condensed; font-family:Calibri; }
@@ -363,7 +364,8 @@ ARCHIVE -->
 INSTALLER -->
 <div class="dup-box">
     <div class="dup-box-title">
-        <i class="fa fa-bolt"></i> <?php _e('Installer', 'duplicator') ?>
+        <i class="fa fa-bolt"></i> <?php _e('Installer', 'duplicator') ?> &nbsp;
+		<span id="dup-installer-secure" title="<?php _e('Installer Security Enabled', 'duplicator') ?>"><i class="fa fa-lock"></i> </span>
         <div class="dup-box-arrow"></div>
     </div>			
 	
@@ -578,14 +580,14 @@ jQuery(document).ready(function ($)
 
 	Duplicator.Pack.EnableInstallerPassword = function ()
 	{
-		if ($('#secure-on').is(':checked'))
-		{
+		if ($('#secure-on').is(':checked')) {
 			$('#secure-pass').attr('readonly', false);
 			$('#secure-pass').attr('required', 'true').focus();
-		
+			$('#dup-installer-secure').show();
 		} else {
-			 $('#secure-pass').removeAttr('required');
-			 $('#secure-pass').attr('readonly', true);
+			$('#secure-pass').removeAttr('required');
+			$('#secure-pass').attr('readonly', true);
+			$('#dup-installer-secure').hide();
 		}
 	};
 
