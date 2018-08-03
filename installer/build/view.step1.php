@@ -97,6 +97,7 @@ $agree_msg    = "To enable this button the checkbox above under the 'Terms & Not
 <input type="hidden" name="action_ajax" value="1" />
 <input type="hidden" name="action_step" value="1" />
 <input type="hidden" name="archive_name"  value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
+<input type="hidden" name="secure-pass" value="<?php echo $_POST['secure-pass']; ?>" />
 
 <div class="hdr-main">
     Step <span class="step">1</span> of 4: Deployment

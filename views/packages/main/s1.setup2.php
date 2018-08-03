@@ -50,7 +50,7 @@
 	label.secure-pass-lbl {display:inline-block; width:125px}
 	div#dup-pass-toggle {position: relative; margin:8px 0 0 0; width:243px}
 	input#secure-pass {border-radius:4px 0 0 4px; width:220px; height: 23px; margin:0}
-	button.pass-toggle {height: 23px; width: 23px; position:absolute; top:0px; right:0px; border:1px solid silver; border-radius:0 4px 4px 0;}
+	button.pass-toggle {height: 23px; width: 26px; position:absolute; top:0px; right:0px; border:1px solid silver; border-radius:0 4px 4px 0; cursor:pointer}
 	
 	/*TABS*/
 	ul.add-menu-item-tabs li, ul.category-tabs li {padding:3px 30px 5px}
@@ -401,7 +401,7 @@ INSTALLER -->
 
 					<div id="dup-pass-toggle">
 						<input type="password" name="secure-pass" id="secure-pass" required="required" value="<?php echo $dup_install_secure_pass; ?>" />
-						<button type="button" id="secure-btn" class="pass-toggle" onclick="Duplicator.Pack.ToggleInstallerPassword()" title="<?php _e('Show/Hide Password', 'duplicator'); ?>"><i class="fa fa-lock"></i></button>
+						<button type="button" id="secure-btn" class="pass-toggle" onclick="Duplicator.Pack.ToggleInstallerPassword()" title="<?php _e('Show/Hide Password', 'duplicator'); ?>"><i class="fa fa-eye"></i></button>
 					</div>
 					<br/>
 				</td>
@@ -597,10 +597,10 @@ jQuery(document).ready(function ($)
 		var $button =  $('#secure-btn');
 		if (($input).attr('type') == 'text') {
 			$input.attr('type', 'password');
-			$button.html('<i class="fa fa-lock"></i>');
+			$button.html('<i class="fa fa-eye"></i>');
 		} else {
 			$input.attr('type', 'text');
-			$button.html('<i class="fa fa-unlock"></i>');
+			$button.html('<i class="fa fa-eye-slash"></i>');
 		}
 	}
 

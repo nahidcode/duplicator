@@ -194,6 +194,12 @@ if ($_POST['action_step'] == 1 && ! isset($_GET['help'])) {
 <?php
 if (isset($_POST['action_ajax'])) :
 
+	if ($GLOBALS['FW_SECUREON']) {
+		if (base64_decode($GLOBALS['FW_SECUREPASS']) != $_POST['secure-pass']) {
+			die("Unauthorized Access:  Please provide a password!");
+		}
+	}
+
 	//Alternative control switch structer will not work in this case
 	//see: http://php.net/manual/en/control-structures.alternative-syntax.php
 	//Some clients will create double spaces such as the FTP client which

@@ -51,7 +51,7 @@ $dup_install_secure_pass = isset($package->Installer->OptsSecurePass) ? DUP_Util
 	/*INSTALLER*/
 	div#dup-pass-toggle {position: relative; margin:0; width:273px}
 	input#secure-pass {border-radius:4px 0 0 4px; width:250px; height: 23px; margin:0}
-	button#secure-btn {height: 23px; width: 23px; position:absolute; top:0px; right:0px;border:1px solid silver;  border-radius:0 4px 4px 0;}
+	button#secure-btn {height:23px; width:26px; position:absolute; top:0px; right:0px;border:1px solid silver;  border-radius:0 4px 4px 0; cursor:pointer}
 	div.dup-installer-header-2 {font-weight:bold; border-bottom:1px solid #dfdfdf; padding-bottom:2px; width:100%}
 </style>
 
@@ -337,7 +337,7 @@ INSTALLER -->
 				<td colspan="2">
 					<div id="dup-pass-toggle">
 						<input type="password" name="secure-pass" id="secure-pass" readonly="true" value="<?php echo $dup_install_secure_pass;  ?>" />
-						<button type="button" id="secure-btn" onclick="Duplicator.Pack.TogglePassword()" title="<?php _e('Show/Hide Password', 'duplicator'); ?>"><i class="fa fa-lock"></i></button>
+						<button type="button" id="secure-btn" onclick="Duplicator.Pack.TogglePassword()" title="<?php _e('Show/Hide Password', 'duplicator'); ?>"><i class="fa fa-eye"></i></button>
 					</div>
 				</td>
 			</tr>
@@ -424,10 +424,10 @@ jQuery(document).ready(function($)
 		var $button =  $('#secure-btn');
 		if (($input).attr('type') == 'text') {
 			$input.attr('type', 'password');
-			$button.html('<i class="fa fa-lock"></i>');
+			$button.html('<i class="fa fa-eye"></i>');
 		} else {
 			$input.attr('type', 'text');
-			$button.html('<i class="fa fa-unlock"></i>');
+			$button.html('<i class="fa fa-eye-slash"></i>');
 		}
 	}
 });

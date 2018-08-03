@@ -92,10 +92,10 @@ VIEW: STEP 0 - PASSWORD -->
 		var $input = $('#secure-pass');
 		var $lock  = $('#secure-lock');
 		if (($input).attr('type') == 'text') {
-			$lock.html('<i class="fa fa-lock"></i>');
+			//$lock.html('<i class="fa fa-lock"></i>');
 			$input.attr('type', 'password');
 		} else {
-			$lock.html('<i class="fa fa-unlock"></i>');
+			//$lock.html('<i class="fa fa-unlock"></i>');
 			$input.attr('type', 'text');
 		}
 	}
