@@ -45,7 +45,7 @@ VIEW: STEP 0 - PASSWORD -->
 
 	<?php if ($page_err) : ?>
 		<div class="error-pane">
-			<p>Invalid Password! Please try again...</p>
+			<p>Invalid Password! Please try again. If the problem persists see the more details link below.</p>
 		</div>
 	<?php endif; ?>
 
