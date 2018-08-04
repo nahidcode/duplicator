@@ -51,7 +51,7 @@ $dup_install_secure_pass = isset($package->Installer->OptsSecurePass) ? DUP_Util
 	/*INSTALLER*/
 	div#dup-pass-toggle {position: relative; margin:0; width:273px}
 	input#secure-pass {border-radius:4px 0 0 4px; width:250px; height: 23px; margin:0}
-	button#secure-btn {height:23px; width:26px; position:absolute; top:0px; right:0px;border:1px solid silver;  border-radius:0 4px 4px 0; cursor:pointer}
+	button#secure-btn {height:23px; width:27px; position:absolute; top:0px; right:0px;border:1px solid silver;  border-radius:0 4px 4px 0; cursor:pointer}
 	div.dup-installer-header-2 {font-weight:bold; border-bottom:1px solid #dfdfdf; padding-bottom:2px; width:100%}
 </style>
 
