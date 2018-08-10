@@ -2,17 +2,13 @@
 /** IDE HELPERS */
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */
 
-//require_once($GLOBALS['DUPX_INIT'] . '/classes/class.crypt.php');
-
-
 $_POST['secure-pass'] = isset($_POST['secure-pass']) ? $_POST['secure-pass'] : '' ;
 $_POST['secure-try']  = isset($_POST['secure-try'])  ? 1 : 0 ;
 $_GET['debug']        = isset($_GET['debug']) ? $_GET['debug'] : 0;
 $page_url = DUPX_HTTP::get_request_uri();
 $page_err = 0;
 $pass_hasher = new DUPX_PasswordHash(8, FALSE);
-$pass_check  = $pass_hasher->CheckPassword($_POST['secure-pass'], $GLOBALS['FW_SECUREPASS']);
-//$user_pass = base64_decode($GLOBALS['FW_SECUREPASS']);
+$pass_check  = $pass_hasher->CheckPassword(base64_encode($_POST['secure-pass']), $GLOBALS['FW_SECUREPASS']);
 
 //FORWARD: password not enabled
 if (! $GLOBALS['FW_SECUREON'] && ! $_GET['debug']) {

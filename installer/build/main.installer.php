@@ -156,7 +156,7 @@ $_POST['secure-pass'] = isset($_POST['secure-pass']) ? $_POST['secure-pass'] : '
 
 if ($GLOBALS['FW_SECUREON']) {
 	$pass_hasher = new DUPX_PasswordHash(8, FALSE);
-	$pass_check  = $pass_hasher->CheckPassword($_POST['secure-pass'], $GLOBALS['FW_SECUREPASS']);
+	$pass_check  = $pass_hasher->CheckPassword(base64_encode($_POST['secure-pass']), $GLOBALS['FW_SECUREPASS']);
 	if (! $pass_check) {
 		$_POST['action_step'] = 0;
 	}
@@ -215,7 +215,7 @@ if (isset($_POST['action_ajax'])) :
 
 	if ($GLOBALS['FW_SECUREON']) {
 		$pass_hasher = new DUPX_PasswordHash(8, FALSE);
-		$pass_check  = $pass_hasher->CheckPassword($_POST['secure-pass'], $GLOBALS['FW_SECUREPASS']);
+		$pass_check  = $pass_hasher->CheckPassword(base64_encode($_POST['secure-pass']), $GLOBALS['FW_SECUREPASS']);
 		if (! $pass_check) {
 			die("Unauthorized Access:  Please provide a password!");
 		}
