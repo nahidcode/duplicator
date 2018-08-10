@@ -146,7 +146,7 @@ class DUP_Installer
 		 DUP_Log::Info("PACK SIZE: {$this->Package->Size}");
 
 		 $hasher = new DUP_PasswordHash(8, FALSE);
-		 $hash  = $hasher->HashPassword($this->Package->Installer->OptsSecurePass);
+		 $pass_hash = $hasher->HashPassword($this->Package->Installer->OptsSecurePass);
 
         $replace_items = Array(
             //COMPARE VALUES
@@ -168,7 +168,7 @@ class DUP_Installer
             "fwrite_dbname"			=> $this->Package->Installer->OptsDBName,
             "fwrite_dbuser"			=> $this->Package->Installer->OptsDBUser,
 			"fwrite_secureon"		=> $this->Package->Installer->OptsSecureOn,
-			"fwrite_securepass"		=> $hash,
+			"fwrite_securepass"		=> $pass_hash,
             "fwrite_dbpass" => '',
             "fwrite_wp_tableprefix" => $wpdb->prefix,
             "fwrite_opts_delete" => json_encode($deleteOpts),
