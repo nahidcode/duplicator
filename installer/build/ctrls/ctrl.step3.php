@@ -31,7 +31,7 @@ $_POST['url_new']		= isset($_POST['url_new']) ? rtrim(trim($_POST['url_new']), '
 $_POST['retain_config'] = (isset($_POST['retain_config']) && $_POST['retain_config'] == '1') ? true : false;
 $_POST['exe_safe_mode']	= isset($_POST['exe_safe_mode']) ? $_POST['exe_safe_mode'] : 0;
 if ($GLOBALS['DUPX_DBPASS_CHECK']) {
-	$_POST['dbpass'] = isset($_POST['dbpass']) ? str_replace("'", '', $_POST['dbpass']) : null;
+	$_POST['dbpass'] = isset($_POST['dbpass']) ? str_replace("'", "\'", $_POST['dbpass']) : null;
 }
 
 //MYSQL CONNECTION

@@ -17,7 +17,6 @@ if (! $GLOBALS['FW_SECUREON'] && ! $_GET['debug']) {
 }
 
 //POSTBACK: valid password
-//if ($_POST['secure-pass'] == $user_pass ) {
 if ($pass_check) {
 	DUPX_HTTP::post_with_html($page_url,
 		array(
@@ -27,7 +26,6 @@ if ($pass_check) {
 }
 
 //ERROR: invalid password
-//if ($_POST['secure-try'] && $_POST['secure-pass'] != $user_pass ) {
 if ($_POST['secure-try'] && ! $pass_check) {
 	$page_err = 1;
 }
