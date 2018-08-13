@@ -137,22 +137,6 @@ DATA;
 //ERR_MAKELOG
 ($GLOBALS['LOG_FILE_HANDLE'] != false) or DUPX_Log::error(ERR_MAKELOG);
 
-//ERR_NON_SECURE_PASSWORD
-//if ($GLOBALS['DUPX_DBPASS_CHECK']) {
-//	$dbpass_test_chars = array("'");
-//	$dbpass_char_found = false;
-//	$dbpass_sent = urldecode($_POST['dbpass']);
-//	foreach ($dbpass_test_chars as $value) {
-//		if (strpos($dbpass_sent, $value)) {
-//			$dbpass_char_found = true;
-//			break;
-//		}
-//	}
-//	if ($dbpass_char_found) {
-//		DUPX_Log::error(ERR_NON_SECURE_PASSWORD);
-//	}
-//}
-
 //ERR_MYSQLI_SUPPORT
 function_exists('mysqli_connect') or DUPX_Log::error(ERR_MYSQLI_SUPPORT);
 
