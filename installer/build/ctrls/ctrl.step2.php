@@ -91,6 +91,11 @@ if (isset($_GET['dbtest']))
 DATA;
 
 	//--------------------------------
+	//WARNING: Unable to connect
+	$html .=  (!$dbConn ||  !$dbFound)
+		? "<div class='warn-msg'>" . ERR_DBCONNECT_INFO .  "</div>"
+		: '';
+
 	//WARNING: DB has tables with create option
 	if ($_POST['dbaction'] == 'create')
 	{
@@ -103,8 +108,7 @@ DATA;
 	//WARNNG: Input has utf8
 	$dbConnItems = array($_POST['dbhost'], $_POST['dbuser'], $_POST['dbname'],$_POST['dbpass']);
 	$dbUTF8_tst  = false;
-	foreach ($dbConnItems as $value)
-	{
+	foreach ($dbConnItems as $value) {
 		if (DUPX_U::isNonASCII($value)) {
 			$dbUTF8_tst = true;
 			break;

@@ -331,8 +331,6 @@ $JSON['step3']['warn_all'] = empty($JSON['step3']['warnlist']) ? 0 : count($JSON
 
 mysqli_close($dbh);
 
-
-
 $ajax2_end = DUPX_U::getMicrotime();
 $ajax2_sum = DUPX_U::elapsedTime($ajax2_end, $ajax2_start);
 DUPX_Log::info("\nSTEP 3 COMPLETE @ " . @date('h:i:s') . " - RUNTIME: {$ajax2_sum}\n\n");
