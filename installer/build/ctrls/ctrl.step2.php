@@ -50,11 +50,11 @@ if (isset($_GET['dbtest']))
 
     $dbversion_info         = DUPX_DB::getServerInfo($dbConn);
     $dbversion_info         = empty($dbversion_info) ? 'no connection' : $dbversion_info;
-    $dbversion_info_fail    = version_compare(DUPX_DB::getVersion($dbConn), '5.5.3') < 0;
+    $dbversion_info_fail    = $dbConn && version_compare(DUPX_DB::getVersion($dbConn), '5.5.3') < 0;
 
     $dbversion_compat       = DUPX_DB::getVersion($dbConn);
 	$dbversion_compat       = empty($dbversion_compat) ? 'no connection' : $dbversion_compat;
-    $dbversion_compat_fail  = version_compare($dbversion_compat, $GLOBALS['FW_VERSION_DB']) < 0;
+    $dbversion_compat_fail  = $dbConn && version_compare($dbversion_compat, $GLOBALS['FW_VERSION_DB']) < 0;
 
     $tstInfo = ($dbversion_info_fail)
 		? "<div class='dupx-notice'>{$dbversion_info}</div>"
@@ -112,7 +112,7 @@ DATA;
 	}
 
     //WARNING: UTF8 Data in Connection String
-	$html .=  (! $dbConn && $dbUTF8_tst)
+	$html .=  (!$dbConn && $dbUTF8_tst)
 		? "<div class='warn-msg'><b>WARNING:</b> " . ERR_TESTDB_UTF8 .  "</div>"
 		: '';
 
