@@ -77,7 +77,7 @@
             <table class="dup-support-hlp-hdrs">
                 <tr>
                     <td style="height:30px; text-align: center;">
-                        <span style="display: inline-block; margin-top: 5px"><?php _e('Help Us Improve', 'duplicator') ?></span>
+                        <span style="display: inline-block; margin-top: 5px"><?php _e('Want New Features?', 'duplicator') ?></span>
                     </td>
                 </tr>
             </table>
@@ -85,7 +85,7 @@
 
 			<div style="margin: auto; text-align: center; margin-top:35px; font-weight: bold;">
 				<button type="button" class="button-primary button-large" onclick="Duplicator.ProvideFeedback()">
-					<?php _e('Provide Your Feedback', 'duplicator') ?>
+					<?php _e('Suggest One Now!', 'duplicator') ?>
 				</button>
 			</div>
 
@@ -160,9 +160,8 @@
 
 		Duplicator.ProvideFeedback = function()
 		{
-			window.open('https://www.surveymonkey.com/r/XGFC7K8','_blank');
+			window.open('https://snapcreek.com/duplicator/survey-features/','_blank');
 		}
-
 
         $('input[type="checkbox"][name="privacy"]').change(function() {
         if(this.checked) {
