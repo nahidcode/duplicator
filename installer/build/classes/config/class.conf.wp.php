@@ -28,7 +28,7 @@ class DUPX_WPConfig
 		$db_host	= ($db_port == 3306) ? $_POST['dbhost'] : "{$_POST['dbhost']}:{$db_port}";
 		$db_name	= isset($_POST['dbname']) ? DUPX_U::safeQuote($_POST['dbname']) : null;
 		$db_user	= isset($_POST['dbuser']) ? DUPX_U::safeQuote($_POST['dbuser']) : null;
-		$db_pass	= isset($_POST['dbpass']) ? DUPX_U::pregSpecialChars(DUPX_U::safeQuote($_POST['dbpass'])) : null;
+       	$db_pass	= isset($_POST['dbpass']) ? DUPX_U::safeQuote($_POST['dbpass']) : null;
 
 		$patterns = array(
 			"/'DB_NAME',\s*'.*?'/",
@@ -78,7 +78,9 @@ class DUPX_WPConfig
 
 		//$var_info = print_r($replace,true);
 		//DUPX_Log::info($var_info);
-	
+
+        $replace = array_map('self::customEscape', $replace);
+
 		$wpconfig	 = preg_replace($patterns, $replace, $wpconfig);
 //		$var_info = print_r($wpconfig,true);
 //		DUPX_Log::info("LOGGING DATA*********************");
@@ -87,6 +89,11 @@ class DUPX_WPConfig
 
 		file_put_contents('wp-config.php', $wpconfig);
 		$wpconfig	 = null;
+	}
+
+    public static function customEscape($str)
+    {
+		return str_replace('\\', '\\\\', $str);
 	}
 
 	/**
