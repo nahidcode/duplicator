@@ -163,7 +163,7 @@ class DUPX_U
      *
      *  @param string $str		The string to replace on
      */
-    public static function pregReplacementQuote($str)
+    public static function pregSpecialChars($str)
     {
         return preg_replace('/(\$|\\\\)(?=\d)/', '\\\\\1', $str);
     }
@@ -271,6 +271,22 @@ class DUPX_U
     public static function sanitize($input)
     {
         return filter_var($input, FILTER_SANITIZE_STRING);
+    }
+
+	/**
+     *  Filter the string to escape the quote
+     *
+     *  @param string $val		The value to sanitize
+     *
+     *  @return string Returns the input value cleaned up.
+     */
+    public static function esc_quote($val)
+    {
+		//$val = str_replace("'",   "\'", $val);
+		//$val = str_replace('\\',  '/', $val);
+		$val = addslashes($val);
+		//$val = str_replace("\\'",  "\'", $val);
+        return $val;
     }
 
      /**

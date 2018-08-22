@@ -21,23 +21,26 @@ class DUPX_WPConfig
 	{
 		if (!file_exists('wp-config.php')) return;
 
-		$root_path	 = DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
-		$wpconfig	 = @file_get_contents('wp-config.php', true);
-		$_POST['dbpass'] = isset($_POST['dbpass']) ? str_replace("'", "\'", $_POST['dbpass']) : null;
+		$root_path	= DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
+		$wpconfig	= @file_get_contents('wp-config.php', true);
+		$db_host	= ($_POST['dbport'] == 3306) ? $_POST['dbhost'] : "{$_POST['dbhost']}:{$_POST['dbport']}";
+		$db_name	= isset($_POST['dbname']) ? DUPX_U::pregSpecialChars($_POST['dbname']) : null;
+		$db_user	= isset($_POST['dbuser']) ? DUPX_U::pregSpecialChars($_POST['dbuser']) : null;
+		$db_pass	= isset($_POST['dbpass']) ? DUPX_U::pregSpecialChars($_POST['dbpass']) : null;
 
 		$patterns = array(
 			"/'DB_NAME',\s*'.*?'/",
 			"/'DB_USER',\s*'.*?'/",
 			"/'DB_PASSWORD',\s*'.*?'/",
-			"/'DB_HOST',\s*'.*?'/");
-
-		$db_host = ($_POST['dbport'] == 3306) ? $_POST['dbhost'] : "{$_POST['dbhost']}:{$_POST['dbport']}";
+			"/'DB_HOST',\s*'.*?'/"
+		);
 
 		$replace = array(
-			"'DB_NAME', ".'\''.$_POST['dbname'].'\'',
-			"'DB_USER', ".'\''.$_POST['dbuser'].'\'',
-			"'DB_PASSWORD', " . '\'' . DUPX_U::pregReplacementQuote($_POST['dbpass']) . '\'',
-			"'DB_HOST', ".'\''.$db_host.'\'');
+			"'DB_NAME', "		. "'{$db_name}'",
+			"'DB_USER', "		. "'{$db_user}'",
+			"'DB_PASSWORD', "	. "'{$db_pass}'",
+			"'DB_HOST', "		. "'{$db_host}'"
+		);
 
 		//SSL CHECKS
 		if ($_POST['ssl_admin']) {
@@ -71,7 +74,13 @@ class DUPX_WPConfig
 			}
 		}
 
+		$var_info = print_r($replace,true);
+	DUPX_Log::info($var_info);
+	
 		$wpconfig	 = preg_replace($patterns, $replace, $wpconfig);
+		$var_info = print_r($wpconfig,true);
+		DUPX_Log::info("LOGGING DATA*********************");
+		DUPX_Log::info($var_info);
 		file_put_contents('wp-config.php', $wpconfig);
 		$wpconfig	 = null;
 	}
