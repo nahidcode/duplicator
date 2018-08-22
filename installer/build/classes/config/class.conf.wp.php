@@ -23,10 +23,12 @@ class DUPX_WPConfig
 
 		$root_path	= DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
 		$wpconfig	= @file_get_contents('wp-config.php', true);
-		$db_host	= ($_POST['dbport'] == 3306) ? $_POST['dbhost'] : "{$_POST['dbhost']}:{$_POST['dbport']}";
-		$db_name	= isset($_POST['dbname']) ? DUPX_U::pregSpecialChars($_POST['dbname']) : null;
-		$db_user	= isset($_POST['dbuser']) ? DUPX_U::pregSpecialChars($_POST['dbuser']) : null;
-		$db_pass	= isset($_POST['dbpass']) ? DUPX_U::pregSpecialChars($_POST['dbpass']) : null;
+
+		$db_port    = is_int($_POST['dbport'])   ? $_POST['dbport'] : 3306;
+		$db_host	= ($db_port == 3306) ? $_POST['dbhost'] : "{$_POST['dbhost']}:{$db_port}";
+		$db_name	= isset($_POST['dbname']) ? DUPX_U::safeQuote($_POST['dbname']) : null;
+		$db_user	= isset($_POST['dbuser']) ? DUPX_U::safeQuote($_POST['dbuser']) : null;
+		$db_pass	= isset($_POST['dbpass']) ? DUPX_U::pregSpecialChars(DUPX_U::safeQuote($_POST['dbpass'])) : null;
 
 		$patterns = array(
 			"/'DB_NAME',\s*'.*?'/",
@@ -74,13 +76,15 @@ class DUPX_WPConfig
 			}
 		}
 
-		$var_info = print_r($replace,true);
-	DUPX_Log::info($var_info);
+		//$var_info = print_r($replace,true);
+		//DUPX_Log::info($var_info);
 	
 		$wpconfig	 = preg_replace($patterns, $replace, $wpconfig);
-		$var_info = print_r($wpconfig,true);
-		DUPX_Log::info("LOGGING DATA*********************");
-		DUPX_Log::info($var_info);
+//		$var_info = print_r($wpconfig,true);
+//		DUPX_Log::info("LOGGING DATA*********************");
+//		DUPX_Log::info($var_info);
+
+
 		file_put_contents('wp-config.php', $wpconfig);
 		$wpconfig	 = null;
 	}
