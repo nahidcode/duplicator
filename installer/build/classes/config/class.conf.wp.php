@@ -76,16 +76,8 @@ class DUPX_WPConfig
 			}
 		}
 
-		//$var_info = print_r($replace,true);
-		//DUPX_Log::info($var_info);
-
         $replace = array_map('self::customEscape', $replace);
-
-		$wpconfig	 = preg_replace($patterns, $replace, $wpconfig);
-//		$var_info = print_r($wpconfig,true);
-//		DUPX_Log::info("LOGGING DATA*********************");
-//		DUPX_Log::info($var_info);
-
+		$wpconfig = preg_replace($patterns, $replace, $wpconfig);
 
 		file_put_contents('wp-config.php', $wpconfig);
 		$wpconfig	 = null;

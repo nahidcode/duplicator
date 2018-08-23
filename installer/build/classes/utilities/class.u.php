@@ -10,7 +10,6 @@
  */
 class DUPX_U
 {
-
     /**
      * Adds a slash to the end of a file or directory path
      *
@@ -162,11 +161,11 @@ class DUPX_U
      *  same characters that are special in the pattern.  Allows for '$' to be safely passed.
      *
      *  @param string $str		The string to replace on
-     */
     public static function pregSpecialChars($str)
     {
         return preg_replace('/(\$|\\\\)(?=\d)/', '\\\\\1', $str);
     }
+	 * */
 
     /**
      * Display human readable byte sizes
@@ -276,17 +275,13 @@ class DUPX_U
 	/**
      *  Filter the string to escape the quote
      *
-     *  @param string $val		The value to sanitize
+     *  @param string $val		The value to escape quote
      *
-     *  @return string Returns the input value cleaned up.
+     *  @return string Returns the input value escaped
      */
     public static function safeQuote($val)
     {
-		//$val = str_replace("'",   "\'", $val);
-		//$val = str_replace('\\',  '/', $val);
 		$val = addslashes($val);
-		
-		//$val = str_replace("\\'",  "\'", $val);
         return $val;
     }
 
