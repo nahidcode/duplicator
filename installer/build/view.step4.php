@@ -36,9 +36,10 @@ VIEW: STEP 4 - INPUT -->
 
 	<table class="s4-final-step">
 		<tr style="vertical-align:top">
-			<td><a class="s4-final-btns" href="javascript:void(0)" onclick="DUPX.getAdminLogin()">Site Login</a></td>
+<!--			<td><a class="s4-final-btns" href="javascript:void(0)" onclick="DUPX.getAdminLogin()">Site Login</a></td>-->
+			<td style="padding-top:10px"><button class="s4-final-btns" onclick="DUPX.getAdminLogin()">Admin Login</button></td>
 			<td>
-				<i>Login to finalize the setup</i>
+				Click the Admin Login button to login and finalize this install.<br/>
 				<?php if ($_POST['retain_config']) :?>
 					<br/> <i>Update of Permalinks required see: Admin &gt; Settings &gt; Permalinks &gt; Save</i>
 				<?php endif;?>
@@ -52,7 +53,7 @@ VIEW: STEP 4 - INPUT -->
 				</div>
 			</td>
 		</tr>
-		<tr>
+<!--		<tr>
 			<td><a class="s4-final-btns" href="javascript:void(0)" onclick="$('#dup-step3-install-report').toggle(400)">Show Report</a></td>
 			<td>
 				<i>Optionally review the migration report</i><br/>
@@ -62,11 +63,36 @@ VIEW: STEP 4 - INPUT -->
 					<span data-bind="with: status.step3" style="color:#888"><b>General Notices:</b> (<span data-bind="text: warn_all"></span>)</span>
 				</i>
 			</td>
-		</tr>
+		</tr>-->
 	</table>
-	<br/><br/>
+	<i style="color:maroon; font-size:12px">
+		IMPORTANT FINAL STEPS: Login into the WordPress Admin to remove all	<a href="?help=1#help-s4" target="_blank">installation files</a>
+		and keep this site secure.   This install is not complete until the installer files are removed!
+	</i>
+	<br/><br/><br/>
 
 	<div class="s4-go-back">
+		Additional Notes:
+		<ul style="margin-top: 1px">
+			<li>
+				<a href="javascript:void(0)" onclick="$('#dup-step3-install-report').toggle(400)">Review Migration Report</a><br/>
+				&nbsp; &nbsp;
+				<i id="dup-step3-install-report-count">
+					<span data-bind="with: status.step2">Install Notices: (<span data-bind="text: query_errs"></span>)</span> &nbsp;
+					<span data-bind="with: status.step3">Update Notices: (<span data-bind="text: err_all"></span>)</span> &nbsp; &nbsp;
+					<span data-bind="with: status.step3" style="color:#888"><b>General Notices:</b> (<span data-bind="text: warn_all"></span>)</span>
+				</i>
+			</li>
+			<li>
+				Review this sites <a href="<?php echo $url_new_rtrim; ?>" target="_blank">front-end</a> or
+				re-run the installer and <a href="<?php echo "{$url_new_rtrim}/installer.php"; ?>">go back to step 1</a>.
+			</li>
+			<li>If the .htaccess file was reset some plugin settings might need to be re-saved.</li>
+			<li>For additional help and questions visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=inst4_step4_troubleshoot' target='_blank'>online FAQs</a>.</li>
+		</ul>
+	</div>
+
+<!--	<div class="s4-go-back">
 		Final Steps:
 		<ul style="margin-top: 1px">
 			<li>
@@ -84,7 +110,7 @@ VIEW: STEP 4 - INPUT -->
 				<a href='https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=inst4_step4_troubleshoot' target='_blank'>online FAQs</a> for additional help.
 			</li>
 		</ul>
-	</div>
+	</div>-->
 
 	<!-- ========================
 	INSTALL REPORT -->
