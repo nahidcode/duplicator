@@ -135,25 +135,9 @@ jQuery(document).ready(function($)
 
 Duplicator.Tools.deleteInstallerFiles = function()
 {
-	var data = {
-		action: 'DUP_CTRL_Tools_deleteInstallerFiles',
-		nonce: '<?php echo $ajax_nonce; ?>',
-		'archive-name':  '<?php echo $package_name; ?>'
-	};
-
-	jQuery.ajax({
-		type: "POST",
-		url: ajaxurl,
-		dataType: "json",
-		data: data,
-		complete: function() {
-		<?php
-			$url = "?page=duplicator-tools&tab=diagnostics&action=installer&_wpnonce={$nonce}&package={$package_name}";
-			echo "window.location = '{$url}';";
-		?>
-		},
-		error: function(data) {console.log(data)},
-		done: function(data) {console.log(data)}
-	});
+	<?php
+	$url = "?page=duplicator-tools&tab=diagnostics&action=installer&_wpnonce={$nonce}&package={$package_name}";
+	echo "window.location = '{$url}';";
+	?>
 }
 </script>
