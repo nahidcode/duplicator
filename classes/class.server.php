@@ -160,7 +160,16 @@ class DUP_Server
         }
         return false;
     }
-
+    
+    public static function filePatternExists($file_pattern)
+    {       
+        $result = glob($file_pattern);
+       
+        error_log("#### $file_pattern");
+        
+        return (($result !== false) && (count($result) > 0));
+    }
+   
     /**
      * Gets a list of all the installer files by name and full path
      *

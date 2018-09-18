@@ -36,7 +36,7 @@ OPTIONS DATA -->
 								echo "<br/><br/>";
 
 								foreach ($installer_files as $file => $path) {
-									echo (file_exists($path)) ? "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$file}</div>" : "<div class='success'><i class='fa fa-check'></i> {$txt_removed} - {$file}</div>";
+                                    echo (DUP_Server::filePatternExists($path)) ? "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$file}</div>" : "<div class='success'><i class='fa fa-check'></i> {$txt_removed} - {$file}</div>";
 								}
 								echo "<br/>";
 								echo $txt_archive_msg;
