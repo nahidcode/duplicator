@@ -185,8 +185,8 @@ class DUP_Server
             DUPLICATOR_INSTALL_BAK => DUPLICATOR_WPROOTPATH.DUPLICATOR_INSTALL_BAK,
             
             'dup-installer-data__[HASH].txt' => DUPLICATOR_WPROOTPATH . 'dup-installer-data__'.$hashPattern.'.sql',
-            'dup-database__[HASH].txt' => DUPLICATOR_WPROOTPATH . 'dup-database__'.$hashPattern.'.sql',
-            'dup-installer-log_[HASH].txt' => DUPLICATOR_WPROOTPATH . 'dup-installer-log__'.$hashPattern.'.txt',
+            'dup-database__[HASH].sql' => DUPLICATOR_WPROOTPATH . 'dup-database__'.$hashPattern.'.sql',
+            'dup-installer-log_[HASH].sql' => DUPLICATOR_WPROOTPATH . 'dup-installer-log__'.$hashPattern.'.txt',
         );
     }
 
