@@ -164,9 +164,7 @@ class DUP_Server
     public static function filePatternExists($file_pattern)
     {       
         $result = glob($file_pattern);
-       
-        error_log("#### $file_pattern");
-        
+        //error_log("#### $file_pattern");
         return (($result !== false) && (count($result) > 0));
     }
    
