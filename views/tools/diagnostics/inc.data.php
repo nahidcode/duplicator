@@ -31,10 +31,8 @@ OPTIONS DATA -->
 								_e("Clicking on the 'Remove Installation Files' button will remove the files used by Duplicator to install this site.  "
 									."These files should not be left on production systems for security reasons.", 'duplicator');
 								echo "<br/><br/>";
-
-								foreach ($installer_files as $file => $path) {
-                                    echo (DUP_Server::filePatternExists($path)) ? "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$file}</div>" : "<div class='success'><i class='fa fa-check'></i> {$txt_removed} - {$file}</div>";
-								}
+								$installer_files = array_keys($installer_files);
+								echo '<div class="success">'.implode('</div><div class="success">', $installer_files).'</div>';
 								echo "<br/>";
 								?>
 							</div>
