@@ -259,6 +259,14 @@ Auto Posts to view.step3.php
 
 
 <script>
+DUPX.escapeHtml = function(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+}
 /* Confirm Dialog to validate run */
 DUPX.confirmDeployment = function()
 {
@@ -268,9 +276,9 @@ DUPX.confirmDeployment = function()
 		return;
 	}
 
-	$('#dlg-dbhost').html($("#dbhost").val());
-	$('#dlg-dbname').html($("#dbname").val());
-	$('#dlg-dbuser').html($("#dbuser").val());
+	$('#dlg-dbhost').html(DUPX.escapeHtml($("#dbhost").val()));
+	$('#dlg-dbname').html(DUPX.escapeHtml($("#dbname").val()));
+	$('#dlg-dbuser').html(DUPX.escapeHtml($("#dbuser").val()));
 
 	modal({
 		type: 'confirm',
