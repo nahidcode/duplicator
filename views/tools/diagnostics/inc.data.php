@@ -2,9 +2,6 @@
 
 	$sql = "SELECT * FROM `{$wpdb->prefix}options` WHERE  `option_name` LIKE  '%duplicator_%' AND  `option_name` NOT LIKE '%duplicator_pro%' ORDER BY option_name";
 
-	$txt_archive_msg = __("<b>Archive File:</b> The archive file has a unique hashed name when downloaded.  Leaving the archive file on your server does not impose a security"
-						. " risk if the file was not renamed.  It is still recommended to remove the archive file after install,"
-						. " especially if it was renamed.", 'duplicator');
 ?>
 
 <!-- ==============================
@@ -39,7 +36,6 @@ OPTIONS DATA -->
                                     echo (DUP_Server::filePatternExists($path)) ? "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$file}</div>" : "<div class='success'><i class='fa fa-check'></i> {$txt_removed} - {$file}</div>";
 								}
 								echo "<br/>";
-								echo $txt_archive_msg;
 								?>
 							</div>
 						</td>

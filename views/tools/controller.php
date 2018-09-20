@@ -22,9 +22,7 @@ $package_path = (isset($_GET['package'])) ?  DUPLICATOR_WPROOTPATH . esc_html($_
 
 $txt_found		 = __('File Found', 'duplicator');
 $txt_removed	 = __('File Removed', 'duplicator');
-$txt_archive_msg = __("<b>Archive File:</b> The archive file has a unique hashed name when downloaded.  Leaving the archive file on your server does not impose a security"
-					. " risk if the file was not renamed.  It is still recommended to remove the archive file after install,"
-					. " especially if it was renamed.", 'duplicator');
+
 
 $nonce = wp_create_nonce('duplicator_cleanup_page');
 $section  = (isset($_GET['section'])) ?$_GET['section']:'';
@@ -103,9 +101,8 @@ if($current_tab == "diagnostics"  && ($section == "info" || $section == '')){
 				<div style="font-style: italic; max-width:900px">
 					<b><?php _e('Security Notes', 'duplicator')?>:</b>
 					<?php _e('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel,  '
-						 . ' file system or FTP.  Please remove all installer files listed above to avoid leaving open security issues on your server.', 'duplicator')?>
-					<br/><br/>
-					<?php echo $txt_archive_msg; ?>
+						 . ' file system or FTP.  Please remove all installer files listed to avoid leaving open security issues on your server.  For more details please visit '
+						. 'the FAQ link titled <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-295-q" target="_blank">Which files need to be removed after an install?</a>', 'duplicator')?>
 					<br/><br/>
 				</div>
 			
