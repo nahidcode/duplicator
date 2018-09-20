@@ -98,11 +98,11 @@ if($current_tab == "diagnostics"  && ($section == "info" || $section == '')){
 					echo $html;
 				 ?><br/>
 
-				<div style="font-style: italic; max-width:900px">
+				<div style="font-style: italic; max-width:1000px">
 					<b><?php _e('Security Notes', 'duplicator')?>:</b>
-					<?php _e('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel,  '
-						 . ' file system or FTP.  Please remove all installer files listed to avoid leaving open security issues on your server.  For more details please visit '
-						. 'the FAQ link titled <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-295-q" target="_blank">Which files need to be removed after an install?</a>', 'duplicator')?>
+					<?php _e('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel  '
+						 . ' or FTP.  Please remove all installer files to avoid any security issues on this site.  For more details please visit '
+						. 'the FAQ link <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-295-q" target="_blank">Which files need to be removed after an install?</a>', 'duplicator')?>
 					<br/><br/>
 				</div>
 			
