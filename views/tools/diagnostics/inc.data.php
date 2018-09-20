@@ -28,12 +28,13 @@ OPTIONS DATA -->
 
 							<div id="dup-tools-delete-moreinfo">
 								<?php
-								_e("Clicking on the 'Remove Installation Files' button will remove the files used by Duplicator to install this site.  "
-									."These files should not be left on production systems for security reasons.", 'duplicator');
+								_e("Clicking on the 'Remove Installation Files' button will attempt to remove the installer files used by Duplicator.  These files should not "
+									. "be left on production systems for security reasons. Below are the files that should be removed.", 'duplicator');
 								echo "<br/><br/>";
 								$installer_files = array_keys($installer_files);
-								echo '<div class="success">'.implode('</div><div class="success">', $installer_files).'</div>';
-								echo "<br/>";
+								array_push($installer_files, '[HASH]_archive.zip');
+								echo '<i>' . implode('<br/>', $installer_files) . '</i>';
+								echo "<br/><br/>";
 								?>
 							</div>
 						</td>
