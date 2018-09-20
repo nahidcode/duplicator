@@ -9,7 +9,6 @@ VIEW: STEP 2- INPUT -->
 <form id='s2-input-form' method="post" class="content-form"  data-parsley-validate="true" data-parsley-excluded="input[type=hidden], [disabled], :hidden">
 <input type="hidden" name="action_ajax" value="2" />
 <input type="hidden" name="action_step" value="2" />
-<input type="hidden" name="archive_name"  value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
 <input type="hidden" name="logging" id="logging" value="<?php echo $_POST['logging'] ?>" />
 <input type="hidden" name="secure-pass" value="<?php echo $_POST['secure-pass']; ?>" />
 
@@ -192,7 +191,6 @@ Auto Posts to view.step3.php
 	<div class="dupx-debug">
 		<input type="hidden" name="secure-pass" value="<?php echo $_POST['secure-pass']; ?>" />
 		<input type="hidden" name="action_step" value="3" />
-		<input type="hidden" name="archive_name" value="<?php echo $GLOBALS['FW_PACKAGE_NAME'] ?>" />
 		<input type="hidden" name="logging" id="ajax-logging"  />
 		<input type="hidden" name="retain_config" value="<?php echo $_POST['retain_config']; ?>" />
         <input type="hidden" name="exe_safe_mode" id="exe-safe-mode"  value="<?php echo $_POST['exe_safe_mode']; ?>"/>
@@ -261,6 +259,14 @@ Auto Posts to view.step3.php
 
 
 <script>
+DUPX.escapeHtml = function(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+}
 /* Confirm Dialog to validate run */
 DUPX.confirmDeployment = function()
 {
@@ -270,9 +276,9 @@ DUPX.confirmDeployment = function()
 		return;
 	}
 
-	$('#dlg-dbhost').html($("#dbhost").val());
-	$('#dlg-dbname').html($("#dbname").val());
-	$('#dlg-dbuser').html($("#dbuser").val());
+	$('#dlg-dbhost').html(DUPX.escapeHtml($("#dbhost").val()));
+	$('#dlg-dbname').html(DUPX.escapeHtml($("#dbname").val()));
+	$('#dlg-dbuser').html(DUPX.escapeHtml($("#dbuser").val()));
 
 	modal({
 		type: 'confirm',
