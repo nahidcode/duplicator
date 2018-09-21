@@ -232,7 +232,7 @@ ARCHIVE
 						the issue. Please check the contents of the zip archive and be sure its contents match the layout of your site.
 						<br/><br/>
 
-						Files such as dup-database__<?php echo $GLOBALS['PACKAGE_HASH'];?>.sql and wp-config.php should be at the root of the archive.  For more details see the FAQ article
+						Files such as dup-database_[HASH].sql and wp-config.php should be at the root of the archive.  For more details see the FAQ article
 						<a href="https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=invalid_ar_fmt#faq-installer-020-q" target="_help">The archive format is changing on my Mac what might be the problem?</a>
 					</div>
 				<?php endif; ?>
@@ -567,10 +567,11 @@ NOTICES
 		<b>After Install:</b> When you are done with the installation you must remove these files/directories:
 		<ul>
 			<li>installer.php</li>
-			<li>dup-installer-data__<?php echo $GLOBALS['PACKAGE_HASH'];?>.sql</li>
 			<li>installer-backup.php</li>
-			<li></li>
-			<li>dup-database__<?php echo $GLOBALS['PACKAGE_HASH'];?>.sql</li>
+			<li>dup-installer-data_[HASH].sql</li>
+			<li>dup-database_[HASH].sql</li>
+			<li>dup-installer-log_[HASH].txt</li>
+			<li>[HASH]_archive.zip</li>
 		</ul>
 
 		These files contain sensitive information and should not remain on a production system for system integrity and security protection.
