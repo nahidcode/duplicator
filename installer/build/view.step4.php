@@ -25,7 +25,7 @@ DUPX.getAdminLogin = function() {
 VIEW: STEP 4 - INPUT -->
 <form id='s4-input-form' method="post" class="content-form" style="line-height:20px">
 	<input type="hidden" name="url_new" id="url_new" value="<?php echo $url_new_rtrim; ?>" />
-	<div class="dupx-logfile-link"><a href="<?php echo $GLOBALS["LOG_FILE_NAME"];?>?now=<?php echo $GLOBALS['NOW_DATE'] ?>" target="install_log">installer-log.txt</a></div>
+	<div class="dupx-logfile-link"><a href="<?php echo $GLOBALS["LOG_FILE_NAME"];?>?now=<?php echo $GLOBALS['NOW_DATE'] ?>" target="install_log">dup-installer-log.txt</a></div>
 
 	<div class="hdr-main">
         Step <span class="step">4</span> of 4: Test Site

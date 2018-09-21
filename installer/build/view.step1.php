@@ -632,7 +632,7 @@ Auto Posts to view.step2.php
 ========================================= -->
 <form id='s1-result-form' method="post" class="content-form" style="display:none">
 
-	 <div class="dupx-logfile-link"><a href="<?php echo $GLOBALS["LOG_FILE_NAME"];?>" target="install_log">installer-log.txt</a></div>
+	 <div class="dupx-logfile-link"><a href="<?php echo $GLOBALS["LOG_FILE_NAME"];?>" target="install_log">dup-installer-log.txt</a></div>
 	<div class="hdr-main">
         Step <span class="step">1</span> of 4: Deployment
 	</div>
@@ -722,7 +722,7 @@ Auto Posts to view.step2.php
 					status += "<b>Status:</b> "			+ xhr.statusText	+ "<br/>";
 					status += "<b>Response:</b> "		+ xhr.responseText  + "";
 					status += "<hr/><b>Additional Troubleshooting Tips:</b><br/>";
-					status += "- Check the <a href='<?php echo $GLOBALS["LOG_FILE_NAME"];?>' target='install_log'><?php echo $GLOBALS["LOG_FILE_NAME"];?></a> file for warnings or errors.<br/>";
+					status += "- Check the <a href='<?php echo $GLOBALS["LOG_FILE_NAME"];?>' target='install_log'>dup-installer-log.txt</a> file for warnings or errors.<br/>";
 					status += "- Check the web server and PHP error logs. <br/>";
 					status += "- For timeout issues visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=inst_ajaxextract_tofaq#faq-trouble-100-q' target='_blank'>Timeout FAQ Section</a><br/>";
 				$('#ajaxerr-data').html(status);
