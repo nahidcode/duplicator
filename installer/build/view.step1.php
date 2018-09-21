@@ -90,6 +90,10 @@ $req_success  = ($all_req == 'Pass');
 $req_notice   = ($all_notice == 'Good');
 $all_success  = ($req_success && $req_notice);
 $agree_msg    = "To enable this button the checkbox above under the 'Terms & Notices' must be checked.";
+
+//Get Size Data
+$projectedSize = DUPX_U::readableByteSize($GLOBALS['FW_PACKAGE_EST_SIZE']);
+$actualSize	= DUPX_U::readableByteSize($arcSize);
 ?>
 
 
@@ -139,45 +143,27 @@ ARCHIVE
 		<tr>
 			<td colspan="2"><div class="hdr-sub3">File Details</div></td>
 		</tr>
-        <tr style="vertical-align:top">
-            <td>Size:</td>
-            <td>
-			<?php
-				$projectedSize = DUPX_U::readableByteSize($GLOBALS['FW_PACKAGE_EST_SIZE']);
-				$actualSize	= DUPX_U::readableByteSize($arcSize);
-				echo "{$actualSize}<br/>";
-				if ($arcSizeStatus == 'Fail' ) {
-					echo "<span class='dupx-fail'>The archive file size is currently <b>{$actualSize}</b> and its estimated file size should be around <b>{$projectedSize}</b>.  "
-					. "The archive file may not have been fully downloaded to the server.  If so please wait for the file to completely download and then refresh this page.<br/><br/>";
-
-					echo "This warning is only shown when the file has more than a 10% size ratio difference from when it was originally built.  Please review the file sizes "
-					. "to make sure the archive was downloaded to this server correctly if the download is complete.</span>";
-				}
-			?>
-			</td>
-        </tr>
-        <tr>
-            <td>Name:</td>
-            <td><?php echo "{$GLOBALS['FW_PACKAGE_NAME']}";?> </td>
-        </tr>
-        <tr>
-            <td>Path:</td>
-            <td><?php echo "{$GLOBALS['CURRENT_ROOT_PATH']}";?> </td>
-        </tr>
 		<tr>
 			<td>Status:</td>
 			<td>
 				<?php if ($arcStatus != 'Fail') : ?>
-					<span class="dupx-pass">File Found</span>
+					<span class="dupx-pass">Archive File Found</span>
 				<?php else : ?>
 					<div class="s1-archive-failed-msg">
 						<b class="dupx-fail">Archive File Not Found!</b><br/>
-						The archive file name below must be the <u>exact</u> name of the archive file placed in the deployment path (character for character).
-						If the file does not have the same name then rename it to the name above.
+						The installer file and the archive are bound together as a package when the archive is built.  They must be downloaded together and used
+						together at install time.  The archive file name should <u>not</u> be changed when it is downloaded because the file name is strongly bound
+						to the installer. When downloading the package files make sure both files are from the same package line in the packages view within the
+						Duplicator WordPress admin.
 						<br/><br/>
 
-						When downloading the package files make sure both files are from the same package line in the packages view.  The archive file also
-						must be completely downloaded to the server before starting the install.  The following zip files were found at the deployment path:
+						The full archive file name must be <u>exactly</u> the same as when it was built (character for character), or the installer will not work properly.
+						To find out the exact archive name that is bound to this installer open the installer.php file with a text editor and search for the text
+						$GLOBALS['FW_PACKAGE_NAME'].  Check to see what that value is assigned to and that should be the name of the archive file placed in the same path
+						as this installer.
+						<br/><br/>
+
+						 The following zip files were found at the deployment path:
 						<?php
 							//DETECT ARCHIVE FILES
 							$zip_files = DUPX_Server::getZipFiles();
@@ -197,6 +183,30 @@ ARCHIVE
 				<?php endif; ?>
 			</td>
 		</tr>
+        <tr>
+			<tr>
+				<td>Path:</td>
+				<td><?php echo "{$GLOBALS['CURRENT_ROOT_PATH']}";?> </td>
+			</tr>
+            <td>Size:</td>
+            <td>
+				<?php if ($arcSizeStatus == 'Pass' ) : ?>
+					<?php echo "{$actualSize}"?>
+				<?php elseif ($arcStatus == 'Fail') : ?>
+					<span class="dupx-fail">Archive file not found!</span>
+				<?php else : ?>
+					<div class="s1-archive-failed-msg">
+						<b class='dupx-fail'>Archive File Size Incorrect!</b><br/>
+						The archive is showing a size that is currently as <b><?php echo $actualSize; ?></b>. Its estimated file size should be around
+						<b><?php echo $projectedSize; ?></b>.  The archive file may not have been fully downloaded to the server.  If so please wait for the file
+						to completely download and then refresh this page.<br/><br/>
+
+						This warning is only shown when the file has more than a 10% size ratio difference from when it was originally built.  Please review the file sizes
+						to make sure the archive was downloaded to this server correctly when the download is complete.
+					</div>
+				<?php endif; ?>
+			</td>
+        </tr>
 		<tr>
 			<td>Format:</td>
 			<td>
