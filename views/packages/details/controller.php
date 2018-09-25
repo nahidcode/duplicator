@@ -37,14 +37,14 @@ $err_link_ticket	= '<a target="_blank" href="https://snapcreek.com/duplicator/do
 	<?php endif; ?>
 	
     <h2 class="nav-tab-wrapper">  
-        <a href="?page=duplicator&action=detail&tab=detail&id=<?php echo $package_id ?>" class="nav-tab <?php echo ($current_tab == 'detail') ? 'nav-tab-active' : '' ?>"> 
-			<?php _e('Details', 'duplicator'); ?>
+        <a href="?page=duplicator&action=detail&tab=detail&id=<?php echo absint($package_id); ?>" class="nav-tab <?php echo ($current_tab == 'detail') ? 'nav-tab-active' : '' ?>"> 
+			<?php esc_html_e('Details', 'duplicator'); ?>
 		</a> 
-		<a href="?page=duplicator&action=detail&tab=transfer&id=<?php echo $package_id ?>" class="nav-tab <?php echo ($current_tab == 'transfer') ? 'nav-tab-active' : '' ?>"> 
-			<?php _e('Transfer', 'duplicator'); ?>
+		<a href="?page=duplicator&action=detail&tab=transfer&id=<?php echo absint($package_id); ?>" class="nav-tab <?php echo ($current_tab == 'transfer') ? 'nav-tab-active' : '' ?>"> 
+			<?php esc_html_e('Transfer', 'duplicator'); ?>
 		</a> 		
     </h2>
-	<div class="all-packages"><a href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php _e('Packages', 'duplicator'); ?></a></div>
+	<div class="all-packages"><a href="?page=duplicator" class="add-new-h2"><i class="fa fa-archive"></i> <?php esc_html_e('Packages', 'duplicator'); ?></a></div>
 	
     <?php
     switch ($current_tab) {

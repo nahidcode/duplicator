@@ -56,7 +56,7 @@ if($current_tab == "diagnostics"  && ($section == "info" || $section == '')){
 	
 	 if ($_GET['action'] != 'display')  :	?>
 		<div id="message" class="notice notice-success is-dismissible">
-			<p><b><?php echo $action_response; ?></b></p>
+			<p><b><?php echo esc_html($action_response); ?></b></p>
 			<?php if ( $_GET['action'] == 'installer') :  ?>
 				<?php
 					$html = "";
@@ -69,9 +69,11 @@ if($current_tab == "diagnostics"  && ($section == "info" || $section == '')){
 						if (false !== stripos($file, '[hash]')) {
 							$glob_files = glob($path);
 							if (!empty($glob_files)) {
+								$installer_file_found = true;
 								$file_path = $glob_files[0];
 							}
 						} elseif (file_exists($path)) {
+							$installer_file_found = true;
 							$file_path = $path;                            
 						}
 
@@ -94,8 +96,8 @@ if($current_tab == "diagnostics"  && ($section == "info" || $section == '')){
 						$path_parts	 = (isset($path_parts['extension'])) ? $path_parts['extension'] : '';
 						if ($path_parts == "zip" && !is_dir($package_path)) {
 							$html .= (@unlink($package_path))
-										? "<div class='success'><i class='fa fa-check'></i> {$txt_removed} - {$package_path}</div>"
-										: "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - {$package_path}</div>";
+										? "<div class='success'><i class='fa fa-check'></i> ".esc_html($txt_removed)." - ".esc_html($package_path)."</div>"
+										: "<div class='failed'><i class='fa fa-exclamation-triangle'></i> ".esc_html($txt_found)." - ".esc_html($package_path)."</div>";
 						} 
 					}
 
@@ -108,8 +110,8 @@ if($current_tab == "diagnostics"  && ($section == "info" || $section == '')){
 					}
 				?>
 				<div style="font-style: italic; max-width:1000px; padding-top:15px">
-					<b><?php _e('Security Notes', 'duplicator')?>:</b>
-					<?php _e('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel  '
+					<b><?php  esc_html_e('Security Notes', 'duplicator')?>:</b>
+					<?php  esc_html_e('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel  '
 						 . ' or FTP.  Please remove all installer files to avoid any security issues on this site.  For more details please visit '
 						. 'the FAQ link <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-295-q" target="_blank">Which files need to be removed after an install?</a>', 'duplicator')?>
 					<br/><br/>
@@ -150,8 +152,8 @@ if($current_tab == "diagnostics"  && ($section == "info" || $section == '')){
 		}
 
 		if (! DUP_Server::hasInstallerFiles()) {
-			echo  "<div class='notice notice-success cleanup-notice'><p><b class='title'><i class='fa fa-check-circle'></i> {$safe_title}</b> "
-				. "<div class='notice-safemode'>{$safe_msg}</p></div></div>";
+			echo  "<div class='notice notice-success cleanup-notice'><p><b class='title'><i class='fa fa-check-circle'></i> ".esc_html($safe_title)."</b> "
+				. "<div class='notice-safemode'>".esc_html($safe_msg)."</p></div></div>";
 		}
 
 		delete_option("duplicator_exe_safe_mode");
@@ -164,8 +166,8 @@ if($current_tab == "diagnostics"  && ($section == "info" || $section == '')){
     <?php duplicator_header(__("Tools", 'duplicator')) ?>
 
     <h2 class="nav-tab-wrapper">  
-        <a href="?page=duplicator-tools&tab=diagnostics" class="nav-tab <?php echo ($current_tab == 'diagnostics') ? 'nav-tab-active' : '' ?>"> <?php _e('Diagnostics', 'duplicator'); ?></a>
-		<a href="?page=duplicator-tools&tab=templates" class="nav-tab <?php echo ($current_tab == 'templates') ? 'nav-tab-active' : '' ?>"> <?php _e('Templates', 'duplicator'); ?></a>
+        <a href="?page=duplicator-tools&tab=diagnostics" class="nav-tab <?php echo ($current_tab == 'diagnostics') ? 'nav-tab-active' : '' ?>"> <?php  esc_html_e('Diagnostics', 'duplicator'); ?></a>
+		<a href="?page=duplicator-tools&tab=templates" class="nav-tab <?php echo ($current_tab == 'templates') ? 'nav-tab-active' : '' ?>"> <?php  esc_html_e('Templates', 'duplicator'); ?></a>
     </h2>
 
     <?php
