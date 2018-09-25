@@ -111,7 +111,7 @@ if($current_tab == "diagnostics"  && ($section == "info" || $section == '')){
 				?>
 				<div style="font-style: italic; max-width:1000px; padding-top:15px">
 					<b><?php  esc_html_e('Security Notes', 'duplicator')?>:</b>
-					<?php  esc_html_e('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel  '
+					<?php  __('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel  '
 						 . ' or FTP.  Please remove all installer files to avoid any security issues on this site.  For more details please visit '
 						. 'the FAQ link <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-295-q" target="_blank">Which files need to be removed after an install?</a>', 'duplicator')?>
 					<br/><br/>
