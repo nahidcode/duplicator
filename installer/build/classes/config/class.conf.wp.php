@@ -75,7 +75,12 @@ class DUPX_WPConfig
 			}
 		}
 
-        $replace  = array_map('self::customEscape', $replace);
+		// array_map replaced because of installer error in PHP 5.2.9 - Cannot call method self::customEscape() or method does not exist in installer.php on line 1480
+		// $replace  = array_map('self::customEscape', $replace);
+		foreach ($replace as $key=>$val) {
+			$replace[$key] = self::customEscape($val);
+		}
+        
 		$wpconfig = preg_replace($patterns, $replace, $wpconfig);
 
 		file_put_contents('wp-config.php', $wpconfig);
