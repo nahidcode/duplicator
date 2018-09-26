@@ -130,7 +130,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
             <td class="feature-column"><?php _e('Overwrite Live Site', 'duplicator') ?><sup>
 					<i class="fa fa-question-circle dup-gopro-help"
 						data-tooltip-title="<?php _e("Overwrite Existing Site", 'duplicator'); ?>"
-                        data-tooltip="<?php _e('Overwrite a live site. No need to create a new database!', 'duplicator'); ?>"/></i></sup>
+                        data-tooltip="<?php _e('Overwrite a live site. Makes installing super-fast!', 'duplicator'); ?>"/></i></sup>
 			</td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
