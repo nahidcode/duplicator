@@ -117,8 +117,7 @@ GENERAL -->
 			<td><?php _e('Files', 'duplicator') ?>: </td>
 			<td>
 				<div id="dup-downloads-area">
-					<?php if  (!$err_found) :?>
-					
+					<?php if  (!$err_found) :?>					
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo esc_js($link_installer); ?>', this);return false;"><i class="fa fa-bolt"></i> Installer</button>						
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo esc_js($link_archive); ?>', this);return false;"><i class="fa fa-file-archive-o"></i> Archive - <?php echo esc_html($package->ZipSize); ?></button>
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo esc_html($link_sql); ?>', this);return false;"><i class="fa fa-table"></i> &nbsp; SQL - <?php echo esc_html(DUP_Util::byteSize($package->Database->Size)); ?></button>
@@ -156,7 +155,7 @@ DIALOG: QUICK PATH -->
 <div id="dup-dlg-quick-path" title="<?php _e('Download Links', 'duplicator'); ?>" style="display:none">
 	<p>
 		<i class="fa fa-lock"></i>
-		<?php _e("The following links contain sensitive data.  Please share with caution!", 'duplicator');	?>
+		<?php _e("The following links contain sensitive data.  Please share with caution!", 'duplicator'); ?>
 	</p>
 	
 	<div style="padding: 0px 15px 15px 15px;">
@@ -173,7 +172,7 @@ STORAGE -->
 	<i class="fa fa-database"></i> <?php esc_html_e('Storage', 'duplicator') ?>
 	<div class="dup-box-arrow"></div>
 </div>			
-<div class="dup-box-panel" id="dup-package-dtl-storage-panel" style="<?php echo esc_attr($ui_css_storage);s ?>">
+<div class="dup-box-panel" id="dup-package-dtl-storage-panel" style="<?php echo esc_attr($ui_css_storage); ?>">
 	<table class="widefat package-tbl">
 		<thead>
 			<tr>
