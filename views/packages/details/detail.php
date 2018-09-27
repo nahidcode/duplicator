@@ -122,25 +122,25 @@ GENERAL -->
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo $link_installer; ?>', this);return false;"><i class="fa fa-bolt"></i> Installer</button>						
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo $link_archive; ?>', this);return false;"><i class="fa fa-file-archive-o"></i> Archive - <?php echo $package->ZipSize ?></button>
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo $link_sql; ?>', this);return false;"><i class="fa fa-table"></i> &nbsp; SQL - <?php echo DUP_Util::byteSize($package->Database->Size)  ?></button>
-						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo $link_log; ?>', this);return false;"><i class="fa fa-list-alt"></i> &nbsp; Log </button>
-						<button class="button" onclick="Duplicator.Pack.ShowLinksDialog(<?php echo "'{$link_sql}','{$link_archive}','{$link_installer}','{$link_log}'" ;?>);" class="thickbox"><i class="fa fa-lock"></i> &nbsp; <?php _e("Share", 'duplicator')?></button>
+						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo esc_js($link_log); ?>', this);return false;"><i class="fa fa-list-alt"></i> &nbsp; Log </button>
+						<button class="button" onclick="Duplicator.Pack.ShowLinksDialog('<?php echo esc_js($link_sql); ?>', '<?php echo esc_js($link_archive);?>',''<?php echo esc_js($link_installer); ?>', '<?php echo esc_js($link_log) ;?>');" class="thickbox"><i class="fa fa-lock"></i> &nbsp; <?php _e("Share", 'duplicator')?></button>
 					<?php else: ?>
-							<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo $link_log; ?>', this);return false;"><i class="fa fa-list-alt"></i> &nbsp; Log </button>
+							<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo esc_js($link_log); ?>', this);return false;"><i class="fa fa-list-alt"></i> &nbsp; Log </button>
 					<?php endif; ?>
 				</div>		
 				<?php if (!$err_found) :?>
 				<table class="dup-sub-list">
 					<tr>
 						<td><?php _e('Archive', 'duplicator') ?>: </td>
-						<td><a href="<?php echo $link_archive ?>" target="_blank"><?php echo $package->Archive->File ?></a></td>
+						<td><a href="<?php echo esc_url($link_archive); ?>" target="_blank"><?php echo esc_html($package->Archive->File); ?></a></td>
 					</tr>
 					<tr>
 						<td><?php _e('Installer', 'duplicator') ?>: </td>
-						<td><a href="<?php echo $link_installer ?>" target="_blank"><?php echo $package->Installer->File ?></a></td>
+						<td><a href="<?php echo esc_url($link_installer); ?>" target="_blank"><?php echo esc_html($package->Installer->File); ?></a></td>
 					</tr>
 					<tr>
 						<td><?php _e('Database', 'duplicator') ?>: </td>
-						<td><a href="<?php echo $link_sql ?>" target="_blank"><?php echo $package->Database->File ?></a></td>
+						<td><a href="<?php echo $link_sql ?>" target="_blank"><?php echo esc_html($package->Database->File); ?></a></td>
 					</tr>
 				</table>
 				<?php endif; ?>
@@ -156,7 +156,7 @@ DIALOG: QUICK PATH -->
 <div id="dup-dlg-quick-path" title="<?php _e('Download Links', 'duplicator'); ?>" style="display:none">
 	<p>
 		<i class="fa fa-lock"></i>
-		<?php _e("The following links contain sensitive data.  Please share with caution!", 'duplicator');	?>
+		<?php _e("The following links contain sensitive data.  Please share with caution!", 'duplicator'); ?>
 	</p>
 	
 	<div style="padding: 0px 15px 15px 15px;">
@@ -172,7 +172,7 @@ STORAGE -->
 <div class="dup-box-title">
 	<i class="fa fa-database"></i> <?php _e('Storage', 'duplicator') ?>
 	<div class="dup-box-arrow"></div>
-</div>			
+</div>
 <div class="dup-box-panel" id="dup-package-dtl-storage-panel" style="<?php echo $ui_css_storage ?>">
 	<table class="widefat package-tbl">
 		<thead>
