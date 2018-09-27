@@ -170,7 +170,7 @@ DIALOG: QUICK PATH -->
 STORAGE -->
 <div class="dup-box">
 <div class="dup-box-title">
-	<i class="fa fa-database"></i> <?php _e('Storage', 'duplicator') ?>
+	<i class="fa fa-database"></i> <?php esc_html_e('Storage', 'duplicator') ?>
 	<div class="dup-box-arrow"></div>
 </div>			
 <div class="dup-box-panel" id="dup-package-dtl-storage-panel" style="<?php echo esc_attr($ui_css_storage);s ?>">

@@ -66,7 +66,7 @@ OPTIONS DATA -->
 						<td>
 							<?php 
 								 echo (in_array($row->option_name, $GLOBALS['DUPLICATOR_OPTS_DELETE']))
-									? "<a href='javascript:void(0)' onclick='Duplicator.Settings.ConfirmDeleteOption(this)'>".esc_html($row->option_name)."</a>"
+									? "<a href='javascript:void(0)' onclick='Duplicator.Settings.ConfirmDeleteOption(this)'>".esc_js($row->option_name)."</a>"
 									: esc_textarea($row->option_name);
 							?>
 						</td>

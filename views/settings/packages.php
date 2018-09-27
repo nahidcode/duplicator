@@ -117,9 +117,9 @@ $mysqlDumpFound			= ($mysqlDumpPath) ? true : false;
 						<i class="fa fa-lightbulb-o" aria-hidden="true"></i>
 							<?php
 								printf("%s <a target='_blank' href='//snapcreek.com/wordpress-hosting/'>%s</a> %s",
-									__("Please visit our recommended", 'duplicator'),
-									__("host list", 'duplicator'),
-									__("for reliable access to mysqldump", 'duplicator'));
+									esc_html__("Please visit our recommended", 'duplicator'),
+									esc_html__("host list", 'duplicator'),
+									esc_html__("for reliable access to mysqldump", 'duplicator'));
 							?>
 						</i>
 					</small>
@@ -144,9 +144,9 @@ $mysqlDumpFound			= ($mysqlDumpPath) ? true : false;
 									. 'If the problem persist contact your host or server administrator.  ', 'duplicator');
 
 								printf("%s <a target='_blank' href='//snapcreek.com/wordpress-hosting/'>%s</a> %s",
-									__("See the", 'duplicator'),
-									__("host list", 'duplicator'),
-									__("for reliable access to mysqldump.", 'duplicator'));
+									esc_html__("See the", 'duplicator'),
+									esc_html__("host list", 'duplicator'),
+									esc_html__("for reliable access to mysqldump.", 'duplicator'));
 							?>
 						</div><br/>
 
@@ -195,7 +195,7 @@ $mysqlDumpFound			= ($mysqlDumpPath) ? true : false;
 					<?php
 						foreach($phpdump_chunkopts as $value) {
 							$selected = ( $phpdump_qrylimit == $value ? "selected='selected'" : '' );
-							echo "<option {$selected} value='{$value}'>" . number_format($value)  . '</option>';
+							echo "<option {$selected} value='".esc_attr($value)."'>" . number_format($value)  . '</option>';
 						}
 					?>
 				</select>

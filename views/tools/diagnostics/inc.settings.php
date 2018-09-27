@@ -121,7 +121,7 @@ SERVER SETTINGS -->
 			<td>
 			<?php echo (((strtolower(@ini_get('safe_mode')) == 'on')	  ||  (strtolower(@ini_get('safe_mode')) == 'yes') || 
 						 (strtolower(@ini_get('safe_mode')) == 'true') ||  (ini_get("safe_mode") == 1 )))  
-						 ? __('On', 'duplicator') : __('Off', 'duplicator'); 
+						 ? esc_html__('On', 'duplicator') : esc_html__('Off', 'duplicator'); 
 			?>
 			</td>
 		</tr>

@@ -194,11 +194,11 @@ jQuery(document).ready(function($)
 						$active = basename($logurl);
 						foreach ($logs as $log) { 
 							$time = date('m/d/y h:i:s', filemtime($log));
-							$name = esc_html(basename($log));
-							$url  = '?page=duplicator-tools&tab=diagnostics&section=log&logname=' . $name;
+							$name = basename($log);
+							$url  = '?page=duplicator-tools&tab=diagnostics&section=log&logname=' . esc_js($name);
 							echo ($active == $name) 
-								? "<span class='dup-log' title='{$name}'>{$time}-{$name}</span>"
-								: "<a href='javascript:void(0)'  title='{$name}' onclick='Duplicator.Tools.GetLog(\"{$url}\")'>{$time}-{$name}</a>";
+								? "<span class='dup-log' title='".esc_attr($name)."'>".esc_attr($time)."-".esc_html($name)."</span>"
+								: "<a href='javascript:void(0)'  title='".esc_html($name)."' onclick='Duplicator.Tools.GetLog(\"".esc_js($url)."\")'>".esc_html($time)."-".esc_html($name)."</a>";
 							if ($count > 20) break;
 						} 
 					?>

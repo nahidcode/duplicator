@@ -155,11 +155,11 @@ WP SETTINGS -->
 		//CACHE DIR
 		$cache_path = $cache_path = DUP_Util::safePath(WP_CONTENT_DIR) . '/cache';
 		$cache_size = DUP_Util::byteSize(DUP_Util::getDirectorySize($cache_path));
-		echo '<hr size="1" /><span id="data-srv-wp-cache"></span>&nbsp;<b>' . __('Cache Path', 'duplicator') . ":</b>&nbsp; '{$cache_path}' ({$cache_size}) <br/>";
+		echo '<hr size="1" /><span id="data-srv-wp-cache"></span>&nbsp;<b>' . __('Cache Path', 'duplicator') . ":</b>&nbsp; '".esc_html($cache_path)."' (".esc_html($cache_size)." <br/>";
 		esc_html_e("Cached data will lead to issues at install time and increases your archive size. Empty your cache directory before building the package by using  "
 			. "your cache plugins clear cache feature.  Use caution if manually removing files the cache folder. The cache "
 			. "size minimum threshold that triggers this warning is currently set at ", 'duplicator');
-		echo DUP_Util::byteSize(DUPLICATOR_SCAN_CACHESIZE) . '.';
+		echo esc_html(DUP_Util::byteSize(DUPLICATOR_SCAN_CACHESIZE)) . '.';
 
 		//MU SITE
 		if (is_multisite()) {

@@ -8,7 +8,7 @@ global $wpdb;
 //COMMON HEADER DISPLAY
 require_once(DUPLICATOR_PLUGIN_PATH . '/assets/js/javascript.php');
 require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
-$current_tab = isset($_REQUEST['tab']) ? esc_html($_REQUEST['tab']) : 'diagnostics';
+$current_tab = isset($_REQUEST['tab']) ? sanitize_text_field($_REQUEST['tab']) : 'diagnostics';
 ?>
 
 <style>
@@ -111,7 +111,7 @@ if($current_tab == "diagnostics"  && ($section == "info" || $section == '')){
 				?>
 				<div style="font-style: italic; max-width:1000px; padding-top:15px">
 					<b><?php  esc_html_e('Security Notes', 'duplicator')?>:</b>
-					<?php  __('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel  '
+					<?php  _e('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel  '
 						 . ' or FTP.  Please remove all installer files to avoid any security issues on this site.  For more details please visit '
 						. 'the FAQ link <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-295-q" target="_blank">Which files need to be removed after an install?</a>', 'duplicator')?>
 					<br/><br/>

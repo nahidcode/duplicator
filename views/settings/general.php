@@ -93,12 +93,12 @@ $package_debug = DUP_Settings::Get('package_debug');
 						<?php printf('%s <a href="https://wordpress.org/plugins/wpfront-user-role-editor/" target="_blank">%s</a> %s'
 									 . ' <a href="https://wpfront.com/user-role-editor-pro/?ref=3" target="_blank">%s</a> %s '
 									 . ' <a href="https://wpfront.com/integrations/duplicator-integration/" target="_blank">%s</a>',
-								__('The User Role Editor Plugin', 'duplicator'),
-								__('Free', 'duplicator'),
-								__('or', 'duplicator'),
-								__('Professional', 'duplicator'),
-								__('must be installed to use', 'duplicator'),
-								__('this feature.', 'duplicator')
+								esc_html__('The User Role Editor Plugin', 'duplicator'),
+								esc_html__('Free', 'duplicator'),
+								esc_html__('or', 'duplicator'),
+								esc_html__('Professional', 'duplicator'),
+								esc_html__('must be installed to use', 'duplicator'),
+								esc_html__('this feature.', 'duplicator')
 								);
 						?>
 					</p>

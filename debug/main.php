@@ -13,18 +13,17 @@ function DUP_DEBUG_TestSetup($CTRL)
 	$test_css  = $testable ? '' : 'style="display:none"';
 	$nonce = wp_create_nonce($action);
 	
-	$html = <<<EOT
+	$html = '
 		<div class="keys">
-			<input type="hidden" name="testable" value="{$testable}" />
-			<input type="hidden" name="action" value="{$action}" />
-			<input type="hidden" name="nonce" value="{$nonce}" />
+			<input type="hidden" name="testable" value="'.esc_attr($testable).'" />
+			<input type="hidden" name="action" value="'.esc_attr($action).'" />
+			<input type="hidden" name="nonce" value="'.esc_attr($nonce).'" />
 			<span class="result"><i class="fa fa-cube  fa-lg"></i></span>
-			<input type='checkbox' id='{$action}' name='{$action}' {$test_css} /> 
-			<label for='{$action}'>{$title}</label> &nbsp;
-			<a href="javascript:void(0)" onclick="jQuery(this).closest('form').find('div.params').toggle()">Params</a> |
-			<a href="javascript:void(0)" onclick="jQuery(this).closest('form').submit()">Test</a>
-		</div>
-EOT;
+			<input type="checkbox" id="'.esc_attr($action).'" name="'.esc_attr($action).'" '.$test_css.' /> 
+			<label for="'.esc_attr($action).'">'.esc_html($title).'</label> &nbsp;
+			<a href="javascript:void(0)" onclick=\'jQuery(this).closest("form").find("div.params").toggle()\'>Params</a> |
+			<a href="javascript:void(0)" onclick="jQuery(this).closest("form").submit()">Test</a>
+		</div>';
 	echo $html;
 }
 

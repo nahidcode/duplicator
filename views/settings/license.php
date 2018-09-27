@@ -28,7 +28,7 @@
 						. "You can download the Professional version  from the email sent after your purchase or click on the 'Manage Licenses' link above to "
 						. "download the plugin from your snapcreek.com dashboard.  ");
 					 esc_html_e("If you would like to purchase the professional version you can ");
-					echo '<a href="https://snapcreek.com/duplicator?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=settings_license_get_copy_here" target="_blank">' .  __("get a copy here") . '</a>!';
+					echo '<a href="https://snapcreek.com/duplicator?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=settings_license_get_copy_here" target="_blank">' .  esc_html__("get a copy here", 'duplicator') . '</a>!';
 				?>
 			</p>
 			<br/><br/>
