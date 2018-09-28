@@ -526,7 +526,7 @@ DIALOG: Scan Results -->
 
 	<small>
 		<?php esc_html_e('Path filters will be skipped during the archive process when enabled.', 'duplicator');	?>
-		<a href="<?php echo esc_url(DUPLICATOR_SITE_URL); ?>/wp-admin/admin-ajax.php?action=duplicator_package_scan" target="dup_report"><?php esc_html_e('[view json result report]', 'duplicator');?></a>
+		<a href="<?php echo wp_nonce_url(DUPLICATOR_SITE_URL.'/wp-admin/admin-ajax.php?action=duplicator_package_scan', 'duplicator_package_scan', 'nonce'); ?>" target="dup_report"><?php esc_html_e('[view json result report]', 'duplicator');?></a>
 		<br/>
 		<?php esc_html_e('Auto filters are applied to prevent archiving other backup sets.', 'duplicator');	?>
 	</small><br/>
