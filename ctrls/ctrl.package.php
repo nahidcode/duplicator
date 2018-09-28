@@ -13,7 +13,11 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/classes/package/class.pack.php');
  *  @example	   to test: /wp-admin/admin-ajax.php?action=duplicator_package_scan
  */
 function duplicator_package_scan() {
-	
+    $nonce = sanitize_text_field($_REQUEST['nonce']);
+    if (!wp_verify_nonce($nonce, 'duplicator_package_scan')) {
+        die('Security issue');
+    }
+    
 	header('Content-Type: application/json;');
 	DUP_Util::hasCapability('export');
 	
