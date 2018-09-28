@@ -23,8 +23,9 @@ PHP SETTINGS -->
 
     if (!$Package->Archive->ExportOnlyDB && isset($_POST['filter-on']) && isset($_POST['filter-dirs'])) {
 
-        //findout matched core directories
-        $filter_dirs = explode(";", trim($_POST['filter-dirs']));
+		//findout matched core directories
+		$post_filter_dirs = sanitize_textarea_field($_POST['filter-dirs']);
+        $filter_dirs = explode(";", trim($post_filter_dirs));
 
         // clean possible blank spaces before and after the paths
         for ($i = 0; $i < count($filter_dirs); $i++) {
@@ -37,8 +38,9 @@ PHP SETTINGS -->
         if (count($core_dir_included)) $core_dir_notice   = true;
 
 
-        //find out core files
-        $filter_files = explode(";", trim($_POST['filter-files']));
+		//find out core files
+		$post_filter_files = sanitize_textarea_field($_POST['filter-files']);
+        $filter_files = explode(";", trim($post_filter_files));
 
         // clean possible blank spaces before and after the paths
         for ($i = 0; $i < count($filter_files); $i++) {

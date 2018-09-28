@@ -19,8 +19,9 @@
 	
 	//POST BACK
 	if (isset($_POST['action'])) {
-		$action_result = DUP_Settings::DeleteWPOption($_POST['action']);
-		switch ($_POST['action']) 
+		$action = sanitize_text_field($_POST['action']);
+		$action_result = DUP_Settings::DeleteWPOption($action);
+		switch ($action) 
 		{
 			case 'duplicator_settings'		 : 	$action_response = __('Plugin settings reset.', 'duplicator');		break;
 			case 'duplicator_ui_view_state'  : 	$action_response = __('View state settings reset.', 'duplicator');	 break;
