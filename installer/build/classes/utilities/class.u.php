@@ -94,7 +94,7 @@ class DUPX_U
      */
     public static function getActivePlugins($dbh)
     {
-        $query = @mysqli_query($dbh, "SELECT option_value FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE option_name = 'active_plugins' ");
+        $query = @mysqli_query($dbh, "SELECT option_value FROM `".mysqli_real_escape_string($dbh, $GLOBALS['FW_TABLEPREFIX'])."options` WHERE option_name = 'active_plugins' ");
         if ($query) {
             $row         = @mysqli_fetch_array($query);
             $all_plugins = unserialize($row[0]);
