@@ -144,7 +144,7 @@ function_exists('mysqli_connect') or DUPX_Log::error(ERR_MYSQLI_SUPPORT);
 
 //ERR_DBCONNECT
 $dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
-@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
+@mysqli_query($dbh, "SET wait_timeout = ".mysqli_real_escape_string($dbh, $GLOBALS['DB_MAX_TIME']));
 ($dbh) or DUPX_Log::error(ERR_DBCONNECT . mysqli_connect_error());
 if ($_POST['dbaction'] == 'empty') {
 	mysqli_select_db($dbh, $_POST['dbname']) or DUPX_Log::error(sprintf(ERR_DBCREATE, $_POST['dbname']));
@@ -282,8 +282,8 @@ if ($sql_file_copy_status === FALSE || filesize($sql_result_file_path) == 0 || !
 
 //=================================
 //START DB RUN
-@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
-@mysqli_query($dbh, "SET max_allowed_packet = {$GLOBALS['DB_MAX_PACKETS']}");
+@mysqli_query($dbh, "SET wait_timeout = ".mysqli_real_escape_string($dbh, $GLOBALS['DB_MAX_TIME']));
+@mysqli_query($dbh, "SET max_allowed_packet = ".mysqli_real_escape_string($dbh, $GLOBALS['DB_MAX_PACKETS']));
 DUPX_DB::setCharset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
 
 //Will set mode to null only for this db handle session
@@ -295,7 +295,7 @@ switch ($_POST['dbmysqlmode']) {
 		break;
 	case 'CUSTOM':
 		$dbmysqlmode_opts	 = $_POST['dbmysqlmode_opts'];
-		$qry_session_custom	 = @mysqli_query($dbh, "SET SESSION sql_mode = '{$dbmysqlmode_opts}'");
+		$qry_session_custom	 = @mysqli_query($dbh, "SET SESSION sql_mode = '".mysqli_real_escape_string($dbh, $dbmysqlmode_opts)."'");
 		if ($qry_session_custom == false) {
 			$sql_error	 = mysqli_error($dbh);
 			$log		 = "WARNING: Trying to set a custom sql_mode setting issue has been detected:\n{$sql_error}.\n";
@@ -335,8 +335,8 @@ if ($qry_session_custom == false) {
 //CREATE DB
 switch ($_POST['dbaction']) {
 	case "create":
-		mysqli_query($dbh, "CREATE DATABASE IF NOT EXISTS `{$_POST['dbname']}`");
-		mysqli_select_db($dbh, $_POST['dbname'])
+		mysqli_query($dbh, "CREATE DATABASE IF NOT EXISTS `".mysqli_real_escape_string($dbh, $_POST['dbname'])."`");
+		mysqli_select_db($dbh, mysqli_real_escape_string($dbh, $_POST['dbname']))
 		or DUPX_Log::error(sprintf(ERR_DBCONNECT_CREATE, $_POST['dbname']));
 		break;
 	case "empty":
@@ -350,7 +350,7 @@ switch ($_POST['dbaction']) {
 			}
 			if (count($found_tables) > 0) {
 				foreach ($found_tables as $table_name) {
-					$sql = "DROP TABLE `{$_POST['dbname']}`.`{$table_name}`";
+					$sql = "DROP TABLE `".mysqli_real_escape_string($dbh, $_POST['dbname'])."`.`".mysqli_real_escape_string($dbh, $table_name)."`";
 					if (!$result = mysqli_query($dbh, $sql)) {
 						DUPX_Log::error(sprintf(ERR_DBTRYCLEAN, $_POST['dbname']));
 					}
@@ -396,7 +396,7 @@ while ($counter < $sql_result_file_length) {
 				mysqli_close($dbh);
 				$dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport'] );
 				// Reset session setup
-				@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
+				@mysqli_query($dbh, "SET wait_timeout = ".mysqli_real_escape_string($dbh, $GLOBALS['DB_MAX_TIME']));
 				DUPX_DB::setCharset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
 			}
 			DUPX_Log::info("**ERROR** database error write '{$err}' - [sql=" . substr($sql_result_file_data[$counter], 0, 75) . "...]");
@@ -441,15 +441,15 @@ if ($dbtable_count == 0) {
 //DATA CLEANUP: Perform Transient Cache Cleanup
 //Remove all duplicator entries and record this one since this is a new install.
 $dbdelete_count = 0;
-@mysqli_query($dbh, "DELETE FROM `{$GLOBALS['FW_TABLEPREFIX']}duplicator_packages`");
+@mysqli_query($dbh, "DELETE FROM `".mysqli_real_escape_string($dbh, $GLOBALS['FW_TABLEPREFIX'])."duplicator_packages`");
 $dbdelete_count1 = @mysqli_affected_rows($dbh) or 0;
-@mysqli_query($dbh, "DELETE FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE `option_name` LIKE ('_transient%') OR `option_name` LIKE ('_site_transient%')");
+@mysqli_query($dbh, "DELETE FROM `".mysqli_real_escape_string($dbh, $GLOBALS['FW_TABLEPREFIX'])."options` WHERE `option_name` LIKE ('_transient%') OR `option_name` LIKE ('_site_transient%')");
 $dbdelete_count2 = @mysqli_affected_rows($dbh) or 0;
 $dbdelete_count = (abs($dbdelete_count1) + abs($dbdelete_count2));
 DUPX_Log::info("\nRemoved '{$dbdelete_count}' cache/transient rows");
 //Reset Duplicator Options
 foreach ($GLOBALS['FW_OPTS_DELETE'] as $value) {
-	mysqli_query($dbh, "DELETE FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE `option_name` = '{$value}'");
+	mysqli_query($dbh, "DELETE FROM `".mysqli_real_escape_string($dbh, $GLOBALS['FW_TABLEPREFIX'])."options` WHERE `option_name` = '".mysqli_real_escape_string($dbh, $value)."'");
 }
 
 @mysqli_close($dbh);
