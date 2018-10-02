@@ -180,6 +180,13 @@ $GLOBALS['PHP_MEMORY_LIMIT']    = ini_get('memory_limit') === false ? 'n/a' : in
 $GLOBALS['PHP_SUHOSIN_ON']      = extension_loaded('suhosin') ? 'enabled' : 'disabled';
 $GLOBALS['ARCHIVE_PATH']        = $GLOBALS['CURRENT_ROOT_PATH'] . '/' . $GLOBALS['FW_PACKAGE_NAME'];
 $GLOBALS['ARCHIVE_PATH']        = str_replace("\\", "/", $GLOBALS['ARCHIVE_PATH']);
+if (isset($_GET["view"])) {
+	$GLOBALS["VIEW"] = $_GET["view"];
+} elseif (!empty($_POST["view"])) {
+	$GLOBALS["VIEW"] = $_POST["view"];
+} else {
+	$GLOBALS["VIEW"] = 'step1';
+}
 
 //Restart log if user starts from step 1
 if ($_POST['action_step'] == 1 && ! isset($_GET['help'])) {
@@ -189,6 +196,7 @@ if ($_POST['action_step'] == 1 && ! isset($_GET['help'])) {
 }
 ?>
 @@CLASS.U.PHP@@
+@@CLASS.CSRF.PHP@@
 @@CLASS.SERVER.PHP@@
 @@CLASS.DB.PHP@@
 @@CLASS.LOGGING.PHP@@
@@ -198,6 +206,22 @@ if ($_POST['action_step'] == 1 && ! isset($_GET['help'])) {
 @@CLASS.HTTP.PHP@@
 @@CLASS.PASSWORD.PHP@@
 <?php
+// CSRF checking
+if (!empty($GLOBAL['view'])) {
+	$csrf_views = array(
+		'secure',
+		'step1',
+		'step2',
+		'step3',
+		'step4',
+	);
+	if (in_array($GLOBAL['view'], $csrf_views)) {
+        if (!DUPX_CSRF::check($_POST['csrf_token'], $GLOBAL['view'])) {
+			die('CSRF security issue for the view: '.$GLOBAL['view']);
+        }
+	}
+}
+
 if (isset($_POST['action_ajax'])) :
 
 	if ($GLOBALS['FW_SECUREON']) {

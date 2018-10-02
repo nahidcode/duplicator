@@ -62,6 +62,7 @@ class DUP_Installer
             "assets/inc.libs.js.php"				=> "@@INC.LIBS.JS.PHP@@",
             "assets/inc.js.php"						=> "@@INC.JS.PHP@@",
             "classes/utilities/class.u.php"			=> "@@CLASS.U.PHP@@",
+            "classes/class.csrf.php"				=> "@@CLASS.CSRF.PHP@@",
             "classes/class.server.php"				=> "@@CLASS.SERVER.PHP@@",
             "classes/class.db.php"					=> "@@CLASS.DB.PHP@@",
             "classes/class.logging.php"				=> "@@CLASS.LOGGING.PHP@@",
