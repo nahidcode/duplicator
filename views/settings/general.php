@@ -111,7 +111,7 @@ $package_debug = DUP_Settings::Get('package_debug');
     <hr size="1" />
     <table class="form-table">
         <tr>
-            <th scope="row"><label><?php  esc_html_e("Debugging", 'duplicator'); ?></label></th>
+            <th scope="row"><label><?php esc_html_e("Debugging", 'duplicator'); ?></label></th>
             <td>
                 <input type="checkbox" name="package_debug" id="package_debug" <?php echo ($package_debug) ? 'checked="checked"' : ''; ?> />
                 <label for="package_debug"><?php  esc_html_e("Enable debug options throughout user interface", 'duplicator'); ?></label>

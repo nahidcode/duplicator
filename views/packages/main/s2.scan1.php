@@ -149,8 +149,11 @@ TOOL BAR:STEPS -->
 </table>		
 <hr class="dup-toolbar-line">
 
-
-<form id="form-duplicator" method="post" action="?page=duplicator&tab=new3">
+<?php
+$action_url = admin_url('admin.php?page=duplicator&tab=new3');
+$action_nonce_url = wp_nonce_url($action_url, 'new3-package');
+?>
+<form id="form-duplicator" method="post" action="<?php echo $action_nonce_url;?>">
 <?php wp_nonce_field('dup_form_opts', 'dup_form_opts_nonce_field', false); ?>
 
 	<!--  PROGRESS BAR -->
