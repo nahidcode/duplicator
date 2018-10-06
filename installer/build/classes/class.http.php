@@ -18,7 +18,7 @@ class DUPX_HTTP
 		$html = "<form id='{$id}' method='post' action='{$url}' />\n";
 		foreach ($data as $name => $value)
 		{
-			$html .= "<input type='hidden' name='".DUPX_U::esc_attr($name)."' value='".DUPX_U::esc_attr($value)."' />\n";
+			$html .= "<input type='hidden' name='{$name}' value='{$value}' />\n";
 		}
 		$html .= "</form>\n";
 		$html .= "<script>$(document).ready(function() { $('#{$id}').submit(); });</script>";

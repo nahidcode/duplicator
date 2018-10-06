@@ -16,24 +16,10 @@ error_reporting(E_ERROR);
 $ajax2_start = DUPX_U::getMicrotime();
 
 //POST PARAMS
-if (isset($_POST['dbhost'])) {
-	$post_db_host = DUPX_U::sanitize_text_field($_POST['dbhost']);
-	$_POST['dbhost'] = DUPX_U::sanitize_text_field($post_db_host);
-} else {
-	$_POST['dbhost'] = null;
-}
-
-if (isset($_POST['dbname'])) {
-    $post_db_name = DUPX_U::sanitize_text_field($_POST['dbname']);
-    $_POST['dbname'] = trim($post_db_name);
-} else {
-	$_POST['dbname'] = null;
-}
-
-
-$_POST['dbuser'] = isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : null;
-$_POST['dbpass'] = isset($_POST['dbpass']) ? DUPX_U::sanitize_text_field($_POST['dbpass']) : null;
-
+$_POST['dbhost']		= isset($_POST['dbhost'])   ? DUPX_U::sanitize(trim($_POST['dbhost'])) : null;
+$_POST['dbname']		= isset($_POST['dbname'])   ? trim($_POST['dbname']) : null;
+$_POST['dbuser']		= isset($_POST['dbuser'])   ? $_POST['dbuser'] : null;
+$_POST['dbpass']		= isset($_POST['dbpass'])   ? $_POST['dbpass'] : null;
 $_POST['blogname']		= isset($_POST['blogname']) ? DUPX_U::sanitize(trim($_POST['blogname'])): '';
 $_POST['postguid']		= isset($_POST['postguid']) && $_POST['postguid'] == 1 ? 1 : 0;
 $_POST['fullsearch']	= isset($_POST['fullsearch']) && $_POST['fullsearch'] == 1 ? 1 : 0;
@@ -44,7 +30,7 @@ $_POST['tables']		= isset($_POST['tables']) && is_array($_POST['tables']) ? arra
 $_POST['url_old']		= isset($_POST['url_old']) ? trim($_POST['url_old']) : null;
 $_POST['url_new']		= isset($_POST['url_new']) ? rtrim(trim($_POST['url_new']), '/') : null;
 $_POST['retain_config'] = (isset($_POST['retain_config']) && $_POST['retain_config'] == '1') ? true : false;
-$_POST['exe_safe_mode']	= isset($_POST['exe_safe_mode']) ? DUPX_U::sanitize_text_field($_POST['exe_safe_mode']) : 0;
+$_POST['exe_safe_mode']	= isset($_POST['exe_safe_mode']) ? $_POST['exe_safe_mode'] : 0;
 
 
 //MYSQL CONNECTION: If inputs are bad then die

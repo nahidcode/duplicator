@@ -1,10 +1,10 @@
 <?php
 
 //POST PARAMS
-$_POST['archive_engine']	 = isset($_POST['archive_engine']) ? DUPX_U::sanitize_text_field($_POST['archive_engine'])  : 'manual';
-$_POST['archive_filetime']	 = (isset($_POST['archive_filetime'])) ? DUPX_U::sanitize_text_field($_POST['archive_filetime']) : 'current';
+$_POST['archive_engine']	 = isset($_POST['archive_engine']) ? $_POST['archive_engine']  : 'manual';
+$_POST['archive_filetime']	 = (isset($_POST['archive_filetime'])) ? $_POST['archive_filetime'] : 'current';
 $_POST['retain_config']		 = (isset($_POST['retain_config']) && $_POST['retain_config'] == '1') ? true : false;
-$_POST['exe_safe_mode']          = (isset($_POST['exe_safe_mode'])) ? DUPX_U::sanitize_text_field($_POST['exe_safe_mode']) : 0;
+$_POST['exe_safe_mode']          = (isset($_POST['exe_safe_mode'])) ? $_POST['exe_safe_mode'] : 0;
 //LOGGING
 $POST_LOG = $_POST;
 unset($POST_LOG['dbpass']);
@@ -35,8 +35,7 @@ error_reporting(E_ERROR);
 
 if (!$GLOBALS['FW_ARCHIVE_ONLYDB']) {
 	//ERR_ZIPMANUAL
-	$post_archive_engine = DUPX_U::sanitize_text_field($_POST['archive_engine']);
-	if ($post_archive_engine == 'manual') {
+	if ($_POST['archive_engine'] == 'manual') {
 		if (!file_exists("wp-config.php") && !file_exists("dup-database__{$GLOBALS['PACKAGE_HASH']}.sql")) {
 			DUPX_Log::error(ERR_ZIPMANUAL);
 		}
