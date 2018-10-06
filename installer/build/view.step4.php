@@ -1,16 +1,17 @@
 <?php
-	$_POST['url_new']	    = isset($_POST['url_new'])      ? DUPX_U::sanitize($_POST['url_new']) : '';
+	$_POST['url_new']	    = isset($_POST['url_new'])      ? DUPX_U::sanitize_text_field($_POST['url_new']) : '';
 	$_POST['retain_config'] = isset($_POST['retain_config']) && $_POST['retain_config'] == '1' ? true : false;
-    $_POST['exe_safe_mode']	= isset($_POST['exe_safe_mode']) ? $_POST['exe_safe_mode'] : 0;
+    $_POST['exe_safe_mode']	= isset($_POST['exe_safe_mode']) ? DUPX_U::sanitize_text_field($_POST['exe_safe_mode']) : 0;
         
 	$admin_base		= basename($GLOBALS['FW_WPLOGIN_URL']);
 
-    $safe_mode	= $_POST['exe_safe_mode'];
-	$admin_redirect = rtrim($_POST['url_new'], "/") . "/wp-admin/admin.php?page=duplicator-tools&tab=diagnostics&section=info&package={$GLOBALS['FW_PACKAGE_NAME']}&safe_mode={$safe_mode}";
+	$safe_mode	= DUPX_U::sanitize_text_field($_POST['exe_safe_mode']);
+	$post_url_new = DUPX_U::sanitize_text_field($_POST['url_new']);
+	$admin_redirect = rtrim($post_url_new, "/") . "/wp-admin/admin.php?page=duplicator-tools&tab=diagnostics&section=info&package={$GLOBALS['FW_PACKAGE_NAME']}&safe_mode={$safe_mode}";
 	$admin_redirect = urlencode($admin_redirect);
 	$admin_url_qry  = (strpos($admin_base, '?') === false) ? '?' : '&';
-	$admin_login	= rtrim($_POST['url_new'], '/') . "/{$admin_base}{$admin_url_qry}redirect_to={$admin_redirect}";
-	$url_new_rtrim  = rtrim($_POST['url_new'], '/');
+	$admin_login	= rtrim($post_url_new, '/') . "/{$admin_base}{$admin_url_qry}redirect_to={$admin_redirect}";
+	$url_new_rtrim  = rtrim($post_url_new, '/');
 ?>
 
 <script>
@@ -24,8 +25,8 @@ DUPX.getAdminLogin = function() {
 <!-- =========================================
 VIEW: STEP 4 - INPUT -->
 <form id='s4-input-form' method="post" class="content-form" style="line-height:20px">
-	<input type="hidden" name="url_new" id="url_new" value="<?php echo $url_new_rtrim; ?>" />
-	<div class="dupx-logfile-link"><a href="<?php echo $GLOBALS["LOG_FILE_NAME"];?>?now=<?php echo $GLOBALS['NOW_DATE'] ?>" target="install_log">dup-installer-log.txt</a></div>
+	<input type="hidden" name="url_new" id="url_new" value="<?php echo DUPX_U::esc_attr($url_new_rtrim); ?>" />
+	<div class="dupx-logfile-link"><a href="<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>?now=<?php echo DUPX_U::esc_attr($GLOBALS['NOW_DATE']); ?>" target="install_log">dup-installer-log.txt</a></div>
 
 	<div class="hdr-main">
         Step <span class="step">4</span> of 4: Test Site
@@ -71,8 +72,8 @@ VIEW: STEP 4 - INPUT -->
 				</i>
 			</li>
 			<li>
-				Review this sites <a href="<?php echo $url_new_rtrim; ?>" target="_blank">front-end</a> or
-				re-run the installer and <a href="<?php echo "{$url_new_rtrim}/installer.php"; ?>">go back to step 1</a>.
+				Review this sites <a href="<?php echo DUPX_U::esc_url($url_new_rtrim); ?>" target="_blank">front-end</a> or
+				re-run the installer and <a href="<?php echo DUPX_U::esc_url($url_new_rtrim.'/installer.php'); ?>">go back to step 1</a>.
 			</li>
 			<li>If the .htaccess file was reset some plugin settings might need to be re-saved.</li>
 			<li>For additional help and questions visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=inst4_step4_troubleshoot' target='_blank'>online FAQs</a>.</li>
@@ -131,7 +132,7 @@ VIEW: STEP 4 - INPUT -->
 			<div class="s4-err-title">STEP 2 - INSTALL NOTICES:</div>
 			<b data-bind="with: status.step2">ERRORS (<span data-bind="text: query_errs"></span>)</b><br/>
 			<div class="info-error">
-				Queries that error during the deploy step are logged to the <a href="<?php echo $GLOBALS["LOG_FILE_NAME"];?>" target="dpro-installer">dup-installer-log.txt</a> file and
+				Queries that error during the deploy step are logged to the <a href="<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>" target="dpro-installer">dup-installer-log.txt</a> file and
 				and marked with an **ERROR** status.   If you experience a few errors (under 5), in many cases they can be ignored as long as your site is working correctly.
 				However if you see a large amount of errors or you experience an issue with your site then the error messages in the log file will need to be investigated.
 				<br/><br/>
@@ -237,8 +238,8 @@ VIEW: STEP 4 - INPUT -->
 	?>
 
 	<div class="s4-gopro-btn">
-		<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=<?php echo $key;?>" target="_blank"> 
-			<?php echo $txt;?>
+		<a href="<?php echo DUPX_U::esc_url('https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content='.$key); ?>" target="_blank"> 
+			<?php echo DUPX_U::esc_html($txt);?>
 		</a>
 	</div>
 	<br/><br/><br/>
@@ -247,7 +248,8 @@ VIEW: STEP 4 - INPUT -->
 <?php
 	//Sanitize
 	$json_result = true;
-	$json_data   = utf8_decode(urldecode($_POST['json']));
+	$post_json = DUPX_U::sanitize_text_field($_POST['json']);
+	$json_data   = utf8_decode(urldecode($post_json));
 	$json_decode = json_decode($json_data);
 	if ($json_decode == NULL || $json_decode == FALSE) {
 		$json_data  = "{'json reset invalid form value sent'}";
@@ -258,7 +260,7 @@ VIEW: STEP 4 - INPUT -->
 <script>
 <?php if ($json_result) : ?>
 	MyViewModel = function() {
-		this.status = <?php echo $json_data; ?>;
+		this.status = <?php echo DUPX_U::esc_js($json_data); ?>;
 		var errorCount =  this.status.step2.query_errs || 0;
 		(errorCount >= 1 )
 			? $('#dup-step3-install-report-count').css('color', '#BE2323')
