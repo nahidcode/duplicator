@@ -30,7 +30,7 @@ VIEW: STEP 3- INPUT -->
 <form id='s3-input-form' method="post" class="content-form">
 
 	<div class="logfile-link">
-		<a href="./<?php echo $GLOBALS["LOG_FILE_NAME"];?>?now=<?php echo $GLOBALS['NOW_TIME']; ?>" target="dup-installer">dup-installer-log.txt</a>
+		<a href="./<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>?now=<?php echo DUPX_U::esc_attr($GLOBALS['NOW_TIME']); ?>" target="dup-installer">dup-installer-log.txt</a>
 	</div>
 	<div class="hdr-main">
 		Step <span class="step">3</span> of 4: Update Data
@@ -48,17 +48,20 @@ VIEW: STEP 3- INPUT -->
 		<input type="hidden" name="ctrl_action"	  value="ctrl-step3" />
 		<input type="hidden" name="view"		  value="step3" />
 		<input type="hidden" name="csrf_token" value="<?php echo DUPX_CSRF::generate('step3'); ?>">
-		<input type="hidden" name="secure-pass"   value="<?php echo $_POST['secure-pass']; ?>" />
-		<input type="hidden" name="logging"		  value="<?php echo $_POST['logging'] ?>" />
-		<input type="hidden" name="dbhost"		  value="<?php echo $_POST['dbhost'] ?>" />
-		<input type="hidden" name="dbuser" 		  value="<?php echo $_POST['dbuser'] ?>" />
-		<input type="hidden" name="dbpass" 		  value="<?php echo htmlentities($_POST['dbpass']) ?>" />
-		<input type="hidden" name="dbname" 		  value="<?php echo $_POST['dbname'] ?>" />
-		<input type="hidden" name="dbcharset" 	  value="<?php echo $_POST['dbcharset'] ?>" />
-		<input type="hidden" name="dbcollate" 	  value="<?php echo $_POST['dbcollate'] ?>" />
-		<input type="hidden" name="config_mode"	  value="<?php echo $_POST['config_mode'] ?>" />
-		<input type="hidden" name="exe_safe_mode" id="exe-safe-mode" value="<?php echo $_POST['exe_safe_mode'] ?>" />
-		<input type="hidden" name="json"		  value="<?php echo $_POST['json']; ?>" />
+		<input type="hidden" name="secure-pass"   value="<?php echo DUPX_U::esc_attr($_POST['secure-pass']); ?>" />
+		<input type="hidden" name="logging"		  value="<?php echo DUPX_U::esc_attr($_POST['logging']); ?>" />
+		<input type="hidden" name="dbhost"		  value="<?php echo DUPX_U::esc_attr($_POST['dbhost']); ?>" />
+		<input type="hidden" name="dbuser" 		  value="<?php echo DUPX_U::esc_attr($_POST['dbuser']); ?>" />
+		<input type="hidden" name="dbpass" 		  value="<?php echo DUPX_U::esc_attr($_POST['dbpass']) ?>" />
+		<input type="hidden" name="dbname" 		  value="<?php echo DUPX_U::esc_attr($_POST['dbname']); ?>" />
+		<input type="hidden" name="dbcharset" 	  value="<?php echo DUPX_U::esc_attr($_POST['dbcharset']); ?>" />
+		<input type="hidden" name="dbcollate" 	  value="<?php echo DUPX_U::esc_attr($_POST['dbcollate']); ?>" />
+		<input type="hidden" name="config_mode"	  value="<?php echo DUPX_U::esc_attr($_POST['config_mode']); ?>" />
+		<input type="hidden" name="exe_safe_mode" id="exe-safe-mode" value="<?php echo DUPX_U::esc_attr($_POST['exe_safe_mode']); ?>" />
+		<?php
+		$post_json = DUPX_U::sanitize_text_field($_POST['json']);
+		?>
+		<input type="hidden" name="json" value="<?php echo DUPX_U::esc_attr($post_json); ?>" />
 	</div>
 
 	<div class="hdr-sub1 toggle-hdr" data-type="toggle" data-target="#s3-new-settings">
@@ -75,11 +78,11 @@ VIEW: STEP 3- INPUT -->
             </tr>
             <tr>
                 <td>Path:</td>
-                <td><input type="text" name="path_new" id="path_new" value="<?php echo $new_path ?>" /></td>
+                <td><input type="text" name="path_new" id="path_new" value="<?php echo DUPX_U::esc_attr($new_path); ?>" /></td>
             </tr>
             <tr>
                 <td>Title:</td>
-                <td><input type="text" name="blogname" id="blogname" value="<?php echo $GLOBALS['DUPX_AC']->blogname ?>" /></td>
+                <td><input type="text" name="blogname" id="blogname" value="<?php echo DUPX_U::esc_attr($GLOBALS['DUPX_AC']->blogname); ?>" /></td>
             </tr>
         </table>
     </div>
@@ -93,7 +96,7 @@ VIEW: STEP 3- INPUT -->
 
     <div id='s3-custom-replace' style="display:none;">
         <div class="help-target">
-            <a href="<?php echo $GLOBALS['_HELP_URL_PATH'];?>#help-s3" target="help"><i class="fa fa-question-circle"></i></a>
+            <a href="<?php echo DUPX_U::esc_url($GLOBALS['_HELP_URL_PATH'] . '#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
         </div><br/>
 		Add additional search and replace URLs to replace additional data. This option is available only in
 		<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=free_inst_replaceopts">Duplicator Pro</a>
@@ -108,7 +111,7 @@ VIEW: STEP 3- INPUT -->
 	</div>
 	<div id='s3-adv-opts' style="display:none;">
 		<div class="help-target">
-			<a href="<?php echo $GLOBALS['_HELP_URL_PATH'];?>#help-s3" target="help"><i class="fa fa-question-circle"></i></a>
+			<a href="<?php echo DUPX_U::esc_url($GLOBALS['_HELP_URL_PATH'] . '#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
 		</div><br/>
 
 		<!-- NEW ADMIN ACCOUNT -->
@@ -143,14 +146,14 @@ VIEW: STEP 3- INPUT -->
 			<tr valign="top">
 				<td style="width:80px">Old URL:</td>
 				<td>
-					<input type="text" name="url_old" id="url_old" value="<?php echo $GLOBALS['DUPX_AC']->url_old ?>" readonly="readonly"  class="readonly" />
+					<input type="text" name="url_old" id="url_old" value="<?php echo DUPX_U::esc_attr($GLOBALS['DUPX_AC']->url_old); ?>" readonly="readonly"  class="readonly" />
 					<a href="javascript:DUPX.editOldURL()" id="edit_url_old" style="font-size:12px">edit</a>
 				</td>
 			</tr>
 			<tr valign="top">
 				<td>Old Path:</td>
 				<td>
-					<input type="text" name="path_old" id="path_old" value="<?php echo $old_path ?>" readonly="readonly"  class="readonly" />
+					<input type="text" name="path_old" id="path_old" value="<?php echo DUPX_U::esc_attr($old_path); ?>" readonly="readonly"  class="readonly" />
 					<a href="javascript:DUPX.editOldPath()" id="edit_path_old" style="font-size:12px">edit</a>
 				</td>
 			</tr>
@@ -227,7 +230,7 @@ VIEW: STEP 3- INPUT -->
 VIEW: STEP 3 - AJAX RESULT  -->
 <form id='s3-result-form' method="post" class="content-form" style="display:none">
 
-	<div class="logfile-link"><a href="./<?php echo $GLOBALS["LOG_FILE_NAME"];?>?now=<?php echo $GLOBALS['NOW_TIME']; ?>" target="dup-installer">dup-installer-log.txt</a></div>
+	<div class="logfile-link"><a href="./<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>?now=<?php echo DUPX_U::esc_attr($GLOBALS['NOW_TIME']); ?>" target="dup-installer">dup-installer-log.txt</a></div>
 	<div class="hdr-main">
 		Step <span class="step">3</span> of 4: Update Data
 	</div>
@@ -237,8 +240,8 @@ VIEW: STEP 3 - AJAX RESULT  -->
 		<i>Step 3 - AJAX Response</i>
 		<input type="hidden" name="view"  value="step4" />
 		<input type="hidden" name="csrf_token" value="<?php echo DUPX_CSRF::generate('step4'); ?>">
-		<input type="hidden" name="secure-pass" value="<?php echo $_POST['secure-pass']; ?>" />
-		<input type="hidden" name="logging" id="logging" value="<?php echo $_POST['logging']; ?>" />
+		<input type="hidden" name="secure-pass" value="<?php echo DUPX_U::esc_attr($_POST['secure-pass']); ?>" />
+		<input type="hidden" name="logging" id="logging" value="<?php echo DUPX_U::esc_attr($_POST['logging']); ?>" />
 		<input type="hidden" name="url_new" id="ajax-url_new"  />
 		<input type="hidden" name="exe_safe_mode" id="ajax-exe-safe-mode" />
 		<input type="hidden" name="json"    id="ajax-json" />
@@ -351,7 +354,7 @@ DUPX.runUpdate = function()
 			status += "<b>Status:</b> "			+ xhr.statusText	+ "<br/>";
 			status += "<b>Response:</b> "		+ xhr.responseText  + "<hr/>";
 			status += "<b>Additional Troubleshooting Tips:</b><br/>";
-			status += "- Check the <a href='./<?php echo $GLOBALS["LOG_FILE_NAME"];?>' target='dup-installer'>dup-installer-log.txt</a> file for warnings or errors.<br/>";
+			status += "- Check the <a href='./<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>' target='dup-installer'>dup-installer-log.txt</a> file for warnings or errors.<br/>";
 			status += "- Check the web server and PHP error logs. <br/>";
 			status += "- For timeout issues visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>Timeout FAQ Section</a><br/>";
 			$('#ajaxerr-data').html(status);

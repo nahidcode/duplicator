@@ -2,9 +2,9 @@
 /** IDE HELPERS */
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */
 
-$_POST['secure-pass'] = isset($_POST['secure-pass']) ? $_POST['secure-pass'] : '' ;
+$_POST['secure-pass'] = isset($_POST['secure-pass']) ? DUPX_U::sanitize_text_field($_POST['secure-pass']) : '' ;
 $_POST['secure-try']  = isset($_POST['secure-try'])  ? 1 : 0 ;
-$_GET['debug']        = isset($_GET['debug']) ? $_GET['debug'] : 0;
+$_GET['debug']        = isset($_GET['debug']) ? DUPX_U::sanitize_text_field($_GET['debug']) : 0;
 $page_url = DUPX_HTTP::get_request_uri();
 $page_err = 0;
 $pass_hasher = new DUPX_PasswordHash(8, FALSE);
