@@ -172,7 +172,7 @@ TOOL BAR: STEPS -->
 						. 'set up by the hosting provider.  If this is the case its recommended to retry the build.  <i>If the problem persists then consider the other options below.</i>', 'duplicator'); ?><br/><br/>
 
 					<div style="text-align: center; margin: 10px">
-						<input type="button" class="button-large button-primary" value="<?php esc_html_e('Retry Package Build', 'duplicator'); ?>" onclick="window.location = 'admin.php?page=duplicator&tab=new1&retry=1'" />
+						<input type="button" class="button-large button-primary" value="<?php esc_html_e('Retry Package Build', 'duplicator'); ?>" onclick="window.location = 'admin.php?page=duplicator&tab=new1&retry=1&_wpnonce=<?php echo wp_create_nonce('new1-package'); ?>" />
 					</div>
 
 					<div style="color:#777; padding: 15px 5px 5px 5px">
@@ -219,7 +219,7 @@ TOOL BAR: STEPS -->
 					<div style="text-align: center; margin: 10px">
 						<input type="checkbox" id="dup-two-part-check" onclick="Duplicator.Pack.ToggleTwoPart()">
 						<label for="dup-two-part-check"><?php esc_html_e('Yes. I have read the above overview and would like to continue!', 'duplicator'); ?></label><br/><br/>
-						<button id="dup-two-part-btn"  type="button" class="button-large button-primary" disabled="true" onclick="window.location = 'admin.php?page=duplicator&tab=new1&retry=2'">
+						<button id="dup-two-part-btn"  type="button" class="button-large button-primary" disabled="true" onclick="window.location = 'admin.php?page=duplicator&tab=new1&retry=2&_wpnonce=<?php echo wp_create_nonce('new1-package'); ?>'">
 							<i class="fa fa-random"></i> <?php esc_html_e('Start Two-Part Install Process', 'duplicator'); ?>
 						</button>
 					</div><br/>

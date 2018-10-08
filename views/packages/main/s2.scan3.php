@@ -372,10 +372,10 @@ DATABASE -->
 			<b><?php esc_html_e('Tables', 'duplicator');?>:</b> <span id="data-db-tablecount"></span> &nbsp; | &nbsp;
 			<b><?php esc_html_e('Records', 'duplicator');?>:</b> <span id="data-db-rows"></span><br/>
 			<?php
-				printf(esc_html__('Total size and row counts are approximate values.  The thresholds that trigger notices are <i>%1$s OR %2$s</i> records total for the entire database.  '
+				printf(wp_kses(__('Total size and row counts are approximate values.  The thresholds that trigger notices are <i>%1$s OR %2$s</i> records total for the entire database.  '
 					. 'Larger databases take more time to process.  On some budget hosts that have cpu/memory/timeout limits this may cause issues.', 'duplicator'),
 					esc_html(DUP_Util::byteSize(DUPLICATOR_SCAN_DB_ALL_SIZE)),
-						number_format(DUPLICATOR_SCAN_DB_ALL_ROWS));
+						number_format(DUPLICATOR_SCAN_DB_ALL_ROWS)), array('i'));
 
 				echo '<br/><br/><hr size="1" />';
 
