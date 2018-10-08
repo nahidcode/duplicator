@@ -16,21 +16,55 @@ error_reporting(E_ERROR);
 $ajax2_start = DUPX_U::getMicrotime();
 
 //POST PARAMS
-$_POST['dbhost']		= isset($_POST['dbhost'])   ? DUPX_U::sanitize(trim($_POST['dbhost'])) : null;
-$_POST['dbname']		= isset($_POST['dbname'])   ? trim($_POST['dbname']) : null;
-$_POST['dbuser']		= isset($_POST['dbuser'])   ? $_POST['dbuser'] : null;
-$_POST['dbpass']		= isset($_POST['dbpass'])   ? $_POST['dbpass'] : null;
-$_POST['blogname']		= isset($_POST['blogname']) ? DUPX_U::sanitize(trim($_POST['blogname'])): '';
+if (isset($_POST['dbhost'])) {
+	$post_db_host = DUPX_U::sanitize_text_field($_POST['dbhost']);
+	$_POST['dbhost'] = trim($post_db_host);
+} else {
+	$_POST['dbhost'] = null;
+}
+
+if (isset($_POST['dbname'])) {
+    $post_db_name = DUPX_U::sanitize_text_field($_POST['dbname']);
+    $_POST['dbname'] = trim($post_db_name);
+} else {
+	$_POST['dbname'] = null;
+}
+
+
+$_POST['dbuser'] = isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : null;
+$_POST['dbpass'] = isset($_POST['dbpass']) ? DUPX_U::sanitize_text_field($_POST['dbpass']) : null;
+
+if (isset($_POST['blogname'])) {
+	$post_blog_name = DUPX_U::sanitize_text_field($_POST['blogname']);
+	$_POST['blogname'] = trim($post_blog_name);
+} else {
+	$_POST['blogname'] = '';
+}
+
 $_POST['postguid']		= isset($_POST['postguid']) && $_POST['postguid'] == 1 ? 1 : 0;
 $_POST['fullsearch']	= isset($_POST['fullsearch']) && $_POST['fullsearch'] == 1 ? 1 : 0;
-$_POST['path_old']		= isset($_POST['path_old']) ? trim($_POST['path_old']) : null;
-$_POST['path_new']		= isset($_POST['path_new']) ? trim($_POST['path_new']) : null;
+
+if (isset($_POST['path_old'])) {
+	$post_path_old = DUPX_U::sanitize_text_field($_POST['path_old']);
+	$_POST['path_old'] = trim($post_path_old);
+} else {
+	$_POST['path_old'] = null;
+}
+
+if (isset($_POST['path_new'])) {
+	$post_path_new = DUPX_U::sanitize_text_field($_POST['path_new']);
+	$_POST['path_new'] = trim($post_path_new);
+} else {
+	$_POST['path_new'] = null;
+}
+
+
 $_POST['siteurl']		= isset($_POST['siteurl']) ? rtrim(trim($_POST['siteurl']), '/') : null;
 $_POST['tables']		= isset($_POST['tables']) && is_array($_POST['tables']) ? array_map('stripcslashes', $_POST['tables']) : array();
 $_POST['url_old']		= isset($_POST['url_old']) ? trim($_POST['url_old']) : null;
 $_POST['url_new']		= isset($_POST['url_new']) ? rtrim(trim($_POST['url_new']), '/') : null;
 $_POST['retain_config'] = (isset($_POST['retain_config']) && $_POST['retain_config'] == '1') ? true : false;
-$_POST['exe_safe_mode']	= isset($_POST['exe_safe_mode']) ? $_POST['exe_safe_mode'] : 0;
+$_POST['exe_safe_mode']	= isset($_POST['exe_safe_mode']) ? DUPX_U::sanitize_text_field($_POST['exe_safe_mode']) : 0;
 
 
 //MYSQL CONNECTION: If inputs are bad then die
@@ -226,8 +260,11 @@ DUPX_Log::info("====================================\n");
 
 /** CREATE NEW USER LOGIC */
 if (strlen($_POST['wp_username']) >= 4 && strlen($_POST['wp_password']) >= 6) {
-	$post_wp_username = mysqli_real_escape_string($dbh, $_POST['wp_username']);
-	$post_wp_password = mysqli_real_escape_string($dbh, $_POST['wp_password']);
+	$post_wp_username = DUPX_U::sanitize_text_field($_POST['wp_username']);
+	$post_wp_password = DUPX_U::sanitize_text_field($_POST['wp_password']);
+
+	$post_wp_username = mysqli_real_escape_string($dbh, $post_wp_username);
+	$post_wp_password = mysqli_real_escape_string($dbh, $post_wp_password);
 	
 	$newuser_check = mysqli_query($dbh, "SELECT COUNT(*) AS count FROM `".mysqli_real_escape_string($dbh, $GLOBALS['FW_TABLEPREFIX'])."users` WHERE user_login = '{$post_wp_username}' ");
 	$newuser_row   = mysqli_fetch_row($newuser_check);

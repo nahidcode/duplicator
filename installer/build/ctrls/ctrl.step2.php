@@ -1,18 +1,44 @@
 <?php
 //POST PARAMS
-$_POST['dbaction']			= isset($_POST['dbaction'])  ? $_POST['dbaction'] : 'create';
-$_POST['dbhost']			= isset($_POST['dbhost'])    ? DUPX_U::sanitize(trim($_POST['dbhost'])) : null;
-$_POST['dbname']			= isset($_POST['dbname'])    ? trim($_POST['dbname']) : null;
-$_POST['dbuser']			= isset($_POST['dbuser'])    ? $_POST['dbuser'] : null;
-$_POST['dbpass']			= isset($_POST['dbpass'])    ? $_POST['dbpass'] : null;
-$_POST['dbcharset']			= isset($_POST['dbcharset']) ? DUPX_U::sanitize(trim($_POST['dbcharset'])) : $GLOBALS['DBCHARSET_DEFAULT'];
-$_POST['dbcollate']			= isset($_POST['dbcollate']) ? DUPX_U::sanitize(trim($_POST['dbcollate'])) : $GLOBALS['DBCOLLATE_DEFAULT'];
+$_POST['dbaction'] = isset($_POST['dbaction'])  ? DUPX_U::sanitize_text_field($_POST['dbaction']) : 'create';
+
+if (isset($_POST['dbhost'])) {
+	$post_db_host = DUPX_U::sanitize_text_field($_POST['dbhost']);
+	$_POST['dbhost'] = DUPX_U::sanitize_text_field($post_db_host);
+} else {
+	$_POST['dbhost'] = null;
+}
+
+if (isset($_POST['dbname'])) {
+    $post_db_name = DUPX_U::sanitize_text_field($_POST['dbname']);
+    $_POST['dbname'] = trim($post_db_name);
+} else {
+	$_POST['dbname'] = null;
+}
+
+$_POST['dbuser'] = isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : null;
+$_POST['dbpass'] = isset($_POST['dbpass']) ? DUPX_U::sanitize_text_field($_POST['dbpass']) : null;
+
+if (isset($_POST['dbcharset'])) {
+	$post_db_charset = DUPX_U::sanitize_text_field($_POST['dbcharset']);
+	$_POST['dbcharset'] = trim($post_db_charset);
+} else {
+	$_POST['dbcharset'] = $GLOBALS['DBCHARSET_DEFAULT'];
+}
+
+if (isset($_POST['dbcollate'])) {
+	$post_db_collate = DUPX_U::sanitize_text_field($_POST['dbcollate']);
+	$_POST['dbcollate'] = trim($post_db_collate);
+} else {
+	$_POST['dbcollate'] = $GLOBALS['DBCOLLATE_DEFAULT'];
+}
+
 $_POST['dbnbsp']			= (isset($_POST['dbnbsp']) && $_POST['dbnbsp'] == '1') ? true : false;
 $_POST['ssl_admin']			= (isset($_POST['ssl_admin']))  ? true : false;
 $_POST['cache_wp']			= (isset($_POST['cache_wp']))   ? true : false;
 $_POST['cache_path']		= (isset($_POST['cache_path'])) ? true : false;
 $_POST['retain_config']		= (isset($_POST['retain_config']) && $_POST['retain_config'] == '1') ? true : false;
-$_POST['dbcollatefb']       = isset($_POST['dbcollatefb']) ? $_POST['dbcollatefb'] : false;
+$_POST['dbcollatefb']       = isset($_POST['dbcollatefb']) ? DUPX_U::sanitize_text_field($_POST['dbcollatefb']) : false;
 
 //LOGGING
 $POST_LOG = $_POST;
@@ -42,7 +68,7 @@ if (isset($_GET['dbtest']))
 	$dbErr	  = mysqli_connect_error();
 
 	$dbFound  = mysqli_select_db($dbConn, $_POST['dbname']);
-	$port_view = (is_int($baseport) || substr($_POST['dbhost'], -1) == ":") ? "Port=[Set in Host]" : "Port=".htmlentities($_POST['dbport']);
+	$port_view = (is_int($baseport) || substr($_POST['dbhost'], -1) == ":") ? "Port=[Set in Host]" : "Port=".DUPX_U::esc_html($_POST['dbport']);
 
 	$tstSrv   = ($dbConn)  ? "<div class='dupx-pass'>Success</div>" : "<div class='dupx-fail'>Fail</div>";
 	$tstDB    = ($dbFound) ? "<div class='dupx-pass'>Success</div>" : "<div class='dupx-fail'>Fail</div>";
@@ -56,18 +82,18 @@ if (isset($_GET['dbtest']))
     $dbversion_compat_fail  = $dbConn && version_compare($dbversion_compat, $GLOBALS['FW_VERSION_DB']) < 0;
 
     $tstInfo = ($dbversion_info_fail)
-		? "<div class='dupx-notice'>".htmlentities($dbversion_info)."</div>"
-        : "<div class='dupx-pass'>".htmlentities($dbversion_info)."</div>";
+		? "<div class='dupx-notice'>".DUPX_U::esc_html($dbversion_info)."</div>"
+        : "<div class='dupx-pass'>".DUPX_U::esc_html($dbversion_info)."</div>";
 
 	$tstCompat = ($dbversion_compat_fail)
-		? "<div class='dupx-notice'>This Server: [".htmlentities($dbversion_compat)."] -- Package Server: [".htmlentities($GLOBALS['FW_VERSION_DB'])."]</div>"
-		: "<div class='dupx-pass'>This Server: [".htmlentities($dbversion_compat)."] -- Package Server: [".htmlentities($GLOBALS['FW_VERSION_DB'])."]</div>";
+		? "<div class='dupx-notice'>This Server: [".DUPX_U::esc_html($dbversion_compat)."] -- Package Server: [".DUPX_U::esc_html($GLOBALS['FW_VERSION_DB'])."]</div>"
+		: "<div class='dupx-pass'>This Server: [".DUPX_U::esc_html($dbversion_compat)."] -- Package Server: [".DUPX_U::esc_html($GLOBALS['FW_VERSION_DB'])."]</div>";
 
 	$html	 .= "
 	<div class='s2-db-test'>
 		<small>
 			Using Connection String:<br/>
-			Host=".htmlentities($_POST['dbhost'])."; Database=".htmlentities($_POST['dbname'])."; Uid=".htmlentities($_POST['dbuser'])."; Pwd=".htmlentities($_POST['dbpass'])."; {$port_view}
+			Host=".DUPX_U::esc_html($_POST['dbhost'])."; Database=".DUPX_U::esc_html($_POST['dbname'])."; Uid=".DUPX_U::esc_html($_POST['dbuser'])."; Pwd=".DUPX_U::esc_html($_POST['dbpass'])."; {$port_view}
 		</small>
 		<table class='s2-db-test-dtls'>
 			<tr>
@@ -99,7 +125,7 @@ if (isset($_GET['dbtest']))
 	{
 		$tblcount = DUPX_DB::countTables($dbConn, $_POST['dbname']);
 		$html .= ($tblcount > 0)
-			? "<div class='warn-msg'><b>WARNING:</b> " . sprintf(ERR_DBEMPTY, htmlentities($_POST['dbname']), htmlentities($tblcount)) . "</div>"
+			? "<div class='warn-msg'><b>WARNING:</b> " . sprintf(ERR_DBEMPTY, DUPX_U::esc_html($_POST['dbname']), DUPX_U::esc_html($tblcount)) . "</div>"
 			: '';
 	}
 
