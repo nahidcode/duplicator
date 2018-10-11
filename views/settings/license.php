@@ -21,12 +21,13 @@
 		<td>
 			<p class="description" style="max-width:700px">
 			   <?php
-					 esc_html_e("The free version of Duplicator does not require a license key. ");
-					 echo '<br/><br/>';
-					 echo esc_html__("Professional Users: Please note that if you have already purchased the Professional version it is a separate plugin that "
+					esc_html_e("The free version of Duplicator does not require a license key. ");
+					echo '<br/><br/>';
+					echo esc_html__("Professional Users: Please note that if you have already purchased the Professional version it is a separate plugin that "
 						 . "you download and install.  You can download the Professional version  from the email sent after your purchase or click on the 'Manage Licenses' "
 						 . "link above to download the plugin from your snapcreek.com dashboard. If you would like to purchase the professional version you can ");
-					echo '<a href="https://snapcreek.com/duplicator?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=settings_license_get_copy_here" target="_blank">' .  esc_html__("get a copy here", 'duplicator') . '</a>!';
+					echo '<a href="https://snapcreek.com/duplicator?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=settings_license_get_copy_here" target="_blank">'
+						 .  esc_html__("get a copy here", 'duplicator') . '</a>!';
 				?>
 			</p>
 			<br/><br/>
