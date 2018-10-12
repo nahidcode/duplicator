@@ -52,19 +52,16 @@ TOTAL SIZE -->
 		<b><?php esc_html_e('File Count', 'duplicator');?>:</b> <span id="data-arc-files"></span>  &nbsp; | &nbsp;
 		<b><?php esc_html_e('Directory Count', 'duplicator');?>:</b> <span id="data-arc-dirs"></span> <br/>
 		<?php
-			esc_html_e('Compressing larger sites on <i>some budget hosts</i> may cause timeouts.  ' , 'duplicator');
+			esc_html_e('Compressing larger sites on some budget hosts may cause timeouts.  ' , 'duplicator');
 			echo "<i>&nbsp; <a href='javascipt:void(0)' onclick='jQuery(\"#size-more-details\").toggle(100)'>[" . __('more details...', 'duplicator') . "]</a></i>";
 		?>
 		<div id="size-more-details">
 			<?php
 				echo "<b>" . __('Overview', 'duplicator') . ":</b><br/>";
-
-				printf(esc_html__('This notice is triggered at <b>%s</b> and can be ignored on most hosts.  If during the build process you see a "Host Build Interrupt" message then this '
-					. 'host has strict processing limits.  Below are some options you can take to overcome constraints set up on this host.', 'duplicator'),
-					DUP_Util::byteSize(DUPLICATOR_SCAN_SIZE_DEFAULT));
-
+				$dup_byte_size = '<b>' . DUP_Util::byteSize(DUPLICATOR_SCAN_SIZE_DEFAULT) . '</b>';
+				printf(esc_html__('This notice is triggered at [%s] and can be ignored on most hosts.  If during the build process you see a "Host Build Interrupt" message then this '
+					. 'host has strict processing limits.  Below are some options you can take to overcome constraints set up on this host.', 'duplicator'), $dup_byte_size);
 				echo '<br/><br/>';
-
 				echo "<b>" . esc_html__('Timeout Options', 'duplicator') . ":</b><br/>";
 				echo '<ul>';
 				echo '<li>' . esc_html__('Apply the "Quick Filters" below or click the back button to apply on previous page.', 'duplicator') . '</li>';
@@ -430,7 +427,7 @@ DIALOGS:
 	$alert1->initAlert();
 	
 	$alert2 = new DUP_UI_Dialog();
-	$alert2->height     = 425;
+	$alert2->height     = 435;
 	$alert2->width      = 650;
 	$alert2->title		= __('Copy Quick Filter Paths', 'duplicator');
 	$alert2->message	= "<div id='arc-paths-dlg'></div>";
