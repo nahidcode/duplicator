@@ -122,7 +122,7 @@ GENERAL -->
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo esc_js($link_archive); ?>', this);return false;"><i class="fa fa-file-archive-o"></i> Archive - <?php echo esc_html($package->ZipSize); ?></button>
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo esc_html($link_sql); ?>', this);return false;"><i class="fa fa-table"></i> &nbsp; SQL - <?php echo esc_html(DUP_Util::byteSize($package->Database->Size)); ?></button>
 						<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo esc_js($link_log); ?>', this);return false;"><i class="fa fa-list-alt"></i> &nbsp; <?php _e('Log', 'duplicator'); ?> </button>
-						<button class="button" onclick="Duplicator.Pack.ShowLinksDialog(<?php echo esc_js("'{$link_sql}','{$link_archive}','{$link_installer}','{$link_log}'"); ?>);" class="thickbox"><i class="fa fa-lock"></i> &nbsp; <?php _e("Share", 'duplicator')?></button>
+						<button class="button" onclick="Duplicator.Pack.ShowLinksDialog(<?php echo "'{$link_sql}','{$link_archive}','{$link_installer}','{$link_log}'"; ?>);" class="thickbox"><i class="fa fa-lock"></i> &nbsp; <?php _e("Share", 'duplicator')?></button>
 					<?php else: ?>
 							<button class="button" onclick="Duplicator.Pack.DownloadFile('<?php echo esc_js($link_log); ?>', this);return false;"><i class="fa fa-list-alt"></i> &nbsp; <?php _e('Log', 'duplicator'); ?> </button>
 					<?php endif; ?>
