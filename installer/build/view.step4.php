@@ -248,11 +248,10 @@ VIEW: STEP 4 - INPUT -->
 <?php
 	//Sanitize
 	$json_result = true;
-	$post_json = DUPX_U::sanitize_text_field($_POST['json']);
-	$json_data   = utf8_decode(urldecode($post_json));
+	$json_data   = utf8_decode(urldecode($_POST['json']));
 	$json_decode = json_decode($json_data);
 	if ($json_decode == NULL || $json_decode == FALSE) {
-		$json_data  = "{'json reset invalid form value sent'}";
+		$json_data  = "{'json reset invalid form value sent.  Possible site script attempt'}";
 		$json_result = false;
 	}
 ?>
@@ -260,7 +259,7 @@ VIEW: STEP 4 - INPUT -->
 <script>
 <?php if ($json_result) : ?>
 	MyViewModel = function() {
-		this.status = <?php echo DUPX_U::esc_js($json_data); ?>;
+		this.status = <?php echo $json_data; ?>;
 		var errorCount =  this.status.step2.query_errs || 0;
 		(errorCount >= 1 )
 			? $('#dup-step3-install-report-count').css('color', '#BE2323')

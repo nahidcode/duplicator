@@ -81,6 +81,65 @@ VIEW: STEP 2- INPUT -->
 				</tr>
 			</table>
 		</div>
+
+		<!-- =========================================
+		DIALOG: DB CONNECTION CHECK  -->
+		<div id="s2-dbconn">
+			<div id="s2-dbconn-status" style="display:none">
+				<div style="padding: 0px 10px 10px 10px;">
+					<div id="s2-dbconn-test-msg" style="min-height:80px"></div>
+				</div>
+				<small><input type="button" onclick="$('#s2-dbconn-status').hide(500)" class="s2-small-btn" value="Hide Message" /></small>
+			</div>
+		</div><br/>
+
+		<!-- ====================================
+		OPTIONS
+		==================================== -->
+		<div class="hdr-sub1" data-type="toggle" data-target="#s2-area-adv-opts">
+			<a  href="javascript:void(0)"><i class="dupx-plus-square"></i> Options</a>
+		</div>
+		<div id='s2-area-adv-opts' style="display:none">
+			<div class="help-target"><a href="?help#help-s2" target="_blank">[help]</a></div>
+
+			<table class="dupx-opts dupx-advopts">
+				<tr>
+					<td>Legacy:</td>
+					<td><input type="checkbox" name="dbcollatefb" id="dbcollatefb" value="1" /> <label for="dbcollatefb">Apply legacy collation fallback support for unknown collations types</label></td>
+				</tr>
+				<tr>
+					<td>Spacing:</td>
+					<td colspan="2">
+						<input type="checkbox" name="dbnbsp" id="dbnbsp" value="1" /> <label for="dbnbsp">Fix non-breaking space characters</label>
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align:top">Mode:</td>
+					<td colspan="2">
+						<input type="radio" name="dbmysqlmode" id="dbmysqlmode_1" checked="true" value="DEFAULT"/> <label for="dbmysqlmode_1">Default</label> &nbsp;
+						<input type="radio" name="dbmysqlmode" id="dbmysqlmode_2" value="DISABLE"/> <label for="dbmysqlmode_2">Disable</label> &nbsp;
+						<input type="radio" name="dbmysqlmode" id="dbmysqlmode_3" value="CUSTOM"/> <label for="dbmysqlmode_3">Custom</label> &nbsp;
+						<div id="dbmysqlmode_3_view" style="display:none; padding:5px">
+							<input type="text" name="dbmysqlmode_opts" value="" /><br/>
+							<small>Separate additional <a href="?help#help-mysql-mode" target="_blank">sql modes</a> with commas &amp; no spaces.<br/>
+								Example: <i>NO_ENGINE_SUBSTITUTION,NO_ZERO_IN_DATE,...</i>.</small>
+						</div>
+					</td>
+				</tr>
+				<tr><td style="width:130px">Charset:</td><td><input type="text" name="dbcharset" id="dbcharset" value="<?php echo DUPX_U::esc_attr($_POST['dbcharset']) ?>" /> </td></tr>
+				<tr><td>Collation:</td><td><input type="text" name="dbcollate" id="dbcollate" value="<?php echo DUPX_U::esc_attr($_POST['dbcollate']); ?>" /> </tr>
+			</table>
+
+		</div>
+		<br/><br/><br/>
+		<br/><br/><br/>
+
+		<div class="dupx-footer-buttons">
+			<input type="button" onclick="DUPX.testDatabase()" class="default-btn" value="Test Database" />
+			<input id="dup-step2-deploy-btn" type="button" class="default-btn" value=" Next " onclick="DUPX.confirmDeployment()" />
+		</div>
+
+
 	</div>
 
 
@@ -120,66 +179,6 @@ VIEW: STEP 2- INPUT -->
 				</small>
 		</div>
 	</div>
-
-    <!-- =========================================
-    DIALOG: DB CONNECTION CHECK  -->
-    <div id="s2-dbconn">
-        <div id="s2-dbconn-status" style="display:none">
-            <div style="padding: 0px 10px 10px 10px;">
-                <div id="s2-dbconn-test-msg" style="min-height:80px"></div>
-            </div>
-            <small><input type="button" onclick="$('#s2-dbconn-status').hide(500)" class="s2-small-btn" value="Hide Message" /></small>
-        </div>
-    </div>
-
-
-    <br/>
-
-    <!-- ====================================
-    OPTIONS
-    ==================================== -->
-    <div class="hdr-sub1" data-type="toggle" data-target="#s2-area-adv-opts">
-        <a  href="javascript:void(0)"><i class="dupx-plus-square"></i> Options</a>
-    </div>
-    <div id='s2-area-adv-opts' style="display:none">
-		<div class="help-target"><a href="?help#help-s2" target="_blank">[help]</a></div>
-		
-		<table class="dupx-opts dupx-advopts">
-			<tr>
-				<td>Legacy:</td>
-				<td><input type="checkbox" name="dbcollatefb" id="dbcollatefb" value="1" /> <label for="dbcollatefb">Apply legacy collation fallback support for unknown collations types</label></td>
-			</tr>
-			<tr>
-				<td>Spacing:</td>
-				<td colspan="2">
-					<input type="checkbox" name="dbnbsp" id="dbnbsp" value="1" /> <label for="dbnbsp">Fix non-breaking space characters</label>
-				</td>
-			</tr>
-			<tr>
-				<td style="vertical-align:top">Mode:</td>
-				<td colspan="2">
-					<input type="radio" name="dbmysqlmode" id="dbmysqlmode_1" checked="true" value="DEFAULT"/> <label for="dbmysqlmode_1">Default</label> &nbsp;
-					<input type="radio" name="dbmysqlmode" id="dbmysqlmode_2" value="DISABLE"/> <label for="dbmysqlmode_2">Disable</label> &nbsp;
-					<input type="radio" name="dbmysqlmode" id="dbmysqlmode_3" value="CUSTOM"/> <label for="dbmysqlmode_3">Custom</label> &nbsp;
-					<div id="dbmysqlmode_3_view" style="display:none; padding:5px">
-						<input type="text" name="dbmysqlmode_opts" value="" /><br/>
-						<small>Separate additional <a href="?help#help-mysql-mode" target="_blank">sql modes</a> with commas &amp; no spaces.<br/>
-							Example: <i>NO_ENGINE_SUBSTITUTION,NO_ZERO_IN_DATE,...</i>.</small>
-					</div>
-				</td>
-			</tr>
-			<tr><td style="width:130px">Charset:</td><td><input type="text" name="dbcharset" id="dbcharset" value="<?php echo DUPX_U::esc_attr($_POST['dbcharset']) ?>" /> </td></tr>
-			<tr><td>Collation:</td><td><input type="text" name="dbcollate" id="dbcollate" value="<?php echo DUPX_U::esc_attr($_POST['dbcollate']); ?>" /> </tr>
-		</table>
-    
-    </div>
-    <br/><br/><br/>
-    <br/><br/><br/>
-
-    <div class="dupx-footer-buttons">
-        <input type="button" onclick="DUPX.testDatabase()" class="default-btn" value="Test Database" />
-        <input id="dup-step2-deploy-btn" type="button" class="default-btn" value=" Next " onclick="DUPX.confirmDeployment()" />
-    </div>
 
 </form>
 
