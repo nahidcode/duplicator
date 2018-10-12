@@ -287,7 +287,7 @@ UNREADABLE FILES -->
     </div>
     <div class="info">
         <?php
-        esc_html_e('PHP is unable to read the following items and they will <u>not</u> be included in the package.  Please work with your host to adjust the permissions or resolve the '
+        esc_html_e('PHP is unable to read the following items and they will NOT be included in the package.  Please work with your host to adjust the permissions or resolve the '
             . 'symbolic-link(s) shown in the lists below.  If these items are not needed then this notice can be ignored.', 'duplicator');
         ?>
         <script id="unreadable-files" type="text/x-handlebars-template">
@@ -369,19 +369,16 @@ DATABASE -->
 			<b><?php esc_html_e('Tables', 'duplicator');?>:</b> <span id="data-db-tablecount"></span> &nbsp; | &nbsp;
 			<b><?php esc_html_e('Records', 'duplicator');?>:</b> <span id="data-db-rows"></span><br/>
 			<?php
-				printf(wp_kses(__('Total size and row counts are approximate values.  The thresholds that trigger notices are <i>%1$s OR %2$s</i> records total for the entire database.  '
-					. 'Larger databases take more time to process.  On some budget hosts that have cpu/memory/timeout limits this may cause issues.', 'duplicator'),
-					esc_html(DUP_Util::byteSize(DUPLICATOR_SCAN_DB_ALL_SIZE)),
-						number_format(DUPLICATOR_SCAN_DB_ALL_ROWS)), array('i'));
-
+				$dup_scan_tbl_total_trigger_size = '[' . DUP_Util::byteSize(DUPLICATOR_SCAN_DB_ALL_SIZE) . ' OR ' . number_format(DUPLICATOR_SCAN_DB_ALL_ROWS) . ']';
+				printf(__('Total size and row counts are approximate values.  The thresholds that trigger notices are %1$s records total for the entire database.  Larger databases '
+					. 'take more time to process.  On some budget hosts that have cpu/memory/timeout limits this may cause issues.', 'duplicator'), $dup_scan_tbl_total_trigger_size);
 				echo '<br/><br/><hr size="1" />';
 
 				//TABLE DETAILS
 				echo '<b>' . __('TABLE DETAILS:', 'duplicator') . '</b><br/>';
-				printf(esc_html__('The notices for tables are <i>%1$s, %2$s records or names with upper-case characters</i>.  Individual tables will not trigger '
-					. 'a notice message, but can help narrow down issues if they occur later on.', 'duplicator'),
-					esc_html(DUP_Util::byteSize(DUPLICATOR_SCAN_DB_TBL_SIZE)),
-						number_format(DUPLICATOR_SCAN_DB_TBL_ROWS));
+				$dup_scan_tbl_trigger_size = DUP_Util::byteSize(DUPLICATOR_SCAN_DB_TBL_SIZE) . ', ' . number_format(DUPLICATOR_SCAN_DB_TBL_ROWS);
+				printf(esc_html__('The notices for tables are %1$s records or names with upper-case characters.  Individual tables will not trigger '
+					. 'a notice message, but can help narrow down issues if they occur later on.', 'duplicator'), $dup_scan_tbl_trigger_size);
 				
 				echo '<div id="dup-scan-db-info"><div id="data-db-tablelist"></div></div>';
 
