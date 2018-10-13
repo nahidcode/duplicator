@@ -17,8 +17,10 @@ class DUPX_WPConfig
 	 */
 	public static function updateStandard()
 	{
-		if (!file_exists('wp-config.php'))
+		if (!file_exists('wp-config.php')) {
+			DUPX_Log::info('WARNING: Unable to locate wp-config.php file during standard update process.  Be sure the file is present in your archive.');
 			return;
+		}
 
 		$root_path	= DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
 		$wpconfig	= @file_get_contents('wp-config.php', true);
