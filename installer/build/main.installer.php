@@ -394,7 +394,7 @@ switch ($_POST['action_step']) {
         <label>WordPress Version:</label>  		<?php echo DUPX_U::esc_html($GLOBALS['FW_VERSION_WP']); ?><br/>
         <label>PHP Version:</label>             <?php echo DUPX_U::esc_html($GLOBALS['FW_VERSION_PHP']); ?><br/>
         <label>Database Version:</label>        <?php echo DUPX_U::esc_html($GLOBALS['FW_VERSION_DB']); ?><br/>
-        <label>Operating System:</label>        <?php echoDUPX_U::esc_html($GLOBALS['FW_VERSION_OS']); ?><br/>
+        <label>Operating System:</label>        <?php echo DUPX_U::esc_html($GLOBALS['FW_VERSION_OS']); ?><br/>
 		<br/><br/>
 	</div>
 </div>
