@@ -1,5 +1,5 @@
 <?php
-
+defined("DUPXABSPATH") or die("");
 /**
  * Class used to update and edit web server configuration files
  *

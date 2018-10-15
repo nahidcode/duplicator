@@ -1,4 +1,5 @@
 <?php
+defined("DUPXABSPATH") or die("");
 
 /**
  * Walks every table in db that then walks every row and column replacing searches with replaces

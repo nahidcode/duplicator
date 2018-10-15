@@ -1,4 +1,5 @@
 <?php
+defined("DUPXABSPATH") or die("");
 /** IDE HELPERS */
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */
 

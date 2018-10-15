@@ -1,4 +1,6 @@
 <?php
+defined("DUPXABSPATH") or die("");
+
 	$_POST['url_new']	    = isset($_POST['url_new'])      ? DUPX_U::sanitize_text_field($_POST['url_new']) : '';
 	$_POST['retain_config'] = isset($_POST['retain_config']) && $_POST['retain_config'] == '1' ? true : false;
     $_POST['exe_safe_mode']	= isset($_POST['exe_safe_mode']) ? DUPX_U::sanitize_text_field($_POST['exe_safe_mode']) : 0;

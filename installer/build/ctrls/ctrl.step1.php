@@ -1,4 +1,5 @@
 <?php
+defined("DUPXABSPATH") or die("");
 
 //POST PARAMS
 $_POST['archive_engine']	 = isset($_POST['archive_engine']) ? DUPX_U::sanitize_text_field($_POST['archive_engine'])  : 'manual';
