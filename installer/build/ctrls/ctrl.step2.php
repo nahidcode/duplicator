@@ -1,4 +1,6 @@
 <?php
+defined("DUPXABSPATH") or die("");
+
 //POST PARAMS
 $_POST['dbaction'] = isset($_POST['dbaction'])  ? DUPX_U::sanitize_text_field($_POST['dbaction']) : 'create';
 

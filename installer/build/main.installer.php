@@ -17,6 +17,9 @@
   GPL v3 https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
+if ( !defined('DUPXABSPATH') )
+	define('DUPXABSPATH', dirname(__FILE__) . '/');
+
 if (file_exists('dtoken.php')) {
     //This is most likely inside the snapshot folder.
     

@@ -8,6 +8,8 @@
  * @package SC\DUPX\U
  *
  */
+defined("DUPXABSPATH") or die("");
+
 class DUPX_U
 {
     /**

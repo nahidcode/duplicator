@@ -1,4 +1,6 @@
 <?php
+defined("DUPXABSPATH") or die("");
+
 	if (isset($_POST['logging'])) {
 		$post_logging = DUPX_U::sanitize_text_field($_POST['logging']);
 		$_POST['logging'] = trim($post_logging);

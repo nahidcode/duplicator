@@ -1,4 +1,5 @@
 <?php
+defined("DUPXABSPATH") or die("");
 /**
  * Class used to update and edit and update the wp-config.php
  *

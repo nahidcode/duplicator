@@ -1,4 +1,6 @@
 <?php
+defined("DUPXABSPATH") or die("");
+
 // Exit if accessed directly from admin
 if (function_exists('duplicator_secure_check')) {
 	duplicator_secure_check();

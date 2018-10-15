@@ -1,4 +1,5 @@
 <?php
+defined("DUPXABSPATH") or die("");
 //VIEW: STEP 1- INPUT
 
 //ARCHIVE FILE

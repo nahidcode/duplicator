@@ -1,4 +1,5 @@
 <?php
+defined("DUPXABSPATH") or die("");
 
 /**	 * *****************************************************
  *  CLASS::DUPX_Http

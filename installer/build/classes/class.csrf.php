@@ -1,4 +1,6 @@
 <?php
+defined("DUPXABSPATH") or die("");
+
 /******************************************************************
  * 
  * Projectname:   PHP Cross-Site Request Forgery (DUPX_CSRF) Protection Class 
