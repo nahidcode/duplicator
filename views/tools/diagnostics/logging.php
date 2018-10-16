@@ -41,7 +41,7 @@ $logfound = (strlen($logname) > 0) ? true :false;
 	td#dup-log-panel-left div.name {float:left; margin: 0px 0px 5px 5px;}
 	td#dup-log-panel-left div.opts {float:right;}
 	td#dup-log-panel-right {vertical-align: top; padding-left:15px; max-width: 375px}
-	#dup-log-content {padding:5px; background: #fff; min-height:500px; width:99%; border:1px solid silver}
+	iframe#dup-log-content {padding:5px; background: #fff; min-height:500px; width:99%; border:1px solid silver}
 	
 	/* OPTIONS */
 	div.dup-log-hdr {font-weight: bold; font-size:16px; padding:2px; }
@@ -91,12 +91,6 @@ jQuery(document).ready(function($)
 		var height = $(window).height() - 215;
 		$("#dup-log-content").css({height: height + 'px'});
 	}
-
-    Duplicator.Tools.readLogfile = function() {
-        $.get('<?php echo esc_url($logurl); ?>', function(data) {
-            $('#dup-log-content').text(data);
-        }, 'text');
-    };
 	
 	var duration = 10;
 	var count = duration;
@@ -119,8 +113,6 @@ jQuery(document).ready(function($)
 	function startTimer() {
 		timerInterval = setInterval(timer, 1000); 
 	}
-
-
 	
 	//INIT Events
 	$(window).resize(Duplicator.Tools.WinResize);
@@ -131,7 +123,6 @@ jQuery(document).ready(function($)
 	
 	//INIT
 	Duplicator.Tools.WinResize();
-    Duplicator.Tools.readLogfile();
 	<?php if ($refresh)  :	?>
 		//Scroll to Bottom
 		$("#dup-log-content").load(function () {
@@ -179,7 +170,7 @@ jQuery(document).ready(function($)
 				</div>
 				<div class="opts"><a href="javascript:void(0)" id="dup-options"><?php esc_html_e("Options", 'duplicator') ?> <i class="fa fa-angle-double-right"></i></a> &nbsp;</div>
 				<br style="clear:both" />
-                <pre id="dup-log-content"></pre>
+				<iframe id="dup-log-content" src="<?php echo esc_url($logurl); ?>" ></iframe>							
 			</td>
 			<td id="dup-log-panel-right">
 				<h2><?php esc_html_e("Options", 'duplicator') ?> </h2>
