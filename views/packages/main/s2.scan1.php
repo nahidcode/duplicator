@@ -125,6 +125,33 @@
         i.scan-warn {color:#630f0f;}
 </style>
 
+<?php
+if (($errors = $Package->validateInputs()) !== true) {
+    ?>
+    <form id="form-duplicator" method="post" action="<?php echo $action_nonce_url; ?>">
+        <!--  ERROR MESSAGE -->
+        <div id="dup-msg-error" >
+            <div class="dup-hdr-error"><i class="fa fa-exclamation-circle"></i> <?php _e('Input fields not valid', 'duplicator'); ?></div>
+            <i><?php esc_html_e('Please try again!', 'duplicator'); ?></i><br/>
+            <div class="dup-hdr-error-details">
+                <b><?php esc_html_e("Error Message:", 'duplicator'); ?></b>
+                <div id="dup-msg-error-response-text">
+                <?php foreach ($errors as $error) { 
+                    echo $error['field'].': '.$error['msg'].'<br>';
+                } ?>
+
+                </div>
+            </div>
+        </div>
+
+
+        <input type="button" value="&#9664; <?php esc_html_e("Back", 'duplicator') ?>" onclick="window.location.assign('?page=duplicator&tab=new1&_wpnonce=<?php echo wp_create_nonce('new1-package'); ?>')" class="button button-large" />
+    </form>
+    <?php
+    return;
+}
+?>
+
 <!-- =========================================
 TOOL BAR:STEPS -->
 <table id="dup-toolbar">
