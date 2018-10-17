@@ -283,6 +283,10 @@ class DUP_Package
         return $this;
     }
 
+    /**
+     *
+     * @return boolean|array  true if is valid | array of errors messages if isn't valid
+     */
     public function validateInputs()
     {
 

@@ -126,8 +126,10 @@
 </style>
 
 <?php
+/* VALIDATE PACKAGE DATA */
 if (($errors = $Package->validateInputs()) !== true) {
     ?>
+
     <form id="form-duplicator" method="post" action="<?php echo $action_nonce_url; ?>">
         <!--  ERROR MESSAGE -->
         <div id="dup-msg-error" >
@@ -136,15 +138,15 @@ if (($errors = $Package->validateInputs()) !== true) {
             <div class="dup-hdr-error-details">
                 <b><?php esc_html_e("Error Message:", 'duplicator'); ?></b>
                 <div id="dup-msg-error-response-text">
-                <?php foreach ($errors as $error) { 
-                    echo $error['field'].': '.$error['msg'].'<br>';
-                } ?>
+                    <?php
+                    foreach ($errors as $error) {
+                        echo $error['field'].': '.$error['msg'].'<br>';
+                    }
+                    ?>
 
                 </div>
             </div>
         </div>
-
-
         <input type="button" value="&#9664; <?php esc_html_e("Back", 'duplicator') ?>" onclick="window.location.assign('?page=duplicator&tab=new1&_wpnonce=<?php echo wp_create_nonce('new1-package'); ?>')" class="button button-large" />
     </form>
     <?php
