@@ -22,7 +22,11 @@
 	$mysqlcompat_on  = ($mysqldump_on && $mysqlcompat_on) ? true : false;
 	$dbbuild_mode    = ($mysqldump_on) ? 'mysqldump' : 'PHP';
     $zip_check		 = DUP_Util::getZipPath();
+
+	$action_url = admin_url('admin.php?page=duplicator&tab=new3');
+	$action_nonce_url = wp_nonce_url($action_url, 'new3-package');
 ?>
+
 
 <style>
 	/*PROGRESS-BAR - RESULTS - ERROR */
@@ -126,9 +130,12 @@
 </style>
 
 <?php
-/* VALIDATE PACKAGE DATA */
-if (($errors = $Package->validateInputs()) !== true) {
-    ?>
+/* VALIDATE PACKAGE DATA:
+ * Porting to 1.3 Line
+ */
+if (false) :
+	//if (($errors = $Package->validateInputs()) !== true)
+?>
 
     <form id="form-duplicator" method="post" action="<?php echo $action_nonce_url; ?>">
         <!--  ERROR MESSAGE -->
@@ -143,7 +150,6 @@ if (($errors = $Package->validateInputs()) !== true) {
                         echo $error['field'].': '.$error['msg'].'<br>';
                     }
                     ?>
-
                 </div>
             </div>
         </div>
@@ -151,7 +157,7 @@ if (($errors = $Package->validateInputs()) !== true) {
     </form>
     <?php
     return;
-}
+endif;
 ?>
 
 <!-- =========================================
@@ -178,10 +184,7 @@ TOOL BAR:STEPS -->
 </table>		
 <hr class="dup-toolbar-line">
 
-<?php
-$action_url = admin_url('admin.php?page=duplicator&tab=new3');
-$action_nonce_url = wp_nonce_url($action_url, 'new3-package');
-?>
+
 <form id="form-duplicator" method="post" action="<?php echo $action_nonce_url;?>">
 <?php wp_nonce_field('dup_form_opts', 'dup_form_opts_nonce_field', false); ?>
 
