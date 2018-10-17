@@ -284,6 +284,115 @@ class DUP_Package
     }
 
     /**
+     *
+     * @return boolean|array  true if is valid | array of errors messages if isn't valid
+     */
+    public function validateInputs()
+    {
+
+        $errors = array();
+
+        if (empty($this->Name)) {
+            $errors[] = array(
+                'prop' => 'Name',
+                'field' => __('Name', 'duplicator'),
+                'msg' => __('Can\'t be empty', 'duplicator'),
+            );
+        }
+
+        $homepath = untrailingslashit(get_home_path());
+
+        if (!empty($this->Archive->FilterDirs)) {
+            $dirs = explode(';', $this->Archive->FilterDirs);
+
+            foreach ($dirs as $dir) {
+                if (empty($dir)) {
+                    continue;
+                }
+
+                if (strpos($dir, $homepath) !== 0 || validate_file($dir) !== 0) {
+                    $errors[] = array(
+                        'prop' => 'FilterDirs',
+                        'field' => __('Directories', 'duplicator'),
+                        'msg' => $dir.__(' isn\'t a valid path', 'duplicator'),
+                    );
+                }
+            }
+        }
+
+        if (!empty($this->Archive->FilterExts)) {
+            $exts = explode(';', $this->Archive->FilterExts);
+            foreach ($exts as $ext) {
+                if (empty($ext)) {
+                    continue;
+                }
+
+                if (!preg_match('/^[a-zA-Z0-9\.]+$/', $ext)) {
+                    $errors[] = array(
+                        'prop' => 'FilterExts',
+                        'field' => __('File extensions', 'duplicator'),
+                        'msg' => $ext.__(' isn\'t a valid file extension', 'duplicator'),
+                    );
+                }
+            }
+        }
+
+        if (!empty($this->Archive->FilterFiles)) {
+            $files = explode(';', $this->Archive->FilterFiles);
+
+            foreach ($files as $file) {
+                if (empty($file)) {
+                    continue;
+                }
+
+                if (strpos($file, $homepath) !== 0 || validate_file($file) !== 0) {
+                    $errors[] = array(
+                        'prop' => 'FilterFiles',
+                        'field' => __('Files', 'duplicator'),
+                        'msg' => $file.__(' isn\'t a valid file name', 'duplicator'),
+                    );
+                }
+            }
+        }
+
+        if (!empty($this->Installer->OptsDBHost) && $this->Installer->OptsDBHost != 'localhost' && filter_var($this->Installer->OptsDBHost, FILTER_VALIDATE_URL) == false) {
+            $errors[] = array(
+                'prop' => 'OptsDBHost',
+                'field' => __('MySQL Server Host', 'duplicator'),
+                'msg' => $this->Installer->OptsDBHost.__(' isn\'t a valid host', 'duplicator'),
+            );
+        }
+
+        $vOpt = array(
+            'options' => array(
+                'min_range' => 0
+            )
+        );
+
+        if (!empty($this->Installer->OptsDBPort) && filter_var($this->Installer->OptsDBPort, FILTER_VALIDATE_INT, $vOpt) == false) {
+            $errors[] = array(
+                'prop' => 'OptsDBPort',
+                'field' => __('MySQL Server Port', 'duplicator'),
+                'msg' => $this->Installer->OptsDBPort.__(' isn\'t a valid port', 'duplicator'),
+            );
+        }
+
+        /*
+         * @todo
+         * $this->Installer->OptsDBName
+         * $this->Installer->OptsDBUser
+         * $this->Installer->OptsSecurePass
+         *
+         */
+
+        if (empty($errors)) {
+            return true;
+        } else {
+            return $errors;
+        }
+    }
+
+    /**
      *  Saves the active options associted with the active(latest) package.
      *
      *  @see DUP_Package::getActive
@@ -332,7 +441,7 @@ class DUP_Package
             $this->Archive->FilterOn        = isset($post['filter-on']) ? 1 : 0;
 			$this->Archive->ExportOnlyDB    = isset($post['export-onlydb']) ? 1 : 0;
             $this->Archive->FilterDirs      = sanitize_textarea_field($filter_dirs);
-			 $this->Archive->FilterFiles    = sanitize_textarea_field($filter_files);
+			$this->Archive->FilterFiles    = sanitize_textarea_field($filter_files);
             $this->Archive->FilterExts      = str_replace(array('.', ' '), '', sanitize_textarea_field($filter_exts));
             //INSTALLER
             $this->Installer->OptsDBHost		= sanitize_text_field($post['dbhost']);
@@ -379,7 +488,7 @@ class DUP_Package
     {
         global $wpdb;
 
-        $packageObj = serialize($this);
+        $packageObj = esc_sql(serialize($this));
 
         if (!isset($status)) {
             DUP_Log::Error("Package SetStatus did not receive a proper code.");
