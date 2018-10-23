@@ -179,7 +179,7 @@ if (isset($_POST['dbport'])) {
 $_POST['dbuser'] = isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : null;
 
 if (isset($_POST['dbpass'])) {
-	$post_db_pass = DUPX_U::sanitize_text_field($_POST['dbpass']);
+	$post_db_pass = DUPX_U::wp_unslash($_POST['dbpass']);
 	$_POST['dbpass'] = trim($post_db_pass);
 } else {
 	$_POST['dbpass'] = null;

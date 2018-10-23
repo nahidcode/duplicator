@@ -34,7 +34,7 @@ if (isset($_POST['dbname'])) {
 
 
 $_POST['dbuser'] = isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : null;
-$_POST['dbpass'] = isset($_POST['dbpass']) ? DUPX_U::sanitize_text_field($_POST['dbpass']) : null;
+$_POST['dbpass'] = isset($_POST['dbpass']) ? trim(DUPX_U::wp_unslash($_POST['dbpass'])) : null;
 
 if (isset($_POST['blogname'])) {
 	$post_blog_name = DUPX_U::sanitize_text_field($_POST['blogname']);
