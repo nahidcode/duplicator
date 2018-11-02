@@ -1,6 +1,7 @@
 <?php
 if (!defined('DUPLICATOR_VERSION')) exit; // Exit if accessed directly
 
+require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/duparchive/class.pack.archive.duparchive.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.filters.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.zip.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'lib/forceutf8/Encoding.php');
@@ -32,9 +33,9 @@ class DUP_Archive
     public $File;
     public $Format;
     public $PackDir;
-    public $Size        = 0;
-    public $Dirs        = array();
-    public $Files       = array();
+    public $Size          = 0;
+    public $Dirs          = array();
+    public $Files         = array();
     public $FilterInfo;
     public $RecursiveLinks  = array();
 
@@ -70,34 +71,60 @@ class DUP_Archive
      * @param obj $package The package object that started this process
      *
      * @return null
-     */
-    public function build($package)
-    {
-        try {
-            $this->Package = $package;
-            if (!isset($this->PackDir) && !is_dir($this->PackDir)) throw new Exception("The 'PackDir' property must be a valid diretory.");
-            if (!isset($this->File)) throw new Exception("A 'File' property must be set.");
+     */    
+	public function build($package, $rethrow_exception = false)
+	{
+        DUP_LOG::trace("b1");
+        $this->Package = $package;
+        if (!isset($this->PackDir) && !is_dir($this->PackDir)) throw new Exception("The 'PackDir' property must be a valid directory.");
+        if (!isset($this->File)) throw new Exception("A 'File' property must be set.");
 
-            $this->Package->setStatus(DUP_PackageStatus::ARCSTART);
-            switch ($this->Format) {
-                case 'TAR': break;
-                case 'TAR-GZIP': break;
-                default:
-                    if (class_exists(ZipArchive)) {
-                        $this->Format = 'ZIP';
-                        DUP_Zip::create($this);
-                    }
-                    break;
-            }
+        DUP_LOG::trace("b2");
+        $completed = false;
 
+        switch ($this->Format) {
+            case 'TAR': break;
+            case 'TAR-GZIP': break;
+            case 'DAF':
+                $completed = DUP_DupArchive::create($this, $this->Package->BuildProgress, $this->Package);
+
+                $this->Package->Update();
+                break;
+
+              default:
+                if (class_exists('ZipArchive')) {
+                    $this->Format = 'ZIP';
+                    DUP_Zip::create($this, $this->Package->BuildProgress);
+                    $completed = true;
+                }
+                break;
+        }
+
+        DUP_LOG::Trace("Completed build or build thread");
+
+        if($this->Package->BuildProgress === null) {
+            // Zip path
+            DUP_LOG::Trace("Completed Zip");
             $storePath  = "{$this->Package->StorePath}/{$this->File}";
             $this->Size = @filesize($storePath);
             $this->Package->setStatus(DUP_PackageStatus::ARCDONE);
-        } catch (Exception $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n";
-        }
-    }
-
+        } else if($completed) {
+            // Completed DupArchive path
+            DUP_LOG::Trace("Completed DupArchive build");
+            if ($this->Package->BuildProgress->failed) {
+                DUP_LOG::Trace("Error building DupArchive");
+                $this->Package->setStatus(DUP_PackageStatus::ERROR);
+            } else {
+                $filepath    = DUP_Util::safePath("{$this->Package->StorePath}/{$this->File}");
+                $this->Size	 = @filesize($filepath);
+                $this->Package->setStatus(DUP_PackageStatus::ARCDONE);
+                DUP_LOG::Trace("Done building archive");	
+            }
+        } else {
+            DUP_Log::trace("DupArchive chunk done but package not completed yet");
+        }      
+	}
+	
     /**
      *  Builds a list of files and directories to be included in the archive
      *
@@ -278,6 +305,11 @@ class DUP_Archive
         $this->FilterDirsAll  = array_merge($this->FilterInfo->Dirs->Instance, $this->FilterInfo->Dirs->Core);
         $this->FilterExtsAll  = array_merge($this->FilterInfo->Exts->Instance, $this->FilterInfo->Exts->Core);
 		$this->FilterFilesAll = array_merge($this->FilterInfo->Files->Instance);
+        
+        $this->FilterFilesAll[] = DUPLICATOR_WPROOTPATH . '.htaccess';
+		$this->FilterFilesAll[] = DUPLICATOR_WPROOTPATH . 'web.config';
+		$this->FilterFilesAll[] = DUPLICATOR_WPROOTPATH . 'wp-config.php';
+
 		$this->tmpFilterDirsAll = $this->FilterDirsAll;
 
 		//PHP 5 on windows decode patch

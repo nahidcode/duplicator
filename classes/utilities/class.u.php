@@ -6,7 +6,7 @@
  * @link http://www.php-fig.org/psr/psr-2
  *
  * @package Duplicator
- * @subpackage classes/utilities
+ * @subpackage classes/utilites
  * @copyright (c) 2017, Snapcreek LLC
  * @since 1.1.0
  *
@@ -17,8 +17,6 @@
 if (!defined('DUPLICATOR_VERSION')) {
     exit;
 }
-
-//require_once (DUPLICATOR_PLUGIN_PATH.'classes/class.crypt.php');
 
 class DUP_Util
 {
@@ -52,7 +50,23 @@ class DUP_Util
         self::$on_php_54_plus  = version_compare(PHP_VERSION, '5.4.0') >= 0;
 		self::$PHP7_plus = version_compare(PHP_VERSION, '7.0.0', '>=');
     }
+    
+//    public static function objectCopy($source, $dest)
+//    {
+//        foreach(get_object_vars($source) as $key => $value) {
+//            $dest->$key = $value;
+//        }
+//    }
 
+    public static function objectCopy($srcObject, $destObject, $skipMemberArray = null)
+    {
+        foreach ($srcObject as $member_name => $member_value) {
+            if (!is_object($member_value) && (($skipMemberArray == null) || !in_array($member_name, $skipMemberArray))) {
+                // Skipping all object members
+                $destObject->$member_name = $member_value;
+            }
+        }
+    }
 
     public static function getWPCoreDirs()
     {
@@ -134,7 +148,7 @@ class DUP_Util
 
 	/**
      * PHP_SAPI for fcgi requires a data flush of at least 256
-     * bytes every 40 seconds or else it forces a script halt
+     * bytes every 40 seconds or else it forces a script hault
      *
      * @return string A series of 256 space characters
      */
@@ -156,7 +170,7 @@ class DUP_Util
     }
 
     /**
-     * Returns the last N lines of a file. equivalent to tail command
+     * Returns the last N lines of a file. Equivelent to tail command
      *
      * @param string $filepath The full path to the file to be tailed
      * @param int $lines The number of lines to return with each tail call
@@ -426,6 +440,32 @@ class DUP_Util
         return false;
     }
 
+		 /**
+     * Wrap to prevent malware scanners from reporting false/positive
+     * Switched from our old method to avoid WordFence reporting a false positive
+     *
+     * @param string $string The string to decrypt i.e. base64_decode
+     *
+     * @return string Returns the string base64 decoded
+     */
+    public static function installerUnscramble($string)
+    {
+        return base64_decode($string);
+    }
+
+	/**
+     * Wrap to prevent malware scanners from reporting false/positive
+     * Switched from our old method to avoid WordFence reporting a false positive
+     *
+     * @param string $string The string to decrypt i.e. base64_encode
+     *
+     * @return string Returns the string base64 encode
+     */
+    public static function installerScramble($string)
+    {
+        return base64_encode($string);
+    }
+
     /**
      * Does the current user have the capability
      *
@@ -482,34 +522,8 @@ class DUP_Util
         }
     }
 
-	 /**
-     * Wrap to prevent malware scanners from reporting false/positive
-     * Switched from our old method to avoid WordFence reporting a false positive
-     *
-     * @param string $string The string to decrypt i.e. base64_decode
-     *
-     * @return string Returns the string base64 decoded
-     */
-    public static function installerUnscramble($string)
-    {
-        return base64_decode($string);
-    }
-
-	/**
-     * Wrap to prevent malware scanners from reporting false/positive
-     * Switched from our old method to avoid WordFence reporting a false positive
-     *
-     * @param string $string The string to decrypt i.e. base64_encode
-     *
-     * @return string Returns the string base64 encode
-     */
-    public static function installerScramble($string)
-    {
-        return base64_encode($string);
-    }
-
     /**
-     * Creates the snapshot directory if it doesn't already exist
+     * Creates the snapshot directory if it doesn't already exisit
      *
      * @return null
      */
@@ -603,6 +617,17 @@ class DUP_Util
 
         return $filepath;
     }
+    
+    /**
+     * Is the server PHP 5.3 or better
+     *
+     * @return  bool    Returns true if the server PHP 5.3 or better
+     */
+    public static function PHP53()
+    {
+        return version_compare(PHP_VERSION, '5.3.2', '>=');
+    }
+
 
 	/**
      * Returns an array of the WordPress core tables.
@@ -627,12 +652,12 @@ class DUP_Util
 			"{$wpdb->prefix}users");
     }
 	
-    /**
-     * Finds if its a valid executable or not
-     * @param type $exe A non zero length executable path to find if that is executable or not.
-     * @param type $expectedValue expected value for the result
-     * @return boolean
-     */
+  /**
+    * Finds if its a valid executable or not
+    * @param type $exe A non zero length executable path to find if that is executable or not.
+    * @param type $expectedValue expected value for the result
+    * @return boolean
+    */
     public static function isExecutable($cmd)
     {
         if (strlen($cmd) < 1) return false;
@@ -654,14 +679,23 @@ class DUP_Util
         return false;
     }
 
-    /**
-     * Is the server PHP 5.3 or better
-     *
-     * @return  bool    Returns true if the server PHP 5.3 or better
-     */
-    public static function PHP53()
-    {
-        return version_compare(PHP_VERSION, '5.3.2', '>=');
-    }
+	/**
+	 * Display human readable byte sizes
+	 *
+	 * @param string $size	The size in bytes
+	 *
+	 * @return string Human readable bytes such as 50MB, 1GB
+	 */
+	public static function readableByteSize($size)
+	{
+		try {
+			$units = array('B', 'KB', 'MB', 'GB', 'TB');
+			for ($i = 0; $size >= 1024 && $i < 4; $i++)
+				$size /= 1024;
+			return round($size, 2).$units[$i];
+		} catch (Exception $e) {
+			return "n/a";
+		}
+	}
 }
 DUP_Util::init();

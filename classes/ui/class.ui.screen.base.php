@@ -48,7 +48,7 @@ class DUP_UI_Screen
 
         $this->screen->add_help_tab(array(
             'id' => 'dup_help_tab_callback',
-            'title' => __('Support', 'duplicator'),
+            'title' => esc_html__('Support', 'duplicator'),
             'content' => "<p>{$content}</p>"
             )
         );

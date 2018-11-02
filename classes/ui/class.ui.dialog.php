@@ -109,7 +109,8 @@ class DUP_UI_Dialog
     {
         $ok = __('OK', 'duplicator');
 
-        $html = '<div id="'.esc_attr($this->id).'" style="display:none">
+        $html = '
+		<div id="'.esc_attr($this->id).'" style="display:none">
 			<div class="dup-dlg-alert-txt">
 				'.$this->message.'
 				<br/><br/>
@@ -156,16 +157,14 @@ class DUP_UI_Dialog
         if ($this->progressOn) {
             $progress_func1 = "__DUP_UI_Dialog_".$this->uniqid;
             $progress_func2 = ";{$progress_func1}(this)";
-            $progress_data  = <<<HTML
-				<div class='dup-dlg-confirm-progress'><i class='fa fa-circle-o-notch fa-spin fa-lg fa-fw'></i> {$this->progressText}</div>
+            $progress_data  = "<div class='dup-dlg-confirm-progress'><i class='fa fa-circle-o-notch fa-spin fa-lg fa-fw'></i> ".esc_js($this->progressText)."</div>
 				<script> 
 					function {$progress_func1}(obj) 
 					{
 						jQuery(obj).parent().parent().find('.dup-dlg-confirm-progress').show();
 						jQuery(obj).closest('.dup-dlg-confirm-btns').find('input').attr('disabled', 'true');
 					}
-				</script>
-HTML;
+				</script>";
         }
 
         $html = 
@@ -193,8 +192,8 @@ HTML;
     {
         $this->width  = is_numeric($this->width) ? $this->width : 500;
         $this->height = is_numeric($this->height) ? $this->height : 225;
-                $html = "tb_show('{$this->title}', '#TB_inline?width={$this->width}&height={$this->height}&inlineId={$this->id}');\n" .
-				 "var styleData = jQuery('#TB_window').attr('style') + 'height: {$this->height}px !important';\n" .
+        $html = "tb_show('".esc_js($this->title)."', '#TB_inline?width=".esc_js($this->width)."&height=".esc_js($this->height)."&inlineId=".esc_js($this->id)."');\n" .
+				 "var styleData = jQuery('#TB_window').attr('style') + 'height: ".esc_js($this->height)."px !important';\n" .
 			 	 "jQuery('#TB_window').attr('style', styleData);";
 
 		echo $html;

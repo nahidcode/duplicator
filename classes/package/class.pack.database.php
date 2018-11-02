@@ -34,11 +34,11 @@ class DUP_Database
     /**
      *  Build the database script
      *
-     *  @param obj $package A reference to the package that this database object belongs in
+     *  @param DUP_Package $package A reference to the package that this database object belongs in
      *
      *  @return null
      */
-    public function build($package)
+    public function build($package, $errorBehavior = Dup_ErrorBehavior::Quit)
     {
         try {
 
@@ -69,9 +69,15 @@ class DUP_Database
 
             //Reserved file found
             if (file_exists($reserved_db_filepath)) {
-                DUP_Log::Error("Reserverd SQL file detected",
+                $error_message = 'Reserved SQL file detected';
+                
+                $package->BuildProgress->set_failed($error_message);
+
+                $package->Update();
+
+                DUP_Log::Error($error_message,
                     "The file database.sql was found at [{$reserved_db_filepath}].\n"
-                    ."\tPlease remove/rename this file to continue with the package creation.");
+                    ."\tPlease remove/rename this file to continue with the package creation.", $errorBehavior);
             }
 
             switch ($mode) {
@@ -87,20 +93,27 @@ class DUP_Database
             $time_end = DUP_Util::getMicrotime();
             $time_sum = DUP_Util::elapsedTime($time_end, $time_start);
 
-            //File below 10k will be incomplete
+            //File below 10k considered incomplete
             $sql_file_size = filesize($this->dbStorePath);
             DUP_Log::Info("SQL FILE SIZE: ".DUP_Util::byteSize($sql_file_size)." ({$sql_file_size})");
+       
             if ($sql_file_size < 10000) {
-                DUP_Log::Error("SQL file size too low.", "File does not look complete.  Check permission on file and parent directory at [{$this->dbStorePath}]");
+                $error_message = "SQL file size too low.";
+
+                $package->BuildProgress->set_failed($error_message);
+
+                $package->Update();
+                DUP_Log::Error($error_message, "File does not look complete.  Check permission on file and parent directory at [{$this->dbStorePath}]", $errorBehavior);
             }
 
             DUP_Log::Info("SQL FILE TIME: ".date("Y-m-d H:i:s"));
             DUP_Log::Info("SQL RUNTIME: {$time_sum}");
 
             $this->Size = @filesize($this->dbStorePath);
+
             $this->Package->setStatus(DUP_PackageStatus::DBDONE);
         } catch (Exception $e) {
-            DUP_Log::Error("Runtime error in DUP_Database::Build", "Exception: {$e}");
+            DUP_Log::Error("Runtime error in DUP_Database::Build", "Exception: {$e}", $errorBehavior);
         }
     }
 
@@ -186,6 +199,7 @@ class DUP_Database
         $info['Status']['TBL_Rows'] = ($tblRowsFound) ? 'Warn' : 'Good';
         $info['Status']['TBL_Size'] = ($tblSizeFound) ? 'Warn' : 'Good';
 
+        $info['RawSize']    = $info['Size'];
         $info['Size']       = DUP_Util::byteSize($info['Size']) or "unknown";
         $info['Rows']       = number_format($info['Rows']) or "unknown";
         $info['TableList']  = $info['TableList'] or "unknown";
@@ -227,6 +241,7 @@ class DUP_Database
         $tables       = $wpdb->get_col('SHOW TABLES');
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
         $tblAllCount  = count($tables);
+        $tblFilterOn  = ($this->FilterOn) ? 'ON' : 'OFF';
 
         if (is_array($filterTables) && $this->FilterOn) {
             foreach ($tables as $key => $val) {
@@ -289,6 +304,7 @@ class DUP_Database
 
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
         $tblAllCount  = count($tables);
+        $tblFilterOn  = ($this->FilterOn) ? 'ON' : 'OFF';
         $qryLimit     = DUP_Settings::Get('package_phpdump_qrylimit');
 
         if (is_array($filterTables) && $this->FilterOn) {
@@ -320,9 +336,18 @@ class DUP_Database
             @fwrite($handle, "{$create[1]};\n\n");
         }
 
+        $table_count = count($tables);
+        $table_number = 0;
+        
         //BUILD INSERTS:
         //Create Insert in 100 row increments to better handle memory
         foreach ($tables as $table) {
+
+            $table_number++;
+            if($table_number % 2 == 0) {
+                $this->Package->Status = SnapLibUtil::getWorkPercent(DUP_PackageStatus::DBSTART, DUP_PackageStatus::DBDONE, $table_count, $table_number);
+                $this->Package->update();
+            }
 
             $row_count = $wpdb->get_var("SELECT Count(*) FROM `{$table}`");
             //DUP_Log::Info("{$table} ({$row_count})");

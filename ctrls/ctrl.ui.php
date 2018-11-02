@@ -42,8 +42,9 @@ class DUP_CTRL_UI extends DUP_CTRL_Base
 
 		$nonce = sanitize_text_field($post['nonce']);
 		if (!wp_verify_nonce($nonce, 'DUP_CTRL_UI_SaveViewState')) {
-			die('Security check disrupted, please return to packages screen.');
+			die('Security issue');
 		}
+
 
 		$result = new DUP_CTRL_Result($this);
 	
@@ -84,13 +85,6 @@ class DUP_CTRL_UI extends DUP_CTRL_Base
      */
 	public function GetViewStateList() 
 	{
-		if (isset($_REQUEST['nonce'])) {
-			$nonce = sanitize_text_field($_REQUEST['nonce']);
-			if (!wp_verify_nonce($nonce, 'DUP_CTRL_UI_GetViewStateList')) {
-				die('Security check disrupted, please return to packages screen.');
-			}
-		}
-
 		$result = new DUP_CTRL_Result($this);
 		
 		try 
