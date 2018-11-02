@@ -11,6 +11,8 @@ class DUP_Archive_Filter_Scope_Base
 {
     //All internal storage items that duplicator decides to filter
     public $Core     = array();
+    //Global filter items added from settings
+    public $Global = array();
     //Items when creating a package or template that a user decides to filter
     public $Instance = array();
 }

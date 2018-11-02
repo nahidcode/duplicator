@@ -56,6 +56,18 @@ if (function_exists('plugin_dir_url'))
 	
     $GLOBALS['DUPLICATOR_SERVER_LIST'] = array('Apache','LiteSpeed', 'Nginx', 'Lighttpd', 'IIS', 'WebServerX', 'uWSGI');
 	$GLOBALS['DUPLICATOR_OPTS_DELETE'] = array('duplicator_ui_view_state', 'duplicator_package_active', 'duplicator_settings');
+	$GLOBALS['DUPLICATOR_GLOBAL_FILE_FILTERS_ON'] = true;
+    $GLOBALS['DUPLICATOR_GLOBAL_FILE_FILTERS'] = array(
+        'error_log',
+        'error.log',
+        'debug_log',
+        'ws_ftp.log',
+        'dbcache',
+        'pgcache',
+        'objectcache',
+		'.DS_Store'
+    );
+
 	
 	/* Used to flush a response every N items. 
 	 * Note: This value will cause the Zip file to double in size durning the creation process only*/

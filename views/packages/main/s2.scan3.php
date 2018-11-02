@@ -559,10 +559,15 @@ DIALOG: Scan Results -->
 					{{/if}}
 				</div>
 
-				<b>[<?php esc_html_e('Auto Filters', 'duplicator');	?>]</b>
+				<b>[<?php esc_html_e('Auto Directory Filters', 'duplicator');	?>]</b>
 				<div class="file-info">
 					{{#each ARC.FilterInfo.Dirs.Core as |dir|}}
 						{{stripWPRoot dir}}/<br/>
+					{{/each}}
+					<br/>
+					<b>[<?php esc_html_e('Auto File Filters', 'duplicator');	?>]</b><br/>
+					{{#each ARC.FilterInfo.Files.Global as |file|}}
+						{{stripWPRoot file}}<br/>
 					{{/each}}
 				</div>
 

@@ -302,9 +302,13 @@ class DUP_Archive
 			$wp_content_upload . '/wpbackitup_backups'
 		);
 
+		if ($GLOBALS['DUPLICATOR_GLOBAL_FILE_FILTERS_ON']) {
+            $this->FilterInfo->Files->Global = $GLOBALS['DUPLICATOR_GLOBAL_FILE_FILTERS'];
+        }
+
         $this->FilterDirsAll  = array_merge($this->FilterInfo->Dirs->Instance, $this->FilterInfo->Dirs->Core);
         $this->FilterExtsAll  = array_merge($this->FilterInfo->Exts->Instance, $this->FilterInfo->Exts->Core);
-		$this->FilterFilesAll = array_merge($this->FilterInfo->Files->Instance);
+		$this->FilterFilesAll = array_merge($this->FilterInfo->Files->Instance, $this->FilterInfo->Files->Global);
         
         $this->FilterFilesAll[] = DUPLICATOR_WPROOTPATH . '.htaccess';
 		$this->FilterFilesAll[] = DUPLICATOR_WPROOTPATH . 'web.config';
@@ -528,7 +532,8 @@ class DUP_Archive
                     }
 				} else {
 					if ( ! (in_array(pathinfo($file, PATHINFO_EXTENSION), $this->FilterExtsAll)
-						|| in_array($fullPath, $this->FilterFilesAll))) {
+						|| in_array($fullPath, $this->FilterFilesAll)
+						|| in_array($file, $this->FilterFilesAll))) {
 						$this->Files[] = $fullPath;
 					}
 				}
