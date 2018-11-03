@@ -168,49 +168,14 @@ TOOL BAR: STEPS -->
 			<i><?php esc_html_e("To help get you past this hosts limitation consider these options by clicking each section below.", 'duplicator'); ?></i>
 			<br/><br/><br/>
 
-			<!-- OPTION 1: TRY AGAIN -->
+			<!-- OPTION 1: Try DupArchive Engine -->
 			<div class="dup-box">
-				<div class="dup-box-title">
-					<i class="fa fa-reply"></i>&nbsp;<?php esc_html_e('Try Again', 'duplicator'); ?>
-					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
-				</div>
-				<div class="dup-box-panel" id="dup-pack-build-try1" style="display:none">
-					<b class="opt-title"><?php esc_html_e('OPTION 1:', 'duplicator'); ?></b><br/>
-					<?php
-						esc_html_e('The first pass for reading files on some budget hosts maybe slow and have conflicts with strict timeout settings setup by the hosting provider.  '
-						. 'In these cases, it is recommended to retry the build by adding file filters to larger files/directories.', 'duplicator');
-						
-						echo '	<br/><br/>';
-						
-						esc_html_e('For example, you could  filter out the  "/wp-content/uploads/" folder to create the package then move the files from that directory over manually.  '
-							. 'If this work-flow is not desired please check-out the other options below.', 'duplicator');
-					?>
-					<br/><br/>
-					<div style="text-align: center; margin: 10px">
-						<input type="button" class="button-large button-primary" value="<?php esc_attr_e('Retry Package Build', 'duplicator'); ?>" onclick="window.history.back()" />
-					</div>
-
-					<div style="color:#777; padding: 15px 5px 5px 5px">
-						<b> <?php esc_html_e('Notice', 'duplicator'); ?></b><br/>
-						<?php
-						printf('<b><i class="fa fa-folder-o"></i> %s %s</b> <br/> %s', esc_html__('Build Folder:'), DUPLICATOR_SSDIR_PATH_TMP,
-							__("On some servers the build will continue to run in the background. To validate if a build is still running; open the 'tmp' folder above and see "
-								."if the archive file is growing in size or check the main packages screen to see if the package completed. If it is not then your server "
-								."has strict timeout constraints.", 'duplicator')
-						);
-						?>
-					</div>
-				</div>
-			</div>
-
-			<!-- OPTION 2: Try DupArchive Engine -->
-			<div class="dup-box no-top">
 				<div class="dup-box-title">
 					<i class="fa fa-check-circle-o"></i>&nbsp;<?php esc_html_e('Try DupArchive', 'duplicator'); ?>
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
-				<div class="dup-box-panel" id="dup-pack-build-try2" style="display:none">
-					<b class="opt-title"><?php esc_html_e('OPTION 2:', 'duplicator'); ?></b><br/>
+				<div class="dup-box-panel" id="dup-pack-build-try1" style="display:none">
+					<b class="opt-title"><?php esc_html_e('OPTION 1:', 'duplicator'); ?></b><br/>
 
 					<?php esc_html_e('Enable the DupArchive format which is specific to Duplicator and is designed around performance and scalability. DupArchive is '
 						. 'designed	to help get around these server constraints to help process build a package.', 'duplicator'); ?>
@@ -237,6 +202,41 @@ TOOL BAR: STEPS -->
 							. 'installer.php file or the', 'duplicator'); ?>
 						<a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-052-q" target="_blank"><?php esc_html_e('commandline extraction tool'); ?></a>.
 					</small>
+				</div>
+			</div>
+
+			<!-- OPTION 2: TRY AGAIN -->
+			<div class="dup-box  no-top">
+				<div class="dup-box-title">
+					<i class="fa fa-filter"></i>&nbsp;<?php esc_html_e('File Filters', 'duplicator'); ?>
+					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
+				</div>
+				<div class="dup-box-panel" id="dup-pack-build-try2" style="display:none">
+					<b class="opt-title"><?php esc_html_e('OPTION 2:', 'duplicator'); ?></b><br/>
+					<?php
+						esc_html_e('The first pass for reading files on some budget hosts maybe slow and have conflicts with strict timeout settings setup by the hosting provider.  '
+						. 'In these cases, it is recommended to retry the build by adding file filters to larger files/directories.', 'duplicator');
+
+						echo '	<br/><br/>';
+
+						esc_html_e('For example, you could  filter out the  "/wp-content/uploads/" folder to create the package then move the files from that directory over manually.  '
+							. 'If this work-flow is not desired please check-out the other options below.', 'duplicator');
+					?>
+					<br/><br/>
+					<div style="text-align: center; margin: 10px">
+						<input type="button" class="button-large button-primary" value="<?php esc_attr_e('Retry Build With Filters', 'duplicator'); ?>" onclick="window.history.back()" />
+					</div>
+
+					<div style="color:#777; padding: 15px 5px 5px 5px">
+						<b> <?php esc_html_e('Notice', 'duplicator'); ?></b><br/>
+						<?php
+						printf('<b><i class="fa fa-folder-o"></i> %s %s</b> <br/> %s', esc_html__('Build Folder:'), DUPLICATOR_SSDIR_PATH_TMP,
+							__("On some servers the build will continue to run in the background. To validate if a build is still running; open the 'tmp' folder above and see "
+								."if the archive file is growing in size or check the main packages screen to see if the package completed. If it is not then your server "
+								."has strict timeout constraints.", 'duplicator')
+						);
+						?>
+					</div>
 				</div>
 			</div>
 
