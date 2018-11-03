@@ -5,11 +5,11 @@ if (!isset($_POST['dup_form_opts_nonce_field']) || !wp_verify_nonce(sanitize_tex
 }
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/duparchive/class.pack.archive.duparchive.php');
 
+$retry_nonuce           = wp_create_nonce('new1-package');
 $zip_build_nonce        = wp_create_nonce('duplicator_package_build');
 $duparchive_build_nonce = wp_create_nonce('duplicator_duparchive_package_build');
 
 //Help support Duplicator
-
 $atext0  = "<a target='_blank' href='https://wordpress.org/support/plugin/duplicator/reviews/?filter=5'>";
 $atext0 .= __('Help review the plugin', 'duplicator') . '!</a>';
 
@@ -20,7 +20,6 @@ $atext1 .= __('Duplicator Pro', 'duplicator').'</a>!';
 
 $rand_txt    = array();
 $rand_txt[0] = $atext0;
-
 ?>
 
 <style>
@@ -165,7 +164,7 @@ TOOL BAR: STEPS -->
 		<div id="dup-msg-error" style="display:none; color:#000">
 			<div class="done-title"><i class="fa fa-chain-broken"></i> <?php esc_html_e('Host Build Interrupt', 'duplicator'); ?></div>
 			<b><?php esc_html_e('This server cannot complete the build due to host setup constraints.', 'duplicator'); ?></b><br/>
-			<i><?php esc_html_e("To help get you past this hosts limitation consider these options by clicking each section below.", 'duplicator'); ?></i>
+			<i><?php esc_html_e("To get past this hosts limitation consider the options below by clicking each section.", 'duplicator'); ?></i>
 			<br/><br/><br/>
 
 			<!-- OPTION 1: Try DupArchive Engine -->
@@ -177,28 +176,31 @@ TOOL BAR: STEPS -->
 				<div class="dup-box-panel" id="dup-pack-build-try1" style="display:none">
 					<b class="opt-title"><?php esc_html_e('OPTION 1:', 'duplicator'); ?></b><br/>
 
-					<?php esc_html_e('Enable the DupArchive format which is specific to Duplicator and is designed around performance and scalability. DupArchive is '
-						. 'designed	to help get around budget host server constraints to process and create a package.', 'duplicator'); ?>
+					<?php esc_html_e('Enable the DupArchive format which is specific to Duplicator and designed to perform better on constrained budget hosts.', 'duplicator'); ?>
 					<br/><br/>
 
-					<i><?php esc_html_e('Note: DupArchive on the Free version is capped at 500MB.  If your site is still over 500MB then use a file filter on step 1 to get the size '
-						. 'down below the 500MB threshold or try the other options mentioned below.',
-						'duplicator'); ?></i>
-					<br/><br/>
+					<div style="font-style: italic">
+						<?php esc_html_e('Note: DupArchive on Duplicator Lite is capped at 500MB.  If your site is still over 500MB then use a file filter on step 1 to get the size '
+						. 'down below the 500MB threshold or try the other options mentioned below.  For those looking to upgrade there are no caps in',
+						'duplicator'); ?> 
+						<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&amp;utm_medium=wordpress_plugin&amp;utm_content=build_interrupt&amp;utm_campaign=duplicator_pro" target="_blank">
+							Duplicator Pro.
+						</a>
+					</div><br/>
 
 					<b><i class="fa fa-file-text-o"></i> <?php esc_html_e('Overview', 'duplicator'); ?></b><br/>
-					<?php esc_html_e('Please follow these steps:', 'duplicator'); ?><br/>
+					<?php esc_html_e('Please follow these steps:', 'duplicator'); ?>
 					<ol>
+						<li><?php esc_html_e('On the scanner step check to make sure your package is under 500MB. If not see additional options below.', 'duplicator'); ?></li>
 						<li>
 							<?php esc_html_e('Goto Duplicator &gt; Settings &gt; Packages Tab &gt; Archive Engine &gt;', 'duplicator'); ?>
 							<a href="admin.php?page=duplicator-settings&tab=package"><?php esc_html_e('Enable DupArchive', 'duplicator'); ?></a>
 						</li>
 						<li><?php esc_html_e('Try and build a new package again using the new engine format.', 'duplicator'); ?></li>
-					</ol> <br/>
-
+					</ol>
 
 					<small style="font-style: italic">
-						<?php esc_html_e('Note: The DupArchive engine will generate an archive.daf file. This file is very simular to a .zip except that it can only be extracted by the '
+						<?php esc_html_e('Note: The DupArchive engine will generate an archive.daf file. This file is very similar to a .zip except that it can only be extracted by the '
 							. 'installer.php file or the', 'duplicator'); ?>
 						<a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-052-q" target="_blank"><?php esc_html_e('commandline extraction tool'); ?></a>.
 					</small>
@@ -223,7 +225,7 @@ TOOL BAR: STEPS -->
 							. 'If this work-flow is not desired or does not work please check-out the other options below.', 'duplicator');
 					?>
 					<br/><br/>
-					<div style="text-align: center; margin: 10px">
+					<div style="text-align: center; margin:10px 0 2px 0">
 						<input type="button" class="button-large button-primary" value="<?php esc_attr_e('Retry Build With Filters', 'duplicator'); ?>" onclick="window.history.back()" />
 					</div>
 
@@ -254,7 +256,7 @@ TOOL BAR: STEPS -->
 					?><br/><br/>
 
 					<b><i class="fa fa-file-text-o"></i><?php esc_html_e(' Overview', 'duplicator'); ?></b><br/>
-							<?php esc_html_e('Please follow these steps:', 'duplicator'); ?><br/>
+						<?php esc_html_e('Please follow these steps:', 'duplicator'); ?><br/>
 					<ol>
 						<li><?php esc_html_e('Click the button below to go back to Step 1.', 'duplicator'); ?></li>
 						<li><?php esc_html_e('On Step 1 the "Archive Only the Database" checkbox will be auto checked.', 'duplicator'); ?></li>
@@ -265,12 +267,12 @@ TOOL BAR: STEPS -->
 								'', esc_html__('Quick Start Two-Part Install Instructions', 'duplicator'));
 							?>
 						</li>
-					</ol> <br/>
+					</ol>
 
 					<div style="text-align: center; margin: 10px">
 						<input type="checkbox" id="dup-two-part-check" onclick="Duplicator.Pack.ToggleTwoPart()">
 						<label for="dup-two-part-check"><?php esc_html_e('Yes. I have read the above overview and would like to continue!', 'duplicator'); ?></label><br/><br/>
-						<button id="dup-two-part-btn"  type="button" class="button-large button-primary" disabled="true" onclick="window.location = 'admin.php?page=duplicator&tab=new1&retry=2'">
+						<button id="dup-two-part-btn"  type="button" class="button-large button-primary" disabled="true" onclick="window.location = 'admin.php?page=duplicator&tab=new1&retry=2&_wpnonce=<?php echo $retry_nonuce; ?>'">
 							<i class="fa fa-random"></i> <?php esc_html_e('Start Two-Part Install Process', 'duplicator'); ?>
 						</button>
 					</div><br/>
