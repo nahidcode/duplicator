@@ -62,7 +62,7 @@ $date = @date('h:i:s');
 $log  = <<<LOG
 \n\n
 ********************************************************************************
-DUPLICATOR INSTALL-LOG
+DUPLICATOR-LITE INSTALL-LOG
 STEP-3 START @ {$date}
 NOTICE: Do NOT post to public sites or forums
 ********************************************************************************

@@ -61,7 +61,7 @@ if (! $GLOBALS['DUPX_AC']->exportOnlyDB) {
 }
 
 DUPX_Log::info("********************************************************************************");
-DUPX_Log::info('* DUPLICATOR: Install-Log');
+DUPX_Log::info('* DUPLICATOR-LITE: Install-Log');
 DUPX_Log::info('* STEP-1 START @ ' . @date('h:i:s'));
 DUPX_Log::info("* VERSION: {$GLOBALS['DUPX_AC']->version_dup}");
 DUPX_Log::info('* NOTICE: Do NOT post to public sites or forums!!');

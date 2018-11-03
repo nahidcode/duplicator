@@ -210,10 +210,7 @@ class DUP_Server {
             DUPLICATOR_INSTALL_PHP => DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_PHP,
             DUPLICATOR_INSTALL_BAK => DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_BAK,
             DUPLICATOR_INSTALL_BOOT_LOG => DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_BOOT_LOG,
-			'dup-wp-config-arc__[HASH].txt'		=> DUPLICATOR_WPROOTPATH . "dup-wp-config-arc__{DUPLICATOR_INSTALLER_HASH_PATTERN}.txt",
-			//'dup-installer-data__[HASH].sql'	=> DUPLICATOR_WPROOTPATH . "dup-installer-data__{DUPLICATOR_INSTALLER_HASH_PATTERN}.sql",
-			//'dup-database__[HASH].sql'			=> DUPLICATOR_WPROOTPATH . "dup-database__{DUPLICATOR_INSTALLER_HASH_PATTERN}.sql",
-            //'dup-installer-log_[HASH].txt'		=> DUPLICATOR_WPROOTPATH . "dup-installer-log__{DUPLICATOR_INSTALLER_HASH_PATTERN}.txt",
+			'dup-wp-config-arc__[HASH].txt' => DUPLICATOR_WPROOTPATH . 'dup-wp-config-arc__*.txt'
         );
     }
 
