@@ -164,8 +164,8 @@ TOOL BAR: STEPS -->
 		ERROR MESSAGE -->
 		<div id="dup-msg-error" style="display:none; color:#000">
 			<div class="done-title"><i class="fa fa-chain-broken"></i> <?php esc_html_e('Host Build Interrupt', 'duplicator'); ?></div>
-			<b><?php esc_html_e('This server cannot complete the build due to setup constraints.', 'duplicator'); ?></b><br/>
-			<i><?php esc_html_e("To help get you past this hosts limitation consider these options:", 'duplicator'); ?></i>
+			<b><?php esc_html_e('This server cannot complete the build due to host setup constraints.', 'duplicator'); ?></b><br/>
+			<i><?php esc_html_e("To help get you past this hosts limitation consider these options by clicking each section below.", 'duplicator'); ?></i>
 			<br/><br/><br/>
 
 			<!-- OPTION 1: TRY AGAIN -->
@@ -178,13 +178,16 @@ TOOL BAR: STEPS -->
 					<b class="opt-title"><?php esc_html_e('OPTION 1:', 'duplicator'); ?></b><br/>
 					<?php
 						esc_html_e('The first pass for reading files on some budget hosts maybe slow and have conflicts with strict timeout settings setup by the hosting provider.  '
-						. 'In these cases it is recommended to retry the build by adding file filters to non-required larger files/directories. For example you could  filter out the  '
-						. '"/wp-content/uploads/" folder to create the package then move the files from that directory over manually.  If this work-flow is not desired please check-out the '
-						. 'other options below.', 'duplicator');
+						. 'In these cases, it is recommended to retry the build by adding file filters to larger files/directories.', 'duplicator');
+						
+						echo '	<br/><br/>';
+						
+						esc_html_e('For example, you could  filter out the  "/wp-content/uploads/" folder to create the package then move the files from that directory over manually.  '
+							. 'If this work-flow is not desired please check-out the other options below.', 'duplicator');
 					?>
 					<br/><br/>
 					<div style="text-align: center; margin: 10px">
-						<input type="button" class="button-large button-primary" value="<?php esc_attr_e('Retry Package Build', 'duplicator'); ?>" onclick="window.location = 'admin.php?page=duplicator&tab=new1&retry=1'" />
+						<input type="button" class="button-large button-primary" value="<?php esc_attr_e('Retry Package Build', 'duplicator'); ?>" onclick="window.history.back()" />
 					</div>
 
 					<div style="color:#777; padding: 15px 5px 5px 5px">
@@ -209,8 +212,7 @@ TOOL BAR: STEPS -->
 				<div class="dup-box-panel" id="dup-pack-build-try2" style="display:none">
 					<b class="opt-title"><?php esc_html_e('OPTION 2:', 'duplicator'); ?></b><br/>
 
-					<?php esc_html_e('Enable the DupArchive format which is specific to Duplicator and is designed around performance and scalability. '
-						. 'Many budget hosting providers have very strict timeouts and CPU/IO constraints configured into their servers.  DupArchive is '
+					<?php esc_html_e('Enable the DupArchive format which is specific to Duplicator and is designed around performance and scalability. DupArchive is '
 						. 'designed	to help get around these server constraints to help process build a package.', 'duplicator'); ?>
 					<br/><br/>
 
@@ -282,7 +284,7 @@ TOOL BAR: STEPS -->
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try3" style="display:none">
-					<b class="opt-title"><?php esc_html_e('OPTION 3:', 'duplicator'); ?></b><br/>
+					<b class="opt-title"><?php esc_html_e('OPTION 4:', 'duplicator'); ?></b><br/>
 					<?php esc_html_e('This option is available on some hosts that allow for users to adjust server configurations.  With this option you will be directed to an '
 						. 'FAQ page that will show various recommendations you can take to improve/unlock constraints set up on this server.', 'duplicator');
 					?><br/><br/>

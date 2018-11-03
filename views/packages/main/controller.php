@@ -1,6 +1,7 @@
 <?php
 require_once(DUPLICATOR_PLUGIN_PATH . '/classes/ui/class.ui.dialog.php');
 $current_tab = isset($_REQUEST['tab']) ? sanitize_text_field($_REQUEST['tab']) : 'list';
+$_GET['_wpnonce'] = isset($_GET['_wpnonce']) ? $_GET['_wpnonce'] : null;
 
 switch ($current_tab) {
 	case 'new1':
