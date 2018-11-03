@@ -165,7 +165,7 @@ TOOL BAR: STEPS -->
 		<div id="dup-msg-error" style="display:none; color:#000">
 			<div class="done-title"><i class="fa fa-chain-broken"></i> <?php esc_html_e('Host Build Interrupt', 'duplicator'); ?></div>
 			<b><?php esc_html_e('This server cannot complete the build due to setup constraints.', 'duplicator'); ?></b><br/>
-			<i><?php esc_html_e("To help get you past this hosts limitation consider these three options:", 'duplicator'); ?></i>
+			<i><?php esc_html_e("To help get you past this hosts limitation consider these options:", 'duplicator'); ?></i>
 			<br/><br/><br/>
 
 			<!-- OPTION 1: TRY AGAIN -->
@@ -176,12 +176,13 @@ TOOL BAR: STEPS -->
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try1" style="display:none">
 					<b class="opt-title"><?php esc_html_e('OPTION 1:', 'duplicator'); ?></b><br/>
-
-					<?php esc_html_e('The first pass for reading files on some budget hosts is slow and may conflict with strict timeout settings set up by the hosting provider.  '
-						. 'If this is the case its recommended to retry the build.  <i>If the problem persists then consider the other options below.</i>',
-						'duplicator');	?>
+					<?php
+						esc_html_e('The first pass for reading files on some budget hosts maybe slow and have conflicts with strict timeout settings setup by the hosting provider.  '
+						. 'In these cases it is recommended to retry the build by adding file filters to non-required larger files/directories. For example you could  filter out the  '
+						. '"/wp-content/uploads/" folder to create the package then move the files from that directory over manually.  If this work-flow is not desired please check-out the '
+						. 'other options below.', 'duplicator');
+					?>
 					<br/><br/>
-
 					<div style="text-align: center; margin: 10px">
 						<input type="button" class="button-large button-primary" value="<?php esc_attr_e('Retry Package Build', 'duplicator'); ?>" onclick="window.location = 'admin.php?page=duplicator&tab=new1&retry=1'" />
 					</div>
@@ -199,20 +200,58 @@ TOOL BAR: STEPS -->
 				</div>
 			</div>
 
-			<!-- OPTION 2: Two-Part Install -->
+			<!-- OPTION 2: Try DupArchive Engine -->
+			<div class="dup-box no-top">
+				<div class="dup-box-title">
+					<i class="fa fa-check-circle-o"></i>&nbsp;<?php esc_html_e('Try DupArchive', 'duplicator'); ?>
+					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
+				</div>
+				<div class="dup-box-panel" id="dup-pack-build-try2" style="display:none">
+					<b class="opt-title"><?php esc_html_e('OPTION 2:', 'duplicator'); ?></b><br/>
+
+					<?php esc_html_e('Enable the DupArchive format which is specific to Duplicator and is designed around performance and scalability. '
+						. 'Many budget hosting providers have very strict timeouts and CPU/IO constraints configured into their servers.  DupArchive is '
+						. 'designed	to help get around these server constraints to help process build a package.', 'duplicator'); ?>
+					<br/><br/>
+
+					<i><?php esc_html_e('Note: DupArchive on the Free version is capped at 500MB.  If your site is still over 500MB then simple use a file filter to get the size '
+						. 'down below the 500MB threshold or work with your host to help improve the hosts performance to support ZipArchive which has no limit by trying option 4.',
+						'duplicator'); ?></i>
+					<br/><br/>
+
+					<b><i class="fa fa-file-text-o"></i> <?php esc_html_e('Overview', 'duplicator'); ?></b><br/>
+					<?php esc_html_e('Please follow these steps:', 'duplicator'); ?><br/>
+					<ol>
+						<li>
+							<?php esc_html_e('Goto Duplicator &gt; Settings &gt; Packages Tab &gt; Archive Engine &gt;', 'duplicator'); ?>
+							<a href="admin.php?page=duplicator-settings&tab=package"><?php esc_html_e('Enable DupArchive', 'duplicator'); ?></a>
+						</li>
+						<li><?php esc_html_e('Try and build a new package again using the new engine format.', 'duplicator'); ?></li>
+					</ol> <br/>
+
+
+					<small style="font-style: italic">
+						<?php esc_html_e('Note: The DupArchive engine will generate an archive.daf file. This file is very simular to a .zip except that it can only be extracted by the '
+							. 'installer.php file or the', 'duplicator'); ?>
+						<a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-052-q" target="_blank"><?php esc_html_e('commandline extraction tool'); ?></a>.
+					</small>
+				</div>
+			</div>
+
+			<!-- OPTION 3: Two-Part Install -->
 			<div class="dup-box no-top">
 				<div class="dup-box-title">
 					<i class="fa fa-random"></i>&nbsp;<?php esc_html_e('Two-Part Install', 'duplicator'); ?>
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try2" style="display:none">
-					<b class="opt-title"><?php esc_html_e('OPTION 2:', 'duplicator'); ?></b><br/>
+					<b class="opt-title"><?php esc_html_e('OPTION 3:', 'duplicator'); ?></b><br/>
 
 					<?php esc_html_e('A two-part install minimizes server load and can avoid I/O and CPU issues encountered on some budget hosts. With this procedure you simply build a '
 						.'\'database-only\' archive, manually move the website files, and then run the installer to complete the process.', 'duplicator');
 					?><br/><br/>
 
-					<b><?php esc_html_e('<i class="fa fa-file-text-o"></i> Overview', 'duplicator'); ?></b><br/>
+					<b><i class="fa fa-file-text-o"></i><?php esc_html_e(' Overview', 'duplicator'); ?></b><br/>
 							<?php esc_html_e('Please follow these steps:', 'duplicator'); ?><br/>
 					<ol>
 						<li><?php esc_html_e('Click the button below to go back to Step 1.', 'duplicator'); ?></li>
@@ -236,7 +275,7 @@ TOOL BAR: STEPS -->
 				</div>
 			</div>
 
-			<!-- OPTION 3: DIAGNOSE SERVER -->
+			<!-- OPTION 4: DIAGNOSE SERVER -->
 			<div class="dup-box no-top">
 				<div class="dup-box-title">
 					<i class="fa fa-cog"></i>&nbsp;<?php esc_html_e('Configure Server', 'duplicator'); ?>
@@ -244,8 +283,8 @@ TOOL BAR: STEPS -->
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try3" style="display:none">
 					<b class="opt-title"><?php esc_html_e('OPTION 3:', 'duplicator'); ?></b><br/>
-					<?php esc_html_e('This option is available on some hosts that allow for users to adjust server configurations.  With this option you will be directed to an FAQ page that will show '
-						.'various recommendations you can take to improve/unlock constraints set up on this server.', 'duplicator');
+					<?php esc_html_e('This option is available on some hosts that allow for users to adjust server configurations.  With this option you will be directed to an '
+						. 'FAQ page that will show various recommendations you can take to improve/unlock constraints set up on this server.', 'duplicator');
 					?><br/><br/>
 
 					<div style="text-align: center; margin: 10px; font-size:16px; font-weight: bold">
@@ -311,38 +350,7 @@ TOOL BAR: STEPS -->
 				</div>
 			</div>
 
-			<!-- OPTION 4: Try DupArchive Engine -->
-			<div class="dup-box no-top">
-				<div class="dup-box-title">
-					<i class="fa fa-check-circle-o"></i>&nbsp;<?php esc_html_e('Try DupArchive', 'duplicator'); ?>
-					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
-				</div>
-				<div class="dup-box-panel" id="dup-pack-build-try2" style="display:none">
-					<b class="opt-title"><?php esc_html_e('OPTION 4:', 'duplicator'); ?></b><br/>
 
-					<?php esc_html_e('Enable the DupArchive format which is specific to Duplicator and is designed around performance and scalability. '
-						. 'Many budget hosting providers have very strict timeouts and CPU/IO constraints configured into their servers.  DupArchive is '
-						. 'designed	to help get around these server constraints so that users can build larger packages.', 'duplicator'); ?>
-					<br/><br/>
-
-					<b><?php esc_html_e('<i class="fa fa-file-text-o"></i> Overview', 'duplicator'); ?></b><br/>
-					<?php esc_html_e('Please follow these steps:', 'duplicator'); ?><br/>
-					<ol>
-						<li>
-							<?php esc_html_e('Goto Duplicator &gt; Settings &gt; Packages Tab &gt; Archive Engine &gt;', 'duplicator'); ?>
-							<a href="admin.php?page=duplicator-settings&tab=package"><?php esc_html_e('Enable DupArchive', 'duplicator'); ?></a>
-						</li>
-						<li><?php esc_html_e('Try and build a new package again using the new engine format.', 'duplicator'); ?></li>
-					</ol> <br/>
-
-
-					<small style="font-style: italic">
-						<?php esc_html_e('Note: The DupArchive engine will generate an archive.daf file. This file is very simular to a .zip except that it can only be extracted by the '
-							. 'installer.php file or the', 'duplicator'); ?>
-						<a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-052-q" target="_blank"><?php esc_html_e('commandline extraction tool'); ?></a>.
-					</small>
-				</div>
-			</div>
 
 
 			<br/><br/><br/>
