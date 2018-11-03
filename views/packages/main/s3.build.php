@@ -178,11 +178,11 @@ TOOL BAR: STEPS -->
 					<b class="opt-title"><?php esc_html_e('OPTION 1:', 'duplicator'); ?></b><br/>
 
 					<?php esc_html_e('Enable the DupArchive format which is specific to Duplicator and is designed around performance and scalability. DupArchive is '
-						. 'designed	to help get around these server constraints to help process build a package.', 'duplicator'); ?>
+						. 'designed	to help get around budget host server constraints to process and create a package.', 'duplicator'); ?>
 					<br/><br/>
 
-					<i><?php esc_html_e('Note: DupArchive on the Free version is capped at 500MB.  If your site is still over 500MB then simple use a file filter to get the size '
-						. 'down below the 500MB threshold or work with your host to help improve the hosts performance to support ZipArchive which has no limit by trying option 4.',
+					<i><?php esc_html_e('Note: DupArchive on the Free version is capped at 500MB.  If your site is still over 500MB then use a file filter on step 1 to get the size '
+						. 'down below the 500MB threshold or try the other options mentioned below.',
 						'duplicator'); ?></i>
 					<br/><br/>
 
@@ -220,7 +220,7 @@ TOOL BAR: STEPS -->
 						echo '	<br/><br/>';
 
 						esc_html_e('For example, you could  filter out the  "/wp-content/uploads/" folder to create the package then move the files from that directory over manually.  '
-							. 'If this work-flow is not desired please check-out the other options below.', 'duplicator');
+							. 'If this work-flow is not desired or does not work please check-out the other options below.', 'duplicator');
 					?>
 					<br/><br/>
 					<div style="text-align: center; margin: 10px">
