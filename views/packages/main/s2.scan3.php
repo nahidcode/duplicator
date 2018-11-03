@@ -269,7 +269,7 @@ FILE NAME CHECKS -->
 			</div>
 			<div class="apply-btn">
 				<div class="apply-warn">
-					 <?php esc_html_e('*Checking a directory will exclude all items recursively from that path down.<br/>Please use caution when filtering directories.', 'duplicator'); ?>
+					 <?php esc_html_e('*Checking a directory will exclude all items recursively from that path down.  Please use caution when filtering directories.', 'duplicator'); ?>
 				</div>
 				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters(this, 'utf8')">
 					<i class="fa fa-filter"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
