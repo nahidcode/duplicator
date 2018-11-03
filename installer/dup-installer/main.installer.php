@@ -35,11 +35,13 @@ $GLOBALS['DUPX_INIT']  = "{$GLOBALS['DUPX_ROOT']}/dup-installer";
 $GLOBALS['DUPX_ENFORCE_PHP_INI']  = false;
 
 if (!isset($_POST['archive'])) {
-	die("Archive parameter not specified in query string! Please try to re-run installer.php");
+	if (!(isset($_GET['view']) && $_GET['view'] == 'help'))
+		die("Archive parameter not specified in query string! Please try to re-run installer.php");
 }
 
 if (!isset($_POST['bootloader'])) {
-	die("Bootloader parameter not specified in query string! Please try to re-run installer.php");
+	if (!(isset($_GET['view']) && $_GET['view'] == 'help'))
+		die("Bootloader parameter not specified in query string! Please try to re-run installer.php");
 }
 
 require_once($GLOBALS['DUPX_INIT'].'/lib/snaplib/snaplib.all.php');
