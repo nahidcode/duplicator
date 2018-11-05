@@ -1,7 +1,7 @@
 <?php
 	//The help for both pro and lite are shared.  Pro is where the master lives.  Use the flag below to
     //indicate if this help lives in lite or pro
-	$pro_version = false;
+	$pro_version = true;
 ?>
 <!-- =========================================
 HELP FORM -->
@@ -81,22 +81,21 @@ STEP 1
 			at this location.
 		</td>
 	</tr>
-	<?php if ($pro_version) : ?>
-		<tr>
-			<td>Overwrite Install</td>
-			<td>
-				This mode indicates that the installer was started in a location that contains an existing site -or- the archive file was imported into an existing site using
-				Duplicator Pro on the destination site (see Duplicator Pro &gt; Tools &gt; Import). In both cases <b>the existing site will be overwritten.</b>
-			</td>
-		</tr>
-		<tr>
-			<td>Overwrite Install <br/> Database Only</td>
-			<td>
-				This mode indicates that the installer was started in a location that contains an existing site -or- the archive file was imported into an existing site using
-				Duplicator Pro on the destination site (see Duplicator Pro &gt; Tools &gt; Import).  In both cases <b>the existing site's database will be overwritten.</b>
-			</td>
-		</tr>
-	<?php endif; ?>
+	<tr>
+		<td>Overwrite Install</td>
+		<td>
+			This mode indicates that the installer was started in a location that contains an existing site.  With this mode <b>the existing site will be overwritten</b> with
+			the contents of the archive.zip/daf and the database.sql file.  This is an advanced option and users should be pre-paired to know that state of their database
+			and archive site files ahead of time.
+		</td>
+	</tr>
+	<tr>
+		<td>Overwrite Install <br/> Database Only</td>
+		<td>
+			This mode indicates that the installer was started in a location that contains an existing site.  With this mode <b>the existing site will be overwritten</b> with
+			the contents of the database.sql file.  This is an advanced option and users should be pre-paired to know that state of their database and site files ahead of time.
+		</td>
+	</tr>
 	</table>
 	<br/><br/>
 
@@ -222,7 +221,7 @@ STEP 1
 		<tr>
 			<td>Logging</td>
 			<td>
-				The level of detail that will be sent to the log file (dup-installer-log.txt).  The recommend setting for most installs should be 'Light'.
+				The level of detail that will be sent to the log file (installer-log.txt).  The recommend setting for most installs should be 'Light'.
 				Note if you use Debug the amount of data written can be very large.  Debug is only recommended for support.
 			</td>
 		</tr>
@@ -311,7 +310,7 @@ STEP 2
 				<br/><br/>
 
 				<b>Connect and Backup Any Existing Data:</b><sup>pro</sup> This options will RENAME all tables in the database you are connecting to with a prefix of
-				"<?php echo DUPX_U::esc_html($GLOBALS['DB_RENAME_PREFIX']); ?>".
+				"<?php echo $GLOBALS['DB_RENAME_PREFIX'] ?>".
 				<br/><br/>
 
 				<b>Manual SQL Execution:</b><sup>pro</sup> This options requires that you manually run your own SQL import to an existing database before running the installer.
@@ -537,16 +536,15 @@ STEP 4
 	<br/><br/>
 
 	<b>Final Security Cleanup</b><br/>
-	When completed with the installation please delete all installation files.  Leaving these files on your server can impose a security risk!   You can remove
-	all the security files by logging into your WordPress admin and following the remove notification links.   Be sure these files/directories are removed.  Optionally
+    When completed with the installation please delete all installation files.  <b>Leaving these files on your server can be a security risk!</b>   You can remove
+	all these files by logging into your WordPress admin and following the remove notification links or by deleting these file manually.   Be sure these files/directories are removed.  Optionally
 	it is also recommended to remove the archive.zip/daf file.
 	<ul>
 		<li>dup-installer</li>
 		<li>installer.php</li>
 		<li>installer-backup.php</li>
 		<li>installer-bootlog.txt</li>
-		<li>dup-wp-config-arc_[HASH].txt</li>
-		<li>[HASH]_archive.zip/daf</li>
+		<li>archive.zip/daf</li>
 	</ul>
 	<br/><br/>
 
