@@ -47,7 +47,7 @@ div.dup-hdr-error {color:#A62426; font-size:22px; font-weight:bold}
 
 /*DIALOGS: THICKBOX   */
 #TB_title { padding-bottom: 3px!important; margin-bottom:5px!important; font-size:16px!important;}
-div.dup-dlg-alert-txt {padding:10px 0; font-size:16px}
+div.dup-dlg-alert-txt {padding:10px 0; font-size:16px; line-height:22px}
 div.dup-dlg-alert-btns {position:absolute; bottom:20px; right:20px;}
 div.dup-dlg-confirm-txt {padding:10px 0; font-size:16px}
 div.dup-dlg-confirm-btns {position:absolute; bottom:20px; right:20px;}

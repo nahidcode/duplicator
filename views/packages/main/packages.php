@@ -260,12 +260,14 @@ THICK-BOX DIALOGS: -->
 <?php
 	$alert1 = new DUP_UI_Dialog();
 	$alert1->title		= __('Bulk Action Required', 'duplicator');
-	$alert1->message	= __('Please select an action from the "Bulk Actions" drop down menu!', 'duplicator');
+	$alert1->message	= '<i class="fa fa-exclamation-triangle"></i>&nbsp;';
+	$alert1->message	.= __('No selections made! Please select an action from the "Bulk Actions" drop down menu.', 'duplicator');
 	$alert1->initAlert();
 	
 	$alert2 = new DUP_UI_Dialog();
 	$alert2->title		= __('Selection Required', 'duplicator', 'duplicator');
-	$alert2->message	= __('Please select at least one package to delete!', 'duplicator');
+	$alert2->message	= '<i class="fa fa-exclamation-triangle"></i>&nbsp;';
+	$alert2->message	.= __('No selections made! Please select at least one package to delete.', 'duplicator');
 	$alert2->initAlert();
 	
 	$confirm1 = new DUP_UI_Dialog();
