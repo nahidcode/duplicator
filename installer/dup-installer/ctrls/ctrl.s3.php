@@ -125,11 +125,6 @@ $path_old_unsetSafe = rtrim(DUPX_U::unsetSafePath($_POST['path_old']), '\\');
 $path_new_unsetSafe = rtrim($_POST['path_new'], '/');
 DUPX_U::queueReplacementWithEncodings($path_old_unsetSafe , $path_new_unsetSafe );
 
-/*
-array_push($GLOBALS['REPLACE_LIST'],
-	array('search' => rtrim(DUPX_U::unsetSafePath($_POST['path_old']), '\\'), 'replace' => rtrim($_POST['path_new'], '/'))
-);*/
-
 //SEARCH WITH NO PROTOCAL: RAW "//"
 $url_old_raw = str_ireplace(array('http://', 'https://'), '//', $_POST['url_old']);
 $url_new_raw = str_ireplace(array('http://', 'https://'), '//', $_POST['url_new']);
