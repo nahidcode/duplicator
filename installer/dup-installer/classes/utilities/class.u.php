@@ -40,19 +40,25 @@ class DUPX_U
      *
      * @param string $search
      * @param string $replace
-     * 
+     *
      */
     public static function queueReplacementWithEncodings($search, $replace)
     {
-        $search_json = str_replace('"', "", json_encode($search));
+        array_push($GLOBALS['REPLACE_LIST'], array('search' => $search, 'replace' => $replace));
+
+        $search_json  = str_replace('"', "", json_encode($search));
         $replace_json = str_replace('"', "", json_encode($replace));
-        $search_urlencode = urlencode($search);
+
+        if ($search != $search_json) {
+            array_push($GLOBALS['REPLACE_LIST'], array('search' => $search_json, 'replace' => $replace_json));
+        }
+
+        $search_urlencode  = urlencode($search);
         $replace_urlencode = urlencode($replace);
 
-        array_push($GLOBALS['REPLACE_LIST'],
-            array('search' => $search,			 'replace' => $replace),
-            array('search' => $search_json,		 'replace' => $replace_json),
-            array('search' => $search_urlencode, 'replace' => $replace_urlencode));
+        if ($search != $search_urlencode) {
+            array_push($GLOBALS['REPLACE_LIST'], array('search' => $search_urlencode, 'replace' => $replace_urlencode));
+        }
     }
 
 	/**
