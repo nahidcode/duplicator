@@ -113,73 +113,30 @@ if (isset($_POST['search'])) {
 			$replace_with	 = $_POST['replace'][$search_index];
 
 			if (trim($search_for) != '') {
-				$search_json	 = json_encode($search_for);
-				$replace_json	 = json_encode($replace_with);
-
-				array_push($GLOBALS['REPLACE_LIST'], array('search' => $search_for, 'replace' => $replace_with));
-				array_push($GLOBALS['REPLACE_LIST'], array('search' => urlencode($search_for), 'replace' => urlencode($replace_with)));
-				array_push($GLOBALS['REPLACE_LIST'], array('search' => $search_json, 'replace' => $replace_json));
+				DUPX_U::queueReplacementWithEncodings($search_for, $replace_with);
 			}
 		}
 	}
 }
 
-//GENERAL -> REPLACE LIST
-$url_old_json	 = str_replace('"', "", json_encode($_POST['url_old']));
-$url_new_json	 = str_replace('"', "", json_encode($_POST['url_new']));
-$path_old_json	 = str_replace('"', "", json_encode($_POST['path_old']));
-$path_new_json	 = str_replace('"', "", json_encode($_POST['path_new']));
-
-
 //DIRS PATHS
+DUPX_U::queueReplacementWithEncodings($_POST['path_old'] , $_POST['path_new'] );
+$path_old_unsetSafe = rtrim(DUPX_U::unsetSafePath($_POST['path_old']), '\\');
+$path_new_unsetSafe = rtrim($_POST['path_new'], '/');
+DUPX_U::queueReplacementWithEncodings($path_old_unsetSafe , $path_new_unsetSafe );
+
+/*
 array_push($GLOBALS['REPLACE_LIST'],
-	array('search' => $_POST['path_old'],			 'replace' => $_POST['path_new']),
-	array('search' => $path_old_json,				 'replace' => $path_new_json),
-	array('search' => urlencode($_POST['path_old']), 'replace' => urlencode($_POST['path_new'])),
 	array('search' => rtrim(DUPX_U::unsetSafePath($_POST['path_old']), '\\'), 'replace' => rtrim($_POST['path_new'], '/'))
-);
+);*/
 
 //SEARCH WITH NO PROTOCAL: RAW "//"
 $url_old_raw = str_ireplace(array('http://', 'https://'), '//', $_POST['url_old']);
 $url_new_raw = str_ireplace(array('http://', 'https://'), '//', $_POST['url_new']);
-$url_old_raw_json = str_replace('"',  "", json_encode($url_old_raw));
-$url_new_raw_json = str_replace('"',  "", json_encode($url_new_raw));
 
-array_push($GLOBALS['REPLACE_LIST'],
-    //RAW
-    array('search' => $url_old_raw,			 	'replace' => $url_new_raw),
-    array('search' => $url_old_raw_json,		'replace' => $url_new_raw_json),
-    array('search' => urlencode($url_old_raw), 	'replace' => urlencode($url_new_raw))
-);
-
-//SEARCH HTTP(S) EXPLICIT REQUEST
-//Because the raw replace above has already changed all urls just fix https/http issue
-//if the user has explicitly asked other-wise word boundary issues will occur as:
-//Old site: http://mydomain.com/somename/
-//New site: http://mydomain.com/somename-dup/
-//Result: http://mydomain.com/somename-dup-dup/
-//At first glance $url_old_http looks incorrect but it should reference $_POST['url_new']
-//Because this code is changing a value that has already been changed in an earlier pass
-if (stristr($_POST['url_old'], 'http:') && stristr($_POST['url_new'], 'https:') ) {
-    $url_old_http = str_ireplace('https:', 'http:', $_POST['url_new']);
-    $url_new_http = $_POST['url_new'];
-    $url_old_http_json = str_replace('"',  "", json_encode($url_old_http));
-    $url_new_http_json = str_replace('"',  "", json_encode($url_new_http));
-
-} elseif(stristr($_POST['url_old'], 'https:') && stristr($_POST['url_new'], 'http:')) {
-    $url_old_http = str_ireplace('http:', 'https:', $_POST['url_new']);
-    $url_new_http = $_POST['url_new'];
-    $url_old_http_json = str_replace('"',  "", json_encode($url_old_http));
-    $url_new_http_json = str_replace('"',  "", json_encode($url_new_http));
-}
-
-if(isset($url_old_http)){
-    array_push($GLOBALS['REPLACE_LIST'],
-        array('search' => $url_old_http,			 	 'replace' => $url_new_http),
-        array('search' => $url_old_http_json,			 'replace' => $url_new_http_json),
-        array('search' => urlencode($url_old_http),  	 'replace' => urlencode($url_new_http))
-    );
-}
+DUPX_U::queueReplacementWithEncodings('http:'.$url_old_raw , $post_url_new);
+DUPX_U::queueReplacementWithEncodings('https:'.$url_old_raw , $post_url_new);
+DUPX_U::queueReplacementWithEncodings($url_old_raw , $url_new_raw);
 
 /*=============================================================
  * REMOVE TRAILING SLASH LOGIC:
