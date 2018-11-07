@@ -129,9 +129,20 @@ DUPX_U::queueReplacementWithEncodings($path_old_unsetSafe , $path_new_unsetSafe 
 $url_old_raw = str_ireplace(array('http://', 'https://'), '//', $_POST['url_old']);
 $url_new_raw = str_ireplace(array('http://', 'https://'), '//', $_POST['url_new']);
 
-DUPX_U::queueReplacementWithEncodings('http:'.$url_old_raw , $post_url_new);
-DUPX_U::queueReplacementWithEncodings('https:'.$url_old_raw , $post_url_new);
 DUPX_U::queueReplacementWithEncodings($url_old_raw , $url_new_raw);
+
+//FORCE NEW PROTOCOL "//"
+$url_new_info = parse_url($_POST['url_new']);
+$url_new_domain = $url_new_info['scheme'].'://'.$url_new_info['host'];
+
+if ($url_new_info['scheme'] == 'http') {
+    $url_new_wrong_protocol = 'https://'.$url_new_info['host'];
+} else {
+    $url_new_wrong_protocol = 'http://'.$url_new_info['host'];
+}
+
+DUPX_U::queueReplacementWithEncodings($url_new_wrong_protocol , $url_new_domain);
+
 
 /*=============================================================
  * REMOVE TRAILING SLASH LOGIC:
