@@ -141,6 +141,10 @@ TOOL-BAR -->
 		$rows = $qryResult;
 		foreach ($rows as $row) {
 			$Package = unserialize($row['package']);
+			// We was not storing Status in Lite 1.2.52, so it is for backward compatibility
+			if (!isset($Package->Status)) {
+				$Package->Status = $row['status'];
+			}
             
             // Never display incomplete packages and purge those that are no longer active
             if($Package->Status >= 0 && $Package->Status < 100) {
