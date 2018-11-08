@@ -1082,7 +1082,6 @@ DUPX.runStandardExtraction = function ()
 	$.ajax({
 		type: "POST",
 		timeout: 1800000,
-		dataType: "json",
 		url: window.location.href,
 		data: $form.serialize(),
 		beforeSend: function () {
@@ -1090,8 +1089,13 @@ DUPX.runStandardExtraction = function ()
 			$form.hide();
 			$('#s1-result-form').show();
 		},
-		success: function (data) {
-			var dataJSON = JSON.stringify(data);
+		success: function (data, textstatus, xHr) {
+			$("#ajax-json-debug").val(data);
+			var dataJSON = data;
+			data = DUPX.parseJSON(data, xHr, textstatus);
+            if (false === data) {
+                return;
+            }
 			$("#ajax-json-debug").val(dataJSON);
 			if (typeof (data) != 'undefined' && data.pass == 1) {
 				$("#ajax-logging").val($("input:radio[name=logging]:checked").val());
@@ -1172,6 +1176,31 @@ DUPX.ajaxCommunicationFailed = function (xhr, textstatus, page)
 	$('#ajaxerr-data').html(status);
 	DUPX.hideProgressBar();
 };
+
+DUPX.parseJSON = function(mixData, xHr, textstatus) {
+    try {
+		var parsed = JSON.parse(mixData);
+		return parsed;
+	} catch (e) {
+		console.log("JSON parse failed - 1");
+	}
+
+	var jsonStartPos = mixData.indexOf('{');
+	var jsonLastPos = mixData.lastIndexOf('}');
+	if (jsonStartPos > -1 && jsonLastPos > -1) {
+		var expectedJsonStr = mixData.slice(jsonStartPos, jsonLastPos + 1);
+		try {
+			var parsed = JSON.parse(expectedJsonStr);
+			return parsed;
+		} catch (e) {
+            console.log("JSON parse failed - 2");
+            DUPX.ajaxCommunicationFailed(xHr, textstatus, 'extract');
+            return false;
+		}
+	}
+    DUPX.ajaxCommunicationFailed(xHr, textstatus, 'extract');
+    return false;
+}
 
 /** Go back on AJAX result view */
 DUPX.hideErrorResult = function ()
