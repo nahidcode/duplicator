@@ -155,19 +155,22 @@ class DUP_Server {
         }
 
         //Cache
+        /*
         $Package = DUP_Package::getActive();
         $cache_path = DUP_Util::safePath(WP_CONTENT_DIR) . '/cache';
         $dirEmpty = DUP_Util::isDirectoryEmpty($cache_path);
         $dirSize = DUP_Util::getDirectorySize($cache_path);
         $cach_filtered = in_array($cache_path, explode(';', $Package->Archive->FilterDirs));
         $wp_test3 = ($cach_filtered || $dirEmpty || $dirSize < DUPLICATOR_SCAN_CACHESIZE ) ? true : false;
+        */
         $wp_test4 = is_multisite();
 
         $checks['SRV']['WP']['version'] = $wp_test1;
         $checks['SRV']['WP']['core'] = $wp_test2;
-        $checks['SRV']['WP']['cache'] = $wp_test3;
+        // $checks['SRV']['WP']['cache'] = $wp_test3;
         $checks['SRV']['WP']['ismu'] = $wp_test4;
-        $checks['SRV']['WP']['ALL'] = $wp_test1 && $wp_test2 && $wp_test3 && !$wp_test4 ? 'Good' : 'Warn';
+        // $checks['SRV']['WP']['ALL'] = $wp_test1 && $wp_test2 && $wp_test3 && !$wp_test4 ? 'Good' : 'Warn';
+        $checks['SRV']['WP']['ALL'] = $wp_test1 && $wp_test2 && !$wp_test4 ? 'Good' : 'Warn';
 
         return $checks;
     }

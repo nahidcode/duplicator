@@ -154,6 +154,7 @@ WP SETTINGS -->
 
 
 		//CACHE DIR
+		/*
 		$cache_path = DUP_Util::safePath(WP_CONTENT_DIR) . '/cache';
 		$cache_size = DUP_Util::byteSize(DUP_Util::getDirectorySize($cache_path));
 		echo '<hr size="1" /><span id="data-srv-wp-cache"></span>&nbsp;<b>' . esc_html__('Cache Path', 'duplicator') . ":</b>&nbsp; '".esc_html($cache_path)."' (".esc_html($cache_size).") <br/>";
@@ -161,6 +162,7 @@ WP SETTINGS -->
 			. "your cache plugins clear cache feature.  Use caution if manually removing files the cache folder. The cache "
 			. "size minimum threshold that triggers this warning is currently set at ", 'duplicator');
 		echo esc_html(DUP_Util::byteSize(DUPLICATOR_SCAN_CACHESIZE)) . '.';
+		*/
 
 		//MU SITE
 		if (is_multisite()) {
@@ -197,7 +199,7 @@ WP SETTINGS -->
 
 		$('#data-srv-wp-version').html(Duplicator.Pack.setScanStatus(data.SRV.WP.version));
 		$('#data-srv-wp-core').html(Duplicator.Pack.setScanStatus(data.SRV.WP.core));
-		$('#data-srv-wp-cache').html(Duplicator.Pack.setScanStatus(data.SRV.WP.cache));
+		// $('#data-srv-wp-cache').html(Duplicator.Pack.setScanStatus(data.SRV.WP.cache));
 		$('#data-srv-wp-all').html(Duplicator.Pack.setScanStatus(data.SRV.WP.ALL));
 	}
 	
