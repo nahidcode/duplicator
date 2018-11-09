@@ -112,7 +112,7 @@
 	div.dup-pro-support {text-align:center; font-style:italic; font-size:13px; margin-top:20px;font-weight:bold}
 
 	/*DIALOG WINDOWS*/
-	div#arc-details-dlg {font-size:12px}
+	div#arc-details-dlg {font-size:12px; line-height:18px !important}
 	div#arc-details-dlg h2 {margin:0; padding:0 0 5px 0; border-bottom:1px solid #dfdfdf;}
 	div#arc-details-dlg hr {margin:3px 0 10px 0}
 	div#arc-details-dlg table#db-area {margin:0;  width:98%}
