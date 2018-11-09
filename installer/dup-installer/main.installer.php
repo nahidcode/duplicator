@@ -23,6 +23,8 @@
 /** IDE HELPERS */
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */
 
+session_start();
+
 /** Absolute path to the Installer directory. - necessary for php protection */
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
@@ -34,14 +36,33 @@ $GLOBALS['DUPX_ROOT']  = str_replace("\\", '/', (realpath(dirname(__FILE__) . '/
 $GLOBALS['DUPX_INIT']  = "{$GLOBALS['DUPX_ROOT']}/dup-installer";
 $GLOBALS['DUPX_ENFORCE_PHP_INI']  = false;
 
-if (!isset($_POST['archive'])) {
-	if (!(isset($_GET['view']) && $_GET['view'] == 'help'))
-		die("Archive parameter not specified in query string! Please try to re-run installer.php");
-}
-
-if (!isset($_POST['bootloader'])) {
-	if (!(isset($_GET['view']) && $_GET['view'] == 'help'))
-		die("Bootloader parameter not specified in query string! Please try to re-run installer.php");
+// ?view=help
+if (!empty($_GET['view']) && 'help' == $_GET['view']) {
+	if (!isset($_GET['archive'])) {
+		// RSR TODO: Fail gracefully
+		die("Archive parameter not specified");
+	}
+	if (!isset($_GET['bootloader'])) {
+		// RSR TODO: Fail gracefully
+		die("Bootloader parameter not specified");
+	}
+} else {
+	if (!isset($_POST['archive'])) {
+		if (isset($_SESSION['archive'])) {
+			$_POST['archive'] = $_SESSION['archive'];
+		} else {
+			// RSR TODO: Fail gracefully
+			die("Archive parameter not specified");
+		}
+	}
+	if (!isset($_POST['bootloader'])) {
+		if (isset($_SESSION['bootloader'])) {
+			$_POST['bootloader'] = $_SESSION['bootloader'];
+		} else {
+			// RSR TODO: Fail gracefully
+			die("Bootloader parameter not specified");
+		}		
+	}
 }
 
 require_once($GLOBALS['DUPX_INIT'].'/lib/snaplib/snaplib.all.php');
@@ -225,6 +246,8 @@ FORM DATA: User-Interface views -->
 
 			case "step4"   :
 				require_once($GLOBALS['DUPX_INIT'] . '/views/view.s4.php');
+				unset($_SESSION['archive']);
+				unset($_SESSION['bootloader']);
 				break;
 
 			case "help"   :
