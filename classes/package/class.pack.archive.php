@@ -287,7 +287,7 @@ class DUP_Archive
 			$wp_content . '/updraft',
 			$wp_content . '/wishlist-backup',
 			$wp_content . '/wfcache',
-
+			$wp_content . '/cache',
 			//WP-CONTENT-UPLOADS
 			$wp_content_upload . '/aiowps_backups',
 			$wp_content_upload . '/backupbuddy_temp',
