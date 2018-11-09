@@ -145,7 +145,7 @@ Auto Posts to view.step3.php  -->
 		<div style="padding: 0px 10px 10px 0px;">
 			<div id="ajaxerr-data">An unknown issue has occurred with the file and database setup process.  Please see the dup-installer-log.txt file for more details.</div>
 			<div style="text-align:center; margin:10px auto 0px auto">
-				<input type="button" onclick="$('#s2-result-form').hide();  $('#s2-input-form').show(200);" value="&laquo; Try Again" class="default-btn" /><br/><br/>
+				<input type="button" onclick="$('#s2-result-form').hide();  $('#s2-input-form').show(200);  $('#dbchunk_retry').val(0);" value="&laquo; Try Again" class="default-btn" /><br/><br/>
 				<i style='font-size:11px'>See online help for more details at <a href='https://snapcreek.com/' target='_blank'>snapcreek.com</a></i>
 			</div>
 		</div>

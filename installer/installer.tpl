@@ -20,6 +20,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+session_start();
 
 /**
  * Bootstrap utility to exatract the core installer
@@ -730,6 +731,7 @@ $auto_refresh = isset($_POST['auto-fresh']) ? true : false;
 		);
 		foreach ($data as $name => $value)
 		{
+			$_SESSION[$name] = $value;
 			$html .= "<input type='hidden' name='{$name}' value='{$value}' />\n";
 		}
 		$html .= "</form>\n";
