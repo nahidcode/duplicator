@@ -35,6 +35,32 @@ class DUPX_U
 		return $path;
 	}
 
+    /**
+     * Add replacement strings with encoding to $GLOBALS['REPLACE_LIST']
+     *
+     * @param string $search
+     * @param string $replace
+     *
+     */
+    public static function queueReplacementWithEncodings($search, $replace)
+    {
+        array_push($GLOBALS['REPLACE_LIST'], array('search' => $search, 'replace' => $replace));
+
+        $search_json  = str_replace('"', "", json_encode($search));
+        $replace_json = str_replace('"', "", json_encode($replace));
+
+        if ($search != $search_json) {
+            array_push($GLOBALS['REPLACE_LIST'], array('search' => $search_json, 'replace' => $replace_json));
+        }
+
+        $search_urlencode  = urlencode($search);
+        $replace_urlencode = urlencode($replace);
+
+        if ($search != $search_urlencode) {
+            array_push($GLOBALS['REPLACE_LIST'], array('search' => $search_urlencode, 'replace' => $replace_urlencode));
+        }
+    }
+
 	/**
 	 * Does one string contain other
 	 *
