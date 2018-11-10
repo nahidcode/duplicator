@@ -82,7 +82,9 @@ VIEW: STEP 3- INPUT -->
 	<div class="dupx-debug">
 		<i>Step 3 - Page Load</i>
 		<input type="hidden" name="ctrl_action"	  value="ctrl-step3" />
+		<input type="hidden" name="ctrl_csrf_token" value="<?php echo DUPX_CSRF::generate('ctrl-step3'); ?>"> 
 		<input type="hidden" name="view"		  value="step3" />
+		<input type="hidden" name="csrf_token" value="<?php echo DUPX_CSRF::generate('step3'); ?>">
 		<input type="hidden" name="secure-pass"   value="<?php echo DUPX_U::esc_attr($_POST['secure-pass']); ?>" />
 		<input type="hidden" name="bootloader" value="<?php echo DUPX_U::esc_attr($GLOBALS['BOOTLOADER_NAME']); ?>" />
 		<input type="hidden" name="archive" value="<?php echo DUPX_U::esc_attr($GLOBALS['FW_PACKAGE_PATH']); ?>" />

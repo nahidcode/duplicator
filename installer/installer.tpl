@@ -22,6 +22,92 @@
 
 @session_start();
 
+/******************************************************************
+ * 
+ * Projectname:   PHP Cross-Site Request Forgery (DUPX_CSRF) Protection Class 
+ * Version:       1.0
+ * Author:        Radovan Janjic <hi@radovanjanjic.com>
+ * Last modified: 19 06 2014
+ * Copyright (C): 2014 IT-radionica.com, All Rights Reserved
+ * 
+ * GNU General Public License (Version 2, June 1991)
+ *
+ * This program is free software; you can redistribute
+ * it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free
+ * Software Foundation; either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will
+ * be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ * 
+ ******************************************************************/
+
+class DUPX_CSRF {
+	
+	/** Session var name
+	 * @var string
+	 */
+	public static $session = '_DUPX_CSRF';
+	
+	/** Generate DUPX_CSRF value for form
+	 * @param	string	$form	- Form name as session key
+	 * @return	string	- token
+	 */
+	static function generate($form = NULL) {
+		$token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
+		$_SESSION[DUPX_CSRF::$session . '_' . $form] = $token;
+		return $token;
+	}
+	
+	/** Check DUPX_CSRF value of form
+	 * @param	string	$token	- Token
+	 * @param	string	$form	- Form name as session key
+	 * @return	boolean
+	 */
+	public static function check($token, $form = NULL) {
+		// If Host doesn't support SESSION, We cam simply return true, Otherwise a user can never install
+		if (!self::is_session_started()) {
+			return true;
+		}
+		if (isset($_SESSION[DUPX_CSRF::$session . '_' . $form]) && $_SESSION[DUPX_CSRF::$session . '_' . $form] == $token) { // token OK
+			return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
+		}
+		return FALSE;
+	}
+	
+	/** Generate token
+	 * @param	void
+	 * @return  string
+	 */
+	protected static function token() {
+		mt_srand((double) microtime() * 10000);
+		$charid = strtoupper(md5(uniqid(rand(), TRUE)));
+		return substr($charid, 0, 8) . substr($charid, 8, 4) . substr($charid, 12, 4) . substr($charid, 16, 4) . substr($charid, 20, 12);
+	}
+	
+	/** Returns "digital fingerprint" of user
+	 * @param 	void
+	 * @return 	string 	- MD5 hashed data
+	 */
+	protected static function fingerprint() {
+		return strtoupper(md5(implode('|', array($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']))));
+	}
+	
+	/**
+	* @return bool
+	*/
+	protected static function is_session_started() {
+		if (php_sapi_name() !== 'cli') {
+			return session_id() === '' ? FALSE : TRUE;
+		}
+		return FALSE;
+	}
+}
+
 /**
  * Bootstrap utility to exatract the core installer
  *
@@ -130,7 +216,7 @@ class DUPX_Bootstrap
 
 			//MISSING ARCHIVE FILE
 			if (! file_exists($archive_filepath)) {
-				self::log("ERROR: Archive file not found! Expected File Name: [{$archive_filepath}]");
+				self::log("ERROR: Archive file not found!");
 				$archive_candidates = ($isZip) ? $this->getFilesWithExtension('zip') : $this->getFilesWithExtension('daf');
 				$candidate_count = count($archive_candidates);
 				$candidate_html  = "- No {$archive_extension} files found -";
@@ -447,7 +533,7 @@ class DUPX_Bootstrap
 					if ($zipArchive->extractTo($destination, $filename) === true) {
 						self::log("Success: {$filename} >>> {$destination}");
 					} else {
-						self::log("Error extracting {$filename} from archive {$archive_filepath}");
+						self::log("Error extracting {$filename} from archive archive file");
 						$success = false;
 						break;
 					}
@@ -473,7 +559,7 @@ class DUPX_Bootstrap
                         if ($zipArchive->extractTo($destination, $filename) === true) {
                             self::log("Success: {$filename} >>> {$destination}");
                         } else {
-                            self::log("Error extracting {$filename} from archive {$archive_filepath}");
+                            self::log("Error extracting {$filename} from archive archive file");
                             $success = false;
                             break;
                         }
@@ -482,9 +568,9 @@ class DUPX_Bootstrap
             }
 
 			if ($zipArchive->close() === true) {
-				self::log("Successfully closed {$archive_filepath}");
+				self::log("Successfully closed archive file");
 			} else {
-				self::log("Problem closing {$archive_filepath}");
+				self::log("Problem closing archive file");
 				$success = false;
 			}
 
@@ -494,7 +580,7 @@ class DUPX_Bootstrap
 				$success = false;
 			}
 		} else {
-			self::log("Couldn't open archive {$archive_filepath} with ZipArchive");
+			self::log("Couldn't open archive archive file with ZipArchive");
 			$success = false;
 		}
 		return $success;
@@ -728,6 +814,7 @@ $auto_refresh = isset($_POST['auto-fresh']) ? true : false;
 		$data = array(
 			'archive' => $boot->archive,
 			'bootloader' => $boot->bootloader,
+			'csrf_token' => DUPX_CSRF::generate('step1'),
 		);
 		foreach ($data as $name => $value)
 		{
