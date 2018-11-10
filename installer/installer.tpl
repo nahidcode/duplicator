@@ -20,7 +20,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-session_start();
+@session_start();
 
 /**
  * Bootstrap utility to exatract the core installer

@@ -23,7 +23,7 @@
 /** IDE HELPERS */
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */
 
-session_start();
+@session_start();
 
 /** Absolute path to the Installer directory. - necessary for php protection */
 if ( !defined('ABSPATH') )
