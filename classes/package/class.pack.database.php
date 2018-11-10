@@ -43,6 +43,7 @@ class DUP_Database
         try {
 
             $this->Package = $package;
+            do_action('duplicator_lite_build_database_before_start' , $package);
 
             $time_start        = DUP_Util::getMicrotime();
             $this->Package->setStatus(DUP_PackageStatus::DBSTART);
@@ -80,6 +81,8 @@ class DUP_Database
                     ."\tPlease remove/rename this file to continue with the package creation.", $errorBehavior);
             }
 
+            do_action('duplicator_lite_build_database_start' , $package);
+
             switch ($mode) {
                 case 'MYSQLDUMP':
                     $this->mysqlDump($mysqlDumpPath);
@@ -104,6 +107,10 @@ class DUP_Database
 
                 $package->Update();
                 DUP_Log::Error($error_message, "File does not look complete.  Check permission on file and parent directory at [{$this->dbStorePath}]", $errorBehavior);
+                do_action('duplicator_lite_build_database_fail' , $package);
+
+            } else {
+                do_action('duplicator_lite_build_database_completed' , $package);
             }
 
             DUP_Log::Info("SQL FILE TIME: ".date("Y-m-d H:i:s"));
@@ -113,6 +120,7 @@ class DUP_Database
 
             $this->Package->setStatus(DUP_PackageStatus::DBDONE);
         } catch (Exception $e) {
+            do_action('duplicator_lite_build_database_fail' , $package);
             DUP_Log::Error("Runtime error in DUP_Database::Build", "Exception: {$e}", $errorBehavior);
         }
     }
