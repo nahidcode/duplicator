@@ -331,6 +331,8 @@ class DUP_Package
 		//START LOGGING
 		DUP_Log::Open($this->NameHash);
 
+        do_action('duplicator_lite_build_before_start' , $this);
+
 		$this->writeLogHeader();
 
 		//CREATE DB RECORD
@@ -362,6 +364,8 @@ class DUP_Package
 			}
 			$this->ID = $wpdb->insert_id;
 		}
+
+         do_action('duplicator_lite_build_start' , $this);
 	}
     
     public function delete()
@@ -729,6 +733,7 @@ class DUP_Package
 				DUP_LOG::Trace("Cleaning up duparchive temp files");
                 //File Cleanup
                 $this->buildCleanup();
+                do_action('duplicator_lite_build_completed' , $this);
             }
         }
 
