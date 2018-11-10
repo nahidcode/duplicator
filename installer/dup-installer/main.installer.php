@@ -126,7 +126,7 @@ if (!empty($post_view)) {
 	if (in_array($post_view, $csrf_views)) {
         if (isset($_POST['csrf_token']) && !DUPX_CSRF::check($_POST['csrf_token'], $post_view)) {
 			die("An in valid request was made to '{$post_view}'.  In order to protect this request from unauthorized access please "
-			. "<a href='../install.php'>restart this install</a> process");
+			. "<a href='../installer.php'>restart this install process</a>.");
         }
 	}
 }
