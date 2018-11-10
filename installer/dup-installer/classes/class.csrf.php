@@ -46,6 +46,10 @@ class DUPX_CSRF {
 	 * @return	boolean
 	 */
 	public static function check($token, $form = NULL) {
+		// If Host doesn't support SESSION, We cam simply return true, Otherwise a user can never install
+		if (!self::is_session_started()) {
+			return true;
+		}
 		if (isset($_SESSION[DUPX_CSRF::$session . '_' . $form]) && $_SESSION[DUPX_CSRF::$session . '_' . $form] == $token) { // token OK
 			return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
 		}
@@ -68,5 +72,15 @@ class DUPX_CSRF {
 	 */
 	protected static function fingerprint() {
 		return strtoupper(md5(implode('|', array($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']))));
+	}
+	
+	/**
+	* @return bool
+	*/
+	protected static function is_session_started() {
+		if (php_sapi_name() !== 'cli') {
+			return session_id() === '' ? FALSE : TRUE;
+		}
+		return FALSE;
 	}
 }

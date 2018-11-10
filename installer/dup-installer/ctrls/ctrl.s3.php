@@ -277,10 +277,10 @@ $wpconfig_ark_contents	= @file_get_contents($wpconfig_ark_path, true);
 $wpconfig_ark_contents	= preg_replace($patterns, $replace, $wpconfig_ark_contents);
 
 if (!is_writable($wpconfig_ark_path)) {
-	$err_log = "\nWARNING: Unable to update file permissions and write to {$wpconfig_ark_path}.  ";
+	$err_log = "\nWARNING: Unable to update file permissions and write to dup-wp-config-arc__[HASH].txt.  ";
 	$err_log .= "Check that the wp-config.php is in the archive.zip and check with your host or administrator to enable PHP to write to the wp-config.php file.  ";
 	$err_log .= "If performing a 'Manual Extraction' please be sure to select the 'Manual Archive Extraction' option on step 1 under options.";
-	chmod($wpconfig_ark_path, 0644) ? DUPX_Log::info("File Permission Update: {$wpconfig_ark_path} set to 0644") : DUPX_Log::error("{$err_log}");
+	chmod($wpconfig_ark_path, 0644) ? DUPX_Log::info("File Permission Update: dup-wp-config-arc__[HASH].txt set to 0644") : DUPX_Log::error("{$err_log}");
 }
 $wpconfig_ark_contents = preg_replace($patterns, $replace, $wpconfig_ark_contents);
 file_put_contents($wpconfig_ark_path, $wpconfig_ark_contents);

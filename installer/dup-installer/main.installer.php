@@ -73,22 +73,6 @@ require_once($GLOBALS['DUPX_INIT'].'/classes/class.installer.state.php');
 require_once($GLOBALS['DUPX_INIT'].'/classes/class.password.php');
 require_once($GLOBALS['DUPX_INIT'].'/classes/class.csrf.php');
 
-// CSRF checking
-if (!empty($GLOBAL['view'])) {
-	$csrf_views = array(
-		'secure',
-		'step1',
-		'step2',
-		'step3',
-		'step4',
-	);
-	if (in_array($GLOBAL['view'], $csrf_views)) {
-        if (!DUPX_CSRF::check($_POST['csrf_token'], $GLOBAL['view'])) {
-			die('CSRF security issue for the view: '.$GLOBAL['view']);
-        }
-	}
-}
-
 $GLOBALS['DUPX_AC'] = DUPX_ArchiveConfig::getInstance();
 if ($GLOBALS['DUPX_AC'] == null) {
 	die("Can't initialize config globals! Please try to re-run installer.php");
@@ -120,6 +104,31 @@ if ($GLOBALS['DUPX_STATE'] == null) {
 }
 
 require_once($GLOBALS['DUPX_INIT'] . '/classes/utilities/class.u.php');
+
+if (!empty($GLOBALS['view'])) {
+	$post_view = $GLOBALS['view'];
+} elseif (!empty($_POST['view'])) {
+	$post_view = DUPX_U::sanitize_text_field($_POST['view']);
+} else {
+	$post_view = '';
+}
+
+// CSRF checking
+if (!empty($post_view)) {
+	$csrf_views = array(
+		'secure',
+		'step1',
+		'step2',
+		'step3',
+		'step4',
+	);
+	if (in_array($post_view, $csrf_views)) {
+        if (!DUPX_CSRF::check($_POST['csrf_token'], $post_view)) {
+			die('CSRF security issue for the view: '.$post_view);
+        }
+	}
+}
+
 require_once($GLOBALS['DUPX_INIT'] . '/classes/class.db.php');
 require_once($GLOBALS['DUPX_INIT'] . '/classes/class.logging.php');
 require_once($GLOBALS['DUPX_INIT'] . '/classes/class.http.php');
@@ -139,6 +148,11 @@ if (!chdir($GLOBALS['DUPX_INIT'])) {
 }
 
 if (isset($_POST['ctrl_action'])) {
+	$post_ctrl_csrf_token = isset($_POST['ctrl_csrf_token']) ? DUPX_U::sanitize_text_field($_POST['ctrl_csrf_token']) : '';
+	$post_ctrl_action = DUPX_U::sanitize_text_field($_POST['ctrl_action']);
+	if (!DUPX_CSRF::check($post_ctrl_csrf_token, $post_ctrl_action)) {
+		die('CSRF security issue for the ctrl action: '.$post_ctrl_action);
+	}
 	require_once($GLOBALS['DUPX_INIT'].'/ctrls/ctrl.base.php');
 
 	//PASSWORD CHECK

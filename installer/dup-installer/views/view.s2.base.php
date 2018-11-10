@@ -48,6 +48,7 @@ $cpnl_supported =  DUPX_U::$on_php_53_plus ? true : false;
 		<input type="hidden" name="logging" id="logging" value="<?php echo DUPX_U::esc_attr($_POST['logging']); ?>" />
 		<input type="hidden" name="dbcolsearchreplace"/>
 		<input type="hidden" name="ctrl_action" value="ctrl-step2" />
+		<input type="hidden" name="ctrl_csrf_token" value="<?php echo DUPX_CSRF::generate('ctrl-step2'); ?>">
 		<input type="hidden" name="view_mode" id="s2-input-form-mode" />
 		<input type="hidden" name="exe_safe_mode" id="exe-safe-mode"  value="<?php echo DUPX_U::esc_attr($_POST['exe_safe_mode']); ?>"/>
 		<textarea name="dbtest-response" id="debug-dbtest-json"></textarea>
