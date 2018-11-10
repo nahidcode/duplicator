@@ -816,9 +816,8 @@ $auto_refresh = isset($_POST['auto-fresh']) ? true : false;
 			'bootloader' => $boot->bootloader,
 			'csrf_token' => DUPX_CSRF::generate('step1'),
 		);
-		foreach ($data as $name => $value)
-		{
-			$_SESSION[$name] = $value;
+		foreach ($data as $name => $value) {
+			if ('csrf_token' != $name)  $_SESSION[$name] = $value;
 			$html .= "<input type='hidden' name='{$name}' value='{$value}' />\n";
 		}
 		$html .= "</form>\n";
