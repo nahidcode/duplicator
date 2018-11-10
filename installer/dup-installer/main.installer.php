@@ -122,9 +122,11 @@ if (!empty($post_view)) {
 		'step3',
 		'step4',
 	);
+	
 	if (in_array($post_view, $csrf_views)) {
-        if (!DUPX_CSRF::check($_POST['csrf_token'], $post_view)) {
-			die('CSRF security issue for the view: '.$post_view);
+        if (isset($_POST['csrf_token']) && !DUPX_CSRF::check($_POST['csrf_token'], $post_view)) {
+			die("An in valid request was made to '{$post_view}'.  In order to protect this request from unauthorized access please "
+			. "<a href='../install.php'>restart this install</a> process");
         }
 	}
 }
