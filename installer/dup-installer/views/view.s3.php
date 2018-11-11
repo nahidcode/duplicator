@@ -171,7 +171,7 @@ VIEW: STEP 3- INPUT -->
 			</tr>
             <tr>
 				<td>Nickname:</td>
-				<td><input type="text" name="wp_nickname" id="wp_nickname" value="" title="if empty is username"  placeholder="(if empty is username)" /></td>
+				<td><input type="text" name="wp_nickname" id="wp_nickname" value="" title="if username is empty"  placeholder="(if username is empty)" /></td>
 			</tr>
             <tr>
 				<td>First name:</td>
