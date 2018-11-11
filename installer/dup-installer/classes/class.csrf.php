@@ -34,9 +34,13 @@ class DUPX_CSRF {
 	 * @param	string	$form	- Form name as session key
 	 * @return	string	- token
 	 */
-	static function generate($form = NULL) {
-		$token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
-		$_SESSION[DUPX_CSRF::$session . '_' . $form] = $token;
+	public static function generate($form = NULL) {
+		if (isset($_SESSION[DUPX_CSRF::$session . '_' . $form])) {
+			$token = $_SESSION[DUPX_CSRF::$session . '_' . $form];
+		} else {
+            $token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
+            $_SESSION[DUPX_CSRF::$session . '_' . $form] = $token;
+        }
 		return $token;
 	}
 	

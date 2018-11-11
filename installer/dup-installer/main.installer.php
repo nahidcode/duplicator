@@ -23,11 +23,13 @@
 /** IDE HELPERS */
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */
 
-@session_start();
+
 
 /** Absolute path to the Installer directory. - necessary for php protection */
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
+
+@session_start();
 
 date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
 
