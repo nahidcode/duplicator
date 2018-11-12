@@ -19,7 +19,8 @@ if (function_exists('plugin_dir_url'))
 		define('DUPLICATOR_WPROOTPATH', str_replace('\\', '/', ABSPATH));
 	}
 
-	define('DUPLICATOR_SSDIR_NAME',			'wp-snapshots');
+    define('DUPLICATOR_SSDIR_NAME',			'wp-snapshots');
+    define('DUPLICATOR_INSTALL_ENABLE_SITE_OVERWRITE', false);
 	define('DUPLICATOR_PLUGIN_PATH',		str_replace("\\", "/", plugin_dir_path(__FILE__)));
 	define('DUPLICATOR_SSDIR_PATH',			str_replace("\\", "/", DUPLICATOR_WPROOTPATH . DUPLICATOR_SSDIR_NAME));
     define('DUPLICATOR_SSDIR_PATH_TMP',		DUPLICATOR_SSDIR_PATH . '/tmp');

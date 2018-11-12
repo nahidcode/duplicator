@@ -21,7 +21,8 @@ class DUP_Archive_Config
     public $wproot;
     public $wplogin_url;
 	public $relative_content_dir;
-	public $exportOnlyDB;
+    public $exportOnlyDB;
+    public $installEnableSiteOverwrite;
 
     //PRE-FILLED: GENERAL
     public $secure_on;

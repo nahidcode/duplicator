@@ -14,7 +14,13 @@ $arcSize = is_numeric($arcSize) ? $arcSize : 0;
 
 $root_path			  = $GLOBALS['DUPX_ROOT'];
 $installer_state	  = DUPX_InstallerState::getInstance();
-$is_wpconfarc_present = file_exists("{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt");
+
+if ($GLOBALS['DUPX_AC']->installEnableSiteOverwrite) {
+	$is_wpconfarc_present = file_exists("{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt");	
+} else {
+	$is_wpconfarc_present = file_exists("{$root_path}/wp-config.php");
+}
+
 $is_overwrite_mode    =  ($installer_state->mode === DUPX_InstallerMode::OverwriteInstall);
 $is_wordpress		  = DUPX_Server::isWordPress();
 $is_dbonly			  = $GLOBALS['DUPX_AC']->exportOnlyDB;
@@ -304,29 +310,44 @@ VALIDATION
 			<div class="info" id="s1-notice10">
 				<b>Deployment Path:</b> <i><?php echo "{$GLOBALS['DUPX_ROOT']}"; ?></i>
 				<br/><br/>
+				<?php
+				if ($GLOBALS['DUPX_AC']->installEnableSiteOverwrite || $is_dbonly) {
+				?>
+					Duplicator is in "Overwrite Install" mode because it has detected an existing WordPress site at the deployment path above.  This mode allows for the installer
+					to be dropped directly into an existing WordPress site and overwrite its contents.   Any content inside of the archive file
+					will <u>overwrite</u> the contents from the deployment path.  To continue choose one of these options:
 
-				Duplicator is in "Overwrite Install" mode because it has detected an existing WordPress site at the deployment path above.  This mode allows for the installer
-				to be dropped directly into an existing WordPress site and overwrite its contents.   Any content inside of the archive file
-				will <u>overwrite</u> the contents from the deployment path.  To continue choose one of these options:
+					<ol>
+						<li>Ignore this notice and continue with the install if you want to overwrite this sites files.</li>
+						<li>Move this installer and archive to another empty directory path to keep this sites files.</li>
+					</ol>
 
-				<ol>
-					<li>Ignore this notice and continue with the install if you want to overwrite this sites files.</li>
-					<li>Move this installer and archive to another empty directory path to keep this sites files.</li>
-				</ol>
+					<small style="color:maroon">
+						<b>Notice:</b> Existing content such as plugin/themes/images will still show-up after the install is complete if they did not already exist in
+						the archive file. For example if you have an SEO plugin in the current site but that same SEO plugin <u>does not exist</u> in the archive file
+						then that plugin will display as a disabled plugin after the install is completed. The same concept with themes and images applies.  This will
+						not impact the sites operation, and the behavior is expected.
+					</small>
+					<br/><br/>
 
-				<small style="color:maroon">
-					<b>Notice:</b> Existing content such as plugin/themes/images will still show-up after the install is complete if they did not already exist in
-					the archive file. For example if you have an SEO plugin in the current site but that same SEO plugin <u>does not exist</u> in the archive file
-					then that plugin will display as a disabled plugin after the install is completed. The same concept with themes and images applies.  This will
-					not impact the sites operation, and the behavior is expected.
-				</small>
-				<br/><br/>
-
-
-				<small style="color:#025d02">
-					<b>Recommendation:</b> It is recommended you only overwrite WordPress sites that have a minimal	setup (plugins/themes).  Typically a fresh install or a
-					cPanel 'one click' install is the best baseline to work from when using this mode but is not required.
-				</small>
+					<small style="color:#025d02">
+						<b>Recommendation:</b> It is recommended you only overwrite WordPress sites that have a minimal	setup (plugins/themes).  Typically a fresh install or a
+						cPanel 'one click' install is the best baseline to work from when using this mode but is not required.
+					</small>
+				<?php
+				} else {
+                    ?>
+					Duplicator works best by placing the installer and archive files into an empty directory.  If a wp-config.php file is found in the extraction
+					directory it might indicate that a pre-existing WordPress site exists which can lead to a bad install.
+					<br/><br/>
+					<b>Options:</b>
+					<ul style="margin-bottom: 0">
+						<li>If the archive was already manually extracted then <a href="javascript:void(0)" onclick="DUPX.getManaualArchiveOpt()">[Enable Manual Archive Extraction]</a></li>
+						<li>If the wp-config file is not needed then remove it.</li>
+					</ul>
+				<?php
+                }
+				?>
 			</div>
 
 		<!-- NOTICE 20: ARCHIVE EXTRACTED -->

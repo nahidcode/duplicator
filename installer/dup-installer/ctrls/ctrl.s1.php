@@ -29,7 +29,10 @@ if($_POST['archive_engine'] == 'manual') {
 //ACTION VARS
 $ajax1_start		= DUPX_U::getMicrotime();
 $root_path			= $GLOBALS['DUPX_ROOT'];
-$wpconfig_ark_path	= "{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt";
+$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installEnableSiteOverwrite) ? 
+						"{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt"
+					:	"{$root_path}/wp-config.php";
+
 $archive_path		= $GLOBALS['FW_PACKAGE_PATH'];
 $JSON				= array();
 $JSON['pass']		= 0;
@@ -46,16 +49,25 @@ error_reporting(E_ERROR);
 
 if (! $GLOBALS['DUPX_AC']->exportOnlyDB) {
 
-	$wpConfigPath	= "{$GLOBALS['DUPX_ROOT']}/wp-config.php";
+	// Unused so commented
+	// $wpConfigPath	= "{$GLOBALS['DUPX_ROOT']}/wp-config.php";
 
 	if (($_POST['archive_engine'] == 'manual') || $_POST['archive_engine'] == 'duparchive'){
 		if (!file_exists($wpconfig_ark_path) && !file_exists("database.sql")) {
 			DUPX_Log::error(ERR_ZIPMANUAL);
 		}
 	} else {
-
         if (!is_readable("{$archive_path}")) {
 			DUPX_Log::error("archive path:{$archive_path}<br/>" . ERR_ZIPNOTFOUND);
+		}
+	}
+
+	//ERR_ZIPMANUAL
+	$post_archive_engine = DUPX_U::sanitize_text_field($_POST['archive_engine']);
+	if ($post_archive_engine != 'manual' && !$GLOBALS['DUPX_AC']->installEnableSiteOverwrite) {
+		//ERR_CONFIG_FOUND
+		if (file_exists($wpconfig_ark_path)) {
+			DUPX_Log::error(ERR_CONFIG_FOUND);
 		}
 	}
 }
@@ -100,7 +112,8 @@ DUPX_Log::info($log . "\n");
 
 $target	 = $root_path;
 
-switch ($_POST['archive_engine']) {
+$post_archive_engine = DUPX_U::sanitize_text_field($_POST['archive_engine']);
+switch ($post_archive_engine) {
 	
 	//-----------------------
 	//MANUAL EXTRACTION
