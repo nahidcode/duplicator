@@ -43,7 +43,7 @@ class DUPX_DBInstall
         $this->php_used_mem         = memory_get_usage();
         $this->php_mem_range        = 1024 * 1024;
         $this->root_path            = $GLOBALS['DUPX_ROOT'];
-        $this->sql_file_path        = $this->sql_file_path        = "{$GLOBALS['DUPX_INIT']}/dup-database__{$GLOBALS['DUPX_AC']->package_hash}.sql";
+        $this->sql_file_path        = "{$GLOBALS['DUPX_INIT']}/dup-database__{$GLOBALS['DUPX_AC']->package_hash}.sql";
         $this->sql_result_file_path = "{$GLOBALS['DUPX_INIT']}/{$GLOBALS['SQL_FILE_NAME']}";
 		$this->dbFileSize			= @filesize($this->sql_file_path);
 

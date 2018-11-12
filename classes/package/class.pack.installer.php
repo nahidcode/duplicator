@@ -148,7 +148,8 @@ class DUP_Installer
         $ac->blogname             = esc_html(get_option('blogname'));
         $ac->wproot               = DUPLICATOR_WPROOTPATH;
         $ac->relative_content_dir = str_replace(ABSPATH, '', WP_CONTENT_DIR);
-		$ac->exportOnlyDB		  = $this->Package->Archive->ExportOnlyDB;
+        $ac->exportOnlyDB		  = $this->Package->Archive->ExportOnlyDB;
+        $ac->installEnableSiteOverwrite = DUPLICATOR_INSTALL_ENABLE_SITE_OVERWRITE;
 		$ac->wplogin_url		  = wp_login_url();
 
         //PRE-FILLED: GENERAL
@@ -447,8 +448,12 @@ class DUP_Installer
      */
     private function getWPConfArkFilePath()
     {
-        $package_hash = $this->Package->get_package_hash();
-        $conf_ark_file_path = 'dup-wp-config-arc__'.$package_hash.'.txt';
+        if (DUPLICATOR_INSTALL_ENABLE_SITE_OVERWRITE) {
+            $package_hash = $this->Package->get_package_hash();
+            $conf_ark_file_path = 'dup-wp-config-arc__'.$package_hash.'.txt';
+        } else {
+            $conf_ark_file_path = 'wp-config.php';
+        }
         return $conf_ark_file_path;
     }
 
