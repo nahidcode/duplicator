@@ -42,7 +42,7 @@ class DUP_CTRL_UI extends DUP_CTRL_Base
 
 		$nonce = sanitize_text_field($post['nonce']);
 		if (!wp_verify_nonce($nonce, 'DUP_CTRL_UI_SaveViewState')) {
-			die('Security issue');
+			die('An unathorized security request was made to this page. Please try again!');
 		}
 
 

@@ -70,7 +70,7 @@ class DUP_CTRL_Tools extends DUP_CTRL_Base
         
         $nonce = sanitize_text_field($_GET['nonce']);
         if (!wp_verify_nonce($nonce, 'DUP_CTRL_Tools_getTraceLog')) {
-            die('Security issue');
+            die('An unathorized security request was made to this page. Please try again!');
         }
 
         Dup_Util::hasCapability('export');

@@ -209,7 +209,7 @@ ADDON SITES -->
 
 <!-- ============
 FILE NAME CHECKS -->
-<div class="scan-item scan-item-last">
+<div class="scan-item">
 	<div class="title" onclick="Duplicator.Pack.toggleScanItem(this);">
 		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Name Checks', 'duplicator');?></div>
 		<div id="data-arc-status-names"></div>

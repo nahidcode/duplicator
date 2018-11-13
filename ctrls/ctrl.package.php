@@ -16,9 +16,9 @@ require_once(DUPLICATOR_PLUGIN_PATH.'/classes/package/duparchive/class.pack.arch
 function duplicator_package_scan()
 {
     $nonce = sanitize_text_field($_POST['nonce']);
-if (!wp_verify_nonce($nonce, 'duplicator_package_scan')) {
-	die('Security issue');
-}
+	if (!wp_verify_nonce($nonce, 'duplicator_package_scan')) {
+		die('An unathorized security request was made to this page. Please try again!');
+	}
 
     header('Content-Type: application/json;');
     DUP_Util::hasCapability('export');
@@ -342,7 +342,7 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
 
         $nonce = sanitize_text_field($_GET['nonce']);
         if (!wp_verify_nonce($nonce, 'DUP_CTRL_Package_getPackageFile')) {
-            die('Security issue');
+            die('An unathorized security request was made to this page. Please try again!');
         }
 
         $params = $this->getParamMerge($params);
@@ -439,7 +439,7 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
         $post = $this->postParamMerge($post);
         $nonce = sanitize_text_field($post['nonce']);
         if (!wp_verify_nonce($nonce, 'DUP_CTRL_Package_getActivePackageStatus')) {
-            die('Security issue');
+            die('An unathorized security request was made to this page. Please try again!');
         }        
 		$result = new DUP_CTRL_Result($this);
 	
