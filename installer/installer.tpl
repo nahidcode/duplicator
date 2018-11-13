@@ -20,7 +20,15 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@session_cache_limiter("nocache");
+// @session_cache_limiter('must-revalidate');
 @session_start();
+
+@header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+@header("Cache-Control: post-check=0, pre-check=0", false);
+@header("Pragma: no-cache");
+@header("Expires: 0");
+
 
 /******************************************************************
  * 
@@ -57,9 +65,13 @@ class DUPX_CSRF {
 	 * @param	string	$form	- Form name as session key
 	 * @return	string	- token
 	 */
-	static function generate($form = NULL) {
-		$token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
-		$_SESSION[DUPX_CSRF::$session . '_' . $form] = $token;
+	public static function generate($form = NULL) {
+		if (isset($_SESSION[DUPX_CSRF::$session . '_' . $form])) {
+			$token = $_SESSION[DUPX_CSRF::$session . '_' . $form];
+		} else {
+            $token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
+            $_SESSION[DUPX_CSRF::$session . '_' . $form] = $token;
+        }
 		return $token;
 	}
 	
