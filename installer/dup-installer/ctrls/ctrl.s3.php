@@ -272,7 +272,7 @@ $replace = array("'WP_HOME', '{$_POST['url_new']}');",
 DUPX_WPConfig::updateVars($patterns, $replace);
 
 $root_path = $GLOBALS['DUPX_ROOT'];
-$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installEnableSiteOverwrite) ? "{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt" : "{$root_path}/wp-config.php";
+$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) ? "{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt" : "{$root_path}/wp-config.php";
 $wpconfig_ark_contents	= @file_get_contents($wpconfig_ark_path, true);
 $wpconfig_ark_contents	= preg_replace($patterns, $replace, $wpconfig_ark_contents);
 
@@ -375,7 +375,7 @@ mysqli_close($dbh);
 
 
 //-- Finally, back up the old wp-config and rename the new one
-if ($GLOBALS['DUPX_AC']->installEnableSiteOverwrite) {
+if ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
     $wpconfig_path	= "{$GLOBALS['DUPX_ROOT']}/wp-config.php";
     if (copy($wpconfig_ark_path, $wpconfig_path) === false) {
         DUPX_Log::error("ERROR: Unable to copy '{$root_path}/dup-wp-config-arc__[HASH].txt' to '{$wpconfig_path}'.  "

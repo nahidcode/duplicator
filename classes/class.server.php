@@ -214,7 +214,7 @@ class DUP_Server {
                 DUPLICATOR_INSTALL_BAK => DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_BAK,
                 DUPLICATOR_INSTALL_BOOT_LOG => DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_BOOT_LOG,                
             );
-        if (DUPLICATOR_INSTALL_ENABLE_SITE_OVERWRITE) {
+        if (DUPLICATOR_INSTALL_SITE_OVERWRITE_ON) {
             $retArr['dup-wp-config-arc__[HASH].txt'] = DUPLICATOR_WPROOTPATH . 'dup-wp-config-arc__*.txt';
         }
         return $retArr;

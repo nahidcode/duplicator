@@ -15,7 +15,7 @@ $arcSize = is_numeric($arcSize) ? $arcSize : 0;
 $root_path			  = $GLOBALS['DUPX_ROOT'];
 $installer_state	  = DUPX_InstallerState::getInstance();
 
-if ($GLOBALS['DUPX_AC']->installEnableSiteOverwrite) {
+if ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
 	$is_wpconfarc_present = file_exists("{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt");	
 } else {
 	$is_wpconfarc_present = file_exists("{$root_path}/wp-config.php");
@@ -311,7 +311,7 @@ VALIDATION
 				<b>Deployment Path:</b> <i><?php echo "{$GLOBALS['DUPX_ROOT']}"; ?></i>
 				<br/><br/>
 				<?php
-				if ($GLOBALS['DUPX_AC']->installEnableSiteOverwrite || $is_dbonly) {
+				if ($GLOBALS['DUPX_AC']->installSiteOverwriteOn || $is_dbonly) {
 				?>
 					Duplicator is in "Overwrite Install" mode because it has detected an existing WordPress site at the deployment path above.  This mode allows for the installer
 					to be dropped directly into an existing WordPress site and overwrite its contents.   Any content inside of the archive file

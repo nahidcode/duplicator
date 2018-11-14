@@ -29,7 +29,7 @@ if($_POST['archive_engine'] == 'manual') {
 //ACTION VARS
 $ajax1_start		= DUPX_U::getMicrotime();
 $root_path			= $GLOBALS['DUPX_ROOT'];
-$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installEnableSiteOverwrite) ? 
+$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) ? 
 						"{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt"
 					:	"{$root_path}/wp-config.php";
 
@@ -64,7 +64,7 @@ if (! $GLOBALS['DUPX_AC']->exportOnlyDB) {
 
 	//ERR_ZIPMANUAL
 	$post_archive_engine = DUPX_U::sanitize_text_field($_POST['archive_engine']);
-	if ($post_archive_engine != 'manual' && !$GLOBALS['DUPX_AC']->installEnableSiteOverwrite) {
+	if ($post_archive_engine != 'manual' && !$GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
 		//ERR_CONFIG_FOUND
 		if (file_exists($wpconfig_ark_path)) {
 			DUPX_Log::error(ERR_CONFIG_FOUND);

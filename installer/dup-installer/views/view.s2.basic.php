@@ -6,7 +6,7 @@ defined("ABSPATH") or die("");
 
 $state = $GLOBALS['DUPX_STATE'];
 $is_standard_mode	= $state->mode == DUPX_InstallerMode::StandardInstall;
-$is_overwrite_mode	= ($state->mode == DUPX_InstallerMode::OverwriteInstall && $GLOBALS['DUPX_AC']->installEnableSiteOverwrite);
+$is_overwrite_mode	= ($state->mode == DUPX_InstallerMode::OverwriteInstall && $GLOBALS['DUPX_AC']->installSiteOverwriteOn);
 
 if($is_standard_mode) {
 

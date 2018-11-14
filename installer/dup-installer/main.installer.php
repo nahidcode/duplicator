@@ -240,9 +240,13 @@ if (isset($_POST['ctrl_action'])) {
 		$db_only_txt = ($GLOBALS['DUPX_AC']->exportOnlyDB) ? ' - Database Only' : '';
 		$db_only_txt = $db_only_txt . $php_enforced_txt;
 
-		echo  ($GLOBALS['DUPX_STATE']->mode === DUPX_InstallerMode::OverwriteInstall)
-			? "<span class='dupx-overwrite'>Mode: Overwrite Install {$db_only_txt}</span>"
-			: "Mode: Standard Install {$db_only_txt}";
+		if ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
+			echo  ($GLOBALS['DUPX_STATE']->mode === DUPX_InstallerMode::OverwriteInstall)
+				? "<span class='dupx-overwrite'>Mode: Overwrite Install {$db_only_txt}</span>"
+				: "Mode: Standard Install {$db_only_txt}";
+		} else {
+			echo "Mode: Standard Install {$db_only_txt}";
+		}
 	?>
 </div>
 
