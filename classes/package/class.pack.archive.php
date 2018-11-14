@@ -70,7 +70,7 @@ class DUP_Archive
      * @param obj $package The package object that started this process
      *
      * @return null
-     */    
+     */
 	public function build($package, $rethrow_exception = false)
 	{
         DUP_LOG::trace("b1");
@@ -117,13 +117,13 @@ class DUP_Archive
                 $filepath    = DUP_Util::safePath("{$this->Package->StorePath}/{$this->File}");
                 $this->Size	 = @filesize($filepath);
                 $this->Package->setStatus(DUP_PackageStatus::ARCDONE);
-                DUP_LOG::Trace("Done building archive");	
+                DUP_LOG::Trace("Done building archive");
             }
         } else {
             DUP_Log::trace("DupArchive chunk done but package not completed yet");
-        }      
+        }
 	}
-	
+
     /**
      *  Builds a list of files and directories to be included in the archive
      *
@@ -152,7 +152,7 @@ class DUP_Archive
         $this->FilterDirsAll  = array_merge($this->FilterDirsAll, $this->FilterInfo->Dirs->Unreadable);
         $this->FilterFilesAll = array_merge($this->FilterFilesAll, $this->FilterInfo->Files->Unreadable);
 		sort($this->FilterDirsAll);
-		
+
         return $this;
     }
 
@@ -308,7 +308,7 @@ class DUP_Archive
         $this->FilterDirsAll  = array_merge($this->FilterInfo->Dirs->Instance, $this->FilterInfo->Dirs->Core);
         $this->FilterExtsAll  = array_merge($this->FilterInfo->Exts->Instance, $this->FilterInfo->Exts->Core);
 		$this->FilterFilesAll = array_merge($this->FilterInfo->Files->Instance, $this->FilterInfo->Files->Global);
-        
+
         $this->FilterFilesAll[] = DUPLICATOR_WPROOTPATH . '.htaccess';
 		$this->FilterFilesAll[] = DUPLICATOR_WPROOTPATH . 'web.config';
 		$this->FilterFilesAll[] = DUPLICATOR_WPROOTPATH . 'wp-config.php';
@@ -346,7 +346,7 @@ class DUP_Archive
 		// - directories ending with period (Windows incompatable)
         foreach ($this->Dirs as $key => $val) {
             $name = basename($val);
-			
+
 			//Dir is not readble remove flag for removal
             if (! is_readable($this->Dirs[$key])) {
 				$unset_key_list[] = $key;
@@ -454,7 +454,7 @@ class DUP_Archive
 						'path'	 => $filePath);
 			 }
 		}
-		
+
 		//Try to repair utf8 paths
 		foreach ($utf8_key_list as $key) {
 			$this->Files[$key] =  DUP_Encoding::toUTF8($this->Files[$key]);
@@ -560,7 +560,7 @@ class DUP_Archive
 			foreach ($files as $key => $value) {
 				$sum += $value['ubytes'];
 			}
-			
+
 			//Locate core paths, wp-admin, wp-includes, etc.
 			$iscore = 0;
 			foreach ($this->wpCorePaths as $core_dir) {
@@ -636,6 +636,5 @@ class DUP_Archive
 		}
 		usort($this->FilterInfo->TreeWarning, "_sortDir");
 	}
-
 
 }

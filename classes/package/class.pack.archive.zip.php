@@ -56,7 +56,7 @@ class DUP_Zip extends DUP_Archive
                 $buildProgress->set_failed($error_message);
 
                 DUP_Log::Error($error_message, "Path location [".self::$zipPath."]", Dup_ErrorBehavior::LogOnly);
-                           
+
                 return;
             }
             DUP_Log::Info("ARCHIVE DIR:  ".self::$compressDir);
@@ -80,7 +80,7 @@ class DUP_Zip extends DUP_Archive
                 $error_message = "Unable to add database.sql to archive.";
 
                 DUP_Log::Error($error_message, "SQL File Path [".self::$sqlath."]", Dup_ErrorBehavior::LogOnly);
-            
+
                 $buildProgress->set_failed($error_message);
                 return;
             }
@@ -109,7 +109,7 @@ class DUP_Zip extends DUP_Archive
             }
 
             /* ZIP FILES: Network Flush
-             *  This allows the process to not timeout on fcgi 
+             *  This allows the process to not timeout on fcgi
              *  setups that need a response every X seconds */
             $totalFileCount = count(self::$scanReport->ARC->Files);
             $info = '';
@@ -131,7 +131,7 @@ class DUP_Zip extends DUP_Archive
                         DUP_Util::fcgiFlush();
                         DUP_Log::Info("Items archived [{$sumItems}] flushing response.");
                     }
-                    
+
                     if(self::$countFiles % 500 == 0) {
                         // Every so many files update the status so the UI can display
                         $archive->Package->Status = SnapLibUtil::getWorkPercent(DUP_PackageStatus::ARCSTART, DUP_PackageStatus::COMPLETE, $totalFileCount, self::$countFiles);
@@ -147,7 +147,7 @@ class DUP_Zip extends DUP_Archive
                     } else {
                         $info .= "FILE: [{$file}]\n";
                     }
-                    
+
                     if(self::$countFiles % 500 == 0) {
                         // Every so many files update the status so the UI can display
                         $archive->Package->Status = SnapLibUtil::getWorkPercent(DUP_PackageStatus::ARCSTART, DUP_PackageStatus::COMPLETE, $totalFileCount, self::$countFiles);
@@ -194,9 +194,9 @@ class DUP_Zip extends DUP_Archive
             $error_message = "Runtime error in class.pack.archive.zip.php constructor.";
 
             DUP_Log::Error($error_message, "Exception: {$e}", Dup_ErrorBehavior::LogOnly);
-        
+
             $buildProgress->set_failed($error_message);
-            return;    
+            return;
         }
     }
 }

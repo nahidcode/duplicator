@@ -71,7 +71,7 @@ class DUP_Database
             //Reserved file found
             if (file_exists($reserved_db_filepath)) {
                 $error_message = 'Reserved SQL file detected';
-                
+
                 $package->BuildProgress->set_failed($error_message);
 
                 $package->Update();
@@ -99,7 +99,7 @@ class DUP_Database
             //File below 10k considered incomplete
             $sql_file_size = filesize($this->dbStorePath);
             DUP_Log::Info("SQL FILE SIZE: ".DUP_Util::byteSize($sql_file_size)." ({$sql_file_size})");
-       
+
             if ($sql_file_size < 10000) {
                 $error_message = "SQL file size too low.";
 
@@ -265,7 +265,7 @@ class DUP_Database
          $cmd .= (DB_PASSWORD) ? ' -p'.escapeshellcmd(DB_PASSWORD) : '';
         else
          $cmd .= (DB_PASSWORD) ? ' -p'.escapeshellarg(DB_PASSWORD) : '';
-        
+
         $cmd .= ' -h '.escapeshellarg($host);
         $cmd .= (!empty($port) && is_numeric($port) ) ?
             ' -P '.$port : '';
@@ -346,7 +346,7 @@ class DUP_Database
 
         $table_count = count($tables);
         $table_number = 0;
-        
+
         //BUILD INSERTS:
         //Create Insert in 100 row increments to better handle memory
         foreach ($tables as $table) {
@@ -384,7 +384,7 @@ class DUP_Database
                             if (is_null($value) || !isset($value)) {
                                 ($num_values == $num_counter) ? $sql .= 'NULL' : $sql .= 'NULL, ';
                             } else {
-                                ($num_values == $num_counter) 
+                                ($num_values == $num_counter)
 									? $sql .= '"' . DUP_DB::escSQL($value, true) . '"'
 									: $sql .= '"' . DUP_DB::escSQL($value, true) . '", ';
                             }

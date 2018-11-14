@@ -55,7 +55,7 @@ class DUP_Installer
 
             DUP_Log::error($error_message, "Marking build progress as failed because couldn't add installer files", $error_behavior);
             //$package->BuildProgress->failed = true;
-            //$package->setStatus(DUP_PackageStatus::ERROR);            
+            //$package->setStatus(DUP_PackageStatus::ERROR);
         }
 
 		return $success;
@@ -99,13 +99,13 @@ class DUP_Installer
         $replace_array = array($this->Package->Archive->File, DUPLICATOR_VERSION, @filesize($archive_filepath), $mini_expander_string);
 
         $installer_contents = str_replace($search_array, $replace_array, $installer_contents);
-        
+
         if (@file_put_contents($installer_filepath, $installer_contents) === false) {
             DUP_Log::error(esc_html__('Error writing installer contents', 'duplicator'), esc_html__("Couldn't write to $installer_filepath", 'duplicator'));
             $success = false;
         }
-        
-        $yn = file_exists($installer_filepath) ? 'yes' : 'no';        
+
+        $yn = file_exists($installer_filepath) ? 'yes' : 'no';
 
         if ($success) {
             $storePath  = "{$this->Package->StorePath}/{$this->File}";
@@ -119,7 +119,7 @@ class DUP_Installer
     private function create_archive_config_file()
     {
         global $wpdb;
-       
+
         $success                 = true;
         $archive_config_filepath = DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP)."/{$this->Package->NameHash}_archive.txt";
         $ac                      = new DUP_Archive_Config();
@@ -164,7 +164,7 @@ class DUP_Installer
         $ac->cache_path  = $this->Package->Installer->OptsCachePath;
 
 		$ac->wp_tableprefix = $wpdb->base_prefix;
-        
+
         $ac->mu_mode = DUP_MU::getMode();
 
         $json = json_encode($ac);
@@ -232,7 +232,7 @@ class DUP_Installer
             DUP_Log::Info("add_extra_files8");
             $success = $this->add_extra_files_using_ziparchive($installer_filepath, $scan_filepath, $sql_filepath, $archive_filepath, $archive_config_filepath);
         }
-		
+
         // No sense keeping the archive config around
         @unlink($archive_config_filepath);
 
