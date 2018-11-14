@@ -4,7 +4,6 @@
  *
  * @package Duplicator
  * @subpackage classes/package
- * @since 1.1.0
  *
  */
 class DUP_Archive_Filter_Scope_Base
@@ -22,7 +21,6 @@ class DUP_Archive_Filter_Scope_Base
  *
  * @package Duplicator
  * @subpackage classes/package
- * @since 1.1.0
  *
  */
 class DUP_Archive_Filter_Scope_Directory extends DUP_Archive_Filter_Scope_Base
@@ -38,7 +36,6 @@ class DUP_Archive_Filter_Scope_Directory extends DUP_Archive_Filter_Scope_Base
  *
  * @package Duplicator
  * @subpackage classes/package
- * @since 1.1.0
  *
  */
 class DUP_Archive_Filter_Scope_File extends DUP_Archive_Filter_Scope_Directory
@@ -54,7 +51,6 @@ class DUP_Archive_Filter_Scope_File extends DUP_Archive_Filter_Scope_Directory
  *
  * @package Duplicator
  * @subpackage classes/package
- * @since 1.1.0
  *
  */
 class DUP_Archive_Filter_Info

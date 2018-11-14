@@ -506,7 +506,6 @@ class DUPX_U
 	/**
 	 * Escaping for HTML blocks.
 	 *
-	 * @since 2.8.0
 	 *
 	 * @param string $text
 	 * @return string
@@ -519,8 +518,6 @@ class DUPX_U
 		 *
 		 * Text passed to esc_html() is stripped of invalid or special characters
 		 * before output.
-		 *
-		 * @since 2.8.0
 		 *
 		 * @param string $safe_text The text after it has been escaped.
 		 * @param string $text      The text prior to being escaped.
@@ -535,7 +532,6 @@ class DUPX_U
 	 * (in a tag attribute, for example onclick="..."). Note that the strings have to
 	 * be in single quotes. The {@see 'js_escape'} filter is also applied here.
 	 *
-	 * @since 2.8.0
 	 *
 	 * @param string $text The text to be escaped.
 	 * @return string Escaped text.
@@ -552,8 +548,6 @@ class DUPX_U
 		 * Text passed to esc_js() is stripped of invalid or special characters,
 		 * and properly slashed for output.
 		 *
-		 * @since 2.0.6
-		 *
 		 * @param string $safe_text The text after it has been escaped.
 		 * @param string $text      The text prior to being escaped.
 		*/
@@ -562,8 +556,6 @@ class DUPX_U
 
 	/**
 	 * Escaping for HTML attributes.
-	 *
-	 * @since 2.8.0
 	 *
 	 * @param string $text
 	 * @return string
@@ -577,8 +569,6 @@ class DUPX_U
 		 * Text passed to esc_attr() is stripped of invalid or special characters
 		 * before output.
 		 *
-		 * @since 2.0.6
-		 *
 		 * @param string $safe_text The text after it has been escaped.
 		 * @param string $text      The text prior to being escaped.
 		*/
@@ -588,18 +578,14 @@ class DUPX_U
 	/**
 	 * Escaping for textarea values.
 	 *
-	 * @since 3.1.0
-	 *
 	 * @param string $text
 	 * @return string
 	 */
-	public static function esc_textarea( $text ) {
-		// $safe_text = htmlspecialchars( $text, ENT_QUOTES, get_option( 'blog_charset' ) );
+	public static function esc_textarea( $text )
+	{
 		$safe_text = htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );		
 		/**
 		 * Filters a string cleaned and escaped for output in a textarea element.
-		 *
-		 * @since 3.1.0
 		 *
 		 * @param string $safe_text The text after it has been escaped.
 		 * @param string $text      The text prior to being escaped.
@@ -610,8 +596,6 @@ class DUPX_U
 	/**
 	 * Escape an HTML tag name.
 	 *
-	 * @since 2.5.0
-	 *
 	 * @param string $tag_name
 	 * @return string
 	 */
@@ -619,8 +603,6 @@ class DUPX_U
 		$safe_tag = strtolower( preg_replace('/[^a-zA-Z0-9_:]/', '', $tag_name) );
 		/**
 		 * Filters a string cleaned and escaped for output as an HTML tag.
-		 *
-		 * @since 2.8.0
 		 *
 		 * @param string $safe_tag The tag name after it has been escaped.
 		 * @param string $tag_name The text before it was escaped.
@@ -636,7 +618,6 @@ class DUPX_U
 	 * $quote_style can be set to ENT_COMPAT to encode " to
 	 * &quot;, or ENT_QUOTES to do both. Default is ENT_NOQUOTES where no quotes are encoded.
 	 *
-	 * @since 1.2.2
 	 * @access private
 	 *
 	 * @staticvar string $_charset
@@ -711,8 +692,6 @@ class DUPX_U
 	 * $quote_style can be set to ENT_COMPAT to decode " entities,
 	 * or ENT_QUOTES to do both " and '. Default is ENT_NOQUOTES where no quotes are decoded.
 	 *
-	 * @since 2.8.0
-	 *
 	 * @param string     $string The text which is to be decoded.
 	 * @param string|int $quote_style Optional. Converts double quotes if set to ENT_COMPAT,
 	 *                                both single and double if set to ENT_QUOTES or
@@ -774,8 +753,6 @@ class DUPX_U
 	/**
 	 * Checks for invalid UTF8 in a string.
 	 *
-	 * @since 2.8.0
-	 *
 	 * @staticvar bool $is_utf8
 	 * @staticvar bool $utf8_pcre
 	 *
@@ -829,8 +806,6 @@ class DUPX_U
 	 * Repeats the replacement operation until it no longer replaces anything so as to remove "nested" values
 	 * e.g. $subject = '%0%0%0DDD', $search ='%0D', $result ='' rather than the '%0%0DD' that
 	 * str_replace would return
-	 *
-	 * @since 2.8.1
 	 * @access private
 	 *
 	 * @param string|array $search  The value being searched for, otherwise known as the needle.
@@ -855,8 +830,6 @@ class DUPX_U
 	 * This function normalizes HTML entities. It will convert `AT&T` to the correct
 	 * `AT&amp;T`, `&#00058;` to `&#58;`, `&#XYZZY;` to `&amp;#XYZZY;` and so on.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param string $string Content to normalize entities
 	 * @return string Content with normalized entities
 	 */
@@ -877,8 +850,6 @@ class DUPX_U
 	 *
 	 * This function only accepts valid named entity references, which are finite,
 	 * case-sensitive, and highly scrutinized by HTML and XML validators.
-	 *
-	 * @since 3.0.0
 	 *
 	 * @global array $allowedentitynames
 	 *
@@ -943,8 +914,6 @@ class DUPX_U
     /**
     * Helper function to determine if a Unicode value is valid.
     *
-    * @since 2.7.0
-    *
     * @param int $i Unicode value
     * @return bool True if the value was a valid Unicode number
     */
@@ -962,7 +931,6 @@ class DUPX_U
 	 * values and nothing more for `&#number;` entities.
 	 *
 	 * @access private
-	 * @since 1.0.0
 	 *
 	 * @param array $matches preg_replace_callback() matches array
 	 * @return string Correctly encoded entity
@@ -988,7 +956,6 @@ class DUPX_U
 	 * This function helps wp_kses_normalize_entities() to only accept valid Unicode
 	 * numeric entities in hex form.
 	 *
-	 * @since 2.7.0
 	 * @access private
 	 *
 	 * @param array $matches preg_replace_callback() matches array
@@ -1142,8 +1109,6 @@ class DUPX_U
 	 *
 	 * Also removes any instance of the '\0' string.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param string $string
 	 * @param array $options Set 'slash_zero' => 'keep' when '\0' is allowed. Default is 'remove'.
 	 * @return string
@@ -1170,8 +1135,6 @@ class DUPX_U
 	 * understand HTML entities. It does its work in a while loop, so it won't be
 	 * fooled by a string like "javascript:javascript:alert(57)".
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param string $string            Content to filter bad protocols from
 	 * @param array  $allowed_protocols Allowed protocols to keep
 	 * @return string Filtered content
@@ -1196,8 +1159,6 @@ class DUPX_U
 	 *
 	 * This function searches for URL protocols at the beginning of $string, while
 	 * handling whitespace and HTML entities.
-	 *
-	 * @since 1.0.0
 	 *
 	 * @param string $string            Content to check for bad protocols
 	 * @param string $allowed_protocols Allowed protocols
@@ -1228,8 +1189,6 @@ class DUPX_U
 	 * It doesn't do anything with other entities like &auml;, but we don't
 	 * need them in the URL protocol whitelisting system anyway.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param string $string Content to change entities
 	 * @return string Content after decoded entities
 	 */
@@ -1243,8 +1202,6 @@ class DUPX_U
 	/**
 	 * Regex callback for wp_kses_decode_entities()
 	 *
-	 * @since 2.9.0
-	 *
 	 * @param array $match preg match
 	 * @return string
 	 */
@@ -1254,8 +1211,6 @@ class DUPX_U
 
 	/**
 	 * Regex callback for wp_kses_decode_entities()
-	 *
-	 * @since 2.9.0
 	 *
 	 * @param array $match preg match
 	 * @return string
@@ -1268,10 +1223,9 @@ class DUPX_U
 	 * Callback for wp_kses_bad_protocol_once() regular expression.
 	 *
 	 * This function processes URL protocols, checks to see if they're in the
-	 * whitelist or not, and returns different data depending on the answer.
+	 * white-list or not, and returns different data depending on the answer.
 	 *
 	 * @access private
-	 * @since 1.0.0
 	 *
 	 * @param string $string            URI scheme to check against the whitelist
 	 * @param string $allowed_protocols Allowed protocols
@@ -1299,8 +1253,6 @@ class DUPX_U
 	/**
 	 * Performs esc_url() for database usage.
 	 *
-	 * @since 2.8.0
-	 *
 	 * @param string $url       The URL to be cleaned.
 	 * @param array  $protocols An array of acceptable protocols.
 	 * @return string The cleaned URL.
@@ -1313,8 +1265,6 @@ class DUPX_U
 	
 	/**
 	 * Normalize EOL characters and strip duplicate whitespace.
-	 *
-	 * @since 2.7.0
 	 *
 	 * @param string $str The string to normalize.
 	 * @return string The normalized string.
@@ -1332,8 +1282,6 @@ class DUPX_U
 	 * This differs from strip_tags() because it removes the contents of
 	 * the `<script>` and `<style>` tags. E.g. `strip_tags( '<script>something</script>' )`
 	 * will return 'something'. wp_strip_all_tags will return ''
-	 *
-	 * @since 2.9.0
 	 *
 	 * @param string $string        String containing HTML tags
 	 * @param bool   $remove_breaks Optional. Whether to remove left over line breaks and white space chars
@@ -1358,8 +1306,6 @@ class DUPX_U
 	 * - Removes line breaks, tabs, and extra whitespace
 	 * - Strips octets
 	 *
-	 * @since 2.9.0
-	 *
 	 * @see sanitize_textarea_field()
 	 * @see wp_check_invalid_utf8()
 	 * @see wp_strip_all_tags()
@@ -1372,8 +1318,6 @@ class DUPX_U
 
 		/**
 		 * Filters a sanitized text field string.
-		 *
-		 * @since 2.9.0
 		 *
 		 * @param string $filtered The sanitized string.
 		 * @param string $str      The string prior to being sanitized.
@@ -1456,8 +1400,6 @@ class DUPX_U
 	 *
 	 * KSES already converts lone greater than signs.
 	 *
-	 * @since 2.3.0
-	 *
 	 * @param string $text Text to be converted.
 	 * @return string Converted text.
 	 */
@@ -1467,8 +1409,6 @@ class DUPX_U
 
 	/**
 	 * Callback function used by preg_replace.
-	 *
-	 * @since 2.3.0
 	 *
 	 * @param array $matches Populated by matches to preg_replace.
 	 * @return string The text returned after esc_html if needed.
@@ -1497,8 +1437,6 @@ class DUPX_U
 
 	/**
 	 * Navigates through an array, object, or scalar, and removes slashes from the values.
-	 *
-	 * @since 2.0.0
 	 *
 	 * @param mixed $value The value to be stripped.
 	 * @return mixed Stripped value.

@@ -457,19 +457,6 @@ class DUP_Installer
         return $conf_ark_file_path;
     }
 
-     private function getEmbeddedScanFileList() {
-        $package_hash = $this->Package->get_package_hash();
-        $embedded_filepath = 'dup-installer/dup-scanned-files__'.$package_hash.'.txt';
-        return $embedded_filepath;
-    }
-
-     private function getEmbeddedScanDirList() {
-        $package_hash = $this->Package->get_package_hash();
-        $embedded_filepath = 'dup-installer/dup-scanned-dirs__'.$package_hash.'.txt';
-        return $embedded_filepath;
-    }
-
-
     /**
      * Get scan.json file path along with name in archive file
      */

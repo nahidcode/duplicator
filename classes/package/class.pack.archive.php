@@ -16,7 +16,6 @@ require_once (DUPLICATOR_PLUGIN_PATH.'lib/forceutf8/Encoding.php');
  * @subpackage classes/package
  * @copyright (c) 2017, Snapcreek LLC
  * @license	https://opensource.org/licenses/GPL-3.0 GNU Public License
- * @since 1.0.0
  *
  */
 class DUP_Archive
@@ -128,7 +127,7 @@ class DUP_Archive
     /**
      *  Builds a list of files and directories to be included in the archive
      *
-     *  Get the directory size recursively, but don't calc the snapshot directory, exclusion diretories
+     *  Get the directory size recursively, but don't calc the snapshot directory, exclusion directories
      *  @link http://msdn.microsoft.com/en-us/library/aa365247%28VS.85%29.aspx Windows filename restrictions
      *
      *  @return obj Returns a DUP_Archive object

@@ -178,7 +178,7 @@ class DUP_Package
     }
 
     /**
-     * Generates a json scan report
+     * Generates a JSON scan report
      *
      * @return array of scan results
      *
@@ -1001,7 +1001,7 @@ class DUP_Package
     }
 
     /**
-     * Does a hash already exisit
+     * Does a hash already exists
      *
      * @param string $hash An existing hash value
      *

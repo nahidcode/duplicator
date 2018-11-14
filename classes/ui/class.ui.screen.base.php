@@ -12,7 +12,6 @@ defined("ABSPATH") or die("");
  * @package Duplicator
  * @subpackage classes/ui
  * @copyright (c) 2017, Snapcreek LLC
- * @since 1.1.0
  *
  */
 class DUP_UI_Screen

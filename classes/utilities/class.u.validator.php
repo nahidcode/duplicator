@@ -6,9 +6,8 @@
  * @link http://www.php-fig.org/psr/psr-2
  *
  * @package Duplicator
- * @subpackage classes/utilites
+ * @subpackage classes/utilities
  * @copyright (c) 2017, Snapcreek LLC
- * @since 1.1.0
  *
  */
 // Exit if accessed directly

@@ -1,7 +1,7 @@
 <?php
 /**
  * Used to display notices in the WordPress Admin area
- * This class takes advatage of the 'admin_notice' action.
+ * This class takes advantage of the admin_notice action.
  *
  * Standard: PSR-2
  * @link http://www.php-fig.org/psr/psr-2
@@ -9,7 +9,6 @@
  * @package Duplicator
  * @subpackage classes/ui
  * @copyright (c) 2017, Snapcreek LLC
- * @since 1.1.0
  *
  */
 

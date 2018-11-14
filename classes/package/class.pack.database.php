@@ -126,7 +126,7 @@ class DUP_Database
     }
 
     /**
-     *  Get the database meta-data suc as tables as all there details
+     *  Get the database meta-data such as tables as all there details
      *
      *  @return array Returns an array full of meta-data about the database
      */
@@ -219,7 +219,7 @@ class DUP_Database
     /**
      *  Build the database script using mysqldump
      *
-     *  @return bool  Returns true if the sql script was succesfully created
+     *  @return bool  Returns true if the sql script was successfully created
      */
     private function mysqlDump($exePath)
     {
@@ -299,7 +299,7 @@ class DUP_Database
     /**
      *  Build the database script using php
      *
-     *  @return bool  Returns true if the sql script was succesfully created
+     *  @return bool  Returns true if the sql script was successfully created
      */
     private function phpDump()
     {
@@ -412,4 +412,3 @@ class DUP_Database
         fclose($handle);
     }
 }
-?>

@@ -200,4 +200,3 @@ class DUP_Zip extends DUP_Archive
         }
     }
 }
-?>

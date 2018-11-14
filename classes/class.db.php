@@ -8,7 +8,6 @@
  * @package Duplicator
  * @subpackage classes/utilities
  * @copyright (c) 2017, Snapcreek LLC
- * @since 1.1.32
  *
  */
 
