@@ -23,27 +23,6 @@ class DUPX_WPConfig
 		$wpconfig_arkpath	= "{$GLOBALS['DUPX_ROOT']}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt";
 		$wpconfig		= @file_get_contents($wpconfig_arkpath, true);
 
-		$db_port    = is_int($_POST['dbport']) ? DUPX_U::sanitize_text_field($_POST['dbport']) : 3306;
-		$db_host	= ($db_port == 3306) ? DUPX_U::sanitize_text_field($_POST['dbhost']) : DUPX_U::sanitize_text_field($_POST['dbhost']).':'.DUPX_U::sanitize_text_field($db_port);
-		$db_name	= isset($_POST['dbname']) ? DUPX_U::sanitize_text_field($_POST['dbname']) : null;
-		$db_user	= isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : null;
-       	$db_pass	= isset($_POST['dbpass']) ? trim(DUPX_U::wp_unslash($_POST['dbpass'])) : null;
-
-		//--------------------
-		//LEGACY PARSER LOGIC:
-		$patterns = array_merge($patterns, array(
-			"/'DB_NAME',\s*'.*?'/",
-			"/'DB_USER',\s*'.*?'/",
-			"/'DB_PASSWORD',\s*'.*?'/",
-			"/'DB_HOST',\s*'.*?'/"));
-
-		$replace = array_merge($replace, array(
-			"'DB_NAME', "		. "'{$db_name}'",
-			"'DB_USER', "		. "'{$db_user}'",
-			"'DB_PASSWORD', "	. "'{$db_pass}'",
-			"'DB_HOST', "		. "'{$db_host}'"
-		));
-
 		//SSL CHECKS
 		if ($_POST['ssl_admin']) {
 			if (!strstr($wpconfig, 'FORCE_SSL_ADMIN')) {
