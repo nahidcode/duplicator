@@ -1,45 +1,21 @@
 <?php
-/******************************************************************
- * 
- * Projectname:   PHP Cross-Site Request Forgery (DUPX_CSRF) Protection Class 
- * Version:       1.0
- * Author:        Radovan Janjic <hi@radovanjanjic.com>
- * Last modified: 19 06 2014
- * Copyright (C): 2014 IT-radionica.com, All Rights Reserved
- * 
- * GNU General Public License (Version 2, June 1991)
- *
- * This program is free software; you can redistribute
- * it and/or modify it under the terms of the GNU
- * General Public License as published by the Free
- * Software Foundation; either version 2 of the License,
- * or (at your option) any later version.
- *
- * This program is distributed in the hope that it will
- * be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
- * 
- ******************************************************************/
-
 class DUPX_CSRF {
 	
 	/** Session var name
 	 * @var string
 	 */
-	public static $session = '_DUPX_CSRF';
+	public static $prefix = '_DUPX_CSRF';
 	
 	/** Generate DUPX_CSRF value for form
 	 * @param	string	$form	- Form name as session key
 	 * @return	string	- token
 	 */
 	public static function generate($form = NULL) {
-		if (isset($_SESSION[DUPX_CSRF::$session . '_' . $form])) {
-			$token = $_SESSION[DUPX_CSRF::$session . '_' . $form];
+		if (isset($_COOKIE[DUPX_CSRF::$prefix . '_' . $form])) {
+			$token = $_COOKIE[DUPX_CSRF::$prefix . '_' . $form];
 		} else {
             $token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
-            $_SESSION[DUPX_CSRF::$session . '_' . $form] = $token;
+            self::setCookie(DUPX_CSRF::$prefix . '_' . $form, $token);
         }
 		return $token;
 	}
@@ -50,11 +26,10 @@ class DUPX_CSRF {
 	 * @return	boolean
 	 */
 	public static function check($token, $form = NULL) {
-		// If Host doesn't support SESSION, We cam simply return true, Otherwise a user can never install
-		if (!self::is_session_started()) {
+		if (!self::isCookieEnabled()) {
 			return true;
 		}
-		if (isset($_SESSION[DUPX_CSRF::$session . '_' . $form]) && $_SESSION[DUPX_CSRF::$session . '_' . $form] == $token) { // token OK
+		if (isset($_COOKIE[DUPX_CSRF::$prefix . '_' . $form]) && $_COOKIE[DUPX_CSRF::$prefix . '_' . $form] == $token) { // token OK
 			return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
 		}
 		return FALSE;
@@ -77,14 +52,15 @@ class DUPX_CSRF {
 	protected static function fingerprint() {
 		return strtoupper(md5(implode('|', array($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']))));
 	}
+
+	public static function setCookie($cookieName, $cookieVal) {
+		return setcookie($cookieName, $cookieVal, time() + 10800, '/');
+	}
 	
 	/**
 	* @return bool
 	*/
-	protected static function is_session_started() {
-		if (php_sapi_name() !== 'cli') {
-			return session_id() === '' ? FALSE : TRUE;
-		}
-		return FALSE;
+	protected static function isCookieEnabled() {
+		return (count($_COOKIE) > 0);
 	}
 }

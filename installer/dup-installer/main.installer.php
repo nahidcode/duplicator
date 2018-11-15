@@ -23,21 +23,13 @@
 /** IDE HELPERS */
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */
 
-
-
 /** Absolute path to the Installer directory. - necessary for php protection */
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
 
-@header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");	
-@header("Cache-Control: post-check=0, pre-check=0", false);	
-@header("Pragma: no-cache");	
-@header("Expires: 0");
-@session_cache_limiter("private_no_expire");
-@session_start();
-
 date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
 
+ob_start();
 $GLOBALS['DUPX_DEBUG'] = (isset($_GET['debug']) && $_GET['debug'] == 1) ? true : false;
 $GLOBALS['DUPX_ROOT']  = str_replace("\\", '/', (realpath(dirname(__FILE__) . '/..')));
 $GLOBALS['DUPX_INIT']  = "{$GLOBALS['DUPX_ROOT']}/dup-installer";
@@ -55,16 +47,16 @@ if (!empty($_GET['view']) && 'help' == $_GET['view']) {
 	}
 } else {
 	if (!isset($_POST['archive'])) {
-		if (isset($_SESSION['archive'])) {
-			$_POST['archive'] = $_SESSION['archive'];
+		if (isset($_COOKIE['archive'])) {
+			$_POST['archive'] = $_COOKIE['archive'];
 		} else {
 			// RSR TODO: Fail gracefully
 			die("Archive parameter not specified");
 		}
 	}
 	if (!isset($_POST['bootloader'])) {
-		if (isset($_SESSION['bootloader'])) {
-			$_POST['bootloader'] = $_SESSION['bootloader'];
+		if (isset($_COOKIE['bootloader'])) {
+			$_POST['bootloader'] = $_COOKIE['bootloader'];
 		} else {
 			// RSR TODO: Fail gracefully
 			die("Bootloader parameter not specified");
@@ -273,8 +265,6 @@ FORM DATA: User-Interface views -->
 
 			case "step4"   :
 				require_once($GLOBALS['DUPX_INIT'] . '/views/view.s4.php');
-				unset($_SESSION['archive']);
-				unset($_SESSION['bootloader']);
 				break;
 
 			case "help"   :
@@ -371,3 +361,6 @@ $(document).ready(function ()
 DUPLICATOR_INSTALLER_EOF -->
 </body>
 </html>
+<?php
+ob_end_flush(); // Flush the output from the buffer
+?>

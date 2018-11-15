@@ -1,73 +1,23 @@
 <?php
-/*
-  Duplicator Website Installer Bootstrap
-  Copyright (C) 2017, Snap Creek LLC
-  website: snapcreek.com
-
-  Duplicator (Pro) Plugin is distributed under the GNU General Public License, Version 3,
-  June 2007. Copyright (C) 2007 Free Software Foundation, Inc., 51 Franklin
-  St, Fifth Floor, Boston, MA 02110, USA
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-  ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-@header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");	
-@header("Cache-Control: post-check=0, pre-check=0", false);	
-@header("Pragma: no-cache");	
-@header("Expires: 0");
-@session_cache_limiter("private_no_expire");
-@session_start();
-
-/******************************************************************
- * 
- * Projectname:   PHP Cross-Site Request Forgery (DUPX_CSRF) Protection Class 
- * Version:       1.0
- * Author:        Radovan Janjic <hi@radovanjanjic.com>
- * Last modified: 19 06 2014
- * Copyright (C): 2014 IT-radionica.com, All Rights Reserved
- * 
- * GNU General Public License (Version 2, June 1991)
- *
- * This program is free software; you can redistribute
- * it and/or modify it under the terms of the GNU
- * General Public License as published by the Free
- * Software Foundation; either version 2 of the License,
- * or (at your option) any later version.
- *
- * This program is distributed in the hope that it will
- * be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
- * 
- ******************************************************************/
+date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
 
 class DUPX_CSRF {
 	
 	/** Session var name
 	 * @var string
 	 */
-	public static $session = '_DUPX_CSRF';
+	public static $prefix = '_DUPX_CSRF';
 	
 	/** Generate DUPX_CSRF value for form
 	 * @param	string	$form	- Form name as session key
 	 * @return	string	- token
 	 */
 	public static function generate($form = NULL) {
-		if (isset($_SESSION[DUPX_CSRF::$session . '_' . $form])) {
-			$token = $_SESSION[DUPX_CSRF::$session . '_' . $form];
+		if (isset($_COOKIE[DUPX_CSRF::$prefix . '_' . $form])) {
+			$token = $_COOKIE[DUPX_CSRF::$prefix . '_' . $form];
 		} else {
             $token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
-            $_SESSION[DUPX_CSRF::$session . '_' . $form] = $token;
+            self::setCookie(DUPX_CSRF::$prefix . '_' . $form, $token);
         }
 		return $token;
 	}
@@ -78,11 +28,10 @@ class DUPX_CSRF {
 	 * @return	boolean
 	 */
 	public static function check($token, $form = NULL) {
-		// If Host doesn't support SESSION, We cam simply return true, Otherwise a user can never install
-		if (!self::is_session_started()) {
+		if (!self::isCookieEnabled()) {
 			return true;
 		}
-		if (isset($_SESSION[DUPX_CSRF::$session . '_' . $form]) && $_SESSION[DUPX_CSRF::$session . '_' . $form] == $token) { // token OK
+		if (isset($_COOKIE[DUPX_CSRF::$prefix . '_' . $form]) && $_COOKIE[DUPX_CSRF::$prefix . '_' . $form] == $token) { // token OK
 			return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
 		}
 		return FALSE;
@@ -105,15 +54,16 @@ class DUPX_CSRF {
 	protected static function fingerprint() {
 		return strtoupper(md5(implode('|', array($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']))));
 	}
+
+	public static function setCookie($cookieName, $cookieVal) {
+		return setcookie($cookieName, $cookieVal, time() + 10800, '/');
+	}
 	
 	/**
 	* @return bool
 	*/
-	protected static function is_session_started() {
-		if (php_sapi_name() !== 'cli') {
-			return session_id() === '' ? FALSE : TRUE;
-		}
-		return FALSE;
+	protected static function isCookieEnabled() {
+		return (count($_COOKIE) > 0);
 	}
 }
 
@@ -826,7 +776,7 @@ $auto_refresh = isset($_POST['auto-fresh']) ? true : false;
 			'csrf_token' => DUPX_CSRF::generate('step1'),
 		);
 		foreach ($data as $name => $value) {
-			if ('csrf_token' != $name)  $_SESSION[$name] = $value;
+			if ('csrf_token' != $name)  DUPX_CSRF::setCookie($name, $value);
 			$html .= "<input type='hidden' name='{$name}' value='{$value}' />\n";
 		}
 		$html .= "</form>\n";
