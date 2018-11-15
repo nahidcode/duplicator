@@ -124,12 +124,14 @@ if (!empty($post_view)) {
 	
 	if (in_array($post_view, $csrf_views)) {
         if (isset($_POST['csrf_token']) && !DUPX_CSRF::check($_POST['csrf_token'], $post_view)) {
+			/*
 			var_dump($_POST['csrf_token']);
 			echo '<br/>';
 			echo '<pre>';
 			var_dump($_COOKIE);
 			echo '</pre>';
 			echo '<br/>';
+			*/
 			die("An invalid request was made to '{$post_view}'.  In order to protect this request from unauthorized access please "
 			. "<a href='../installer.php'>restart this install process</a>.");
         }
