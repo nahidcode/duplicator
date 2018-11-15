@@ -124,7 +124,13 @@ if (!empty($post_view)) {
 	
 	if (in_array($post_view, $csrf_views)) {
         if (isset($_POST['csrf_token']) && !DUPX_CSRF::check($_POST['csrf_token'], $post_view)) {
-			die("An in valid request was made to '{$post_view}'.  In order to protect this request from unauthorized access please "
+			var_dump($_POST['csrf_token']);
+			echo '<br/>';
+			echo '<pre>';
+			var_dump($_COOKIE);
+			echo '</pre>';
+			echo '<br/>';
+			die("An invalid request was made to '{$post_view}'.  In order to protect this request from unauthorized access please "
 			. "<a href='../installer.php'>restart this install process</a>.");
         }
 	}
@@ -149,10 +155,19 @@ if (!chdir($GLOBALS['DUPX_INIT'])) {
 }
 
 if (isset($_POST['ctrl_action'])) {
-	$post_ctrl_csrf_token = isset($_POST['ctrl_csrf_token']) ? DUPX_U::sanitize_text_field($_POST['ctrl_csrf_token']) : '';
+	$post_ctrl_csrf_token = isset($_POST['ctrl_csrf_token']) ? $_POST['ctrl_csrf_token'] : '';
 	$post_ctrl_action = DUPX_U::sanitize_text_field($_POST['ctrl_action']);
 	if (!DUPX_CSRF::check($post_ctrl_csrf_token, $post_ctrl_action)) {
-		die('CSRF security issue for the ctrl action: '.$post_ctrl_action);
+		/*
+		var_dump($post_ctrl_csrf_token);
+		echo '<br/>';
+		echo '<pre>';
+		var_dump($_COOKIE);
+		echo '</pre>';
+		echo '<br/>';
+		*/
+		die("An invalid request was made to '{$post_ctrl_action}'.  In order to protect this request from unauthorized access please " 
+			. "<a href='../installer.php'>restart this install process</a>."); 
 	}
 	require_once($GLOBALS['DUPX_INIT'].'/ctrls/ctrl.base.php');
 

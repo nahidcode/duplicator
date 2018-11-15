@@ -11,12 +11,13 @@ class DUPX_CSRF {
 	 * @return	string	- token
 	 */
 	public static function generate($form = NULL) {
-		if (isset($_COOKIE[DUPX_CSRF::$prefix . '_' . $form])) {
+		if (!empty($_COOKIE[DUPX_CSRF::$prefix . '_' . $form])) {
 			$token = $_COOKIE[DUPX_CSRF::$prefix . '_' . $form];
 		} else {
             $token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
-            self::setCookie(DUPX_CSRF::$prefix . '_' . $form, $token);
-        }
+		}
+		$cookieName = DUPX_CSRF::$prefix . '_' . $form;
+        $ret = DUPX_CSRF::setCookie($cookieName, $token);
 		return $token;
 	}
 	
@@ -30,7 +31,8 @@ class DUPX_CSRF {
 			return true;
 		}
 		if (isset($_COOKIE[DUPX_CSRF::$prefix . '_' . $form]) && $_COOKIE[DUPX_CSRF::$prefix . '_' . $form] == $token) { // token OK
-			return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
+			return true;
+			// return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
 		}
 		return FALSE;
 	}
@@ -54,6 +56,7 @@ class DUPX_CSRF {
 	}
 
 	public static function setCookie($cookieName, $cookieVal) {
+		$_COOKIE[$cookieName] = $cookieVal;
 		return setcookie($cookieName, $cookieVal, time() + 10800, '/');
 	}
 	
@@ -62,5 +65,32 @@ class DUPX_CSRF {
 	*/
 	protected static function isCookieEnabled() {
 		return (count($_COOKIE) > 0);
+	}
+
+	public static function resetAllTokens() {
+		foreach ($_COOKIE as $cookieName => $cookieVal) {
+			if (0 === strpos($cookieName, DUPX_CSRF::$prefix) || 'archive' == $cookieName || 'bootloader' == $cookieName) {
+				$baseUrl = self::getBaseUrl();
+				setcookie($cookieName, '', time() - 86400, $baseUrl);	
+			}
+		}
+		$_COOKIE = array();
+	}
+
+	private static function getBaseUrl() {
+		// output: /myproject/index.php
+		$currentPath = $_SERVER['PHP_SELF']; 
+		
+		// output: Array ( [dirname] => /myproject [basename] => index.php [extension] => php [filename] => index ) 
+		$pathInfo = pathinfo($currentPath); 
+		
+		// output: localhost
+		$hostName = $_SERVER['HTTP_HOST']; 
+		
+		// output: http://
+		$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https://'?'https://':'http://';
+		
+		// return: http://localhost/myproject/
+		return $protocol.$hostName.$pathInfo['dirname']."/";
 	}
 }
