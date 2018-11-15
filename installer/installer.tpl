@@ -758,13 +758,13 @@ $boot  = new DUPX_Bootstrap();
 $boot_error = $boot->run();
 $auto_refresh = isset($_POST['auto-fresh']) ? true : false;
 
+ob_start();
 ?>
-
 
 <html>
 <?php if ($boot_error == null) :?>
-	<head>
-		<meta http-equiv="refresh" content="2;url='<?php echo $boot->mainInstallerURL ?>'" />		
+	<head>		
+		<title>Duplicator Installer</title>
 	</head>
 	<body>
 		<?php
@@ -919,3 +919,6 @@ $auto_refresh = isset($_POST['auto-fresh']) ? true : false;
 Used for integrity check do not remove:
 DUPLICATOR_INSTALLER_EOF  -->
 </html>
+<?php
+ob_end_flush();
+?>
