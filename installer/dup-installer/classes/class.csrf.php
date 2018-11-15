@@ -69,9 +69,27 @@ class DUPX_CSRF {
 	public static function resetAllTokens() {
 		foreach ($_COOKIE as $cookieName => $cookieVal) {
 			if (0 === strpos($cookieName, DUPX_CSRF::$prefix) || 'archive' == $cookieName || 'bootloader' == $cookieName) {
-				setcookie($cookieName, '', time() - 86400, '/');	
+				$baseUrl = self::getBaseUrl();
+				setcookie($cookieName, '', time() - 86400, $baseUrl);	
 			}
 		}
 		$_COOKIE = array();
+	}
+
+	private static function getBaseUrl() {
+		// output: /myproject/index.php
+		$currentPath = $_SERVER['PHP_SELF']; 
+		
+		// output: Array ( [dirname] => /myproject [basename] => index.php [extension] => php [filename] => index ) 
+		$pathInfo = pathinfo($currentPath); 
+		
+		// output: localhost
+		$hostName = $_SERVER['HTTP_HOST']; 
+		
+		// output: http://
+		$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https://'?'https://':'http://';
+		
+		// return: http://localhost/myproject/
+		return $protocol.$hostName.$pathInfo['dirname']."/";
 	}
 }
