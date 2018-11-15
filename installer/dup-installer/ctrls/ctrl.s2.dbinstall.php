@@ -55,7 +55,8 @@ class DUPX_DBInstall
                 or DUPX_Log::error(sprintf(ERR_DBCREATE, $post['dbname']));
         }
 
-		@mysqli_query($this->dbh, "SET wait_timeout = ".mysqli_real_escape_string($this->dbh, $GLOBALS['DB_MAX_TIME']));
+        @mysqli_query($this->dbh, "SET wait_timeout = ".mysqli_real_escape_string($this->dbh, $GLOBALS['DB_MAX_TIME']));
+        @mysqli_query($this->dbh, "SET GLOBAL max_allowed_packet = ".mysqli_real_escape_string($this->dbh, $GLOBALS['DB_MAX_PACKETS']));
         @mysqli_query($this->dbh, "SET max_allowed_packet = ".mysqli_real_escape_string($this->dbh, $GLOBALS['DB_MAX_PACKETS']));
 
         $this->profile_start   = isset($post['profile_start']) ? DUPX_U::sanitize_text_field($post['profile_start']) : DUPX_U::getMicrotime();

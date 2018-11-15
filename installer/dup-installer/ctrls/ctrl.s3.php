@@ -5,6 +5,7 @@ defined("ABSPATH") or die("");
 
 //-- START OF ACTION STEP 3: Update the database
 require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.archive.config.php');
+require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.wp.config.tranformer.php');
 
 /** JSON RESPONSE: Most sites have warnings turned off by default, but if they're turned on the warnings
   cause errors in the JSON data Here we hide the status so warning level is reset at it at the end */
@@ -284,6 +285,20 @@ if (!is_writable($wpconfig_ark_path)) {
 }
 $wpconfig_ark_contents = preg_replace($patterns, $replace, $wpconfig_ark_contents);
 file_put_contents($wpconfig_ark_path, $wpconfig_ark_contents);
+
+$config_transformer = new WPConfigTransformer($wpconfig_ark_path);
+
+$db_port    = is_int($_POST['dbport'])   ? DUPX_U::sanitize_text_field($_POST['dbport']) : 3306;
+$db_host	= ($db_port == 3306) ? DUPX_U::sanitize_text_field($_POST['dbhost']) : DUPX_U::sanitize_text_field($_POST['dbhost']).':'.DUPX_U::sanitize_text_field($db_port);
+$db_name	= isset($_POST['dbname']) ? DUPX_U::sanitize_text_field($_POST['dbname']) : null;
+$db_user	= isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : null;
+$db_pass	= isset($_POST['dbpass']) ? trim(DUPX_U::wp_unslash($_POST['dbpass'])) : null;
+		   
+$config_transformer->update('constant', 'DB_NAME', $db_name);
+$config_transformer->update('constant', 'DB_USER', $db_user);
+$config_transformer->update('constant', 'DB_PASSWORD', $db_pass);
+$config_transformer->update('constant', 'DB_HOST', $db_host);
+
 DUPX_Log::info("UPDATED WP-CONFIG ARK FILE:\n - '{$wpconfig_ark_path}'");
 
 switch ($_POST['config_mode']) {
