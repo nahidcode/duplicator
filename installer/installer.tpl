@@ -797,7 +797,8 @@ if ($boot_error == null) {
 
 <html>
 <?php if ($boot_error == null) :?>
-	<head>		
+	<head>
+		<meta name="robots" content="noindex,nofollow">
 		<title>Duplicator Installer</title>
 	</head>
 	<body>

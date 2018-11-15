@@ -133,7 +133,7 @@ if (!empty($post_view)) {
 			echo '<br/>';
 			*/
 			die("An invalid request was made to '{$post_view}'.  In order to protect this request from unauthorized access please "
-			. "<a href='../installer.php'>restart this install process</a>.");
+			. "<a href='../{$GLOBALS['BOOTLOADER_NAME']}'>restart this install process</a>.");
         }
 	}
 }
@@ -169,7 +169,7 @@ if (isset($_POST['ctrl_action'])) {
 		echo '<br/>';
 		*/
 		die("An invalid request was made to '{$post_ctrl_action}'.  In order to protect this request from unauthorized access please " 
-			. "<a href='../installer.php'>restart this install process</a>."); 
+			. "<a href='../{$GLOBALS['BOOTLOADER_NAME']}'>restart this install process</a>."); 
 	}
 	require_once($GLOBALS['DUPX_INIT'].'/ctrls/ctrl.base.php');
 
