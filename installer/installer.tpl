@@ -13,12 +13,13 @@ class DUPX_CSRF {
 	 * @return	string	- token
 	 */
 	public static function generate($form = NULL) {
-		if (isset($_COOKIE[DUPX_CSRF::$prefix . '_' . $form])) {
+		if (!empty($_COOKIE[DUPX_CSRF::$prefix . '_' . $form])) {
 			$token = $_COOKIE[DUPX_CSRF::$prefix . '_' . $form];
 		} else {
             $token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
-            self::setCookie(DUPX_CSRF::$prefix . '_' . $form, $token);
-        }
+		}
+		$cookieName = DUPX_CSRF::$prefix . '_' . $form;
+        $ret = DUPX_CSRF::setCookie($cookieName, $token);
 		return $token;
 	}
 	
@@ -56,6 +57,7 @@ class DUPX_CSRF {
 	}
 
 	public static function setCookie($cookieName, $cookieVal) {
+		$_COOKIE[$cookieName] = $cookieVal;
 		return setcookie($cookieName, $cookieVal, time() + 10800, '/');
 	}
 	
@@ -64,6 +66,15 @@ class DUPX_CSRF {
 	*/
 	protected static function isCookieEnabled() {
 		return (count($_COOKIE) > 0);
+	}
+
+	public static function resetAllTokens() {
+		foreach ($_COOKIE as $cookieName => $cookieVal) {
+			if (0 === strpos($cookieName, DUPX_CSRF::$prefix) || 'archive' == $cookieName || 'bootloader' == $cookieName) {
+				setcookie($cookieName, '', time() - 86400, '/');	
+			}
+		}
+		$_COOKIE = array();
 	}
 }
 
@@ -757,8 +768,13 @@ class DUPX_Bootstrap
 $boot  = new DUPX_Bootstrap();
 $boot_error = $boot->run();
 $auto_refresh = isset($_POST['auto-fresh']) ? true : false;
+DUPX_CSRF::resetAllTokens();
 
-ob_start();
+if ($boot_error == null) {
+	$step1_csrf_token = DUPX_CSRF::generate('step1');
+	DUPX_CSRF::setCookie('archive', $boot->archive);
+	DUPX_CSRF::setCookie('bootloader', $boot->bootloader);
+}
 ?>
 
 <html>
@@ -773,10 +789,9 @@ ob_start();
 		$data = array(
 			'archive' => $boot->archive,
 			'bootloader' => $boot->bootloader,
-			'csrf_token' => DUPX_CSRF::generate('step1'),
+			'csrf_token' => $step1_csrf_token,
 		);
-		foreach ($data as $name => $value) {
-			if ('csrf_token' != $name)  DUPX_CSRF::setCookie($name, $value);
+		foreach ($data as $name => $value) {			
 			$html .= "<input type='hidden' name='{$name}' value='{$value}' />\n";
 		}
 		$html .= "</form>\n";
@@ -919,6 +934,3 @@ ob_start();
 Used for integrity check do not remove:
 DUPLICATOR_INSTALLER_EOF  -->
 </html>
-<?php
-ob_end_flush();
-?>
