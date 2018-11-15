@@ -14,7 +14,7 @@ $ajax3_error_level	 = error_reporting();
 error_reporting(E_ERROR);
 
 //POST PARAMS
-$_POST['blogname']		= isset($_POST['blogname']) ? DUPX_U::sanitize_text_field($_POST['blogname']) : 'No Blog Title Set';
+$_POST['blogname']      = isset($_POST['blogname']) ? htmlspecialchars($_POST['blogname'], ENT_QUOTES) : 'No Blog Title Set';
 $_POST['postguid']		= isset($_POST['postguid']) && $_POST['postguid'] == 1 ? 1 : 0;
 $_POST['fullsearch']	= isset($_POST['fullsearch']) && $_POST['fullsearch'] == 1 ? 1 : 0;
 $_POST['path_old']		= isset($_POST['path_old']) ? trim($_POST['path_old']) : null;
@@ -278,7 +278,7 @@ $wpconfig_ark_contents	= @file_get_contents($wpconfig_ark_path, true);
 $wpconfig_ark_contents	= preg_replace($patterns, $replace, $wpconfig_ark_contents);
 
 if (!is_writable($wpconfig_ark_path)) {
-	$err_log = "\nWARNING: Unable to update file permissions and write to dup-wp-config-arc__[HASH].txt.  ";
+    $err_log = "\nWARNING: Unable to update file permissions and write to dup-wp-config-arc__[HASH].txt.  ";
 	$err_log .= "Check that the wp-config.php is in the archive.zip and check with your host or administrator to enable PHP to write to the wp-config.php file.  ";
 	$err_log .= "If performing a 'Manual Extraction' please be sure to select the 'Manual Archive Extraction' option on step 1 under options.";
 	chmod($wpconfig_ark_path, 0644) ? DUPX_Log::info("File Permission Update: dup-wp-config-arc__[HASH].txt set to 0644") : DUPX_Log::error("{$err_log}");
