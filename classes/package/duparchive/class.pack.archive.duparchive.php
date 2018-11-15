@@ -144,7 +144,7 @@ class DUP_DupArchive
 
                 try {
 					DupArchiveEngine::createArchive($archivePath, true);
-                    $sql_ark_file_path = $package->get_sql_ark_file_path();
+                    $sql_ark_file_path = $package->getSqlArkFilePath();
                     DupArchiveEngine::addRelativeFileToArchiveST($archivePath, $sqlPath, $sql_ark_file_path);
                 } catch (Exception $ex) {
                     $error_message = 'Error adding database.sql to archive';

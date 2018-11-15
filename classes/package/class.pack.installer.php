@@ -115,7 +115,8 @@ class DUP_Installer
         return $success;
     }
 
-    /* Create archive.txt file */
+    /**
+	 * Create archive.txt file */
     private function create_archive_config_file()
     {
         global $wpdb;
@@ -141,7 +142,7 @@ class DUP_Installer
        // $ac->installer_base_name  = $global->installer_base_name;
 		$ac->installer_base_name  = 'installer.php';
         $ac->package_name         = "{$this->Package->NameHash}_archive.{$extension}";
-        $ac->package_hash         = $this->Package->get_package_hash();
+        $ac->package_hash         = $this->Package->getPackageHash();
         $ac->package_notes        = $this->Package->Notes;
         $ac->url_old              = get_option('siteurl');
         $ac->opts_delete          = json_encode($GLOBALS['DUPLICATOR_OPTS_DELETE']);
@@ -180,7 +181,6 @@ class DUP_Installer
     }
 
 	/**
-     *  createZipBackup
      *  Puts an installer zip file in the archive for backup purposes.
      */
     private function add_extra_files($package)
@@ -449,7 +449,7 @@ class DUP_Installer
     private function getWPConfArkFilePath()
     {
         if (DUPLICATOR_INSTALL_SITE_OVERWRITE_ON) {
-            $package_hash = $this->Package->get_package_hash();
+            $package_hash = $this->Package->getPackageHash();
             $conf_ark_file_path = 'dup-wp-config-arc__'.$package_hash.'.txt';
         } else {
             $conf_ark_file_path = 'wp-config.php';
@@ -461,7 +461,7 @@ class DUP_Installer
      * Get scan.json file path along with name in archive file
      */
     private function getEmbeddedScanFilePath() {
-        $package_hash = $this->Package->get_package_hash();
+        $package_hash = $this->Package->getPackageHash();
         $embedded_scan_ark_file_path = 'dup-installer/dup-scan__'.$package_hash.'.json';
         return $embedded_scan_ark_file_path;
     }
@@ -470,7 +470,7 @@ class DUP_Installer
      * Get archive.txt file path along with name in archive file
      */
     private function getArchiveTxtFilePath() {
-        $package_hash = $this->Package->get_package_hash();
+        $package_hash = $this->Package->getPackageHash();
         $archive_txt_file_path = 'dup-installer/dup-archive__'.$package_hash.'.txt';
         return $archive_txt_file_path;
     }

@@ -6,6 +6,11 @@ require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.installer.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.database.php');
 
+/**
+ * Class used to keep track of the build progress
+ *
+ * @package Duplicator\classes
+ */
 class DUP_Build_Progress
 {
     public $thread_start_time;
@@ -81,6 +86,11 @@ class DUP_Build_Progress
     }
 }
 
+/**
+ * Class used to emulate and ENUM to give the status of a package from 0 to 100%
+ *
+ * @package Duplicator\classes
+ */
 final class DUP_PackageStatus
 {
     private function __construct()
@@ -98,24 +108,36 @@ final class DUP_PackageStatus
     const COMPLETE = 100;
 }
 
+/**
+ * Class used to emulate and ENUM to determine how the package was made.
+ * For lite only the MANUAL type is used.
+ *
+ * @package Duplicator\classes
+ */
 final class DUP_PackageType
 {
     const MANUAL    = 0;
     const SCHEDULED = 1;
 }
 
+/**
+ * Class used to emulate and ENUM to determine the various file types used in a package
+ *
+ * @package Duplicator\classes
+ */
 abstract class DUP_PackageFileType
 {
-
     const Installer = 0;
     const Archive = 1;
     const SQL = 2;
     const Log = 3;
-    //const Dump = 4;
 }
 
 /**
  * Class used to store and process all Package logic
+ *
+ * Standard: PSR-2
+ * @link http://www.php-fig.org/psr/psr-2
  *
  * @package Duplicator\classes
  */
@@ -134,7 +156,7 @@ class DUP_Package
     public $Name;
     public $Hash;
     public $NameHash;
-	//MANUAL, SCHEDULED (scheduled not active)
+	//Set to DUP_PackageType
     public $Type;
     public $Notes;
     public $StorePath;
@@ -217,7 +239,6 @@ class DUP_Package
         $report['ARC']['Files'] = $this->Archive->Files;
 		$report['ARC']['Status']['AddonSites'] = count($this->Archive->FilterInfo->Dirs->AddonSites) ? 'Warn' : 'Good';
 
-
         //DATABASE
         $db  = $this->Database->getScannerData();
         $report['DB'] = $db;
@@ -233,7 +254,8 @@ class DUP_Package
             $report['ARC']['Status']['Size'],
             $report['ARC']['Status']['Names'],
             $db['Status']['DB_Size'],
-            $db['Status']['DB_Rows']);
+            $db['Status']['DB_Rows']
+		);
 
         //array_count_values will throw a warning message if it has null values,
         //so lets replace all nulls with empty string
@@ -257,7 +279,8 @@ class DUP_Package
     }
 
     /**
-     *
+     * Validates the inputs from the UI for correct data input
+	 *
      * @return DUP_Validator
      */
     public function validateInputs()
@@ -306,7 +329,11 @@ class DUP_Package
         return $validator;
     }
 
-    // Saves the active package to the package table
+	/**
+     * Saves the active package to the package table
+     *
+     * @return void
+     */
 	public function save($extension)
 	{
         global $wpdb;
@@ -354,15 +381,19 @@ class DUP_Package
 			$this->ID = $wpdb->insert_id;
 		}
 
-         do_action('duplicator_lite_build_start' , $this);
+        do_action('duplicator_lite_build_start' , $this);
 	}
 
+	/**
+     * Delete all files associated with this package ID
+     *
+     * @return void
+     */
     public function delete()
     {
         global $wpdb;
 
         $tblName  = $wpdb->prefix.'duplicator_packages';
-
         $getResult = $wpdb->get_results($wpdb->prepare("SELECT name, hash FROM `{$tblName}` WHERE id = %d", $this->ID), ARRAY_A);
 
         if ($getResult) {
@@ -394,6 +425,11 @@ class DUP_Package
 
     }
 
+	/**
+     * Check the DupArchive build to make sure it is good
+     *
+     * @return void
+     */
 	public function runDupArchiveBuildIntegrityCheck()
     {
         //INTEGRITY CHECKS
@@ -410,6 +446,7 @@ class DUP_Package
         $sql_easy_size = DUP_Util::byteSize($sql_temp_size);
         $sql_done_txt = DUP_Util::tailFile($sql_temp_path, 3);
         DUP_Log::Trace('rundupa1');
+
         if (!strstr($sql_done_txt, 'DUPLICATOR_MYSQLDUMP_EOF') || $sql_temp_size < 5120) {
             DUP_Log::Trace('rundupa2');
 
@@ -463,7 +500,6 @@ class DUP_Package
             }
 
             $scan_filepath = DUPLICATOR_SSDIR_PATH_TMP . "/{$this->NameHash}_scan.json";
-
             $json = '';
 
             DUP_LOG::Trace("***********Does $scan_filepath exist?");
@@ -535,16 +571,16 @@ class DUP_Package
 
         if ($file_type == DUP_PackageFileType::Installer) {
             DUP_Log::Trace("Installer requested");
-            $file_name = $this->get_installer_filename();
+            $file_name = $this->getInstallerFilename();
         } else if ($file_type == DUP_PackageFileType::Archive) {
             DUP_Log::Trace("Archive requested");
-            $file_name = $this->get_archive_filename();
+            $file_name = $this->getArchiveFilename();
         } else if ($file_type == DUP_PackageFileType::SQL) {
             DUP_Log::Trace("SQL requested");
-            $file_name = $this->get_database_filename();
+            $file_name = $this->getDatabaseFilename();
         } else {
             DUP_Log::Trace("Log requested");
-            $file_name = $this->get_log_filename();
+            $file_name = $this->getLogFilename();
         }
 
         $file_path = Dup_Util::safePath(DUPLICATOR_SSDIR_PATH) . "/$file_name";
@@ -557,38 +593,38 @@ class DUP_Package
         }
     }
 
-    public function get_scan_filename()
+    public function getScanFilename()
     {
         return $this->NameHash . '_scan.json';
     }
 
-    public function get_log_filename()
+    public function getLogFilename()
     {
         return $this->NameHash . '.log';
     }
 
-    public function get_dump_filename()
-    {
-        return $this->NameHash . '_dump.txt';
-    }
-
-    public function get_archive_filename()
+    public function getArchiveFilename()
     {
         $extension = strtolower($this->Archive->Format);
 
         return "{$this->NameHash}_archive.{$extension}";
     }
 
-    public function get_installer_filename()
+    public function getInstallerFilename()
     {
         return "{$this->NameHash}_installer.php";
     }
 
-    public function get_database_filename()
+    public function getDatabaseFilename()
     {
         return $this->NameHash . '_database.sql';
     }
 
+	/**
+     * Cleans up the temp storage folder have a time interval
+     *
+     * @return void
+     */
     public static function safeTmpCleanup($purge_temp_archives = false)
     {
         if ($purge_temp_archives) {
@@ -766,30 +802,6 @@ class DUP_Package
         return $this;
     }
 
-
-	private function writeLogHeader()
-	{
-		$php_max_time   = @ini_get("max_execution_time");
-        $php_max_memory = @ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
-        $php_max_time   = ($php_max_time == 0) ? "(0) no time limit imposed" : "[{$php_max_time}] not allowed";
-        $php_max_memory = ($php_max_memory === false) ? "Unabled to set php memory_limit" : DUPLICATOR_PHP_MAX_MEMORY." ({$php_max_memory} default)";
-
-		$info = "********************************************************************************\n";
-        $info .= "DUPLICATOR-LITE PACKAGE-LOG: ".@date(get_option('date_format')." ".get_option('time_format'))."\n";
-        $info .= "NOTICE: Do NOT post to public sites or forums \n";
-        $info .= "********************************************************************************\n";
-        $info .= "VERSION:\t".DUPLICATOR_VERSION."\n";
-        $info .= "WORDPRESS:\t{$GLOBALS['wp_version']}\n";
-        $info .= "PHP INFO:\t".phpversion().' | '.'SAPI: '.php_sapi_name()."\n";
-        $info .= "SERVER:\t\t{$_SERVER['SERVER_SOFTWARE']} \n";
-        $info .= "PHP TIME LIMIT: {$php_max_time} \n";
-        $info .= "PHP MAX MEMORY: {$php_max_memory} \n";
-        $info .= "MEMORY STACK: ".DUP_Server::getPHPMemory();
-        DUP_Log::Info($info);
-
-        $info = null;
-	}
-
     /**
      *  Saves the active options associted with the active(latest) package.
      *
@@ -893,6 +905,11 @@ class DUP_Package
         }
     }
 
+	/**
+     * Update the serialized package and status in the database
+     *
+     * @return void
+     */
     public function update()
     {
         global $wpdb;
@@ -1155,7 +1172,7 @@ class DUP_Package
      *
      * @return string package hash
      */
-    public function get_package_hash() {
+    public function getPackageHash() {
         $hashParts = explode('_', $this->Hash);
         $firstPart = substr($hashParts[0], 0, 7);
         $secondPart = substr($hashParts[1], -8);
@@ -1168,10 +1185,33 @@ class DUP_Package
      *
      *  @return the full sql file path in archive
      */
-    public function get_sql_ark_file_path()
+    public function getSqlArkFilePath()
     {
-        $package_hash = $this->get_package_hash();
+        $package_hash = $this->getPackageHash();
         $sql_ark_file_Path = 'dup-installer/dup-database__'.$package_hash.'.sql';
         return $sql_ark_file_Path;
     }
+	
+	private function writeLogHeader()
+	{
+		$php_max_time   = @ini_get("max_execution_time");
+        $php_max_memory = @ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
+        $php_max_time   = ($php_max_time == 0) ? "(0) no time limit imposed" : "[{$php_max_time}] not allowed";
+        $php_max_memory = ($php_max_memory === false) ? "Unabled to set php memory_limit" : DUPLICATOR_PHP_MAX_MEMORY." ({$php_max_memory} default)";
+
+		$info = "********************************************************************************\n";
+        $info .= "DUPLICATOR-LITE PACKAGE-LOG: ".@date(get_option('date_format')." ".get_option('time_format'))."\n";
+        $info .= "NOTICE: Do NOT post to public sites or forums \n";
+        $info .= "********************************************************************************\n";
+        $info .= "VERSION:\t".DUPLICATOR_VERSION."\n";
+        $info .= "WORDPRESS:\t{$GLOBALS['wp_version']}\n";
+        $info .= "PHP INFO:\t".phpversion().' | '.'SAPI: '.php_sapi_name()."\n";
+        $info .= "SERVER:\t\t{$_SERVER['SERVER_SOFTWARE']} \n";
+        $info .= "PHP TIME LIMIT: {$php_max_time} \n";
+        $info .= "PHP MAX MEMORY: {$php_max_memory} \n";
+        $info .= "MEMORY STACK: ".DUP_Server::getPHPMemory();
+        DUP_Log::Info($info);
+
+        $info = null;
+	}
 }
