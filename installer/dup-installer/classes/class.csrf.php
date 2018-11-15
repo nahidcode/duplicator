@@ -31,7 +31,8 @@ class DUPX_CSRF {
 			return true;
 		}
 		if (isset($_COOKIE[DUPX_CSRF::$prefix . '_' . $form]) && $_COOKIE[DUPX_CSRF::$prefix . '_' . $form] == $token) { // token OK
-			return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
+			return true;
+			// return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
 		}
 		return FALSE;
 	}
