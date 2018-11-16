@@ -42,7 +42,21 @@ $get_package_file_nonce = wp_create_nonce('DUP_CTRL_Package_getPackageFile');
             link.download = file;
             link.href= url;
             document.body.appendChild(link);
-            link.click();
+            
+            // click event fire
+            if (document.dispatchEvent) {
+                // First create an event
+                var click_ev = document.createEvent("MouseEvents");
+                // initialize the event
+                click_ev.initEvent("click", true /* bubble */, true /* cancelable */);
+                // trigger the event
+                link.dispatchEvent(click_ev);
+            } else if (document.fireEvent) {
+                link.fireEvent('onclick');
+            } else if (link.click()) {
+                link.click()
+            }
+
             document.body.removeChild(link);
             return false;
         };
