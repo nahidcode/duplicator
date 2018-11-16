@@ -447,7 +447,8 @@ class DUP_Package
         $sql_done_txt = DUP_Util::tailFile($sql_temp_path, 3);
         DUP_Log::Trace('rundupa1');
 
-        if (!strstr($sql_done_txt, 'DUPLICATOR_MYSQLDUMP_EOF') || $sql_temp_size < 5120) {
+        // Note: Had to add extra size check of 800 since observed bad sql when filter was on 
+        if (!strstr($sql_done_txt, 'DUPLICATOR_PRO_MYSQLDUMP_EOF') || (!$this->Database->FilterOn && $sql_temp_size < 5120) || ($this->Database->FilterOn && $this->Database->info->tablesFinalCount > 0 && $sql_temp_size < 800)) {
             DUP_Log::Trace('rundupa2');
 
             $error_text = "ERROR: SQL file not complete.  The file {$sql_temp_path} looks too small ($sql_temp_size bytes) or the end of file marker was not found.";
