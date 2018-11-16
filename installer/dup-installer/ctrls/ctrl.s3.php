@@ -261,38 +261,105 @@ DUPX_Log::info("\n====================================");
 DUPX_Log::info('CONFIGURATION FILE UPDATES:');
 DUPX_Log::info("====================================\n");
 
-
-// UPDATE WP-CONFIG FILE
-$patterns = array("/('|\")WP_HOME.*?\)\s*;/",
-	"/('|\")WP_SITEURL.*?\)\s*;/");
-
-$replace = array("'WP_HOME', '{$_POST['url_new']}');",
-	"'WP_SITEURL', '{$_POST['url_new']}');");
-
-//@todo: integrate all logic into DUPX_WPConfig::updateVars
-DUPX_WPConfig::updateVars($patterns, $replace);
-
 $root_path = $GLOBALS['DUPX_ROOT'];
 $wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) ? "{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt" : "{$root_path}/wp-config.php";
-$wpconfig_ark_contents	= @file_get_contents($wpconfig_ark_path, true);
-$wpconfig_ark_contents	= preg_replace($patterns, $replace, $wpconfig_ark_contents);
-
 if (!is_writable($wpconfig_ark_path)) {
     $err_log = "\nWARNING: Unable to update file permissions and write to dup-wp-config-arc__[HASH].txt.  ";
 	$err_log .= "Check that the wp-config.php is in the archive.zip and check with your host or administrator to enable PHP to write to the wp-config.php file.  ";
 	$err_log .= "If performing a 'Manual Extraction' please be sure to select the 'Manual Archive Extraction' option on step 1 under options.";
 	chmod($wpconfig_ark_path, 0644) ? DUPX_Log::info("File Permission Update: dup-wp-config-arc__[HASH].txt set to 0644") : DUPX_Log::error("{$err_log}");
 }
-$wpconfig_ark_contents = preg_replace($patterns, $replace, $wpconfig_ark_contents);
-file_put_contents($wpconfig_ark_path, $wpconfig_ark_contents);
 
 $config_transformer = new WPConfigTransformer($wpconfig_ark_path);
+$config_transformer->update('constant', 'WP_HOME', $_POST['url_new'], array('normalize' => true));
+$config_transformer->update('constant', 'WP_SITEURL', $_POST['url_new'], array('normalize' => true));
+
+//SSL CHECKS
+if ($_POST['ssl_admin']) {    
+    $config_transformer->update('constant', 'FORCE_SSL_ADMIN', 'true', array('raw' => true, 'normalize' => true));   
+} else {
+	$config_transformer->update('constant', 'FORCE_SSL_ADMIN', 'false', array('raw' => true, 'add' => false, 'normalize' => true));
+}
+
+if ($_POST['cache_wp']) {
+	$config_transformer->update('constant', 'WP_CACHE', 'true', array('raw' => true, 'normalize' => true));
+} else {
+    $config_transformer->update('constant', 'WP_CACHE', 'false', array('raw' => true, 'add' => false, 'normalize' => true));
+}
+
+// Cache: [ ] Keep Home Path
+if (!$_POST['cache_path']) {
+	$config_transformer->update('constant', 'WPCACHEHOME', '', array('add' => false, 'normalize' => true));
+}
+
+if ($config_transformer->exists('constant', 'WP_CONTENT_DIR')) {
+	$wp_content_dir_const_val = $config_transformer->get_value('constant', 'WP_CONTENT_DIR');
+	$new_path = str_replace($_POST['path_old'], $_POST['path_new'], $wp_content_dir_const_val, $count);
+	if ($count > 0) {
+		$config_transformer->update('constant', 'WP_CONTENT_DIR', $new_path, array('normalize' => true));
+	}
+}
+
+//WP_CONTENT_URL
+// '/' added to prevent word boundary with domains that have the same root path
+if ($config_transformer->exists('constant', 'WP_CONTENT_URL')) {
+	$wp_content_url_const_val = $config_transformer->get_value('constant', 'WP_CONTENT_URL');
+	$new_path = str_replace($_POST['url_old'] . '/', $_POST['url_new'] . '/', $wp_content_url_const_val, $count);
+	if ($count > 0) {
+		$config_transformer->update('constant', 'WP_CONTENT_URL', $new_path, array('normalize' => true));
+	}
+}
+
+//WP_TEMP_DIR
+if ($config_transformer->exists('constant', 'WP_TEMP_DIR')) {
+	$wp_temp_dir_const_val = $config_transformer->get_value('constant', 'WP_TEMP_DIR');
+	$new_path = str_replace($_POST['path_old'], $_POST['path_new'], $wp_temp_dir_const_val, $count);
+	if ($count > 0) {		
+		$config_transformer->update('constant', 'WP_TEMP_DIR', $new_path, array('normalize' => true));
+	}
+}
+
+// WP_PLUGIN_DIR
+if ($config_transformer->exists('constant', 'WP_PLUGIN_DIR')) {
+	$wp_plugin_dir_const_val = $config_transformer->get_value('constant', 'WP_PLUGIN_DIR');
+	$new_path = str_replace($_POST['path_old'], $_POST['path_new'], $wp_plugin_dir_const_val, $count);
+	if ($count > 0) {
+		$config_transformer->update('constant', 'WP_PLUGIN_DIR', $new_path, array('normalize' => true));
+	}
+}
+
+// WP_PLUGIN_URL
+if ($config_transformer->exists('constant', 'WP_PLUGIN_URL')) {
+	$wp_plugin_url_const_val = $config_transformer->get_value('constant', 'WP_PLUGIN_URL');
+	$new_path = str_replace($_POST['url_old'] . '/', $_POST['url_new'] . '/', $wp_plugin_url_const_val, $count);
+	if ($count > 0) {
+		$config_transformer->update('constant', 'WP_PLUGIN_URL', $new_path, array('normalize' => true));
+	}
+}
+
+// WPMU_PLUGIN_DIR
+if ($config_transformer->exists('constant', 'WPMU_PLUGIN_DIR')) {
+	$wpmu_plugin_dir_const_val = $config_transformer->get_value('constant', 'WPMU_PLUGIN_DIR');
+	$new_path = str_replace($_POST['path_old'], $_POST['path_new'], $wpmu_plugin_dir_const_val, $count);
+	if ($count > 0) {
+		$config_transformer->update('constant', 'WPMU_PLUGIN_DIR', $new_path, array('normalize' => true));
+	}
+}
+
+// WPMU_PLUGIN_URL
+if ($config_transformer->exists('constant', 'WPMU_PLUGIN_URL')) {
+	$wpmu_plugin_url_const_val = $config_transformer->get_value('constant', 'WPMU_PLUGIN_URL');
+	$new_path = str_replace($_POST['url_old'] . '/', $_POST['url_new'] . '/', $wpmu_plugin_url_const_val, $count);
+	if ($count > 0) {
+		$config_transformer->update('constant', 'WPMU_PLUGIN_URL', $new_path, array('normalize' => true));
+	}
+}
 
 $db_port    = is_int($_POST['dbport'])   ? DUPX_U::sanitize_text_field($_POST['dbport']) : 3306;
 $db_host	= ($db_port == 3306) ? DUPX_U::sanitize_text_field($_POST['dbhost']) : DUPX_U::sanitize_text_field($_POST['dbhost']).':'.DUPX_U::sanitize_text_field($db_port);
-$db_name	= isset($_POST['dbname']) ? DUPX_U::sanitize_text_field($_POST['dbname']) : null;
-$db_user	= isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : null;
-$db_pass	= isset($_POST['dbpass']) ? trim(DUPX_U::wp_unslash($_POST['dbpass'])) : null;
+$db_name	= isset($_POST['dbname']) ? DUPX_U::sanitize_text_field($_POST['dbname']) : '';
+$db_user	= isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : '';
+$db_pass	= isset($_POST['dbpass']) ? trim(DUPX_U::wp_unslash($_POST['dbpass'])) : '';
 		   
 $config_transformer->update('constant', 'DB_NAME', $db_name);
 $config_transformer->update('constant', 'DB_USER', $db_user);

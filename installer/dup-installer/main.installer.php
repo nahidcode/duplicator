@@ -67,7 +67,6 @@ if (!empty($_GET['view']) && 'help' == $_GET['view']) {
 require_once($GLOBALS['DUPX_INIT'].'/lib/snaplib/snaplib.all.php');
 require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.constants.php');
 require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.archive.config.php');
-require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.conf.wp.php');
 require_once($GLOBALS['DUPX_INIT'].'/classes/class.installer.state.php');
 require_once($GLOBALS['DUPX_INIT'].'/classes/class.password.php');
 require_once($GLOBALS['DUPX_INIT'].'/classes/class.csrf.php');
@@ -143,8 +142,6 @@ require_once($GLOBALS['DUPX_INIT'] . '/classes/class.logging.php');
 require_once($GLOBALS['DUPX_INIT'] . '/classes/class.http.php');
 require_once($GLOBALS['DUPX_INIT'] . '/classes/class.server.php');
 require_once($GLOBALS['DUPX_INIT'] . '/classes/config/class.conf.srv.php');
-require_once($GLOBALS['DUPX_INIT'] . '/classes/config/class.conf.wp.php');
-
 
 $GLOBALS['_CURRENT_URL_PATH'] = $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
 $GLOBALS['_HELP_URL_PATH']    = "?view=help&archive={$GLOBALS['FW_PACKAGE_NAME']}&bootloader={$GLOBALS['BOOTLOADER_NAME']}&basic";

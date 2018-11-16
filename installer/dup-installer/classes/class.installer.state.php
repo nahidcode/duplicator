@@ -53,10 +53,15 @@ class DUPX_InstallerState
 				$wpConfigPath	= "{$GLOBALS['DUPX_ROOT']}/wp-config.php";
 
 				if(file_exists($wpConfigPath)) {
-					$defines = DUPX_WPConfig::parseDefines($wpConfigPath);
-
+					require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.wp.config.tranformer.php');
+					$config_transformer = new WPConfigTransformer($wpConfigPath);
+                    if ($config_transformer->exists('constant', 'WP_CONTENT_DIR')) {
+						$wp_content_dir_val = $config_transformer->get_value('constant', 'WP_CONTENT_DIR');						
+                    } else {
+						$wp_content_dir_val = $GLOBALS['CURRENT_ROOT_PATH'] . '/wp-content';	
+					}
 					self::$instance->mode = DUPX_InstallerMode::OverwriteInstall;
-					self::$instance->ovr_wp_content_dir = SnapLibUtil::getArrayValue($defines, 'WP_CONTENT_DIR', false, $GLOBALS['CURRENT_ROOT_PATH'] . '/wp-content');
+					self::$instance->ovr_wp_content_dir = $wp_content_dir_val;
 
 				} else {
 					self::$instance->mode = DUPX_InstallerMode::StandardInstall;

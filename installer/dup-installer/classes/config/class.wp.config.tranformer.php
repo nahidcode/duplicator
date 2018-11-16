@@ -40,10 +40,12 @@ class WPConfigTransformer {
 		if ( ! file_exists( $wp_config_path ) ) {
 			throw new Exception( 'wp-config.php file does not exist.' );
 		}
-
+		// Duplicator Extra
+		/*
 		if ( ! is_writable( $wp_config_path ) ) {
 			throw new Exception( 'wp-config.php file is not writable.' );
 		}
+		*/
 
 		$this->wp_config_path = $wp_config_path;
 	}
@@ -101,7 +103,14 @@ class WPConfigTransformer {
 			throw new Exception( "Config type '{$type}' does not exist." );
 		}
 
-		return $this->wp_configs[ $type ][ $name ]['value'];
+		// Duplicator Extra
+		$val = $this->wp_configs[ $type ][ $name ]['value'];
+		if (is_string($val)) {
+			$val = trim($val, '"'); 
+			$val = trim($val, "'");
+		}
+		
+		return $val;
 	}
 
 	/**
@@ -284,8 +293,8 @@ class WPConfigTransformer {
 			}
 		}
 
-		preg_match_all( '/(?<=^|;|<\?php\s|<\?\s)(\h*define\s*\(\s*[\'"](\w*?)[\'"]\s*)(,\s*(.*?)\s*)((?:,\s*(?:true|false)\s*)?\)\s*;)/ims', $src, $constants );
-		preg_match_all( '/(?<=^|;|<\?php\s|<\?\s)(\h*\$(\w+)\s*=)(\s*(.*?)\s*;)/ims', $src, $variables );
+		preg_match_all( '/(?<=^|;|<\?php\s|<\?\s)(\h*define\s*\(\s*[\'"](\w*?)[\'"]\s*)(,\s*([\'"].*?[\'"]|.*?)\s*)((?:,\s*(?:true|false)\s*)?\)\s*;)/ims', $src, $constants );
+		preg_match_all( '/(?<=^|;|<\?php\s|<\?\s)(\h*\$(\w+)\s*=)(\s*([\'"].*?[\'"]|.*?)\s*;)/ims', $src, $variables );
 
 		if ( ! empty( $constants[0] ) && ! empty( $constants[1] ) && ! empty( $constants[2] ) && ! empty( $constants[3] ) && ! empty( $constants[4] ) && ! empty( $constants[5] ) ) {
 			foreach ( $constants[2] as $index => $name ) {
