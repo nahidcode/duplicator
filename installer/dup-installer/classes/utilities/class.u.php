@@ -1484,19 +1484,5 @@ class DUPX_U
 	public static function stripslashes_from_strings_only($value) {
 		return is_string($value) ? stripslashes($value) : $value;
 	}
-
-	/**
-	 * Callback function used by preg_replace.
-	 *
-	 * @since 2.3.0
-	 *
-	 * @param array $matches Populated by matches to preg_replace.
-	 * @return string The text returned after esc_html if needed.
-	 */
-	public static function wp_pre_kses_less_than_callback( $matches ) {
-		if ( false === strpos($matches[0], '>') )
-			return self::esc_html($matches[0]);
-		return $matches[0];
-	}
 }
 DUPX_U::init();
