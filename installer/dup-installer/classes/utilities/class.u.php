@@ -279,7 +279,8 @@ class DUPX_U
 		$query = @mysqli_query($dbh, "SELECT {$select} FROM `".mysqli_real_escape_string($dbh, $GLOBALS['DUPX_AC']->wp_tableprefix).mysqli_real_escape_string($dbh, $table)."` WHERE {$where} ");
 		if ($query) {
 			$row		 = @mysqli_fetch_array($query);
-			$all_plugins = unserialize($row[0]);
+			$plugins_ser_str = stripslashes($row[0]);
+			$all_plugins = unserialize($plugins_ser_str);
 
 			// Return data properly
 			if (is_array($all_plugins)) {
