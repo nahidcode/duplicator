@@ -28,7 +28,6 @@ if (function_exists('plugin_dir_url'))
 	define('DUPLICATOR_ZIPPED_LOG_FILENAME',		'duplicator_lite_log.zip');
     define('DUPLICATOR_INSTALL_PHP',				'installer.php');
 	define('DUPLICATOR_INSTALL_BAK',				'installer-backup.php');
-	define('DUPLICATOR_INSTALL_BOOT_LOG',			'installer-bootlog.txt');
     define('DUPLICATOR_INSTALLER_HASH_PATTERN',		'[a-z0-9][a-z0-9][a-z0-9][a-z0-9][a-z0-9][a-z0-9][a-z0-9]-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]');
 	define('DUPLICATOR_INSTALL_SITE_OVERWRITE_ON',	false);
 	

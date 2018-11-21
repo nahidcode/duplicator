@@ -130,7 +130,7 @@ class DUPX_Bootstrap
 	const ARCHIVE_FILENAME	 = '@@ARCHIVE@@';
 	const ARCHIVE_SIZE		 = '@@ARCHIVE_SIZE@@';
 	const INSTALLER_DIR_NAME = 'dup-installer';
-	const BOOTSTRAP_LOG		 = './installer-bootlog.txt';
+	const PACKAGE_HASH		 = '@@PACKAGE_HASH@@';
 	const VERSION			 = '@@VERSION@@';
 
 	public $hasZipArchive     = false;
@@ -178,7 +178,7 @@ class DUPX_Bootstrap
 	public function run()
 	{
 		date_default_timezone_set('UTC'); // Some machines don't have this set so just do it here
-		@unlink(self::BOOTSTRAP_LOG);
+		@unlink('./dup-installer-bootlog__'.self::PACKAGE_HASH.'.txt');
 		self::log('==DUPLICATOR INSTALLER BOOTSTRAP v@@VERSION@@==');
 		self::log('----------------------------------------------------');
 		self::log('Installer bootstrap start');
@@ -479,7 +479,7 @@ class DUPX_Bootstrap
 
 
 	/**
-     * Logs a string to the installer-bootlog.txt file
+     * Logs a string to the dup-installer-bootlog__[HASH].txt file
      *
      * @param string $s			The string to log to the log file
      *
@@ -488,7 +488,7 @@ class DUPX_Bootstrap
 	public static function log($s)
 	{
 		$timestamp = date('M j H:i:s');
-		file_put_contents(self::BOOTSTRAP_LOG, "$timestamp $s\n", FILE_APPEND);
+		file_put_contents('./dup-installer-bootlog__'.self::PACKAGE_HASH.'.txt', "$timestamp $s\n", FILE_APPEND);
 	}
 
 	/**
@@ -908,7 +908,7 @@ if ($boot_error == null) {
 				</tr>
 				<tr>
 					<td>Boot Log</td>
-					<td><a target='_blank' href='installer-bootlog.txt'>installer-bootlog.txt</a></td>
+					<td><a target='_blank' href='dup-installer-bootlog__<?php echo DUPX_Bootstrap::PACKAGE_HASH; ?>.txt'>dup-installer-bootlog__[HASH].txt</a></td>
 				</tr>
 			</table>
 			<br/><br/>

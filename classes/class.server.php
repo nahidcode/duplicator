@@ -198,7 +198,7 @@ class DUP_Server {
      * Gets a list of all the installer files by name and full path
 	 *
 	 * @remarks
-	 *  FILES:		installer.php, installer-backup.php, installer-bootlog.txt
+	 *  FILES:		installer.php, installer-backup.php, dup-installer-bootlog__[HASH].txt
 	 * 	DIRS:		dup-installer
 	 * 	DEV FILES:	wp-config.orig
 	 * 	Last set is for lazy developer cleanup files that a developer may have
@@ -212,7 +212,7 @@ class DUP_Server {
                 basename(DUPLICATOR_INSTALLER_DIRECTORY) . ' ' . esc_html__('(directory)', 'duplicator') => DUPLICATOR_INSTALLER_DIRECTORY,
                 DUPLICATOR_INSTALL_PHP => DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_PHP,
                 DUPLICATOR_INSTALL_BAK => DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_BAK,
-                DUPLICATOR_INSTALL_BOOT_LOG => DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_BOOT_LOG,                
+                'dup-installer-bootlog__[HASH].txt' => DUPLICATOR_WPROOTPATH .'dup-installer-bootlog__*.txt',
             );
         if (DUPLICATOR_INSTALL_SITE_OVERWRITE_ON) {
             $retArr['dup-wp-config-arc__[HASH].txt'] = DUPLICATOR_WPROOTPATH . 'dup-wp-config-arc__*.txt';
