@@ -67,9 +67,9 @@ VIEW: STEP 4- INPUT -->
 		</tr>
 	</table>
 	<i style="color:maroon; font-size:12px">
-		<i class="fa fa-exclamation-triangle"></i> IMPORTANT FINAL STEPS: Login into the WordPress Admin to remove all
+		<b><i class="fa fa-exclamation-triangle"></i> IMPORTANT FINAL STEPS:</b> Login into the WordPress Admin to remove all
 		<a href="?view=help&archive=<?php echo DUPX_U::esc_attr($GLOBALS['FW_ENCODED_PACKAGE_PATH']); ?>&bootloader=<?php echo DUPX_U::esc_attr($GLOBALS['BOOTLOADER_NAME']); ?>&basic#help-s4" target="_blank">installation files</a>
-		and keep this site secure.   This install is not complete until the installer files are removed.
+		and keep this site secure.   This install is NOT complete until all installer files are removed.
 	</i>
 	<br/><br/><br/>
 
