@@ -245,8 +245,9 @@ class DUPX_Bootstrap
 
 		}
 
-		//INSTALL DIRECTORY: Check if its setup correctly AND we are not in overwrite mode
-        if (!$this->overwriteMode && file_exists($installer_directory)) {
+		// INSTALL DIRECTORY: Check if its setup correctly AND we are not in overwrite mode
+		// disable extract installer mode by passing GET var like installer.php?extract-installer=0 or installer.php?extract-installer=disable
+        if ((isset($_GET['extract-installer']) && ('0' == $_GET['extract-installer'] || 'disable' == $_GET['extract-installer'] || 'false' == $_GET['extract-installer'])) && file_exists($installer_directory)) {
 //RSR for testing        if (file_exists($installer_directory)) {
 
 			self::log("$installer_directory already exists");
@@ -258,6 +259,21 @@ class DUPX_Bootstrap
 
 		} else {
 			self::log("Going to overwrite installer directory since either in overwrite mode or installer directory doesn't exist");
+		}
+
+		if ($extract_installer && file_exists($installer_directory)) {
+			$scanned_directory = array_diff(scandir($installer_directory), array('..', '.'));
+			foreach ($scanned_directory as $object) {
+				$object_file_path = $installer_directory.'/'.$object;
+				if (is_file($object_file_path)) {
+					if (unlink($object_file_path)) {
+						self::log('Successfully deleted the file '.$object_file_path);
+					} else {
+						$error .= 'Error deleting the file '.$object_file_path.' Please manually delete it and try again.';
+						self::log($error);
+					}
+				}
+			}
 		}
 
 		//ATTEMPT EXTRACTION:
