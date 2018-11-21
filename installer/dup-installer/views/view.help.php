@@ -543,7 +543,7 @@ STEP 4
 		<li>dup-installer</li>
 		<li>installer.php</li>
 		<li>installer-backup.php</li>
-		<li>installer-bootlog.txt</li>
+		<li>dup-installer-bootlog__[HASH].txt</li>
 		<li>archive.zip/daf</li>
 	</ul>
 	<br/><br/>
