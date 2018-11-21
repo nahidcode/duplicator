@@ -170,11 +170,11 @@ TOOL BAR: STEPS -->
 			<!-- OPTION 1: Try DupArchive Engine -->
 			<div class="dup-box">
 				<div class="dup-box-title">
-					<i class="fa fa-check-circle-o"></i>&nbsp;<?php esc_html_e('Try DupArchive', 'duplicator'); ?>
+                    <span style="width:20px; display:inline-block"><i class="fa fa-check-circle-o"></i></span><?php esc_html_e('Option 1: Try DupArchive', 'duplicator'); ?>
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try1" style="display:none">
-					<b class="opt-title"><?php esc_html_e('OPTION 1:', 'duplicator'); ?></b><br/>
+					<!--<b class="opt-title"><?php esc_html_e('OPTION 1:', 'duplicator'); ?></b><br/>-->
 
 					<?php esc_html_e('Enable the DupArchive format which is specific to Duplicator and designed to perform better on constrained budget hosts.', 'duplicator'); ?>
 					<br/><br/>
@@ -210,11 +210,11 @@ TOOL BAR: STEPS -->
 			<!-- OPTION 2: TRY AGAIN -->
 			<div class="dup-box  no-top">
 				<div class="dup-box-title">
-					<i class="fa fa-filter"></i>&nbsp;<?php esc_html_e('File Filters', 'duplicator'); ?>
+					<span style="width:20px; display:inline-block"><i class="fa fa-filter"></i></span><?php esc_html_e('Option 2: File Filters', 'duplicator'); ?>
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try2" style="display:none">
-					<b class="opt-title"><?php esc_html_e('OPTION 2:', 'duplicator'); ?></b><br/>
+					<!--<b class="opt-title"><?php esc_html_e('OPTION 2:', 'duplicator'); ?></b><br/>-->
 					<?php
 						esc_html_e('The first pass for reading files on some budget hosts maybe slow and have conflicts with strict timeout settings setup by the hosting provider.  '
 						. 'In these cases, it is recommended to retry the build by adding file filters to larger files/directories.', 'duplicator');
@@ -245,11 +245,11 @@ TOOL BAR: STEPS -->
 			<!-- OPTION 3: Two-Part Install -->
 			<div class="dup-box no-top">
 				<div class="dup-box-title">
-					<i class="fa fa-random"></i>&nbsp;<?php esc_html_e('Two-Part Install', 'duplicator'); ?>
+					<span style="width:20px; display:inline-block"><i class="fa fa-random"></i></span><?php esc_html_e('Option 3: Two-Part Install', 'duplicator'); ?>
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try2" style="display:none">
-					<b class="opt-title"><?php esc_html_e('OPTION 3:', 'duplicator'); ?></b><br/>
+				<!--	<b class="opt-title"><?php esc_html_e('OPTION 3:', 'duplicator'); ?></b><br/>-->
 
 					<?php esc_html_e('A two-part install minimizes server load and can avoid I/O and CPU issues encountered on some budget hosts. With this procedure you simply build a '
 						.'\'database-only\' archive, manually move the website files, and then run the installer to complete the process.', 'duplicator');
@@ -282,11 +282,11 @@ TOOL BAR: STEPS -->
 			<!-- OPTION 4: DIAGNOSE SERVER -->
 			<div class="dup-box no-top">
 				<div class="dup-box-title">
-					<i class="fa fa-cog"></i>&nbsp;<?php esc_html_e('Configure Server', 'duplicator'); ?>
+                    <span style="width:20px; display:inline-block"><i class="fa fa-cog"></i></span><?php esc_html_e('Option 4: Configure Server', 'duplicator'); ?>
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try3" style="display:none">
-					<b class="opt-title"><?php esc_html_e('OPTION 4:', 'duplicator'); ?></b><br/>
+				<!--	<b class="opt-title"><?php esc_html_e('OPTION 4:', 'duplicator'); ?></b><br/>-->
 					<?php esc_html_e('This option is available on some hosts that allow for users to adjust server configurations.  With this option you will be directed to an '
 						. 'FAQ page that will show various recommendations you can take to improve/unlock constraints set up on this server.', 'duplicator');
 					?><br/><br/>
