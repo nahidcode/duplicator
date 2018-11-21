@@ -180,12 +180,13 @@ TOOL BAR: STEPS -->
 					<br/><br/>
 
 					<div style="font-style: italic">
-						<?php esc_html_e('Note: DupArchive on Duplicator Lite is capped at 500MB.  If your site is still over 500MB then use a file filter on step 1 to get the size '
-						. 'down below the 500MB threshold or try the other options mentioned below.  For those looking to upgrade there are no caps in',
+						<?php esc_html_e('Note: DupArchive on Duplicator Lite only supports sites up to 500MB.  If your site is over 500MB then use a file filter on step 1 to get the size '
+						. 'below 500MB or try the other options mentioned below.  Alternatively, you may want to consider',
 						'duplicator'); ?> 
 						<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&amp;utm_medium=wordpress_plugin&amp;utm_content=build_interrupt&amp;utm_campaign=duplicator_pro" target="_blank">
-							Duplicator Pro.
+							Duplicator Pro,
 						</a>
+                        <?php esc_html_e(' which is capable of migrating sites much larger than 500MB.'); ?>
 					</div><br/>
 
 					<b><i class="fa fa-file-text-o"></i> <?php esc_html_e('Overview', 'duplicator'); ?></b><br/>
@@ -193,10 +194,10 @@ TOOL BAR: STEPS -->
 					<ol>
 						<li><?php esc_html_e('On the scanner step check to make sure your package is under 500MB. If not see additional options below.', 'duplicator'); ?></li>
 						<li>
-							<?php esc_html_e('Goto Duplicator &gt; Settings &gt; Packages Tab &gt; Archive Engine &gt;', 'duplicator'); ?>
+							<?php esc_html_e('Go to Duplicator &gt; Settings &gt; Packages Tab &gt; Archive Engine &gt;', 'duplicator'); ?>
 							<a href="admin.php?page=duplicator-settings&tab=package"><?php esc_html_e('Enable DupArchive', 'duplicator'); ?></a>
 						</li>
-						<li><?php esc_html_e('Try and build a new package again using the new engine format.', 'duplicator'); ?></li>
+						<li><?php esc_html_e('Build a new package using the new engine format.', 'duplicator'); ?></li>
 					</ol>
 
 					<small style="font-style: italic">

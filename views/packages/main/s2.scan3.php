@@ -425,8 +425,8 @@ DATABASE -->
 			<?php
                 echo '<b>';
 				$lnk = '<a href="admin.php?page=duplicator-settings&tab=package" target="_blank">' . esc_html__('Archive Engine', 'duplicator') . '</a>';
-				printf(__("The DupArchive engine is a custom format designed to help with build issues on budget or constrained hosts. The '{$lnk}' setting for DupArchive is "
-						. "currently capped at %s for Duplicator Lite.  For sites above %s check out the recommendations below.", 'duplicator'), $duparchive_max_limit, $duparchive_max_limit );
+				printf(__("The '{$lnk}' setting is set to 'DupArchive', which means archives are built in the DupArchive custom format. This format was specifically designed to overcome budget host constraints."
+                        . " Duplicator Lite can process sites up to %s using DupArchive. See the recommendations below for sites larger than %s.", 'duplicator'), $duparchive_max_limit, $duparchive_max_limit);
                 echo '</b>';
 
 				echo '<br/><hr size="1" />';
@@ -448,7 +448,7 @@ DATABASE -->
 				echo '<br/><br/>';
 
 				$lnk = '<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_da_size_limit&utm_campaign=duplicator_pro" target="_blank">' . esc_html__('Duplicator Pro', 'duplicator') . '</a>';
-				printf(__("- Consider upgrading to %s for larger site support.", 'duplicator'), $lnk);
+				printf(__("- Consider upgrading to %s for large site support. (unlimited)", 'duplicator'), $lnk);
 
 				echo '</div>';
 
