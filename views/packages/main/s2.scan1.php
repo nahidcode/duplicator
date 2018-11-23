@@ -267,13 +267,26 @@ jQuery(document).ready(function($)
 		var data = {action : 'duplicator_package_scan',file_notice:'<?= $core_file_notice; ?>',dir_notice:'<?= $core_dir_notice; ?>', nonce: '<?php echo wp_create_nonce('duplicator_package_scan'); ?>'}
 		$.ajax({
 			type: "POST",
+			dataType: "text",
 			cache: false,
 			url: ajaxurl,
-			dataType: "json",
 			timeout: 10000000,
 			data: data,
 			complete: function() {$('.dup-button-footer').show()},
-			success:  function(data) {
+			success:  function(respData, textStatus, xHr) {
+				try {
+					var data = Duplicator.parseJSON(respData);
+				} catch(err) {
+					console.error(err);
+					console.error('JSON parse failed for response data: ' + respData);
+					$('#dup-progress-bar-area').hide();
+					var status = xHr.status + ' -' + xHr.statusText;
+					$('#dup-msg-error-response-status').html(status)
+					$('#dup-msg-error-response-text').html(xHr.responseText);
+					$('#dup-msg-error').show(200);
+					console.log(data);
+					return false;
+				}
 				Duplicator.Pack.loadScanData(data);
 			},
 			error: function(data) {

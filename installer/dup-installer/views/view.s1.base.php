@@ -862,10 +862,19 @@ DUPX.pingDAWS = function ()
 	$.ajax({
 		type: "POST",
 		timeout: DUPX.DAWS.PingWorkerTimeInSec * 2000, // Double worker time and convert to ms
-		dataType: "json",
 		url: DUPX.DAWS.Url,
 		data: JSON.stringify(request),
-		success: function (data) {
+		success: function (respData, textStatus, xHr) {
+			try {
+                var data = DUPX.parseJSON(respData);
+            } catch(err) {
+                console.error(err);
+                console.error('JSON parse failed for response data: ' + respData);
+                console.log('AJAX error. textStatus=');
+				console.log(textStatus);
+				DUPX.handleDAWSCommunicationProblem(xHr, true, textStatus, 'ping');
+                return false;
+            }
 
 			DUPX.DAWS.FailureCount = 0;
 			console.log("pingDAWS:AJAX success. Resetting failure count");
@@ -1006,7 +1015,6 @@ DUPX.kickOffDupArchiveExtract = function ()
 	$.ajax({
 		type: "POST",
 		timeout: DUPX.DAWS.KickoffWorkerTimeInSec * 2000,  // Double worker time and convert to ms
-		dataType: "json",
 		url: DUPX.DAWS.Url,
 		data: requestString,
 		beforeSend: function () {
@@ -1015,8 +1023,16 @@ DUPX.kickOffDupArchiveExtract = function ()
 			$('#s1-result-form').show();
 			DUPX.updateProgressPercent(0);
 		},
-		success: function (data) {
-
+		success: function (respData, textStatus, xHr) {
+			try {
+                var data = DUPX.parseJSON(respData);
+            } catch(err) {
+                console.error(err);
+                console.error('JSON parse failed for response data: ' + respData);
+				console.log('kickOffDupArchiveExtract:AJAX error. textStatus=', textStatus);
+				DUPX.handleDAWSCommunicationProblem(xHr, false, textStatus);
+                return false;
+            }
 			console.log('kickOffDupArchiveExtract:success');
 			if (typeof (data) != 'undefined' && data.pass == 1) {
 
@@ -1073,13 +1089,20 @@ DUPX.finalizeDupArchiveExtraction = function(dawsStatus)
 	$.ajax({
 		type: "POST",
 		timeout: 30000,
-		dataType: "json",
 		url: window.location.href,
-		data: formData,
-		beforeSend: function () {
-
-		},
-		success: function (data) {
+		data: formData,		
+		success: function (respData, textStatus, xHr) {
+			try {
+                var data = DUPX.parseJSON(respData);
+            } catch(err) {
+                console.error(err);
+                console.error('JSON parse failed for response data: ' + respData);
+				console.log("finalizeDupArchiveExtraction:error");
+				console.log(xHr.statusText);
+				console.log(xHr.getAllResponseHeaders());
+				console.log(xHr.responseText);
+                return false;
+            }
 			console.log("finalizeDupArchiveExtraction:success");
 		},
 		error: function (xHr) {
@@ -1111,10 +1134,10 @@ DUPX.runStandardExtraction = function ()
 			$form.hide();
 			$('#s1-result-form').show();
 		},
-		success: function (data, textstatus, xHr) {
+		success: function (data, textStatus, xHr) {
 			$("#ajax-json-debug").val(data);
 			var dataJSON = data;
-			data = DUPX.parseJSON(data, xHr, textstatus);
+			data = DUPX.parseJSON(data, xHr, textStatus);
             if (false === data) {
                 return;
             }
@@ -1139,13 +1162,13 @@ DUPX.runStandardExtraction = function ()
 	});
 };
 
-DUPX.ajaxCommunicationFailed = function (xhr, textstatus, page)
+DUPX.ajaxCommunicationFailed = function (xhr, textStatus, page)
 {
 	var status = "<b>Server Code:</b> " + xhr.status + "<br/>";
 	status += "<b>Status:</b> " + xhr.statusText + "<br/>";
 	status += "<b>Response:</b> " + xhr.responseText + "<hr/>";
 
-	if(textstatus && textstatus.toLowerCase() == "timeout" || textstatus.toLowerCase() == "service unavailable") {
+	if(textStatus && textStatus.toLowerCase() == "timeout" || textStatus.toLowerCase() == "service unavailable") {
 
 		var default_timeout_message = "<b>Recommendation:</b><br/>";
 			default_timeout_message += "See <a target='_blank' href='https://snapcreek.com/duplicator/docs/faqs-tech/?180116102141#faq-trouble-100-q'>this FAQ item</a> for possible resolutions.";
@@ -1199,7 +1222,7 @@ DUPX.ajaxCommunicationFailed = function (xhr, textstatus, page)
 	DUPX.hideProgressBar();
 };
 
-DUPX.parseJSON = function(mixData, xHr, textstatus) {
+DUPX.parseJSON = function(mixData, xHr, textStatus) {
     try {
 		var parsed = JSON.parse(mixData);
 		return parsed;
@@ -1216,11 +1239,11 @@ DUPX.parseJSON = function(mixData, xHr, textstatus) {
 			return parsed;
 		} catch (e) {
             console.log("JSON parse failed - 2");
-            DUPX.ajaxCommunicationFailed(xHr, textstatus, 'extract');
+            DUPX.ajaxCommunicationFailed(xHr, textStatus, 'extract');
             return false;
 		}
 	}
-    DUPX.ajaxCommunicationFailed(xHr, textstatus, 'extract');
+    DUPX.ajaxCommunicationFailed(xHr, textStatus, 'extract');
     return false;
 }
 
