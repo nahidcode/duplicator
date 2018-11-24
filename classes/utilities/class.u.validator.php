@@ -10,10 +10,9 @@
  * @copyright (c) 2017, Snapcreek LLC
  *
  */
+
 // Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
+if (! defined('DUPLICATOR_VERSION')) exit;
 
 class DUP_Validator
 {
@@ -121,7 +120,7 @@ class DUP_Validator
 
     /**
      * filter_var function wrapper see http://php.net/manual/en/function.filter-var.php
-     * 
+     *
      * additional options
      * valkey => key of field
      * errmsg => error message; % s will be replaced with the contents of the variable  es. "<b>%s</b> isn't a valid field"
@@ -174,7 +173,7 @@ class DUP_Validator
 
     /**
      * validation of predefined regular expressions
-     * 
+     *
      * @param mixed $variable
      * @param string $filter
      * @param array $options
@@ -218,7 +217,7 @@ class DUP_Validator
             foreach ($vals as $val) {
                 $res[] = $this->filter_custom($val, $filter, $options);
             }
-       
+
         return $res;
     }
 

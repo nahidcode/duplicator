@@ -46,11 +46,7 @@ SERVER SETTINGS -->
 		<tr>
 			<td><?php esc_html_e("Web Server", 'duplicator'); ?></td>
 			<td><?php echo esc_html($_SERVER['SERVER_SOFTWARE']); ?></td>
-		</tr>
-		<tr>
-			<td><?php esc_html_e("APC Enabled", 'duplicator'); ?></td>
-			<td><?php echo DUP_Util::runAPC() ? 'Yes' : 'No'  ?></td>
-		</tr>					   
+		</tr>				   
 		<tr>
 			<td><?php esc_html_e("Root Path", 'duplicator'); ?></td>
 			<td><?php echo esc_html(DUPLICATOR_WPROOTPATH) ?></td>

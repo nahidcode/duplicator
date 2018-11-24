@@ -1,9 +1,22 @@
 <?php
-defined("ABSPATH") or die("");
+/**
+ * Methods used to work with WordPress MU sites
+ *
+ * Standard: PSR-2
+ * @link http://www.php-fig.org/psr/psr-2
+ *
+ * @package Duplicator
+ * @subpackage classes/utilities
+ * @copyright (c) 2017, Snapcreek LLC
+ *
+ * @todo Refactor out IO methods into class.io.php file
+ */
+
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
 
 class DUP_MU
 {
-
     public static function isMultisite()
     {
         return self::getMode() > 0;
@@ -12,7 +25,6 @@ class DUP_MU
     // 0 = single site; 1 = multisite subdomain; 2 = multisite subdirectory
     public static function getMode()
     {
-
 		if(is_multisite()) {
             if (defined('SUBDOMAIN_INSTALL') && SUBDOMAIN_INSTALL) {
                 return 1;
@@ -25,23 +37,17 @@ class DUP_MU
     }
 
     public static function getGeneration()
-    {
-        if(self::getMode() == 0)
-        {
-            return DUP_PRO_MU_Generations::NotMultisite;
-        }
-        else
-        {
-			$sitesDir = WP_CONTENT_DIR . '/uploads/sites';
+	{
+		if (self::getMode() == 0) {
+			return DUP_PRO_MU_Generations::NotMultisite;
+		} else {
+			$sitesDir = WP_CONTENT_DIR.'/uploads/sites';
 
-			if(file_exists($sitesDir))
-            {
+			if (file_exists($sitesDir)) {
 				return DUP_PRO_MU_Generations::ThreeFivePlus;
-            }
-            else
-            {
+			} else {
 				return DUP_PRO_MU_Generations::PreThreeFive;
-            }
-        }
-    }
+			}
+		}
+	}
 }

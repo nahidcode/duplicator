@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
+
 require_once(DUPLICATOR_PLUGIN_PATH.'/classes/utilities/class.u.php');
 
 //Enum used to define the various test statues 

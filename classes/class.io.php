@@ -1,10 +1,12 @@
 <?php
-defined("ABSPATH") or die("");
-
 /**
  * @copyright 2018 Snap Creek LLC
  * Class for all IO operations
  */
+
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
+
 class DUP_IO
 {
     /**
@@ -56,7 +58,7 @@ class DUP_IO
 
 		return $success && @rmdir($directory);
 	}
-    
+
     /**
      * Safely copies a file to a directory
      *

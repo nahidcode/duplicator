@@ -13,9 +13,7 @@
  */
 
 // Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
+if (! defined('DUPLICATOR_VERSION')) exit;
 
 class DUP_Util
 {
@@ -49,13 +47,6 @@ class DUP_Util
         self::$on_php_54_plus  = version_compare(PHP_VERSION, '5.4.0') >= 0;
 		self::$PHP7_plus = version_compare(PHP_VERSION, '7.0.0', '>=');
     }
-    
-//    public static function objectCopy($source, $dest)
-//    {
-//        foreach(get_object_vars($source) as $key => $value) {
-//            $dest->$key = $value;
-//        }
-//    }
 
     public static function objectCopy($srcObject, $destObject, $skipMemberArray = null)
     {
@@ -82,10 +73,10 @@ class DUP_Util
         $wp_core_dirs[] = $wp_path.'/plugins';
         $wp_core_dirs[] = $wp_path.'/themes';
 
-
         return $wp_core_dirs;
     }
-    /**
+
+	/**
      * return absolute path for the files that are core directories
      * @return string array
      */
@@ -105,7 +96,7 @@ class DUP_Util
 	 * @param mixed $key,... The key to group or split by. Can be a _string_, an _integer_, a _float_, or a _callable_.
 	 *                       - If the key is a callback, it must return a valid key from the array.
 	 *                       - If the key is _NULL_, the iterated element is skipped.
-	 *                       - string|int callback ( mixed $item )
+	 *                       - string|oink callback ( mixed $item )
 	 *
 	 * @return array|null Returns a multidimensional array or `null` if `$key` is invalid.
 	 */
@@ -146,8 +137,8 @@ class DUP_Util
 	}
 
 	/**
-     * PHP_SAPI for fcgi requires a data flush of at least 256
-     * bytes every 40 seconds or else it forces a script hault
+     * PHP_SAPI for FCGI requires a data flush of at least 256
+     * bytes every 40 seconds or else it forces a script halt
      *
      * @return string A series of 256 space characters
      */
@@ -159,9 +150,9 @@ class DUP_Util
     }
 
     /**
-     * Returns the wp-snapshot url
+     * Returns the wp-snapshot URL
      *
-     * @return string The full url of the duplicators snapshot storage directory
+     * @return string The full URL of the duplicators snapshot storage directory
      */
     public static function snapshotURL()
     {
@@ -169,7 +160,7 @@ class DUP_Util
     }
 
     /**
-     * Returns the last N lines of a file. Equivelent to tail command
+     * Returns the last N lines of a file. Equivalent to tail command
      *
      * @param string $filepath The full path to the file to be tailed
      * @param int $lines The number of lines to return with each tail call
@@ -178,7 +169,6 @@ class DUP_Util
      */
     public static function tailFile($filepath, $lines = 2)
     {
-
         // Open file
         $f = @fopen($filepath, "rb");
         if ($f === false) return false;
@@ -222,21 +212,6 @@ class DUP_Util
     }
 
     /**
-     * Runs the APC cache to pre-cache the php files
-     *
-     * @returns bool True if all files where cached
-     */
-    public static function runAPC()
-    {
-        if (function_exists('apc_compile_file')) {
-            $file01 = @apc_compile_file(DUPLICATOR_PLUGIN_PATH."duplicator.php");
-            return ($file01);
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Display human readable byte sizes
      *
      * @param int $size    The size in bytes
@@ -259,7 +234,7 @@ class DUP_Util
     /**
      * Makes path safe for any OS
      *      Paths should ALWAYS READ be "/"
-     *          uni: /home/path/file.xt
+     *          uni: /home/path/file.txt
      *          win:  D:/home/path/file.txt
      *
      * @param string $path		The path to make safe
@@ -317,7 +292,7 @@ class DUP_Util
      * @param string $path The full path to a system directory
      *
      * @return array of all files in that path
-     * 
+     *
      * Notes:
      * 	- Avoid using glob() as GLOB_BRACE is not an option on some operating systems
      * 	- Pre PHP 5.3 DirectoryIterator will crash on unreadable files
@@ -333,7 +308,6 @@ class DUP_Util
 			return $files;
 
 		} catch (Exception $exc) {
-
 			$result = array();
 			$files = @scandir($path);
 			if (is_array($files)) {
@@ -522,7 +496,7 @@ class DUP_Util
     }
 
     /**
-     * Creates the snapshot directory if it doesn't already exisit
+     * Creates the snapshot directory if it doesn't already exist
      *
      * @return null
      */
@@ -616,7 +590,7 @@ class DUP_Util
 
         return $filepath;
     }
-    
+
     /**
      * Is the server PHP 5.3 or better
      *
@@ -626,7 +600,6 @@ class DUP_Util
     {
         return version_compare(PHP_VERSION, '5.3.2', '>=');
     }
-
 
 	/**
      * Returns an array of the WordPress core tables.
@@ -650,9 +623,10 @@ class DUP_Util
 			"{$wpdb->prefix}usermeta",
 			"{$wpdb->prefix}users");
     }
-	
-  /**
+
+   /**
     * Finds if its a valid executable or not
+    * 
     * @param type $exe A non zero length executable path to find if that is executable or not.
     * @param type $expectedValue expected value for the result
     * @return boolean

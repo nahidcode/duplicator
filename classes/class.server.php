@@ -1,4 +1,5 @@
 <?php
+require_once (DUPLICATOR_PLUGIN_PATH . 'classes/utilities/class.u.php');
 
 /**
  * Used to get various pieces of information about the server environment
@@ -9,14 +10,11 @@
  * @package Duplicator
  * @subpackage classes/utilities
  * @copyright (c) 2017, Snapcreek LLC
- * 
+ *
  */
-require_once (DUPLICATOR_PLUGIN_PATH . 'classes/utilities/class.u.php');
 
 // Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
+if (! defined('DUPLICATOR_VERSION')) exit;
 
 class DUP_Server {
 

@@ -6,6 +6,10 @@
  * @subpackage classes/package
  *
  */
+
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
+
 class DUP_Archive_Filter_Scope_Base
 {
     //All internal storage items that duplicator decides to filter
