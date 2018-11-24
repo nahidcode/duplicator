@@ -396,7 +396,6 @@ DUPX.runUpdate = function()
 	$.ajax({
 		type: "POST",
 		timeout: 10000000,
-		dataType: "json",
 		url: window.location.href,
 		data: $('#s3-input-form').serialize(),
 		beforeSend: function() {
@@ -404,7 +403,23 @@ DUPX.runUpdate = function()
 			$('#s3-input-form').hide();
 			$('#s3-result-form').show();
 		},
-		success: function(data){
+		success: function(respData, textStatus, xHr){
+			try {
+                var data = DUPX.parseJSON(respData);
+            } catch(err) {
+                console.error(err);
+                console.error('JSON parse failed for response data: ' + respData);
+				var status  = "<b>Server Code:</b> "	+ xhr.status		+ "<br/>";
+				status += "<b>Status:</b> "			+ textStatus	+ "<br/>";
+				status += "<b>Response:</b> "		+ xhr.responseText  + "<hr/>";
+				status += "<b>Additional Troubleshooting Tips:</b><br/>";
+				status += "- Check the <a href='./<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>' target='dup-installer'>dup-installer-log.txt</a> file for warnings or errors.<br/>";
+				status += "- Check the web server and PHP error logs. <br/>";
+				status += "- For timeout issues visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-100-q' target='_blank'>Timeout FAQ Section</a><br/>";
+				$('#ajaxerr-data').html(status);
+				DUPX.hideProgressBar();
+                return false;
+            }
 			if (typeof(data) != 'undefined' && data.step3.pass == 1) {
 				$("#ajax-url_new").val($("#url_new").val());
 				$("#ajax-exe-safe-mode").val($("#exe-safe-mode").val());

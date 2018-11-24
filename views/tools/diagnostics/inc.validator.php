@@ -124,10 +124,20 @@ jQuery(document).ready(function($)
 		
 		$.ajax({
 			type: "POST",
+			dataType: "text",
 			url: ajaxurl,
-			dataType: "json",
 			data: data,
-			success: function(data) {Duplicator.Tools.IntScanValidator(data)},
+			success: function(respData) {
+				try {
+					var data = Duplicator.parseJSON(respData);
+				} catch(err) {
+					console.error(err);
+					console.error('JSON parse failed for response data: ' + respData);
+					console.log(respData);
+					return false;
+				}
+				Duplicator.Tools.IntScanValidator(data);
+			},
 			error: function(data) {console.log(data)},
 			done: function(data) {console.log(data)}
 		});	

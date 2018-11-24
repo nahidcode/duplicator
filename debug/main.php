@@ -116,9 +116,17 @@ jQuery(document).ready(function($)
 					$.ajax({
 						type: "POST",
 						url: ajaxurl,
-						dataType: "json",
 						data: input,
-						success: function(data) { Duplicator.Debug.ProcessResult(data, $result) },
+						success: function(respData) {
+							try {
+								var data = Duplicator.parseJSON(respData);
+							} catch(err) {
+								console.error(err);
+								console.error('JSON parse failed for response data: ' + respData);
+								return false;
+							}
+							Duplicator.Debug.ProcessResult(data, $result);
+						},
 						error: function(data) {},
 						done: function(data) {}
 					});

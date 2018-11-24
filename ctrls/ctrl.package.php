@@ -262,7 +262,8 @@ function duplicator_package_delete()
 
     $json['ids']     = "{$postIDs}";
     $json['removed'] = $delCount;
-    die(json_encode($json));
+    echo json_encode($json);
+    die();
 }
 
 /**
