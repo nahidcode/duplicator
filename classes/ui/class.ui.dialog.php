@@ -1,6 +1,6 @@
 <?php
 /**
- * Used to generate a thinkbox inline dialog such as an alert or confirm popup
+ * Used to generate a thick-box inline dialog such as an alert or confirm pop-up
  *
  * Standard: PSR-2
  * @link http://www.php-fig.org/psr/psr-2
@@ -123,7 +123,7 @@ class DUP_UI_Dialog
     }
 
     /**
-     * Shows the alert base js code used to display when needed
+     * Shows the alert base JS code used to display when needed
      *
      * @return string	The javascript content used for the alert dialog
      */
@@ -140,7 +140,7 @@ class DUP_UI_Dialog
     }
 
     /**
-     * Shows the confirm base js code used to display when needed
+     * Shows the confirm base JS code used to display when needed
      *
      * @return string	The javascript content used for the confirm dialog
      */
@@ -157,8 +157,8 @@ class DUP_UI_Dialog
             $progress_func1 = "__DUP_UI_Dialog_".$this->uniqid;
             $progress_func2 = ";{$progress_func1}(this)";
             $progress_data  = "<div class='dup-dlg-confirm-progress'><i class='fa fa-circle-o-notch fa-spin fa-lg fa-fw'></i> ".esc_js($this->progressText)."</div>
-				<script> 
-					function {$progress_func1}(obj) 
+				<script>
+					function {$progress_func1}(obj)
 					{
 						jQuery(obj).parent().parent().find('.dup-dlg-confirm-progress').show();
 						jQuery(obj).closest('.dup-dlg-confirm-btns').find('input').attr('disabled', 'true');
@@ -166,7 +166,7 @@ class DUP_UI_Dialog
 				</script>";
         }
 
-        $html = 
+        $html =
             '<div id="'.esc_attr($this->id).'" style="display:none">
 				<div class="dup-dlg-confirm-txt">
 					<span id="'.esc_attr($this->id).'_message">'.esc_html($this->message).'</span>
@@ -183,7 +183,7 @@ class DUP_UI_Dialog
     }
 
     /**
-     * Shows the confirm base js code used to display when needed
+     * Shows the confirm base JS code used to display when needed
      *
      * @return string	The javascript content used for the confirm dialog
      */

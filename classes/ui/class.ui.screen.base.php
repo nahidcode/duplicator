@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die(""); 
+defined("ABSPATH") or die("");
 
 /**
  * The base class for all screen.php files.  This class is used to control items that are common

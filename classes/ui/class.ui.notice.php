@@ -21,7 +21,7 @@ class DUP_UI_Notice
 {
     /**
      * Shows a display message in the wp-admin if any reserved files are found
-     * 
+     *
      * @return string   Html formated text notice warnings
      */
     public static function showReservedFilesNotice()
@@ -31,11 +31,11 @@ class DUP_UI_Notice
         $dup_perm   = current_user_can('manage_options');
         if (!$dup_active || !$dup_perm)
 			return;
-		
+
 		$screen = get_current_screen();
         if (!isset($screen))
 			return;
-  
+
 		$is_installer_cleanup_req = ($screen->id == 'duplicator_page_duplicator-tools' && isset($_GET['action']) && $_GET['action'] == 'installer');
         if (DUP_Server::hasInstallerFiles() && !$is_installer_cleanup_req) {
 
@@ -78,7 +78,7 @@ class DUP_UI_Notice
 
             }
             echo "</p></div>";
-        } 
+        }
     }
 
     /**
