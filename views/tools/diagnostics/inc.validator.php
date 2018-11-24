@@ -125,7 +125,7 @@ jQuery(document).ready(function($)
 		$.ajax({
 			type: "POST",
 			dataType: "text",
-			url: ajaxurl,			
+			url: ajaxurl,
 			data: data,
 			success: function(respData) {
 				try {
