@@ -504,7 +504,7 @@ DIALOG: Scan Results -->
 		<tr>
 			<td style="vertical-align: top"><b><?php esc_html_e('Build Mode:', 'duplicator');?></b></td>
 			<td style="line-height:18px">
-				<a href="?page=duplicator-settings" target="_blank"><?php echo esc_html($dbbuild_mode); ?></a>
+				<a href="?page=duplicator-settings&amp;tab=package" target="_blank"><?php echo esc_html($dbbuild_mode); ?></a>
 				<?php if ($mysqlcompat_on) :?>
 					<br/>
 					<small style="font-style:italic; color:maroon">
@@ -579,7 +579,9 @@ DIALOG: Scan Results -->
 
 	<small>
 		<?php esc_html_e('Path filters will be skipped during the archive process when enabled.', 'duplicator');	?>
-		<a href="<?php echo esc_url(DUPLICATOR_SITE_URL."/wp-admin/admin-ajax.php?action=duplicator_package_scan"); ?>" target="dup_report"><?php esc_html_e('[view json result report]', 'duplicator');?></a>
+		<a href="<?php echo wp_nonce_url(DUPLICATOR_SITE_URL . '/wp-admin/admin-ajax.php?action=duplicator_package_scan', 'duplicator_package_scan', 'nonce'); ?>" target="dup_report">
+			<?php esc_html_e('[view json result report]', 'duplicator');?>
+		</a>
 		<br/>
 		<?php esc_html_e('Auto filters are applied to prevent archiving other backup sets.', 'duplicator');	?>
 	</small><br/>

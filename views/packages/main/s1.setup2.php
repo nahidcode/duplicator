@@ -254,7 +254,8 @@ ARCHIVE -->
 				<table>
 					<tr>
 						<td colspan="2" style="padding:0 0 10px 0">
-							<?php esc_html_e("Build Mode", 'duplicator') ?>:&nbsp; <a href="?page=duplicator-settings" target="settings"><?php echo esc_html($dbbuild_mode); ?></a>
+							<?php esc_html_e("Build Mode", 'duplicator') ?>:&nbsp; 
+							<a href="?page=duplicator-settings&amp;tab=package" target="settings"><?php echo esc_html($dbbuild_mode); ?></a>
 						</td>
 					</tr>
 					<tr>
