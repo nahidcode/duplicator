@@ -113,6 +113,7 @@ if (is_admin() == true)
     require_once 'classes/class.settings.php';
     require_once 'classes/class.logging.php';    
     require_once 'classes/utilities/class.u.php';
+	require_once 'classes/utilities/class.u.string.php';
     require_once 'classes/utilities/class.u.validator.php';
     require_once 'classes/class.db.php';
     require_once 'classes/class.server.php';

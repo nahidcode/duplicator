@@ -66,31 +66,38 @@ if ($section == "info" || $section == '') {
 					$html = "";
 					//REMOVE CORE INSTALLER FILES
 					$installer_files = DUP_Server::getInstallerFiles();
-					$installer_file_found = false;
-					foreach ($installer_files as $file => $path) {
+					//$installer_file_found = false;
+
+					$removed_files = false;
+					foreach ($installer_files as $filename => $path) {
 						$file_path = '';
-						if (false !== stripos($file, '[hash]')) {
+						if (stripos($filename, '[hash]') !== false) {
 							$glob_files = glob($path);
 							if (!empty($glob_files)) {
-								$file_path = $glob_files[0];
+								foreach ($glob_files as $glob_file) {
+									$file_path = $glob_file;
+									DUP_IO::deleteFile($file_path);
+									$removed_files = true;
+								}
 							}
-						} elseif (file_exists($path)) {
+						} else if (is_file($path)) {
 							$file_path = $path;
+							DUP_IO::deleteFile($path);
+							$removed_files = true;
+						} else if (is_dir($path)) {
+							$file_path = $path;
+							// Extra protection to ensure we only are deleting the installer directory
+							if(DUP_STR::contains($path, 'dup-installer')) {
+								DUP_IO::deleteTree($path);
+								$removed_files = true;
+							}
 						}
-                        if (!empty($file_path)) {
-							$installer_file_found = true;
-							if (is_dir($file_path)) {
-								DUP_IO::deleteTree($file_path);
-							} else {
-								DUP_IO::deleteFile($file_path);
-							}
 
-                            if (file_exists($file_path)) {
-								echo "<div class='failed'><i class='fa fa-exclamation-triangle'></i> ".esc_html($txt_found)." - ".esc_html($file_path)."</div>";
-							} else {
-								echo "<div class='success'> <i class='fa fa-check'></i> ".esc_html($txt_removed)." - ".esc_html($file_path)."</div>";
-							}
-                        }
+						if (!empty($file_path)) {
+							echo (file_exists($file_path))
+								? "<div class='failed'><i class='fa fa-exclamation-triangle'></i> {$txt_found} - ".esc_html($file_path)."  </div>"
+								: "<div class='success'> <i class='fa fa-check'></i> {$txt_removed} - ".esc_html($file_path)."	</div>";
+						}
 					}
 	
 					//No way to know exact name of archive file except from installer.
@@ -108,7 +115,7 @@ if ($section == "info" || $section == '') {
 					}
 					echo $html;
 
-					if (!$installer_file_found) {
+					if (!$removed_files) {
 						echo '<div class="dup-alert-no-files-msg success">'
 								. '<i class="fa fa-check"></i> <b>' . esc_html__('No Duplicator installer files found on this WordPress Site.', 'duplicator') . '</b>'
 							. '</div>';
