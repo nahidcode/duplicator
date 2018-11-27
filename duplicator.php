@@ -322,16 +322,16 @@ if (is_admin() == true)
         $perms = apply_filters($wpfront_caps_translator, $perms);
         $page_gopro = add_submenu_page('duplicator', $go_pro_link, $go_pro_link, $perms, 'duplicator-gopro', 'duplicator_get_menu');
 		
-		$package_debug = DUP_Settings::Get('package_debug');
-		if ($package_debug != null && $package_debug == true)
-		{
-			$perms = 'manage_options';
-			$perms = apply_filters($wpfront_caps_translator, $perms);			
-			$lang_txt = esc_html__('Debug', 'duplicator');
-			$page_debug = add_submenu_page('duplicator', $lang_txt, $lang_txt, $perms, 'duplicator-debug', 'duplicator_get_menu');
-			add_action('admin_print_scripts-' . $page_debug, 'duplicator_scripts');
-			add_action('admin_print_styles-'  . $page_debug, 'duplicator_styles');
-		}
+//		$package_debug = DUP_Settings::Get('package_debug');
+//		if ($package_debug != null && $package_debug == true)
+//		{
+//			$perms = 'manage_options';
+//			$perms = apply_filters($wpfront_caps_translator, $perms);
+//			$lang_txt = esc_html__('Debug', 'duplicator');
+//			$page_debug = add_submenu_page('duplicator', $lang_txt, $lang_txt, $perms, 'duplicator-debug', 'duplicator_get_menu');
+//			add_action('admin_print_scripts-' . $page_debug, 'duplicator_scripts');
+//			add_action('admin_print_styles-'  . $page_debug, 'duplicator_styles');
+//		}
 
         //Apply Scripts
         add_action('admin_print_scripts-' . $page_packages, 'duplicator_scripts');
