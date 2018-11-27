@@ -170,6 +170,15 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
+        <tr>
+			<td class="feature-column"><?php esc_html_e('Installer Regenerates Salts', 'duplicator') ?><sup>
+					<i  class="fa fa-question-circle dup-gopro-help"
+						data-tooltip-title="<?php esc_attr_e("Multisite", 'duplicator'); ?>"
+                        data-tooltip="<?php esc_attr_e('Installer contains option to regenerate salts in the wp-config.php file.  This feature is only available with Freelancer, Business or Gold licenses.', 'duplicator'); ?>"/></i></sup>
+			</td>
+			<td class="check-column"></td>
+			<td class="check-column"><i class="fa fa-check"></i></td>
+		</tr>
 		<tr>
 			<td class="feature-column">
 				<img src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/cpanel-48.png" style="width:16px; height:12px" />
@@ -198,7 +207,7 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<td class="feature-column"><?php esc_html_e('Multisite Subsite &gt; Standalone', 'duplicator') ?><sup>
 					<i  class="fa fa-question-circle dup-gopro-help"
 						data-tooltip-title="<?php esc_attr_e("Multisite", 'duplicator'); ?>"
-                        data-tooltip="<?php esc_attr_e('Install an individual subsite from a Multisite as a standalone site.  This feature is only available with a business license purchase.', 'duplicator'); ?>"/></i></sup>
+                        data-tooltip="<?php esc_attr_e('Install an individual subsite from a Multisite as a standalone site.  This feature is only available with Business or Gold licenses.', 'duplicator'); ?>"/></i></sup>
 			</td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
