@@ -66,8 +66,6 @@ if ($section == "info" || $section == '') {
 					$html = "";
 					//REMOVE CORE INSTALLER FILES
 					$installer_files = DUP_Server::getInstallerFiles();
-					//$installer_file_found = false;
-
 					$removed_files = false;
 					foreach ($installer_files as $filename => $path) {
 						$file_path = '';
@@ -86,6 +84,7 @@ if ($section == "info" || $section == '') {
 							$removed_files = true;
 						} else if (is_dir($path)) {
 							$file_path = $path;
+							
 							// Extra protection to ensure we only are deleting the installer directory
 							if(DUP_STR::contains($path, 'dup-installer')) {
 								DUP_IO::deleteTree($path);
