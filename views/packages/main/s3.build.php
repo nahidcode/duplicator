@@ -387,8 +387,8 @@ jQuery(document).ready(function ($)
 		$.ajax({
 			type: "POST",
 			cache: false,
+			dataType: "text",
 			url: ajaxurl,
-			dataType: "json",
 			timeout: 10000000,
 			data: data,
 			beforeSend: function () {
@@ -397,17 +397,31 @@ jQuery(document).ready(function ($)
 			complete: function () {
 				Duplicator.Pack.PostTransferCleanup(statusInterval, startTime);
 			},
-			success: function (data) {
+			success: function (respData, textStatus, xHr) {
+				try {
+					var data = Duplicator.parseJSON(respData);
+				} catch(err) {
+					console.error(err);
+					console.error('JSON parse failed for response data: ' + respData);
+					$('#dup-progress-bar-area').hide();
+					$('#dup-progress-area, #dup-msg-error').show(200);
+					var status = xHr.status + ' -' + data.statusText;
+					var response = (xHr.responseText != undefined && xHr.responseText.trim().length > 1) ? xHr.responseText.trim() : 'No client side error - see package log file';
+					$('#dup-msg-error-response-status span.data').html(status)
+					$('#dup-msg-error-response-text span.data').html(response);
+					console.log(xHr);
+					return false;
+				}
 				Duplicator.Pack.WireDownloadLinks(data);
 			},
-			error: function (jqxhr) {
+			error: function (xHr) {
 				$('#dup-progress-bar-area').hide();
 				$('#dup-progress-area, #dup-msg-error').show(200);
-				var status = jqxhr.status + ' -' + data.statusText;
-				var response = (jqxhr.responseText != undefined && jqxhr.responseText.trim().length > 1) ? jqxhr.responseText.trim() : 'No client side error - see package log file';
+				var status = xHr.status + ' -' + data.statusText;
+				var response = (xHr.responseText != undefined && xHr.responseText.trim().length > 1) ? xHr.responseText.trim() : 'No client side error - see package log file';
 				$('#dup-msg-error-response-status span.data').html(status)
 				$('#dup-msg-error-response-text span.data').html(response);
-				console.log(jqxhr);
+				console.log(xHr);
 			}
 		});
 		return false;
@@ -424,13 +438,26 @@ jQuery(document).ready(function ($)
 		$.ajax({
 			type: "POST",
 			timeout: <?php echo DUP_DupArchive::WorkerTimeInSec * 2000 ?>, // Double worker time and convert to ms
-			dataType: "json",
+			dataType: "text",
 			url: ajaxurl,
 			data: data,
 			complete: function () {
 				Duplicator.Pack.PostTransferCleanup(statusInterval, Duplicator.Pack.DupArchiveStartTime);
 			},
-			success: function (data) {
+			success: function (respData, textStatus, xHr) {
+				try {
+					var data = Duplicator.parseJSON(respData);
+				} catch(err) {
+					console.error(err);
+					console.error('JSON parse failed for response data: ' + respData);
+					console.log('DupArchive AJAX error!');
+					console.log("jqHr:");
+					console.log(xHr);
+					console.log("textStatus:");
+					console.log(textStatus);
+					Duplicator.Pack.HandleDupArchiveInterruption(xHr.responseText);
+					return false;
+				}
 
 				console.log("CreateDupArchive:AJAX success. Data equals:");
 
@@ -499,13 +526,13 @@ jQuery(document).ready(function ($)
 					Duplicator.Pack.HandleDupArchiveInterruption(errorString);
 				}
 			},
-			error: function (jqxhr, textStatus) {
+			error: function (xHr, textStatus) {
 				console.log('DupArchive AJAX error!');
 				console.log("jqHr:");
-				console.log(jqxhr);
+				console.log(xHr);
 				console.log("textStatus:");
 				console.log(textStatus);
-				Duplicator.Pack.HandleDupArchiveInterruption(jqxhr.responseText);
+				Duplicator.Pack.HandleDupArchiveInterruption(xHr.responseText);
 			}
 		});
 	};
@@ -520,21 +547,29 @@ jQuery(document).ready(function ($)
 		$.ajax({
 			type: "POST",
 			url: ajaxurl,
-			dataType: "json",
+			dataType: "text",
 			timeout: 10000000,
 			data: data,
-			success: function (data) {
-
-			if(data.report.status == 1) {
+			success: function (respData, textStatus, xHr) {
+				try {
+					var data = Duplicator.parseJSON(respData);
+				} catch(err) {
+					console.error(err);
+					console.error('JSON parse failed for response data: ' + respData);
+					console.log('Error retrieving build status');
+				console.log(xHr);
+					return false;
+				}
+				if(data.report.status == 1) {
 					$('#dup-progress-percent').html(data.payload.status + "%");
 				} else {
 					console.log('Error retrieving build status');
 					console.log(data);
 				}
 			},
-			error: function (jqxhr) {
+			error: function (xHr) {
 				console.log('Error retrieving build status');
-				console.log(jqxhr);
+				console.log(xHr);
 			}
 		});
 		return false;

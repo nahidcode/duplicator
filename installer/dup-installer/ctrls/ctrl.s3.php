@@ -271,8 +271,8 @@ if (!is_writable($wpconfig_ark_path)) {
 }
 
 $config_transformer = new WPConfigTransformer($wpconfig_ark_path);
-$config_transformer->update('constant', 'WP_HOME', $_POST['url_new'], array('normalize' => true));
-$config_transformer->update('constant', 'WP_SITEURL', $_POST['url_new'], array('normalize' => true));
+$config_transformer->update('constant', 'WP_HOME', $_POST['url_new'], array('normalize' => true, 'add' => false));
+$config_transformer->update('constant', 'WP_SITEURL', $_POST['url_new'], array('normalize' => true, 'add' => false));
 
 //SSL CHECKS
 if ($_POST['ssl_admin']) {    

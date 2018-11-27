@@ -1,5 +1,7 @@
 <?php
-if (!defined('DUPLICATOR_VERSION')) exit; // Exit if accessed directly
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
+
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.php');
 
 /**

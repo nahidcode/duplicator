@@ -504,7 +504,7 @@ DIALOG: Scan Results -->
 		<tr>
 			<td style="vertical-align: top"><b><?php esc_html_e('Build Mode:', 'duplicator');?></b></td>
 			<td style="line-height:18px">
-				<a href="?page=duplicator-settings" target="_blank"><?php echo esc_html($dbbuild_mode); ?></a>
+				<a href="?page=duplicator-settings&amp;tab=package" target="_blank"><?php echo esc_html($dbbuild_mode); ?></a>
 				<?php if ($mysqlcompat_on) :?>
 					<br/>
 					<small style="font-style:italic; color:maroon">
@@ -579,7 +579,9 @@ DIALOG: Scan Results -->
 
 	<small>
 		<?php esc_html_e('Path filters will be skipped during the archive process when enabled.', 'duplicator');	?>
-		<a href="<?php echo esc_url(DUPLICATOR_SITE_URL."/wp-admin/admin-ajax.php?action=duplicator_package_scan"); ?>" target="dup_report"><?php esc_html_e('[view json result report]', 'duplicator');?></a>
+		<a href="<?php echo wp_nonce_url(DUPLICATOR_SITE_URL . '/wp-admin/admin-ajax.php?action=duplicator_package_scan', 'duplicator_package_scan', 'nonce'); ?>" target="dup_report">
+			<?php esc_html_e('[view json result report]', 'duplicator');?>
+		</a>
 		<br/>
 		<?php esc_html_e('Auto filters are applied to prevent archiving other backup sets.', 'duplicator');	?>
 	</small><br/>
@@ -733,11 +735,21 @@ jQuery(document).ready(function($)
 			type: "POST",
 			cache: false,
 			url: ajaxurl,
-			dataType: "json",
 			timeout: 100000,
 			data: data,
 			complete: function() { },
-			success:  function() {Duplicator.Pack.rescan();},
+			success:  function(respData) {
+				try {
+					var data = Duplicator.parseJSON(respData);
+				} catch(err) {
+					console.error(err);
+					console.error('JSON parse failed for response data: ' + respData);
+					console.log(data);
+				alert("<?php esc_html_e('Error applying filters.  Please go back to Step 1 to add filter manually!', 'duplicator');?>");
+					return false;
+				}
+				Duplicator.Pack.rescan();
+			},
 			error: function(data) {
 				console.log(data);
 				alert("<?php esc_html_e('Error applying filters.  Please go back to Step 1 to add filter manually!', 'duplicator');?>");

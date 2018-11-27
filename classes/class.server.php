@@ -1,4 +1,5 @@
 <?php
+require_once (DUPLICATOR_PLUGIN_PATH . 'classes/utilities/class.u.php');
 
 /**
  * Used to get various pieces of information about the server environment
@@ -9,14 +10,11 @@
  * @package Duplicator
  * @subpackage classes/utilities
  * @copyright (c) 2017, Snapcreek LLC
- * 
+ *
  */
-require_once (DUPLICATOR_PLUGIN_PATH . 'classes/utilities/class.u.php');
 
 // Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
+if (! defined('DUPLICATOR_VERSION')) exit;
 
 class DUP_Server {
 
@@ -208,14 +206,15 @@ class DUP_Server {
      */
     public static function getInstallerFiles() {
         // alphanumeric 7 time, then -(dash), then 8 digits
+
         $retArr = array(
                 basename(DUPLICATOR_INSTALLER_DIRECTORY) . ' ' . esc_html__('(directory)', 'duplicator') => DUPLICATOR_INSTALLER_DIRECTORY,
                 DUPLICATOR_INSTALL_PHP => DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_PHP,
                 DUPLICATOR_INSTALL_BAK => DUPLICATOR_WPROOTPATH . DUPLICATOR_INSTALL_BAK,
-                'dup-installer-bootlog__[HASH].txt' => DUPLICATOR_WPROOTPATH .'dup-installer-bootlog__*.txt',
+                'dup-installer-bootlog__[HASH].txt' => DUPLICATOR_WPROOTPATH .'dup-installer-bootlog__'.DUPLICATOR_INSTALLER_HASH_PATTERN.'.txt',
             );
         if (DUPLICATOR_INSTALL_SITE_OVERWRITE_ON) {
-            $retArr['dup-wp-config-arc__[HASH].txt'] = DUPLICATOR_WPROOTPATH . 'dup-wp-config-arc__*.txt';
+            $retArr['dup-wp-config-arc__[HASH].txt'] = DUPLICATOR_WPROOTPATH . 'dup-wp-config-arc__'.DUPLICATOR_INSTALLER_HASH_PATTERN.'.txt';
         }
         return $retArr;
     }

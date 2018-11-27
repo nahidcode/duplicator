@@ -1,5 +1,6 @@
 <?php
-if (!defined('DUPLICATOR_VERSION')) exit; // Exit if accessed directly
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
 
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/utilities/class.u.php');
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.php');
@@ -448,7 +449,7 @@ class DUP_Package
         DUP_Log::Trace('rundupa1');
 
         // Note: Had to add extra size check of 800 since observed bad sql when filter was on 
-        if (!strstr($sql_done_txt, 'DUPLICATOR_PRO_MYSQLDUMP_EOF') || (!$this->Database->FilterOn && $sql_temp_size < 5120) || ($this->Database->FilterOn && $this->Database->info->tablesFinalCount > 0 && $sql_temp_size < 800)) {
+        if (!strstr($sql_done_txt, 'DUPLICATOR_MYSQLDUMP_EOF') || (!$this->Database->FilterOn && $sql_temp_size < 5120) || ($this->Database->FilterOn && $this->Database->info->tablesFinalCount > 0 && $sql_temp_size < 800)) {
             DUP_Log::Trace('rundupa2');
 
             $error_text = "ERROR: SQL file not complete.  The file {$sql_temp_path} looks too small ($sql_temp_size bytes) or the end of file marker was not found.";

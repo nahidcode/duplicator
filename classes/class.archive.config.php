@@ -1,9 +1,11 @@
 <?php
-defined("ABSPATH") or die("");
-
 /**
  * @copyright 2016 Snap Creek LLC
  */
+
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
+
 class DUP_Archive_Config
 {
     //READ-ONLY: COMPARE VALUES
@@ -34,9 +36,9 @@ class DUP_Archive_Config
     public $dbpass;
     public $cache_wp;
     public $cache_path;
-    
+
     // MULTISITE
     public $mu_mode;
-    
+
     public $wp_tableprefix;
 }

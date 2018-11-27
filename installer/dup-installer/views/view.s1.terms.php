@@ -31,7 +31,7 @@ TERMS & NOTICES DIALOG
 			<li>installer.php</li>
 			<li>installer-backup.php</li>
 			<li>dup-installer-bootlog__[HASH].txt</li>
-			<li>dup-wp-config-arc_[HASH].txt</li>
+			<!--li>dup-wp-config-arc_[HASH].txt</li-->
 			<li>[HASH]_archive.zip/daf</li>
 		</ul>
 

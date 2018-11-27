@@ -12,9 +12,7 @@
  */
 
 // Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION')) {
-    exit;
-}
+if (! defined('DUPLICATOR_VERSION')) exit;
 
 class DUP_ScanCheck
 {
@@ -153,7 +151,7 @@ class DUP_ScanCheck
 								}
 							}
 						}
-						
+
                         $this->dirCount++;
                     }
                 }
@@ -163,9 +161,9 @@ class DUP_ScanCheck
     }
 
     /**
-     * Seperation logic for supporting how different operating systems work
+     * Separation logic for supporting how different operating systems work
      *
-     * @param string $target A valid file path 
+     * @param string $target A valid file path
      *
      * @return bool  Is the target a sym link
      */

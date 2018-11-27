@@ -350,7 +350,6 @@ jQuery(document).ready(function($)
 		$.ajax({
 			type: "POST",
 			url: ajaxurl,
-			dataType: "json",
 			data: {action : 'duplicator_package_delete', duplicator_delid : list, nonce: '<?php echo esc_js($ajax_nonce); ?>' },
 			complete: function(data) { 
 				Duplicator.ReloadWindow(data); 

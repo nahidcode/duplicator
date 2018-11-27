@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
+
 require_once(DUPLICATOR_PLUGIN_PATH.'/ctrls/ctrl.base.php');
 require_once(DUPLICATOR_PLUGIN_PATH.'/classes/utilities/class.u.scancheck.php');
 require_once(DUPLICATOR_PLUGIN_PATH.'/classes/utilities/class.u.json.php');
@@ -15,7 +18,7 @@ require_once(DUPLICATOR_PLUGIN_PATH.'/classes/package/duparchive/class.pack.arch
  */
 function duplicator_package_scan()
 {
-    $nonce = sanitize_text_field($_POST['nonce']);
+    $nonce = sanitize_text_field($_REQUEST['nonce']);
 	if (!wp_verify_nonce($nonce, 'duplicator_package_scan')) {
 		die('An unathorized security request was made to this page. Please try again!');
 	}
@@ -262,7 +265,8 @@ function duplicator_package_delete()
 
     $json['ids']     = "{$postIDs}";
     $json['removed'] = $delCount;
-    die(json_encode($json));
+    echo json_encode($json);
+    die();
 }
 
 /**

@@ -11,9 +11,11 @@ defined("ABSPATH") or die("");
  * @license	https://opensource.org/licenses/GPL-3.0 GNU Public License
  */
 
+// Exit if accessed directly
+if (! defined('DUPLICATOR_VERSION')) exit;
+
 class DUP_Zip_U
 {
-
     /**
      * Add a directory to an existing ZipArchive object
      *
@@ -22,7 +24,7 @@ class DUP_Zip_U
      * @param bool       $retainDirectory   Should the full directory path be retained in the archive
      *
      * @return bool Returns true if the directory was added to the object
-     */    
+     */
 	public static function addDirWithZipArchive(&$zipArchive, $directoryPath, $retainDirectory, $localPrefix, $isCompressed)
     {
         $success = true;
@@ -38,7 +40,7 @@ class DUP_Zip_U
             }
 
             $local_name = $localPrefix . $local_name;
-            
+
             if (!is_dir($path)) {
                 if (is_readable($path)) {
                        $added = DUP_Zip_U::addFileToZipArchive($zipArchive, $path, $local_name, $isCompressed);
@@ -58,7 +60,7 @@ class DUP_Zip_U
 
         return $success;
     }
-  
+
 
     public static function extractFiles($archiveFilepath, $relativeFilesToExtract, $destinationDirectory, $useShellUnZip)
     {
@@ -103,7 +105,7 @@ class DUP_Zip_U
      * @param string    $newName            Rename the $sourceFile if needed
      *
      * @return bool Returns true if the file was added to the zip file
-     */    
+     */
 	public static function zipFile($sourceFilePath, $zipFilePath, $deleteOld, $newName, $isCompressed)
     {
         if ($deleteOld && file_exists($zipFilePath)) {
@@ -145,7 +147,7 @@ class DUP_Zip_U
     }
 
     public static function addFileToZipArchive(&$zipArchive, $filepath, $localName, $isCompressed)
-    {    
+    {
 		$added = $zipArchive->addFile($filepath, $localName);
 
         return $added;
