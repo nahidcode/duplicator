@@ -49,10 +49,9 @@ error_reporting(E_ERROR);
 
 if (! $GLOBALS['DUPX_AC']->exportOnlyDB) {
 
-	// Unused so commented
-	// $wpConfigPath	= "{$GLOBALS['DUPX_ROOT']}/wp-config.php";
+	$post_archive_engine = DUPX_U::sanitize_text_field($_POST['archive_engine']);
 
-	if (($_POST['archive_engine'] == 'manual') || $_POST['archive_engine'] == 'duparchive'){
+	if ($post_archive_engine == 'manual'){
 		if (!file_exists($wpconfig_ark_path) && !file_exists("database.sql")) {
 			DUPX_Log::error(ERR_ZIPMANUAL);
 		}
@@ -63,7 +62,6 @@ if (! $GLOBALS['DUPX_AC']->exportOnlyDB) {
 	}
 
 	//ERR_ZIPMANUAL
-	$post_archive_engine = DUPX_U::sanitize_text_field($_POST['archive_engine']);
 	if ($post_archive_engine != 'manual' && !$GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
 		//ERR_CONFIG_FOUND
 		if (file_exists($wpconfig_ark_path)) {
