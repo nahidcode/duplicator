@@ -1,7 +1,7 @@
 <?php
 	//The help for both pro and lite are shared.  Pro is where the master lives.  Use the flag below to
     //indicate if this help lives in lite or pro
-	$pro_version = true;
+	//$pro_version = true;
 ?>
 <!-- =========================================
 HELP FORM -->
@@ -100,7 +100,7 @@ STEP 1
 	<br/><br/>
 
 
-    The "Extract Archive" screen is separated into four sections:
+    Step 1 of the installer is separated into four sections for pro and three for lite.  Below is an overview of each area:
 	<br/><br/>
 
 	<h3>Archive</h3>
@@ -165,6 +165,8 @@ STEP 1
 
 				<b>All Directories:</b> Check the 'All Directories' check-box and enter in the desired <a href="http://php.net/manual/en/function.chmod.php" target="_blank">chmod command</a>
 				to recursively set octal value on all the directories being extracted.  Typically this value is 755 on most servers and hosts.
+				<br/><br/>
+				<i>Note: These settings only apply to Linux operating systems</i>
 			</td>
 		</tr>
 		<tr>
@@ -544,7 +546,6 @@ STEP 4
 		<li>installer.php</li>
 		<li>installer-backup.php</li>
 		<li>dup-installer-bootlog__[HASH].txt</li>
-		<!--li>dup-wp-config-arc_[HASH].txt</li-->
 		<li>archive.zip/daf</li>
 	</ul>
 	<br/><br/>
