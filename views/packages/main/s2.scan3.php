@@ -745,7 +745,7 @@ jQuery(document).ready(function($)
 					console.error(err);
 					console.error('JSON parse failed for response data: ' + respData);
 					console.log(data);
-				alert("<?php esc_html_e('Error applying filters.  Please go back to Step 1 to add filter manually!', 'duplicator');?>");
+					alert("<?php esc_html_e('Error applying filters.  Please go back to Step 1 to add filter manually!', 'duplicator');?>");
 					return false;
 				}
 				Duplicator.Pack.rescan();

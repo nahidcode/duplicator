@@ -33,8 +33,8 @@
 	.dupx-warn {display:inline-block; color:#555;}
 	.dupx-notice {display:inline-block; color:#000;}
 	i[data-tooltip].fa-question-circle {cursor: pointer; color:#C3C3C3}
-	div.status-badge-pass {float:right; border-radius:4px; color:#fff; padding:0 3px 0 3px;  font-size:11px; min-width:30px; text-align:center;background-color:#418446; font-weight:normal; }
-	div.status-badge-fail {float:right; border-radius:4px; color:#fff; padding:0 3px 0 3px;  font-size:11px; min-width:30px; text-align:center;background-color:maroon; font-weight:normal;}
+	div.status-badge-pass {float:right; border-radius:4px; color:#fff; padding:0 3px 0 3px;  font-size:11px !important; min-width:30px; text-align:center;background-color:#418446; font-weight:normal; }
+	div.status-badge-fail {float:right; border-radius:4px; color:#fff; padding:0 3px 0 3px;  font-size:11px !important; min-width:30px; text-align:center;background-color:maroon; font-weight:normal;}
 
     button.default-btn, input.default-btn {
 		cursor:pointer; color:#fff; font-size:16px; border-radius:5px;	padding:7px 25px 5px 25px;
