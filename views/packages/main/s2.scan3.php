@@ -734,6 +734,7 @@ jQuery(document).ready(function($)
 		$.ajax({
 			type: "POST",
 			cache: false,
+			dataType: "text",
 			url: ajaxurl,
 			timeout: 100000,
 			data: data,
