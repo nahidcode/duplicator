@@ -1,4 +1,6 @@
 <?php
+defined("ABSPATH") or die("");
+
 global $wp_version;
 global $wpdb;
 
@@ -34,6 +36,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'save') {
     DUP_Util::initSnapshotDirectory();
 }
 
+$is_shellexec_on        = DUP_Util::hasShellExec();
 $package_zip_flush		= DUP_Settings::Get('package_zip_flush');
 $phpdump_chunkopts		= array("20", "100", "500", "1000", "2000");
 $phpdump_qrylimit		= DUP_Settings::Get('package_phpdump_qrylimit');
@@ -107,9 +110,28 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
         <tr>
             <th scope="row"><label><?php esc_html_e("SQL Script", 'duplicator'); ?></label></th>
             <td>
-                <?php if (!DUP_Util::hasShellExec()) : ?>
-					<input type="radio" disabled="true" />
-                    <label><?php esc_html_e("Mysqldump", 'duplicator'); ?> <i style="font-size:12px">(<?php esc_html_e("recommended", 'duplicator'); ?>)</i></label>
+                <div class="engine-radio <?php echo ($is_shellexec_on) ? '' : 'engine-radio-disabled'; ?>">
+                    <input type="radio" name="package_dbmode" value="mysql" id="package_mysqldump" <?php echo ($package_mysqldump) ? 'checked="checked"' : ''; ?> />
+                    <label for="package_mysqldump"><?php esc_html_e("Mysqldump", 'duplicator'); ?></label>
+                </div>
+
+                <div class="engine-radio" >
+                    <!-- PHP MODE -->
+                    <?php if (!$mysqlDumpFound) : ?>
+                        <input type="radio" name="package_dbmode" id="package_phpdump" value="php" checked="checked" />
+                    <?php else : ?>
+                        <input type="radio" name="package_dbmode" id="package_phpdump" value="php" <?php echo (!$package_mysqldump) ? 'checked="checked"' : ''; ?> />
+                    <?php endif; ?>
+                    <label for="package_phpdump"><?php esc_html_e("PHP Code", 'duplicator'); ?></label>
+                </div>
+
+                <br style="clear:both"/><br/>
+
+                <!-- SHELL EXEC  -->
+                <div class="engine-sub-opts" id="dbengine-details-1" style="display:none">
+                <?php if (!$is_shellexec_on) : ?>
+					<!--<input type="radio" disabled="true" />
+                    <label><?php esc_html_e("Mysqldump", 'duplicator'); ?> <i style="font-size:12px">(<?php esc_html_e("recommended", 'duplicator'); ?>)</i></label> -->
                     <p class="description" style="width:550px; margin:5px 0 0 20px">
                         <?php
 							_e("This server does not support the PHP shell_exec function which is required for mysqldump to run. ", 'duplicator');
@@ -132,8 +154,8 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
 						<br/><br/>
                     </p>
                 <?php else : ?>
-                    <input type="radio" name="package_dbmode" value="mysql" id="package_mysqldump" <?php echo ($package_mysqldump) ? 'checked="checked"' : ''; ?> />
-                    <label for="package_mysqldump"><?php esc_html_e("Mysqldump", 'duplicator'); ?></label><br/>
+                    <!--<input type="radio" name="package_dbmode" value="mysql" id="package_mysqldump" <?php echo ($package_mysqldump) ? 'checked="checked"' : ''; ?> />
+                    <label for="package_mysqldump"><?php esc_html_e("Mysqldump", 'duplicator'); ?></label><br/> -->
 
                     <div style="margin:5px 0px 0px 25px">
                         <?php if ($mysqlDumpFound) : ?>
@@ -179,30 +201,45 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
                     </div>
 
                 <?php endif; ?>
+                </div>
 
-				<!-- PHP MODE -->
-				<?php if (! $mysqlDumpFound) : ?>
-					<input type="radio" name="package_dbmode" id="package_phpdump" value="php" checked="checked" />
-				<?php else : ?>
-					<input type="radio" name="package_dbmode" id="package_phpdump" value="php" <?php echo (! $package_mysqldump) ? 'checked="checked"' : ''; ?> />
-				<?php endif; ?>
+        		<!-- PHP OPTION -->
+                <div class="engine-sub-opts" id="dbengine-details-2" style="display:none; line-height: 35px; margin-top:-5px">
+                    <!-- PRO ONLY -->
+                    <label><?php esc_html_e("Mode",'duplicator'); ?>:</label>
+                    <select name="">
+                        <option  disabled="disabled"  value="0">
+                            <?php esc_html_e("Multi-Threaded",'duplicator'); ?>
+                        </option>
+                        <option selected="selected" value="1">
+                            <?php esc_html_e("Single-Threaded",'duplicator'); ?>
+                        </option>
+                    </select>
+                    <i style="margin-right:7px;" class="fa fa-question-circle"
+				data-tooltip-title="<?php esc_attr_e("PHP Code Mode:",'duplicator'); ?>"
+				data-tooltip="<?php
+                    esc_attr_e('Single-Threaded mode attempts to create the entire database script in one request.  Multi-Threaded mode allows the database script '
+                        . 'to be chunked over multiple requests.  Multi-Threaded mode is typically slower but much more reliable especially for larger databases.','duplicator');
+                    esc_attr_e('<br><br><b>Multi-Threaded mode is available in Duplicator Pro.</b>','duplicator');
+                    ?>"></i>
 
-                <label for="package_phpdump"><?php esc_html_e("PHP Code", 'duplicator'); ?></label> &nbsp;
 
-				<div style="margin:5px 0px 0px 25px">
-					<i class="fa fa-question-circle"
-					   data-tooltip-title="<?php esc_attr_e("PHP Query Limit Size", 'duplicator'); ?>"
-					   data-tooltip="<?php esc_attr_e('A higher limit size will speed up the database build time, however it will use more memory.  If your host has memory caps start off low.', 'duplicator'); ?>"></i>
-					<label for="package_phpdump_qrylimit"><?php esc_html_e("Query Limit Size", 'duplicator'); ?></label> &nbsp;
-					<select name="package_phpdump_qrylimit" id="package_phpdump_qrylimit">
-						<?php
-							foreach($phpdump_chunkopts as $value) {
-								$selected = ( $phpdump_qrylimit == $value ? "selected='selected'" : '' );
-								echo "<option {$selected} value='".esc_attr($value)."'>" . number_format($value)  . '</option>';
-							}
-						?>
-					</select>
-				</div><br/>
+                    <div style="margin:5px 0px 0px 0px">
+                       <label for="package_phpdump_qrylimit"><?php esc_html_e("Query Limit Size", 'duplicator'); ?></label> &nbsp;
+                        <select name="package_phpdump_qrylimit" id="package_phpdump_qrylimit">
+                            <?php
+                                foreach($phpdump_chunkopts as $value) {
+                                    $selected = ( $phpdump_qrylimit == $value ? "selected='selected'" : '' );
+                                    echo "<option {$selected} value='".esc_attr($value)."'>" . number_format($value)  . '</option>';
+                                }
+                            ?>
+                        </select>
+                        <i class="fa fa-question-circle"
+                           data-tooltip-title="<?php esc_attr_e("PHP Query Limit Size", 'duplicator'); ?>"
+                           data-tooltip="<?php esc_attr_e('A higher limit size will speed up the database build time, however it will use more memory.  If your host has memory caps start off low.', 'duplicator'); ?>"></i>
+
+                    </div>
+                </div>
             </td>
         </tr>
 		<tr>
@@ -270,6 +307,23 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
 <script>
 jQuery(document).ready(function($)
 {
+    Duplicator.Pack.SetDBEngineMode = function()
+	{
+		var isMysqlDump	= $('#package_mysqldump').is(':checked');
+		var isPHPMode	= $('#package_phpdump').is(':checked');
+		var isPHPChunkMode = $('#package_phpchunkingdump').is(':checked');
+
+		$('#dbengine-details-1, #dbengine-details-2').hide();
+		switch (true) {
+			case isMysqlDump :
+                $('#dbengine-details-1').show();
+                break;
+			case isPHPMode	 :
+			case isPHPChunkMode :
+				$('#dbengine-details-2').show();
+				break;
+		}
+	};
 
 	Duplicator.Pack.ToggleArchiveEngine = function ()
 	{
@@ -283,7 +337,13 @@ jQuery(document).ready(function($)
 		}
 	};
 
+    Duplicator.Pack.SetDBEngineMode();
+    $('#package_mysqldump , #package_phpdump').change(function() {
+        Duplicator.Pack.SetDBEngineMode();
+    });
 	Duplicator.Pack.ToggleArchiveEngine();
+
+
 	$('#package_ui_created').val(<?php echo esc_js($package_ui_created); ?> );
 
 });
