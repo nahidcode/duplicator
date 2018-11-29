@@ -202,7 +202,7 @@ VIEW: STEP 3- INPUT -->
 			<div class="help-target">
 				<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
 			</div><br/>
-			<div class="hdr-sub3">Scan Options</div>
+			<div class="hdr-sub3">Database Scan Options</div>
 			<table  class="s3-opts">
 				<tr>
 					<td style="width:105px">Site URL:</td>
