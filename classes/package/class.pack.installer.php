@@ -163,10 +163,7 @@ class DUP_Installer
         $ac->dbname      = $this->Package->Installer->OptsDBName;
         $ac->dbuser      = $this->Package->Installer->OptsDBUser;
         $ac->dbpass      = '';
-        $ac->cache_wp    = $this->Package->Installer->OptsCacheWP;
-        $ac->cache_path  = $this->Package->Installer->OptsCachePath;
-
-		$ac->wp_tableprefix = $wpdb->base_prefix;
+        $ac->wp_tableprefix = $wpdb->base_prefix;
 
         $ac->mu_mode = DUP_MU::getMode();
 

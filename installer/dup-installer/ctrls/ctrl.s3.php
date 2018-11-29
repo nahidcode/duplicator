@@ -38,8 +38,6 @@ if (isset($_POST['url_new'])) {
 
 
 $_POST['ssl_admin']		= isset($_POST['ssl_admin']) ? true : false;
-$_POST['cache_wp']		= isset($_POST['cache_wp']) ? true : false;
-$_POST['cache_path']	= isset($_POST['cache_path']) ? true : false;
 $_POST['exe_safe_mode']	= isset($_POST['exe_safe_mode']) ? $_POST['exe_safe_mode'] : 0;
 $_POST['config_mode']	= (isset($_POST['config_mode'])) ? $_POST['config_mode'] : 'NEW';
 

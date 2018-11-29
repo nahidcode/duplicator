@@ -41,9 +41,7 @@ class DUPX_ArchiveConfig
 	public $dbuser;
 	public $dbpass;
 
-	//ADV OPTS
-	public $cache_wp;
-	public $cache_path;
+	//ADV OPTS	
 	public $wproot;
 	public $url_old;
 	public $opts_delete;
