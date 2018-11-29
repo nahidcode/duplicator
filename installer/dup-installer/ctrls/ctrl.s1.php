@@ -29,7 +29,7 @@ if($_POST['archive_engine'] == 'manual') {
 //ACTION VARS
 $ajax1_start		= DUPX_U::getMicrotime();
 $root_path			= $GLOBALS['DUPX_ROOT'];
-$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) ? 
+$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) ?
 						"{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt"
 					:	"{$root_path}/wp-config.php";
 
@@ -112,7 +112,7 @@ $target	 = $root_path;
 
 $post_archive_engine = DUPX_U::sanitize_text_field($_POST['archive_engine']);
 switch ($post_archive_engine) {
-	
+
 	//-----------------------
 	//MANUAL EXTRACTION
 	case 'manual':
@@ -126,7 +126,7 @@ switch ($post_archive_engine) {
 		$shell_exec_path = DUPX_Server::get_unzip_filepath();
 		DUPX_Log::info("ZIP:\tShell Exec Unzip");
 
-		$command = "{$shell_exec_path} -o -qq \"{$archive_path}\" -d {$target} 2>&1";
+		$command = "{$shell_exec_path} -o -qq \"{$archive_path}\" -d \"{$target}\" 2>&1";
 		if ($_POST['zip_filetime'] == 'original') {
 			DUPX_Log::info("\nShell Exec Current does not support orginal file timestamp please use ZipArchive");
 		}
@@ -230,7 +230,7 @@ switch ($post_archive_engine) {
 			DUPX_LOG::info("DAWS STATUS: UNKNOWN since extra_data wasn't in post!");
 		}
 
-		break;	
+		break;
 }
 
 
