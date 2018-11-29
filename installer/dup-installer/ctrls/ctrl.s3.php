@@ -355,6 +355,23 @@ if ($config_transformer->exists('constant', 'WPMU_PLUGIN_URL')) {
 	}
 }
 
+// COOKIE_DOMAIN
+if ($config_transformer->exists('constant', 'COOKIE_DOMAIN')) {
+	
+	$post_url_old = DUPX_U::sanitize_text_field($_POST['url_old']);
+	$post_url_new = DUPX_U::sanitize_text_field($_POST['url_new']);
+
+	$old_domain = preg_replace("(^https?://)", "", $post_url_old);
+	$new_domain = preg_replace("(^https?://)", "", $post_url_new);
+
+	$old_cookie_domain = $config_transformer->get_value('constant', 'COOKIE_DOMAIN');
+	$new_cookie_domain = str_replace($old_domain, $new_domain, $old_cookie_domain, $count);
+
+	if ($count > 0) {
+		$config_transformer->update('constant', 'COOKIE_DOMAIN', $new_cookie_domain, array('normalize' => true));
+	}
+}
+
 $db_port    = is_int($_POST['dbport'])   ? DUPX_U::sanitize_text_field($_POST['dbport']) : 3306;
 $db_host	= ($db_port == 3306) ? DUPX_U::sanitize_text_field($_POST['dbhost']) : DUPX_U::sanitize_text_field($_POST['dbhost']).':'.DUPX_U::sanitize_text_field($db_port);
 $db_name	= isset($_POST['dbname']) ? DUPX_U::sanitize_text_field($_POST['dbname']) : '';
