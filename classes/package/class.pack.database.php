@@ -239,6 +239,7 @@ class DUP_Database
         $cmd .= ' --single-transaction';
         $cmd .= ' --hex-blob';
         $cmd .= ' --skip-add-drop-table';
+        $cmd .= ' --routines';
 
         //Compatibility mode
         if ($mysqlcompat_on) {
@@ -309,7 +310,7 @@ class DUP_Database
 
         $wpdb->query("SET session wait_timeout = ".DUPLICATOR_DB_MAX_TIME);
         $handle = fopen($this->dbStorePath, 'w+');
-        $tables = $wpdb->get_col('SHOW TABLES');
+        $tables	 = $wpdb->get_col("SHOW FULL TABLES WHERE Table_Type != 'VIEW'");
 
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
         $tblAllCount  = count($tables);
@@ -343,6 +344,24 @@ class DUP_Database
             //@fwrite($handle, $sql_del);
             $create = $wpdb->get_row("SHOW CREATE TABLE `{$table}`", ARRAY_N);
             @fwrite($handle, "{$create[1]};\n\n");
+        }
+
+        $procedures = $wpdb->get_col("SHOW PROCEDURE STATUS WHERE `Db` = '{$wpdb->dbname}'",1);
+        if(count($procedures)){
+            foreach ($procedures as $procedure){
+                @fwrite($handle, "DELIMITER ;;\n");
+                $create = $wpdb->get_row("SHOW CREATE PROCEDURE `{$procedure}`", ARRAY_N);
+                @fwrite($handle, "{$create[2]} ;;\n");
+                @fwrite($handle, "DELIMITER ;\n\n");
+            }
+        }
+
+        $views = $wpdb->get_col("SHOW FULL TABLES WHERE Table_Type = 'VIEW'");
+        if(count($views)){
+            foreach ($views as $view){
+                $create = $wpdb->get_row("SHOW CREATE VIEW `{$view}`", ARRAY_N);
+                @fwrite($handle, "{$create[1]};\n\n");
+            }
         }
 
         $table_count = count($tables);
