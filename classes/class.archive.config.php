@@ -34,8 +34,6 @@ class DUP_Archive_Config
     public $dbname;
     public $dbuser;
     public $dbpass;
-    public $cache_wp;
-    public $cache_path;
 
     // MULTISITE
     public $mu_mode;
