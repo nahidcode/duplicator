@@ -286,8 +286,17 @@ if ($_POST['cache_wp']) {
 }
 
 // Cache: [ ] Keep Home Path
-if (!$_POST['cache_path']) {
-	$config_transformer->update('constant', 'WPCACHEHOME', '', array('add' => false, 'normalize' => true));
+if ($_POST['cache_path']) {
+	if ($config_transformer->exists('constant', 'WPCACHEHOME')) {
+		$wpcachehome_const_val = $config_transformer->get_value('constant', 'WPCACHEHOME');
+		$wpcachehome_const_val = DUPX_U::wp_normalize_path($wpcachehome_const_val);
+		$wpcachehome_new_const_val = str_replace($_POST['path_old'], $_POST['path_new'], $wpcachehome_const_val, $count);
+		if ($count > 0) {
+			$config_transformer->update('constant', 'WPCACHEHOME', $wpcachehome_new_const_val, array('normalize' => true));
+		}
+	}
+} else {
+	$config_transformer->remove('constant', 'WPCACHEHOME');
 }
 
 if ($config_transformer->exists('constant', 'WP_CONTENT_DIR')) {

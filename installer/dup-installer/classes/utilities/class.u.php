@@ -1485,5 +1485,57 @@ class DUPX_U
 	public static function stripslashes_from_strings_only($value) {
 		return is_string($value) ? stripslashes($value) : $value;
 	}
+
+	
+	/**
+	 * Normalize a filesystem path.
+	 *
+	 * On windows systems, replaces backslashes with forward slashes
+	 * and forces upper-case drive letters.
+	 * Allows for two leading slashes for Windows network shares, but
+	 * ensures that all other duplicate slashes are reduced to a single.
+	 *
+	 * @param string $path Path to normalize.
+	 * @return string Normalized path.
+	 */
+	public static function wp_normalize_path( $path ) {
+		$wrapper = '';
+		if ( self::wp_is_stream( $path ) ) {
+			list( $wrapper, $path ) = explode( '://', $path, 2 );
+			$wrapper .= '://';
+		}
+
+		// Standardise all paths to use /
+		$path = str_replace( '\\', '/', $path );
+
+		// Replace multiple slashes down to a singular, allowing for network shares having two slashes.
+		$path = preg_replace( '|(?<=.)/+|', '/', $path );
+
+		// Windows paths should uppercase the drive letter
+		if ( ':' === substr( $path, 1, 1 ) ) {
+			$path = ucfirst( $path );
+		}
+
+		return $wrapper . $path;
+	}
+
+	/**
+	 * Test if a given path is a stream URL
+	 *
+	 * @param string $path The resource path or URL.
+	 * @return bool True if the path is a stream URL.
+	 */
+	public static function wp_is_stream( $path ) {
+		if ( false === strpos( $path, '://' ) ) {
+			// $path isn't a stream
+			return false;
+		}
+
+		$wrappers    = stream_get_wrappers();
+		$wrappers    = array_map( 'preg_quote', $wrappers );
+		$wrappers_re = '(' . join( '|', $wrappers ) . ')';
+
+		return preg_match( "!^$wrappers_re://!", $path ) === 1;
+	}
 }
 DUPX_U::init();
