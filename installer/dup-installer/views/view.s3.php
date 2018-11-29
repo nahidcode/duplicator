@@ -319,10 +319,7 @@ VIEW: STEP 3- INPUT -->
 					<td></td>
 				</tr>
 			</table><br/>
-			<i>Take full control of your WordPress configuration file with
-				<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=wpconfig" target="_blank">
-					Duplicator Pro
-				</a>
+			<i>Need more control? <a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=wpconfig" target="_blank">Duplicator Pro</a> lets you change many more wp-config settings.
 			</i>
 		</div>
 	</div>

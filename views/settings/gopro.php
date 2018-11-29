@@ -171,10 +171,19 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 			<td class="check-column"><i class="fa fa-check"></i></td>
 		</tr>
         <tr>
-			<td class="feature-column"><?php esc_html_e('Installer Regenerates Salts', 'duplicator') ?><sup>
+			<td class="feature-column"><?php esc_html_e(' Regenerate Salts', 'duplicator') ?><sup>
 					<i  class="fa fa-question-circle dup-gopro-help"
-						data-tooltip-title="<?php esc_attr_e("Multisite", 'duplicator'); ?>"
+						data-tooltip-title="<?php esc_attr_e("Regenerate Salts", 'duplicator'); ?>"
                         data-tooltip="<?php esc_attr_e('Installer contains option to regenerate salts in the wp-config.php file.  This feature is only available with Freelancer, Business or Gold licenses.', 'duplicator'); ?>"/></i></sup>
+			</td>
+			<td class="check-column"></td>
+			<td class="check-column"><i class="fa fa-check"></i></td>
+		</tr>
+                <tr>
+			<td class="feature-column"><?php esc_html_e('WP-Config Control Plus', 'duplicator') ?><sup>
+					<i  class="fa fa-question-circle dup-gopro-help"
+						data-tooltip-title="<?php esc_attr_e("WP-Config Control Plus", 'duplicator'); ?>"
+                        data-tooltip="<?php esc_attr_e('Control many wp-config.php settings right from the installer!', 'duplicator'); ?>"/></i></sup>
 			</td>
 			<td class="check-column"></td>
 			<td class="check-column"><i class="fa fa-check"></i></td>
