@@ -145,131 +145,157 @@ VIEW: STEP 3- INPUT -->
 	<div class="hdr-sub1 toggle-hdr" data-type="toggle" data-target="#s3-adv-opts">
 		<a href="javascript:void(0)"><i class="fa fa-plus-square"></i>Options</a>
 	</div>
-	<div id='s3-adv-opts' style="display:none;">
-		<div class="help-target">
-			<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
-		</div><br/>
+	<div id="s3-adv-opts" style="display:none;">
 
-		<!-- NEW ADMIN ACCOUNT -->
-		<div class="hdr-sub3">New Admin Account</div>
-		<div style="text-align: center">
-			<i style="color:gray;font-size: 11px">This feature is optional.  If the username already exists the account will NOT be created or updated.</i>
+	<!-- START TABS -->
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-admin-account">Admin Account</a></li>
+			<li><a href="#tabs-scan-options">Scan Options</a></li>
+			<li><a href="#tabs-wp-config-file">WP-Config File</a></li>
+		</ul>
+
+		<!-- =====================
+		ADMIN TAB -->
+		<div id="tabs-admin-account">
+			<div class="help-target">
+				<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
+			</div><br/>
+
+			<div class="hdr-sub3">New Admin Account</div>
+			<div style="text-align: center">
+				<i style="color:gray;font-size: 11px">This feature is optional.  If the username already exists the account will NOT be created or updated.</i>
+			</div>
+
+			<table class="s3-opts" style="margin-top:7px">
+				<tr>
+					<td>Username:</td>
+					<td><input type="text" name="wp_username" id="wp_username" value="" title="4 characters minimum" placeholder="(4 or more characters)" /></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="text" name="wp_password" id="wp_password" value="" title="6 characters minimum"  placeholder="(6 or more characters)" /></td>
+				</tr>
+				<tr>
+					<td>Mail:</td>
+					<td><input type="text" name="wp_mail" id="wp_mail" value="" title=""  placeholder="" /></td>
+				</tr>
+				<tr>
+					<td>Nickname:</td>
+					<td><input type="text" name="wp_nickname" id="wp_nickname" value="" title="if username is empty"  placeholder="(if username is empty)" /></td>
+				</tr>
+				<tr>
+					<td>First name:</td>
+					<td><input type="text" name="wp_first_name" id="wp_first_name" value="" title="optional"  placeholder="(optional)" /></td>
+				</tr>
+				<tr>
+					<td>Last name:</td>
+					<td><input type="text" name="wp_last_name" id="wp_last_name" value="" title="optional"  placeholder="(optional)" /></td>
+				</tr>
+			</table>
+			<br/><br/>
 		</div>
 
-		<table class="s3-opts" style="margin-top:7px">
-			<tr>
-				<td>Username:</td>
-				<td><input type="text" name="wp_username" id="wp_username" value="" title="4 characters minimum" placeholder="(4 or more characters)" /></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type="text" name="wp_password" id="wp_password" value="" title="6 characters minimum"  placeholder="(6 or more characters)" /></td>
-			</tr>
-            <tr>
-				<td>Mail:</td>
-				<td><input type="text" name="wp_mail" id="wp_mail" value="" title=""  placeholder="" /></td>
-			</tr>
-            <tr>
-				<td>Nickname:</td>
-				<td><input type="text" name="wp_nickname" id="wp_nickname" value="" title="if username is empty"  placeholder="(if username is empty)" /></td>
-			</tr>
-            <tr>
-				<td>First name:</td>
-				<td><input type="text" name="wp_first_name" id="wp_first_name" value="" title="optional"  placeholder="(optional)" /></td>
-			</tr>
-            <tr>
-				<td>Last name:</td>
-				<td><input type="text" name="wp_last_name" id="wp_last_name" value="" title="optional"  placeholder="(optional)" /></td>
-			</tr>
-		</table>
-		<br/><br/>
+		<!-- =====================
+		SCAN TAB -->
+		<div id="tabs-scan-options">
+			<div class="help-target">
+				<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
+			</div><br/>
+			<div class="hdr-sub3">Scan Options</div>
+			<table  class="s3-opts">
+				<tr>
+					<td style="width:105px">Site URL:</td>
+					<td style="white-space: nowrap">
+						<input type="text" name="siteurl" id="siteurl" value="" />
+						<a href="javascript:DUPX.getNewURL('siteurl')" style="font-size:12px">get</a><br/>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td style="width:80px">Old URL:</td>
+					<td>
+						<input type="text" name="url_old" id="url_old" value="<?php echo DUPX_U::esc_attr($GLOBALS['DUPX_AC']->url_old); ?>" readonly="readonly"  class="readonly" />
+						<a href="javascript:DUPX.editOldURL()" id="edit_url_old" style="font-size:12px">edit</a>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td>Old Path:</td>
+					<td>
+						<input type="text" name="path_old" id="path_old" value="<?php echo DUPX_U::esc_attr($old_path); ?>" readonly="readonly"  class="readonly" />
+						<a href="javascript:DUPX.editOldPath()" id="edit_path_old" style="font-size:12px">edit</a>
+					</td>
+				</tr>
+			</table><br/>
 
+			<table>
+				<tr>
+					<td style="padding-right:10px">
+						<b>Scan Tables:</b>
+						<div class="s3-allnonelinks">
+							<a href="javascript:void(0)" onclick="$('#tables option').prop('selected',true);">[All]</a>
+							<a href="javascript:void(0)" onclick="$('#tables option').prop('selected',false);">[None]</a>
+						</div><br style="clear:both" />
+						<select id="tables" name="tables[]" multiple="multiple" style="width:315px; height:100px">
+							<?php
+							foreach( $all_tables as $table ) {
+								echo '<option selected="selected" value="' . DUPX_U::esc_attr( $table ) . '">' . DUPX_U::esc_html($table) . '</option>';
+							}
+							?>
+						</select>
 
-		<!-- SCAN OPTIONS -->
-		<div class="hdr-sub3">Scan Options</div>
-		<table  class="s3-opts">
-			<tr>
-				<td style="width:105px">Site URL:</td>
-				<td style="white-space: nowrap">
-					<input type="text" name="siteurl" id="siteurl" value="" />
-					<a href="javascript:DUPX.getNewURL('siteurl')" style="font-size:12px">get</a><br/>
-				</td>
-			</tr>
-			<tr valign="top">
-				<td style="width:80px">Old URL:</td>
-				<td>
-					<input type="text" name="url_old" id="url_old" value="<?php echo DUPX_U::esc_attr($GLOBALS['DUPX_AC']->url_old); ?>" readonly="readonly"  class="readonly" />
-					<a href="javascript:DUPX.editOldURL()" id="edit_url_old" style="font-size:12px">edit</a>
-				</td>
-			</tr>
-			<tr valign="top">
-				<td>Old Path:</td>
-				<td>
-					<input type="text" name="path_old" id="path_old" value="<?php echo DUPX_U::esc_attr($old_path); ?>" readonly="readonly"  class="readonly" />
-					<a href="javascript:DUPX.editOldPath()" id="edit_path_old" style="font-size:12px">edit</a>
-				</td>
-			</tr>
-		</table><br/>
-
-		<table>
-			<tr>
-				<td style="padding-right:10px">
-                    <b>Scan Tables:</b>
-					<div class="s3-allnonelinks">
-						<a href="javascript:void(0)" onclick="$('#tables option').prop('selected',true);">[All]</a>
-						<a href="javascript:void(0)" onclick="$('#tables option').prop('selected',false);">[None]</a>
-					</div><br style="clear:both" />
-					<select id="tables" name="tables[]" multiple="multiple" style="width:315px; height:100px">
-						<?php
-						foreach( $all_tables as $table ) {
-							echo '<option selected="selected" value="' . DUPX_U::esc_attr( $table ) . '">' . DUPX_U::esc_html($table) . '</option>';
-						}
-						?>
-					</select>
-
-				</td>
-				<td valign="top">
-                    <b>Activate Plugins:</b>
-					<?php echo ($_POST['exe_safe_mode'] > 0) ? '<small class="s3-warn">Safe Mode Enabled</small>' : '' ; ?>
-					<div class="s3-allnonelinks" style="<?php echo ($_POST['exe_safe_mode']>0)? 'display:none':''; ?>">
-						<a href="javascript:void(0)" onclick="$('#plugins option').prop('selected',true);">[All]</a>
-						<a href="javascript:void(0)" onclick="$('#plugins option').prop('selected',false);">[None]</a>
-					</div><br style="clear:both" />
-					<select id="plugins" name="plugins[]" multiple="multiple" style="width:315px; height:100px" <?php echo ($_POST['exe_safe_mode'] > 0) ? 'disabled="true"' : ''; ?>>
-						<?php
-						$selected_string = ($_POST['exe_safe_mode'] > 0) ? '' : 'selected="selected"';
-						foreach ($active_plugins as $plugin) {
-							$plugin_dirname = dirname($plugin);
-							echo "<option {$selected_string} value='" . DUPX_U::esc_attr( $plugin ) . "'>" . DUPX_U::esc_attr($plugin_dirname) . '</option>';
-						}
-						?>
-					</select>
-					
-				</td>
-			</tr>
-		</table>
-		<br/>
-
-		<input type="checkbox" name="fullsearch" id="fullsearch" value="1" /> <label for="fullsearch">Use Database Full Search Mode</label><br/>
-		<input type="checkbox" name="postguid" id="postguid" value="1" /> <label for="postguid">Keep Post GUID Unchanged</label><br/>
-		<br/><br/>
+					</td>
+					<td valign="top">
+						<b>Activate Plugins:</b>
+						<?php echo ($_POST['exe_safe_mode'] > 0) ? '<small class="s3-warn">Safe Mode Enabled</small>' : '' ; ?>
+						<div class="s3-allnonelinks" style="<?php echo ($_POST['exe_safe_mode']>0)? 'display:none':''; ?>">
+							<a href="javascript:void(0)" onclick="$('#plugins option').prop('selected',true);">[All]</a>
+							<a href="javascript:void(0)" onclick="$('#plugins option').prop('selected',false);">[None]</a>
+						</div><br style="clear:both" />
+						<select id="plugins" name="plugins[]" multiple="multiple" style="width:315px; height:100px" <?php echo ($_POST['exe_safe_mode'] > 0) ? 'disabled="true"' : ''; ?>>
+							<?php
+							$selected_string = ($_POST['exe_safe_mode'] > 0) ? '' : 'selected="selected"';
+							foreach ($active_plugins as $plugin) {
+								$plugin_dirname = dirname($plugin);
+								echo "<option {$selected_string} value='" . DUPX_U::esc_attr( $plugin ) . "'>" . DUPX_U::esc_attr($plugin_dirname) . '</option>';
+							}
+							?>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<br/>
+			<input type="checkbox" name="fullsearch" id="fullsearch" value="1" /> <label for="fullsearch">Use Database Full Search Mode</label><br/>
+			<input type="checkbox" name="postguid" id="postguid" value="1" /> <label for="postguid">Keep Post GUID Unchanged</label><br/>
+			<br/><br/>
+		</div>
 		
-		<!-- WP-CONFIG -->
-		<div class="hdr-sub3">WP-Config File</div>
-		<table class="dupx-opts dupx-advopts">
-			<tr>
-				<td>Cache:</td>
-				<td style="width:100px"><input type="checkbox" name="cache_wp" id="cache_wp" <?php echo ($GLOBALS['DUPX_AC']->cache_wp) ? "checked='checked'" : ""; ?> /> <label for="cache_wp">Keep Enabled</label></td>
-				<td><input type="checkbox" name="cache_path" id="cache_path" <?php echo ($GLOBALS['DUPX_AC']->cache_path) ? "checked='checked'" : ""; ?> /> <label for="cache_path">Keep Home Path</label></td>
-			</tr>
-			<tr>
-				<td>SSL:</td>
-				<td><input type="checkbox" name="ssl_admin" id="ssl_admin" /> <label for="ssl_admin">Enforce on Admin</label></td>
-				<td></td>
-			</tr>
-		</table>
-		<br/><br/>
-
+		<!-- =====================
+		WP-CONFIG TAB -->
+		<div id="tabs-wp-config-file">
+			<div class="help-target">
+				<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
+			</div><br/>
+			<div class="hdr-sub3">WP-Config File</div>
+			<table class="dupx-opts dupx-advopts">
+				<tr>
+					<td>Cache:</td>
+					<td style="width:100px"><input type="checkbox" name="cache_wp" id="cache_wp" <?php echo ($GLOBALS['DUPX_AC']->cache_wp) ? "checked='checked'" : ""; ?> /> <label for="cache_wp">Keep Enabled</label></td>
+					<td><input type="checkbox" name="cache_path" id="cache_path" <?php echo ($GLOBALS['DUPX_AC']->cache_path) ? "checked='checked'" : ""; ?> /> <label for="cache_path">Keep Home Path</label></td>
+				</tr>
+				<tr>
+					<td>SSL:</td>
+					<td><input type="checkbox" name="ssl_admin" id="ssl_admin" /> <label for="ssl_admin">Enforce on Admin</label></td>
+					<td></td>
+				</tr>
+			</table><br/>
+			<i>Take full control of your WordPress configuration file with
+				<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=wpconfig" target="_blank">
+					Duplicator Pro
+				</a>
+			</i>
+		</div>
+	</div>
+	<!-- END TABS -->
 	</div>
 	<br/><br/><br/><br/>
 
@@ -503,7 +529,9 @@ DUPX.hideErrorResult2 = function()
 };
 
 //DOCUMENT LOAD
-$(document).ready(function() {
+$(document).ready(function()
+{
+	$("#tabs").tabs();
 	DUPX.getNewURL('url_new');
 	DUPX.getNewURL('siteurl');
 	$("*[data-type='toggle']").click(DUPX.toggleClick);
