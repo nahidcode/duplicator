@@ -117,7 +117,7 @@ if($not_yet_logged){
 $dbinstall = new DUPX_DBInstall($_POST, $ajax2_start);
 if ($_POST['dbaction'] != 'manual') {
     if(!isset($_POST['continue_chunking'])){
-        $dbinstall->prepareSQL();
+        // $dbinstall->prepareSQL();
         $dbinstall->prepareDB();
     } else if($_POST['first_chunk'] == 1) {
         $dbinstall->prepareDB();
