@@ -272,12 +272,7 @@ Please check these items: <br/><br/>
         if (!empty($sql_data)) {
             $this->sql_result_data = $sql_data;
         }
-        /*
-        $this->applyCollationFallback();
-        $this->applyProcUserFix();
-        */
-        // $sql_data_length = count($this->sql_result_data);
-
+        
         $handle = fopen($this->sql_file_path, 'rb');
        	if ($handle === false) {
             return false;
