@@ -286,9 +286,10 @@ Please check these items: <br/><br/>
         @mysqli_autocommit($dbh, false);
 
         $query = null;
+        $delimiter = ';';
         while (($line = fgets($handle)) !== false) {
             $query .= $line;
-            if (preg_match('/;\s*$/S', $query)) {
+            if (preg_match('/'.$delimiter.'\s*$/S', $query)) {
                 $query_strlen = strlen(trim($query));
                 if ($this->dbvar_maxpacks < $query_strlen) {
                     DUPX_Log::info("**ERROR** Query size limit [length={$this->dbvar_maxpacks}] [sql=".substr($this->sql_result_data[$counter], 0, 75)."...]");
@@ -301,6 +302,13 @@ Please check these items: <br/><br/>
                     // $query = $this->queryDelimiterFix($query);
                     $query = trim($query);
                     if (0 === strpos($query, "DELIMITER")) {
+                        // Ending delimiter
+                        if ('DELIMITER ;' == $query) { 
+                            $delimiter = ';';
+                        } else { // starting delimiter
+                            $delimiter =  substr($query, 10);
+                        }
+
                         DUPX_Log::info("Skipping delimiter query");
                         $query = null;
                         continue;
