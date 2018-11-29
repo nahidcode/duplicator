@@ -239,6 +239,7 @@ class DUP_Database
         $cmd .= ' --single-transaction';
         $cmd .= ' --hex-blob';
         $cmd .= ' --skip-add-drop-table';
+        $cmd .= ' --routines';
 
         //Compatibility mode
         if ($mysqlcompat_on) {
@@ -309,7 +310,6 @@ class DUP_Database
 
         $wpdb->query("SET session wait_timeout = ".DUPLICATOR_DB_MAX_TIME);
         $handle = fopen($this->dbStorePath, 'w+');
-        // $tables = $wpdb->get_col('SHOW TABLES');
         $tables	 = $wpdb->get_col("SHOW FULL TABLES WHERE Table_Type != 'VIEW'");
 
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
