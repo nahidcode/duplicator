@@ -301,6 +301,7 @@ if ($_POST['cache_path']) {
 
 if ($config_transformer->exists('constant', 'WP_CONTENT_DIR')) {
 	$wp_content_dir_const_val = $config_transformer->get_value('constant', 'WP_CONTENT_DIR');
+	$wp_content_dir_const_val = DUPX_U::wp_normalize_path($wp_content_dir_const_val);
 	$new_path = str_replace($_POST['path_old'], $_POST['path_new'], $wp_content_dir_const_val, $count);
 	if ($count > 0) {
 		$config_transformer->update('constant', 'WP_CONTENT_DIR', $new_path, array('normalize' => true));
@@ -320,6 +321,7 @@ if ($config_transformer->exists('constant', 'WP_CONTENT_URL')) {
 //WP_TEMP_DIR
 if ($config_transformer->exists('constant', 'WP_TEMP_DIR')) {
 	$wp_temp_dir_const_val = $config_transformer->get_value('constant', 'WP_TEMP_DIR');
+	$wp_temp_dir_const_val = DUPX_U::wp_normalize_path($wp_temp_dir_const_val);
 	$new_path = str_replace($_POST['path_old'], $_POST['path_new'], $wp_temp_dir_const_val, $count);
 	if ($count > 0) {		
 		$config_transformer->update('constant', 'WP_TEMP_DIR', $new_path, array('normalize' => true));
@@ -329,6 +331,7 @@ if ($config_transformer->exists('constant', 'WP_TEMP_DIR')) {
 // WP_PLUGIN_DIR
 if ($config_transformer->exists('constant', 'WP_PLUGIN_DIR')) {
 	$wp_plugin_dir_const_val = $config_transformer->get_value('constant', 'WP_PLUGIN_DIR');
+	$wp_plugin_dir_const_val = DUPX_U::wp_normalize_path($wp_plugin_dir_const_val);
 	$new_path = str_replace($_POST['path_old'], $_POST['path_new'], $wp_plugin_dir_const_val, $count);
 	if ($count > 0) {
 		$config_transformer->update('constant', 'WP_PLUGIN_DIR', $new_path, array('normalize' => true));
@@ -347,6 +350,7 @@ if ($config_transformer->exists('constant', 'WP_PLUGIN_URL')) {
 // WPMU_PLUGIN_DIR
 if ($config_transformer->exists('constant', 'WPMU_PLUGIN_DIR')) {
 	$wpmu_plugin_dir_const_val = $config_transformer->get_value('constant', 'WPMU_PLUGIN_DIR');
+	$wpmu_plugin_dir_const_val = DUPX_U::wp_normalize_path($wpmu_plugin_dir_const_val);
 	$new_path = str_replace($_POST['path_old'], $_POST['path_new'], $wpmu_plugin_dir_const_val, $count);
 	if ($count > 0) {
 		$config_transformer->update('constant', 'WPMU_PLUGIN_DIR', $new_path, array('normalize' => true));
