@@ -696,7 +696,10 @@ Auto Posts to view.step2.php
         <div style="padding: 0px 10px 10px 0px;">
             <div id="ajaxerr-data">An unknown issue has occurred with the file and database setup process.  Please see the dup-installer-log.txt file for more details.</div>
             <div style="text-align:center; margin:10px auto 0px auto">
-                <input type="button" class="default-btn" onclick="DUPX.hideErrorResult()" value="&laquo; Try Again" /><br/><br/>
+                <!-- <input type="button" class="default-btn" onclick="DUPX.hideErrorResult()" value="&laquo; Try Again" /> -->
+				<br/>
+				<a href="../<?php echo $GLOBALS['BOOTLOADER_NAME'];?>" class="default-btn">&laquo; Try Again</a>
+				<br/><br/>
                 <i style='font-size:11px'>See online help for more details at <a href='https://snapcreek.com/ticket' target='_blank'>snapcreek.com</a></i>
             </div>
         </div>
@@ -985,6 +988,20 @@ DUPX.kickOffDupArchiveExtract = function ()
 	var $form = $('#s1-input-form');
 	var request = new Object();
 	var isClientSideKickoff = DUPX.isClientSideKickoff();
+
+	<?php
+	if (!$GLOBALS['DUPX_AC']->installSiteOverwriteOn && file_exists($root_path.'/wp-config.php')) {
+		?>
+		$('#s1-input-form').hide();
+		$('#s1-result-form').show();
+		var errorString = "<div class='dupx-ui-error'><b style='color:#B80000;'>INSTALL ERROR!</b><br/>"+'<?php echo ERR_CONFIG_FOUND;?>'+"</div>";
+		$('#ajaxerr-data').html(errorString);
+		DUPX.hideProgressBar();
+		return false;
+		<?php
+	}
+	?>
+	
 
 	request.action = "start_expand";
 	request.archive_filepath = '<?php echo DUPX_U::esc_js($archive_path); ?>';
