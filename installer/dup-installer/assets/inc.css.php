@@ -36,7 +36,7 @@
 	div.status-badge-pass {float:right; border-radius:4px; color:#fff; padding:0 3px 0 3px;  font-size:11px !important; min-width:30px; text-align:center;background-color:#418446; font-weight:normal; }
 	div.status-badge-fail {float:right; border-radius:4px; color:#fff; padding:0 3px 0 3px;  font-size:11px !important; min-width:30px; text-align:center;background-color:maroon; font-weight:normal;}
 
-    button.default-btn, .default-btn {
+    button.default-btn, .default-btn, .default-btn:hover {
 		cursor:pointer; color:#fff; font-size:16px; border-radius:5px;	padding:7px 25px 5px 25px;
 	    background-color:#13659C; border:1px solid gray; text-decoration: none;
 	}
