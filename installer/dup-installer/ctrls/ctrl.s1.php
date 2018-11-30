@@ -126,7 +126,7 @@ switch ($post_archive_engine) {
 		$shell_exec_path = DUPX_Server::get_unzip_filepath();
 		DUPX_Log::info("ZIP:\tShell Exec Unzip");
 
-		$command = "{$shell_exec_path} -o -qq \"{$archive_path}\" -d \"{$target}\" 2>&1";
+		$command = escapeshellcmd($shell_exec_path)." -o -qq ".escapeshellarg($archive_path)." -d ".escapeshellarg($target)." 2>&1";
 		if ($_POST['zip_filetime'] == 'original') {
 			DUPX_Log::info("\nShell Exec Current does not support orginal file timestamp please use ZipArchive");
 		}
