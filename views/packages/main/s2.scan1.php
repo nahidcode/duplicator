@@ -56,7 +56,7 @@
 	div.scan-item div.text {font-weight:bold; font-size:14px; float:left;  position:relative; left:10px}
 	div.scan-item div.badge {float:right; border-radius:4px; color:#fff; min-width:40px; text-align:center; position:relative; right:10px; font-size:12px; padding:0 3px 0 3px}
 	div.scan-item div.badge-pass {background:green;}
-	div.scan-item div.badge-warn {background:#630f0f;}
+	div.scan-item div.badge-warn {background:#2142a2;}
 	div.scan-item div.info {display:none; padding:10px; background:#fff}
 	div.scan-good {display:inline-block; color:green;font-weight:bold;}
 	div.scan-warn {display:inline-block; color:#630f0f;font-weight:bold;}
