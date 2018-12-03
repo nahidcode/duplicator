@@ -127,7 +127,7 @@
 	div.s1-reqs div.header {background-color:#E0E0E0; color:#000;  border-bottom: 1px solid silver; padding:2px; font-weight:bold }
 	div.s1-reqs div.status {float:right; border-radius:4px; color:#fff; padding:0 3px 0 3px; margin:4px 5px 0 0; font-size:11px; min-width:30px; text-align:center;}
 	div.s1-reqs div.pass {background-color:green;}
-	div.s1-reqs div.fail {background-color:maroon;}
+	div.s1-reqs div.fail {background-color:#2142a2;}
 	div.s1-reqs div.title {padding:3px 3px 3px 5px; font-size:13px;}
 	div.s1-reqs div.title:hover {background-color:#dfdfdf; cursor:pointer}
 	div.s1-reqs div.info {padding:8px 8px 20px 8px; background-color:#fff; display:none; line-height:18px; font-size: 12px}
