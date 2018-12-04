@@ -308,6 +308,8 @@ class DUP_Database
             DUP_LOG::trace("Executing mysql dump command by popen: $cmd");
             $handle = popen($cmd, "r");
             if ($handle) {
+                $sql_header  = "/* DUPLICATOR-LITE (MYSQL-DUMP BUILD MODE) MYSQL SCRIPT CREATED ON : ".@date("Y-m-d H:i:s")." */\n\n";
+                file_put_contents($this->dbStorePath, $sql_header, FILE_APPEND);
                 while (!feof($handle)) {
                     $line = fgets($handle); //get ony one line
                     if ($line) {
