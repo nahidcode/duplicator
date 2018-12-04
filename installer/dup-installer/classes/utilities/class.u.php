@@ -1537,5 +1537,32 @@ class DUPX_U
 
 		return preg_match( "!^$wrappers_re://!", $path ) === 1;
 	}
+
+    /**
+     * Check if string is base64 encoded
+     *
+     * @param type $str
+     * @return boolean|str return false if isn't base64 string or decoded string
+     */
+    public static function is_base64($str)
+    {
+        // Check if there are valid base64 characters
+        if (!preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $str)) {
+            return false;
+        }
+
+        // Decode the string in strict mode and check the results
+        $decoded = base64_decode($str, true);
+        if (false === $decoded) {
+            return false;
+        }
+
+        // Encode the string again
+        if (base64_encode($decoded) != $str) {
+            return false;
+        }
+
+        return $decoded;
+    }
 }
 DUPX_U::init();
