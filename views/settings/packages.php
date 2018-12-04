@@ -54,7 +54,7 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
     div.dup-feature-notfound {color:maroon; width:600px; line-height: 18px}
 	select#package_ui_created {font-family: monospace}
 	div.engine-radio {float: left; min-width: 100px}
-	div.engine-sub-opts {padding:10px 0 10px 25px; display:none }
+	div.engine-sub-opts {padding:5px 0 10px 15px; display:none }
 </style>
 
 <form id="dup-settings-form" action="<?php echo admin_url('admin.php?page=duplicator-settings&tab=package'); ?>" method="post">
@@ -93,8 +93,6 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
 			<!-- SHELL EXEC  -->
 			<div class="engine-sub-opts" id="dbengine-details-1" style="display:none">
 			<?php if (!$is_shellexec_on) : ?>
-				<!--<input type="radio" disabled="true" />
-				<label><?php esc_html_e("Mysqldump", 'duplicator'); ?> <i style="font-size:12px">(<?php esc_html_e("recommended", 'duplicator'); ?>)</i></label> -->
 				<p class="description" style="width:550px; margin:5px 0 0 20px">
 					<?php
 						_e("This server does not support the PHP shell_exec function which is required for mysqldump to run. ", 'duplicator');
@@ -117,10 +115,7 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
 					<br/><br/>
 				</p>
 			<?php else : ?>
-				<!--<input type="radio" name="package_dbmode" value="mysql" id="package_mysqldump" <?php echo ($package_mysqldump) ? 'checked="checked"' : ''; ?> />
-				<label for="package_mysqldump"><?php esc_html_e("Mysqldump", 'duplicator'); ?></label><br/> -->
-
-				<div style="margin:5px 0px 0px 25px">
+				<div style="margin:0 0 0 15px">
 					<?php if ($mysqlDumpFound) : ?>
 						<div class="dup-feature-found">
 							<i class="fa fa-check-circle"></i>
@@ -160,14 +155,14 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
 						}
 					?>
 					</div>
-					<br/><br/>
+					<br/>
 				</div>
 
 			<?php endif; ?>
 			</div>
 
 			<!-- PHP OPTION -->
-			<div class="engine-sub-opts" id="dbengine-details-2" style="display:none; line-height: 35px; margin-top:-5px">
+			<div class="engine-sub-opts" id="dbengine-details-2" style="display:none; line-height: 35px; margin:0 0 0 15px">
 				<!-- PRO ONLY -->
 				<label><?php esc_html_e("Mode",'duplicator'); ?>:</label>
 				<select name="">
@@ -179,15 +174,13 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
 					</option>
 				</select>
 				<i style="margin-right:7px;" class="fa fa-question-circle"
-			data-tooltip-title="<?php esc_attr_e("PHP Code Mode:",'duplicator'); ?>"
-			data-tooltip="<?php
-				esc_attr_e('Single-Threaded mode attempts to create the entire database script in one request.  Multi-Threaded mode allows the database script '
-					. 'to be chunked over multiple requests.  Multi-Threaded mode is typically slower but much more reliable especially for larger databases.','duplicator');
-				esc_attr_e('<br><br><i>Multi-Threaded mode is only available in Duplicator Pro.</i>','duplicator');
-				?>"></i>
-
-
-				<div style="margin:5px 0px 0px 0px">
+					data-tooltip-title="<?php esc_attr_e("PHP Code Mode:",'duplicator'); ?>"
+					data-tooltip="<?php
+						esc_attr_e('Single-Threaded mode attempts to create the entire database script in one request.  Multi-Threaded mode allows the database script '
+							. 'to be chunked over multiple requests.  Multi-Threaded mode is typically slower but much more reliable especially for larger databases.','duplicator');
+						esc_attr_e('<br><br><i>Multi-Threaded mode is only available in Duplicator Pro.</i>','duplicator');
+						?>"></i>
+				<div>
 				   <label for="package_phpdump_qrylimit"><?php esc_html_e("Query Limit Size", 'duplicator'); ?>:</label> &nbsp;
 					<select name="package_phpdump_qrylimit" id="package_phpdump_qrylimit">
 						<?php
@@ -206,6 +199,7 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
 		</td>
 	</tr>
 </table>
+
 
 <h3 class="title"><?php esc_html_e("Archive", 'duplicator') ?> </h3>
 <hr size="1" />
