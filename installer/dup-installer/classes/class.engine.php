@@ -244,12 +244,9 @@ class DUPX_UpdateEngine
                             //Only replacing string values
                             if (!empty($row[$column]) && !is_numeric($row[$column]) && $primary_key != 1) {
                                 //Base 64 detection
-                                if (base64_decode($row[$column], true)) {
-                                    $decoded = base64_decode($row[$column], true);
-                                    if (self::isSerialized($decoded)) {
-                                        $edited_data = $decoded;
-                                        $base64converted = true;
-                                    }
+                                if (($decoded = DUPX_U::is_base64($row[$column])) !== false) {
+                                    $edited_data = $decoded;
+                                    $base64converted = true;
                                 }
 
                                 //Skip table cell if match not found
