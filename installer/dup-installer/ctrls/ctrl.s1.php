@@ -62,7 +62,7 @@ if (! $GLOBALS['DUPX_AC']->exportOnlyDB) {
 	}
 
 	//ERR_ZIPMANUAL
-	if ($post_archive_engine != 'manual' && !$GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
+	if ('ziparchive' == $post_archive_engine && !$GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
 		//ERR_CONFIG_FOUND
 		if (file_exists($wpconfig_ark_path)) {
 			DUPX_Log::error(ERR_CONFIG_FOUND);

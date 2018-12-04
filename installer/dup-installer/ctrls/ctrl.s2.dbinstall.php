@@ -283,6 +283,11 @@ Please check these items: <br/><br/>
         $query = null;
         $delimiter = ';';
         while (($line = fgets($handle)) !== false) {
+            if ('DELIMITER ;' == trim($query)) {
+                $delimiter = ';';
+                $query = null;
+                continue;
+            }
             $query .= $line;
             if (preg_match('/'.$delimiter.'\s*$/S', $query)) {
                 $query_strlen = strlen(trim($query));
@@ -298,10 +303,12 @@ Please check these items: <br/><br/>
                     $query = trim($query);
                     if (0 === strpos($query, "DELIMITER")) {
                         // Ending delimiter
+                        // control never comes in this if condition, but written
                         if ('DELIMITER ;' == $query) { 
                             $delimiter = ';';
                         } else { // starting delimiter
                             $delimiter =  substr($query, 10);
+                            $delimiter =  trim($delimiter);
                         }
 
                         DUPX_Log::info("Skipping delimiter query");
@@ -379,10 +386,7 @@ Please check these items: <br/><br/>
         }
     }
 
-    public function writeQueryInDB($query)
-    {
-        @mysqli_autocommit($dbh, false);
-        
+    public function writeQueryInDB($query) {
         $query_strlen = strlen(trim($query));
         if ($this->dbvar_maxpacks < $query_strlen) {
             DUPX_Log::info("**ERROR** Query size limit [length={$this->dbvar_maxpacks}] [sql=".substr($this->sql_result_data[$counter], 0, 75)."...]");
@@ -391,14 +395,8 @@ Please check these items: <br/><br/>
             $query = $this->nbspFix($query);
             $query = $this->applyQueryCollationFallback($query);
             $query = $this->applyQueryProcUserFix($query);
-
-            // $query = $this->queryDelimiterFix($query);
             $query = trim($query);
-            if (0 === strpos($query, "DELIMITER")) {
-                DUPX_Log::info("Skipping delimiter query");
-                return false;
-            }
-
+         
             @mysqli_free_result(@mysqli_query($this->dbh, $query));
             $err = mysqli_error($this->dbh);
             //Check to make sure the connection is alive
@@ -426,11 +424,6 @@ Please check these items: <br/><br/>
                 $this->dbquery_rows++;
             }
         }
-           
-        @mysqli_commit($this->dbh);
-        @mysqli_autocommit($this->dbh, true);
-        
-        return true;
     }
 
     private function dropTables()
