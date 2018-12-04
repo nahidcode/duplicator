@@ -78,6 +78,7 @@ class DUPX_DBInstall
         $this->dbobj_procs     = isset($post['dbobj_procs']) ? DUPX_U::sanitize_text_field($post['dbobj_procs']) : 0;
     }
 
+	/*TODO: Remove after 1.3.2 is released */
     public function prepareSQL()
     {
         $faq_url      = $GLOBALS['FAQ_URL'];
