@@ -208,11 +208,11 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
                     <!-- PRO ONLY -->
                     <label><?php esc_html_e("Mode",'duplicator'); ?>:</label>
                     <select name="">
-                        <option  disabled="disabled"  value="0">
-                            <?php esc_html_e("Multi-Threaded",'duplicator'); ?>
-                        </option>
                         <option selected="selected" value="1">
                             <?php esc_html_e("Single-Threaded",'duplicator'); ?>
+                        </option>
+                        <option  disabled="disabled"  value="0">
+                            <?php esc_html_e("Multi-Threaded",'duplicator'); ?>
                         </option>
                     </select>
                     <i style="margin-right:7px;" class="fa fa-question-circle"
@@ -220,12 +220,12 @@ $archive_build_mode		= DUP_Settings::Get('archive_build_mode')
 				data-tooltip="<?php
                     esc_attr_e('Single-Threaded mode attempts to create the entire database script in one request.  Multi-Threaded mode allows the database script '
                         . 'to be chunked over multiple requests.  Multi-Threaded mode is typically slower but much more reliable especially for larger databases.','duplicator');
-                    esc_attr_e('<br><br><b>Multi-Threaded mode is available in Duplicator Pro.</b>','duplicator');
+                    esc_attr_e('<br><br><i>Multi-Threaded mode is only available in Duplicator Pro.</i>','duplicator');
                     ?>"></i>
 
 
                     <div style="margin:5px 0px 0px 0px">
-                       <label for="package_phpdump_qrylimit"><?php esc_html_e("Query Limit Size", 'duplicator'); ?></label> &nbsp;
+                       <label for="package_phpdump_qrylimit"><?php esc_html_e("Query Limit Size", 'duplicator'); ?>:</label> &nbsp;
                         <select name="package_phpdump_qrylimit" id="package_phpdump_qrylimit">
                             <?php
                                 foreach($phpdump_chunkopts as $value) {
