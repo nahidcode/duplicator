@@ -23,9 +23,13 @@ class DUP_Validator
         'fdir' => '/^([a-zA-Z]:|\/|\\\\\\\\)[\p{L}\s0-9-_!%&()=\[\]#@,.;+\\\\\/]+$/',
         'ffile' => '/^([a-zA-Z]:|\/|\\\\\\\\)[\p{L}\s0-9-_!%&()=\[\]#@,.;+\\\\\/]+\.[A-Za-z0-9]{2,4}$/',
         'fext' => '/^\.?[A-Za-z0-9]{2,4}$/',
-        'email' => '[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+'
+        'email' => '[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+',
+        'empty' => '/^$/',
+        'nempty' => '/^.+$/',
     );
 
+    const FILTER_VALIDATE_IS_EMPTY = 'empty';
+    const FILTER_VALIDATE_NOT_EMPTY = 'nempty';
     const FILTER_VALIDATE_FILE   = 'ffile';
     const FILTER_VALIDATE_FOLDER = 'fdir';
     const FILTER_VALIDATE_FILE_EXT = 'fext';
@@ -170,7 +174,7 @@ class DUP_Validator
 
         return $result;
     }
-
+    
     /**
      * validation of predefined regular expressions
      *

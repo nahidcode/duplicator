@@ -287,6 +287,13 @@ class DUP_Package
     public function validateInputs()
     {
         $validator = new DUP_Validator();
+
+        $validator->filter_custom($this->Name , DUP_Validator::FILTER_VALIDATE_NOT_EMPTY ,
+            array(  'valkey' => 'Name' ,
+                    'errmsg' => __('Package name can\'t be empty', 'duplicator'),
+                )
+            );
+
         $validator->explode_filter_custom($this->Archive->FilterDirs, ';' , DUP_Validator::FILTER_VALIDATE_FOLDER ,
             array(  'valkey' => 'FilterDirs' ,
                     'errmsg' => __('Directories: <b>%1$s</b> isn\'t a valid path', 'duplicator'),
@@ -820,9 +827,11 @@ class DUP_Package
         if (isset($post)) {
             $post = stripslashes_deep($post);
 
-            $name       = ( isset($post['package-name']) && !empty($post['package-name'])) ? sanitize_text_field($post['package-name']) : self::getDefaultName();
-            $name       = substr(sanitize_file_name($name), 0, 40);
-            $name       = str_replace(array('.', '-', ';', ':', "'", '"'), '', $name);
+            $name = isset($post['package-name']) ? trim($post['package-name']) : self::getDefaultName();
+            $name = str_replace(array(' ', '-'), '_', $name);
+            $name = str_replace(array('.', ';', ':', "'", '"'), '', $name);
+            $name = sanitize_file_name($name);
+            $name = substr(trim($name), 0, 40);
 
             if (isset($post['filter-dirs'])) {
                 $post_filter_dirs = sanitize_text_field($post['filter-dirs']);
