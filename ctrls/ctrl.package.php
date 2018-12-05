@@ -305,15 +305,22 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
             $package = DUP_Package::getActive();
 
             //DIRS
-            $dir_filters = $package->Archive->FilterDirs.';'.sanitize_text_field($post['dir_paths']);
+            $dir_filters = ($package->Archive->FilterOn) 
+                                ? $package->Archive->FilterDirs.';'.sanitize_text_field($post['dir_paths']) 
+                                : sanitize_text_field($post['dir_paths']);
             $dir_filters = $package->Archive->parseDirectoryFilter($dir_filters);
             $changed     = $package->Archive->saveActiveItem($package, 'FilterDirs', $dir_filters);
 
             //FILES
-            $file_filters = $package->Archive->FilterFiles.';'.sanitize_text_field($post['file_paths']);
+            $file_filters = ($package->Archive->FilterOn) 
+                                ? $package->Archive->FilterFiles.';'.sanitize_text_field($post['file_paths'])
+                                : sanitize_text_field($post['file_paths']);
             $file_filters = $package->Archive->parseFileFilter($file_filters);
             $changed      = $package->Archive->saveActiveItem($package, 'FilterFiles', $file_filters);
 
+            if (!$package->Archive->FilterOn && !empty($package->Archive->FilterExts)) {
+                $changed      = $package->Archive->saveActiveItem($package, 'FilterExts', '');
+            }
 
             $changed = $package->Archive->saveActiveItem($package, 'FilterOn', 1);
 
