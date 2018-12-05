@@ -838,14 +838,7 @@ class DUP_Package
                 $filter_dirs  = $this->Archive->parseDirectoryFilter($post_filter_dirs);
             } else {
                 $filter_dirs  = '';
-            }
-
-            if (isset($post['filter-dirs'])) {
-                $post_filter_dirs = sanitize_text_field($post['filter-dirs']);
-                $filter_dirs  = $this->Archive->parseDirectoryFilter($post_filter_dirs);
-            } else {
-                $filter_dirs  = '';
-            }
+            }            
 
             if (isset($post['filter-files'])) {
                 $post_filter_files = sanitize_text_field($post['filter-files']);

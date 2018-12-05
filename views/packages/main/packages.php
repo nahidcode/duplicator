@@ -282,7 +282,7 @@ THICK-BOX DIALOGS: -->
 	$confirm1->initConfirm();
 
 	$alert3 = new DUP_UI_Dialog();
-	$alert3->height     = 350;
+	$alert3->height     = 355;
 	$alert3->width      = 350;
 	$alert3->title		= __('Duplicator Help', 'duplicator');
 	$alert3->message	= "<div id='dup-help-dlg'></div>";

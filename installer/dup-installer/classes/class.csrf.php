@@ -57,7 +57,12 @@ class DUPX_CSRF {
 
 	public static function setCookie($cookieName, $cookieVal) {
 		$_COOKIE[$cookieName] = $cookieVal;
-		return setcookie($cookieName, $cookieVal, time() + 10800, '/');
+		$domainPath = self::getDomainPath();
+		return setcookie($cookieName, $cookieVal, time() + 10800, $_SERVER['HTTP_HOST'], $domainPath);
+	}
+
+	public static function getDomainPath() {
+		return str_replace('main.installer.php', '', $_SERVER['SCRIPT_NAME']);
 	}
 	
 	/**
@@ -71,26 +76,10 @@ class DUPX_CSRF {
 		foreach ($_COOKIE as $cookieName => $cookieVal) {
 			if (0 === strpos($cookieName, DUPX_CSRF::$prefix) || 'archive' == $cookieName || 'bootloader' == $cookieName) {
 				$baseUrl = self::getBaseUrl();
-				setcookie($cookieName, '', time() - 86400, $baseUrl);	
+				$domainPath = self::getDomainPath();
+				setcookie($cookieName, '', time() - 86400, $_SERVER['HTTP_HOST'], $domainPath);
 			}
 		}
 		$_COOKIE = array();
-	}
-
-	private static function getBaseUrl() {
-		// output: /myproject/index.php
-		$currentPath = $_SERVER['PHP_SELF']; 
-		
-		// output: Array ( [dirname] => /myproject [basename] => index.php [extension] => php [filename] => index ) 
-		$pathInfo = pathinfo($currentPath); 
-		
-		// output: localhost
-		$hostName = $_SERVER['HTTP_HOST']; 
-		
-		// output: http://
-		$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https://'?'https://':'http://';
-		
-		// return: http://localhost/myproject/
-		return $protocol.$hostName.$pathInfo['dirname']."/";
 	}
 }
