@@ -137,7 +137,7 @@ GENERAL -->
 					</tr>
 					<tr>
 						<td><?php esc_html_e('Installer', 'duplicator') ?>: </td>
-						<td><a href="<?php echo esc_url($link_installer) ?>" target="_blank"><?php echo esc_html($package->Installer->File) ?></a></td>
+						<td><a href="#" onclick="Duplicator.Pack.DownloadPackageFile(0, <?php echo absint($package->ID); ?>);return false;" ><?php echo esc_html($package->Installer->File) ?></a></td>
 					</tr>
 					<tr>
 						<td><?php esc_html_e('Database', 'duplicator') ?>: </td>
