@@ -425,8 +425,8 @@ DATABASE -->
 			<?php
                 echo '<b>';
 				$lnk = '<a href="admin.php?page=duplicator-settings&tab=package" target="_blank">' . esc_html__('Archive Engine', 'duplicator') . '</a>';
-				printf(__("The {$lnk} setting is set to 'DupArchive' which means packages will be created using the DupArchive format. This format was developed by Snap Creek to overcome budget host constraints."
-                        . " Duplicator is restricted to processing sites up to %s when using this format. The following are ways to process sites larger than %s.", 'duplicator'), $duparchive_max_limit, $duparchive_max_limit);
+				printf(__("The {$lnk} setting is set to 'DupArchive' which means packages will be created in the DupArchive format. This format was developed by Snap Creek to overcome budget host constraints."
+                        . " When using DupArchive, Duplicator is restricted to processing sites up to %s. The following are ways to process sites larger than %s.", 'duplicator'), $duparchive_max_limit, $duparchive_max_limit);
                 echo '</b>';
 
 				echo '<br/><hr size="1" />';
