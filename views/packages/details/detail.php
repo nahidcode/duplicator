@@ -305,7 +305,7 @@ ARCHIVE -->
 			<td>
 				<?php 
 					echo isset($package->Database->FilterTables) && strlen($package->Database->FilterTables) 
-						? str_replace(',', '&nbsp;|&nbsp;', $package->Database->FilterTables)
+						? str_replace(',', "<br>\n", $package->Database->FilterTables)
 						: esc_html__('- no filters -', 'duplicator');	
 				?>
 			</td>
