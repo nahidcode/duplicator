@@ -180,7 +180,7 @@ TOOL BAR: STEPS -->
 					<br/><br/>
 
 					<div style="font-style: italic">
-						<?php esc_html_e('Note: DupArchive on Duplicator Lite only supports sites up to 500MB.  If your site is over 500MB then use a file filter on step 1 to get the size '
+						<?php esc_html_e('Note: DupArchive on Duplicator only supports sites up to 500MB.  If your site is over 500MB then use a file filter on step 1 to get the size '
 						. 'below 500MB or try the other options mentioned below.  Alternatively, you may want to consider',
 						'duplicator'); ?> 
 						<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&amp;utm_medium=wordpress_plugin&amp;utm_content=build_interrupt&amp;utm_campaign=duplicator_pro" target="_blank">

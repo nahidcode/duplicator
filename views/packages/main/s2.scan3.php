@@ -417,16 +417,16 @@ DATABASE -->
 	<div class="data-ll-section scan-item scan-item-last" style="display: none">
 		<div style="padding: 7px; background-color:#F3B2B7; font-weight: bold ">
 		<?php
-			printf(__('The total size of the files and database exceeds the %s limit Duplicator Lite can process with the DupArchive engine. &nbsp;', 'duplicator'), $duparchive_max_limit);
-            printf(__('The build process cannot continue <a href="javascript:void(0)" onclick="jQuery(\'#data-ll-status-recommendations\').toggle()">click for recommendations</a>.', 'duplicator'));
+			printf(__('The build can\'t continue because the total size of files and the database exceeds the %s limit that can be processed when creating a DupArchive package. ', 'duplicator'), $duparchive_max_limit);
+            printf(__('<a href="javascript:void(0)" onclick="jQuery(\'#data-ll-status-recommendations\').toggle()">Click for recommendations.</a>', 'duplicator'));
 		?>
 		</div>
 		<div class="info" id="data-ll-status-recommendations">
 			<?php
                 echo '<b>';
 				$lnk = '<a href="admin.php?page=duplicator-settings&tab=package" target="_blank">' . esc_html__('Archive Engine', 'duplicator') . '</a>';
-				printf(__("The '{$lnk}' setting is set to 'DupArchive', which means archives are built in the DupArchive custom format. This format was specifically designed to overcome budget host constraints."
-                        . " Duplicator Lite can process sites up to %s using DupArchive. See the recommendations below for sites larger than %s.", 'duplicator'), $duparchive_max_limit, $duparchive_max_limit);
+				printf(__("The {$lnk} setting is set to 'DupArchive' which means packages will be created using the DupArchive format. This format was developed by Snap Creek to overcome budget host constraints."
+                        . " Duplicator is restricted to processing sites up to %s when using this format. The following are ways to process sites larger than %s.", 'duplicator'), $duparchive_max_limit, $duparchive_max_limit);
                 echo '</b>';
 
 				echo '<br/><hr size="1" />';
