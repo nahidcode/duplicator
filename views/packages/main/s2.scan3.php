@@ -141,7 +141,7 @@ TOTAL SIZE -->
 				<div class="apply-warn">
 					 <?php esc_html_e('*Checking a directory will exclude all items recursively from that path down.  Please use caution when filtering directories.', 'duplicator'); ?>
 				</div>
-				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters(this, 'large')">
+				<button type="button" class="button-small duplicator-quick-filter-btn" disabled="disabled" onclick="Duplicator.Pack.applyFilters(this, 'large')">
 					<i class="fa fa-filter"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
 				</button>
 				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('large')" title="<?php esc_attr_e('Copy Paths to Clipboard', 'duplicator');?>">
@@ -197,7 +197,7 @@ ADDON SITES -->
                 <div class="apply-warn">
                     <?php esc_html_e('*Checking a directory will exclude all items in that path recursively.'); ?>
                 </div>
-                <button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters(this, 'addon')">
+                <button type="button" class="button-small duplicator-quick-filter-btn" disabled="disabled" onclick="Duplicator.Pack.applyFilters(this, 'addon')">
                     <i class="fa fa-filter"></i> <?php esc_html_e('Add Filters &amp; Rescan');?>
                 </button>
             </div>
@@ -271,7 +271,7 @@ FILE NAME CHECKS -->
 				<div class="apply-warn">
 					 <?php esc_html_e('*Checking a directory will exclude all items recursively from that path down.  Please use caution when filtering directories.', 'duplicator'); ?>
 				</div>
-				<button type="button" class="button-small" onclick="Duplicator.Pack.applyFilters(this, 'utf8')">
+				<button type="button" class="button-small duplicator-quick-filter-btn"  disabled="disabled" onclick="Duplicator.Pack.applyFilters(this, 'utf8')">
 					<i class="fa fa-filter"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
 				</button>
 				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('utf8')" title="<?php esc_attr_e('Copy Paths to Clipboard', 'duplicator');?>">
@@ -874,6 +874,29 @@ jQuery(document).ready(function($)
 			echo "$('#scan-itme-file-size').show(300)";
 		}
 	?>
-	
+
+	// alert('before binding ' + $("#form-duplicator").length);
+	$("#form-duplicator").on('change', "#hb-files-large-result input[type='checkbox'], #hb-files-utf8-result input[type='checkbox'], #hb-addon-sites-result input[type='checkbox']", function() {
+		if ($("#hb-files-large-result input[type='checkbox']:checked").length) {
+			var large_disabled_prop = false;
+		} else {
+			var large_disabled_prop = true;
+		}
+		$("#hb-files-large-result .duplicator-quick-filter-btn").prop("disabled", large_disabled_prop);
+		
+		if ($("#hb-files-utf8-result input[type='checkbox']:checked").length) {
+			var utf8_disabled_prop = false;
+		} else {
+			var utf8_disabled_prop = true;
+		}
+		$("#hb-files-utf8-result .duplicator-quick-filter-btn").prop("disabled", utf8_disabled_prop);
+		
+		if ($("#hb-addon-sites-result input[type='checkbox']:checked").length) {
+			var addon_disabled_prop = false;
+		} else {
+			var addon_disabled_prop = true;
+		}
+		$("#hb-addon-sites-result .duplicator-quick-filter-btn").prop("disabled", addon_disabled_prop);			
+	});
 });
 </script>
