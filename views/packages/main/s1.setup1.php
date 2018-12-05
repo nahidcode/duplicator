@@ -233,13 +233,6 @@ SYSTEM REQUIREMENTS -->
                 </div>
             </div>
 
-            <!-- ONLINE SUPPORT -->
-            <div class="dup-sys-contact">
-                <?php
-                printf("%s <a href='admin.php?page=duplicator-help'>[%s]</a>", esc_html__("For additional help please see the ", 'duplicator'), esc_html__("help page", 'duplicator'));
-                ?>
-            </div>
-
         </div>
     </div><br/>
 <?php endif; ?>
