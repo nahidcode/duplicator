@@ -269,16 +269,14 @@ if ($_POST['set_file_perms'] || $_POST['set_dir_perms']) {
 
 	foreach ($objects as $name => $object) {
 		if ($set_file_perms && is_file($name)) {
-			$retVal = @chmod($name, $file_perms_value);
 
-			if (!$retVal) {
-				DUPX_Log::info("Permissions setting on {$name} failed");
+			if (! @chmod($name, $file_perms_value)) {
+				DUPX_Log::info("Permissions setting on file '{$name}' failed");
 			}
 		} else if ($set_dir_perms && is_dir($name)) {
-			$retVal = @chmod($name, $dir_perms_value);
 
-			if (!$retVal) {
-				DUPX_Log::info("Permissions setting on {$name} failed");
+			if (! @chmod($name, $dir_perms_value)) {
+				DUPX_Log::info("Permissions setting on directory '{$name}' failed");
 			}
 		}
 		if ($set_file_mtime) {
@@ -298,4 +296,5 @@ DUPX_Log::info("\nSTEP-1 COMPLETE @ " . @date('h:i:s') . " - RUNTIME: {$ajax1_su
 
 $JSON['pass'] = 1;
 error_reporting($ajax1_error_level);
+fclose($GLOBALS["LOG_FILE_HANDLE"]);
 die(json_encode($JSON));
