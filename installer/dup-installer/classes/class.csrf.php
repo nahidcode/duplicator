@@ -58,11 +58,12 @@ class DUPX_CSRF {
 	public static function setCookie($cookieName, $cookieVal) {
 		$_COOKIE[$cookieName] = $cookieVal;
 		$domainPath = self::getDomainPath();
-		return setcookie($cookieName, $cookieVal, time() + 10800, $_SERVER['HTTP_HOST'], $domainPath);
+		return setcookie($cookieName, $cookieVal, time() + 10800, '/');
 	}
 
 	public static function getDomainPath() {
-		return str_replace('main.installer.php', '', $_SERVER['SCRIPT_NAME']);
+		return '/';
+		// return str_replace('main.installer.php', '', $_SERVER['SCRIPT_NAME']);
 	}
 	
 	/**
@@ -76,8 +77,8 @@ class DUPX_CSRF {
 		foreach ($_COOKIE as $cookieName => $cookieVal) {
 			$step1Key = DUPX_CSRF::$prefix . '_step1';
 			if ($step1Key != $cookieName && (0 === strpos($cookieName, DUPX_CSRF::$prefix) || 'archive' == $cookieName || 'bootloader' == $cookieName)) {
-				$domainPath = self::getDomainPath();
-				setcookie($cookieName, '', time() - 86400, $_SERVER['HTTP_HOST'], $domainPath);
+				// $domainPath = self::getDomainPath();
+				setcookie($cookieName, '', time() - 86400, '/');
 				unset($_COOKIE[$cookieName]);
 			}
 		}
