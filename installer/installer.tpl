@@ -907,7 +907,7 @@ if ($boot_error == null) {
 				</tr>
 				<tr>
 					<td>Boot Log</td>
-					<td><a target='_blank' href='dup-installer-bootlog__<?php echo DUPX_Bootstrap::PACKAGE_HASH; ?>.txt'>dup-installer-bootlog__[HASH].txt</a></td>
+					<td>dup-installer-bootlog__[HASH].txt</td>
 				</tr>
 			</table>
 			<br/><br/>
