@@ -71,12 +71,13 @@ class DUPX_CSRF {
 
 	public static function resetAllTokens() {
 		foreach ($_COOKIE as $cookieName => $cookieVal) {
-			if (0 === strpos($cookieName, DUPX_CSRF::$prefix) || 'archive' == $cookieName || 'bootloader' == $cookieName) {
+			$step1Key = DUPX_CSRF::$prefix . '_step1';
+			if ($step1Key != $cookieName && (0 === strpos($cookieName, DUPX_CSRF::$prefix) || 'archive' == $cookieName || 'bootloader' == $cookieName)) {
 				$domainPath = self::getDomainPath();
 				setcookie($cookieName, '', time() - 86400, $_SERVER['HTTP_HOST'], $domainPath);
+				unset($_COOKIE[$cookieName]);
 			}
 		}
-		$_COOKIE = array();
 	}
 
 	private static function getDomainPath() {
