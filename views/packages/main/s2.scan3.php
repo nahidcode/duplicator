@@ -422,39 +422,42 @@ DATABASE -->
 		?>
 		</div>
 		<div class="info" id="data-ll-status-recommendations">
-			<?php
-                echo '<b>';
-				$lnk = '<a href="admin.php?page=duplicator-settings&tab=package" target="_blank">' . esc_html__('Archive Engine', 'duplicator') . '</a>';
-				printf(__("The {$lnk} setting is set to 'DupArchive' which means packages will be created in the DupArchive format. This format was developed by Snap Creek to overcome budget host constraints."
-                        . " When using DupArchive, Duplicator is restricted to processing sites up to %s. The following are ways to process sites larger than %s.", 'duplicator'), $duparchive_max_limit, $duparchive_max_limit);
-                echo '</b>';
+		<?php
+			echo '<b>';
+			$lnk = '<a href="admin.php?page=duplicator-settings&tab=package" target="_blank">' . esc_html__('Archive Engine', 'duplicator') . '</a>';
+			printf(__("The {$lnk} is set to create packages in the 'DupArchive' format.  This custom format is used to overcome budget host constraints."
+					. " With DupArchive, Duplicator is restricted to processing sites up to %s.  To process larger sites, consider these recommendations. ", 'duplicator'), $duparchive_max_limit, $duparchive_max_limit);
+			echo '</b>';
+			echo '<br/><hr size="1" />';
 
-				echo '<br/><hr size="1" />';
+			echo '<b>' . esc_html__('RECOMMENDATIONS:', 'duplicator') . '</b><br/>';
+			echo '<div style="padding:5px">';
 
-				
-				echo '<b>' . esc_html__('RECOMMENDATIONS:', 'duplicator') . '</b><br/>';
-				echo '<div style="padding:5px">';
+			$new1_package_url = admin_url('admin.php?page=duplicator&tab=new1');
+			$new1_package_nonce_url = wp_nonce_url($new1_package_url, 'new1-package');
+			$lnk = '<a href="'.$new1_package_nonce_url.'">' . esc_html__('Step 1', 'duplicator') . '</a>';
+			printf(__('- Add data filters to get the package size under %s: ', 'duplicator'), $duparchive_max_limit);
+			echo '<div style="padding:0 0 0 20px">';
+				_e("- In the 'Size Checks' section above consider adding filters (if notice is shown).", 'duplicator');
+				echo '<br/>';
+				printf(__("- In %s consider adding file/directory or database table filters.", 'duplicator'), $lnk);
+			echo '</div>';
+			echo '<br/>';
 
-				$new1_package_url = admin_url('admin.php?page=duplicator&tab=new1');
-				$new1_package_nonce_url = wp_nonce_url($new1_package_url, 'new1-package');
-				$lnk = '<a href="'.$new1_package_nonce_url.'">' . esc_html__('Step 1', 'duplicator') . '</a>';
-				printf(__("- Add files/directories/tables filters in the sections above (if shown) or in %s.", 'duplicator'), $lnk);
-				echo '<br/><br/>';
+			$lnk = '<a href="https://snapcreek.com/duplicator/docs/quick-start#quick-060-q" target="_blank">' . esc_html__('covered here.', 'duplicator') . '</a>';
+			printf(__("- Perform a two part install %s", 'duplicator'), $lnk);
+			echo '<br/><br/>';
 
-                $lnk = '<a href="https://snapcreek.com/duplicator/docs/quick-start#quick-060-q" target="_blank">' . esc_html__('covered here.', 'duplicator') . '</a>';
-				printf(__("- Perform a two part install %s", 'duplicator'), $lnk);
-                echo '<br/><br/>';
+			$lnk = '<a href="admin.php?page=duplicator-settings&tab=package" target="_blank">' . esc_html__('ZipArchive Engine', 'duplicator') . '</a>';
+			printf(__("- Switch to the %s which requires a capable hosting provider (VPS recommended).", 'duplicator'),$lnk);
+			echo '<br/><br/>';
 
-				$lnk = '<a href="admin.php?page=duplicator-settings&tab=package" target="_blank">' . esc_html__('ZipArchive Engine', 'duplicator') . '</a>';
-				printf(__("- Switch to the %s which requires a capable hosting provider (VPS recommended).", 'duplicator'),$lnk);
-				echo '<br/><br/>';
+			$lnk = '<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_da_size_limit&utm_campaign=duplicator_pro" target="_blank">' . esc_html__('Duplicator Pro', 'duplicator') . '</a>';
+			printf(__("- Consider upgrading to %s for large site support. (unlimited)", 'duplicator'), $lnk);
 
-				$lnk = '<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_da_size_limit&utm_campaign=duplicator_pro" target="_blank">' . esc_html__('Duplicator Pro', 'duplicator') . '</a>';
-				printf(__("- Consider upgrading to %s for large site support. (unlimited)", 'duplicator'), $lnk);
+			echo '</div>';
 
-				echo '</div>';
-
-			?>
+		?>
 		</div>
 	</div>
 
