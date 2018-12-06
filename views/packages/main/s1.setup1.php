@@ -262,7 +262,8 @@ refresh page in-case any filters where set while on the scanner page -->
                 $state.val("cached");
                 <?php
                 $redirect = admin_url('admin.php?page=duplicator&tab=new1');
-                echo "window.location.href = '{$redirect}'";
+                $redirect_nonce_url = wp_nonce_url($redirect, 'new1-package');
+                echo "window.location.href = '{$redirect_nonce_url}'";
                 ?>
             }
         }
@@ -270,7 +271,7 @@ refresh page in-case any filters where set while on the scanner page -->
         //INIT
         Duplicator.Pack.checkPageCache();
 
-        //Toogle for system requirment detial links
+        //Toggle for system requirement detail links
         $('.dup-sys-title a').each(function () {
             $(this).attr('href', 'javascript:void(0)');
             $(this).click({selector: '.dup-sys-info'}, Duplicator.Pack.ToggleSystemDetails);
