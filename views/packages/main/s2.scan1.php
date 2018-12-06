@@ -10,7 +10,8 @@
 	if (empty($_POST)) {
 		//F5 Refresh Check
 		$redirect = admin_url('admin.php?page=duplicator&tab=new1');
-		die("<script>window.location.href = '{$redirect}'</script>");
+		$redirect_nonce_url = wp_nonce_url($redirect, 'new1-package');
+		die("<script>window.location.href = '{$reredirect_nonce_url}'</script>");
 	}
 
 	$Package = new DUP_Package();

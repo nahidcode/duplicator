@@ -435,7 +435,9 @@ DATABASE -->
 				echo '<b>' . esc_html__('RECOMMENDATIONS:', 'duplicator') . '</b><br/>';
 				echo '<div style="padding:5px">';
 
-				$lnk = '<a href="admin.php?page=duplicator&tab=new1">' . esc_html__('Step 1', 'duplicator') . '</a>';
+				$new1_package_url = admin_url('admin.php?page=duplicator&tab=new1');
+				$new1_package_nonce_url = wp_nonce_url($new1_package_url, 'new1-package');
+				$lnk = '<a href="'.$new1_package_nonce_url.'">' . esc_html__('Step 1', 'duplicator') . '</a>';
 				printf(__("- Add files/directories/tables filters in the sections above (if shown) or in %s.", 'duplicator'), $lnk);
 				echo '<br/><br/>';
 
