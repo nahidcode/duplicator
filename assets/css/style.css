@@ -42,7 +42,7 @@ div#dup-progress-bar-area {width:500px; margin:40px auto 0px auto; padding:25px 
 div#dup-progress-bar-area h2 {margin-bottom:15px}
 
 /*HEADER MESSAGES*/
-div.dup-hdr-success {color:green; font-size:22px; font-weight:bold}
+div.dup-hdr-success {color:#23282d; font-size:22px; font-weight:bold}
 div.dup-hdr-error {color:#A62426; font-size:22px; font-weight:bold}
 
 /*DIALOGS: THICKBOX   */

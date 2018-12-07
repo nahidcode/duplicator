@@ -57,10 +57,7 @@ TOOL-BAR -->
 			<input type="button" id="dup-pack-bulk-apply" class="button action" value="<?php esc_html_e("Apply", 'duplicator') ?>" onclick="Duplicator.Pack.ConfirmDelete()">
 			<span class="btn-separator"></span>
 			<a href="javascript:void(0)" class="button"  title="<?php esc_attr_e("Get Help", 'duplicator') ?>" onclick="Duplicator.Pack.showHelp()">
-				<?php echo ($statusCount == 1)  
-						? '<i class="fa fa-question-circle" style="color:green"></i>'
-						: '<i class="fa fa-question-circle grey-icon"></i>';
-				?>
+				<i class="fa fa-question-circle grey-icon"></i>
 			</a>
 			<a href="admin.php?page=duplicator-settings&tab=package" class="button grey-icon" title="<?php esc_attr_e("Settings", 'duplicator') ?>"><i class="fa fa-gear"></i></a>
 		</td>
