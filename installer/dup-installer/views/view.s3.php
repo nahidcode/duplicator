@@ -177,7 +177,7 @@ VIEW: STEP 3- INPUT -->
 					<td><input type="text" name="wp_password" id="wp_password" value="" title="6 characters minimum"  placeholder="(6 or more characters)" /></td>
 				</tr>
 				<tr>
-					<td>Mail:</td>
+					<td>Email:</td>
 					<td><input type="text" name="wp_mail" id="wp_mail" value="" title=""  placeholder="" /></td>
 				</tr>
 				<tr>

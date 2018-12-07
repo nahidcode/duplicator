@@ -856,10 +856,9 @@ if ($boot_error == null) {
 
 		<table cellspacing="0" class="header-wizard">
 			<tr>
-				<td class="header"> &nbsp; Duplicator - Bootloader</div</td>
+				<td class="header"> &nbsp; Duplicator - Bootloader</td>
 				<td class="dupx-version">
 					version: <?php echo DUPX_Bootstrap::VERSION ?> <br/>
-					&raquo; <a target='_blank' href='installer-bootlog.txt'>installer-bootlog.txt</a>
 				</td>
 			</tr>
 		</table>

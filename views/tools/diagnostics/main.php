@@ -6,7 +6,7 @@
 	button.dup-fixed-btn {min-width: 150px; text-align: center}
 	div#dup-tools-delete-moreinfo {display: none; padding: 5px 0 0 20px; border:1px solid silver; background-color: #fff; border-radius: 5px; padding:10px; margin:5px; width:750px }
 	div.dup-alert-no-files-msg {padding:10px 0 10px 0}
-	div.dup-alert-secure-note {font-style: italic; max-width:1000px; padding:15px 0 20px 0}
+	div.dup-alert-secure-note {font-style: italic; max-width:800px; padding:15px 0 20px 0}
 	
 	div#message {margin:0px 0px 10px 0px}
 	div#dup-server-info-area { padding:10px 5px;  }
