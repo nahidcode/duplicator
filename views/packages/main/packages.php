@@ -1,10 +1,11 @@
 <?php
 	/* @var $Package DUP_Package */
-	$qryResult = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}duplicator_packages` ORDER BY id DESC", ARRAY_A);
-	$qryStatus = $wpdb->get_results("SELECT status FROM `{$wpdb->prefix}duplicator_packages` WHERE status >= 100", ARRAY_A);
-	$totalElements	= count($qryResult);
-	$statusCount	= count($qryStatus);
-	$package_debug	= DUP_Settings::Get('package_debug');
+
+    $packages = DUP_Package::get_all();
+	$totalElements	= count($packages);
+	$statusCount	= 0; // total packages completed
+
+    $package_debug	= DUP_Settings::Get('package_debug');
     $ajax_nonce		= wp_create_nonce('package_list');
 	$ui_create_frmt = is_numeric(DUP_Settings::Get('package_ui_created')) ? DUP_Settings::Get('package_ui_created') : 1;
 	$package_running = false;
@@ -135,13 +136,8 @@ TOOL-BAR -->
 		$txt_dbonly    = __('Database Only', 'duplicator');
 		$txt_mode_zip  = __('Archive created as zip file', 'duplicator');
 		$txt_mode_daf  = __('Archive created as daf file', 'duplicator');
-		$rows = $qryResult;
-		foreach ($rows as $row) {
-			$Package = unserialize($row['package']);
-			// We was not storing Status in Lite 1.2.52, so it is for backward compatibility
-			if (!isset($Package->Status)) {
-				$Package->Status = $row['status'];
-			}
+		//$rows = $qryResult;
+		foreach ($packages as $Package) {
             
             // Never display incomplete packages and purge those that are no longer active
             if($Package->Status >= 0 && $Package->Status < 100) {
@@ -173,7 +169,7 @@ TOOL-BAR -->
 			}
 			
 			//Links
-			$uniqueid  			= "{$row['name']}_{$row['hash']}";
+			$uniqueid  			=  $Package->Name.'_'.$Package->Hash;
 	
             
       		$packagepath 		= $pack_storeurl . $Package->Archive->File;
@@ -184,12 +180,17 @@ TOOL-BAR -->
 			?>
 
 			<!-- COMPLETE -->
-			<?php if ($row['status'] >= 100) : ?>
+
+			<?php
+
+            if ($Package->Status >= 100) :
+                $statusCount ++;
+                ?>
 				<tr class="dup-pack-info <?php echo esc_attr($css_alt); ?>">
-					<td class="pass"><input name="delete_confirm" type="checkbox" id="<?php echo absint($row['id']); ?>" /></td>
+					<td class="pass"><input name="delete_confirm" type="checkbox" id="<?php echo absint($Package->ID); ?>" /></td>
 					<td>
 						<?php 
-							echo DUP_Package::getCreatedDateFormat($row['created'], $ui_create_frmt);
+							echo DUP_Package::getCreatedDateFormat( $Package->Created , $ui_create_frmt);
 							echo ($pack_build_mode) ? " <sup title='{$txt_mode_zip}'>zip</sup>" : " <sup title='{$txt_mode_daf}'>daf</sup>";
 						?>
 					</td>
@@ -204,7 +205,7 @@ TOOL-BAR -->
                         <button id="<?php echo esc_attr("{$uniqueid}_archive.zip"); ?>" class="button no-select" onclick="Duplicator.Pack.DownloadFile('<?php echo esc_js($Package->Archive->File); ?>', '<?php echo esc_js($packagepath); ?>'); return false;">
 							<i class="fa fa-file-archive-o"></i> <?php esc_html_e("Archive", 'duplicator') ?>
 						</button>
-						<button type="button" class="button no-select" title="<?php esc_attr_e("Package Details", 'duplicator') ?>" onclick="Duplicator.Pack.OpenPackageDetails(<?php echo "{$row['id']}"; ?>);">
+						<button type="button" class="button no-select" title="<?php esc_attr_e("Package Details", 'duplicator') ?>" onclick="Duplicator.Pack.OpenPackageDetails(<?php echo "{$Package->ID}"; ?>);">
 							<i class="fa fa-archive" ></i> 
 						</button>
 					</td>
@@ -221,11 +222,11 @@ TOOL-BAR -->
 						$size = array_sum($result);
 					}
 					$pack_archive_size = $size;
-					$error_url = "?page=duplicator&action=detail&tab=detail&id={$row['id']}"; 
+					$error_url = "?page=duplicator&action=detail&tab=detail&id={$Package->ID}";
 				?>
 				<tr class="dup-pack-info  <?php echo esc_attr($css_alt); ?>">
-					<td class="fail"><input name="delete_confirm" type="checkbox" id="<?php echo absint($row['id']); ?>" /></td>
-					<td><?php echo DUP_Package::getCreatedDateFormat($row['created'], $ui_create_frmt);?></td>
+					<td class="fail"><input name="delete_confirm" type="checkbox" id="<?php echo absint($Package->ID); ?>" /></td>
+					<td><?php echo DUP_Package::getCreatedDateFormat($Package->Created, $ui_create_frmt);?></td>
 					<td><?php echo DUP_Util::byteSize($size); ?></td>
 					<td class='pack-name'><?php echo esc_html($pack_name); ?></td>               
 					<td class="get-btns error-msg" colspan="2">		
