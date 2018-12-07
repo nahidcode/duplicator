@@ -43,7 +43,7 @@ class DUP_Archive
     protected $Package;
 	private $tmpFilterDirsAll = array();
 	private $wpCorePaths = array();
-
+	private $wpCoreExactPaths = array();
 
     /**
      *  Init this object
@@ -62,6 +62,9 @@ class DUP_Archive
 		$this->wpCorePaths[] = DUP_Util::safePath(WP_CONTENT_DIR . "/languages");
 		$this->wpCorePaths[] = DUP_Util::safePath(get_theme_root());
 		$this->wpCorePaths[] = DUP_Util::safePath("{$rootPath}/wp-includes");
+
+		$this->wpCoreExactPaths[] = DUP_Util::safePath("{$rootPath}");
+		$this->wpCoreExactPaths[] = DUP_Util::safePath(WP_CONTENT_DIR);
     }
 
     /**
@@ -569,6 +572,12 @@ class DUP_Archive
 					break;
 				}
 			}
+			// Check root and content exact dir
+			if (!$iscore) {
+				if (in_array($dir, $this->wpCoreExactPaths)) {
+					$iscore = 1;
+				}
+			}
 
 			$this->FilterInfo->TreeSize[] = array(
 				'size' => DUP_Util::byteSize($sum, 0),
@@ -592,6 +601,12 @@ class DUP_Archive
 				if (strpos($dir, $core_dir) !== false) {
 					$iscore = 1;
 					break;
+				}
+			}
+			// Check root and content exact dir
+			if (!$iscore) {
+				if (in_array($dir, $this->wpCoreExactPaths)) {
+					$iscore = 1;
 				}
 			}
 
@@ -620,6 +635,12 @@ class DUP_Archive
 					if (strpos(DUP_Util::safePath($dir), DUP_Util::safePath($core_dir)) !== false) {
 						$iscore = 1;
 						break;
+					}
+				}
+				// Check root and content exact dir
+				if (!$iscore) {
+					if (in_array($dir, $this->wpCoreExactPaths)) {
+						$iscore = 1;
 					}
 				}
 
