@@ -246,12 +246,14 @@ TOOL-BAR -->
 	?>
 	<tfoot>
 		<tr>
-			<th colspan="11" style="text-align:right; font-size:12px; font-style: italic">
-				<?php //esc_html_e("Total Size", 'duplicator');	echo ': ';  esc_html_e(DUP_Util::byteSize($totalSize)); ?> 
+			<th colspan="11" style="text-align:right; font-size:12px;">
+				<?php //esc_html_e("Total Size", 'duplicator');	echo ': ';  esc_html_e(DUP_Util::byteSize($totalSize)); ?>
+				<span style="font-style:italic; cursor:help" title="<?php esc_attr_e("Current Server Time", 'duplicator') ?>">
 				<?php
 					$dup_serv_time = @date("H:i");
 					esc_html_e("Time", 'duplicator');	echo ": {$dup_serv_time}";
 				?>
+				</span>
 			</th>
 		</tr>
 	</tfoot>
