@@ -131,7 +131,7 @@ TOOL-BAR -->
 		</tr>
 		<?php
 		$rowCount = 0;
-		$totalSize = 0;
+		//$totalSize = 0;
 		$txt_dbonly    = __('Database Only', 'duplicator');
 		$txt_mode_zip  = __('Archive created as zip file', 'duplicator');
 		$txt_mode_daf  = __('Archive created as daf file', 'duplicator');
@@ -240,19 +240,27 @@ TOOL-BAR -->
 				</tr>
 			<?php endif; ?>
 			<?php
-			$totalSize = $totalSize + $pack_archive_size;
+			//$totalSize = $totalSize + $pack_archive_size;
 			$rowCount++;
 		}
 	?>
 	<tfoot>
 		<tr>
-			<th colspan="11" style='text-align:right; font-size:12px'>						
-				<?php esc_html_e("Packages", 'duplicator') . ': ' . esc_html($totalElements); ?> |
-				<?php esc_html_e("Total Size", 'duplicator') . ': ' . esc_html(DUP_Util::byteSize($totalSize)); ?> 
+			<th colspan="11" style="text-align:right; font-size:12px; font-style: italic">
+				<?php //esc_html_e("Total Size", 'duplicator');	echo ': ';  esc_html_e(DUP_Util::byteSize($totalSize)); ?> 
+				<?php
+					$dup_serv_time = @date("H:i");
+					esc_html_e("Time", 'duplicator');	echo ": {$dup_serv_time}";
+				?>
 			</th>
 		</tr>
 	</tfoot>
 	</table>
+
+	<div style="float:right; padding:10px 5px">
+		<?php echo $totalElements; echo '&nbsp;'; esc_html_e("Items", 'duplicator');  ?>
+	</div>
+	
 <?php endif; ?>	
 </form>
 
