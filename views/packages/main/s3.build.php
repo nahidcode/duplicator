@@ -606,8 +606,10 @@ jQuery(document).ready(function ($)
 		$('#dup-btn-archive').click(function() { Duplicator.Pack.DownloadFile(archive_name, archive_url); return false});
 
 		$('#dup-link-download-both').on("click", function () {
-			Duplicator.Pack.DownloadFile(archive_name, archive_url);
-			Duplicator.Pack.DownloadPackageFile(0, pack.ID);
+			$('#dup-btn-installer').trigger('click');
+			setTimeout(function(){ 
+				$('#dup-btn-archive').trigger('click');
+			}, 700);
 			return false;
 		});
 	};
