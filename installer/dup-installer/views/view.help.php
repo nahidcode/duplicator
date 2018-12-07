@@ -207,11 +207,10 @@ STEP 1
 				Since these files are already in the archive file they will show up when the archive is extracted.
 				<br/><br/>
 
-				<small>
 				<b>Additional Notes:</b>
 				Inside the archive.zip will be a copy of the original .htaccess (Apache) or the web.config (IIS) files that were setup with your packaged site.  They are both
-				renamed to htaccess.orig and web.config.orig.  Using either Create New or Restore Original if any existing config files exist for the extraction process they will
-				be backed up with a .bak extension.</small>
+				renamed to htaccess.orig and web.config.orig.  When using either 'Create New' or 'Restore Original' any existing config files  will	be backed up with a .bak extension.
+				<i>None of these changes are made until Step 3 is completed, to avoid any issues the .htaccess might cause during the install</i>
 				<br/><br/>
 			</td>
 		</tr>
