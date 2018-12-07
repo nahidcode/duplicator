@@ -202,9 +202,10 @@ STEP 1
 				handle the new server environment.  This is an	advanced option and should only be used if you know how to properly configure your web servers configuration.
 				<br/><br/>
 
-<!--				<b>Ignore All:</b> This option simply does nothing.  No files are backed up, nothing is renamed or created.  This advanced option assumes you already have your
-				config files setup and know how they should behave in the new environment.
-				<br/><br/>-->
+				<b>Ignore All:</b> This option simply does nothing.  No files are backed up, nothing is renamed or created.  This advanced option assumes you already have your
+				config files setup and know how they should behave in the new environment.  When the package is build it will always create a htaccess.orig or web.config.orig.
+				Since these files are already in the archive file they will show up when the archive is extracted.
+				<br/><br/>
 
 				<small>
 				<b>Additional Notes:</b>
