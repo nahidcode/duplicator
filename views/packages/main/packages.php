@@ -1,9 +1,6 @@
 <?php
 	/* @var $Package DUP_Package */
 
-  // Clean tmp folder
-    DUP_Package::not_active_files_tmp_cleanup();
-
     $packages = DUP_Package::get_all();
 	$totalElements	= count($packages);
 	$statusCount	= 0; // total packages completed
