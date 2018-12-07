@@ -414,6 +414,9 @@ class DUP_Package
                 @chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_archive.zip"), 0644);
                 @chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_database.sql"), 0644);
                 @chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_installer.php"), 0644);
+                @chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_scan.json"), 0644);
+                @chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}.log"), 0644);
+
                 @chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_archive.zip"), 0644);
                 @chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_database.sql"), 0644);
                 @chmod(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_installer.php"), 0644);
@@ -423,6 +426,9 @@ class DUP_Package
                 @unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_archive.zip"));
                 @unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_database.sql"));
                 @unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_installer.php"));
+                @unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_scan.json"));
+                @unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}.log"));
+
                 @unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_archive.zip"));
                 @unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_database.sql"));
                 @unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_installer.php"));
@@ -430,10 +436,90 @@ class DUP_Package
                 @unlink(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}.log"));
             }
         }
-
     }
 
-	/**
+    /**
+     * Get all packages with status conditions
+     * @global wpdb $wpdb
+     * @param array $conditions es. [
+     *                                  relation = 'AND',
+     *                                  [ 'op' => '>=' ,
+     *                                    'status' =>  DUP_PackageStatus::START ]
+     *                                  [ 'op' => '<' ,
+     *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
+     *                              ]
+     * @return DUP_Package[]
+     */
+    public static function get_all_by_status($conditions = array())
+    {
+        global $wpdb;
+        $table = $wpdb->base_prefix . "duplicator_packages";
+
+        $accepted_op = array('<', '>', '=', '<>', '>=', '<=');
+        $relation    = (isset($conditions['relation']) && strtoupper($conditions['relation']) == 'OR') ? ' OR ' : ' AND ';
+        unset($conditions['relation']);
+
+        $where = '';
+
+        if (!empty($conditions)) {
+            $str_conds = array();
+
+            foreach ($conditions as $cond) {
+                $op        = (isset($cond['op']) && in_array($cond['op'], $accepted_op)) ? $cond['op'] : '=';
+                $status    = isset($cond['status']) ? (int) $cond['status'] : 0;
+                $str_conds[] = 'status '.$op.' '.$status;
+            }
+            $where = ' WHERE '.implode($relation, $str_conds).' ';
+        }
+
+        $packages = array();
+        $rows     = $wpdb->get_results("SELECT * FROM `{$table}` {$where} ORDER BY id DESC", ARRAY_A);
+
+        if ($rows != null) {
+            foreach ($rows as $row) {
+                $Package = unserialize($row['package']);
+                if ($Package) {
+                    // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
+                    if (!isset($Package->Status)) {
+                        $Package->Status = $row['status'];
+                    }
+
+                    $packages[] = $Package;
+                }
+            }
+        }
+        return $packages;
+    }
+
+    /**
+     *
+     * @global wpdb $wpdb
+     * @return DUP_Package[]
+     */
+    public static function get_all()
+    {
+        global $wpdb;
+        $table = $wpdb->base_prefix."duplicator_packages";
+
+        $packages = array();
+        $rows     = $wpdb->get_results("SELECT * FROM `{$table}` ORDER BY id DESC", ARRAY_A);
+        if ($rows != null) {
+            foreach ($rows as $row) {
+                $Package = unserialize($row['package']);
+                if ($Package) {
+                    // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
+                    if (!isset($Package->Status)) {
+                        $Package->Status = $row['status'];
+                    }
+
+                    $packages[] = $Package;
+                }
+            }
+        }
+        return $packages;
+    }
+
+    /**
      * Check the DupArchive build to make sure it is good
      *
      * @return void
@@ -628,6 +714,83 @@ class DUP_Package
     {
         return $this->NameHash . '_database.sql';
     }
+
+    /**
+     * Removes all files except those of active packages
+     */
+    public static function not_active_files_tmp_cleanup() {
+
+        $iterator = new FilesystemIterator(DUPLICATOR_SSDIR_PATH_TMP);
+
+        // if tmp is empty return
+        if (!$iterator->valid()) {
+            return;
+        }
+
+        // RUNNING PACKAGES
+        $active_pack = self::get_all_by_status(array(
+            'relation' => 'AND',
+            array('op' => '>=' , 'status' => DUP_PackageStatus::CREATED ),
+            array('op' => '<' , 'status' => DUP_PackageStatus::COMPLETE )
+        ));
+
+        $active_files = array();
+
+        foreach($active_pack as $package) {
+            $active_files[] = $package->getArchiveFilename();
+            $active_files[] = $package->getDatabaseFilename();
+            $active_files[] = $package->getInstallerFilename();
+            $active_files[] = $package->getScanFilename();
+        }
+
+
+        // ERRORS PACKAGES
+
+        $err_pack = self::get_all_by_status(array(
+            array('op' => '<' , 'status' => DUP_PackageStatus::CREATED )
+        ));
+
+        $force_del_files = array();
+
+        foreach($err_pack as $package) {
+            $force_del_files[] = $package->getArchiveFilename();
+            $force_del_files[] = $package->getDatabaseFilename();
+            $force_del_files[] = $package->getInstallerFilename();
+            $force_del_files[] = $package->getScanFilename();
+        }
+
+        // Don't remove json file;
+        $extension_filter = array('json');
+
+        // Calculate delta time for old files
+        $oldTimeToClean = time() - DUPLICATOR_TEMP_CLEANUP_SECONDS;
+
+        foreach ($iterator as $fileinfo) {
+            // Don't remove sub dir
+            if ($fileinfo->isDir()) {
+                continue;
+            }
+
+            // skip all active packages
+            if (in_array($fileinfo->getFilename() , $active_files)) {
+                continue;
+            }
+
+            // Remove all old or packages with error files
+            if ($fileinfo->getCTime() <= $oldTimeToClean || in_array($fileinfo->getFilename() , $force_del_files)) {
+                @unlink($fileinfo->getRealPath());
+                continue;
+            }
+
+            // skip txt and json file for pre build packages
+            if (in_array($fileinfo->getExtension(),$extension_filter) || in_array($fileinfo->getFilename() , $active_files)) {
+                continue;
+            }
+
+            @unlink($fileinfo->getRealPath());
+        }
+    }
+
 
 	/**
      * Cleans up the temp storage folder have a time interval
@@ -1170,6 +1333,8 @@ class DUP_Package
             }
         }
     }
+
+
 
     /**
      * Get package hash
