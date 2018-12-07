@@ -720,7 +720,6 @@ class DUP_Package
      */
     public static function not_active_files_tmp_cleanup()
 	{
-
 		if (! is_dir(DUPLICATOR_SSDIR_PATH_TMP)) {
 			return;
 		}
@@ -795,7 +794,6 @@ class DUP_Package
             @unlink($fileinfo->getRealPath());
         }
     }
-
 
 	/**
      * Cleans up the temp storage folder have a time interval
