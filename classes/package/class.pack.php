@@ -718,7 +718,12 @@ class DUP_Package
     /**
      * Removes all files except those of active packages
      */
-    public static function not_active_files_tmp_cleanup() {
+    public static function not_active_files_tmp_cleanup()
+	{
+
+		if (! is_dir(DUPLICATOR_SSDIR_PATH_TMP)) {
+			return;
+		}
 
         $iterator = new FilesystemIterator(DUPLICATOR_SSDIR_PATH_TMP);
 
