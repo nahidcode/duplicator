@@ -604,7 +604,7 @@ OPTIONS
 		<tr>
 			<td>Testing:</td>
 			<td>
-				<a href="javascript:void(0)" target="db-test" onclick="DUPX.openDBValidationWindow()">[Quick Database Connection Test]</a>
+				<a href="javascript:void(0)" target="db-test" onclick="DUPX.openDBValidationWindow(); return false;">[Quick Database Connection Test]</a>
 			</td>
 		</tr>
 	</table>
