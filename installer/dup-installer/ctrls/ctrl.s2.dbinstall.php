@@ -212,58 +212,6 @@ Please check these items: <br/><br/>
         }
     }
 
-    public function writeInChunks()
-    {
-        $buffer                = '';
-        chmod($this->sql_file_path, 0777);
-        $handle                = fopen($this->sql_file_path, 'rb');
-        $chunk_size            = $this->php_mem_range;
-        $chunk_left_difference = @filesize($this->sql_file_path) - $this->post['pos'];
-        $cut_size              = ($this->php_mem_range > $chunk_left_difference) ? $chunk_left_difference : $this->php_mem_range;
-        $last_query            = ($this->php_mem_range > $chunk_left_difference);
-        $next_is_last_query    = ($this->php_mem_range > ($chunk_left_difference - $this->php_mem_range));
-        $new_pos               = 0;
-        if ($handle === false) {
-            return false;
-        }
-
-        if (fseek($handle, $this->post['pos']) === 0) {
-            $buffer = fread($handle, $cut_size);
-            if (strrpos($buffer, ";\n")) {
-                $sql_data_string         = substr($buffer, 0, strrpos($buffer, ";\n") + 1);
-                $sql_data_string         = $this->nbspFix($sql_data_string);
-                // $sql_data_arr            = explode(";\n", $sql_data_string);
-                $sql_data_string_length  = mb_strlen($sql_data_string, '8bit');
-                $new_pos                 = $this->post['pos'] + $sql_data_string_length;
-                $this->writeQueryInDB($sql_data_string);
-                $json['profile_start']   = $this->profile_start;
-                $json['start_microtime'] = $this->start_microtime;
-                $json['dbquery_errs']    = $this->dbquery_errs;
-                $json['drop_tbl_log']    = $this->drop_tbl_log;
-                $json['dbquery_rows']    = $this->dbquery_rows;
-                $json['rename_tbl_log']  = $this->rename_tbl_log;
-                $json['dbdelete_count']  = $this->dbdelete_count;
-                $json['pos']             = $new_pos;
-                if ($last_query) {
-                    $json['pass']              = 1;
-                    $json['continue_chunking'] = false;
-                } else {
-                    $json['pass']              = 0;
-                    $json['continue_chunking'] = true;
-                }
-            } else {
-                $json['pass']              = 1;
-                $json['continue_chunking'] = false;
-            }
-            ob_flush();
-            flush();
-        }
-
-        fclose($handle);
-
-        return $json;
-    }
-
     public function writeInDB()
     {
         //WRITE DATA
@@ -384,46 +332,6 @@ Please check these items: <br/><br/>
             DUPX_Log::info("DB PROCEDURES:\tdisabled");
         } else {
             DUPX_Log::info("DB PROCEDURES:\tenabled");
-        }
-    }
-
-    public function writeQueryInDB($query) {
-        $query_strlen = strlen(trim($query));
-        if ($this->dbvar_maxpacks < $query_strlen) {
-            DUPX_Log::info("**ERROR** Query size limit [length={$this->dbvar_maxpacks}] [sql=".substr($this->sql_result_data[$counter], 0, 75)."...]");
-            $this->dbquery_errs++;
-        } elseif ($query_strlen > 0) {
-            $query = $this->nbspFix($query);
-            $query = $this->applyQueryCollationFallback($query);
-            $query = $this->applyQueryProcUserFix($query);
-            $query = trim($query);
-         
-            @mysqli_free_result(@mysqli_query($this->dbh, $query));
-            $err = mysqli_error($this->dbh);
-            //Check to make sure the connection is alive
-            if (!empty($err)) {
-                if (!mysqli_ping($this->dbh)) {
-                    mysqli_close($this->dbh);
-                    $this->dbh = DUPX_DB::connect($this->post['dbhost'], $this->post['dbuser'], $this->post['dbpass'], $this->post['dbname']);
-                    // Reset session setup
-                    @mysqli_query($this->dbh, "SET wait_timeout = ".mysqli_real_escape_string($dbh, $GLOBALS['DB_MAX_TIME']));
-                    DUPX_DB::setCharset($this->dbh, $this->post['dbcharset'], $this->post['dbcollate']);
-                }
-                DUPX_Log::info("**ERROR** database error write '{$err}' - [sql=".substr($query, 0, 75)."...]");
-
-                if (DUPX_U::contains($err, 'Unknown collation')) {
-                    DUPX_Log::info('RECOMMENDATION: Try resolutions found at https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-110-q');
-                }
-
-                $this->dbquery_errs++;
-
-                //Buffer data to browser to keep connection open
-            } else {
-                if ($fcgi_buffer_count++ > $fcgi_buffer_pool) {
-                    $fcgi_buffer_count = 0;
-                }
-                $this->dbquery_rows++;
-            }
         }
     }
 

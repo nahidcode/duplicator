@@ -150,10 +150,10 @@ if ($_POST['dbaction'] == 'manual') {
 	DUPX_Log::info("\n** SQL EXECUTION IS IN MANUAL MODE **");
 	DUPX_Log::info("- No SQL script has been executed -");
 	$JSON['pass'] = 1;
-} elseif(isset($_POST['continue_chunking']) && $_POST['continue_chunking'] === 'true') {
+} /*elseif(isset($_POST['continue_chunking']) && $_POST['continue_chunking'] === 'true') {
     print_r(json_encode($dbinstall->writeInChunks()));
     die();
-} elseif(isset($_POST['continue_chunking']) && ($_POST['continue_chunking'] === 'false' && $_POST['pass'] == 1)) {
+} */ elseif(isset($_POST['continue_chunking']) && ($_POST['continue_chunking'] === 'false' && $_POST['pass'] == 1)) {
     $JSON['pass'] = 1;
 } elseif(!isset($_POST['continue_chunking'])) {
 	$dbinstall->writeInDB();
