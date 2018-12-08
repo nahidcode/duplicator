@@ -243,13 +243,7 @@ class DUPX_UpdateEngine
 
                             //Only replacing string values
                             if (!empty($row[$column]) && !is_numeric($row[$column]) && $primary_key != 1) {
-                                //Base 64 detection
-                                if (($decoded = DUPX_U::is_base64($row[$column])) !== false) {
-                                    $edited_data = $decoded;
-                                    $base64converted = true;
-                                }
-
-                                //Skip table cell if match not found
+                                // Search strings in data
                                 foreach ($list as $item) {
                                     if (strpos($edited_data, $item['search']) !== false) {
                                         $txt_found = true;
@@ -258,7 +252,24 @@ class DUPX_UpdateEngine
                                 }
 
                                 if (!$txt_found) {
-                                    continue;
+                                    //if not found decetc Base 64
+                                    if (($decoded = DUPX_U::is_base64($row[$column])) !== false) {
+                                        $edited_data = $decoded;
+                                        $base64converted = true;
+
+                                        // Search strings in data decoded
+                                        foreach ($list as $item) {
+                                            if (strpos($edited_data, $item['search']) !== false) {
+                                                $txt_found = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    //Skip table cell if match not found
+                                    if (!$txt_found) {
+                                        continue;
+                                    }
                                 }
 
                                 //Replace logic - level 1: simple check on any string or serlized strings
