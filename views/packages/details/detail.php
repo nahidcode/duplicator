@@ -5,8 +5,10 @@ $ui_css_storage = (isset($view_state['dup-package-dtl-storage-panel']) && $view_
 $ui_css_archive = (isset($view_state['dup-package-dtl-archive-panel']) && $view_state['dup-package-dtl-archive-panel']) ? 'display:block' : 'display:none';
 $ui_css_install = (isset($view_state['dup-package-dtl-install-panel']) && $view_state['dup-package-dtl-install-panel']) ? 'display:block' : 'display:none';
 
+$format = strtolower($package->Archive->Format);
+
 $link_sql			= "{$package->StoreURL}{$package->NameHash}_database.sql";
-$link_archive 		= "{$package->StoreURL}{$package->NameHash}_archive.zip";
+$link_archive 		= "{$package->StoreURL}{$package->NameHash}_archive.{$format}";
 $link_installer		= "{$package->StoreURL}{$package->NameHash}_installer.php?get=1&file={$package->NameHash}_installer.php";
 $link_log			= "{$package->StoreURL}{$package->NameHash}.log";
 $link_scan			= "{$package->StoreURL}{$package->NameHash}_scan.json";
