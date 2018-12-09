@@ -741,15 +741,10 @@ class DUP_Package
         $active_files = array();
 
         foreach($active_pack as $package) {
-            $active_files[] = $package->getArchiveFilename();
-            $active_files[] = $package->getDatabaseFilename();
-            $active_files[] = $package->getInstallerFilename();
-            $active_files[] = $package->getScanFilename();
+            $active_files[] = $package->NameHash;
         }
 
-
         // ERRORS PACKAGES
-
         $err_pack = self::get_all_by_status(array(
             array('op' => '<' , 'status' => DUP_PackageStatus::CREATED )
         ));
@@ -757,11 +752,11 @@ class DUP_Package
         $force_del_files = array();
 
         foreach($err_pack as $package) {
-            $force_del_files[] = $package->getArchiveFilename();
-            $force_del_files[] = $package->getDatabaseFilename();
-            $force_del_files[] = $package->getInstallerFilename();
-            $force_del_files[] = $package->getScanFilename();
+            $force_del_files[] = $package->NameHash;
         }
+
+        //var_dump($force_del_files);
+
 
         // Don't remove json file;
         $extension_filter = array('json');
@@ -776,23 +771,35 @@ class DUP_Package
             }
 
             // skip all active packages
-            if (in_array($fileinfo->getFilename() , $active_files)) {
-                continue;
+            foreach ($active_files  as $c_nameHash) {
+                if (strpos($fileinfo->getFilename(), $c_nameHash) === 0) {
+                    continue 2;
+                }
             }
 
-            // Remove all old or packages with error files
-            if ($fileinfo->getCTime() <= $oldTimeToClean || in_array($fileinfo->getFilename() , $force_del_files)) {
+            // Remove all old files
+            if ($fileinfo->getCTime() <= $oldTimeToClean) {
                 @unlink($fileinfo->getRealPath());
                 continue;
             }
 
-            // skip txt and json file for pre build packages
+            // remove all error packages files
+            foreach ($force_del_files  as $c_nameHash) {
+                if (strpos($fileinfo->getFilename(), $c_nameHash) === 0) {
+                    @unlink($fileinfo->getRealPath());
+                    continue 2;
+                }
+            }
+
+            // skip json file for pre build packages
             if (in_array($fileinfo->getExtension(),$extension_filter) || in_array($fileinfo->getFilename() , $active_files)) {
                 continue;
             }
 
             @unlink($fileinfo->getRealPath());
         }
+
+        //die;
     }
 
 	/**
