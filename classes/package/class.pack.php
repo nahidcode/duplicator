@@ -791,8 +791,6 @@ class DUP_Package
 
             @unlink($fileinfo->getRealPath());
         }
-
-        //die;
     }
 
 	/**
