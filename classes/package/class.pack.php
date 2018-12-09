@@ -720,7 +720,8 @@ class DUP_Package
      */
     public static function not_active_files_tmp_cleanup()
 	{
-		if (! is_dir(DUPLICATOR_SSDIR_PATH_TMP)) {
+		//Check for the 'tmp' folder just for safe measures
+		if (! is_dir(DUPLICATOR_SSDIR_PATH_TMP) && (strpos(DUPLICATOR_SSDIR_PATH_TMP, 'tmp') !== false) ) {
 			return;
 		}
 
