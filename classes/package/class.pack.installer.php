@@ -383,7 +383,7 @@ class DUP_Installer
             }
 
             if ($zipArchive->close() === false) {
-                DUP_Log::error("Couldn't close archive when adding extra files.");
+                DUP_Log::error("Couldn't close archive when adding extra files.", '');
                 $success = false;
             }
 
