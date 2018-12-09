@@ -737,9 +737,7 @@ class DUP_Package
             array('op' => '>=' , 'status' => DUP_PackageStatus::CREATED ),
             array('op' => '<' , 'status' => DUP_PackageStatus::COMPLETE )
         ));
-
         $active_files = array();
-
         foreach($active_pack as $package) {
             $active_files[] = $package->NameHash;
         }
@@ -748,15 +746,10 @@ class DUP_Package
         $err_pack = self::get_all_by_status(array(
             array('op' => '<' , 'status' => DUP_PackageStatus::CREATED )
         ));
-
         $force_del_files = array();
-
         foreach($err_pack as $package) {
             $force_del_files[] = $package->NameHash;
         }
-
-        //var_dump($force_del_files);
-
 
         // Don't remove json file;
         $extension_filter = array('json');
