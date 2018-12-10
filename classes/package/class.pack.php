@@ -371,8 +371,9 @@ class DUP_Package
 			DUP_LOG::Trace("ID non zero so setting to start");
 			$this->setStatus(DUP_PackageStatus::START);
 		} else {
-			DUP_LOG::Trace("ID IS zero so creating another package");
-			$results = $wpdb->insert($wpdb->base_prefix . "duplicator_packages", array(
+            DUP_LOG::Trace("ID IS zero so creating another package");
+            $tablePrefix = DUP_Util::getTablePrefix();
+			$results = $wpdb->insert($tablePrefix . "duplicator_packages", array(
 				'name' => $this->Name,
 				'hash' => $this->Hash,
 				'status' => DUP_PackageStatus::START,
@@ -401,7 +402,8 @@ class DUP_Package
     {
         global $wpdb;
 
-        $tblName  = $wpdb->prefix.'duplicator_packages';
+        $tablePrefix = DUP_Util::getTablePrefix();
+        $tblName  = $tablePrefix.'duplicator_packages';
         $getResult = $wpdb->get_results($wpdb->prepare("SELECT name, hash FROM `{$tblName}` WHERE id = %d", $this->ID), ARRAY_A);
 
         if ($getResult) {
@@ -453,7 +455,8 @@ class DUP_Package
     public static function get_all_by_status($conditions = array())
     {
         global $wpdb;
-        $table = $wpdb->base_prefix . "duplicator_packages";
+        $tablePrefix = DUP_Util::getTablePrefix();
+        $table = $tablePrefix . "duplicator_packages";
 
         $accepted_op = array('<', '>', '=', '<>', '>=', '<=');
         $relation    = (isset($conditions['relation']) && strtoupper($conditions['relation']) == 'OR') ? ' OR ' : ' AND ';
@@ -499,7 +502,8 @@ class DUP_Package
     public static function get_all()
     {
         global $wpdb;
-        $table = $wpdb->base_prefix."duplicator_packages";
+        $tablePrefix = DUP_Util::getTablePrefix();
+        $table = $tablePrefix."duplicator_packages";
 
         $packages = array();
         $rows     = $wpdb->get_results("SELECT * FROM `{$table}` ORDER BY id DESC", ARRAY_A);
@@ -1090,7 +1094,8 @@ class DUP_Package
         }
 
         $wpdb->flush();
-        $table = $wpdb->prefix."duplicator_packages";
+        $tablePrefix = DUP_Util::getTablePrefix();
+        $table = $tablePrefix."duplicator_packages";
         $sql  = "UPDATE `{$table}` SET  status = {$this->Status},";
         $sql .= "package = '" . esc_sql($packageObj) . "'";
         $sql .= "WHERE ID = {$this->ID}";
@@ -1150,7 +1155,8 @@ class DUP_Package
     {
         global $wpdb;
 
-        $table = $wpdb->prefix."duplicator_packages";
+        $tablePrefix = DUP_Util::getTablePrefix();
+        $table = $tablePrefix."duplicator_packages";
         $qry   = $wpdb->get_row("SELECT ID, hash FROM `{$table}` WHERE hash = '{$hash}'");
         if (is_null($qry) || strlen($qry->hash) == 0) {
             return 0;
@@ -1211,8 +1217,9 @@ class DUP_Package
     {
         global $wpdb;
         $obj = new DUP_Package();
-
-        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}duplicator_packages` WHERE ID = %s", $id));
+        $tablePrefix = DUP_Util::getTablePrefix();
+        $sql = $wpdb->prepare("SELECT * FROM `{$tablePrefix}duplicator_packages` WHERE ID = %d", $id);
+        $row = $wpdb->get_row($sql);
         if (is_object($row)) {
             $obj         = @unserialize($row->package);
             $obj->Status = $row->status;

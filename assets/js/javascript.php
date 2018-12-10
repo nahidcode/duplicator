@@ -109,6 +109,7 @@ Duplicator.UI.SaveViewState = function (key, value)
 		jQuery.ajax({
 			type: "POST",
 			url: ajaxurl,
+			dataType: "text",
 			data: {
 				action : 'DUP_CTRL_UI_SaveViewState',
 				key: key,

@@ -669,6 +669,12 @@ class DUP_Util
 		} catch (Exception $e) {
 			return "n/a";
 		}
-	}
+    }
+
+	public static function getTablePrefix() {
+        global $wpdb;
+        $tablePrefix = (is_multisite() && is_plugin_active_for_network('duplicator/duplicator.php')) ? $wpdb->base_prefix : $wpdb->prefix;
+        return $tablePrefix;
+    }
 }
 DUP_Util::init();

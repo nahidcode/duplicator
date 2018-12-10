@@ -217,7 +217,8 @@ function duplicator_package_delete()
         global $wpdb;
         $json     = array();
         $post     = stripslashes_deep($_POST);
-        $tblName  = $wpdb->prefix.'duplicator_packages';
+        $tablePrefix = DUP_Util::getTablePrefix();
+        $tblName  = $tablePrefix.'duplicator_packages';
         $postIDs  = isset($post['duplicator_delid']) ? sanitize_text_field($post['duplicator_delid']) : null;
         $list     = explode(",", $postIDs);
         $delCount = 0;

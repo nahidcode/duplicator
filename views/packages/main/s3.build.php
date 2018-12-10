@@ -603,11 +603,14 @@ jQuery(document).ready(function ($)
 
 		//Wire Up Downloads
 		$('#dup-btn-installer').click(function() { Duplicator.Pack.DownloadPackageFile(0, pack.ID); return false});
-		$('#dup-btn-archive').click(function() { Duplicator.Pack.DownloadFile(archive_name, archive_url); return false});
+		$('#dup-btn-archive').click(function() {
+			Duplicator.Pack.DownloadFile(archive_name, archive_url);
+			return false;
+		});
 
 		$('#dup-link-download-both').on("click", function () {
 			$('#dup-btn-installer').trigger('click');
-			setTimeout(function(){ 
+			setTimeout(function(){
 				$('#dup-btn-archive').trigger('click');
 			}, 700);
 			return false;
