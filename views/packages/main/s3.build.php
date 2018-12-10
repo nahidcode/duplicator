@@ -604,7 +604,7 @@ jQuery(document).ready(function ($)
 		//Wire Up Downloads
 		$('#dup-btn-installer').click(function() { Duplicator.Pack.DownloadPackageFile(0, pack.ID); return false});
 		$('#dup-btn-archive').click(function() {
-			Duplicator.Pack.DownloadPackageFile(1, pack.ID);
+			Duplicator.Pack.DownloadFile(archive_name, archive_url);
 			return false;
 		});
 

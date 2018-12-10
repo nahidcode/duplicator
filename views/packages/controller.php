@@ -24,7 +24,6 @@ $get_package_file_nonce = wp_create_nonce('DUP_CTRL_Package_getPackageFile');
         Duplicator.Pack.DownloadPackageFile = function (which, packageID)
 		{
             var actionLocation = ajaxurl + '?action=DUP_CTRL_Package_getPackageFile&which=' + which + '&package_id=' + packageID + '&nonce=' + '<?php echo esc_js($get_package_file_nonce); ?>';
-
             if(which == 3) {
                 var win = window.open(actionLocation, '_blank');
                 win.focus();
@@ -32,7 +31,6 @@ $get_package_file_nonce = wp_create_nonce('DUP_CTRL_Package_getPackageFile');
             else {
                 location.href = actionLocation;
             }
-			return false;
         };
 
         Duplicator.Pack.DownloadFile = function(file, url)
