@@ -19,7 +19,7 @@ $wpdb->query("DROP TABLE IF EXISTS `{$table_name}`");
 
 delete_option('duplicator_version_plugin');
 
-//Remvoe entire wp-snapshots directory
+//Remove entire wp-snapshots directory
 if (DUP_Settings::Get('uninstall_files')) {
 
 	$ssdir = DUP_Util::safePath(DUPLICATOR_SSDIR_PATH);
