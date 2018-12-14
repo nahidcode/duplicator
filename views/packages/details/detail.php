@@ -288,7 +288,7 @@ ARCHIVE -->
 		<tr>
 			<td><?php esc_html_e('Build Mode', 'duplicator') ?>: </td>
 			<td>
-				<a href="?page=duplicator-settings" target="_blank"><?php echo esc_html($dbbuild_mode); ?></a>
+				<a href="?page=duplicator-settings&tab=package" target="_blank"><?php echo esc_html($dbbuild_mode); ?></a>
 				<?php if ($mysqlcompat_on) : ?>
 					<br/>
 					<small style="font-style:italic; color:maroon">
