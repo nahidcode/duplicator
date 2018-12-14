@@ -378,8 +378,11 @@ if ($config_transformer->exists('constant', 'COOKIE_DOMAIN')) {
 	$old_cookie_domain = $parsed_post_url_old['host'];
 	$new_cookie_domain = $parsed_post_url_new['host'];
 
+	$const_val = $config_transformer->get_value('constant', 'COOKIE_DOMAIN');		$old_cookie_domain = $parsed_post_url_old['host'];
+	$const_new_val= str_replace($old_cookie_domain, $new_cookie_domain, $const_val, $count);
+
 	if ($count > 0) {
-		$config_transformer->update('constant', 'COOKIE_DOMAIN', $new_cookie_domain, array('normalize' => true));
+		$config_transformer->update('constant', 'COOKIE_DOMAIN', $const_new_val, array('normalize' => true));
 	}
 }
 
