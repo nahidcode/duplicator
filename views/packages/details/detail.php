@@ -59,7 +59,7 @@ $dup_install_secure_pass = isset($package->Installer->OptsSecurePass) ? DUP_Util
 </style>
 
 <?php if ($package_id == 0) :?>
-	<div class="notice notice-error is-dismissible"><p><?php esc_html_e('Invlaid Package ID request.  Please try again!', 'duplicator'); ?></p></div>
+	<div class="notice notice-error is-dismissible"><p><?php esc_html_e('Invalid Package ID request.  Please try again!', 'duplicator'); ?></p></div>
 <?php endif; ?>
 	
 <div class="toggle-box">
