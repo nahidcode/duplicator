@@ -372,11 +372,16 @@ if ($config_transformer->exists('constant', 'COOKIE_DOMAIN')) {
 	$post_url_old = DUPX_U::sanitize_text_field($_POST['url_old']);
 	$post_url_new = DUPX_U::sanitize_text_field($_POST['url_new']);
 
+	$parsed_post_url_old = $post_url_old;
+	$parsed_post_url_new = $post_url_new;
+
+	/*
 	$old_domain = preg_replace("(^https?://)", "", $post_url_old);
 	$new_domain = preg_replace("(^https?://)", "", $post_url_new);
+	*/
 
-	$old_cookie_domain = $config_transformer->get_value('constant', 'COOKIE_DOMAIN');
-	$new_cookie_domain = str_replace($old_domain, $new_domain, $old_cookie_domain, $count);
+	$old_cookie_domain = $parsed_post_url_old['host'];
+	$new_cookie_domain = $parsed_post_url_new['host'];
 
 	if ($count > 0) {
 		$config_transformer->update('constant', 'COOKIE_DOMAIN', $new_cookie_domain, array('normalize' => true));
