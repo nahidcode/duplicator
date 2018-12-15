@@ -137,18 +137,24 @@ TOOL-BAR -->
 		$txt_mode_zip  = __('Archive created as zip file', 'duplicator');
 		$txt_mode_daf  = __('Archive created as daf file', 'duplicator');
 		//$rows = $qryResult;
-		foreach ($packages as $Package) {
-            
-            // Never display incomplete packages and purge those that are no longer active
-            if($Package->Status >= 0 && $Package->Status < 100) {
-                if(DUP_Settings::Get('active_package_id') != $Package->ID) {
-                    $Package->delete();
-                }
 
-				if ($rowCount <= 1 && $totalElements == 1)
-					$package_running = true;
-				
-				continue;
+        $active_package_id = DUP_Settings::Get('active_package_id');
+
+		foreach ($packages as $Package) {
+            $is_active_package = ($active_package_id == $Package->ID && $Package->Status >= 0 && $Package->Status < 100);
+
+            if(!$is_active_package) {
+                // Never display incomplete packages and purge those that are no longer active
+                if($Package->Status >= 0 && $Package->Status < 100) {
+                    if(DUP_Settings::Get('active_package_id') != $Package->ID) {
+                        $Package->delete();
+                    }
+
+                    if ($rowCount <= 1 && $totalElements == 1)
+                        $package_running = true;
+
+                    continue;
+                }
             }
             
 			$pack_dbonly = false;
@@ -183,10 +189,10 @@ TOOL-BAR -->
 
 			<?php
 
-            if ($Package->Status >= 100) :
+            if ($Package->Status >= 100 || $is_active_package) :
                 $statusCount ++;
                 ?>
-				<tr class="dup-pack-info <?php echo esc_attr($css_alt); ?>">
+				<tr class="dup-pack-info <?php echo esc_attr($css_alt); ?> <?php echo $is_active_package ? 'is-active' : ''; ?>">
 					<td class="pass"><input name="delete_confirm" type="checkbox" id="<?php echo absint($Package->ID); ?>" /></td>
 					<td>
 						<?php 
@@ -197,6 +203,7 @@ TOOL-BAR -->
 					<td><?php echo DUP_Util::byteSize($pack_archive_size); ?></td>
 					<td class='pack-name'>
 						<?php	echo ($pack_dbonly) ? "{$pack_name} <sup title='".esc_attr($txt_dbonly)."'>DB</sup>" : esc_html($pack_name); ?>
+                        <?php echo $is_active_package ? ' <b>IS ACTIVE PACKAGE</b>' : ''; ?>
 					</td>
 					<td class="get-btns">
 						<button id="<?php echo esc_attr("{$uniqueid}_installer.php"); ?>" class="button no-select" onclick="Duplicator.Pack.DownloadPackageFile(0, <?php echo absint($Package->ID); ?>); return false;">
