@@ -87,11 +87,7 @@ TOOL-BAR -->
             </a>
 		</td>
 	</tr>
-</table>	
-<?php 
-            DUP_Package::is_active_package_present();
-?>
-
+</table>
 
 <?php if($totalElements == 0 )  : ?>
 	<!-- ====================
@@ -401,6 +397,33 @@ jQuery(document).ready(function($)
 		});
 
 	};
+
+    /*	Removes all selected package sets
+	 *	@param event	To prevent bubbling */
+	Duplicator.Pack.GetActivePackageInfo = function ()
+	{
+		$.ajax({
+			type: "POST",
+			url: ajaxurl,
+			data: {
+                action : 'duplicator_active_package_info',
+                nonce: '<?php echo esc_js(wp_create_nonce('duplicator_active_package_info')); ?>'
+            },
+			complete: function(result) {
+                console.log(result);
+
+                if (result.success) {
+                    if (result.active_package.present) {
+
+                    } esle {
+                        
+                    }
+                } else {
+                    // @todo manage error
+                }
+			}
+		});
+	};
 	
 	/* Toogles the Bulk Action Check boxes */
 	Duplicator.Pack.SetDeleteAll = function() 
@@ -428,6 +451,9 @@ jQuery(document).ready(function($)
 		$('#pack-processing').show();
 
 	<?php endif; ?>
+
+
+    Duplicator.Pack.GetActivePackageInfo();
 	
 });
 </script>

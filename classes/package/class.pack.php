@@ -1267,7 +1267,7 @@ class DUP_Package
      *
      * @param int $id A valid package id form the duplicator_packages table
      *
-     * @return obj  A copy of the DUP_Package object
+     * @return DUP_Package A copy of the DUP_Package object
      */
     public static function getByID($id)
     {
