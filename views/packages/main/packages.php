@@ -4,6 +4,7 @@
     $packages = DUP_Package::get_all();
 	$totalElements	= count($packages);
 	$statusCount	= 0; // total packages completed
+    $active_package_present = DUP_Package::is_active_package_present();
 
     $package_debug	= DUP_Settings::Get('package_debug');
     $ajax_nonce		= wp_create_nonce('package_list');
@@ -32,7 +33,9 @@
 	table.dup-pack-table input[name="delete_confirm"] {margin-left:15px}
 	table.dup-pack-table td.fail {border-left: 4px solid #d54e21;}
 	table.dup-pack-table td.pass {border-left: 4px solid #2ea2cc;}
-	tr.dup-pack-info td {white-space:nowrap; padding:12px 30px 0px 7px;}
+    .dup-pack-info {height: 45px;}
+    .dup-pack-info td {vertical-align: middle; }
+	tr.dup-pack-info td {white-space:nowrap; padding:2px 30px 2px 7px;}
 	tr.dup-pack-info td.get-btns {text-align:right; padding:3px 5px 6px 0px !important;}
 	tr.dup-pack-info td.get-btns button {box-shadow:none}
 	textarea.dup-pack-debug {width:98%; height:300px; font-size:11px; display:none}
@@ -42,6 +45,13 @@
 	div#dup-help-dlg i {display: inline-block; width: 15px; padding:2px;line-height:28px; font-size:14px;}
 	tr.dup-pack-info sup  {font-style:italic;font-size:10px; cursor: pointer; vertical-align: baseline; position: relative; top: -0.8em;}
 	tr#pack-processing {display: none}
+    
+    /* Building package */
+ 
+    .dup-pack-info .building-info {display: none;}
+    .dup-pack-info.is-running .building-info {display: inline;}
+    .dup-pack-info.is-running .get-btns button {display: none;}
+
 </style>
 
 <form id="form-duplicator" method="post">
@@ -68,10 +78,19 @@ TOOL-BAR -->
 			$package_url = admin_url('admin.php?page=duplicator&tab=new1');
 			$package_nonce_url = wp_nonce_url($package_url, 'new1-package');
 			?>
-			<a href="<?php echo $package_nonce_url;?>" class="add-new-h2"><?php esc_html_e("Create New", 'duplicator'); ?></a>
+			<a id="dup-create-new" 
+               onClick="return Duplicator.Pack.CreateNew(this);"
+               href="<?php echo $package_nonce_url;?>"
+               class="add-new-h2 <?php echo ($active_package_present ? 'disabled' : ''); ?>"
+               >
+                <?php esc_html_e("Create New", 'duplicator'); ?>
+            </a>
 		</td>
 	</tr>
 </table>	
+<?php 
+            DUP_Package::is_active_package_present();
+?>
 
 
 <?php if($totalElements == 0 )  : ?>
@@ -138,30 +157,27 @@ TOOL-BAR -->
 		$txt_mode_daf  = __('Archive created as daf file', 'duplicator');
 		//$rows = $qryResult;
 
-        $active_package_id = DUP_Settings::Get('active_package_id');
 
 		foreach ($packages as $Package) {
-            $is_active_package = ($active_package_id == $Package->ID && $Package->Status >= 0 && $Package->Status < 100);
+            $is_running_package = $Package->isRunning();
 
-            if(!$is_active_package) {
-                // Never display incomplete packages and purge those that are no longer active
-                if($Package->Status >= 0 && $Package->Status < 100) {
-                    if(DUP_Settings::Get('active_package_id') != $Package->ID) {
-                        $Package->delete();
-                    }
-
-                    if ($rowCount <= 1 && $totalElements == 1)
-                        $package_running = true;
-
-                    continue;
+            // Never display incomplete packages and purge those that are no longer active
+            if(!$is_running_package && $Package->Status >= 0 && $Package->Status < 100) {
+                $Package->delete();
+                
+                if ($rowCount <= 1 && $totalElements == 1) {
+                    $package_running = true;
                 }
+
+                continue;
             }
+            
             
 			$pack_dbonly = false;
 
 			if (is_object($Package)) {
 				 $pack_name			= $Package->Name;
-				 $pack_archive_size = $Package->Archive->Size;
+				 $pack_archive_size = $Package->getArchiveSize();
 				 $pack_storeurl		= $Package->StoreURL;
 				 $pack_namehash	    = $Package->NameHash;
 				 $pack_dbonly       = $Package->Archive->ExportOnlyDB;
@@ -189,10 +205,10 @@ TOOL-BAR -->
 
 			<?php
 
-            if ($Package->Status >= 100 || $is_active_package) :
+            if ($Package->Status >= 100 || $is_running_package) :
                 $statusCount ++;
                 ?>
-				<tr class="dup-pack-info <?php echo esc_attr($css_alt); ?> <?php echo $is_active_package ? 'is-active' : ''; ?>">
+				<tr class="dup-pack-info <?php echo esc_attr($css_alt); ?> <?php echo $is_running_package ? 'is-running' : ''; ?>">
 					<td class="pass"><input name="delete_confirm" type="checkbox" id="<?php echo absint($Package->ID); ?>" /></td>
 					<td>
 						<?php 
@@ -203,7 +219,7 @@ TOOL-BAR -->
 					<td><?php echo DUP_Util::byteSize($pack_archive_size); ?></td>
 					<td class='pack-name'>
 						<?php	echo ($pack_dbonly) ? "{$pack_name} <sup title='".esc_attr($txt_dbonly)."'>DB</sup>" : esc_html($pack_name); ?>
-                        <?php echo $is_active_package ? ' <b>IS ACTIVE PACKAGE</b>' : ''; ?>
+                        <span class="building-info" ><i class="fa fa-gear fa-spin"></i> <b>Building Package</b></span>
 					</td>
 					<td class="get-btns">
 						<button id="<?php echo esc_attr("{$uniqueid}_installer.php"); ?>" class="button no-select" onclick="Duplicator.Pack.DownloadPackageFile(0, <?php echo absint($Package->ID); ?>); return false;">
@@ -222,19 +238,19 @@ TOOL-BAR -->
 			<?php else : ?>	
 			
 				<?php
-					$size = 0;
+					/*$size = 0;
 					$tmpSearch = glob(DUPLICATOR_SSDIR_PATH_TMP . "/{$pack_namehash}_*");
 					if (is_array($tmpSearch)) {
 						$result = array_map('filesize', $tmpSearch);
 						$size = array_sum($result);
 					}
-					$pack_archive_size = $size;
+					$pack_archive_size = $size;*/
 					$error_url = "?page=duplicator&action=detail&tab=detail&id={$Package->ID}";
 				?>
 				<tr class="dup-pack-info  <?php echo esc_attr($css_alt); ?>">
 					<td class="fail"><input name="delete_confirm" type="checkbox" id="<?php echo absint($Package->ID); ?>" /></td>
 					<td><?php echo DUP_Package::getCreatedDateFormat($Package->Created, $ui_create_frmt);?></td>
-					<td><?php echo DUP_Util::byteSize($size); ?></td>
+					<td><?php echo DUP_Util::byteSize($pack_archive_size); ?></td>
 					<td class='pack-name'><?php echo esc_html($pack_name); ?></td>               
 					<td class="get-btns error-msg" colspan="2">		
 						<span>
@@ -277,31 +293,36 @@ TOOL-BAR -->
 <!-- ==========================================
 THICK-BOX DIALOGS: -->
 <?php
-	$alert1 = new DUP_UI_Dialog();
-	$alert1->title		= __('Bulk Action Required', 'duplicator');
-	$alert1->message	= '<i class="fa fa-exclamation-triangle"></i>&nbsp;';
-	$alert1->message	.= __('No selections made! Please select an action from the "Bulk Actions" drop down menu.', 'duplicator');
-	$alert1->initAlert();
-	
-	$alert2 = new DUP_UI_Dialog();
-	$alert2->title		= __('Selection Required', 'duplicator', 'duplicator');
-	$alert2->message	= '<i class="fa fa-exclamation-triangle"></i>&nbsp;';
-	$alert2->message	.= __('No selections made! Please select at least one package to delete.', 'duplicator');
-	$alert2->initAlert();
-	
-	$confirm1 = new DUP_UI_Dialog();
-	$confirm1->title			= __('Delete Packages?', 'duplicator');
-	$confirm1->message			= __('Are you sure, you want to delete the selected package(s)?', 'duplicator');
-	$confirm1->progressText	= __('Removing Packages, Please Wait...', 'duplicator');
-	$confirm1->jscallback		= 'Duplicator.Pack.Delete()';
-	$confirm1->initConfirm();
+$alert1          = new DUP_UI_Dialog();
+$alert1->title   = __('Bulk Action Required', 'duplicator');
+$alert1->message = '<i class="fa fa-exclamation-triangle"></i>&nbsp;';
+$alert1->message .= __('No selections made! Please select an action from the "Bulk Actions" drop down menu.', 'duplicator');
+$alert1->initAlert();
 
-	$alert3 = new DUP_UI_Dialog();
-	$alert3->height     = 355;
-	$alert3->width      = 350;
-	$alert3->title		= __('Duplicator Help', 'duplicator');
-	$alert3->message	= "<div id='dup-help-dlg'></div>";
-	$alert3->initAlert();
+$alert2          = new DUP_UI_Dialog();
+$alert2->title   = __('Selection Required', 'duplicator', 'duplicator');
+$alert2->message = '<i class="fa fa-exclamation-triangle"></i>&nbsp;';
+$alert2->message .= __('No selections made! Please select at least one package to delete.', 'duplicator');
+$alert2->initAlert();
+
+$confirm1               = new DUP_UI_Dialog();
+$confirm1->title        = __('Delete Packages?', 'duplicator');
+$confirm1->message      = __('Are you sure, you want to delete the selected package(s)?', 'duplicator');
+$confirm1->progressText = __('Removing Packages, Please Wait...', 'duplicator');
+$confirm1->jscallback   = 'Duplicator.Pack.Delete()';
+$confirm1->initConfirm();
+
+$alert3          = new DUP_UI_Dialog();
+$alert3->height  = 355;
+$alert3->width   = 350;
+$alert3->title   = __('Duplicator Help', 'duplicator');
+$alert3->message = "<div id='dup-help-dlg'></div>";
+$alert3->initAlert();
+
+$alertPackRunning          = new DUP_UI_Dialog();
+$alertPackRunning->title   = __('Alert!', 'duplicator');
+$alertPackRunning->message = __('A package is being processed. Retry later.', 'duplicator');
+$alertPackRunning->initAlert();
 ?>
 
 <!-- =======================
@@ -324,7 +345,15 @@ DIALOG: HELP DIALOG -->
 <script>
 jQuery(document).ready(function($) 
 {
-	
+    /** Create new package check */
+    Duplicator.Pack.CreateNew = function(e){
+        var $this = $(e);
+        if ($this.hasClass('disabled')) {
+            <?php $alertPackRunning->showAlert(); ?>
+            return false;
+        }
+    };
+
 	/*	Creats a comma seperate list of all selected package ids  */
 	Duplicator.Pack.GetDeleteList = function () 
 	{

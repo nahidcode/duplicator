@@ -337,6 +337,14 @@ class DUP_Package
         return $validator;
     }
 
+    /**
+     *
+     * @return bool return true if package is a active_package_id and status is bewteen 0 and 100
+     */
+    public function isRunning() {
+        return DUP_Settings::Get('active_package_id') == $this->ID && $this->Status >= 0 && $this->Status < 100;
+    }
+
 	/**
      * Saves the active package to the package table
      *
@@ -441,6 +449,43 @@ class DUP_Package
     }
 
     /**
+     * Get package archive size.
+     * If package isn't complete it get size from sum of temp files.
+     *
+     * @return int size in byte 
+     */
+    public function getArchiveSize() {
+        $size = 0;
+
+        if ($this->Status >= 100) {
+            $size = $this->Archive->Size;
+        } else {
+            $tmpSearch = glob(DUPLICATOR_SSDIR_PATH_TMP . "/{$this->NameHash}_*");
+            if (is_array($tmpSearch)) {
+                $result = array_map('filesize', $tmpSearch);
+                $size = array_sum($result);
+            }
+        }
+
+        return $size;
+    }
+
+    /**
+     * Return true if active package exist and have an active status
+     *
+     * @return bool
+     */
+    public static function is_active_package_present()
+    {
+        $activePakcs = self::get_all_by_status(array(
+                array('op' => '>=', 'status' => DUP_PackageStatus::CREATED),
+                array('op' => '<', 'status' => DUP_PackageStatus::COMPLETE)
+                ), true);
+
+        return in_array( DUP_Settings::Get('active_package_id') , $activePakcs);
+    }
+
+    /**
      * Get all packages with status conditions
      * @global wpdb $wpdb
      * @param array $conditions es. [
@@ -450,11 +495,15 @@ class DUP_Package
      *                                  [ 'op' => '<' ,
      *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
      *                              ]
-     * @return DUP_Package[]
+     * @param bool $getIds if true return array of id
+     *
+     * @return DUP_Package[]|int[]
      */
-    public static function get_all_by_status($conditions = array())
+    public static function get_all_by_status($conditions = array(),$getIds = false)
     {
         global $wpdb;
+        $result = array();
+
         $tablePrefix = DUP_Util::getTablePrefix();
         $table = $tablePrefix . "duplicator_packages";
 
@@ -475,23 +524,30 @@ class DUP_Package
             $where = ' WHERE '.implode($relation, $str_conds).' ';
         }
 
-        $packages = array();
-        $rows     = $wpdb->get_results("SELECT * FROM `{$table}` {$where} ORDER BY id DESC", ARRAY_A);
+        $cols = $getIds ? 'id' : '*';
+        $rows = $wpdb->get_results("SELECT {$cols} FROM `{$table}` {$where} ORDER BY id DESC", ARRAY_A);
 
         if ($rows != null) {
-            foreach ($rows as $row) {
-                $Package = unserialize($row['package']);
-                if ($Package) {
-                    // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
-                    if (!isset($Package->Status)) {
-                        $Package->Status = $row['status'];
-                    }
+            if ($getIds) {
+                foreach ($rows as $row) {
+                     $result[] = (int) $row['id'];
+                }
+            } else {
+                foreach ($rows as $row) {
+                    $Package = unserialize($row['package']);
+                    if ($Package) {
+                        // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
+                        if (!isset($Package->Status)) {
+                            $Package->Status = $row['status'];
+                        }
 
-                    $packages[] = $Package;
+                        $result[] = $Package;
+                    }
                 }
             }
         }
-        return $packages;
+
+        return $result;
     }
 
     /**
