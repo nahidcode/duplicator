@@ -24,15 +24,24 @@
 	input#dup-bulk-action-all {margin:0px;padding:0px 0px 0px 5px;}
 	button.dup-button-selected {border:1px solid #000 !important; background-color:#dfdfdf !important;}
 	div.dup-quick-start {font-style:italic; font-size: 13px; line-height: 18px; margin-top: 15px}
+
+    .add-new-h2.disabled { 
+        cursor: not-allowed;
+        border-color: #ccc !important;
+        background: #f7f7f7 !important;
+        color: #ccc !important;
+    }
 	
 	/* Table package details */
 	table.dup-pack-table {word-break:break-all;}
 	table.dup-pack-table th {white-space:nowrap !important;}
 	table.dup-pack-table td.pack-name {text-overflow:ellipsis; white-space:nowrap}
+    table.dup-pack-table td.pack-size {min-width: 65px; }
 
 	table.dup-pack-table input[name="delete_confirm"] {margin-left:15px}
 	table.dup-pack-table td.fail {border-left: 4px solid #d54e21;}
 	table.dup-pack-table td.pass {border-left: 4px solid #2ea2cc;}
+
     .dup-pack-info {height: 45px;}
     .dup-pack-info td {vertical-align: middle; }
 	tr.dup-pack-info td {white-space:nowrap; padding:2px 30px 2px 7px;}
@@ -174,12 +183,14 @@ TOOL-BAR -->
 			if (is_object($Package)) {
 				 $pack_name			= $Package->Name;
 				 $pack_archive_size = $Package->getArchiveSize();
+                 $pack_perc         = $Package->Status;
 				 $pack_storeurl		= $Package->StoreURL;
 				 $pack_namehash	    = $Package->NameHash;
 				 $pack_dbonly       = $Package->Archive->ExportOnlyDB;
 				 $pack_build_mode   = ($Package->Archive->Format === 'ZIP') ? true : false;
 			} else {
 				 $pack_archive_size = 0;
+                 $pack_perc         = 0;
 				 $pack_storeurl		= 'unknown';
 				 $pack_name			= 'unknown';
 				 $pack_namehash	    = 'unknown';
@@ -212,10 +223,10 @@ TOOL-BAR -->
 							echo ($pack_build_mode) ? " <sup title='{$txt_mode_zip}'>zip</sup>" : " <sup title='{$txt_mode_daf}'>daf</sup>";
 						?>
 					</td>
-					<td><?php echo DUP_Util::byteSize($pack_archive_size); ?></td>
+					<td class="pack-size"><?php echo DUP_Util::byteSize($pack_archive_size); ?></td>
 					<td class='pack-name'>
 						<?php	echo ($pack_dbonly) ? "{$pack_name} <sup title='".esc_attr($txt_dbonly)."'>DB</sup>" : esc_html($pack_name); ?>
-                        <span class="building-info" ><i class="fa fa-gear fa-spin"></i> <b>Building Package</b></span>
+                        <span class="building-info" ><i class="fa fa-gear fa-spin"></i> <b>Building Package</b> <span class="perc"><?php echo $pack_perc; ?></span>%</span>
 					</td>
 					<td class="get-btns">
 						<button id="<?php echo esc_attr("{$uniqueid}_installer.php"); ?>" class="button no-select" onclick="Duplicator.Pack.DownloadPackageFile(0, <?php echo absint($Package->ID); ?>); return false;">
@@ -246,7 +257,7 @@ TOOL-BAR -->
 				<tr class="dup-pack-info  <?php echo esc_attr($css_alt); ?>">
 					<td class="fail"><input name="delete_confirm" type="checkbox" id="<?php echo absint($Package->ID); ?>" /></td>
 					<td><?php echo DUP_Package::getCreatedDateFormat($Package->Created, $ui_create_frmt);?></td>
-					<td><?php echo DUP_Util::byteSize($pack_archive_size); ?></td>
+					<td class="pack-size"><?php echo DUP_Util::byteSize($pack_archive_size); ?></td>
 					<td class='pack-name'><?php echo esc_html($pack_name); ?></td>               
 					<td class="get-btns error-msg" colspan="2">		
 						<span>
@@ -343,11 +354,22 @@ jQuery(document).ready(function($)
 {
     /** Create new package check */
     Duplicator.Pack.CreateNew = function(e){
-        var $this = $(e);
-        if ($this.hasClass('disabled')) {
+        var cButton = $(e);
+        if (cButton.hasClass('disabled')) {
             <?php $alertPackRunning->showAlert(); ?>
-            return false;
+        } else {
+            Duplicator.Pack.GetActivePackageInfo(function (info) {
+                if (info.present) {
+                    cButton.addClass('disabled');
+                    // reloag current page to update packages list
+                    location.reload(true);
+                } else {
+                    // no active package. Load step1 page.
+                    window.location = cButton.attr('href');
+                }
+            });
         }
+        return false;
     };
 
 	/*	Creats a comma seperate list of all selected package ids  */
@@ -398,30 +420,52 @@ jQuery(document).ready(function($)
 
 	};
 
-    /*	Removes all selected package sets
-	 *	@param event	To prevent bubbling */
-	Duplicator.Pack.GetActivePackageInfo = function ()
+    Duplicator.Pack.ActivePackageInfo = function (info) {
+        $('.dup-pack-info.is-running .pack-size').text(info.size_format);
+
+        if (info.present) {
+            $('.dup-pack-info.is-running .building-info .perc').text(info.status);
+
+            setTimeout(function(){
+                Duplicator.Pack.GetActivePackageInfo(Duplicator.Pack.ActivePackageInfo);
+            }, 1000);
+            
+        } else {
+            $('.dup-pack-info.is-running').removeClass('is-running');
+            $('#dup-create-new.disabled').removeClass('disabled');
+        }
+    }
+
+    /*	Get active package info
+	 *
+     *	  */
+	Duplicator.Pack.GetActivePackageInfo = function (callbackOnSuccess)
 	{
 		$.ajax({
-			type: "POST",
-			url: ajaxurl,
+            type: "POST",
+            cache: false,
+            url: ajaxurl,
+            dataType: "json",
+            timeout: 10000000,
 			data: {
                 action : 'duplicator_active_package_info',
                 nonce: '<?php echo esc_js(wp_create_nonce('duplicator_active_package_info')); ?>'
             },
-			complete: function(result) {
+			complete: function () {},
+            success: function (result) {
                 console.log(result);
-
                 if (result.success) {
-                    if (result.active_package.present) {
-
-                    } esle {
-                        
+                    if ($.isFunction(callbackOnSuccess)) {
+                        callbackOnSuccess(result.data.active_package);
                     }
                 } else {
                     // @todo manage error
                 }
-			}
+			},
+            error: function (result) {
+                var result = result || new Object();
+                // @todo manage error
+            }
 		});
 	};
 	
@@ -447,13 +491,13 @@ jQuery(document).ready(function($)
 		<?php $alert3->showAlert(); ?>
 	}
 
-	<?php if ($package_running) :?>
-		$('#pack-processing').show();
+<?php if ($package_running) : ?>
+    	$('#pack-processing').show();
+<?php endif;
 
-	<?php endif; ?>
-
-
-    Duplicator.Pack.GetActivePackageInfo();
+if ($active_package_present) :?>
+    Duplicator.Pack.GetActivePackageInfo(Duplicator.Pack.ActivePackageInfo);
+<?php endif; ?>
 	
 });
 </script>
