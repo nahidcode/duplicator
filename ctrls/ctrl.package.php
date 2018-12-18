@@ -271,6 +271,60 @@ function duplicator_package_delete()
 }
 
 /**
+ *  Active package info
+ *  Returns a JSON scan report active package info or
+ *  active_package_present == false if no active package is present.
+ *  
+ *  @return json   
+ */
+function duplicator_active_package_info()
+{
+    ob_start();
+    try {
+        global $wpdb;
+
+        $error  = false;
+        $result = array(
+            'active_package' => array(
+                'present' => false,
+                'status' => 0,
+                'size' => 0
+            ),
+            'html' => '',
+            'message' => ''
+        );
+
+        $nonce = sanitize_text_field($_POST['nonce']);
+        if (!wp_verify_nonce($nonce, 'duplicator_active_package_info')) {
+             throw new Exception(__('An unathorized security request was made to this page. Please try again!','duplicator'));
+        }
+
+        $result['active_package']['present'] = DUP_Package::is_active_package_present();
+
+        if ($result['active_package']['present']) {
+            $id = DUP_Settings::Get('active_package_id');
+            $package = DUP_Package::getByID($id);
+            if (is_null($package)) {
+                throw new Exception(__('Active package object error','duplicator'));
+            }
+            $result['active_package']['status'] = $package->Status;
+            $result['active_package']['size'] = $package->getArchiveSize();
+            $result['active_package']['size_format'] = DUP_Util::byteSize($package->getArchiveSize());
+        }
+    } catch (Exception $e) {
+        $error             = true;
+        $result['message'] = $e->getMessage();
+    }
+
+    $result['html'] = ob_get_clean();
+    if ($error) {
+        wp_send_json_error($result);
+    } else {
+        wp_send_json_success($result);
+    }
+}
+
+/**
  * Controller for Tools
  * @package Duplicator\ctrls
  */

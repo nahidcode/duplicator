@@ -209,6 +209,7 @@ if (is_admin() == true)
 	add_action('admin_notices',		array('DUP_UI_Notice', 'showReservedFilesNotice'));
 	
 	//CTRL ACTIONS
+    add_action('wp_ajax_duplicator_active_package_info',        'duplicator_active_package_info');
     add_action('wp_ajax_duplicator_package_scan',				'duplicator_package_scan');
     add_action('wp_ajax_duplicator_package_build',				'duplicator_package_build');
     add_action('wp_ajax_duplicator_package_delete',				'duplicator_package_delete');
