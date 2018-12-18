@@ -392,17 +392,22 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
                             $fileName = basename($filePath);
                         }
 
+                        @session_write_close();
+						@ob_flush();
+						@flush();
+						
                         header("Content-Type: application/octet-stream");
-                        header("Content-Disposition: attachment; filename=\"{$fileName}\";");
+						header("Content-Disposition: attachment; filename=\"{$fileName}\";");
 
-                        @ob_end_clean(); // required or large files wont work
-                        DUP_Log::Trace("streaming $filePath");
+                        DUP_PRO_LOG::trace("streaming $file_path");
+						
+						while(!feof($fp)) {					
+							$buffer = fread($fp, 2048);
+							print $buffer;
+						}
 
-                        if (fpassthru($fp) === false) {
-                            DUP_Log::Trace("Error with fpassthru for {$filePath}");
-                        }
                         fclose($fp);
-                        die(); //Supress additional ouput
+						exit;
                     } else {
                         header("Content-Type: text/plain");
                         header("Content-Disposition: attachment; filename=\"error.txt\";");
