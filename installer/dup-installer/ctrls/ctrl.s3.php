@@ -131,40 +131,38 @@ if (isset($_POST['search'])) {
 	}
 }
 
-//DIRS PATHS
+// DIRS PATHS
 DUPX_U::queueReplacementWithEncodings($_POST['path_old'] , $_POST['path_new'] );
 $path_old_unsetSafe = rtrim(DUPX_U::unsetSafePath($_POST['path_old']), '\\');
 $path_new_unsetSafe = rtrim($_POST['path_new'], '/');
 DUPX_U::queueReplacementWithEncodings($path_old_unsetSafe , $path_new_unsetSafe );
 
-//SEARCH WITH NO PROTOCAL: RAW "//"
-DUPX_U::replacmentUrlOldToNew($_POST['url_old'], $_POST['url_new']);
+// URLS
+// url from _POST
+$oldUrls_list = array(
+    $_POST['url_old']
+);
 
-/*
-$url_old_raw = str_ireplace(array('http://', 'https://'), '//', $_POST['url_old']);
-$url_new_raw = str_ireplace(array('http://', 'https://'), '//', $_POST['url_new']);
-DUPX_U::queueReplacementWithEncodings($url_old_raw , $url_new_raw);
-
-//FORCE NEW PROTOCOL "//"
-$url_new_info = parse_url($_POST['url_new']);
-$url_new_domain = $url_new_info['scheme'].'://'.$url_new_info['host'];
-
-if ($url_new_info['scheme'] == 'http') {
-    $url_new_wrong_protocol = 'https://'.$url_new_info['host'];
-} else {
-    $url_new_wrong_protocol = 'http://'.$url_new_info['host'];
-}
-DUPX_U::queueReplacementWithEncodings($url_new_wrong_protocol , $url_new_domain);*/
-
+// urls from wp-config
 if (!is_null($config_transformer)) {
-
     if ($config_transformer->exists('constant', 'WP_HOME')) {
-
+        $oldUrls_list[] = $config_transformer->get_value('constant', 'WP_HOME');
     }
 
     if ($config_transformer->exists('constant', 'WP_SITEURL')) {
-
+        $oldUrls_list[] = $config_transformer->get_value('constant', 'WP_SITEURL');
     }
+}
+
+// urls from db
+$dbUrls = mysqli_query($dbh, 'SELECT * FROM `'.mysqli_real_escape_string($dbh, $GLOBALS['DUPX_AC']->wp_tableprefix).'options` where option_name IN (\'siteurl\',\'home\')');
+while ($row = $dbUrls->fetch_object()) {
+     $oldUrls_list[] = $row->option_value;
+}
+
+$oldUrls_list = array_unique ($oldUrls_list);
+foreach ($oldUrls_list  as $i => $oldUrl) {
+    DUPX_U::replacmentUrlOldToNew($oldUrl, $_POST['url_new']);
 }
 
 /*=============================================================
