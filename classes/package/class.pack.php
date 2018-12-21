@@ -312,7 +312,7 @@ class DUP_Package
                 )
             );
 
-        $validator->filter_var($this->Installer->OptsDBHost, FILTER_VALIDATE_URL ,  array(
+        $validator->filter_var($this->Installer->OptsDBHost, FILTER_VALIDATE_DOMAIN ,  array(
                     'valkey' => 'OptsDBHost' ,
                     'errmsg' => __('MySQL Server Host: <b>%1$s</b> isn\'t a valid host', 'duplicator'),
                     'acc_vals' => array(
