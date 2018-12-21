@@ -417,6 +417,11 @@ class DUP_Archive
 		$utf8_key_list = array();
 		$unset_key_list = array();
 
+		$wpconfig_filepath = $this->getWPConfigFilePath();
+        if (!is_readable($wpconfig_filepath)) {
+			$this->FilterInfo->Files->Unreadable[] = $wpconfig_filepath;
+		}
+		
 		foreach ($this->Files as $key => $filePath) {
 
 			$fileName = basename($filePath);
@@ -471,7 +476,7 @@ class DUP_Archive
 			$this->Files = array_values($this->Files);
 		}
 
-    }
+	}
 
 	/**
      * Recursive function to get all directories in a wp install
@@ -672,5 +677,15 @@ class DUP_Archive
 		}
 		usort($this->FilterInfo->TreeWarning, "_sortDir");
 	}
+
+	public function getWPConfigFilePath() { 
+        $wpconfig_filepath = ''; 
+        if (file_exists(DUPLICATOR_WPROOTPATH . 'wp-config.php')) { 
+            $wpconfig_filepath = DUPLICATOR_WPROOTPATH . 'wp-config.php'; 
+        } elseif (@file_exists(dirname(DUPLICATOR_WPROOTPATH) . '/wp-config.php') && !@file_exists(dirname(DUPLICATOR_WPROOTPATH) . '/wp-settings.php')) { 
+            $wpconfig_filepath = dirname(DUPLICATOR_WPROOTPATH) . '/wp-config.php'; 
+        } 
+        return $wpconfig_filepath; 
+    }
 
 }

@@ -39,4 +39,6 @@ class DUP_Archive_Config
     public $mu_mode;
 
     public $wp_tableprefix;
+
+    public $is_outer_root_wp_config_file;
 }
