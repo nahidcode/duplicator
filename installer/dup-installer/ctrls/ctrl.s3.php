@@ -139,30 +139,30 @@ DUPX_U::queueReplacementWithEncodings($path_old_unsetSafe , $path_new_unsetSafe 
 
 // URLS
 // url from _POST
-$oldUrls_list = array(
+$old_urls_list = array(
     $_POST['url_old']
 );
 
 // urls from wp-config
 if (!is_null($config_transformer)) {
     if ($config_transformer->exists('constant', 'WP_HOME')) {
-        $oldUrls_list[] = $config_transformer->get_value('constant', 'WP_HOME');
+        $old_urls_list[] = $config_transformer->get_value('constant', 'WP_HOME');
     }
 
     if ($config_transformer->exists('constant', 'WP_SITEURL')) {
-        $oldUrls_list[] = $config_transformer->get_value('constant', 'WP_SITEURL');
+        $old_urls_list[] = $config_transformer->get_value('constant', 'WP_SITEURL');
     }
 }
 
 // urls from db
 $dbUrls = mysqli_query($dbh, 'SELECT * FROM `'.mysqli_real_escape_string($dbh, $GLOBALS['DUPX_AC']->wp_tableprefix).'options` where option_name IN (\'siteurl\',\'home\')');
 while ($row = $dbUrls->fetch_object()) {
-     $oldUrls_list[] = $row->option_value;
+     $old_urls_list[] = $row->option_value;
 }
 
-$oldUrls_list = array_unique ($oldUrls_list);
-foreach ($oldUrls_list  as $i => $oldUrl) {
-    DUPX_U::replacmentUrlOldToNew($oldUrl, $_POST['url_new']);
+$old_urls_list = array_unique ($old_urls_list);
+foreach ($old_urls_list  as $old_url) {
+    DUPX_U::replacmentUrlOldToNew($old_url, $_POST['url_new']);
 }
 
 /*=============================================================
