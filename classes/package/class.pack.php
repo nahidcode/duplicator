@@ -312,15 +312,18 @@ class DUP_Package
                 )
             );
 
-        $validator->filter_var($this->Installer->OptsDBHost, FILTER_VALIDATE_DOMAIN ,  array(
-                    'valkey' => 'OptsDBHost' ,
-                    'errmsg' => __('MySQL Server Host: <b>%1$s</b> isn\'t a valid host', 'duplicator'),
-                    'acc_vals' => array(
-                        '' ,
-                        'localhost'
-                    )
-                )
-            );
+		//FILTER_VALIDATE_DOMAIN throws notice message on PHP 5.6
+		if (defined('FILTER_VALIDATE_DOMAIN')) {
+			$validator->filter_var($this->Installer->OptsDBHost, FILTER_VALIDATE_DOMAIN ,  array(
+						'valkey' => 'OptsDBHost' ,
+						'errmsg' => __('MySQL Server Host: <b>%1$s</b> isn\'t a valid host', 'duplicator'),
+						'acc_vals' => array(
+							'' ,
+							'localhost'
+						)
+					)
+				);
+		}
 
         $validator->filter_var($this->Installer->OptsDBPort, FILTER_VALIDATE_INT , array(
                     'valkey' => 'OptsDBPort' ,
