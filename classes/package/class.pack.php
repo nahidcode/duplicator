@@ -788,13 +788,8 @@ class DUP_Package
 			return;
 		}
 
-        $iterator = new FilesystemIterator(DUPLICATOR_SSDIR_PATH_TMP);
-
-        // if tmp is empty return
-        if (!$iterator->valid()) {
-            return;
-        }
-
+        $globs = glob(DUPLICATOR_SSDIR_PATH_TMP.'/*.*');
+        
         // RUNNING PACKAGES
         $active_pack = self::get_all_by_status(array(
             'relation' => 'AND',
@@ -802,8 +797,9 @@ class DUP_Package
             array('op' => '<' , 'status' => DUP_PackageStatus::COMPLETE )
         ));
         $active_files = array();
-        foreach($active_pack as $package) {
-            $active_files[] = $package->NameHash;
+
+        foreach($active_pack as $package) {                            
+            $active_files[] = $package->NameHash; // 20181221_dup_c0b2f1198a92f4f6c47a621494adc5cb_20181221173955
         }
 
         // ERRORS PACKAGES
@@ -821,39 +817,43 @@ class DUP_Package
         // Calculate delta time for old files
         $oldTimeToClean = time() - DUPLICATOR_TEMP_CLEANUP_SECONDS;
 
-        foreach ($iterator as $fileinfo) {
+        // foreach ($iterator as $fileinfo) {
+        foreach ($globs as $glob_full_path) {
             // Don't remove sub dir
-            if ($fileinfo->isDir()) {
+            // if ($fileinfo->isDir()) {
+            if (is_dir($glob_full_path)) {
                 continue;
             }
 
+            $file_name = basename($glob_full_path);
             // skip all active packages
             foreach ($active_files  as $c_nameHash) {
-                if (strpos($fileinfo->getFilename(), $c_nameHash) === 0) {
+                if (strpos($file_name, $c_nameHash) === 0) {
                     continue 2;
                 }
             }
 
             // Remove all old files
-            if ($fileinfo->getCTime() <= $oldTimeToClean) {
-                @unlink($fileinfo->getRealPath());
+            if (filemtime($glob_full_path) <= $oldTimeToClean) {
+                @unlink($glob_full_path);
                 continue;
             }
 
             // remove all error packages files
             foreach ($force_del_files  as $c_nameHash) {
-                if (strpos($fileinfo->getFilename(), $c_nameHash) === 0) {
-                    @unlink($fileinfo->getRealPath());
+                if (strpos($file_name, $c_nameHash) === 0) {
+                    @unlink($glob_full_path);
                     continue 2;
                 }
             }
 
+            $file_info = pathinfo($glob_full_path);
             // skip json file for pre build packages
-            if (in_array($fileinfo->getExtension(),$extension_filter) || in_array($fileinfo->getFilename() , $active_files)) {
+            if (in_array($file_info['extension'], $extension_filter) || in_array($file_name, $active_files)) {
                 continue;
             }
 
-            @unlink($fileinfo->getRealPath());
+            @unlink($glob_full_path);
         }
     }
 
