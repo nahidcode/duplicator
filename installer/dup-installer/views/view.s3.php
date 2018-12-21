@@ -465,9 +465,9 @@ DUPX.runUpdate = function()
             } catch(err) {
                 console.error(err);
                 console.error('JSON parse failed for response data: ' + respData);
-				var status  = "<b>Server Code:</b> "	+ xhr.status		+ "<br/>";
+				var status  = "<b>Server Code:</b> "	+ xHr.status		+ "<br/>";
 				status += "<b>Status:</b> "			+ textStatus	+ "<br/>";
-				status += "<b>Response:</b> "		+ xhr.responseText  + "<hr/>";
+				status += "<b>Response:</b> "		+ xHr.responseText  + "<hr/>";
 				status += "<b>Additional Troubleshooting Tips:</b><br/>";
 				status += "- Check the <a href='./<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>' target='dup-installer'>dup-installer-log.txt</a> file for warnings or errors.<br/>";
 				status += "- Check the web server and PHP error logs. <br/>";
