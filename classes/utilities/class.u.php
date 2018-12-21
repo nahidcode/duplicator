@@ -507,7 +507,7 @@ class DUP_Util
         $path_plugin = DUP_Util::safePath(DUPLICATOR_PLUGIN_PATH);
 
         if (!file_exists($path_ssdir)) {
-            $old_root_perm = fileperms($path_wproot);
+            $old_root_perm = @fileperms($path_wproot);
 
             //--------------------------------
             //CHMOD DIRECTORY ACCESS
