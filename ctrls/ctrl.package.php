@@ -275,7 +275,9 @@ function duplicator_package_delete()
  *  Returns a JSON scan report active package info or
  *  active_package_present == false if no active package is present.
  *  
- *  @return json   
+ *
+ *  @return json   JSON report object
+ *  @example	   to test: /wp-admin/admin-ajax.php?action=duplicator_package_scan
  */
 function duplicator_active_package_info()
 {
@@ -309,7 +311,6 @@ function duplicator_active_package_info()
             }
             $result['active_package']['status'] = $package->Status;
             $result['active_package']['size'] = $package->getArchiveSize();
-            $result['active_package']['size_format'] = DUP_Util::byteSize($package->getArchiveSize());
         }
     } catch (Exception $e) {
         $error             = true;
