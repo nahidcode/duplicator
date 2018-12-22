@@ -446,19 +446,21 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
                             $fileName = basename($filePath);
                         }
 
-                        @session_write_close();
+						@session_write_close();
 						@ob_flush();
-						@flush();
-						
-                        header("Content-Type: application/octet-stream");
-						header("Content-Disposition: attachment; filename=\"{$fileName}\";");
+						//flush seems to cause issues on some PHP version where the download prompt
+						//is no longer called but the contents of the installer are dumped to the browser.
+						//@flush();
 
-                        DUP_LOG::trace("streaming $filePath");
-						
-						while(!feof($fp)) {					
-							$buffer = fread($fp, 2048);
-							print $buffer;
-						}
+						 header("Content-Type: application/octet-stream");
+						 header("Content-Disposition: attachment; filename=\"{$fileName}\";");
+
+						 DUP_LOG::trace("streaming $filePath");
+
+						 while(!feof($fp)) {
+							 $buffer = fread($fp, 2048);
+							 print $buffer;
+						 }
 
                         fclose($fp);
 						exit;
