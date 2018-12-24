@@ -57,6 +57,7 @@ $notice['40'] = DUPX_Server::$php_version_53_plus	? 'Good' : 'Warn';
 $notice['50'] = empty($openbase)					? 'Good' : 'Warn';
 $notice['60'] = !$max_time_warn						? 'Good' : 'Warn';
 $notice['70'] = $GLOBALS['DUPX_AC']->mu_mode == 0	? 'Good' : 'Warn';
+$notice['80'] = !$GLOBALS['DUPX_AC']->is_outer_root_wp_config_file	? 'Good' : 'Warn';
 $all_notice	  = in_array('Warn', $notice)			? 'Warn' : 'Good';
 
 //SUMMATION
@@ -479,6 +480,15 @@ VALIDATION
 			 Additional manual custom configurations will need to be made to finalize this multisite migration.
 
 			 <i><a href='https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=free_is_mu_warn_exe&utm_campaign=duplicator_pro' target='_blank'>[upgrade to pro]</a></i>
+		</div>
+
+		<!-- NOTICE 80 -->
+		<div class="status <?php echo ($notice['80'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo DUPX_U::esc_html($notice['80']); ?></div>
+		<div class="title" data-type="toggle" data-target="#s1-notice80"><i class="fa fa-caret-right"></i> wp-config.php file location</div>
+		<div class="info" id="s1-notice80">
+			The wp-config.php file have moved up one level and out of the wordpress root folder in package creation site. 
+			<br/><br/>
+			Duplicator Installer will place this wp-config.php file wordpress setup root folder. It will not break anything in your installation site. It is just for your information.
 		</div>
 	</div>
 
