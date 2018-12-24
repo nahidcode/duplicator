@@ -432,7 +432,9 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
             if ($isBinary) {
                 @session_write_close();
                 @ob_flush();
-                @flush();
+				//flush seems to cause issues on some PHP version where the download prompt
+ 				//is no longer called but the contents of the installer are dumped to the browser.
+                //@flush();
 
                 header("Pragma: public");
                 header("Expires: 0");
