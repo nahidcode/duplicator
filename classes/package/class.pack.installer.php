@@ -250,7 +250,7 @@ class DUP_Installer
         try {
             DUP_Log::Info("add_extra_files_using_da1");
 			$htaccess_filepath = DUPLICATOR_WPROOTPATH . '.htaccess';
-			$webconf_filepath  = DUPLICATOR_WPROOTPATH . 'web.config';
+            $webconf_filepath  = DUPLICATOR_WPROOTPATH . 'web.config';
 
             $logger = new DUP_DupArchive_Logger();
 
@@ -269,7 +269,7 @@ class DUP_Installer
 				}
 			}
 
-			if(!empty($webconf_filepath)) {
+			if (file_exists($webconf_filepath)) {
 				try {
 					DupArchiveEngine::addRelativeFileToArchiveST($archive_filepath, $webconf_filepath, DUPLICATOR_WEBCONFIG_ORIG_FILENAME);
 					$this->numFilesAdded++;
