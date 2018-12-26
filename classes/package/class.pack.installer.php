@@ -167,6 +167,7 @@ class DUP_Installer
 
         $ac->mu_mode = DUP_MU::getMode();
         $ac->is_outer_root_wp_config_file = (!file_exists(DUPLICATOR_WPROOTPATH . 'wp-config.php')) ? true : false;
+        $ac->is_outer_root_wp_content_dir = $this->Package->Archive->isOuterWPContentDir();
 
         $json = json_encode($ac);
 

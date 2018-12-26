@@ -318,7 +318,9 @@ if (isset($_POST['cache_path']) && $_POST['cache_path']) {
 	$config_transformer->remove('constant', 'WPCACHEHOME');
 }
 
-if ($config_transformer->exists('constant', 'WP_CONTENT_DIR')) {
+if ($GLOBALS['DUPX_AC']->is_outer_root_wp_content_dir) {
+	$config_transformer->remove('constant', 'WP_CONTENT_DIR');
+} elseif ($config_transformer->exists('constant', 'WP_CONTENT_DIR')) {
 	$wp_content_dir_const_val = $config_transformer->get_value('constant', 'WP_CONTENT_DIR');
 	$wp_content_dir_const_val = DUPX_U::wp_normalize_path($wp_content_dir_const_val);
 	$new_path = str_replace($_POST['path_old'], $_POST['path_new'], $wp_content_dir_const_val, $count);
@@ -329,7 +331,9 @@ if ($config_transformer->exists('constant', 'WP_CONTENT_DIR')) {
 
 //WP_CONTENT_URL
 // '/' added to prevent word boundary with domains that have the same root path
-if ($config_transformer->exists('constant', 'WP_CONTENT_URL')) {
+if ($GLOBALS['DUPX_AC']->is_outer_root_wp_content_dir) {
+	$config_transformer->remove('constant', 'WP_CONTENT_DIR');
+} elseif ($config_transformer->exists('constant', 'WP_CONTENT_URL')) {
 	$wp_content_url_const_val = $config_transformer->get_value('constant', 'WP_CONTENT_URL');
 	$new_path = str_replace($_POST['url_old'] . '/', $_POST['url_new'] . '/', $wp_content_url_const_val, $count);
 	if ($count > 0) {

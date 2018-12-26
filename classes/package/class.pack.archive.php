@@ -145,8 +145,15 @@ class DUP_Archive
         if (in_array($this->PackDir, $this->FilterDirsAll) || $this->Package->Archive->ExportOnlyDB) {
             $this->Dirs = array();
         } else {
-            $this->Dirs[] = $this->PackDir;
+			$this->Dirs[] = $this->PackDir;
+			
 			$this->getFileLists($rootPath);
+
+			if ($this->isOuterWPContentDir()) {
+				$this->Dirs[] = WP_CONTENT_DIR;
+				$this->getFileLists(WP_CONTENT_DIR);
+			}
+
 			$this->setDirFilters();
 			$this->setFileFilters();
 			$this->setTreeFilters();
@@ -686,6 +693,60 @@ class DUP_Archive
             $wpconfig_filepath = dirname(DUPLICATOR_WPROOTPATH) . '/wp-config.php'; 
         } 
         return $wpconfig_filepath; 
+	}
+	
+	public function isOuterWPContentDir() {
+		if (!isset($this->isOuterWPContentDir)) {
+			$abspath_normalize = wp_normalize_path(ABSPATH); 
+			$wp_content_dir_normalize = wp_normalize_path(WP_CONTENT_DIR); 
+			if (0 !== strpos($wp_content_dir_normalize, $abspath_normalize)) {
+				$this->isOuterWPContentDir = true;
+			} else {
+				$this->isOuterWPContentDir = false;
+			}
+		}
+		return $this->isOuterWPContentDir;
+	}
+
+	public function wpContentDirNormalizePath() {
+		if (!isset($this->wpContentDirNormalizePath)) {
+			$this->wpContentDirNormalizePath = trailingslashit(wp_normalize_path(WP_CONTENT_DIR));
+		}
+		return $this->wpContentDirNormalizePath;
+	}
+
+	public function getLocalDirPath($dir, $basePath = '') {
+		$isOuterWPContentDir = $this->isOuterWPContentDir();
+		$wpContentDirNormalizePath = $this->wpContentDirNormalizePath();
+		$compressDir = rtrim(wp_normalize_path(DUP_Util::safePath($this->PackDir)), '/');
+			
+        $dir = trailingslashit(wp_normalize_path($dir));
+        if ($isOuterWPContentDir && 0 === strpos($dir, $wpContentDirNormalizePath)) {
+			$newWPContentDirPath = empty($basePath) 
+										? 'wp-content/' 
+										: $basePath.'wp-content/';
+			$emptyDir = ltrim(str_replace($wpContentDirNormalizePath, $newWPContentDirPath, $dir), '/');
+        } else {
+            $emptyDir = ltrim(str_replace($compressDir, $basePath, $dir), '/');
+        }
+        return $emptyDir;
     }
 
+    public function getLocalFilePath($file, $basePath = '') {
+		$isOuterWPContentDir = $this->isOuterWPContentDir();
+		$wpContentDirNormalizePath = $this->wpContentDirNormalizePath();
+		$compressDir = rtrim(wp_normalize_path(DUP_Util::safePath($this->PackDir)), '/');
+
+        $file = wp_normalize_path($file);
+        if ($isOuterWPContentDir && 0 === strpos($file, $wpContentDirNormalizePath)) {
+			$newWPContentDirPath = empty($basePath) 
+										? 'wp-content/' 
+										: $basePath.'wp-content/';
+            $localFileName = ltrim(str_replace($wpContentDirNormalizePath, $newWPContentDirPath, $file), '/');
+        } else {
+            $localFileName = ltrim(str_replace($compressDir, $basePath, $file), '/');
+        }
+        return $localFileName;
+    }
+	
 }

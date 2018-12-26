@@ -58,6 +58,7 @@ $notice['50'] = empty($openbase)					? 'Good' : 'Warn';
 $notice['60'] = !$max_time_warn						? 'Good' : 'Warn';
 $notice['70'] = $GLOBALS['DUPX_AC']->mu_mode == 0	? 'Good' : 'Warn';
 $notice['80'] = !$GLOBALS['DUPX_AC']->is_outer_root_wp_config_file	? 'Good' : 'Warn';
+$notice['90'] = !$GLOBALS['DUPX_AC']->is_outer_root_wp_content_dir	? 'Good' : 'Warn';
 $all_notice	  = in_array('Warn', $notice)			? 'Warn' : 'Good';
 
 //SUMMATION
@@ -488,7 +489,16 @@ VALIDATION
 		<div class="info" id="s1-notice80">
 			The wp-config.php file have moved up one level and out of the wordpress root folder in package creation site. 
 			<br/><br/>
-			Duplicator Installer will place this wp-config.php file wordpress setup root folder. It will not break anything in your installation site. It is just for your information.
+			Duplicator Installer will place this wp-config.php file in the wordpress setup root folder of this installation site. It will not break anything in your installation site. It is just for your information.
+		</div>
+
+		<!-- NOTICE 90 -->
+		<div class="status <?php echo ($notice['90'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo DUPX_U::esc_html($notice['90']); ?></div>
+		<div class="title" data-type="toggle" data-target="#s1-notice90"><i class="fa fa-caret-right"></i> wp-content directory location</div>
+		<div class="info" id="s1-notice90">
+			The wp-content directory was out of the wordpress root folder in package creation site. 
+			<br/><br/>
+			Duplicator Installer will place this wp-content directory in the wordpress setup root folder of this installation site. It will not break anything in your installation site. It is just for your information.
 		</div>
 	</div>
 
