@@ -58,7 +58,13 @@ $notice['50'] = empty($openbase)					? 'Good' : 'Warn';
 $notice['60'] = !$max_time_warn						? 'Good' : 'Warn';
 $notice['70'] = $GLOBALS['DUPX_AC']->mu_mode == 0	? 'Good' : 'Warn';
 $notice['80'] = !$GLOBALS['DUPX_AC']->is_outer_root_wp_config_file	? 'Good' : 'Warn';
-$notice['90'] = !$GLOBALS['DUPX_AC']->is_outer_root_wp_content_dir	? 'Good' : 'Warn';
+if ($GLOBALS['DUPX_AC']->exportOnlyDB) {
+	$notice['90'] = 'Good';
+} else {
+	$notice['90'] = (!$GLOBALS['DUPX_AC']->is_outer_root_wp_content_dir) 
+						? 'Good' 
+						: 'Warn';
+}
 $all_notice	  = in_array('Warn', $notice)			? 'Warn' : 'Good';
 
 //SUMMATION
