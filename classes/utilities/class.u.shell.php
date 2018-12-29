@@ -27,7 +27,19 @@ class DUP_Shell_U
         return escapeshellarg($string);
     }
 
-    public static function isPopenEnabled() { 
+    /**
+     * In some configurations this function returned false positives.
+     * It becomes deprecated
+     *
+     * @deprecated since version 1.3.2
+     * @return boolean // return always false
+     *
+     */
+    public static function isPopenEnabled() {
+        return false;
+
+        /**
+         * In some server configuration this check return a false positive
         if (!function_exists('popen') || !function_exists('proc_open')) { 
             $ret = false; 
         } else { 
@@ -35,5 +47,6 @@ class DUP_Shell_U
         } 
         $ret = apply_filters('duplicator_pro_is_popen_enabled', $ret); 
         return $ret; 
+        */
     }
 }
