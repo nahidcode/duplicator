@@ -594,12 +594,8 @@ jQuery(document).ready(function ($)
 	Duplicator.Pack.ResetSettings = function () 
 	{
 		var key = 'duplicator_package_active';
-        <?php
-			$package_url = admin_url('admin.php?page=duplicator&tab=new1');
-			$package_nonce_url = wp_nonce_url($package_url, 'new1-package');
-        ?>
 		jQuery('#dup-form-opts-action').val(key);
-		jQuery('#dup-form-opts').attr('action', '<?php $package_nonce_url; ?>');
+		jQuery('#dup-form-opts').attr('action', '');
 		jQuery('#dup-form-opts').submit();
 	}
 
