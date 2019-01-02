@@ -440,7 +440,7 @@ VALIDATION
 
 		<!-- NOTICE 45 -->
 		<div class="status <?php echo ($notice['45'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['45']; ?></div>
-		<div class="title" data-type="toggle" data-target="#s1-notice45"><i class="fa fa-caret-right"></i> PHP Version mismatch</div>
+		<div class="title" data-type="toggle" data-target="#s1-notice45"><i class="fa fa-caret-right"></i> PHP Version Mismatch</div>
 		<div class="info" id="s1-notice45">
 			<?php
                 $cssStyle   = $notice['45'] == 'Good' ? 'color:green' : 'color:red';
@@ -510,20 +510,22 @@ VALIDATION
 
 		<!-- NOTICE 80 -->
 		<div class="status <?php echo ($notice['80'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo DUPX_U::esc_html($notice['80']); ?></div>
-		<div class="title" data-type="toggle" data-target="#s1-notice80"><i class="fa fa-caret-right"></i> wp-config.php file location</div>
+		<div class="title" data-type="toggle" data-target="#s1-notice80"><i class="fa fa-caret-right"></i> WordPress wp-config Location</div>
 		<div class="info" id="s1-notice80">
-			The wp-config.php file have moved up one level and out of the wordpress root folder in package creation site. 
+			If the wp-config.php file was moved up one level and out of the WordPress root folder in the package creation site then this test will show a warning.
 			<br/><br/>
-			Duplicator Installer will place this wp-config.php file in the wordpress setup root folder of this installation site. It will not break anything in your installation site. It is just for your information.
+			This Duplicator installer will place this wp-config.php file in the WordPress setup root folder of this installation site to help stabilize the install process.
+			This process will not break anything in your installation site, but the details are here for your information.
 		</div>
 
 		<!-- NOTICE 90 -->
 		<div class="status <?php echo ($notice['90'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo DUPX_U::esc_html($notice['90']); ?></div>
-		<div class="title" data-type="toggle" data-target="#s1-notice90"><i class="fa fa-caret-right"></i> wp-content directory location</div>
+		<div class="title" data-type="toggle" data-target="#s1-notice90"><i class="fa fa-caret-right"></i> WordPress wp-content Location</div>
 		<div class="info" id="s1-notice90">
-			The wp-content directory was out of the wordpress root folder in package creation site. 
+			If the wp-content directory was moved and not located at the WordPress root folder in the package creation site then this test will show a warning.
 			<br/><br/>
-			Duplicator Installer will place this wp-content directory in the wordpress setup root folder of this installation site. It will not break anything in your installation site. It is just for your information.
+			Duplicator Installer will place this wp-content directory in the WordPress setup root folder of this installation site. It will not break anything in your installation
+			site. It is just for your information.
 		</div>
 	</div>
 
