@@ -54,6 +54,13 @@ if ($is_dbonly) {
 }
 $notice['30'] = $fulldays <= 180					? 'Good' : 'Warn';
 $notice['40'] = DUPX_Server::$php_version_53_plus	? 'Good' : 'Warn';
+
+$packagePHP = $GLOBALS['DUPX_AC']->version_php;
+$currentPHP = DUPX_Server::$php_version;
+$packagePHPMajor = intval($packagePHP);
+$currentPHPMajor = intval($currentPHP);
+$notice['45'] = ($packagePHPMajor === $currentPHPMajor || $GLOBALS['DUPX_AC']->exportOnlyDB) ? 'Good' : 'Warn';
+
 $notice['50'] = empty($openbase)					? 'Good' : 'Warn';
 $notice['60'] = !$max_time_warn						? 'Good' : 'Warn';
 $notice['70'] = $GLOBALS['DUPX_AC']->mu_mode == 0	? 'Good' : 'Warn';
@@ -410,7 +417,6 @@ VALIDATION
 		<div class="title" data-type="toggle" data-target="#s1-notice40"><i class="fa fa-caret-right"></i> PHP Version 5.2</div>
 		<div class="info" id="s1-notice40">
 			<?php
-				$currentPHP = DUPX_Server::$php_version;
 				$cssStyle   = DUPX_Server::$php_version_53_plus	 ? 'color:green' : 'color:red';
 				echo "<b style='{$cssStyle}'>This server is currently running PHP version [{$currentPHP}]</b>.<br/>"
 				. "Duplicator allows PHP 5.2 to be used during install but does not officially support it.  If you're using PHP 5.2 we strongly recommend NOT using it and having your "
@@ -422,6 +428,19 @@ VALIDATION
 				. "If your server is running <b>PHP 5.3+</b> please feel free to reach out for help if you run into issues with your migration/install.";
 			?>
 		</div>
+
+		<!-- NOTICE 45 -->
+		<div class="status <?php echo ($notice['45'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo $notice['45']; ?></div>
+		<div class="title" data-type="toggle" data-target="#s1-notice45"><i class="fa fa-caret-right"></i> PHP Version mismatch</div>
+		<div class="info" id="s1-notice45">
+			<?php
+                $cssStyle   = $notice['45'] == 'Good' ? 'color:green' : 'color:red';
+				echo "<b style='{$cssStyle}'>You are migrating site from the PHP {$packagePHP} to the PHP {$currentPHP}</b>.<br/>"
+                    ."If the PHP version of your website PHP is different to the PHP version of your package 
+                    it might cause problems with proper functioning of your website and 
+                    may cause issues with some applications.<br/>";
+                ?>
+            </div>
 
 		<!-- NOTICE 50 -->
 		<div class="status <?php echo ($notice['50'] == 'Good') ? 'pass' : 'fail' ?>"><?php echo DUPX_U::esc_html($notice['50']); ?></div>
