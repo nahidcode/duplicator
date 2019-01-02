@@ -445,8 +445,8 @@ VALIDATION
 			<?php
                 $cssStyle   = $notice['45'] == 'Good' ? 'color:green' : 'color:red';
 				echo "<b style='{$cssStyle}'>You are migrating site from the PHP {$packagePHP} to the PHP {$currentPHP}</b>.<br/>"
-                    ."If the PHP version of your website PHP is different to the PHP version of your package it might cause problems with proper functioning of your website
-						and could cause issues with some plugins/themes.   It is highly recommended to try and use the same version of PHP if you are able to do so. <br/>";
+                    ."If this servers PHP version is different to the PHP version of your package was created it might cause problems with proper functioning of your website
+						and/or plugins and themes.   It is highly recommended to try and use the same version of PHP if you are able to do so. <br/>";
                 ?>
             </div>
 
