@@ -60,4 +60,40 @@ class DUPX_Log
 
 }
 
+class DUPX_Handler {
 
+	/**
+	 * Error handler
+	 *
+	 * @param  integer $errno   Error level
+	 * @param  string  $errstr  Error message
+	 * @param  string  $errfile Error file
+	 * @param  integer $errline Error line
+	 * @return void
+	 */
+	public static function error($errno, $errstr, $errfile, $errline) {
+		if (E_ERROR === $errno) {
+			$log_message = 'PHP Fatal error occurred. Error ';
+		} else {
+			$log_message = '**** PHP notice occurred. Notice ';
+		}
+		$log_message .= 'Message: '.$errstr.' (Code: '.$errno.', line '.$errline.' in '.$errfile.')';
+		E_ERROR === $errno
+			? DUPX_Log::error($log_message)
+			: DUPX_Log::info($log_message);
+	}
+
+	/**
+	 * Shutdown handler
+	 *
+	 * @return void
+	 */
+	public static function shutdown() {
+		if (($error = error_get_last())) {
+			DUPX_Handler::error($error['type'], $error['message'], $error['file'], $error['line']);
+		}
+	}
+}
+
+@set_error_handler('DUPX_Handler::error');
+@register_shutdown_function('DUPX_Handler::shutdown');
