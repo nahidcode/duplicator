@@ -37,6 +37,7 @@ class DUPX_DB
 
             $dbh = @mysqli_connect($host, $username, $password, $dbname, $port);
         }
+        $dbh->options(MYSQLI_OPT_LOCAL_INFILE, false);
         return $dbh;
     }
 
