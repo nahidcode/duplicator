@@ -18,7 +18,8 @@ $installer_state	  = DUPX_InstallerState::getInstance();
 if ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
 	$is_wpconfarc_present = file_exists("{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt");	
 } else {
-	$is_wpconfarc_present = file_exists("{$root_path}/wp-config.php");
+	$outer_root_path = dirname($root_path); 
+	$is_wpconfarc_present = file_exists("{$root_path}/wp-config.php") || (@file_exists("{$outer_root_path}/wp-config.php") && !@file_exists("{$outer_root_path}/wp-settings.php"));
 }
 
 $is_overwrite_mode    =  ($installer_state->mode === DUPX_InstallerMode::OverwriteInstall);
@@ -367,7 +368,7 @@ VALIDATION
 			</div>
 
 		<!-- NOTICE 20: ARCHIVE EXTRACTED -->
-		<?php elseif ($is_wpconfarc_present) :?>
+		<?php elseif ($is_wpconfarc_present && file_exists('{$root_path}/dup-installer')) :?>
 			<div class="status fail">Warn</div>
 			<div class="title" data-type="toggle" data-target="#s1-notice20"><i class="fa fa-caret-right"></i> Archive Extracted</div>
 			<div class="info" id="s1-notice20">
@@ -1037,7 +1038,8 @@ DUPX.kickOffDupArchiveExtract = function ()
 	var isClientSideKickoff = DUPX.isClientSideKickoff();
 
 	<?php
-	if (!$GLOBALS['DUPX_AC']->installSiteOverwriteOn && file_exists($root_path.'/wp-config.php')) {
+	$outer_root_path = dirname($root_path);
+	if (!$GLOBALS['DUPX_AC']->installSiteOverwriteOn && (file_exists($root_path.'/wp-config.php') || (@file_exists($outer_root_path.'/wp-config.php') && !@file_exists("{$outer_root_path}/wp-settings.php")))) {
 		?>
 		$('#s1-input-form').hide();
 		$('#s1-result-form').show();
