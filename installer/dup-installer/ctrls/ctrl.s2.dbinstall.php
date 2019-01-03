@@ -265,7 +265,11 @@ Please check these items: <br/><br/>
                         continue;
                     }
 
-                    @mysqli_free_result(@mysqli_query($this->dbh, $query));
+					$result = @mysqli_query($this->dbh, $query);
+					if ($result instanceof mysqli_result){
+						@mysqli_free_result($result);
+					}
+
                     $err = mysqli_error($this->dbh);
                     //Check to make sure the connection is alive
                     if (!empty($err)) {
