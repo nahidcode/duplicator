@@ -159,18 +159,26 @@ class DUPX_U
      */
     public static function isURLActive($url, $port, $timeout = 5)
     {
-        if (function_exists('fsockopen')) {
-            @ini_set("default_socket_timeout", 5);
-            $port      = isset($port) && is_integer($port) ? $port : 80;
-            $connected = @fsockopen($url, $port, $errno, $errstr, $timeout); //website and port
-            if ($connected) {
-                @fclose($connected);
-                return true;
-            }
-            return false;
-        } else {
-            return false;
-        }
+		 $exists = false;
+		 if (function_exists('get_headers')) {
+			$url =  is_integer($port) ? $url . ':' . $port 	: $url;
+		    $headers = @get_headers($url);
+			if (is_array($headers) && strpos($headers[0], '404') === false) {
+				 $exists = true;
+			}
+		} else {
+			if (function_exists('fsockopen')) {
+				@ini_set("default_socket_timeout", 5);
+				$port = isset($port) && is_integer($port) ? $port : 80;
+				$host = parse_url($url, PHP_URL_HOST);
+				$connected = @fsockopen($host, $port, $errno, $errstr, $timeout); //website and port
+				if ($connected) {
+					@fclose($connected);
+					$exists = true;
+				}
+			}
+		}
+		return $exists;
     }
 
 	/**
