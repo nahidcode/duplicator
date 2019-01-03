@@ -376,6 +376,21 @@ class DUPX_U
 		return preg_match('/[^\x20-\x7f]/', $string);
 	}
 
+	/**
+	 * Is an object traversable
+	 *
+	 * @param object $obj The object to evaluate
+	 *
+	 * @return bool Returns true if the object can be looped over safely
+	 */
+	public static function isTraversable($obj)
+	{
+		if (is_null($obj))
+			return false;
+
+		return (is_array($obj) || $obj instanceof Traversable);
+	}
+
     /**
      * Is the server running Windows operating system
      *

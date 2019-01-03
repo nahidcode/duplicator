@@ -107,7 +107,7 @@ class DUPX_DB
                 $localhost[] = $row["Collation"];
             }
 
-			if (is_array($collations) || $collations instanceof Traversable) {
+			if (DUPX_U::isTraversable($collations)) {
 				foreach($collations as $key => $val) {
 					$status[$key]['name']  = $val;
 					$status[$key]['found'] = (in_array($val, $localhost)) ? 1 : 0 ;
