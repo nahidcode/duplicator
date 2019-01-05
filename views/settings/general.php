@@ -204,19 +204,16 @@ $reset_confirm->closeOnConfirm = true;
 $reset_confirm->initConfirm();
 
 $msg_ajax_error               = new DUP_UI_Messages(__('AJAX ERROR!', 'duplicator').'<br>'.__('Ajax request error', 'duplicator'), DUP_UI_Messages::ERROR);
-//$msg_ajax_error->callback_on_show = 'DupPro.Tests.StopTestBuild()';
 $msg_ajax_error->hide_on_init = true;
 $msg_ajax_error->is_dismissible = true;
 $msg_ajax_error->initMessage();
 
 $msg_response_error                   = new DUP_UI_Messages(__('RESPONSE ERROR!', 'duplicator'), DUP_UI_Messages::ERROR);
-//$msg_ajax_error->callback_on_show = 'DupPro.Tests.StopTestBuild()';
 $msg_response_error->hide_on_init     = true;
 $msg_response_error->is_dismissible = true;
 $msg_response_error->initMessage();
 
 $msg_response_success                 = new DUP_UI_Messages('', DUP_UI_Messages::NOTICE);
-//$msg_ajax_error->callback_on_show = 'DupPro.Tests.StopTestBuild()';
 $msg_response_success->hide_on_init   = true;
 $msg_response_success->is_dismissible = true;
 $msg_response_success->auto_hide_delay = 3000;
@@ -251,12 +248,12 @@ jQuery(document).ready(function($)
                 if (result.success) {
                     console.log(result);
 <?php
-$msg_response_success->updateMessage('"'.__('Packages successfully reset').'"');
+$msg_response_success->updateMessage('"'.__('Packages successfully reset', 'duplicator').'"');
 $msg_response_success->showMessage();
 ?>
                 } else {
 <?php
-$msg_response_error->updateMessage('"'.DUP_PRO_U::__('RESPONSE ERROR!').'<br>" + result.data.message');
+$msg_response_error->updateMessage('"'.__('RESPONSE ERROR!', 'duplicator').'<br>" + result.data.message');
 $msg_response_error->showMessage();
 ?>
                 }
