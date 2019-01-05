@@ -194,7 +194,7 @@ THICK-BOX DIALOGS: -->
 <?php
 $reset_confirm                 = new DUP_UI_Dialog();
 $reset_confirm->title          = __('Reset Packages ?', 'duplicator');
-$reset_confirm->message        = __('This will clear and reset all of the current tempofary packages.  Would you like to continue?', 'duplicator');
+$reset_confirm->message        = __('This will clear and reset all of the current temporary packages.  Would you like to continue?', 'duplicator');
 $reset_confirm->progressText   = __('Resetting settings, Please Wait...', 'duplicator');
 $reset_confirm->jscallback     = 'Duplicator.Pack.ResetAll()';
 $reset_confirm->progressOn = false;
