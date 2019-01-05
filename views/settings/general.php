@@ -192,34 +192,79 @@ $package_debug = DUP_Settings::Get('package_debug');
 <!-- ==========================================
 THICK-BOX DIALOGS: -->
 <?php
-	$reset_confirm = new DUP_UI_Dialog();
-	$reset_confirm->title			= __('Reset Packages ?', 'duplicator');
-	$reset_confirm->message			= __('This will clear and reset all of the current tempofary packages.  Would you like to continue?', 'duplicator');
-    $reset_confirm->progressText     = DUP_PRO_U::__('Resetting settings, Please Wait...');
-    $reset_confirm->jscallback		= 'Duplicator.Pack.ResetAll()';
-    $reset_confirm->okText           = DUP_PRO_U::__('Yes');
-    $reset_confirm->cancelText       = DUP_PRO_U::__('No');
-    $reset_confirm->initConfirm();
+$reset_confirm                 = new DUP_UI_Dialog();
+$reset_confirm->title          = __('Reset Packages ?', 'duplicator');
+$reset_confirm->message        = __('This will clear and reset all of the current tempofary packages.  Would you like to continue?', 'duplicator');
+$reset_confirm->progressText   = __('Resetting settings, Please Wait...', 'duplicator');
+$reset_confirm->jscallback     = 'Duplicator.Pack.ResetAll()';
+$reset_confirm->progressOn = false;
+$reset_confirm->okText         = __('Yes', 'duplicator');
+$reset_confirm->cancelText     = __('No', 'duplicator');
+$reset_confirm->closeOnConfirm = true;
+$reset_confirm->initConfirm();
 
+$msg_ajax_error               = new DUP_UI_Messages(__('AJAX ERROR!', 'duplicator').'<br>'.__('Ajax request error', 'duplicator'), DUP_UI_Messages::ERROR);
+//$msg_ajax_error->callback_on_show = 'DupPro.Tests.StopTestBuild()';
+$msg_ajax_error->hide_on_init = true;
+$msg_ajax_error->is_dismissible = true;
+$msg_ajax_error->initMessage();
+
+$msg_response_error                   = new DUP_UI_Messages(__('RESPONSE ERROR!', 'duplicator'), DUP_UI_Messages::ERROR);
+//$msg_ajax_error->callback_on_show = 'DupPro.Tests.StopTestBuild()';
+$msg_response_error->hide_on_init     = true;
+$msg_response_error->is_dismissible = true;
+$msg_response_error->initMessage();
+
+$msg_response_success                 = new DUP_UI_Messages('', DUP_UI_Messages::NOTICE);
+//$msg_ajax_error->callback_on_show = 'DupPro.Tests.StopTestBuild()';
+$msg_response_success->hide_on_init   = true;
+$msg_response_success->is_dismissible = true;
+$msg_response_success->auto_hide_delay = 3000;
+$msg_response_success->initMessage();
 ?>
 <script>
 jQuery(document).ready(function($) 
 {
-	// which: 0=installer, 1=archive, 2=sql file, 3=log
-	Duplicator.Pack.DownloadTraceLog = function ()
+    // which: 0=installer, 1=archive, 2=sql file, 3=log
+    Duplicator.Pack.DownloadTraceLog = function ()
     {
-		var actionLocation = ajaxurl + '?action=DUP_CTRL_Tools_getTraceLog&nonce=' + '<?php echo wp_create_nonce('DUP_CTRL_Tools_getTraceLog'); ?>';
-		location.href = actionLocation;
-	};
+        var actionLocation = ajaxurl + '?action=DUP_CTRL_Tools_getTraceLog&nonce=' + '<?php echo wp_create_nonce('DUP_CTRL_Tools_getTraceLog'); ?>';
+        location.href = actionLocation;
+    };
 
     Duplicator.Pack.ConfirmResetAll = function ()
-	{
-		<?php $reset_confirm->showConfirm(); ?>
-	};
+    {
+<?php $reset_confirm->showConfirm(); ?>
+    };
 
     Duplicator.Pack.ResetAll = function ()
     {
-        alert('reset all');
+        $.ajax({
+            type: "POST",
+            url: ajaxurl,
+            dataType: "json",
+            data: {
+                action: 'duplicator_reset_all_settings',
+                nonce: '<?php echo wp_create_nonce('duplicator_reset_all_settings'); ?>'
+            },
+            success: function (result) {
+                if (result.success) {
+                    console.log(result);
+<?php
+$msg_response_success->updateMessage('"'.__('Packages successfully reset').'"');
+$msg_response_success->showMessage();
+?>
+                } else {
+<?php
+$msg_response_error->updateMessage('"'.DUP_PRO_U::__('RESPONSE ERROR!').'<br>" + result.data.message');
+$msg_response_error->showMessage();
+?>
+                }
+            },
+            error: function (result) {
+<?php $msg_ajax_error->showMessage(); ?>
+            }
+        });
     };
     
 });
