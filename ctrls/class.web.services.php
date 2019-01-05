@@ -29,6 +29,12 @@ class DUP_Web_Services
                 'message' => ''
             );
 
+            $nonce = sanitize_text_field($_POST['nonce']);
+            if (!wp_verify_nonce($nonce, 'duplicator_reset_all_settings')) {
+                DUP_Log::trace('Security issue');
+                throw new Exception('Security issue');
+            }
+
             $noCompletePakcs = DUP_Package::get_all_by_status(array(
                     array('op' => '<', 'status' => DUP_PackageStatus::COMPLETE)
             ));
