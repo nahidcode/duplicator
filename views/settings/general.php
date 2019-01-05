@@ -158,6 +158,27 @@ $package_debug = DUP_Settings::Get('package_debug');
         </tr>
     </table><br/>
 
+    <!-- ===============================
+    ADVANCED SETTINGS -->
+    <h3 class="title"><?php esc_html_e('Advanced', 'duplicator'); ?> </h3>
+    <hr size="1" />
+    <table class="form-table">
+        <tr>
+            <th scope="row"><label><?php esc_html_e("Settings", 'duplicator'); ?></label></th>
+            <td>
+                <button class="button"  onclick="DupPro.Pack.ConfirmResetAll(); return false;">
+                    <i class="fa fa-repeat"></i> <?php esc_html_e('Reset packages', 'duplicator'); ?>
+                </button>
+                <p class="description">
+                    <?php esc_html_e("Reset all temporary packages.", 'duplicator'); ?>
+                    <i class="fa fa-question-circle"
+                        data-tooltip-title="<?php esc_attr_e("Reset Settings", 'duplicator'); ?>"
+                        data-tooltip="<?php esc_attr_e('Reset the temporary packages to an abnormal state and restore the package creation function.', 'duplicator'); ?>"></i>
+                </p>
+            </td>
+        </tr>
+    </table>
+
     <p class="submit" style="margin: 20px 0px 0xp 5px;">
 		<br/>
 		<input type="submit" name="submit" id="submit" class="button-primary" value="<?php esc_attr_e("Save General Settings", 'duplicator') ?>" style="display: inline-block;" />
