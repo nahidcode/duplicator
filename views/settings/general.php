@@ -1,4 +1,7 @@
 <?php
+
+defined("ABSPATH") or die("");
+
 global $wp_version;
 global $wpdb;
 
@@ -166,7 +169,7 @@ $package_debug = DUP_Settings::Get('package_debug');
         <tr>
             <th scope="row"><label><?php esc_html_e("Settings", 'duplicator'); ?></label></th>
             <td>
-                <button class="button"  onclick="DupPro.Pack.ConfirmResetAll(); return false;">
+                <button class="button"  onclick="Duplicator.Pack.ConfirmResetAll(); return false;">
                     <i class="fa fa-repeat"></i> <?php esc_html_e('Reset packages', 'duplicator'); ?>
                 </button>
                 <p class="description">
@@ -186,13 +189,38 @@ $package_debug = DUP_Settings::Get('package_debug');
 	
 </form>
 
+<!-- ==========================================
+THICK-BOX DIALOGS: -->
+<?php
+	$reset_confirm = new DUP_UI_Dialog();
+	$reset_confirm->title			= __('Reset Packages ?', 'duplicator');
+	$reset_confirm->message			= __('This will clear and reset all of the current tempofary packages.  Would you like to continue?', 'duplicator');
+    $reset_confirm->progressText     = DUP_PRO_U::__('Resetting settings, Please Wait...');
+    $reset_confirm->jscallback		= 'Duplicator.Pack.ResetAll()';
+    $reset_confirm->okText           = DUP_PRO_U::__('Yes');
+    $reset_confirm->cancelText       = DUP_PRO_U::__('No');
+    $reset_confirm->initConfirm();
+
+?>
 <script>
 jQuery(document).ready(function($) 
 {
 	// which: 0=installer, 1=archive, 2=sql file, 3=log
-	Duplicator.Pack.DownloadTraceLog = function () {
+	Duplicator.Pack.DownloadTraceLog = function ()
+    {
 		var actionLocation = ajaxurl + '?action=DUP_CTRL_Tools_getTraceLog&nonce=' + '<?php echo wp_create_nonce('DUP_CTRL_Tools_getTraceLog'); ?>';
 		location.href = actionLocation;
 	};
+
+    Duplicator.Pack.ConfirmResetAll = function ()
+	{
+		<?php $reset_confirm->showConfirm(); ?>
+	};
+
+    Duplicator.Pack.ResetAll = function ()
+    {
+        alert('reset all');
+    };
+    
 });
 </script>
