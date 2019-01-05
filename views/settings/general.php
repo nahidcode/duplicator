@@ -222,6 +222,8 @@ $msg_response_success->initMessage();
 <script>
 jQuery(document).ready(function($) 
 {
+    var msgDebug = <?php echo DUP_Util::isWpDebug() ? 'true' : 'false'; ?>;
+
     // which: 0=installer, 1=archive, 2=sql file, 3=log
     Duplicator.Pack.DownloadTraceLog = function ()
     {
@@ -245,24 +247,38 @@ jQuery(document).ready(function($)
                 nonce: '<?php echo wp_create_nonce('duplicator_reset_all_settings'); ?>'
             },
             success: function (result) {
-                if (result.success) {
+                if (msgDebug) {
                     console.log(result);
+                }
+
+                if (result.success) {
+                    var message = '<?php _e('Packages successfully reset', 'duplicator'); ?>';
+                    if (msgDebug) {
+                        message += '<br><br>' + result.data.message;
+                        message += '<br><br>' + result.data.html;
+                    }
 <?php
-$msg_response_success->updateMessage('"'.__('Packages successfully reset', 'duplicator').'"');
+$msg_response_success->updateMessage('message');
 $msg_response_success->showMessage();
 ?>
                 } else {
+                    var message = '<?php _e('RESPONSE ERROR!', 'duplicator'); ?>'+ '<br><br>' + result.data.message;
+                    if (msgDebug) {
+                        message += '<br><br>' + result.data.html;
+                    }
 <?php
-$msg_response_error->updateMessage('"'.__('RESPONSE ERROR!', 'duplicator').'<br>" + result.data.message');
+$msg_response_error->updateMessage('message');
 $msg_response_error->showMessage();
 ?>
                 }
             },
             error: function (result) {
-<?php $msg_ajax_error->showMessage(); ?>
+                if (msgDebug) {
+                    console.log(result);
+                }
+                <?php $msg_ajax_error->showMessage(); ?>
             }
         });
     };
-    
 });
 </script>
