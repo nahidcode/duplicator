@@ -316,6 +316,11 @@ FORM DATA: User-Interface views -->
     }
 
     if ($exceptionError !== false) {
+        DUPX_Log::info("--------------------------------------");
+        DUPX_Log::info('EXCEPTION: '.$exceptionError->getMessage());
+        DUPX_Log::info('TRACE:');
+        DUPX_Log::info($exceptionError->getTraceAsString());
+        DUPX_Log::info("--------------------------------------");
         /**
          *   $exceptionError call in view
          */
