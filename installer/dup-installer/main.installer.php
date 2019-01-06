@@ -308,10 +308,10 @@ FORM DATA: User-Interface views -->
             /** delete view output **/
             ob_clean();
             $exceptionError = $e;
-        } finally {
-            /** flush view output **/
-            ob_end_flush();
-        }
+        } 
+
+        /** flush view output **/
+        ob_end_flush();
         
     }
 
