@@ -19,7 +19,6 @@
 <tr valign="top">
 	<th scope="row"><label><?php esc_html_e("License Key"); ?></label></th>
 	<td>
-
 		<p class="description" style="max-width:700px">
 		   <?php
 				esc_html_e("The free version of Duplicator does not require a license key. ");
@@ -32,7 +31,6 @@
 			?>
 		</p>
 		<br/><br/>
-
 	</td>
 </tr>
 </table>
