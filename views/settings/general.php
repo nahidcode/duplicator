@@ -232,7 +232,7 @@ jQuery(document).ready(function($)
 
     Duplicator.Pack.ConfirmResetAll = function ()
     {
-<?php $reset_confirm->showConfirm(); ?>
+		<?php $reset_confirm->showConfirm(); ?>
     };
 
     Duplicator.Pack.ResetAll = function ()
@@ -253,22 +253,22 @@ jQuery(document).ready(function($)
                 if (result.success) {
                     var message = '<?php _e('Packages successfully reset', 'duplicator'); ?>';
                     if (msgDebug) {
-                        message += '<br><br>' + result.data.message;
-                        message += '<br><br>' + result.data.html;
+						console.log(result.data.message);
+						console.log(result.data.html);
                     }
-<?php
-$msg_response_success->updateMessage('message');
-$msg_response_success->showMessage();
-?>
+				<?php
+				$msg_response_success->updateMessage('message');
+				$msg_response_success->showMessage();
+				?>
                 } else {
                     var message = '<?php _e('RESPONSE ERROR!', 'duplicator'); ?>'+ '<br><br>' + result.data.message;
                     if (msgDebug) {
                         message += '<br><br>' + result.data.html;
                     }
-<?php
-$msg_response_error->updateMessage('message');
-$msg_response_error->showMessage();
-?>
+				<?php
+				$msg_response_error->updateMessage('message');
+				$msg_response_error->showMessage();
+				?>
                 }
             },
             error: function (result) {
