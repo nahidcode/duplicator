@@ -285,19 +285,25 @@ VIEW: STEP 3- INPUT -->
 			</div><br/>
 			<div class="hdr-sub3">WP-Config File</div>
 			<?php
+            if (file_exists($wpconfig_ark_path)) {
 				require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.wp.config.tranformer.php');
 				$root_path		= $GLOBALS['DUPX_ROOT'];
 				$root_path = $GLOBALS['DUPX_ROOT'];
 				$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) ? "{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt" : "{$root_path}/wp-config.php";
 				$config_transformer = new WPConfigTransformer($wpconfig_ark_path);
+            } else {
+                $config_transformer = null;
+            }
 			?>
 			<table class="dupx-opts dupx-advopts">
+                <?php
+                if (file_exists($wpconfig_ark_path)) { ?>
 				<tr>
 					<td>Cache:</td>
 					<td style="width:100px">
 						<?php
 						$wp_cache_val = false;
-						if ($config_transformer->exists('constant', 'WP_CACHE')) {
+						if (!is_null($config_transformer) && $config_transformer->exists('constant', 'WP_CACHE')) {
 							$wp_cache_val = $config_transformer->get_value('constant', 'WP_CACHE');
 						}
 						?>
@@ -306,7 +312,7 @@ VIEW: STEP 3- INPUT -->
 					<td>
 						<?php
 						$wpcachehome_val = '';
-						if ($config_transformer->exists('constant', 'WPCACHEHOME')) {
+						if (!is_null($config_transformer) && $config_transformer->exists('constant', 'WPCACHEHOME')) {
 							$wpcachehome_val = $config_transformer->get_value('constant', 'WPCACHEHOME');
 						}
 						?>
@@ -318,7 +324,7 @@ VIEW: STEP 3- INPUT -->
 					<td>
 						<?php
 						$force_ssl_admin_val = false;
-						if ($config_transformer->exists('constant', 'FORCE_SSL_ADMIN')) {
+						if (!is_null($config_transformer) && $config_transformer->exists('constant', 'FORCE_SSL_ADMIN')) {
 							$force_ssl_admin_val = $config_transformer->get_value('constant', 'FORCE_SSL_ADMIN');
 						}
 						?>
@@ -326,6 +332,11 @@ VIEW: STEP 3- INPUT -->
 					</td>
 					<td></td>
 				</tr>
+                <?php } else { ?>
+                <tr>
+                    <td colspan="2">wp-config.php not found ...</td>
+                </tr>
+                <?php } ?>
 			</table><br/>
 			<i>
 				Need more control? With <a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=wpconfig" target="_blank">Duplicator Pro</a> 
