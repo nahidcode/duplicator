@@ -20,7 +20,7 @@ $current_tab = isset($_REQUEST['tab']) ? sanitize_text_field($_REQUEST['tab']) :
 </style>
 
 <div class="wrap">
-	
+
     <?php duplicator_header(__("Settings", 'duplicator')) ?>
 
 	<h2 class="nav-tab-wrapper">
