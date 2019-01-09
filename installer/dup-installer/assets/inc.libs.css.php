@@ -1,7 +1,7 @@
 <?php
 defined("ABSPATH") or die("");
 require_once($GLOBALS['DUPX_INIT'] . '/classes/utilities/class.u.php');
-
+?>
 <style type="text/css">
 /*! jQuery UI - v1.12.1 - 2016-09-14
 * http://jqueryui.com
