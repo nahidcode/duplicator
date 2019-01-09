@@ -436,7 +436,7 @@ if (file_exists($wpconfig_ark_path)) {
 } else {
     DUPX_Log::info("AKR FILE NOT FOUND");
     DUPX_Log::info("WP-CONFIG ARK FILE:\n - '{$wpconfig_ark_path}'");
-    DUPX_Log::info("SKIP FILE UPDATES");
+    DUPX_Log::info("SKIP FILE UPDATES\n");
 }
 
 switch ($_POST['config_mode']) {
@@ -507,7 +507,9 @@ if (file_exists($wpconfig_ark_path)) {
         DUPX_Log::info($msg);
     }
 } else {
-    $msg   = "WP-CONFIG NOTICE: wp-config.php not found. bla bla bla .... " ;
+    $msg   = "WP-CONFIG NOTICE: <b>wp-config.php not found.</b><br><br>" ;
+    $msg  .= "No action on the wp-config was possible.<br>";
+    $msg  .= "Be sure to insert a properly modified wp-config for correct wordpress operation.";
     $JSON['step3']['warnlist'][] = $msg;
     DUPX_Log::info($msg);
 }
