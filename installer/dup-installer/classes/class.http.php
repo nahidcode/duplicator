@@ -48,35 +48,6 @@ class DUPX_HTTP
 		return $url;
 	}
 
-	/**
-	 *  Check to see if the internet is accessible
-	 *  @param string $url		A URL e.g without prefix "ajax.googleapis.com"
-	 *  @param string $port		A valid port number
-	 *  @return bool
-	 */
-	public static function is_url_active($url, $port, $timeout = 5)
-	{
-		if (function_exists('fsockopen'))
-		{
-			$port = isset($port) && is_integer($port) ? $port : 80;
-			$connected = @fsockopen($url, $port, $errno, $errstr, $timeout); //website and port
-			if ($connected)
-			{
-				$is_conn = true;
-				@fclose($connected);
-			}
-			else
-			{
-				$is_conn = false;
-			}
-			return $is_conn;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 	public static function parse_host($url)
 	{
 		$url = parse_url(trim($url));
