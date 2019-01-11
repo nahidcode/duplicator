@@ -685,19 +685,19 @@ class DUPX_DBTest
 		$notice_status	 = -1;
 		$last_error		 = 'Unable to determine error response';
 		foreach ($this->reqs as $key => $value) {
-			if ($this->reqs[$key][pass] == 0) {
+			if ($this->reqs[$key]['pass'] == 0) {
 				$req_status	 = 0;
-				$last_error	 = $this->reqs[$key][info];
+				$last_error	 = $this->reqs[$key]['info'];
 				break;
 			}
 		}
 
 		//Only show notice summary if a test was ran
 		foreach ($this->notices as $key => $value) {
-			if ($this->notices[$key][pass] == 0) {
+			if ($this->notices[$key]['pass'] == 0) {
 				$notice_status = 0;
 				break;
-			} elseif ($this->notices[$key][pass] == 1) {
+			} elseif ($this->notices[$key]['pass'] == 1) {
 				$notice_status = 1;
 			}
 		}

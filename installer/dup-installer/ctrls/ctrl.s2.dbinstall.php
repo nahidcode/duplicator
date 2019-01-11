@@ -363,7 +363,7 @@ Please check these items: <br/><br/>
     private function dropProcs()
     {
         $sql    = "SHOW PROCEDURE STATUS";
-        $found  = null;
+        $found  = array();
         if ($result = mysqli_query($this->dbh, $sql)) {
             while ($row = mysqli_fetch_row($result)) {
                 $found[] = $row[1];
