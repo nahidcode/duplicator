@@ -313,6 +313,18 @@ class DUP_Archive
 			$this->FilterInfo->Files->Global = $GLOBALS['DUPLICATOR_GLOBAL_FILE_FILTERS'];
 		}
 
+		// Prevent adding double wp-content dir conflicts
+        if ($this->isOuterWPContentDir()) {
+            $default_wp_content_dir_path = DUP_Util::safePath(ABSPATH.'wp-content');
+            if (file_exists($default_wp_content_dir_path)) {
+                if (is_dir($default_wp_content_dir_path)) {
+                    $this->FilterInfo->Dirs->Core[] = $default_wp_content_dir_path;
+                } else {
+                    $this->FilterInfo->Files->Core[] = $default_wp_content_dir_path;
+                }
+            }
+        }        
+
 		$this->FilterDirsAll	 = array_merge($this->FilterInfo->Dirs->Instance, $this->FilterInfo->Dirs->Core);
 		$this->FilterExtsAll	 = array_merge($this->FilterInfo->Exts->Instance, $this->FilterInfo->Exts->Core);
 		$this->FilterFilesAll	 = array_merge($this->FilterInfo->Files->Instance, $this->FilterInfo->Files->Global);
