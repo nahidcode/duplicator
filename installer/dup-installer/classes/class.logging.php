@@ -76,15 +76,27 @@ class DUPX_Handler {
 	 */
 	public static function error($errno, $errstr, $errfile, $errline) {
 		if (self::$should_log) {
-			if (E_ERROR === $errno) {
-				$log_message = 'PHP Fatal error occurred. Error ';
-			} else {
-				$log_message = '**** PHP notice occurred. Notice ';
+			$msg = $errstr.' (Code: '.$errno.', line '.$errline.' in '.$errfile.')';
+			switch ($errno) {
+				case E_ERROR :		
+					$log_message = '*** PHP Fatal Error Message: ' . $msg;
+					DUPX_Log::error($log_message);
+					break;
+				case E_WARNING :	
+					$log_message = '*** PHP Warning Message: ' . $msg;
+					DUPX_Log::info($log_message);
+					break;
+				case E_NOTICE  :
+					if ($GLOBALS["LOGGING"] > 2) {
+						$log_message = '*** PHP Notice Message: ' . $msg;
+						DUPX_Log::info($log_message);
+					}
+					break;
+				default :
+					$log_message = "***  PHP Issue Message ({$errno}): " . $msg;
+					DUPX_Log::info($log_message);
+					break;
 			}
-			$log_message .= 'Message: '.$errstr.' (Code: '.$errno.', line '.$errline.' in '.$errfile.')';
-			E_ERROR === $errno
-				? DUPX_Log::error($log_message)
-				: DUPX_Log::info($log_message);
 		}
 	}
 
