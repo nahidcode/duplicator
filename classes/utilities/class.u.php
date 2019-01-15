@@ -60,13 +60,13 @@ class DUP_Util
         
         switch($php_int_size) {
             case 4:
-                return DUP_U::esc_html__('32-bit', 'duplicator');
+                return __('32-bit', 'duplicator');
                 break;
             case 8:
-                return DUP_U::esc_html__('64-bit', 'duplicator');
+                return __('64-bit', 'duplicator');
                 break;
             default:
-                return DUP_U::esc_html__('Unknown', 'duplicator');
+                return __('Unknown', 'duplicator');
         }
     }
 
