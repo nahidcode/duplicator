@@ -91,5 +91,6 @@ if (DUP_Settings::Get('uninstall_settings')) {
 	DUP_Settings::Delete();
 	delete_option('duplicator_ui_view_state');
 	delete_option('duplicator_package_active');
+	delete_option("duplicator_exe_safe_mode");
 }
 ?>
