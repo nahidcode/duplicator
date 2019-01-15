@@ -39,7 +39,7 @@ if (DUP_Settings::Get('uninstall_files')) {
 			if (strstr($file, '_installer.php'))
 				@unlink("{$file}");
 		}
-		foreach (glob("{$ssdir}/*_archive.zip") as $file) {
+		foreach (glob("{$ssdir}/*_archive.zip*") as $file) {
 			if (strstr($file, '_archive.zip')) 
 				@unlink("{$file}");
 		}
