@@ -1373,8 +1373,15 @@ $(document).ready(function ()
 	$("*[data-type='toggle']").click(DUPX.toggleClick);
 	$("#tabs").tabs();
 	DUPX.acceptWarning();
-	$('#set_file_perms').trigger("click");
-	$('#set_dir_perms').trigger("click");
+	<?php
+    $isWindows = DUPX_U::isWindows();
+    if (!$isWindows) {
+    ?>
+		$('#set_file_perms').trigger("click");
+		$('#set_dir_perms').trigger("click");
+	<?php
+    }
+    ?>
 	DUPX.toggleSetupType();
 
 	<?php echo ($arcCheck == 'Fail') ? "$('#s1-area-archive-file-link').trigger('click');" : ""; ?>
