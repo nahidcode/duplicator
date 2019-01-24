@@ -23,8 +23,10 @@ function duplicator_package_scan()
 		die('An unathorized security request was made to this page. Please try again!');
 	}
 
-    header('Content-Type: application/json;');
     DUP_Util::hasCapability('export');
+
+    header('Content-Type: application/json;');
+    @ob_flush();
 
     @set_time_limit(0);
     $errLevel = error_reporting();
