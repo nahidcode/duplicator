@@ -427,7 +427,7 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
             //OUTPUT: Installer, Archive, SQL File
             if ($isBinary) {
                 @session_write_close();
-                @ob_flush();
+                // @ob_flush();
 				//flush seems to cause issues on some PHP version where the download prompt
  				//is no longer called but the contents of the installer are dumped to the browser.
                 //@flush();
