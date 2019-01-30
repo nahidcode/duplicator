@@ -293,8 +293,10 @@ class DUPX_Bootstrap
 						if ($extract_success) {
 							self::log('Successfully extracted with ZipArchive');
 						} else {
-							$error = 'Error extracting with ZipArchive. ';
+							// $error = 'Error extracting with ZipArchive. ';
+							$error = "This archive is not properly formatted and does not contain a dup-installer directory. Please make sure you are attempting to install the original archive and not one that has been reconstructed.";
 							self::log($error);
+							return $error;
 						}
 					} else {
 						self::log("WARNING: ZipArchive is not enabled.");
