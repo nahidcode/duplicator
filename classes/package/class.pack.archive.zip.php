@@ -175,7 +175,7 @@ class DUP_Zip extends DUP_Archive
 
             DUP_Log::Info(print_r(self::$zipArchive, true));
 
-                        /**
+            /**
              * count update for integrity check
              */
             $archive->file_count = self::$countDirs + self::$countFiles;

@@ -127,7 +127,28 @@ class DUP_Archive
 		}
 	}
 
-	/**
+    /**
+     *
+     * @return int return  DUP_Archive_Build_Mode
+     */
+    public function getBuildMode()
+    {
+        switch ($this->Format) {
+            case 'TAR': break;
+            case 'TAR-GZIP': break;
+            case 'DAF':
+                return DUP_Archive_Build_Mode::DupArchive;
+            default:
+                if (class_exists('ZipArchive')) {
+                    return DUP_Archive_Build_Mode::ZipArchive;
+                } else {
+                    return DUP_Archive_Build_Mode::Unconfigured;
+                }
+                break;
+        }
+    }
+
+    /**
 	 *  Builds a list of files and directories to be included in the archive
 	 *
 	 *  Get the directory size recursively, but don't calc the snapshot directory, exclusion directories
