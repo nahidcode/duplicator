@@ -21,30 +21,31 @@ require_once (DUPLICATOR_PLUGIN_PATH.'lib/forceutf8/Encoding.php');
  */
 class DUP_Archive
 {
-	//PUBLIC
-	public $FilterDirs;
-	public $FilterFiles;
-	public $FilterExts;
-	public $FilterDirsAll	 = array();
-	public $FilterFilesAll	 = array();
-	public $FilterExtsAll	 = array();
-	public $FilterOn;
-	public $ExportOnlyDB;
-	public $File;
-	public $Format;
-	public $PackDir;
-	public $Size			 = 0;
-	public $Dirs			 = array();
-	public $Files			 = array();
-	public $FilterInfo;
-	public $RecursiveLinks	 = array();
-	//PROTECTED
-	protected $Package;
-	private $tmpFilterDirsAll	 = array();
-	private $wpCorePaths		 = array();
-	private $wpCoreExactPaths	 = array();
+    //PUBLIC
+    public $FilterDirs;
+    public $FilterFiles;
+    public $FilterExts;
+    public $FilterDirsAll     = array();
+    public $FilterFilesAll    = array();
+    public $FilterExtsAll     = array();
+    public $FilterOn;
+    public $ExportOnlyDB;
+    public $File;
+    public $Format;
+    public $PackDir;
+    public $Size              = 0;
+    public $Dirs              = array();
+    public $Files             = array();
+    public $FilterInfo;
+    public $RecursiveLinks    = array();
+    public $file_count        = -1;
+    //PROTECTED
+    protected $Package;
+    private $tmpFilterDirsAll = array();
+    private $wpCorePaths      = array();
+    private $wpCoreExactPaths = array();
 
-	/**
+    /**
 	 *  Init this object
 	 */
 	public function __construct($package)

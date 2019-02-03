@@ -723,7 +723,7 @@ class DUP_Package
         }
     }
 
-     public function getLocalPackageFile($file_type)
+    public function getLocalPackageFile($file_type)
     {
         $file_path = null;
 
@@ -995,13 +995,15 @@ class DUP_Package
         $this->Installer->build($this);
 
         //INTEGRITY CHECKS
-        DUP_Log::Info("\n********************************************************************************");
+        /*DUP_Log::Info("\n********************************************************************************");
         DUP_Log::Info("INTEGRITY CHECKS:");
-        DUP_Log::Info("********************************************************************************");
+        DUP_Log::Info("********************************************************************************");*/
+        $this->runDupArchiveBuildIntegrityCheck();
         $dbSizeRead  = DUP_Util::byteSize($this->Database->Size);
         $zipSizeRead = DUP_Util::byteSize($this->Archive->Size);
         $exeSizeRead = DUP_Util::byteSize($this->Installer->Size);
 
+        /*
         DUP_Log::Info("SQL File: {$dbSizeRead}");
         DUP_Log::Info("Installer File: {$exeSizeRead}");
         DUP_Log::Info("Archive File: {$zipSizeRead} ");
@@ -1015,7 +1017,8 @@ class DUP_Package
         $sql_complete_txt = DUP_Util::tailFile($sql_tmp_path, 3);
         if (!strstr($sql_complete_txt, 'DUPLICATOR_MYSQLDUMP_EOF')) {
             DUP_Log::Error("ERROR: SQL file not complete.  The end of file marker was not found.  Please try to re-create the package.");
-        }
+        }*/
+        
 
         $timerEnd = DUP_Util::getMicrotime();
         $timerSum = DUP_Util::elapsedTime($timerEnd, $timerStart);
@@ -1023,6 +1026,7 @@ class DUP_Package
         $this->Runtime = $timerSum;
         $this->ExeSize = $exeSizeRead;
         $this->ZipSize = $zipSizeRead;
+
 
         $this->buildCleanup();
 
@@ -1033,6 +1037,7 @@ class DUP_Package
         $info .= "PEAK PHP MEMORY USED: ".DUP_Server::getPHPMemory(true)."\n";
         $info .= "DONE PROCESSING => {$this->Name} ".@date(get_option('date_format')." ".get_option('time_format'))."\n";
 
+        
         DUP_Log::Info($info);
         DUP_Log::Close();
 
