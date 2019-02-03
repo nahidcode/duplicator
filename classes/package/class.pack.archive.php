@@ -140,7 +140,6 @@ class DUP_Archive
 		$rootPath	 = DUP_Util::safePath(rtrim(DUPLICATOR_WPROOTPATH, '//'));
 		$rootPath	 = (trim($rootPath) == '') ? '/' : $rootPath;
 
-		$this->RecursiveLinks = array();
 		//If the root directory is a filter then skip it all
 		if (in_array($this->PackDir, $this->FilterDirsAll) || $this->Package->Archive->ExportOnlyDB) {
 			$this->Dirs = array();
@@ -510,59 +509,77 @@ class DUP_Archive
 	 *
 	 * @return array	Returns an array of directories to include in the archive
 	 */
-	private function getFileLists($path) {
-        $handle = @opendir($path);
-        if ($handle) {
-            while (($file = readdir($handle)) !== false) {
+	private function getFileLists($path)
+	{
+		$handle = @opendir($path);
 
-                if ($file == '.' || $file == '..') {
-                    continue;
-                }
+		if ($handle) {
+			while (($file = readdir($handle)) !== false) {
 
-                $fullPath = str_replace("\\", '/', "{$path}/{$file}");
+				if ($file == '.' || $file == '..') {
+					continue;
+				}
 
-                if (is_dir($fullPath)) {
-                    $add = true;
-                    if (!is_link($fullPath)) {
-                        foreach ($this->tmpFilterDirsAll as $key => $val) {
-                            $trimmedFilterDir = rtrim($val, '/');
-                            if ($fullPath == $trimmedFilterDir || strpos($fullPath, $trimmedFilterDir . '/') !== false) {
-                                $add = false;
-                                unset($this->tmpFilterDirsAll[$key]);
-                                break;
-                            }
-                        }
-                    } else {
-                        //Convert relative path of link to absolute paths
-                        chdir($fullPath);
-                        $link_path = str_replace("\\", '/', realpath(readlink($fullPath)));
-                        chdir(dirname(__FILE__));
+				$fullPath		 = str_replace("\\", '/', "{$path}/{$file}");
+				$relative_path	 = $fullPath;
 
-                        $link_pos = strpos($fullPath, $link_path);
-                        if($link_pos === 0 && (strlen($link_path) <  strlen($fullPath))){
-                            $add = false;
-                            $this->RecursiveLinks[] = $fullPath;
-                            $this->FilterDirsAll[] = $fullPath;
-                        }
-                    }
+				if (is_link($relative_path)) {
+					$is_link = true;
 
-                    if ($add) {
-                        $this->getFileLists($fullPath);
-                        $this->addToList($fullPath,'dir');
+					//Convert relative path of link to absolute path
+					chdir($relative_path);
+					$real_path = realpath(readlink($relative_path));
+					chdir(dirname(__FILE__));
+				} else {
+					$is_link	 = false;
+					$real_path	 = realpath($relative_path);
+				}
 
-                    }
-                } else {
-                    // Note: The last clause is present to perform just a filename check
-                    if ( ! (in_array(pathinfo($file, PATHINFO_EXTENSION) , $this->FilterExtsAll)
-                        || in_array($fullPath, $this->FilterFilesAll)
-                        || in_array($file, $this->FilterFilesAll))) {
-                            $this->addToList($fullPath,'file');
-                    }
-                }
-            }
-            closedir($handle);
-        }
-    }
+				$exclude_check = array_unique(array($real_path, $relative_path));
+
+				if (is_dir($real_path)) {
+					$exclude = false;
+
+					foreach ($this->tmpFilterDirsAll as $key => $val) {
+						$trimmedFilterDir = rtrim($val, '/');
+						foreach ($exclude_check as $c_check) {
+							if ($c_check == $trimmedFilterDir || strpos($c_check, $trimmedFilterDir.'/') !== false) {
+								$exclude = true;
+								unset($this->tmpFilterDirsAll[$key]);
+								break 2;
+							}
+						}
+					}
+
+					if (!$exclude) {
+						if ($is_link) {
+							$this->RecursiveLinks[] = $relative_path;
+						}
+
+						$this->getFileLists($relative_path);
+						$this->Dirs[] = $relative_path;
+					}
+				} else {
+					$exclude = false;
+					if (in_array(pathinfo($file, PATHINFO_EXTENSION), $this->FilterExtsAll) || in_array($file, $this->FilterFilesAll)) {
+						$exclude = true;
+					} else {
+						foreach ($exclude_check as $c_check) {
+							if (in_array($c_check, $this->FilterFilesAll)) {
+								$exclude = true;
+								break;
+							}
+						}
+					}
+					if (!$exclude) {
+						$this->Files[] = $relative_path;
+					}
+				}
+			}
+			closedir($handle);
+		}
+		return $this->Dirs;
+	}
 
 	/**
 	 *  Builds a tree for both file size warnings and name check warnings
