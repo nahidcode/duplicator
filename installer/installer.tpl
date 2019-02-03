@@ -178,8 +178,14 @@ class DUPX_Bootstrap
 
         //$archive_extension = strtolower(pathinfo($archive_filepath)['extension']);
         $archive_extension		= strtolower(pathinfo($archive_filepath, PATHINFO_EXTENSION));
-		$manual_extract_found   = file_exists($installer_directory."/main.installer.php");
-
+		$manual_extract_found   = (
+									file_exists($installer_directory."/main.installer.php")
+									&&
+									file_exists($installer_directory."/dup-archive__".self::PACKAGE_HASH.".txt")
+									&&
+									file_exists($installer_directory."/dup-database__".self::PACKAGE_HASH.".sql")
+									);
+                                    
         $isZip = ($archive_extension == 'zip');
 
 		//MANUAL EXTRACTION NOT FOUND
@@ -250,20 +256,26 @@ class DUPX_Bootstrap
 
 		}
 
-		// INSTALL DIRECTORY: Check if its setup correctly AND we are not in overwrite mode
-		// disable extract installer mode by passing GET var like installer.php?extract-installer=0 or installer.php?extract-installer=disable
-        if ((isset($_GET['extract-installer']) && ('0' == $_GET['extract-installer'] || 'disable' == $_GET['extract-installer'] || 'false' == $_GET['extract-installer'])) && file_exists($installer_directory)) {
-//RSR for testing        if (file_exists($installer_directory)) {
 
-			self::log("$installer_directory already exists");
-			$extract_installer = !file_exists($installer_directory."/main.installer.php");
+        // OLD COMPATIBILITY MODE
+        if (isset($_GET['extract-installer']) && !isset($_GET['force-extract-installer'])) {
+            $_GET['force-extract-installer'] = $_GET['extract-installer'];
+        }
+        
+        if ($manual_extract_found) {
+			// INSTALL DIRECTORY: Check if its setup correctly AND we are not in overwrite mode
+			if (isset($_GET['force-extract-installer']) && ('1' == $_GET['force-extract-installer'] || 'enable' == $_GET['force-extract-installer'] || 'false' == $_GET['force-extract-installer'])) {
 
-			($extract_installer)
-				? self::log("But main.installer.php doesn't so extracting anyway")
-				: self::log("main.installer.php also exists so not going to extract installer directory");
+				self::log("Manual extract found with force extract installer get parametr");
+				$extract_installer = true;
 
+			} else {
+				$extract_installer = false;
+				self::log("Manual extract found so not going to extract dup-installer dir");
+			}
 		} else {
-			self::log("Going to overwrite installer directory since either in overwrite mode or installer directory doesn't exist");
+			$extract_installer = true;
+			self::log("Manual extract didn't found so going to extract dup-installer dir");
 		}
 
 		if ($extract_installer && file_exists($installer_directory)) {
