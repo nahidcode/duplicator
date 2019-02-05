@@ -211,25 +211,26 @@ class DUPX_Bootstrap
 				return $error;
 			}
 
-			// For .daf
-			if (!$isZip) {
-												
-				if (!filter_var(self::ARCHIVE_SIZE, FILTER_VALIDATE_INT) || self::ARCHIVE_SIZE > 2147483647) {
-				
-					$os_first_three_chars = substr(PHP_OS, 0, 3);
-					$os_first_three_chars = strtoupper($os_first_three_chars);
-					$no_of_bits = PHP_INT_SIZE * 8;
+			if (!filter_var(self::ARCHIVE_SIZE, FILTER_VALIDATE_INT) || self::ARCHIVE_SIZE > 2147483647) {
+			
+				$os_first_three_chars = substr(PHP_OS, 0, 3);
+				$os_first_three_chars = strtoupper($os_first_three_chars);
+				$no_of_bits = PHP_INT_SIZE * 8;
 
-					if ($no_of_bits == 32) {
-
+				if ($no_of_bits == 32) {
+					if ($isZip) { // ZIP
+						if ('WIN' === $os_first_three_chars) {
+							$error = "This package is currently {$archiveExpectedEasy} and it's on a Windows OS. PHP on Windows does not support files larger than 2GB. Please use the file filters to get your package lower to support this server or try the package on a Linux server.";
+							return $error;
+						}
+					} else { // DAF
 						if ('WIN' === $os_first_three_chars) {
 							$error  = 'Windows PHP limitations prevents extraction of archives larger than 2GB. Please do the following: <ol><li>Download and use the <a target="_blank" href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-052-q">Windows DupArchive extractor</a> to extract all files from the archive.</li><li>Perform a <a target="_blank" href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-015-q">Manual Extract Install</a> starting at step 4.</li></ol>';
 						} else 	{					
 							$error  = 'This archive is too large for 32-bit PHP. Ask your host to upgrade the server to 64-bit PHP or install on another system has 64-bit PHP.';
 						}
-
 						return $error;
-					}					
+					}
 				}
 			}
 
