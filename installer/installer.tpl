@@ -316,10 +316,14 @@ class DUPX_Bootstrap
 						if ($extract_success) {
 							self::log('Successfully extracted with ZipArchive');
 						} else {
-							// $error = 'Error extracting with ZipArchive. ';
-							$error = "This archive is not properly formatted and does not contain a dup-installer directory. Please make sure you are attempting to install the original archive and not one that has been reconstructed.";
-							self::log($error);
-							return $error;
+							if (0 == $this->installer_files_found) {
+								$error = "This archive is not properly formatted and does not contain a dup-installer directory. Please make sure you are attempting to install the original archive and not one that has been reconstructed.";
+								self::log($error);
+								return $error;
+							} else {
+								$error = 'Error extracting with ZipArchive. ';
+								self::log($error);
+							}
 						}
 					} else {
 						self::log("WARNING: ZipArchive is not enabled.");
@@ -633,14 +637,14 @@ class DUPX_Bootstrap
 			$folder_prefix = self::INSTALLER_DIR_NAME.'/';
 			self::log("Extracting all files from archive within ".self::INSTALLER_DIR_NAME);
 
-			$installer_files_found = 0;
+			$this->installer_files_found = 0;
 
 			for ($i = 0; $i < $zipArchive->numFiles; $i++) {
 				$stat		 = $zipArchive->statIndex($i);
 				$filename	 = $stat['name'];
 
 				if ($this->startsWith($filename, $folder_prefix)) {
-					$installer_files_found++;
+					$this->installer_files_found++;
 
 					if ($zipArchive->extractTo($destination, $filename) === true) {
 						self::log("Success: {$filename} >>> {$destination}");
@@ -666,7 +670,7 @@ class DUPX_Bootstrap
                     $filename	 = $stat['name'];
 
                     if ($this->startsWith($filename, $folder_prefix)) {
-                        $installer_files_found++;
+                        $this->installer_files_found++;
 
                         if ($zipArchive->extractTo($destination, $filename) === true) {
                             self::log("Success: {$filename} >>> {$destination}");
@@ -686,7 +690,7 @@ class DUPX_Bootstrap
 				$success = false;
 			}
 
-			if ($installer_files_found < 10) {
+			if ($this->installer_files_found < 10) {
 				self::log("Couldn't find the installer directory in the archive!");
 
 				$success = false;
