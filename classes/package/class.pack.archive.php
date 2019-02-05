@@ -533,19 +533,23 @@ class DUP_Archive
 	 * @return array	Returns an array of directories to include in the archive
 	 */
 	private function getFileLists($path) {
-        $handle = @opendir($path);
-        if ($handle) {
-            while (($file = readdir($handle)) !== false) {
+		$handle = @opendir($path);
 
-                if ($file == '.' || $file == '..') {
-                    continue;
-                }
+		if ($handle) {
+			while (($file = readdir($handle)) !== false) {
 
-                $fullPath = str_replace("\\", '/', "{$path}/{$file}");
+				if ($file == '.' || $file == '..') {
+					continue;
+				}
 
-                if (is_dir($fullPath)) {
+				$fullPath = str_replace("\\", '/', "{$path}/{$file}");
+
+				// @todo: Don't leave it like this. Convert into an option on the package to not follow symbolic links
+				// if (is_dir($fullPath) && (is_link($fullPath) == false))
+				if (is_dir($fullPath)) {
+
                     $add = true;
-                    if (!is_link($fullPath)) {
+                    if (!is_link($fullPath)){
                         foreach ($this->tmpFilterDirsAll as $key => $val) {
                             $trimmedFilterDir = rtrim($val, '/');
                             if ($fullPath == $trimmedFilterDir || strpos($fullPath, $trimmedFilterDir . '/') !== false) {
@@ -554,37 +558,45 @@ class DUP_Archive
                                 break;
                             }
                         }
-                    } else {
-                        //Convert relative path of link to absolute paths
+                    } else{
+                        //Convert relative path of link to absolute path
                         chdir($fullPath);
-                        $link_path = str_replace("\\", '/', realpath(readlink($fullPath)));
+						$link_path = str_replace("\\", '/', realpath(readlink($fullPath)));
                         chdir(dirname(__FILE__));
 
-                        $link_pos = strpos($fullPath, $link_path);
+                        $link_pos = strpos($fullPath,$link_path);
                         if($link_pos === 0 && (strlen($link_path) <  strlen($fullPath))){
                             $add = false;
                             $this->RecursiveLinks[] = $fullPath;
                             $this->FilterDirsAll[] = $fullPath;
-                        }
+                        } else {
+							foreach ($this->tmpFilterDirsAll as $key => $val) {
+								$trimmedFilterDir = rtrim($val, '/');
+								if ($fullPath == $trimmedFilterDir || strpos($fullPath, $trimmedFilterDir . '/') !== false) {
+									$add = false;
+									unset($this->tmpFilterDirsAll[$key]);
+									break;
+								}
+							}
+						}
                     }
 
                     if ($add) {
                         $this->getFileLists($fullPath);
-                        $this->addToList($fullPath,'dir');
-
+                        $this->Dirs[] = $fullPath;
                     }
-                } else {
-                    // Note: The last clause is present to perform just a filename check
-                    if ( ! (in_array(pathinfo($file, PATHINFO_EXTENSION) , $this->FilterExtsAll)
-                        || in_array($fullPath, $this->FilterFilesAll)
-                        || in_array($file, $this->FilterFilesAll))) {
-                            $this->addToList($fullPath,'file');
-                    }
-                }
-            }
-            closedir($handle);
-        }
-    }
+				} else {
+					if ( ! (in_array(pathinfo($file, PATHINFO_EXTENSION), $this->FilterExtsAll)
+						|| in_array($fullPath, $this->FilterFilesAll)
+						|| in_array($file, $this->FilterFilesAll))) {
+						$this->Files[] = $fullPath;
+					}
+				}
+			}
+			closedir($handle);
+		}
+		return $this->Dirs;
+	}
 
 	/**
 	 *  Builds a tree for both file size warnings and name check warnings
