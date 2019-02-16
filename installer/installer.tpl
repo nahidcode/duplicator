@@ -638,10 +638,11 @@ class DUPX_Bootstrap
      *
      * @return bool		Returns true if the data was properly extracted
      */
-	private function extractInstallerZipArchive($archive_filepath)
+	private function extractInstallerZipArchive($archive_filepath, $checkSubFolder = false)
 	{
 		$success	 = true;
 		$zipArchive	 = new ZipArchive();
+		$subFolderArchiveList   = array();
 
 		if ($zipArchive->open($archive_filepath) === true) {
 			self::log("Successfully opened $archive_filepath");
@@ -653,10 +654,29 @@ class DUPX_Bootstrap
 
 			for ($i = 0; $i < $zipArchive->numFiles; $i++) {
 				$stat		 = $zipArchive->statIndex($i);
-				$filename	 = $stat['name'];
+				if ($checkSubFolder == false) {
+					$filenameCheck = $stat['name'];
+					$filename = $stat['name'];
+				} else {
+					$tmpArray = explode('/' , $stat['name']);
+					
+					if (count($tmpArray) < 2)  {
+						continue;
+					}
 
-				if ($this->startsWith($filename, $folder_prefix)) {
+					$tmpSubFolder = $tmpArray[0];
+					array_shift($tmpArray);
+					$filenameCheck = implode('/' , $tmpArray);
+					$filename = $stat['name'];
+				}
+
+				
+				if ($this->startsWith($filenameCheck , $folder_prefix)) {
 					$this->installer_files_found++;
+
+					if (!in_array($tmpSubFolder , $subFolderArchiveList)) {
+						$subFolderArchiveList[] = $tmpSubFolder;
+					}
 
 					if ($zipArchive->extractTo($destination, $filename) === true) {
 						self::log("Success: {$filename} >>> {$destination}");
@@ -668,32 +688,42 @@ class DUPX_Bootstrap
 				}
 			}
 
-            $lib_directory = dirname(__FILE__).'/'.self::INSTALLER_DIR_NAME.'/lib';
-            $snaplib_directory = $lib_directory.'/snaplib';
+			if ($checkSubFolder && count($subFolderArchiveList) !== 1) {
+				self::log("Error: Multiple dup subfolder archive");
+				$success = false;			
+			} else {
+				if ($checkSubFolder) {
+					$this->moveUpfromSubFolter(dirname(__FILE__).'/'.$subFolderArchiveList[0]);
+                    rmdir(dirname(__FILE__).'/'.$subFolderArchiveList[0]);
+				}
 
-            // If snaplib files aren't present attempt to extract and copy those
-            if(!file_exists($snaplib_directory))
-            {
-                $folder_prefix = 'snaplib/';
-                $destination = $lib_directory;
+			    $lib_directory = dirname(__FILE__).'/'.self::INSTALLER_DIR_NAME.'/lib';
+			    $snaplib_directory = $lib_directory.'/snaplib';
 
-                for ($i = 0; $i < $zipArchive->numFiles; $i++) {
-                    $stat		 = $zipArchive->statIndex($i);
-                    $filename	 = $stat['name'];
+			    // If snaplib files aren't present attempt to extract and copy those
+			    if(!file_exists($snaplib_directory))
+			    {
+				$folder_prefix = 'snaplib/';
+				$destination = $lib_directory;
 
-                    if ($this->startsWith($filename, $folder_prefix)) {
-                        $this->installer_files_found++;
+				for ($i = 0; $i < $zipArchive->numFiles; $i++) {
+				    $stat		 = $zipArchive->statIndex($i);
+				    $filename	 = $stat['name'];
 
-                        if ($zipArchive->extractTo($destination, $filename) === true) {
-                            self::log("Success: {$filename} >>> {$destination}");
-                        } else {
-                            self::log("Error extracting {$filename} from archive archive file");
-                            $success = false;
-                            break;
-                        }
-                    }
-                }
-            }
+				    if ($this->startsWith($filename, $folder_prefix)) {
+				        $this->installer_files_found++;
+
+				        if ($zipArchive->extractTo($destination, $filename) === true) {
+				            self::log("Success: {$filename} >>> {$destination}");
+				        } else {
+				            self::log("Error extracting {$filename} from archive archive file");
+				            $success = false;
+				            break;
+				        }
+				    }
+				}
+			    }
+			}
 
 			if ($zipArchive->close() === true) {
 				self::log("Successfully closed archive file");
@@ -701,17 +731,41 @@ class DUPX_Bootstrap
 				self::log("Problem closing archive file");
 				$success = false;
 			}
-
-			if ($this->installer_files_found < 10) {
-				self::log("Couldn't find the installer directory in the archive!");
-
-				$success = false;
+			
+			if ($success != false && $this->installer_files_found < 10) {
+				if ($checkSubFolder) {
+					self::log("Couldn't find the installer directory in the archive!");
+					$success = false;
+				} else {
+					self::log("Couldn't find the installer directory in archive root! Check subfolder");
+					$this->extractInstallerZipArchive($archive_filepath, true);
+				}
 			}
 		} else {
 			self::log("Couldn't open archive archive file with ZipArchive");
 			$success = false;
 		}
+
 		return $success;
+	}
+
+	private function moveUpfromSubFolter($subFolderName) {
+		$parentFolder = dirname($subFolderName);
+		
+		$subList = $temp_files = glob(rtrim($subFolderName, '/').'/*');
+		//self::log("SubFiles : ".print_r($files , true));
+		foreach ($subList as $cName) {
+			$destination = $parentFolder.'/'.basename($cName);
+			if (file_exists($destination))  {
+				if (is_dir($destination))  {
+					self::deleteDirectory($destination, true);
+				} else {
+					unlink($destination);
+				}
+			}
+
+			rename($cName, $destination);
+		}
 	}
 
 	/**
@@ -855,7 +909,13 @@ class DUPX_Bootstrap
 			} else {
 				$possible_paths = array(
 					'/usr/bin/unzip',
-					'/opt/local/bin/unzip'// RSR TODO put back in when we support shellexec on windows,
+					'/opt/local/bin/unzip',
+					'/bin/unzip',
+					'/usr/local/bin/unzip',
+					'/usr/sfw/bin/unzip',
+					'/usr/xdg4/bin/unzip',
+					'/opt/bin/unzip',					
+					// RSR TODO put back in when we support shellexec on windows,
 				);
 
 				foreach ($possible_paths as $path) {
@@ -921,6 +981,46 @@ class DUPX_Bootstrap
 
         return $files;
     }
+    
+    /**
+	 * Safely remove a directory and recursively if needed
+	 *
+	 * @param string $directory The full path to the directory to remove
+	 * @param string $recursive recursively remove all items
+	 *
+	 * @return bool Returns true if all content was removed
+	 */
+	public static function deleteDirectory($directory, $recursive)
+	{
+		$success = true;
+
+		if ($excepted_subdirectories = null) {
+			$excepted_subdirectories = array();
+		}
+
+		if (!file_exists($directory)) {
+			return false;
+		}
+		
+		$filenames = array_diff(scandir($directory), array('.', '..'));
+
+		foreach ($filenames as $filename) {
+			if (is_dir("$directory/$filename")) {
+				if ($recursive) {
+					$success = self::deleteDirectory("$directory/$filename", true);
+				}
+			} else {
+				$success = @unlink("$directory/$filename");
+			}
+
+			if ($success === false) {
+				//self::log("Problem deleting $directory/$filename");
+				break;
+			}
+		}
+
+		return $success && rmdir($directory);
+	}
 }
 
 try {
