@@ -658,7 +658,8 @@ class DUPX_Bootstrap
 					$filenameCheck = $stat['name'];
 					$filename = $stat['name'];
 				} else {
-					$tmpArray = explode('/' , $stat['name']);
+                    $safePath = rtrim(self::setSafePath($stat['name']) , '/');
+					$tmpArray = explode('/' , $safePath);
 					
 					if (count($tmpArray) < 2)  {
 						continue;
@@ -693,8 +694,7 @@ class DUPX_Bootstrap
 				$success = false;			
 			} else {
 				if ($checkSubFolder) {
-					$this->moveUpfromSubFolter(dirname(__FILE__).'/'.$subFolderArchiveList[0]);
-                    rmdir(dirname(__FILE__).'/'.$subFolderArchiveList[0]);
+					$this->moveUpfromSubFolder(dirname(__FILE__).'/'.$subFolderArchiveList[0] , true);
 				}
 
 			    $lib_directory = dirname(__FILE__).'/'.self::INSTALLER_DIR_NAME.'/lib';
@@ -748,25 +748,55 @@ class DUPX_Bootstrap
 
 		return $success;
 	}
+    
+    /**
+     * move all folder content up to parent
+     *
+     * @param string $subFolderName full path
+     * @param boolean $deleteSubFolder if true delete subFolder after moved all
+     * @return boolean
+     * 
+     */
+    private function moveUpfromSubFolder($subFolderName, $deleteSubFolder = false)
+    {
+        if (!is_dir($subFolderName)) {
+            return false;
+        }
 
-	private function moveUpfromSubFolter($subFolderName) {
-		$parentFolder = dirname($subFolderName);
-		
-		$subList = $temp_files = glob(rtrim($subFolderName, '/').'/*');
-		//self::log("SubFiles : ".print_r($files , true));
-		foreach ($subList as $cName) {
-			$destination = $parentFolder.'/'.basename($cName);
-			if (file_exists($destination))  {
-				if (is_dir($destination))  {
-					self::deleteDirectory($destination, true);
-				} else {
-					unlink($destination);
-				}
-			}
+        $parentFolder = dirname($subFolderName);
+        if (!is_writable($parentFolder)) {
+            return false;
+        }
 
-			rename($cName, $destination);
-		}
-	}
+        $success = true;
+        if (($subList = glob(rtrim($subFolderName, '/').'/*', GLOB_NOSORT)) === false) {
+            self::log("Problem glob folder ".$subFolderName);
+            return false;
+        } else {
+            foreach ($subList as $cName) {
+                $destination = $parentFolder.'/'.basename($cName);
+                if (file_exists($destination)) {
+                    $success = self::deletePath($destination);
+                }
+
+                if ($success) {
+                    $success = rename($cName, $destination);
+                } else {
+                    break;
+                }
+            }
+
+            if ($success && $deleteSubFolder) {
+                $success = self::deleteDirectory($subFolderName, true);
+            }
+        }
+
+        if (!$success) {
+            self::log("Problem om moveUpfromSubFolder subFolder:".$subFolderName);
+        }
+
+        return $success;
+    }
 
 	/**
      * Extracts only the 'dup-installer' files using Shell-Exec Unzip
@@ -982,44 +1012,81 @@ class DUPX_Bootstrap
         return $files;
     }
     
+	/**
+     * Safely remove a directory and recursively if needed
+     *
+     * @param string $directory The full path to the directory to remove
+     * @param string $recursive recursively remove all items
+     *
+     * @return bool Returns true if all content was removed
+     */
+    public static function deleteDirectory($directory, $recursive)
+    {
+        $success = true;
+
+        $filenames = array_diff(scandir($directory), array('.', '..'));
+
+        foreach ($filenames as $filename) {
+            $fullPath = $directory.'/'.$filename;
+
+            if (is_dir($fullPath)) {
+                if ($recursive) {
+                    $success = self::deleteDirectory($fullPath, true);
+                }
+            } else {
+                $success = @unlink($fullPath);
+                if ($success === false) {
+                    self::log( __FUNCTION__.": Problem deleting file:".$fullPath);
+                }
+            }
+
+            if ($success === false) {
+                self::log("Problem deleting dir:".$directory);
+                break;
+            }
+        }
+
+        return $success && rmdir($directory);
+    }
+
     /**
-	 * Safely remove a directory and recursively if needed
+     * Safely remove a file or directory and recursively if needed
+     *
+     * @param string $directory The full path to the directory to remove
+     *
+     * @return bool Returns true if all content was removed
+     */
+    public static function deletePath($path)
+    {
+        $success = true;
+
+        if (is_dir($path)) {
+            $success = self::deleteDirectory($path, true);
+        } else {
+            $success = @unlink($path);
+
+            if ($success === false) {
+                self::log( __FUNCTION__.": Problem deleting file:".$path);
+            }
+        }
+
+        return $success;
+    }
+    
+    /**
+	 *  Makes path safe for any OS for PHP
 	 *
-	 * @param string $directory The full path to the directory to remove
-	 * @param string $recursive recursively remove all items
+	 *  Paths should ALWAYS READ be "/"
+	 * 		uni:  /home/path/file.txt
+	 * 		win:  D:/home/path/file.txt
 	 *
-	 * @return bool Returns true if all content was removed
+	 *  @param string $path		The path to make safe
+	 *
+	 *  @return string The original $path with a with all slashes facing '/'.
 	 */
-	public static function deleteDirectory($directory, $recursive)
+	public static function setSafePath($path)
 	{
-		$success = true;
-
-		if ($excepted_subdirectories = null) {
-			$excepted_subdirectories = array();
-		}
-
-		if (!file_exists($directory)) {
-			return false;
-		}
-		
-		$filenames = array_diff(scandir($directory), array('.', '..'));
-
-		foreach ($filenames as $filename) {
-			if (is_dir("$directory/$filename")) {
-				if ($recursive) {
-					$success = self::deleteDirectory("$directory/$filename", true);
-				}
-			} else {
-				$success = @unlink("$directory/$filename");
-			}
-
-			if ($success === false) {
-				//self::log("Problem deleting $directory/$filename");
-				break;
-			}
-		}
-
-		return $success && rmdir($directory);
+		return str_replace("\\", "/", $path);
 	}
 }
 
