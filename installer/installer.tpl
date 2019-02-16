@@ -675,7 +675,7 @@ class DUPX_Bootstrap
 				if ($this->startsWith($filenameCheck , $folder_prefix)) {
 					$this->installer_files_found++;
 
-					if (!in_array($tmpSubFolder , $subFolderArchiveList)) {
+					if (isset($tmpSubFolder) && !in_array($tmpSubFolder , $subFolderArchiveList)) {
 						$subFolderArchiveList[] = $tmpSubFolder;
 					}
 
