@@ -231,7 +231,11 @@ try {
 /**
  * clean output
  */
+$unespectOutput = ob_get_contents();
 ob_clean();
+if (!empty($unespectOutput)) {
+    // @todo something for report unespected output
+}
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -287,6 +291,32 @@ ob_clean();
 		}
 	?>
 </div>
+
+<?php
+
+/*
+DUPX_NOTICE_MANAGER::getInstance()->addFinalReportNotice('prova' , 'test section');
+DUPX_NOTICE_MANAGER::getInstance()->addFinalReportNotice(array(
+            'shortMsg' => 'Short message / title',
+            'level' => DUPX_NOTICE_ITEM::HARD_WARNING,
+            'longMsg' => 'Long message <b>with formatted html</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis.',
+            'sections' => array('aaaa' , 'bbbb'),
+            'faqLink' => array(
+                'url' => 'http://www.gooogle.it',
+                'label' => 'external link with label.'
+                )
+        ));
+
+DUPX_NOTICE_MANAGER::getInstance()->saveNotices();
+*/
+
+
+
+DUPX_NOTICE_MANAGER::testNextStepFullMessageData();
+DUPX_NOTICE_MANAGER::testNextStepMessaesLevels();
+
+DUPX_NOTICE_MANAGER::getInstance()->displayStepMessages();
+?>
 
 <!-- =========================================
 FORM DATA: User-Interface views -->
