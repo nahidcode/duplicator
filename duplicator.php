@@ -243,6 +243,13 @@ if (is_admin() == true)
      * =====================================================  */
     add_action('plugins_loaded',	'duplicator_update');
     add_action('plugins_loaded',	'duplicator_wpfront_integrate');
+
+    function duplicator_load_textdomain()
+    {
+        load_plugin_textdomain('duplicator', false, false);
+    }
+    add_action('plugins_loaded', 'duplicator_load_textdomain');
+
     add_action('admin_init',		'duplicator_init');
     add_action('admin_menu',		'duplicator_menu');
     add_action('admin_enqueue_scripts', 'duplicator_admin_enqueue_scripts' );
