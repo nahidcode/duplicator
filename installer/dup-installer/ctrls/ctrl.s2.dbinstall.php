@@ -182,6 +182,8 @@ class DUPX_DBInstall
             return false;
         }
 
+        $nManager = DUPX_NOTICE_MANAGER::getInstance();
+
         @mysqli_autocommit($this->dbh, false);
 
         $query = null;
@@ -196,8 +198,16 @@ class DUPX_DBInstall
             if (preg_match('/'.$delimiter.'\s*$/S', $query)) {
                 $query_strlen = strlen(trim($query));
                 if ($this->dbvar_maxpacks < $query_strlen) {
-                    DUPX_Log::info("**ERROR** Query size limit [length={$this->dbvar_maxpacks}] [sql=".substr($this->sql_result_data[$counter], 0, 75)."...]");
+                    $errorMsg = "**ERROR** Query size limit [length={$this->dbvar_maxpacks}] [sql=".substr($this->sql_result_data[$counter], 0, 75)."...]";
                     $this->dbquery_errs++;
+                    $nManager->addNextStepNoticeMessage('QUERY ERROR: size limit' , DUPX_NOTICE_ITEM::SOFT_WARNING , DUPX_NOTICE_MANAGER::ADD_UNIQUE , 'query-size-limit-msg');
+                    $nManager->addFinalReportNotice(array(
+                            'shortMsg' => 'QUERY ERROR: size limit',
+                            'level' => DUPX_NOTICE_ITEM::SOFT_WARNING,
+                            'longMsg' => $errorMsg,
+                            'sections' => 'database'
+                    ));
+                    DUPX_Log::info($errorMsg);
                 } elseif ($query_strlen > 0) {
                     $query = $this->nbspFix($query);
                     $query = $this->applyQueryCollationFallback($query);
@@ -235,10 +245,38 @@ class DUPX_DBInstall
                             @mysqli_query($this->dbh, "SET wait_timeout = ".mysqli_real_escape_string($this->dbh, $GLOBALS['DB_MAX_TIME']));
                             DUPX_DB::setCharset($this->dbh, $this->post['dbcharset'], $this->post['dbcollate']);
                         }
-                        DUPX_Log::info("**ERROR** database error write '{$err}' - [sql=".substr($query, 0, 75)."...]");
+                        $errMsg = "**ERROR** database error write '{$err}' - [sql=".substr($query, 0, 75)."...]";
+                        DUPX_Log::info($errMsg);
 
                         if (DUPX_U::contains($err, 'Unknown collation')) {
+                            $nManager->addNextStepNotice(array(
+                                'shortMsg' => 'DATABASE ERROR: database error write',
+                                'level' => DUPX_NOTICE_ITEM::HARD_WARNING,
+                                'longMsg' => 'Unknown collation<br>RECOMMENDATION: Try resolutions found at https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-110-q',
+                                'faqLink' => array(
+                                    'url' => 'https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-110-q',
+                                    'label' => 'FAQ Link'
+                                )
+                            ), DUPX_NOTICE_MANAGER::ADD_UNIQUE , 'query-collation-write-msg');
+                            $nManager->addFinalReportNotice(array(
+                                'shortMsg' => 'DATABASE ERROR: database error write',
+                                'level' => DUPX_NOTICE_ITEM::HARD_WARNING,
+                                'longMsg' => 'Unknown collation<br>RECOMMENDATION: Try resolutions found at https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-110-q'.'<br>'.$errMsg,
+                                'sections' => 'database',
+                                'faqLink' => array(
+                                    'url' => 'https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-110-q',
+                                    'label' => 'FAQ Link'
+                                )
+                            ));
                             DUPX_Log::info('RECOMMENDATION: Try resolutions found at https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-110-q');
+                        } else {
+                            $nManager->addNextStepNoticeMessage('DATABASE ERROR: database error write' , DUPX_NOTICE_ITEM::SOFT_WARNING , DUPX_NOTICE_MANAGER::ADD_UNIQUE , 'query-write-msg');
+                            $nManager->addFinalReportNotice(array(
+                                'shortMsg' => 'DATABASE ERROR: database error write',
+                                'level' => DUPX_NOTICE_ITEM::SOFT_WARNING,
+                                'longMsg' => $errMsg,
+                                'sections' => 'database'
+                            ));
                         }
 
                         $this->dbquery_errs++;
@@ -257,6 +295,8 @@ class DUPX_DBInstall
         }
         @mysqli_commit($this->dbh);
         @mysqli_autocommit($this->dbh, true);
+
+        $nManager ->saveNotices();
 
         //DATA CLEANUP: Perform Transient Cache Cleanup
         //Remove all duplicator entries and record this one since this is a new install.
@@ -356,6 +396,9 @@ class DUPX_DBInstall
 
     public function writeLog()
     {
+        $nManager = DUPX_NOTICE_MANAGER::getInstance();
+        $nManager->saveNotices();
+
         DUPX_Log::info("ERRORS FOUND:\t{$this->dbquery_errs}");
         DUPX_Log::info("DROPPED TABLES:\t{$this->drop_tbl_log}");
         DUPX_Log::info("RENAMED TABLES:\t{$this->rename_tbl_log}");
