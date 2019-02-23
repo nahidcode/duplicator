@@ -24,7 +24,7 @@ final class DUPX_NOTICE_MANAGER
 
     /**
      *
-     * @var DUPX_NOTICE_ITEM[] 
+     * @var DUPX_NOTICE_ITEM[]
      */
     private $nextStepNotices = array();
 
@@ -111,7 +111,7 @@ final class DUPX_NOTICE_MANAGER
     }
 
     /**
-     * 
+     *
      */
     public function resetNotices()
     {
@@ -237,7 +237,7 @@ final class DUPX_NOTICE_MANAGER
      * @param string $uniqueId  // used for ADD_UNIQUE or ADD_UNIQUE_UPDATE
      *
      * @return string   // notice insert id
-     * 
+     *
      * @throws Exception
      */
     private static function addReportNoticeToList(&$list, $item, $mode = self::ADD_NORMAL, $uniqueId = null)
@@ -301,7 +301,7 @@ final class DUPX_NOTICE_MANAGER
      * @param null|string $section if null is count global
      * @param int $level error level
      * @param string $operator > < >= <= = !=
-     * 
+     *
      * @return int
      */
     public function countFinalReportNotices($section = null, $level = DUPX_NOTICE_ITEM::INFO, $operator = '>=')
@@ -335,7 +335,7 @@ final class DUPX_NOTICE_MANAGER
     }
 
     /**
-     * 
+     *
      */
     public function sortFinalReport()
     {
@@ -396,7 +396,7 @@ final class DUPX_NOTICE_MANAGER
      * @param null|string $section  if null is a global result
      *
      * @return int // returns the worst level found
-     * 
+     *
      */
     public function getSectionErrLevel($section = null)
     {
@@ -607,7 +607,7 @@ final class DUPX_NOTICE_MANAGER
 
     /**
      * function for internal test
-     * 
+     *
      * display all messages levels
      */
     public static function testNextStepMessaesLevels()
@@ -711,7 +711,7 @@ LONGMSG;
 
     private function __wakeup()
     {
-        
+
     }
 }
 
@@ -791,7 +791,7 @@ class DUPX_NOTICE_ITEM
      *                          'shortMsg' => text,
      *                          'level' => level,
      *                          'longMsg' => html text,
-     *                          'sections' => sections list,
+     *                          'sections' => string|string[],
      *                          'faqLink' => [
      *                              'url' => external link
      *                              'label' => link text if empty get external url link
@@ -816,7 +816,7 @@ class DUPX_NOTICE_ITEM
      *                          'shortMsg' => text,
      *                          'level' => level,
      *                          'longMsg' => html text,
-     *                          'sections' => sections list,
+     *                          'sections' => string|string[],
      *                          'faqLink' => [
      *                              'url' => external link
      *                              'label' => link text if empty get external url link
@@ -844,7 +844,7 @@ class DUPX_NOTICE_ITEM
      *                          'shortMsg' => text,
      *                          'level' => level,
      *                          'longMsg' => html text,
-     *                          'sections' => sections list,
+     *                          'sections' => string|string[],
      *                          'faqLink' => [
      *                              'url' => external link
      *                              'label' => link text if empty get external url link
@@ -864,7 +864,7 @@ class DUPX_NOTICE_ITEM
     }
 
     /**
-     * before lower priority 
+     * before lower priority
      * before highest level
      *
      * @param DUPX_NOTICE_ITEM $a

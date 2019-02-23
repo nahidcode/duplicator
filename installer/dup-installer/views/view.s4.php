@@ -356,6 +356,15 @@ LONGMSG;
 <?php else: ?>
 	console.log("Cross site script attempt detected, unable to create final report!");
 <?php endif; ?>
+
+//DOCUMENT LOAD
+$(document).ready(function () {
+
+    //INIT Routines
+	$("*[data-type='toggle']").click(DUPX.toggleClick);
+	$("#tabs").tabs();
+
+});
 </script>
 
 
