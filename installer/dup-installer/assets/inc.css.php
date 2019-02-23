@@ -9,6 +9,7 @@
 	select {padding-left:0; width:99%}
 	select:disabled {background:#EBEBE4}
 	input.readonly {background-color:#efefef;}
+    .no-display { display: none; }
 
 	/* ============================
 	COMMON VIEWS

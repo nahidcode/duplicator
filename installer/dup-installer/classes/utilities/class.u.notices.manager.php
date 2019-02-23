@@ -123,7 +123,7 @@ final class DUPX_NOTICE_MANAGER
 
     /**
      *
-     * @param string|array|DUPX_NOTICE_ITEM $item // if string add new notice obj with item message and level param
+     * @param array|DUPX_NOTICE_ITEM $item // if string add new notice obj with item message and level param
      *                                            // if array must be [
      *                                                                   'shortMsg' => text,
      *                                                                   'level' => level,
@@ -143,6 +143,9 @@ final class DUPX_NOTICE_MANAGER
      */
     public function addNextStepNotice($item, $mode = self::ADD_NORMAL, $uniqueId = null)
     {
+        if (!is_array($item) && !($item instanceof DUPX_NOTICE_ITEM)) {
+            throw new Exception('Invalid item param');
+        }
         return self::addReportNoticeToList($this->nextStepNotices, $item, $mode, $uniqueId);
     }
 
@@ -168,7 +171,7 @@ final class DUPX_NOTICE_MANAGER
 
     /**
      *
-     * @param string|array|DUPX_NOTICE_ITEM $item // if string add new notice obj with item message and level param
+     * @param array|DUPX_NOTICE_ITEM $item // if string add new notice obj with item message and level param
      *                                            // if array must be [
      *                                                                   'shortMsg' => text,
      *                                                                   'level' => level,
@@ -188,6 +191,9 @@ final class DUPX_NOTICE_MANAGER
      */
     public function addFinalReportNotice($item, $mode = self::ADD_NORMAL, $uniqueId = null)
     {
+        if (!is_array($item) && !($item instanceof DUPX_NOTICE_ITEM)) {
+            throw new Exception('Invalid item param');
+        }
         return self::addReportNoticeToList($this->finalReporNotices, $item, $mode, $uniqueId);
     }
 
@@ -216,7 +222,7 @@ final class DUPX_NOTICE_MANAGER
     /**
      *
      * @param array $list
-     * @param string|array|DUPX_NOTICE_ITEM $item // if string add new notice obj with item message and level param
+     * @param array|DUPX_NOTICE_ITEM $item // if string add new notice obj with item message and level param
      *                                            // if array must be [
      *                                                                   'shortMsg' => text,
      *                                                                   'level' => level,
@@ -647,17 +653,17 @@ LONGMSG;
         $section = 'general';
 
         $manager = self::getInstance();
-        $manager->addFinalReportNotice('Level info ('.DUPX_NOTICE_ITEM::INFO.')', $section, DUPX_NOTICE_ITEM::INFO, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_0');
-        $manager->addFinalReportNotice('Level notice ('.DUPX_NOTICE_ITEM::NOTICE.')', $section, DUPX_NOTICE_ITEM::NOTICE, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_1');
-        $manager->addFinalReportNotice('Level soft warning ('.DUPX_NOTICE_ITEM::SOFT_WARNING.')', $section, DUPX_NOTICE_ITEM::SOFT_WARNING, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_2');
-        $manager->addFinalReportNotice('Level hard warning ('.DUPX_NOTICE_ITEM::HARD_WARNING.')', $section, DUPX_NOTICE_ITEM::HARD_WARNING, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_3');
-        $manager->addFinalReportNotice('Level critical error ('.DUPX_NOTICE_ITEM::CRITICAL.')', $section, DUPX_NOTICE_ITEM::CRITICAL, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_4');
-        $manager->addFinalReportNotice('Level fatal error ('.DUPX_NOTICE_ITEM::FATAL.')', $section, DUPX_NOTICE_ITEM::FATAL, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_5');
+        $manager->addFinalReportNoticeMessage('Level info ('.DUPX_NOTICE_ITEM::INFO.')', $section, DUPX_NOTICE_ITEM::INFO, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_0');
+        $manager->addFinalReportNoticeMessage('Level notice ('.DUPX_NOTICE_ITEM::NOTICE.')', $section, DUPX_NOTICE_ITEM::NOTICE, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_1');
+        $manager->addFinalReportNoticeMessage('Level soft warning ('.DUPX_NOTICE_ITEM::SOFT_WARNING.')', $section, DUPX_NOTICE_ITEM::SOFT_WARNING, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_2');
+        $manager->addFinalReportNoticeMessage('Level hard warning ('.DUPX_NOTICE_ITEM::HARD_WARNING.')', $section, DUPX_NOTICE_ITEM::HARD_WARNING, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_3');
+        $manager->addFinalReportNoticeMessage('Level critical error ('.DUPX_NOTICE_ITEM::CRITICAL.')', $section, DUPX_NOTICE_ITEM::CRITICAL, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_4');
+        $manager->addFinalReportNoticeMessage('Level fatal error ('.DUPX_NOTICE_ITEM::FATAL.')', $section, DUPX_NOTICE_ITEM::FATAL, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_5');
         $manager->saveNotices();
     }
 
-
-    public static function testFinalReportFullMessages() {
+    public static function testFinalReportFullMessages()
+    {
         $section = 'general';
         $manager = self::getInstance();
 
@@ -682,7 +688,7 @@ LONGMSG;
                 'url' => 'http://www.google.it',
                 'label' => 'google link'
             )
-        ), DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_full_1');
+            ), DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_full_1');
 
         $manager->addFinalReportNotice(array(
             'shortMsg' => 'Full elements final report message info high priority',
@@ -694,7 +700,7 @@ LONGMSG;
                 'label' => 'google link'
             ),
             'priority' => 5
-        ), DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_full_2');
+            ), DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_full_2');
         $manager->saveNotices();
     }
 
@@ -820,6 +826,13 @@ class DUPX_NOTICE_ITEM
      */
     public static function getItemFromArray($array)
     {
+        if (isset($array['sections']) && !is_array($array['sections'])) {
+            if (empty($array['sections'])) {
+                $array['sections'] = array();
+            } else {
+                $array['sections'] = array($array['sections']);
+            }
+        }
         $params = array_merge(self::getDefaultArrayParams(), $array);
         $result = new self($params['shortMsg'], $params['level'], $params['longMsg'], $params['sections'], $params['faqLink'], $params['priority']);
         return $result;
