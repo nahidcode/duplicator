@@ -283,7 +283,7 @@ ARCHIVE -->
 						echo '<table id="dup-dbtables"><tr><td valign="top">';
 						foreach ($tables as $table) {
 
-							if (DUP_PRO_U::isWPCoreTable($table[0])) {
+							if (DUP_Util::isWPCoreTable($table[0])) {
 								$core_css = 'core-table';
 								$core_note = '*';
 							} else {
