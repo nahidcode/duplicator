@@ -294,26 +294,13 @@ if (!empty($unespectOutput)) {
 
 <?php
 
-/*
-DUPX_NOTICE_MANAGER::getInstance()->addFinalReportNotice('prova' , 'test section');
-DUPX_NOTICE_MANAGER::getInstance()->addFinalReportNotice(array(
-            'shortMsg' => 'Short message / title',
-            'level' => DUPX_NOTICE_ITEM::HARD_WARNING,
-            'longMsg' => 'Long message <b>with formatted html</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis.',
-            'sections' => array('aaaa' , 'bbbb'),
-            'faqLink' => array(
-                'url' => 'http://www.gooogle.it',
-                'label' => 'external link with label.'
-                )
-        ));
-
-DUPX_NOTICE_MANAGER::getInstance()->saveNotices();
-*/
-
-
-
+/****************************/
+/*** NOTICE MANAGER TESTS ***/
 DUPX_NOTICE_MANAGER::testNextStepFullMessageData();
 DUPX_NOTICE_MANAGER::testNextStepMessaesLevels();
+DUPX_NOTICE_MANAGER::testFinalReporMessaesLevels();
+DUPX_NOTICE_MANAGER::testFinalReportFullMessages();
+/****************************/
 
 DUPX_NOTICE_MANAGER::getInstance()->displayStepMessages();
 ?>

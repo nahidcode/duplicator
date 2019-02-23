@@ -449,9 +449,9 @@ final class DUPX_NOTICE_MANAGER
         <div class="<?php echo implode(' ', $classes); ?>">
             <p>
                 <?php
-                    echo self::getNextStepLevelPrefixMessage($notice->level).': <b>'.htmlentities($notice->shortMsg).'</b>';
-                    if (!empty($notice->faqLink)) {
-                        ?>
+                echo self::getNextStepLevelPrefixMessage($notice->level).': <b>'.htmlentities($notice->shortMsg).'</b>';
+                if (!empty($notice->faqLink)) {
+                    ?>
                     <br>
                     See FAQ: <a href="<?php echo $notice->faqLink['url']; ?>" >
                         <b><?php echo empty($notice->faqLink['label']) ? $notice->faqLink['url'] : $notice->faqLink['label']; ?></b>
@@ -639,6 +639,62 @@ LONGMSG;
                 'label' => 'google link'
             )
         ));
+        $manager->saveNotices();
+    }
+
+    public static function testFinalReporMessaesLevels()
+    {
+        $section = 'general';
+
+        $manager = self::getInstance();
+        $manager->addFinalReportNotice('Level info ('.DUPX_NOTICE_ITEM::INFO.')', $section, DUPX_NOTICE_ITEM::INFO, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_0');
+        $manager->addFinalReportNotice('Level notice ('.DUPX_NOTICE_ITEM::NOTICE.')', $section, DUPX_NOTICE_ITEM::NOTICE, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_1');
+        $manager->addFinalReportNotice('Level soft warning ('.DUPX_NOTICE_ITEM::SOFT_WARNING.')', $section, DUPX_NOTICE_ITEM::SOFT_WARNING, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_2');
+        $manager->addFinalReportNotice('Level hard warning ('.DUPX_NOTICE_ITEM::HARD_WARNING.')', $section, DUPX_NOTICE_ITEM::HARD_WARNING, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_3');
+        $manager->addFinalReportNotice('Level critical error ('.DUPX_NOTICE_ITEM::CRITICAL.')', $section, DUPX_NOTICE_ITEM::CRITICAL, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_4');
+        $manager->addFinalReportNotice('Level fatal error ('.DUPX_NOTICE_ITEM::FATAL.')', $section, DUPX_NOTICE_ITEM::FATAL, DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_5');
+        $manager->saveNotices();
+    }
+
+
+    public static function testFinalReportFullMessages() {
+        $section = 'general';
+        $manager = self::getInstance();
+
+        $longMsg = <<<LONGMSG
+            <b>Formattend long text</b><br>
+            <ul>
+            <li>Proin dapibus mi eu erat pulvinar, id congue nisl egestas.</li>
+            <li>Nunc venenatis eros et sapien ornare consequat.</li>
+            <li>Mauris tincidunt est sit amet turpis placerat, a tristique dui porttitor.</li>
+            <li>Etiam volutpat lectus quis risus molestie faucibus.</li>
+            <li>Integer gravida eros sit amet sem viverra, a volutpat neque rutrum.</li>
+            <li>Aenean varius ipsum vitae lorem tempus rhoncus.</li>
+            </ul>
+LONGMSG;
+
+        $manager->addFinalReportNotice(array(
+            'shortMsg' => 'Full elements final report message',
+            'level' => DUPX_NOTICE_ITEM::HARD_WARNING,
+            'longMsg' => $longMsg,
+            'sections' => $section,
+            'faqLink' => array(
+                'url' => 'http://www.google.it',
+                'label' => 'google link'
+            )
+        ), DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_full_1');
+
+        $manager->addFinalReportNotice(array(
+            'shortMsg' => 'Full elements final report message info high priority',
+            'level' => DUPX_NOTICE_ITEM::INFO,
+            'longMsg' => $longMsg,
+            'sections' => $section,
+            'faqLink' => array(
+                'url' => 'http://www.google.it',
+                'label' => 'google link'
+            ),
+            'priority' => 5
+        ), DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'test_fr_full_2');
         $manager->saveNotices();
     }
 
