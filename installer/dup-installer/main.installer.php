@@ -48,7 +48,11 @@ try {
     $GLOBALS['DUPX_ROOT']  = str_replace("\\", '/', (realpath(dirname(__FILE__) . '/..')));
     $GLOBALS['DUPX_INIT']  = "{$GLOBALS['DUPX_ROOT']}/dup-installer";
     $GLOBALS['DUPX_ENFORCE_PHP_INI']  = false;
+
     require_once($GLOBALS['DUPX_INIT'].'/classes/class.csrf.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/utilities/class.u.exceptions.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/utilities/class.u.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/utilities/class.u.notices.manager.php');
 
     // ?view=help
     if (!empty($_GET['view']) && 'help' == $_GET['view']) {
@@ -123,8 +127,6 @@ try {
     if ($GLOBALS['DUPX_STATE'] == null) {
         die("Can't initialize installer state! Please try to re-run installer.php");
     }
-
-    require_once($GLOBALS['DUPX_INIT'] . '/classes/utilities/class.u.php');
 
     if (!empty($GLOBALS['view'])) {
         $post_view = $GLOBALS['view'];
