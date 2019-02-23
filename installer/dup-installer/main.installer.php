@@ -298,8 +298,8 @@ if (!empty($unespectOutput)) {
 /*** NOTICE MANAGER TESTS ***/
 //DUPX_NOTICE_MANAGER::testNextStepFullMessageData();
 //DUPX_NOTICE_MANAGER::testNextStepMessaesLevels();
-DUPX_NOTICE_MANAGER::testFinalReporMessaesLevels();
-DUPX_NOTICE_MANAGER::testFinalReportFullMessages();
+//DUPX_NOTICE_MANAGER::testFinalReporMessaesLevels();
+//DUPX_NOTICE_MANAGER::testFinalReportFullMessages();
 /****************************/
 
 DUPX_NOTICE_MANAGER::getInstance()->displayStepMessages();
