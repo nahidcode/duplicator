@@ -254,7 +254,7 @@ Auto Posts to view.step3.php  -->
 				$formInput.hide();
 				$formResult.show();
 			},
-			success: function (respData, textStatus, xHr) {
+			success: function (respData, textStatus, xhr) {
 				try {
 					var data = DUPX.parseJSON(respData);
 				} catch(err) {

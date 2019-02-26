@@ -180,10 +180,14 @@ class DUPX_DBInstall
             if (in_array($table, $skipTables)) {
                 continue;
             }
-            $result = mysqli_query($this->dbh, "SELECT count(*) as cnt FROM {$table}"); 
-            $row = $result->fetch_assoc();
-            if ($rowCount != $row['cnt']) {
-                return false;
+            $sql = "SELECT count(*) as cnt FROM `".mysqli_real_escape_string($this->dbh, $table)."`";
+            $result = mysqli_query($this->dbh, $sql); 
+            if (false !== $result) {
+                error_log($sql);
+                $row = mysqli_fetch_assoc($result);
+                if ($rowCount != $row['cnt']) {
+                    return false;
+                }
             }
         }
         return true;
