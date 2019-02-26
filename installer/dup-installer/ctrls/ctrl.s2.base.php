@@ -153,10 +153,20 @@ if ($_POST['dbaction'] == 'manual') {
     print_r(json_encode($dbinstall->writeInChunks()));
     die();
 } */ elseif(isset($_POST['continue_chunking']) && ($_POST['continue_chunking'] === 'false' && $_POST['pass'] == 1)) {
-    $JSON['pass'] = 1;
+    if ($dbinstall->verifyDBInstall()) {
+		$JSON['pass'] = 1;
+	} else {
+		$JSON['error'] = 1;
+		$JSON['error_message'] = 'ERROR: Table row count varification was failed';
+	}
 } elseif(!isset($_POST['continue_chunking'])) {
 	$dbinstall->writeInDB();
-    $JSON['pass'] = 1;
+    if ($dbinstall->verifyDBInstall()) {
+		$JSON['pass'] = 1;
+	} else {
+		$JSON['error'] = 1;
+		$JSON['error_message'] = 'ERROR: Table row count varification was failed';
+	}
 }
 
 $dbinstall->profile_end = DUPX_U::getMicrotime();

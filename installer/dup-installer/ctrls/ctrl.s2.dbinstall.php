@@ -167,6 +167,28 @@ class DUPX_DBInstall
         }
     }
 
+    public function verifyDBInstall()
+    {
+        $tableWiseRowCounts = $GLOBALS['DUPX_AC']->dbInfo->tableWiseRowCounts;
+        $skipTables = array(
+            $GLOBALS['DUPX_AC']->wp_tableprefix."duplicator_packages",
+            $GLOBALS['DUPX_AC']->wp_tableprefix."options",
+            $GLOBALS['DUPX_AC']->wp_tableprefix."duplicator_pro_packages",
+            $GLOBALS['DUPX_AC']->wp_tableprefix."duplicator_pro_entities",
+        );
+        foreach ($tableWiseRowCounts as $table => $rowCount) {
+            if (in_array($table, $skipTables)) {
+                continue;
+            }
+            $result = mysqli_query($this->dbh, "SELECT count(*) as cnt FROM {$table}"); 
+            $row = $result->fetch_assoc();
+            if ($rowCount != $row['cnt']) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function writeInDB()
     {
         //WRITE DATA
