@@ -183,7 +183,6 @@ class DUPX_DBInstall
             $sql = "SELECT count(*) as cnt FROM `".mysqli_real_escape_string($this->dbh, $table)."`";
             $result = mysqli_query($this->dbh, $sql); 
             if (false !== $result) {
-                error_log($sql);
                 $row = mysqli_fetch_assoc($result);
                 if ($rowCount != $row['cnt']) {
                     return false;
