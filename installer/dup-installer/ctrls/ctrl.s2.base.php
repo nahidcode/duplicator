@@ -153,19 +153,24 @@ if ($_POST['dbaction'] == 'manual') {
     print_r(json_encode($dbinstall->writeInChunks()));
     die();
 } */ elseif(isset($_POST['continue_chunking']) && ($_POST['continue_chunking'] === 'false' && $_POST['pass'] == 1)) {
-    if ($dbinstall->verifyDBInstall()) {
+    $rowCountMisMatchTables = $dbinstall->getRowCountMisMatchTables();
+    if (empty($rowCountMisMatchTables)) {
 		$JSON['pass'] = 1;
 	} else {
 		$JSON['error'] = 1;
-		$JSON['error_message'] = 'ERROR: Table row count varification was failed';
+        $JSON['error_message'] = 'Database Table row count verification was failed for table(s):'
+                                    .implode(', ', $rowCountMisMatchTables).'. '
+                                    .'For additional information please visit .';
 	}
 } elseif(!isset($_POST['continue_chunking'])) {
-	$dbinstall->writeInDB();
-    if ($dbinstall->verifyDBInstall()) {
+	$rowCountMisMatchTables = $dbinstall->getRowCountMisMatchTables();
+    if (empty($rowCountMisMatchTables)) {
 		$JSON['pass'] = 1;
 	} else {
 		$JSON['error'] = 1;
-		$JSON['error_message'] = 'ERROR: Table row count varification was failed';
+		$JSON['error_message'] = 'Database Table row count verification was failed for table(s):'
+                                    .implode(', ', $rowCountMisMatchTables).'. '
+                                    .'For additional information please visit .';
 	}
 }
 
