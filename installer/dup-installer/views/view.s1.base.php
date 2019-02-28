@@ -1037,21 +1037,6 @@ DUPX.kickOffDupArchiveExtract = function ()
 	var request = new Object();
 	var isClientSideKickoff = DUPX.isClientSideKickoff();
 
-	<?php
-	$outer_root_path = dirname($root_path);
-	if (!$GLOBALS['DUPX_AC']->installSiteOverwriteOn && (file_exists($root_path.'/wp-config.php') || (@file_exists($outer_root_path.'/wp-config.php') && !@file_exists("{$outer_root_path}/wp-settings.php")))) {
-		?>
-		$('#s1-input-form').hide();
-		$('#s1-result-form').show();
-		var errorString = "<div class='dupx-ui-error'><b style='color:#B80000;'>INSTALL ERROR!</b><br/>"+'<?php echo ERR_CONFIG_FOUND;?>'+"</div>";
-		$('#ajaxerr-data').html(errorString);
-		DUPX.hideProgressBar();
-		return false;
-		<?php
-	}
-	?>
-	
-
 	request.action = "start_expand";
 	request.archive_filepath = '<?php echo DUPX_U::esc_js($archive_path); ?>';
 	request.restore_directory = '<?php echo DUPX_U::esc_js($root_path); ?>';
@@ -1081,7 +1066,7 @@ DUPX.kickOffDupArchiveExtract = function ()
 	$.ajax({
 		type: "POST",
 		timeout: DUPX.DAWS.KickoffWorkerTimeInSec * 2000,  // Double worker time and convert to ms
-		url: DUPX.DAWS.Url,
+		url: DUPX.DAWS.Url + '&daws_action=start_expand',
 		data: requestString,
 		beforeSend: function () {
 			DUPX.showProgressBar();
@@ -1131,9 +1116,14 @@ DUPX.kickOffDupArchiveExtract = function ()
 					DUPX.DAWSProcessingFailed(errorString);
 				}
 			} else {
-				var errorString = 'kickOffDupArchiveExtract:Error Processing Step 1<br/>';
-				errorString += data.error;
-				DUPX.handleDAWSProcessingProblem(errorString, false);
+				if ('undefined' !== typeof data.isWPAlreadyExistsError
+				&& data.isWPAlreadyExistsError) {
+					DUPX.DAWSProcessingFailed(data.error);
+				} else {
+					var errorString = 'kickOffDupArchiveExtract:Error Processing Step 1<br/>';
+					errorString += data.error;
+					DUPX.handleDAWSProcessingProblem(errorString, false);
+				}
 			}
 		},
 		error: function (xHr, textStatus) {
