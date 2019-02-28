@@ -297,7 +297,15 @@ class DUP_Database
         }
 
         //Filter tables
-        $tables       = $wpdb->get_col('SHOW TABLES');
+        $res = $wpdb->get_results('SHOW FULL TABLES', ARRAY_N);
+        $tables = array();
+        $baseTables = array();
+        foreach ($res as $row) {
+            $tables[] = $row[0];
+            if ('BASE TABLE' == $row[1]) {
+                $baseTables[] = $row[0];
+            }
+        }
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
         $tblAllCount  = count($tables);
         //$tblFilterOn  = ($this->FilterOn) ? 'ON' : 'OFF';
@@ -424,11 +432,12 @@ class DUP_Database
         $sql_footer .= "/* ".DUPLICATOR_DB_EOF_MARKER." */\n";
         file_put_contents($this->dbStorePath, $sql_footer, FILE_APPEND);
         foreach ($tables as $table) {
-            $row_count = $GLOBALS['wpdb']->get_var("SELECT Count(*) FROM `{$table}`");
-            $rewrite_table_as = $this->rewriteTableNameAs($table);
-            $this->Package->Database->info->tableWiseRowCounts[$rewrite_table_as] = $row_count;
+            if (in_array($table, $baseTables)) {
+                $row_count = $GLOBALS['wpdb']->get_var("SELECT Count(*) FROM `{$table}`");
+                $rewrite_table_as = $this->rewriteTableNameAs($table);
+                $this->Package->Database->info->tableWiseRowCounts[$rewrite_table_as] = $row_count;
+            }
         }
-
         return ($output) ? false : true;
     }
 
