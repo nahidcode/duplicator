@@ -156,7 +156,7 @@ if ($_POST['dbaction'] == 'manual') {
 		$JSON['pass'] = 1;
 	} else {
 		$JSON['error'] = 1;
-		$JSON['error_message'] = 'Database Table row count verification was failed for table(s):'
+		$JSON['error_message'] = 'ERROR: Database Table row count verification was failed for table(s):'
                                     .implode(', ', $rowCountMisMatchTables).'.';
 	}
 }
