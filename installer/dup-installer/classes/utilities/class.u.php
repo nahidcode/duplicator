@@ -163,6 +163,7 @@ class DUPX_U
 		 if (function_exists('get_headers')) {
 			$url =  is_integer($port) ? $url . ':' . $port 	: $url;
 			DUPX_Handler::$should_log = false;
+			@ini_set("default_socket_timeout", $timeout);
 			$headers = @get_headers($url);
 			DUPX_Handler::$should_log = true;
 			if (is_array($headers) && strpos($headers[0], '404') === false) {
@@ -170,7 +171,6 @@ class DUPX_U
 			}
 		} else {
 			if (function_exists('fsockopen')) {
-				@ini_set("default_socket_timeout", 5);
 				$port = isset($port) && is_integer($port) ? $port : 80;
 				$host = parse_url($url, PHP_URL_HOST);
 				$connected = @fsockopen($host, $port, $errno, $errstr, $timeout); //website and port
