@@ -171,6 +171,7 @@ class DUPX_U
 			}
 		} else {
 			if (function_exists('fsockopen')) {
+				@ini_set("default_socket_timeout", $timeout);
 				$port = isset($port) && is_integer($port) ? $port : 80;
 				$host = parse_url($url, PHP_URL_HOST);
 				$connected = @fsockopen($host, $port, $errno, $errstr, $timeout); //website and port
