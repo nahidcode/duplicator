@@ -339,7 +339,7 @@ final class DUPX_NOTICE_MANAGER
      */
     public function sortFinalReport()
     {
-        uasort($this->finalReporNotices, array(DUPX_NOTICE_ITEM, 'sortNoticeForPriorityAndLevel'));
+        uasort($this->finalReporNotices, array('DUPX_NOTICE_ITEM', 'sortNoticeForPriorityAndLevel'));
     }
 
     public function displayFinalReport($section)
