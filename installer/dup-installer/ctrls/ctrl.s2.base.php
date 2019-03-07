@@ -157,7 +157,7 @@ if ($_POST['dbaction'] == 'manual') {
 		$JSON['pass'] = 1;
 	} else {
 		$JSON['error'] = 1;
-		$JSON['error_message'] = 'ERROR: Table row count varification was failed';
+		$JSON['error_message'] = 'ERROR: Table row count verification has failed';
 	}
 } elseif(!isset($_POST['continue_chunking'])) {
 	$dbinstall->writeInDB();
@@ -165,7 +165,7 @@ if ($_POST['dbaction'] == 'manual') {
 		$JSON['pass'] = 1;
 	} else {
 		$JSON['error'] = 1;
-		$JSON['error_message'] = 'ERROR: Table row count varification was failed';
+		$JSON['error_message'] = 'ERROR: Table row count verification has failed';
 	}
 }
 
