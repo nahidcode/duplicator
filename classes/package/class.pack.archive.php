@@ -481,6 +481,10 @@ class DUP_Archive
                 continue;
             }
 
+            $fileSize   = @filesize($filePath);
+            $fileSize   = empty($fileSize) ? 0 : $fileSize;
+            $this->Size += $fileSize;
+
             if (!$skip_archive_scan) {
                 $invalid_test = strlen($filePath) > PHP_MAXPATHLEN || preg_match('/(\/|\*|\?|\>|\<|\:|\\|\|)/', $fileName) || trim($fileName) == "" || preg_match('/[^\x20-\x7f]/', $fileName);
 
@@ -493,10 +497,6 @@ class DUP_Archive
                         'dir' => pathinfo($filePath, PATHINFO_DIRNAME),
                         'path' => $filePath);
                 }
-
-                $fileSize   = @filesize($filePath);
-                $fileSize   = empty($fileSize) ? 0 : $fileSize;
-                $this->Size += $fileSize;
 
                 if ($fileSize > DUPLICATOR_SCAN_WARNFILESIZE) {
                     //$ext = pathinfo($filePath, PATHINFO_EXTENSION);
