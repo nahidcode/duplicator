@@ -167,7 +167,7 @@ class DUPX_DBInstall
         }
     }
 
-    public function verifyDBInstall()
+    public function getRowCountMisMatchTables()
     {
         $tableWiseRowCounts = $GLOBALS['DUPX_AC']->dbInfo->tableWiseRowCounts;
         $skipTables = array(
@@ -176,6 +176,7 @@ class DUPX_DBInstall
             $GLOBALS['DUPX_AC']->wp_tableprefix."duplicator_pro_packages",
             $GLOBALS['DUPX_AC']->wp_tableprefix."duplicator_pro_entities",
         );
+        $misMatchTables = array();
         foreach ($tableWiseRowCounts as $table => $rowCount) {
             if (in_array($table, $skipTables)) {
                 continue;
@@ -185,11 +186,11 @@ class DUPX_DBInstall
             if (false !== $result) {
                 $row = mysqli_fetch_assoc($result);
                 if ($rowCount != $row['cnt']) {
-                    return false;
+                    $misMatchTables[] = $table;
                 }
             }
         }
-        return true;
+        return $misMatchTables;
     }
 
     public function writeInDB()
