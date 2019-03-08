@@ -5,20 +5,28 @@ class DUPX_CSRF {
 	 * @var string
 	 */
 	public static $prefix = '_DUPX_CSRF';
+	private static $cipher;
 	
 	/** Generate DUPX_CSRF value for form
 	 * @param	string	$form	- Form name as session key
 	 * @return	string	- token
 	 */
 	public static function generate($form = NULL) {
-		if (!empty($_COOKIE[DUPX_CSRF::$prefix . '_' . $form])) {
-			$token = $_COOKIE[DUPX_CSRF::$prefix . '_' . $form];
+		$cookieName = self::getCookieName($form);
+		if (!empty($_COOKIE[$cookieName])) {
+			$token = $_COOKIE[$cookieName];
 		} else {
             $token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
 		}
-		$cookieName = DUPX_CSRF::$prefix . '_' . $form;
-        $ret = DUPX_CSRF::setCookie($cookieName, $token);
-		return $token;
+		if (self::isCrypt()) {
+			// $cookieName = self::encrypt($cookieName);
+			$ret = DUPX_CSRF::setCookie($cookieName, $token);
+			$encToken = self::encrypt($token);
+			return $encToken;
+		} else {
+			$ret = DUPX_CSRF::setCookie($cookieName, $token);
+			return $token;
+		}
 	}
 	
 	/** Check DUPX_CSRF value of form
@@ -35,7 +43,14 @@ class DUPX_CSRF {
 			// $cookieName = self::decrypt($cookieName);
 			// $token = self::decrypt($token);
 		// }
+		if (self::isCrypt()) {
+			$token = self::decrypt($token);
+		}
 		if (isset($_COOKIE[$cookieName]) && $_COOKIE[$cookieName] == $token) { // token OK
+			/*
+			setcookie($cookieName, '', time() - 86400, '/');
+			unset($_COOKIE[$cookieName]);
+			*/
 			return true;
 			// return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
 		}
