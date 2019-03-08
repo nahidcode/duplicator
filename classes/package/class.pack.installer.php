@@ -77,10 +77,12 @@ class DUP_Installer
 		$archive_filepath		 = DUP_Util::safePath("{$this->Package->StorePath}/{$this->Package->Archive->File}");
 		$installer_filepath		 = DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP)."/{$this->Package->NameHash}_installer.php";
 		$template_filepath		 = DUPLICATOR_PLUGIN_PATH.'/installer/installer.tpl';
+		$csrf_class_filepath    = DUPLICATOR_PRO_PLUGIN_PATH.'/installer/dup-installer/classes/class.csrf.php';
 		$mini_expander_filepath	 = DUPLICATOR_PLUGIN_PATH.'/lib/dup_archive/classes/class.duparchive.mini.expander.php';
 
 		// Replace the @@ARCHIVE@@ token
 		$installer_contents = file_get_contents($template_filepath);
+		$csrf_class_contents = file_get_contents($csrf_class_filepath);
 
 		if (DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::DupArchive) {
 			$mini_expander_string = file_get_contents($mini_expander_filepath);
@@ -93,9 +95,9 @@ class DUP_Installer
 			$mini_expander_string = '';
 		}
 
-		$search_array	 = array('@@ARCHIVE@@', '@@VERSION@@', '@@ARCHIVE_SIZE@@', '@@PACKAGE_HASH@@', '@@DUPARCHIVE_MINI_EXPANDER@@');
+		$search_array	 = array('@@ARCHIVE@@', '@@VERSION@@', '@@ARCHIVE_SIZE@@', '@@PACKAGE_HASH@@', '@@CSRF_CRYPT@@', '@@CSRF_CLASS@@', '@@DUPARCHIVE_MINI_EXPANDER@@');
 		$package_hash	 = $this->Package->getPackageHash();
-		$replace_array	 = array($this->Package->Archive->File, DUPLICATOR_VERSION, @filesize($archive_filepath), $package_hash, $mini_expander_string);
+		$replace_array	 = array($this->Package->Archive->File, DUPLICATOR_VERSION, @filesize($archive_filepath), $package_hash, DUPLICATOR_PRO_INSTALLER_CSRF_CRYPT, $csrf_class_contents, $mini_expander_string);
 		$installer_contents = str_replace($search_array, $replace_array, $installer_contents);
 
 		if (@file_put_contents($installer_filepath, $installer_contents) === false) {
@@ -162,6 +164,7 @@ class DUP_Installer
 		$ac->mu_mode						 = DUP_MU::getMode();
 		$ac->is_outer_root_wp_config_file	 = (!file_exists(DUPLICATOR_WPROOTPATH.'wp-config.php')) ? true : false;
 		$ac->is_outer_root_wp_content_dir	 = $this->Package->Archive->isOuterWPContentDir();
+		$ac->csrf_crypt = DUPLICATOR_PRO_INSTALLER_CSRF_CRYPT;
 
 		$json = json_encode($ac);
 
