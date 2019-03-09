@@ -66,31 +66,46 @@ class DUP_JSON
 		}
 	}
 
-	/**
-	 * Attempts to only call the json_encode method directly
-	 *
-	 * Returns a string containing the JSON representation of the supplied value
-	 *
-	 * @return string
-	 */
-	public static function encode($value, $options = 0)
-	{
-		$result = json_encode($value, $options);
+    /**
+     *
+     * @param mixed $data    Variable (usually an array or object) to encode as JSON.
+     * @param int   $options Optional. Options to be passed to json_encode(). Default 0.
+     * @param int   $depth   Optional. Maximum depth to walk through $data. Must be
+     *                       greater than 0. Default 512.
+     * @return string|false The JSON encoded string, or false if it cannot be encoded.
+     */
+    public static function encodePrettyPrint($data, $options = 0, $depth = 512)
+    {
+        if (defined('JSON_PRETTY_PRINT')) {
+            return self::encode($data, JSON_PRETTY_PRINT | $options, $depth);
+        } else {
+            return self::encode($data, $options, $depth);
+        }
+    }
 
-		if ($result !== FALSE) {
-			return $result;
-		}
+    /**
+     * @param mixed $data    Variable (usually an array or object) to encode as JSON.
+     * @param int   $options Optional. Options to be passed to json_encode(). Default 0.
+     * @param int   $depth   Optional. Maximum depth to walk through $data. Must be
+     *                       greater than 0. Default 512.
+     * @return string|false The JSON encoded string, or false if it cannot be encoded.
+     */
+    public static function encode($data, $options = 0, $depth = 512)
+    {
+        if (function_exists('wp_json_encode')) {
+            return wp_json_encode($data, $options, $depth);
+        } else {
+            if (version_compare(PHP_VERSION, '5.5', '>=')) {
+                return json_encode($data, $options, $depth);
+            } elseif (version_compare(PHP_VERSION, '5.3', '>=')) {
+                return json_encode($data, $options);
+            } else {
+                return json_encode($data);
+            }
+        }
+    }
 
-		if (function_exists('json_last_error')) {
-			$message = self::$_messages[json_last_error()];
-		} else {
-			$message = esc_html__("One or more filenames isn't compatible with JSON encoding", 'duplicator');
-		}
-
-		throw new RuntimeException($message);
-	}
-
-	/**
+    /**
 	 * Attempts to call json_encode upon error DUP_JSON::customEncode is called
 	 *
 	 * Returns a string containing the JSON representation of the supplied value
