@@ -92,31 +92,42 @@ class DUP_JSON
      */
     public static function encode($data, $options = 0, $depth = 512)
     {
+        $result = false;
+
         if (function_exists('wp_json_encode')) {
-            return wp_json_encode($data, $options, $depth);
+            $result = wp_json_encode($data, $options, $depth);
         } else {
             if (version_compare(PHP_VERSION, '5.5', '>=')) {
-                return json_encode($data, $options, $depth);
+                $result = json_encode($data, $options, $depth);
             } elseif (version_compare(PHP_VERSION, '5.3', '>=')) {
-                return json_encode($data, $options);
+                $result = json_encode($data, $options);
             } else {
-                return json_encode($data);
+                $result = json_encode($data);
             }
         }
+
+        if ($result === false) {
+            if (function_exists('json_last_error')) {
+                $message = self::$_messages[json_last_error()];
+            } else {
+                $message = esc_html__("One or more filenames isn't compatible with JSON encoding", 'duplicator');
+            }
+            throw new RuntimeException($message);
+        }
+
+        return $result;
     }
 
-    /**
-     * Attempts to call json_encode upon error DUP_JSON::customEncode is called
-     *
-     * Returns a string containing the JSON representation of the supplied value
-     *
-     * @return string
-     */
     public static function safeEncode($data, $options = 0, $depth = 512)
     {
-        $jsonString = self::encode($data, $options, $depth);
+        try {
+            $jsonString = self::encode($data, $options, $depth);
+        } catch (Exception $e) {
+            $jsonString = false;
+        }
+
         if (($jsonString === false) || trim($jsonString) == '') {
-            $jsonString = self::customEncode($data);
+            $jsonString = self::customEncode($value);
 
             if (($jsonString === false) || trim($jsonString) == '') {
                 throw new Exception('Unable to generate JSON from object');
@@ -125,7 +136,7 @@ class DUP_JSON
         return $jsonString;
     }
 
-    /**
+	/**
 	 * Attempts to only call the json_decode method directly
 	 *
 	 * Returns the value encoded in json in appropriate PHP type. Values true, false and null are returned as TRUE, FALSE and NULL respectively.
