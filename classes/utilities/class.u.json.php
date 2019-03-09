@@ -106,26 +106,26 @@ class DUP_JSON
     }
 
     /**
-	 * Attempts to call json_encode upon error DUP_JSON::customEncode is called
-	 *
-	 * Returns a string containing the JSON representation of the supplied value
-	 *
-	 * @return string
-	 */
-	public static function safeEncode($value)
-	{
-		$jsonString = json_encode($value);
-		if (($jsonString === false) || trim($jsonString) == '') {
-			$jsonString = self::customEncode($value);
+     * Attempts to call json_encode upon error DUP_JSON::customEncode is called
+     *
+     * Returns a string containing the JSON representation of the supplied value
+     *
+     * @return string
+     */
+    public static function safeEncode($data, $options = 0, $depth = 512)
+    {
+        $jsonString = self::encode($data, $options, $depth);
+        if (($jsonString === false) || trim($jsonString) == '') {
+            $jsonString = self::customEncode($data);
 
-			if (($jsonString === false) || trim($jsonString) == '') {
-				throw new Exception('Unable to generate JSON from object');
-			}
-		}
-		return $jsonString;
-	}
+            if (($jsonString === false) || trim($jsonString) == '') {
+                throw new Exception('Unable to generate JSON from object');
+            }
+        }
+        return $jsonString;
+    }
 
-	/**
+    /**
 	 * Attempts to only call the json_decode method directly
 	 *
 	 * Returns the value encoded in json in appropriate PHP type. Values true, false and null are returned as TRUE, FALSE and NULL respectively.
