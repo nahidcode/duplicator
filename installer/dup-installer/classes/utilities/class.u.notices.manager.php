@@ -502,7 +502,7 @@ final class DUPX_NOTICE_MANAGER
                         echo '<br><br>';
                     }
                     if (!empty($notice->longMsg)) {
-                        echo $notice->longMsg;
+                        echo htmlentities($notice->longMsg);
                     }
                     ?>
                 </div>
