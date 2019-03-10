@@ -125,6 +125,8 @@ class DUP_Installer
 		$hasher		 = new DUP_PasswordHash(8, FALSE);
 		$pass_hash	 = $hasher->HashPassword($this->Package->Installer->OptsSecurePass);
 
+        $this->Package->Database->getScannerData();
+
 		//READ-ONLY: COMPARE VALUES
 		$ac->created	 = $this->Package->Created;
 		$ac->version_dup = DUPLICATOR_VERSION;
