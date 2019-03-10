@@ -330,6 +330,8 @@ class DUP_Database
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : array();
 
         $this->info->buildMode           = DUP_DB::getBuildMode();
+        $this->info->version			 = DUP_DB::getVersion();
+        $this->info->versionComment		 = DUP_DB::getVariable('version_comment');
         $this->info->varLowerCaseTables	 = DUP_DB::getVariable('lower_case_table_names');
         $this->info->name				 = $wpdb->dbname;
         $this->info->isNameUpperCase	 = preg_match('/[A-Z]/', $wpdb->dbname) ? 1 : 0;
