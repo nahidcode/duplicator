@@ -24,13 +24,8 @@ $rand_txt[0] = $atext0;
 ?>
 
 <style>
-    .add-new-h2.disabled {
-        cursor: not-allowed;
-        border-color: #ccc !important;
-        background: #f7f7f7 !important;
-        color: #ccc !important;
-    }
-
+    .add-new-h2.disabled {cursor: not-allowed; border-color: #ccc !important; background: #f7f7f7 !important; color: #ccc !important;}
+	a#dup-create-new {margin-left:-5px}
     div#dup-progress-area {text-align:center; max-width:800px; min-height:200px;  border:1px solid silver; border-radius:5px; margin:25px auto 10px auto; padding:0px; box-shadow: 0 8px 6px -6px #999;}
     div.dup-progress-title {font-size:22px;padding:5px 0 20px 0; font-weight: bold}
     div#dup-progress-area div.inner {padding:10px; line-height:22px}
