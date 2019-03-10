@@ -165,8 +165,6 @@ class DUP_Database
             $mode                 = DUP_DB::getBuildMode();
             $reserved_db_filepath = DUPLICATOR_WPROOTPATH.'database.sql';
 
-            $this->setInfoObj();
-
             $log = "\n********************************************************************************\n";
             $log .= "DATABASE:\n";
             $log .= "********************************************************************************\n";
@@ -244,6 +242,7 @@ class DUP_Database
         global $wpdb;
 
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : array();
+        $tblBaseCount	 = 0;
         $tblCount     = 0;
 
         $tables                     = $wpdb->get_results("SHOW TABLE STATUS", ARRAY_A);
@@ -267,6 +266,7 @@ class DUP_Database
 
         //Grab Table Stats
         foreach ($tables as $table) {
+            $tblBaseCount++;
             $name = $table["Name"];
             if ($this->FilterOn && is_array($filterTables)) {
                 if (in_array($name, $filterTables)) {
@@ -311,7 +311,6 @@ class DUP_Database
         $info['Status']['DB_Rows'] = ($info['Rows'] > DUPLICATOR_SCAN_DB_ALL_ROWS) ? 'Warn' : 'Good';
         $info['Status']['DB_Size'] = ($info['Size'] > DUPLICATOR_SCAN_DB_ALL_SIZE) ? 'Warn' : 'Good';
 
-
         $info['Status']['TBL_Case'] = ($tblCaseFound) ? 'Warn' : 'Good';
         $info['Status']['TBL_Rows'] = ($tblRowsFound) ? 'Warn' : 'Good';
         $info['Status']['TBL_Size'] = ($tblSizeFound) ? 'Warn' : 'Good';
@@ -321,6 +320,13 @@ class DUP_Database
         $info['Rows']       = number_format($info['Rows']) or "unknown";
         $info['TableList']  = $info['TableList'] or "unknown";
         $info['TableCount'] = $tblCount;
+
+        $this->setInfoObj();
+        $this->info->isTablesUpperCase	 = $tblCaseFound;
+        $this->info->tablesBaseCount	 = $tblBaseCount;
+        $this->info->tablesFinalCount	 = $tblCount;
+        $this->info->tablesRowCount		 = $info['Rows'];
+        $this->info->tablesSizeOnDisk	 = $info['Size'];
 
         return $info;
     }
