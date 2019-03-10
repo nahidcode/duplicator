@@ -137,6 +137,7 @@ class DUP_Database
         $package_zip_flush  = DUP_Settings::Get('package_zip_flush');
         $this->networkFlush = empty($package_zip_flush) ? false : $package_zip_flush;
         $this->info = new DUP_DatabaseInfo();
+        $this->info->varLowerCaseTables	 = DUP_Util::isWindows() ? 1 : 0;
     }
 
     /**
@@ -162,8 +163,9 @@ class DUP_Database
 
             $mysqlDumpPath        = DUP_DB::getMySqlDumpPath();
             $mode                 = DUP_DB::getBuildMode();
-            $this->info->buildMode = $mode;
             $reserved_db_filepath = DUPLICATOR_WPROOTPATH.'database.sql';
+
+            $this->setInfoObj();
 
             $log = "\n********************************************************************************\n";
             $log .= "DATABASE:\n";
@@ -224,7 +226,7 @@ class DUP_Database
             DUP_Log::Info("SQL RUNTIME: {$time_sum}");
 
             $this->Size = @filesize($this->dbStorePath);
-
+         
             $this->Package->setStatus(DUP_PackageStatus::DBDONE);
         } catch (Exception $e) {
             do_action('duplicator_lite_build_database_fail' , $package);
@@ -241,7 +243,7 @@ class DUP_Database
     {
         global $wpdb;
 
-        $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
+        $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : array();
         $tblCount     = 0;
 
         $tables                     = $wpdb->get_results("SHOW TABLE STATUS", ARRAY_A);
@@ -320,14 +322,15 @@ class DUP_Database
         $info['TableList']  = $info['TableList'] or "unknown";
         $info['TableCount'] = $tblCount;
 
-        $this->info->buildMode           = DUP_DB::getBuildMode();
-
         return $info;
     }
 
     public function setInfoObj() {
         global $wpdb;
+        $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : array();
 
+        $this->info->buildMode           = DUP_DB::getBuildMode();
+        $this->info->varLowerCaseTables	 = DUP_DB::getVariable('lower_case_table_names');
         $this->info->name				 = $wpdb->dbname;
         $this->info->isNameUpperCase	 = preg_match('/[A-Z]/', $wpdb->dbname) ? 1 : 0;
         $this->info->collationList		 = DUP_DB::getTableCollationList($filterTables);
