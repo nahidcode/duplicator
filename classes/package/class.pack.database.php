@@ -114,6 +114,12 @@ class DUP_Database
     public $Name;
     public $Compatible;
     public $Comments;
+    
+    /**
+     *
+     * @var DUP_DatabaseInfo 
+     */
+    public $info = null;
     //PROTECTED
     protected $Package;
     //PRIVATE
@@ -155,7 +161,8 @@ class DUP_Database
             $package_phpdump_qrylimit = DUP_Settings::Get('package_phpdump_qrylimit');
 
             $mysqlDumpPath        = DUP_DB::getMySqlDumpPath();
-            $mode                 = ($mysqlDumpPath && $package_mysqldump) ? 'MYSQLDUMP' : 'PHP';
+            $mode                 = DUP_DB::getBuildMode();
+            $this->info->buildMode = $mode;
             $reserved_db_filepath = DUPLICATOR_WPROOTPATH.'database.sql';
 
             $log = "\n********************************************************************************\n";
@@ -312,6 +319,8 @@ class DUP_Database
         $info['Rows']       = number_format($info['Rows']) or "unknown";
         $info['TableList']  = $info['TableList'] or "unknown";
         $info['TableCount'] = $tblCount;
+
+        $this->info->buildMode           = DUP_DB::getBuildMode();
 
         return $info;
     }
