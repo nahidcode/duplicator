@@ -151,5 +151,3 @@ class DUPX_CSRF {
 		return $cipher->decrypt($val);
 	}
 }
-
-?>
