@@ -20,13 +20,10 @@ class DUPX_CSRF {
 		}
 		if (self::isCrypt()) {
 			// $cookieName = self::encrypt($cookieName);
-			$ret = DUPX_CSRF::setCookie($cookieName, $token);
-			$encToken = self::encrypt($token);
-			return $encToken;
-		} else {
-			$ret = DUPX_CSRF::setCookie($cookieName, $token);
-			return $token;
+			$token = self::encrypt($token);
 		}
+        $ret = DUPX_CSRF::setCookie($cookieName, $token);
+		return $token;
 	}
 	
 	/** Check DUPX_CSRF value of form
@@ -43,14 +40,7 @@ class DUPX_CSRF {
 			// $cookieName = self::decrypt($cookieName);
 			// $token = self::decrypt($token);
 		// }
-		if (self::isCrypt()) {
-			$token = self::decrypt($token);
-		}
 		if (isset($_COOKIE[$cookieName]) && $_COOKIE[$cookieName] == $token) { // token OK
-			/*
-			setcookie($cookieName, '', time() - 86400, '/');
-			unset($_COOKIE[$cookieName]);
-			*/
 			return true;
 			// return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
 		}
@@ -117,8 +107,7 @@ class DUPX_CSRF {
 	}
 
 	private static function getCookieName($form) {
-		// return DUPX_CSRF::$prefix . '_' . self::getPackageHash() . '_' . $form;
-		return DUPX_CSRF::$prefix . '_' . $form;
+		return DUPX_CSRF::$prefix . '_' . self::getPackageHash() . '_' . $form;
 	}
 
 	private static function isCrypt() {
