@@ -875,7 +875,10 @@ class DUPX_NOTICE_ITEM
      *                          'faqLink' => [
      *                              'url' => external link
      *                              'label' => link text if empty get external url link
-     *                          ]longMsgHtml
+     *                          ],
+     *                          priority
+     *                          open
+     *                          longMsgHtml
      *                      ]
      */
     public static function getDefaultArrayParams()
