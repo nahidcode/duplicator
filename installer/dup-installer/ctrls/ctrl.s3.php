@@ -457,7 +457,7 @@ try {
         $db_name = isset($_POST['dbname']) ? DUPX_U::sanitize_text_field($_POST['dbname']) : '';
         $db_user = isset($_POST['dbuser']) ? DUPX_U::sanitize_text_field($_POST['dbuser']) : '';
         $db_pass = isset($_POST['dbpass']) ? json_encode(trim($_POST['dbpass'])) : "''";
-        $db_pass = str_replace('\/', '/', $db_pass);
+        $db_pass = str_replace(array('\x00','\/'), array('','/'), $db_pass);
 
         $config_transformer->update('constant', 'DB_NAME', $db_name);
         $config_transformer->update('constant', 'DB_USER', $db_user);
