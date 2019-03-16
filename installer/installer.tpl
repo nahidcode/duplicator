@@ -7,11 +7,52 @@ if (!defined('DUPLICATOR_PHP_MAX_MEMORY')) { define('DUPLICATOR_PHP_MAX_MEMORY',
 
 date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
 @ignore_user_abort(true);
+
+if (function_exists('wp_is_ini_value_changeable')) {
+    /**
+    * Determines whether a PHP ini value is changeable at runtime.
+    *
+    * @staticvar array $ini_all
+    *
+    * @link https://secure.php.net/manual/en/function.ini-get-all.php
+    *
+    * @param string $setting The name of the ini setting to check.
+    * @return bool True if the value is changeable at runtime. False otherwise.
+    */
+    function wp_is_ini_value_changeable( $setting ) {
+        static $ini_all;
+
+        if ( ! isset( $ini_all ) ) {
+            $ini_all = false;
+            // Sometimes `ini_get_all()` is disabled via the `disable_functions` option for "security purposes".
+            if ( function_exists( 'ini_get_all' ) ) {
+                $ini_all = ini_get_all();
+            }
+        }
+
+        // Bit operator to workaround https://bugs.php.net/bug.php?id=44936 which changes access level to 63 in PHP 5.2.6 - 5.2.17.
+        if ( isset( $ini_all[ $setting ]['access'] ) && ( INI_ALL === ( $ini_all[ $setting ]['access'] & 7 ) || INI_USER === ( $ini_all[ $setting ]['access'] & 7 ) ) ) {
+            return true;
+        }
+
+        // If we were unable to retrieve the details, fail gracefully to assume it's changeable.
+        if ( ! is_array( $ini_all ) ) {
+            return true;
+        }
+
+        return false;
+    }
+}
+
 @set_time_limit(3600);
-@ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
-@ini_set('max_input_time', '-1');
-@ini_set('pcre.backtrack_limit', PHP_INT_MAX);
-@ini_set('default_socket_timeout', 3600);
+if (wp_is_ini_value_changeable('memory_limit'))
+    @ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
+if (wp_is_ini_value_changeable('max_input_time'))
+    @ini_set('max_input_time', '-1');
+if (wp_is_ini_value_changeable('pcre.backtrack_limit'))
+    @ini_set('pcre.backtrack_limit', PHP_INT_MAX);
+if (wp_is_ini_value_changeable('default_socket_timeout'))
+    @ini_set('default_socket_timeout', 3600);
 
 // phpseclib 1.0.14 for the Rijndael Symmetric key encryption
 /**
