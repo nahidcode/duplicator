@@ -8,7 +8,7 @@ if (!defined('DUPLICATOR_PHP_MAX_MEMORY')) { define('DUPLICATOR_PHP_MAX_MEMORY',
 date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
 @ignore_user_abort(true);
 
-if (function_exists('wp_is_ini_value_changeable')) {
+if (!function_exists('wp_is_ini_value_changeable')) {
     /**
     * Determines whether a PHP ini value is changeable at runtime.
     *
@@ -2865,7 +2865,8 @@ if (!function_exists('crypt_random_string')) {
             }
 
             session_id(1);
-            ini_set('session.use_cookies', 0);
+            if (wp_is_ini_value_changeable('session.use_cookies'))
+                ini_set('session.use_cookies', 0);
             session_cache_limiter('');
             session_start();
 
@@ -2889,7 +2890,8 @@ if (!function_exists('crypt_random_string')) {
             if ($old_session_id != '') {
                 session_id($old_session_id);
                 session_start();
-                ini_set('session.use_cookies', $old_use_cookies);
+                if (wp_is_ini_value_changeable('session.use_cookies'))
+                    ini_set('session.use_cookies', $old_use_cookies);
                 session_cache_limiter($old_session_cache_limiter);
             } else {
                 if ($_OLD_SESSION !== false) {

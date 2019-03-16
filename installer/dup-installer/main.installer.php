@@ -35,6 +35,7 @@ if (!defined('DUPLICATOR_PHP_MAX_MEMORY')) { define('DUPLICATOR_PHP_MAX_MEMORY',
 date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
 @ignore_user_abort(true);
 @set_time_limit(3600);
+require_once(dirname(__FILE__).'/lib/snaplib/snaplib.all.php');
 if (SnapLibUtil::wp_is_ini_value_changeable('memory_limits'))
     @ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
 if (SnapLibUtil::wp_is_ini_value_changeable('max_input_time'))
@@ -135,7 +136,6 @@ try {
         }
     }
 
-    require_once($GLOBALS['DUPX_INIT'].'/lib/snaplib/snaplib.all.php');
     require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.constants.php');
     require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.archive.config.php');
     require_once($GLOBALS['DUPX_INIT'].'/classes/class.installer.state.php');
