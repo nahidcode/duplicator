@@ -35,14 +35,10 @@ if (!defined('DUPLICATOR_PHP_MAX_MEMORY')) { define('DUPLICATOR_PHP_MAX_MEMORY',
 date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
 @ignore_user_abort(true);
 @set_time_limit(3600);
-if (SnapLibUtil::wp_is_ini_value_changeable('memory_limits'))
-    @ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
-if (SnapLibUtil::wp_is_ini_value_changeable('max_input_time'))
-    @ini_set('max_input_time', '-1');
-if (SnapLibUtil::wp_is_ini_value_changeable('pcre.backtrack_limit'))
-    @ini_set('pcre.backtrack_limit', PHP_INT_MAX);
-if (SnapLibUtil::wp_is_ini_value_changeable('default_socket_timeout'))
-    @ini_set('default_socket_timeout', 3600);
+@ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
+@ini_set('max_input_time', '-1');
+@ini_set('pcre.backtrack_limit', PHP_INT_MAX);
+@ini_set('default_socket_timeout', 3600);
 
 define('ERR_CONFIG_FOUND', 'A wp-config.php already exists in this location.  This error prevents users from accidentally overwriting a WordPress site or trying to install on top of an existing one.  Extracting an archive on an existing site will overwrite existing files and intermix files causing site incompatibility issues.<br/><br/>  It is highly recommended to place the installer and archive in an empty directory. If you have already manually extracted the archive file that is associated with this installer then choose option #1 below; other-wise consider the other options: <ol><li>Click &gt; Try Again &gt; Options &gt; choose "Manual Archive Extraction".</li><li>Empty the directory except for the archive.zip/daf and installer.php and try again.</li><li>Advanced users only can remove the existing wp-config.php file and try again.</li></ol>');
 ob_start();
