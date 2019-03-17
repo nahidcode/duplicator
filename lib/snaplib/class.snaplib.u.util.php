@@ -194,7 +194,7 @@ class SnapLibUtil
 			return wp_is_ini_value_changeable($setting);
 		}
 
-		// static $ini_all;
+		static $ini_all;
 
 		if ( ! isset( $ini_all ) ) {
 			$ini_all = false;
