@@ -215,7 +215,7 @@ class SnapLibUtil
 		}
 
 		try {
-			$args[0] = _wp_json_sanity_check( $data, $depth );
+			$args[0] = self::_wp_json_sanity_check( $data, $depth );
 		} catch ( Exception $e ) {
 			return false;
 		}
@@ -272,5 +272,69 @@ class SnapLibUtil
 				return null;
 		}
 	}
+
+	/**
+	 * Perform sanity checks on data that shall be encoded to JSON.
+	 *
+	 * @ignore
+	 * @since 4.1.0
+	 * @access private
+	 *
+	 * @see wp_json_encode()
+	 *
+	 * @param mixed $data  Variable (usually an array or object) to encode as JSON.
+	 * @param int   $depth Maximum depth to walk through $data. Must be greater than 0.
+	 * @return mixed The sanitized data that shall be encoded to JSON.
+	 */
+	private static function _wp_json_sanity_check( $data, $depth ) {
+		if ( $depth < 0 ) {
+			throw new Exception( 'Reached depth limit' );
+		}
+
+		if ( is_array( $data ) ) {
+			$output = array();
+			foreach ( $data as $id => $el ) {
+				// Don't forget to sanitize the ID!
+				if ( is_string( $id ) ) {
+					$clean_id = _wp_json_convert_string( $id );
+				} else {
+					$clean_id = $id;
+				}
+
+				// Check the element type, so that we're only recursing if we really have to.
+				if ( is_array( $el ) || is_object( $el ) ) {
+					$output[ $clean_id ] = _wp_json_sanity_check( $el, $depth - 1 );
+				} elseif ( is_string( $el ) ) {
+					$output[ $clean_id ] = _wp_json_convert_string( $el );
+				} else {
+					$output[ $clean_id ] = $el;
+				}
+			}
+		} elseif ( is_object( $data ) ) {
+			$output = new stdClass;
+			foreach ( $data as $id => $el ) {
+				if ( is_string( $id ) ) {
+					$clean_id = _wp_json_convert_string( $id );
+				} else {
+					$clean_id = $id;
+				}
+
+				if ( is_array( $el ) || is_object( $el ) ) {
+					$output->$clean_id = _wp_json_sanity_check( $el, $depth - 1 );
+				} elseif ( is_string( $el ) ) {
+					$output->$clean_id = _wp_json_convert_string( $el );
+				} else {
+					$output->$clean_id = $el;
+				}
+			}
+		} elseif ( is_string( $data ) ) {
+			return _wp_json_convert_string( $data );
+		} else {
+			return $data;
+		}
+
+		return $output;
+	}
+
 }
 }
