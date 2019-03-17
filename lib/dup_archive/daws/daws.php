@@ -4,7 +4,8 @@ defined("ABSPATH") or die("");
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
 
-ini_set('display_errors', 1);
+if (SnapLibUtil::wp_is_ini_value_changeable('display_errors'))
+    ini_set('display_errors', 1);
 error_reporting(E_ALL);
 error_reporting(E_ALL);
 set_error_handler("terminate_missing_variables");
@@ -17,10 +18,14 @@ if (!defined('DUPLICATOR_PHP_MAX_MEMORY')) { define('DUPLICATOR_PHP_MAX_MEMORY',
 date_default_timezone_set('UTC'); // Some machines don’t have this set so just do it here.
 @ignore_user_abort(true);
 @set_time_limit(3600);
-@ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
-@ini_set('max_input_time', '-1');
-@ini_set('pcre.backtrack_limit', PHP_INT_MAX);
-@ini_set('default_socket_timeout', 3600);
+if (SnapLibUtil::wp_is_ini_value_changeable('memory_limit'))
+    @ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
+if (SnapLibUtil::wp_is_ini_value_changeable('max_input_time'))
+    @ini_set('max_input_time', '-1');
+if (SnapLibUtil::wp_is_ini_value_changeable('pcre.backtrack_limit'))
+    @ini_set('pcre.backtrack_limit', PHP_INT_MAX);
+if (SnapLibUtil::wp_is_ini_value_changeable('default_socket_timeout'))
+    @ini_set('default_socket_timeout', 3600);
 
 require_once(dirname(__FILE__) . '/class.daws.constants.php');
 
