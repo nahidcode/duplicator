@@ -1,6 +1,6 @@
 <?php
 
-if(!class_exists('SnapLibURLU')) {
+if(class_exists('SnapLibURLU')) {
 	return;
 }
 
