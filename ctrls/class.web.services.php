@@ -46,6 +46,7 @@ class DUP_Web_Services
 
             /** reset active package id * */
             DUP_Settings::Set('active_package_id', -1);
+            DUP_Settings::Save();
 
             /** Clean tmp folder * */
             DUP_Package::not_active_files_tmp_cleanup();
