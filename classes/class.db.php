@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 /**
  * Lightweight abstraction layer for common simple database routines
  *

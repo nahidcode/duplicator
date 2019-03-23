@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('ABSPATH') || exit;
 
 global $wp_version;
 global $wpdb;

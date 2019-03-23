@@ -33,6 +33,9 @@ if ( !defined('DUPXABSPATH') ) {
     define('DUPXABSPATH', dirname(__FILE__));
 }
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 require_once("define.php");
 
 if (!function_exists('sanitize_textarea_field')) {

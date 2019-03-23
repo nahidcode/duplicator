@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die(""); 
+defined('ABSPATH') || exit; 
 
 require_once DUPLICATOR_PLUGIN_PATH . '/classes/ui/class.ui.screen.base.php';
 

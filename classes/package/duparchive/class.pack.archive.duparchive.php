@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('ABSPATH') || exit;
 if (!defined('DUPLICATOR_VERSION')) exit; // Exit if accessed directly
 
 //?require_once (DUPLICATOR_PLUGIN_PATH.'classes/package/class.pack.archive.php');

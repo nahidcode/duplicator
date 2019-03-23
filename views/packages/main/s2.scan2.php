@@ -1,3 +1,6 @@
+<?php
+defined('ABSPATH') || exit;
+?>
 <!-- ================================================================
 SERVER  -->
 <div class="details-title">

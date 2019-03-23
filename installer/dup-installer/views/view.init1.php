@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 /** IDE HELPERS */
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */
 

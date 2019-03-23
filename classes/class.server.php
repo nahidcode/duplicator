@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/utilities/class.u.php');
 
 /**

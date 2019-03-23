@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 $view_state = DUP_UI_ViewState::getArray();
 $ui_css_general = (isset($view_state['dup-package-dtl-general-panel']) && $view_state['dup-package-dtl-general-panel']) ? 'display:block' : 'display:none';
 $ui_css_storage = (isset($view_state['dup-package-dtl-storage-panel']) && $view_state['dup-package-dtl-storage-panel']) ? 'display:block' : 'display:none';

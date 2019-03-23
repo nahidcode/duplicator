@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 /**
  * Gets the view state of UI elements to remember its viewable state
  *

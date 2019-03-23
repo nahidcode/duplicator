@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 	ob_start();
 	phpinfo();
 	$serverinfo = ob_get_contents();

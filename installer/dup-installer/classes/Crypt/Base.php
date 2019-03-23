@@ -1,5 +1,5 @@
 <?php
-
+defined('ABSPATH') || exit;
 /**
  * Base Class for all Crypt_* cipher classes
  *

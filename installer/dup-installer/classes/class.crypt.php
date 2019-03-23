@@ -1,5 +1,5 @@
 <?php
-defined('DUPXABSPATH') || exit;
+defined('ABSPATH') || exit;
 
 /**
  * Class used to update and edit web server configuration files

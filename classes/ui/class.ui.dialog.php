@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 /**
  * Used to generate a thick-box inline dialog such as an alert or confirm pop-up
  *

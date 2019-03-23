@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 /**
  * @copyright 2016 Snap Creek LLC
  */

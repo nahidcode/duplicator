@@ -1,3 +1,6 @@
+<?php
+defined('ABSPATH') || exit;
+?>
 <style>
     div.dup-support-all {font-size:13px; line-height:20px}
     div.dup-support-txts-links {width:100%;font-size:14px; font-weight:bold; line-height:26px; text-align:center}

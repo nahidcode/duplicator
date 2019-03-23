@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 	/* @var $Package DUP_Package */
 
     $packages = DUP_Package::get_all();

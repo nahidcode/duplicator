@@ -1,12 +1,13 @@
 <?php
-/*IDE Helper*/
-/* @var $Package DUP_Package */
-function _duplicatorGetRootPath() {
-    $txt   = __('Root Path', 'duplicator');
-    $root  = rtrim(DUPLICATOR_WPROOTPATH, '//');
-    $sroot = strlen($root) > 50 ? substr($root, 0, 50) . '...' : $root;
-    echo "<div title='{$root}' class='divider'><i class='fa fa-folder-open'></i> {$sroot}</div>";
-}
+defined('ABSPATH') || exit;
+	/*IDE Helper*/
+	/* @var $Package DUP_Package */
+	function _duplicatorGetRootPath() {
+		$txt   = __('Root Path', 'duplicator');
+		$root  = rtrim(DUPLICATOR_WPROOTPATH, '//');
+		$sroot = strlen($root) > 50 ? substr($root, 0, 50) . '...' : $root;
+		echo "<div title='{$root}' class='divider'><i class='fa fa-folder-open'></i> {$sroot}</div>";
+	}
 
 $archive_type_label		=  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "ZipArchive" : "DupArchive (beta)";
 $archive_type_extension =  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "zip" : "daf";

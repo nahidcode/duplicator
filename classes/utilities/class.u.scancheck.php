@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 /**
  * Recursivly scans a directory and finds all sym-links and unreadable files
  *

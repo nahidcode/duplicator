@@ -1,5 +1,6 @@
 <?php
-defined('DUPXABSPATH') || exit;
+defined('ABSPATH') || exit;
+
 class DUPX_CSRF {
 	
 	/** Session var name

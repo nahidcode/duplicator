@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 	$action = isset($_POST['action']) ? sanitize_text_field($_POST['action']) : '';
 	$scan_run = ($action == 'duplicator_recursion') ? true :false;
 	$ajax_nonce	= wp_create_nonce('DUP_CTRL_Tools_runScanValidator');

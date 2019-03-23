@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 #
 # Portable PHP password hashing framework.
 #

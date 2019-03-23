@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || exit;
 /**
  * The base class for all filter types Directories/Files/Extentions
  *

@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('ABSPATH') || exit;
 
 DUP_Util::hasCapability('manage_options');
 

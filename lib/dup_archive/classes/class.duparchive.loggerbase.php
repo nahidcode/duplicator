@@ -1,5 +1,5 @@
 <?php
-
+defined('ABSPATH') || exit;
 if(!class_exists('DupArchiveLoggerBase')) {
 abstract class DupArchiveLoggerBase
 {
