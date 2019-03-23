@@ -246,6 +246,18 @@ LONGMSG;
         ));
     }
 
+    $numFilesNotices = $nManager->countFinalReportNotices('files', DUPX_NOTICE_ITEM::NOTICE, '>=');
+
+    if ($numFilesNotices == 0) {
+        $nManager->addFinalReportNotice(array(
+            'shortMsg' => 'No files extraction errors',
+            'level' => DUPX_NOTICE_ITEM::INFO,
+            'longMsg' => '',
+            'sections' => 'files',
+            'priority' => 5
+        ));
+    }
+
     $nManager->sortFinalReport();
     ?>
 
@@ -256,6 +268,11 @@ LONGMSG;
                 <a href="javascript:void(0)" onclick="$('#s4-install-report').toggle(400)">Review Migration Report</a><br/><br>
                 <table class='s4-report-results' style="width:100%">
                     <tbody>
+                        <tr>
+                            <td>Files notices</td>
+                            <td>(<?php echo $numFilesNotices; ?>)</td>
+                            <td> <?php $nManager->getSectionErrLevelHtml('files'); ?></td>
+                        </tr>
                         <tr>
                             <td>Database Notices</td>
                             <td>(<?php echo $numDbNotices; ?>)</td>
@@ -317,6 +334,7 @@ LONGMSG;
 
         <div id="s4-notice-reports" class="report-sections-list">
             <?php
+                $nManager->displayFinalRepostSectionHtml('files' , 'Files notices report');
                 $nManager->displayFinalRepostSectionHtml('database' , 'Database Notices');
                 $nManager->displayFinalRepostSectionHtml('search_replace' , 'Search &amp; Replace Notices');
                 $nManager->displayFinalRepostSectionHtml('general' , 'General Notices');
