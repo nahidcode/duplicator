@@ -154,7 +154,7 @@ switch ($post_archive_engine) {
 			DUPX_Log::error(ERR_ZIPARCHIVE);
 		}
 
-        if (($dupInstallerFolder = DUPX_U::findDupInstallerFolder($archive_path)) === false) {
+        if (($$extract_filenamesdupInstallerFolder = DUPX_U::findDupInstallerFolder($archive_path)) === false) {
             DUPX_Log::info("findDupInstallerFolder error; set no subfolder");
             // if not found set not subfolder
             $dupInstallerFolder = '';
@@ -170,7 +170,9 @@ switch ($post_archive_engine) {
 		$zip = new ZipArchive();
 
 		if ($zip->open($archive_path) === TRUE) {
-			$extract_filenames = array(); 
+			$extract_filenames = array();
+            DUPX_Handler::setMode(DUPX_Handler::MODE_VAR , false , false);
+
             for($i = 0; $i < $zip->numFiles; $i++) {
                 $extract_filename = $zip->getNameIndex($i);
                 
@@ -184,18 +186,16 @@ switch ($post_archive_engine) {
                     DUPX_Log::info("SKIP NOT DUB FOLDER: \"".$extract_filename."\"", 2);
                     continue;
 				}
-				$extract_filenames[] =  $extract_filename;
-			}
 
-			try {
-				if (!$zip->extractTo($target , $extract_filenames)) {
-					DUPX_Log::info("FILE EXTRACION ERROR: ".implode(',', $extract_filenames));
-				} else {
-					DUPX_Log::info("DONE: ".$extract_filename,2);
-				}
-				
-			} catch (Exception $ex) {
-				DUPX_Log::info("FILE EXTRACION ERROR: {$extract_filename} | MSG:" . $ex->getMessage());
+                try {
+                    if (!$zip->extractTo($target , $extract_filename)) {
+                        DUPX_Log::info("FILE EXTRACION ERROR: ".$extract_filename);
+                    } else {
+                        DUPX_Log::info("DONE: ".$extract_filename,2);
+                    }
+                } catch (Exception $ex) {
+                    DUPX_Log::info("FILE EXTRACION ERROR: {$extract_filename} | MSG:" . $ex->getMessage());
+                }
 			}
 
             if (!empty($dupInstallerFolder)) {
@@ -220,6 +220,9 @@ switch ($post_archive_engine) {
 				$now  = @date("Y-m-d H:i:s");
 				$log .= "File timestamp set to Current: {$now}\n";
 			}
+
+            // set handler as default
+            DUPX_Handler::setMode();
 
 			$close_response = $zip->close();
 			$log .= "<<< ZipArchive Unzip Complete: " . var_export($close_response, true);
