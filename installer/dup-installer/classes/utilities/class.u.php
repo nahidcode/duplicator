@@ -162,17 +162,20 @@ class DUPX_U
 		 $exists = false;
 		 if (function_exists('get_headers')) {
 			$url =  is_integer($port) ? $url . ':' . $port 	: $url;
-			DUPX_Handler::$should_log = false;
-			if (SnapLibUtil::wp_is_ini_value_changeable('default_socket_timeout'))
+			DUPX_Handler::setMode(DUPX_Handler::MODE_OFF);
+			if (SnapLibUtil::wp_is_ini_value_changeable('default_socket_timeout')) {
 				@ini_set("default_socket_timeout", $timeout);
-			$headers = @get_headers($url);
-			DUPX_Handler::$should_log = true;
+            }
+            $headers = @get_headers($url);
+			DUPX_Handler::setMode();
 			if (is_array($headers) && strpos($headers[0], '404') === false) {
 				 $exists = true;
 			}
 		} else {
 			if (function_exists('fsockopen')) {
-				if (SnapLibUtil::wp_is_ini_value_changeable('default_socket_timeout'))  @ini_set("default_socket_timeout", $timeout);
+                if (SnapLibUtil::wp_is_ini_value_changeable('default_socket_timeout')) {
+                    @ini_set("default_socket_timeout", $timeout); 
+                }
 				$port = isset($port) && is_integer($port) ? $port : 80;
 				$host = parse_url($url, PHP_URL_HOST);
 				$connected = @fsockopen($host, $port, $errno, $errstr, $timeout); //website and port

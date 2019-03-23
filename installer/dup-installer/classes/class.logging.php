@@ -19,97 +19,205 @@ define('ERR_DBMANUAL', 'The database "%s" has "%s" tables. This does not look to
 define('ERR_TESTDB_VERSION_INFO',	'The current version detected was released prior to MySQL 5.5.3 which had a release date of April 8th 2010.  WordPress 4.2 included support for utf8mb4 which is only supported in MySQL server 5.5.3+.  It is highly recommended to upgrade your version of MySQL server on this server to be more compatible with recent releases of WordPress and avoid issues with install errors.');
 define('ERR_TESTDB_VERSION_COMPAT',	'In order to avoid database incompatibility issues make sure the database versions between the build and installer servers are as close as possible. If the package was created on a newer database version than where it is being installed then you might run into issues.<br/><br/> It is best to make sure the server where the installer is running has the same or higher version number than where it was built.  If the major and minor version are the same or close for example [5.7 to 5.6], then the migration should work without issues.  A version pair of [5.7 to 5.1] is more likely to cause issues unless you have a very simple setup.  If the versions are too far apart work with your hosting provider to upgrade the MySQL engine on this server.<br/><br/>   <b>MariaDB:</b> If see a version of 10.N.N then the database distribution is a MariaDB flavor of MySQL.   While the distributions are very close there are some subtle differences.   Some operating systems will report the version such as "5.5.5-10.1.21-MariaDB" showing the correlation of both.  Please visit the online <a href="https://mariadb.com/kb/en/mariadb/mariadb-vs-mysql-compatibility/" target="_blank">MariaDB versus MySQL - Compatibility</a> page for more details.<br/><br/> Please note these messages are simply notices.  It is highly recommended that you continue with the install process and closely monitor the dup-installer-log.txt file along with the install report found on step 3 of the installer.  Be sure to look for any notices/warnings/errors in these locations to validate the install process did not detect any errors. If any issues are found please visit the FAQ pages and see the question <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-260-q" target="_blank">What if I get database errors or general warnings on the install report?</a>.');
 
-/** 
+/**
  * DUPX_Log  
  * Class used to log information  */
-
 class DUPX_Log
 {
-	/** METHOD: LOG
-	 *  Used to write debug info to the text log file
-	 *  @param string $msg		Any text data
-	 *  @param int $loglevel	Log level
-	 *	1 = Light, 2 = Detailed, 3 = Debug
-	 */
-	public static function info($msg, $logging = 1)
-	{
-		if ($logging <= $GLOBALS["LOGGING"])
-		{
-			@fwrite($GLOBALS["LOG_FILE_HANDLE"], "{$msg}\n");
-		}
-	}
 
-	public static function infoObject($msg, $object, $logging = 1)
-	{
-		$msg = $msg + "\n" + print_r($object, true);
+    /** METHOD: LOG
+     *  Used to write debug info to the text log file
+     *  @param string $msg		Any text data
+     *  @param int $loglevel	Log level
+     * 	1 = Light, 2 = Detailed, 3 = Debug
+     */
+    public static function info($msg, $logging = 1)
+    {
+        if ($logging <= $GLOBALS["LOGGING"]) {
+            @fwrite($GLOBALS["LOG_FILE_HANDLE"], "{$msg}\n");
+        }
+    }
 
-		self::Info($msg, $logging);
-	}
+    public static function infoObject($msg, $object, $logging = 1)
+    {
+        $msg = $msg."\n".print_r($object, true);
 
-	public static function error($errorMessage)
-	{
-		$breaks = array("<br />","<br>","<br/>");
-		$spaces = array("&nbsp;");
-		$log_msg = str_ireplace($breaks, "\r\n", $errorMessage);
-		$log_msg = str_ireplace($spaces, " ", $log_msg);
-		$log_msg = strip_tags($log_msg);
-		@fwrite($GLOBALS["LOG_FILE_HANDLE"], "\nINSTALLER ERROR:\n{$log_msg}\n");
-		@fclose($GLOBALS["LOG_FILE_HANDLE"]);
-		die("<div class='dupx-ui-error'><hr size='1' /><b style='color:#B80000;'><i class='fa fa-exclamation-circle'></i> INSTALL ERROR!</b><br/>{$errorMessage}</div>");
-	}
+        self::Info($msg, $logging);
+    }
 
+    public static function error($errorMessage)
+    {
+        $breaks  = array("<br />", "<br>", "<br/>");
+        $spaces  = array("&nbsp;");
+        $log_msg = str_ireplace($breaks, "\r\n", $errorMessage);
+        $log_msg = str_ireplace($spaces, " ", $log_msg);
+        $log_msg = strip_tags($log_msg);
+        @fwrite($GLOBALS["LOG_FILE_HANDLE"], "\nINSTALLER ERROR:\n{$log_msg}\n");
+        @fclose($GLOBALS["LOG_FILE_HANDLE"]);
+        die("<div class='dupx-ui-error'><hr size='1' /><b style='color:#B80000;'><i class='fa fa-exclamation-circle'></i> INSTALL ERROR!</b><br/>{$errorMessage}</div>");
+    }
 }
 
-class DUPX_Handler {
+class DUPX_Handler
+{
+    const MODE_OFF = 0; // don't write in log
+    const MODE_LOG = 1; // write errors in log file
+    const MODE_VAR = 2; // put php errors in $varModeLog static var
 
-	public static $should_log = true;
+    /**
+     *
+     * @var int
+     */
+    private static $handlerMode = self::MODE_LOG;
 
-	/**
-	 * Error handler
-	 *
-	 * @param  integer $errno   Error level
-	 * @param  string  $errstr  Error message
-	 * @param  string  $errfile Error file
-	 * @param  integer $errline Error line
-	 * @return void
-	 */
-	public static function error($errno, $errstr, $errfile, $errline) {
-		if (self::$should_log) {
-			$msg = $errstr.' (Code: '.$errno.', line '.$errline.' in '.$errfile.')';
-			switch ($errno) {
-				case E_ERROR :		
-					$log_message = '*** PHP Fatal Error Message: ' . $msg;
-					DUPX_Log::error($log_message);
-					break;
-				case E_WARNING :	
-					$log_message = '*** PHP Warning Message: ' . $msg;
-					DUPX_Log::info($log_message);
-					break;
-				case E_NOTICE  :
-					if ($GLOBALS["LOGGING"] > 2) {
-						$log_message = '*** PHP Notice Message: ' . $msg;
-						DUPX_Log::info($log_message);
-					}
-					break;
-				default :
-					$log_message = "***  PHP Issue Message ({$errno}): " . $msg;
-					DUPX_Log::info($log_message);
-					break;
-			}
-		}
-	}
+    /**
+     *
+     * @var bool // print code reference and errno at end of php error line  [CODE:10|FILE:test.php|LINE:100]
+     */
+    private static $codeReference = true;
 
-	/**
-	 * Shutdown handler
-	 *
-	 * @return void
-	 */
-	public static function shutdown() {
-		if (($error = error_get_last())) {
-			DUPX_Handler::error($error['type'], $error['message'], $error['file'], $error['line']);
-		}
-	}
+    /**
+     *
+     * @var bool // print prefix in php error line [PHP ERR][WARN] MSG: .....
+     */
+    private static $errPrefix = true;
+
+    /**
+     *
+     * @var string // php errors in MODE_VAR
+     */
+    private static $varModeLog = '';
+
+    /**
+     * Error handler
+     *
+     * @param  integer $errno   Error level
+     * @param  string  $errstr  Error message
+     * @param  string  $errfile Error file
+     * @param  integer $errline Error line
+     * @return void
+     */
+    public static function error($errno, $errstr, $errfile, $errline)
+    {
+        switch (self::$handlerMode) {
+            case self::MODE_OFF:
+                if ($errno == E_ERROR) {
+                    $log_message = self::getMessage($errno, $errstr, $errfile, $errline);
+                    DUPX_Log::error($log_message);
+                }
+                break;
+            case self::MODE_VAR:
+                self::$varModeLog .= self::getMessage($errno, $errstr, $errfile, $errline)."\n";
+                break;
+            case self::MODE_LOG:
+            default:
+                switch ($errno) {
+                    case E_ERROR :
+                        $log_message = self::getMessage($errno, $errstr, $errfile, $errline);
+                        DUPX_Log::error($log_message);
+                        break;
+                    case E_NOTICE :
+                        if ($GLOBALS["LOGGING"] > 2) {
+                            $log_message = self::getMessage($errno, $errstr, $errfile, $errline);
+                            DUPX_Log::info($log_message);
+                        }
+                        break;
+                    case E_WARNING :
+                    default :
+                        $log_message = self::getMessage($errno, $errstr, $errfile, $errline);
+                        DUPX_Log::info($log_message);
+                        break;
+                }
+        }
+    }
+
+    private static function getMessage($errno, $errstr, $errfile, $errline)
+    {
+        $result = '';
+
+        if (self::$errPrefix) {
+            $result = '[PHP ERR]';
+            switch ($errno) {
+                case E_ERROR :
+                    $result .= '[FATAL]';
+                    break;
+                case E_WARNING :
+                    $result .= '[WARN]';
+                    break;
+                case E_NOTICE :
+                    $result .= '[NOTICE]';
+                    break;
+                default :
+                    $result .= '[ISSUE]';
+                    break;
+            }
+            $result .= ' MSG:';
+        }
+
+        $result .= $errstr;
+
+        if (self::$codeReference) {
+            $result .= ' [CODE:'.$errno.'|FILE:'.$errfile.'|LINE:'.$errline.']';
+        }
+
+        return $result;
+    }
+
+    /**
+     * if setMode is called without params set as default
+     *
+     * @param int $mode
+     * @param bool $errPrefix // print prefix in php error line [PHP ERR][WARN] MSG: .....
+     * @param bool $codeReference // print code reference and errno at end of php error line  [CODE:10|FILE:test.php|LINE:100]
+     */
+    public static function setMode($mode = self::MODE_LOG, $errPrefix = true, $codeReference = true)
+    {
+        switch ($mode) {
+            case self::MODE_OFF:
+            case self::MODE_VAR:
+                self::$handlerMode = $mode;
+                break;
+            case self::MODE_LOG:
+            default:
+                self::$handlerMode = self::MODE_LOG;
+        }
+
+        self::$varModeLog    = '';
+        self::$errPrefix     = $errPrefix;
+        self::$codeReference = $codeReference;
+    }
+
+    /**
+     *
+     * @return string // return var log string in MODE_VAR
+     */
+    public static function getVarLog()
+    {
+        return self::$varModeLog;
+    }
+
+    /**
+     *
+     * @return string // return var log string in MODE_VAR and clean var
+     */
+    public static function getVarLogClean()
+    {
+        $result           = self::$varModeLog;
+        self::$varModeLog = '';
+        return $result;
+    }
+
+    /**
+     * Shutdown handler
+     *
+     * @return void
+     */
+    public static function shutdown()
+    {
+        if (($error = error_get_last())) {
+            DUPX_Handler::error($error['type'], $error['message'], $error['file'], $error['line']);
+        }
+    }
 }
-
 @set_error_handler('DUPX_Handler::error');
 @register_shutdown_function('DUPX_Handler::shutdown');
