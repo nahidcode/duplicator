@@ -149,7 +149,8 @@ if (!function_exists('wp_normalize_path')) {
 if (is_admin() == true) 
 {
     require_once 'lib/snaplib/snaplib.all.php';
-	//Classes
+    //Classes
+    require_once 'classes/class.constants.php';
     require_once 'classes/class.settings.php';
     require_once 'classes/class.logging.php';    
     require_once 'classes/utilities/class.u.php';
