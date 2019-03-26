@@ -28,6 +28,10 @@
   David Coveney of Interconnect IT Ltd
   https://github.com/interconnectit/Search-Replace-DB/
   ================================================================================ */
+defined('ABSPATH') || exit;
+if ( !defined('DUPXABSPATH') ) {
+    define('DUPXABSPATH', dirname(__FILE__));
+}
 
 require_once("define.php");
 
