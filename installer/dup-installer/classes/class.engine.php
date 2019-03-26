@@ -404,7 +404,7 @@ class DUPX_UpdateEngine
     {
         // some unseriliased data cannot be re-serialised eg. SimpleXMLElements
         try {
-            DUPX_Handler::$should_log = false;
+            DUPX_Handler::setMode(DUPX_Handler::MODE_OFF);
             if (is_string($data) && ($unserialized = @unserialize($data)) !== false) {
                 $data = self::recursiveUnserializeReplace($from, $to, $unserialized, true, $objArr, $fixpartials);
             } elseif (is_array($data)) {
@@ -465,7 +465,7 @@ class DUPX_UpdateEngine
                 }
             }
 
-            DUPX_Handler::$should_log = true;
+            DUPX_Handler::setMode();
             if ($serialised) {
                 return serialize($data);
             }
