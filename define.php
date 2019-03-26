@@ -1,4 +1,6 @@
 <?php
+defined('DUPXABSPATH') || exit;
+
 //Prevent directly browsing to the file
 if (function_exists('plugin_dir_url')) 
 {		

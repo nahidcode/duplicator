@@ -24,8 +24,12 @@
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */
 
 /** Absolute path to the Installer directory. - necessary for php protection */
-if ( !defined('ABSPATH') )
+if ( !defined('ABSPATH') ) {
 	define('ABSPATH', dirname(__FILE__) . '/');
+}
+if ( !defined('DUPXABSPATH') ) {
+    define('DUPXABSPATH', dirname(__FILE__));
+}
 
 if (!defined('KB_IN_BYTES')) { define('KB_IN_BYTES', 1024); }
 if (!defined('MB_IN_BYTES')) { define('MB_IN_BYTES', 1024 * KB_IN_BYTES); }
