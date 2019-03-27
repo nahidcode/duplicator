@@ -4131,12 +4131,13 @@ class DUPX_CSRF {
 		if (!empty($_COOKIE[$cookieName])) {
 			$token = $_COOKIE[$cookieName];
 		} else {
-            $token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
+			$token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
+			if (self::isCrypt()) {
+				// $cookieName = self::encrypt($cookieName);
+				$token = self::encrypt($token);
+			}
 		}
-		if (self::isCrypt()) {
-			// $cookieName = self::encrypt($cookieName);
-			$token = self::encrypt($token);
-		}
+		
         $ret = DUPX_CSRF::setCookie($cookieName, $token);
 		return $token;
 	}
