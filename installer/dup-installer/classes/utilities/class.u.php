@@ -1742,5 +1742,44 @@ class DUPX_U
 
         return $decoded;
     }
+
+    /**
+     *
+     * @param array $matches
+     * @return string
+     */
+    public static function encodeUtf8CharFromRegexMatch($matches)
+    {
+        if (empty($matches) || !is_array($matches)) {
+            return '';
+        } else {
+            return json_decode('"'.$matches[0].'"');
+        }
+    }
+
+    /**
+     * this function escape generic string to prevent security issue.
+     * Used to replace string in wp transformer
+     * 
+     * for example
+     * abc'" become "abc'\""
+     *
+     * @param string $str input string
+     * @param bool $addQuote if true add " before and after string
+     * @return string
+     */
+    public static function getEscapedGenericString($str, $addQuote = true)
+    {
+        $result = SnapLibUtil::wp_json_encode(trim($str));
+        $result = str_replace(array('\x00', '\/', '{$'), array('', '/', '{\\$'), $result);
+        $result = preg_replace_callback(
+            '/\\\\u[a-fA-F0-9]{4}/m', array(__CLASS__, 'encodeUtf8CharFromRegexMatch'), $result
+        );
+
+        if (!$addQuote) {
+            $result = substr($result, 1 , strlen($result) -2);
+        }
+        return $result;
+    }
 }
 DUPX_U::init();
