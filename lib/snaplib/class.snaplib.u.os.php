@@ -10,7 +10,7 @@
  * @license	https://opensource.org/licenses/GPL-3.0 GNU Public License
  *
  */
-defined('DUPXABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
 class SnapLibOSU
 {

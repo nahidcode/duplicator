@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('DUPXABSPATH') || exit;
 /**	 * *****************************************************
  *  CLASS::DUPX_Http
  *  Http Class Utility */
