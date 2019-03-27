@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('DUPXABSPATH') || exit;
 /**
  * Class used to control values about the package meta data
  *

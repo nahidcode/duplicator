@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('DUPXABSPATH') || exit;
 
 /**
  * Class for server type enum setup

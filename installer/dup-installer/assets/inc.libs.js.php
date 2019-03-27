@@ -1,4 +1,4 @@
-<?php defined("ABSPATH") or die(""); ?>
+<?php defined('DUPXABSPATH') || exit; ?>
 <!-- ========================================
 JQUERY ASSETS -->
 <script>

@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('DUPXABSPATH') || exit;
 
 /**
  * Various Static Utility methods for working with the installer

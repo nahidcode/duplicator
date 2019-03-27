@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('DUPXABSPATH') || exit;
 
 if (!class_exists('WPConfigTransformer')):
 /**
