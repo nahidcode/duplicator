@@ -1,5 +1,5 @@
 <?php
-defined("ABSPATH") or die("");
+defined('DUPXABSPATH') || exit;
 
 /**
  * Lightweight abstraction layer for common simple database routines

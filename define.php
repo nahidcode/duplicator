@@ -1,5 +1,5 @@
 <?php
-defined('DUPXABSPATH') || exit;
+defined('ABSPATH') || exit;
 
 //Prevent directly browsing to the file
 if (function_exists('plugin_dir_url')) 
