@@ -1,18 +1,17 @@
 <?php
-	/*IDE Helper*/
-	/* @var $Package DUP_Package */
-	function _duplicatorGetRootPath() {
-		$txt   = __('Root Path', 'duplicator');
-		$root  = rtrim(DUPLICATOR_WPROOTPATH, '//');
-		$sroot = strlen($root) > 50 ? substr($root, 0, 50) . '...' : $root;
-		echo "<div title='{$root}' class='divider'><i class='fa fa-folder-open'></i> {$sroot}</div>";
-	}
+/*IDE Helper*/
+/* @var $Package DUP_Package */
+function _duplicatorGetRootPath() {
+    $txt   = __('Root Path', 'duplicator');
+    $root  = rtrim(DUPLICATOR_WPROOTPATH, '//');
+    $sroot = strlen($root) > 50 ? substr($root, 0, 50) . '...' : $root;
+    echo "<div title='{$root}' class='divider'><i class='fa fa-folder-open'></i> {$sroot}</div>";
+}
 
-	$archive_type_label		=  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "ZipArchive" : "DupArchive (beta)";
-	$archive_type_extension =  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "zip" : "daf";
-	$duparchive_max_limit   = DUP_Util::readableByteSize(DUPLICATOR_MAX_DUPARCHIVE_SIZE);
-    $skip_archive_scan    = DUP_Settings::Get('skip_archive_scan');
-
+$archive_type_label		=  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "ZipArchive" : "DupArchive (beta)";
+$archive_type_extension =  DUP_Settings::Get('archive_build_mode') == DUP_Archive_Build_Mode::ZipArchive ? "zip" : "daf";
+$duparchive_max_limit   = DUP_Util::readableByteSize(DUPLICATOR_MAX_DUPARCHIVE_SIZE);
+$skip_archive_scan    = DUP_Settings::Get('skip_archive_scan');
 ?>
 
 <!-- ================================================================
@@ -50,7 +49,18 @@ ARCHIVE -->
 </div>
 
 <?php
-if ($skip_archive_scan) { ?>
+if ($Package->Archive->ExportOnlyDB) { ?>
+<div class="scan-item ">
+	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
+		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Database only', 'duplicator');?></div>
+		<div id="only-db-scan-status"><div class="badge badge-warn"><?php esc_html_e("Notice", 'duplicator'); ?></div></div>
+	</div>
+    <div class="info">
+        <?php esc_html_e("Only the database and a copy of the installer.php will be included in the archive.zip file.", 'duplicator'); ?>
+    </div>
+</div>
+<?php
+} else if ($skip_archive_scan) { ?>
 <div class="scan-item ">
 	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
 		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Skip archive scan enabled', 'duplicator');?></div>
