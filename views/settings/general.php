@@ -188,8 +188,9 @@ $skip_archive_scan    = DUP_Settings::Get('skip_archive_scan');
 		<td>
 			<input type="checkbox" name="skip_archive_scan" id="_skip_archive_scan" <?php checked( $skip_archive_scan , true ); ?> value="1" />
 			<label for="_skip_archive_scan"><?php esc_html_e("Skip", 'duplicator') ?> </label><br/>
-			<p class="description">
-				<?php esc_html_e('If enable skip all files check on scan before package creation.', 'duplicator'); ?>
+			 <p class="description" style="width:700px">
+				<?php esc_html_e('If enabled all files check on scan will be skipped before package creation.  '
+					. 'In some cases, this option can be beneficial if the scan process is having issues running or returning errors.', 'duplicator'); ?>
 			</p>
 		</td>
     </tr>
