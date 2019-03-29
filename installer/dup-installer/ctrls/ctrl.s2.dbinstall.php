@@ -336,7 +336,9 @@ class DUPX_DBInstall
                 "DELETE FROM `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` WHERE `option_name` LIKE ('_transient%') OR `option_name` LIKE ('_site_transient%')");
         $dbdelete_count2 = @mysqli_affected_rows($this->dbh);
 
-        $this->dbdelete_count += (abs($dbdelete_count1) + abs($dbdelete_count2));
+        mysqli_query($this->dbh, "DELETE FROM `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` WHERE `option_name` = 'duplicator_usage_id'");
+        $dbdelete_count3 = @mysqli_affected_rows($this->dbh);
+        $this->dbdelete_count += (abs($dbdelete_count1) + abs($dbdelete_count2) + abs($dbdelete_count3));
 
         //Reset Duplicator Options
 		if (DUPX_U::isTraversable($GLOBALS['DUPX_AC']->opts_delete)) {

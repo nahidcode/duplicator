@@ -302,7 +302,6 @@ if (is_admin() == true)
         wp_register_style('dup-font-awesome', DUPLICATOR_PLUGIN_URL . 'assets/css/font-awesome.min.css', null, '4.7.0');
         wp_register_style('dup-plugin-global-style', DUPLICATOR_PLUGIN_URL . 'assets/css/global_admin_style.css', null , DUPLICATOR_VERSION);
         wp_register_style('dup-plugin-style', DUPLICATOR_PLUGIN_URL . 'assets/css/style.css', array('dup-plugin-global-style') , DUPLICATOR_VERSION);
-        wp_register_style( 'dup-deactivation-modal', DUPLICATOR_PLUGIN_URL . 'assets/css/modal.css', null, '1.0.0');
 
 		wp_register_style('dup-jquery-qtip',DUPLICATOR_PLUGIN_URL . 'assets/js/jquery.qtip/jquery.qtip.min.css', null, '2.2.1');
 		wp_register_style('dup-parsley-style', DUPLICATOR_PLUGIN_URL . 'assets/css/parsley.css', null, '2.3.5');
@@ -364,7 +363,7 @@ if (is_admin() == true)
         $perms = apply_filters($wpfront_caps_translator, $perms);
 		$lang_txt = esc_html__('Packages', 'duplicator');
         $page_packages = add_submenu_page('duplicator', $lang_txt, $lang_txt, $perms, 'duplicator', 'duplicator_get_menu');
-		$GLOBALS['DUP_PRO_Package_Screen'] = new DUP_Package_Screen($page_packages);
+        $GLOBALS['DUP_PRO_Package_Screen'] = new DUP_Package_Screen($page_packages);
 
 		$perms = 'manage_options';
         $perms = apply_filters($wpfront_caps_translator, $perms);
@@ -423,11 +422,6 @@ if (is_admin() == true)
         wp_enqueue_style('dup-font-awesome');
 		wp_enqueue_style('dup-plugin-style');
         wp_enqueue_style('dup-jquery-qtip');
-
-        global $hook_suffix;
-        if ('plugins.php' == $hook_suffix && !defined('DOING_AJAX')) {
-            wp_enqueue_style( 'dup-deactivation-modal', DUPLICATOR_PLUGIN_URL . 'assets/css/modal.css', array(), '1.0.0');
-        }
     }
 
 

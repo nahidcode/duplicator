@@ -2,17 +2,15 @@
 if ( ! defined( 'ABSPATH' ) )
     exit;
 
-/*
-function duplicator_deactivation_enqueue_scripts() {
-    global $hook_suffix;
-    var_dump($hook_suffix);
-    die;
-    if ( 'plugins.php' == $hook_suffix && ! defined( 'DOING_AJAX' ) ) {
-        wp_enqueue_style( 'duplicator-deactivation-modal', DUPLICATOR_PLUGIN_URL . 'assets/css/modal.css', array(), '1.0.0');
+
+function duplicator_deactivation_enqueue_scripts($hook) {
+    if ('plugins.php' == $hook && ! defined('DOING_AJAX')) {
+        wp_enqueue_style('duplicator-deactivation-modal', DUPLICATOR_PLUGIN_URL . 'assets/css/modal.css', array(), '1.0.0');
     }
 }
-add_action( 'wp_enqueue_scripts', 'duplicator_deactivation_enqueue_scripts' );
-*/
+add_action('admin_enqueue_scripts', 'duplicator_deactivation_enqueue_scripts');
+
+
 
 if ( ! function_exists ( 'duplicator_plugins_admin_footer' ) ) {
     function duplicator_plugins_admin_footer() {
@@ -41,7 +39,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
         $slug = 'duplicator';
         $plugin_id = 'duplicator';
 
-        $contact_support_template = __( 'Need help? We are ready to answer your questions.', 'duplicator' ) . ' <a href="https://support.bestwebsoft.com/hc/en-us/requests/new" target="_blank">' . __( 'Contact Support', 'duplicator' ) . '</a>';
+        $contact_support_template = __( 'Need help? We are ready to answer your questions.', 'duplicator' ) . ' <a href="https://snapcreek.com/ticket/" target="_blank">' . __( 'Contact Support', 'duplicator' ) . '</a>';
 
         $reasons = array(
             array(
@@ -141,7 +139,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                         + '			<div class="duplicator-modal-panel active"><p><?php _e( 'If you have a moment, please let us know why you are deactivating', 'duplicator' ); ?>:</p><ul>' + <?php echo json_encode( $reasons_list_items_html ); ?> + '</ul>'
                         + '         <label class="duplicator-modal-anonymous-label">'
                         + '				<input type="checkbox" checked="checked" />'
-                        + '				<?php _e( 'Send website data and allow to contact me back', 'duplicator' ); ?>'
+                        + '				<?php _e( 'Send website data', 'duplicator' ); ?>'
                         + '			</label>'
                         + '			</div>'
                         + '		</div>'
@@ -370,7 +368,6 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
 /**
  * Called after the user has submitted his reason for deactivating the plugin.
  *
- * @since  2.1.3
  */
 if ( ! function_exists( 'duplicator_submit_uninstall_reason_action' ) ) {
 	function duplicator_submit_uninstall_reason_action() {
@@ -395,43 +392,41 @@ if ( ! function_exists( 'duplicator_submit_uninstall_reason_action' ) ) {
 			'product'		=> $basename,
 			'reason_id'		=> $reason_id,
 			'reason_info'	=> $reason_info,
-		);
+        );
+        
+        $duplicator_usage_id = false;
 
 		if ( ! $is_anonymous ) {
-			if ( ! isset( $bstwbsftwppdtplgns_options ) )
-				$bstwbsftwppdtplgns_options = ( is_multisite() ) ? get_site_option( 'bstwbsftwppdtplgns_options' ) : get_option( 'bstwbsftwppdtplgns_options' );
+			$duplicator_usage_id = ( is_multisite() ) ? get_site_option( 'duplicator_usage_id', false ) : get_option( 'duplicator_usage_id', false );
 
-			if ( ! empty( $bstwbsftwppdtplgns_options['track_usage']['usage_id'] ) ) {
-				$options['usage_id'] = $bstwbsftwppdtplgns_options['track_usage']['usage_id'];
-			} else {
-				$options['usage_id'] = false;
-				$options['url'] = get_bloginfo( 'url' );
-				$options['wp_version'] = $wp_version;
-				$options['is_active'] = false;
-				$options['version'] = $bstwbsftwppdtplgns_active_plugins[ $basename ]['Version'];
-			}
-
-			$options['email'] = $current_user->data->user_email;
+			if ( false !== $duplicator_usage_id ) {
+				$options['usage_id'] = $duplicator_usage_id;
+            } /*else {*/
+            $options['url'] = get_bloginfo( 'url' );
+            $options['wp_version'] = $wp_version;
+            $options['php_version'] = PHP_VERSION;
+            $options['plugin_version'] = DUPLICATOR_VERSION;
+            $options['sapi_name'] = php_sapi_name();
+            $options['server'] = $_SERVER['SERVER_SOFTWARE'];
+            $options['email'] = $current_user->data->user_email;
+            //}
 		}
 
 		/* send data */
-		$raw_response = wp_remote_post( 'http://bestwebsoft.com/wp-content/plugins/products-statistics/deactivation-feedback/', array(
+		$raw_response = wp_remote_post('http://snap.local/wp-content/plugins/plugins-statistics/deactivation-feedback/', array(
 			'method'  => 'POST',
 			'body'    => $options,
 			'timeout' => 15,
-		) );
-
+        ) );
+        
 		if ( ! is_wp_error( $raw_response ) && 200 == wp_remote_retrieve_response_code( $raw_response ) ) {
 			if ( ! $is_anonymous ) {
 				$response = maybe_unserialize( wp_remote_retrieve_body( $raw_response ) );			
-
-				if ( is_array( $response ) && ! empty( $response['usage_id'] ) && $response['usage_id'] != $options['usage_id'] ) {
-					$bstwbsftwppdtplgns_options['track_usage']['usage_id'] = $response['usage_id'];
-
+				if ( is_array( $response ) && ! empty( $response['usage_id'] ) && $response['usage_id'] != $duplicator_usage_id) {
 					if ( is_multisite() )
-						update_site_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options );
+						update_site_option( 'duplicator_usage_id', $response['usage_id'] );
 					else
-						update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options );
+						update_option( 'duplicator_usage_id', $response['usage_id'] );
 				}
 			}			
 
