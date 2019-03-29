@@ -492,7 +492,7 @@ class DUPX_DBInstall
                         DUPX_Log::info("\tNOTICE: {$val['search']} replaced by {$val['replace']} in query [{$sub_query}...]");
                     }
                     if ($replace_charset && strpos($query, 'utf8mb4')) {
-                        $query = str_replace('utf8mb4', 'utf8', $this->sql_result_data[$key]);
+                        $query = str_replace('utf8mb4', 'utf8', $query);
                         $sub_query                   = str_replace("\n", '', substr($query, 0, 80));
                         DUPX_Log::info("\tNOTICE: utf8mb4 replaced by utf8 in query [{$sub_query}...]");
                     }
