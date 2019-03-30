@@ -41,6 +41,10 @@ class DUPX_Constants
 		$GLOBALS['DBCOLLATE_DEFAULT'] = 'utf8_general_ci';
 		$GLOBALS['DB_RENAME_PREFIX'] = 'x-bak-' . @date("dHis") . '__';
 
+        if (!defined('MAX_SITES_TO_DEFAULT_ENABLE_CORSS_SEARCH')) {
+            define('MAX_SITES_TO_DEFAULT_ENABLE_CORSS_SEARCH',  10);
+        }
+
 		//UPDATE TABLE SETTINGS
 		$GLOBALS['REPLACE_LIST'] = array();
 		$GLOBALS['DEBUG_JS'] = false;
