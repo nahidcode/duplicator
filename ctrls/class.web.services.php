@@ -19,6 +19,9 @@ class DUP_Web_Services
      */
     public static function ajax_reset_all()
     {
+        check_ajax_referer('duplicator_reset_all_settings', 'nonce');
+        DUP_Util::hasCapability('export');
+        
         ob_start();
         try {
             /** Execute function * */

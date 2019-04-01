@@ -1,6 +1,6 @@
 <?php
 defined('ABSPATH') || exit;
-DUP_Util::hasCapability('read');
+DUP_Util::hasCapability('export');
 
 require_once(DUPLICATOR_PLUGIN_PATH . '/assets/js/javascript.php');
 require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');

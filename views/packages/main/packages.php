@@ -8,7 +8,6 @@ defined('ABSPATH') || exit;
     $active_package_present = DUP_Package::is_active_package_present();
 
     $package_debug	= DUP_Settings::Get('package_debug');
-    $ajax_nonce		= wp_create_nonce('package_list');
 	$ui_create_frmt = is_numeric(DUP_Settings::Get('package_ui_created')) ? DUP_Settings::Get('package_ui_created') : 1;
 	$package_running = false;
 ?>
@@ -419,7 +418,7 @@ jQuery(document).ready(function($)
 		$.ajax({
 			type: "POST",
 			url: ajaxurl,
-			data: {action : 'duplicator_package_delete', duplicator_delid : list, nonce: '<?php echo esc_js($ajax_nonce); ?>' },
+			data: {action : 'duplicator_package_delete', duplicator_delid : list, nonce: '<?php echo esc_js(wp_create_nonce('duplicator_package_delete')); ?>' },
 			complete: function(data) { 
 				Duplicator.ReloadWindow(data); 
 			}
