@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 wp_enqueue_script('dup-handlebars');
 require_once(DUPLICATOR_PLUGIN_PATH . '/classes/utilities/class.u.scancheck.php');
 require_once(DUPLICATOR_PLUGIN_PATH . '/classes/class.io.php');

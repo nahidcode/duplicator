@@ -1,4 +1,4 @@
-<?php defined('DUPXABSPATH') || exit; ?>
+<?php defined('ABSPATH') || defined('DUPXABSPATH') || exit; ?>
 <style>
 	body {font-family:Verdana,Arial,sans-serif; font-size:13px}
 	fieldset {border:1px solid silver; border-radius:5px; padding:10px}

@@ -1,5 +1,5 @@
 <?php
-defined('DUPXABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
 /**
  * Walks every table in db that then walks every row and column replacing searches with replaces

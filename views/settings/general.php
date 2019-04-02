@@ -1,6 +1,5 @@
 <?php
-
-defined("ABSPATH") or die("");
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
 global $wp_version;
 global $wpdb;

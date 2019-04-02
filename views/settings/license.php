@@ -1,4 +1,6 @@
-
+<?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
+?>
 <h3 class="title"><?php esc_html_e("Activation"); ?> </h3>
 <hr size="1" />
 <table class="form-table">

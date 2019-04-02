@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
     $log_link = './'.$GLOBALS["LOG_FILE_NAME"];
     $attr_log_link = DUPX_U::esc_attr($log_link);
 ?>

@@ -1,5 +1,5 @@
 <?php
-defined('DUPXABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 require_once($GLOBALS['DUPX_INIT'] . '/classes/utilities/class.u.php');
 ?>
 <style type="text/css">

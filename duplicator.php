@@ -28,11 +28,14 @@
   David Coveney of Interconnect IT Ltd
   https://github.com/interconnectit/Search-Replace-DB/
   ================================================================================ */
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 if ( !defined('DUPXABSPATH') ) {
     define('DUPXABSPATH', dirname(__FILE__));
 }
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 require_once("define.php");
 
 if (!function_exists('sanitize_textarea_field')) {
@@ -268,8 +271,6 @@ if (is_admin() == true)
     add_action('wp_ajax_duplicator_package_build',				'duplicator_package_build');
     add_action('wp_ajax_duplicator_package_delete',				'duplicator_package_delete');
     add_action('wp_ajax_duplicator_duparchive_package_build',	'duplicator_duparchive_package_build');
-    add_action('wp_ajax_nopriv_duplicator_duparchive_package_build',	'duplicator_duparchive_package_build');
-
 
 	$GLOBALS['CTRLS_DUP_CTRL_UI']		= new DUP_CTRL_UI();
 	$GLOBALS['CTRLS_DUP_CTRL_Tools']	= new DUP_CTRL_Tools();

@@ -1,3 +1,6 @@
+<?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
+?>
 <style>
 /*================================================
 PAGE-SUPPORT:*/

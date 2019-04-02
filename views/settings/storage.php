@@ -1,3 +1,6 @@
+<?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
+?>
 <style>
 	div.panel {padding: 20px 5px 10px 10px;}
 	div.area {font-size:16px; text-align: center; line-height: 30px; width:500px; margin:auto}

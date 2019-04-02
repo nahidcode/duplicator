@@ -1,4 +1,5 @@
 <?php
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /**
  * The base class for all screen.php files.  This class is used to control items that are common
  * among all screens, namely the Help tab and Screen Options drop down items.  When creating a
