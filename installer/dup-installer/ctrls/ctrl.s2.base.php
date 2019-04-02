@@ -151,13 +151,21 @@ if ($_POST['dbaction'] == 'manual') {
 	$JSON['pass'] = 1;
 } elseif(!isset($_POST['continue_chunking'])) {
     $dbinstall->writeInDB();
-	$rowCountMisMatchTables = $dbinstall->getRowCountMisMatchTables();
-    if (empty($rowCountMisMatchTables)) {
-		$JSON['pass'] = 1;
-	} else {
-		$JSON['error'] = 1;
-		$JSON['error_message'] = 'ERROR: Database Table row count verification was failed for table(s):'
-                                    .implode(', ', $rowCountMisMatchTables).'.';
+    $rowCountMisMatchTables = $dbinstall->getRowCountMisMatchTables();
+    $JSON['pass'] = 1;
+    if (!empty($rowCountMisMatchTables)) {
+		$nManager = DUPX_NOTICE_MANAGER::getInstance();
+		$errMsg = 'ERROR: Database Table row count verification was failed for table(s): '
+									.implode(', ', $rowCountMisMatchTables).'.';
+		DUPX_Log::info($errMsg);
+		$nManager->addNextStepNoticeMessage($errMsg , DUPX_NOTICE_ITEM::SOFT_WARNING);
+		$nManager->addFinalReportNotice(array(
+			'shortMsg' => 'Database Table row count validation error',
+			'level' => DUPX_NOTICE_ITEM::HARD_WARNING,
+			'longMsg' => $errMsg,
+			'sections' => 'database'
+		));
+		$nManager->saveNotices();
 	}
 }
 
