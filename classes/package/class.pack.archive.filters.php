@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /**
  * The base class for all filter types Directories/Files/Extentions
  *

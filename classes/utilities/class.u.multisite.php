@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /**
  * Methods used to work with WordPress MU sites
  *

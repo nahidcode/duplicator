@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /**
  * Base Class for all Crypt_* cipher classes
  *

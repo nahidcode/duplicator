@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /**
  * Used to display notices in the WordPress Admin area
  * This class takes advantage of the admin_notice action.

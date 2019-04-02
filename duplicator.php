@@ -28,7 +28,7 @@
   David Coveney of Interconnect IT Ltd
   https://github.com/interconnectit/Search-Replace-DB/
   ================================================================================ */
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 if ( !defined('DUPXABSPATH') ) {
     define('DUPXABSPATH', dirname(__FILE__));
 }

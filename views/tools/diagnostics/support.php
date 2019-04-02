@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 ?>
 <style>
     div.dup-support-all {font-size:13px; line-height:20px}

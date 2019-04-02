@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 	ob_start();
 	phpinfo();
 	$serverinfo = ob_get_contents();

@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 	/* @var $Package DUP_Package */
 
     $packages = DUP_Package::get_all();

@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 if (SnapLibUtil::wp_is_ini_value_changeable('display_errors'))
     ini_set('display_errors', 1);
 error_reporting(E_ALL);

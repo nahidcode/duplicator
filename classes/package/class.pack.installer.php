@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 // Exit if accessed directly
 /* @var $global DUP_Global_Entity */
 if (!defined('DUPLICATOR_VERSION')) exit;

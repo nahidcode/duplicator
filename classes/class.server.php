@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 require_once (DUPLICATOR_PLUGIN_PATH.'classes/utilities/class.u.php');
 
 /**

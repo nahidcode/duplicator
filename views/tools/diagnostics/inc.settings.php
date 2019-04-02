@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 	$dbvar_maxtime  = DUP_DB::getVariable('wait_timeout');
 	$dbvar_maxpacks = DUP_DB::getVariable('max_allowed_packet');
 	$dbvar_maxtime  = is_null($dbvar_maxtime)  ? __("unknow", 'duplicator') : $dbvar_maxtime;

@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 ?>
 <h3 class="title"><?php esc_html_e("Activation"); ?> </h3>
 <hr size="1" />

@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || exit; ?>
+<?php defined('ABSPATH') || defined('DUPXABSPATH') || exit; ?>
 <script>
 	//Unique namespace
 	DUPX = new Object();

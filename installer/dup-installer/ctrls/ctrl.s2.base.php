@@ -1,5 +1,5 @@
 <?php
-defined('DUPXABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 //-- START OF ACTION STEP 2
 /** IDE HELPERS */
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */

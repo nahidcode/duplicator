@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /*
 Copyright (c) 2008 Sebastián Grignoli
 All rights reserved.

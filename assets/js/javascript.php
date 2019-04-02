@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 ?>
 <script>
 /* DESCRIPTION: Methods and Objects in this file are global and common in 

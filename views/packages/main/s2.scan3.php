@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 	/*IDE Helper*/
 	/* @var $Package DUP_Package */
 	function _duplicatorGetRootPath() {

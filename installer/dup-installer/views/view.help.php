@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 //The help for both pro and lite are shared.  Pro is where the master lives.  Use the flag below to
 //indicate if this help lives in lite or pro
 //$pro_version = true;

@@ -1,5 +1,5 @@
 <?php
-defined('ABSPATH') || exit;
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 ?>
 <style>
 	div.panel {padding: 20px 5px 10px 10px;}
