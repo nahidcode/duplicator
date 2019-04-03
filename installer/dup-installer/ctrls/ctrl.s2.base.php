@@ -158,7 +158,7 @@ if ($_POST['dbaction'] == 'manual') {
 		$errMsg = 'ERROR: Database Table row count verification was failed for table(s): '
 									.implode(', ', $rowCountMisMatchTables).'.';
 		DUPX_Log::info($errMsg);
-		$nManager->addNextStepNoticeMessage($errMsg , DUPX_NOTICE_ITEM::SOFT_WARNING);
+		$nManager->addNextStepNoticeMessage($errMsg, DUPX_NOTICE_ITEM::HARD_WARNING);
 		$nManager->addFinalReportNotice(array(
 			'shortMsg' => 'Database Table row count validation error',
 			'level' => DUPX_NOTICE_ITEM::HARD_WARNING,
