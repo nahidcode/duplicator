@@ -888,7 +888,7 @@ jQuery(document).ready(function($)
 					html += '</tr></table>';
 				});
 			}
-			$('#data-db-tablelist').append(html);
+			$('#data-db-tablelist').html(html);
 		} else {
 			html = '<?php esc_html_e("Unable to report on database stats", 'duplicator') ?>';
 			$('#dup-scan-db').html(html);
