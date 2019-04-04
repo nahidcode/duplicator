@@ -357,7 +357,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                 function DuplicatorModalShowPanel() {
                     $modal.find( '.duplicator-modal-panel' ).addClass( 'active' );
                     /* Update the deactivate button's text */
-                    $modal.find( '.duplicator-modal-button-deactivate' ).text( '<?php _e( 'Deactivate', 'duplicator' ); ?>' );
+                    $modal.find( '.duplicator-modal-button-deactivate' ).text( '<?php _e( 'Skip & Deactivate', 'duplicator' ); ?>' );
                 }
             })(jQuery);
         </script>
