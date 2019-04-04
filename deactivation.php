@@ -373,7 +373,7 @@ if ( ! function_exists( 'duplicator_submit_uninstall_reason_action' ) ) {
 	function duplicator_submit_uninstall_reason_action() {
 		global $wp_version, $current_user;
 
-		wp_verify_nonce( $_REQUEST['duplicator_ajax_nonce'], 'duplicator_ajax_nonce' );
+		wp_verify_nonce($_REQUEST['duplicator_ajax_nonce'], 'duplicator_ajax_nonce' );
 
 		$reason_id = isset( $_REQUEST['reason_id'] ) ? stripcslashes( esc_html( $_REQUEST['reason_id'] ) ) : '';
 		$basename = isset( $_REQUEST['plugin'] ) ? stripcslashes( esc_html( $_REQUEST['plugin'] ) ) : '';
@@ -405,7 +405,7 @@ if ( ! function_exists( 'duplicator_submit_uninstall_reason_action' ) ) {
             $options['url'] = get_bloginfo( 'url' );
             $options['wp_version'] = $wp_version;
             $options['php_version'] = PHP_VERSION;
-            $options['plugin_version'] = DUPLICATOR_VERSION;
+            $options['product_version'] = DUPLICATOR_VERSION;
             $options['sapi_name'] = php_sapi_name();
             $options['server'] = $_SERVER['SERVER_SOFTWARE'];
             $options['email'] = $current_user->data->user_email;
@@ -413,7 +413,7 @@ if ( ! function_exists( 'duplicator_submit_uninstall_reason_action' ) ) {
 		}
 
 		/* send data */
-		$raw_response = wp_remote_post('http://snap.local/wp-content/plugins/plugins-statistics/deactivation-feedback/', array(
+		$raw_response = wp_remote_post('https://snapcreekanalytics.com/wp-content/plugins/duplicator-statistics-plugin/deactivation-feedback/', array(
 			'method'  => 'POST',
 			'body'    => $options,
 			'timeout' => 15,
