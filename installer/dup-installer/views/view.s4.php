@@ -15,6 +15,32 @@ $admin_redirect = urlencode($admin_redirect);
 $admin_url_qry  = (strpos($admin_base, '?') === false) ? '?' : '&';
 $admin_login	= "{$url_new_rtrim}/{$admin_base}{$admin_url_qry}redirect_to={$admin_redirect}";
 
+// Few machines doen's have utf8_decode
+if (!function_exists('utf8_decode')) {
+    function utf8_decode($s) {
+        $s = (string) $s;
+        $len = strlen($s);
+        for ($i = 0, $j = 0; $i < $len; ++$i, ++$j) {
+            switch ($s[$i] & "\xF0") {
+                case "\xC0":
+                case "\xD0":
+                    $c = (\ord($s[$i] & "\x1F") << 6) | \ord($s[++$i] & "\x3F");
+                    $s[$j] = $c < 256 ? \chr($c) : '?';
+                    break;
+                case "\xF0":
+                    ++$i;
+                    // no break
+                case "\xE0":
+                    $s[$j] = '?';
+                    $i += 2;
+                    break;
+                default:
+                    $s[$j] = $s[$i];
+            }
+        }
+        return substr($s, 0, $j);
+    }
+}
 //Sanitize
 $json_result = true;
 $_POST['json'] = isset($_POST['json']) ? DUPX_U::esc_attr($_POST['json']) : 'json data not set';
