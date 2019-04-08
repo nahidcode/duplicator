@@ -10,7 +10,7 @@
  */
 defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
-if (DupProSnapLibUtil::wp_is_ini_value_changeable('display_errors')) {
+if (SnapLibUtil::wp_is_ini_value_changeable('display_errors')) {
     @ini_set('display_errors', 1);
 }
 error_reporting(E_ALL);
