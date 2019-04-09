@@ -8,7 +8,9 @@ global $wpdb;
 global $wp_version;
 DUP_Util::hasCapability('manage_options');
 $current_tab = isset($_REQUEST['tab']) ? esc_html($_REQUEST['tab']) : 'diagnostics';
-
+if ('d' == $current_tab) {
+	$current_tab = 'diagnostics';
+}
 ?>
 
 <div class="wrap">	
