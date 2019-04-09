@@ -84,7 +84,7 @@ final class DUPX_NOTICE_MANAGER
             $notices['finalReport'][$uniqueId] = $notice->toArray();
         }
 
-        $json = json_encode($notices, JSON_PRETTY_PRINT);
+        $json = defined('JSON_PRETTY_PRINT') ? json_encode($notices, JSON_PRETTY_PRINT) : json_encode($notices);
         file_put_contents($this->persistanceFile, $json);
     }
 
@@ -97,12 +97,16 @@ final class DUPX_NOTICE_MANAGER
             $this->nextStepNotices   = array();
             $this->finalReporNotices = array();
 
-            foreach ($notices['nextStep'] as $uniqueId => $notice) {
-                $this->nextStepNotices[$uniqueId] = DUPX_NOTICE_ITEM::getItemFromArray($notice);
+            if (!empty($notices['nextStep'])) {
+                foreach ($notices['nextStep'] as $uniqueId => $notice) {
+                    $this->nextStepNotices[$uniqueId] = DUPX_NOTICE_ITEM::getItemFromArray($notice);
+                }
             }
 
-            foreach ($notices['finalReport'] as $uniqueId => $notice) {
-                $this->finalReporNotices[$uniqueId] = DUPX_NOTICE_ITEM::getItemFromArray($notice);
+            if (!empty($notices['finalReport'])) {
+                foreach ($notices['finalReport'] as $uniqueId => $notice) {
+                    $this->finalReporNotices[$uniqueId] = DUPX_NOTICE_ITEM::getItemFromArray($notice);
+                }
             }
 
             self::$uniqueCountId = $notices['globalData']['uniqueCountId'];
