@@ -19,30 +19,49 @@ define('ERR_DBMANUAL', 'The database "%s" has "%s" tables. This does not look to
 define('ERR_TESTDB_VERSION_INFO',	'The current version detected was released prior to MySQL 5.5.3 which had a release date of April 8th 2010.  WordPress 4.2 included support for utf8mb4 which is only supported in MySQL server 5.5.3+.  It is highly recommended to upgrade your version of MySQL server on this server to be more compatible with recent releases of WordPress and avoid issues with install errors.');
 define('ERR_TESTDB_VERSION_COMPAT',	'In order to avoid database incompatibility issues make sure the database versions between the build and installer servers are as close as possible. If the package was created on a newer database version than where it is being installed then you might run into issues.<br/><br/> It is best to make sure the server where the installer is running has the same or higher version number than where it was built.  If the major and minor version are the same or close for example [5.7 to 5.6], then the migration should work without issues.  A version pair of [5.7 to 5.1] is more likely to cause issues unless you have a very simple setup.  If the versions are too far apart work with your hosting provider to upgrade the MySQL engine on this server.<br/><br/>   <b>MariaDB:</b> If see a version of 10.N.N then the database distribution is a MariaDB flavor of MySQL.   While the distributions are very close there are some subtle differences.   Some operating systems will report the version such as "5.5.5-10.1.21-MariaDB" showing the correlation of both.  Please visit the online <a href="https://mariadb.com/kb/en/mariadb/mariadb-vs-mysql-compatibility/" target="_blank">MariaDB versus MySQL - Compatibility</a> page for more details.<br/><br/> Please note these messages are simply notices.  It is highly recommended that you continue with the install process and closely monitor the dup-installer-log.txt file along with the install report found on step 3 of the installer.  Be sure to look for any notices/warnings/errors in these locations to validate the install process did not detect any errors. If any issues are found please visit the FAQ pages and see the question <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-260-q" target="_blank">What if I get database errors or general warnings on the install report?</a>.');
 
+
 /**
- * DUPX_Log  
+ * DUPX_Log
  * Class used to log information  */
 class DUPX_Log
 {
+    /**
+     * if true throw exception on error else die on error
+     * @var bool
+     */
+    private static $thowExceptionOnError = false;
+
+    const LV_DEFAULT = 1;
+    const LV_DEAILED = 2;
+    const LV_DEBUG = 3;
 
     /** METHOD: LOG
      *  Used to write debug info to the text log file
      *  @param string $msg		Any text data
-     *  @param int $loglevel	Log level
-     * 	1 = Light, 2 = Detailed, 3 = Debug
+     *  @param int $logging	Log level
+     *  @param bool if true flush file log
+     *
      */
-    public static function info($msg, $logging = 1)
+    public static function info($msg, $logging = self::LV_DEFAULT, $flush = false)
     {
         if ($logging <= $GLOBALS["LOGGING"]) {
             @fwrite($GLOBALS["LOG_FILE_HANDLE"], "{$msg}\n");
+
+            if ($flush) {
+                self::flush();
+            }
         }
     }
 
-    public static function infoObject($msg, $object, $logging = 1)
+    public static function infoObject($msg, $object, $logging = self::LV_DEFAULT)
     {
         $msg = $msg."\n".print_r($object, true);
+        self::info($msg, $logging);
+    }
 
-        self::Info($msg, $logging);
+    public static function flush()
+    {
+        @fflush($GLOBALS['LOG_FILE_HANDLE']);
     }
 
     public static function error($errorMessage)
@@ -54,7 +73,52 @@ class DUPX_Log
         $log_msg = strip_tags($log_msg);
         @fwrite($GLOBALS["LOG_FILE_HANDLE"], "\nINSTALLER ERROR:\n{$log_msg}\n");
         @fclose($GLOBALS["LOG_FILE_HANDLE"]);
-        die("<div class='dupx-ui-error'><hr size='1' /><b style='color:#B80000;'><i class='fa fa-exclamation-circle'></i> INSTALL ERROR!</b><br/>{$errorMessage}</div>");
+        if (self::$thowExceptionOnError) {
+            throw new Exception('INSTALL ERROR: '.$errorMessage);
+        } else {
+            @fclose($GLOBALS["LOG_FILE_HANDLE"]);
+            die("<div class='dupx-ui-error'><hr size='1' /><b style='color:#B80000;'>INSTALL ERROR!</b><br/>{$errorMessage}</div>");
+        }
+    }
+
+    /**
+     *
+     * @param boolean $set
+     */
+    public static function setThrowExceptionOnError($set)
+    {
+        self::$thowExceptionOnError = (bool) $set;
+    }
+
+    /**
+     *
+     * @param mixed $var
+     * @param bool $checkCallable // if true check if var is callable and display it
+     * @return string
+     */
+    public static function varToString($var, $checkCallable = false)
+    {
+        if ($checkCallable && is_callable($var)) {
+            return '(callable) '.print_r($var, true);
+        }
+        switch (gettype($var)) {
+            case "boolean":
+                return $var ? 'true' : 'false';
+            case "integer":
+            case "double":
+                return (string) $var;
+            case "string":
+                return '"'.$var.'"';
+            case "array":
+            case "object":
+                return print_r($var, true);
+            case "resource":
+            case "resource (closed)":
+            case "NULL":
+            case "unknown type":
+            default:
+                return gettype($var);
+        }
     }
 }
 
@@ -63,6 +127,17 @@ class DUPX_Handler
     const MODE_OFF = 0; // don't write in log
     const MODE_LOG = 1; // write errors in log file
     const MODE_VAR = 2; // put php errors in $varModeLog static var
+
+    const SHUTDOWN_TIMEOUT = 'tm';
+
+    /**
+     *
+     * @var array
+     */
+    private static $shutdownReturns = array(
+        'tm' => 'timeout'
+    );
+
 
     /**
      *
@@ -87,6 +162,7 @@ class DUPX_Handler
      * @var string // php errors in MODE_VAR
      */
     private static $varModeLog = '';
+
 
     /**
      * Error handler
@@ -208,6 +284,16 @@ class DUPX_Handler
     }
 
     /**
+     *
+     * @param string $status // timeout
+     * @param string $string
+     */
+    public static function setShutdownReturn($status, $str)
+    {
+        self::$shutdownReturns[$status] = $str;
+    }
+
+    /**
      * Shutdown handler
      *
      * @return void
@@ -215,6 +301,9 @@ class DUPX_Handler
     public static function shutdown()
     {
         if (($error = error_get_last())) {
+            if (preg_match('/^Maximum execution time (?:.+) exceeded$/i', $error['message'])) {
+                echo self::$shutdownReturns[self::SHUTDOWN_TIMEOUT];
+            }
             DUPX_Handler::error($error['type'], $error['message'], $error['file'], $error['line']);
         }
     }
