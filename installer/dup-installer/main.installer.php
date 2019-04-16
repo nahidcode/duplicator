@@ -32,8 +32,9 @@ define('ERR_CONFIG_FOUND', 'A wp-config.php already exists in this location.  Th
 
 ob_start();
 try {
-    $GLOBALS['DUPX_ROOT'] = str_replace("\\", '/', (realpath(dirname(__FILE__).'/..')));
-    $GLOBALS['DUPX_INIT'] = "{$GLOBALS['DUPX_ROOT']}/dup-installer";
+    $GLOBALS['DUPX_ROOT']     = str_replace("\\", '/', (realpath(dirname(__FILE__).'/..')));
+    $GLOBALS['DUPX_ROOT_URL'] = 'http'.(!empty($_SERVER['HTTPS']) ? 's' : '').'://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']);
+    $GLOBALS['DUPX_INIT']     = "{$GLOBALS['DUPX_ROOT']}/dup-installer";
     require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.boot.php');
     /**
      * init constants and include
@@ -192,6 +193,7 @@ try {
     require_once($GLOBALS['DUPX_INIT'] . '/classes/class.http.php');
     require_once($GLOBALS['DUPX_INIT'] . '/classes/class.server.php');
     require_once($GLOBALS['DUPX_INIT'] . '/classes/config/class.conf.srv.php');
+    require_once($GLOBALS['DUPX_INIT'] . '/classes/class.view.php');
 
     $GLOBALS['_CURRENT_URL_PATH'] = $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
     $GLOBALS['_HELP_URL_PATH']    = "?view=help&archive={$GLOBALS['FW_PACKAGE_NAME']}&bootloader={$GLOBALS['BOOTLOADER_NAME']}&basic";
@@ -304,9 +306,10 @@ if (!empty($unespectOutput)) {
 <table cellspacing="0" class="header-wizard">
 	<tr>
 		<td style="width:100%;">
-			<div class="dupx-branding-header">Duplicator</div>
+			<div class="dupx-branding-header">Duplicator <?php echo ($GLOBALS["VIEW"] == 'help') ? 'help' : ''; ?></div>
 		</td>
 		<td class="wiz-dupx-version">
+            <?php  if ($GLOBALS["VIEW"] !== 'help') { ?>
 			<a href="javascript:void(0)" onclick="DUPX.openServerDetails()">version:<?php echo DUPX_U::esc_html($GLOBALS['DUPX_AC']->version_dup); ?></a>&nbsp;
 			<?php
 				$help_url = "?view=help".
@@ -320,8 +323,9 @@ if (!empty($unespectOutput)) {
 			?>
 			
 			<div style="padding: 6px 0">
-				<a href="<?php echo DUPX_U::esc_url($help_url);?>" target="_blank">help</a> <i class="fa fa-question-circle"></i>
+                <?php DUPX_U_Html::getLightBoxIframe('help', 'HELP', $help_url); ?>
 			</div>
+            <?php } ?>
 		</td>
 	</tr>
 </table>
