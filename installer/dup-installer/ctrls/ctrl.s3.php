@@ -6,6 +6,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 //-- START OF ACTION STEP 3: Update the database
 require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.archive.config.php');
 require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.wp.config.tranformer.php');
+require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.wp.config.tranformer.src.php');
 
 /** JSON RESPONSE: Most sites have warnings turned off by default, but if they're turned on the warnings
   cause errors in the JSON data Here we hide the status so warning level is reset at it at the end */
@@ -110,7 +111,9 @@ DUPX_Log::info($log);
 // INIZIALIZE WP_CONFIG TRANSFORMER
 //===============================================
 $root_path = $GLOBALS['DUPX_ROOT'];
-$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) ? "{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt" : "{$root_path}/wp-config.php";
+$wpconfig_ark_path	= DUPX_ServerConfig::getWpconfigArkPath();
+DUPX_ServerConfig::copyOriginalConfigFiles();
+
 $config_transformer =  null;
 if (is_readable($wpconfig_ark_path)) {
     $config_transformer = new WPConfigTransformer($wpconfig_ark_path);
@@ -657,7 +660,7 @@ foreach ($wpconfig_safe_check as $file) {
 		}
 	}
 }
-
+DUPX_ServerConfig::finalReportNotices();
 $nManager->saveNotices();
 
 $ajax3_sum = DUPX_U::elapsedTime(DUPX_U::getMicrotime(), $ajax3_start);
