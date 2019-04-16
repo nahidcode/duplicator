@@ -69,7 +69,7 @@ if ($json_decode == NULL || $json_decode == FALSE) {
 VIEW: STEP 4- INPUT -->
 <form id='s4-input-form' method="post" class="content-form" style="line-height:20px">
 	<input type="hidden" name="url_new" id="url_new" value="<?php echo DUPX_U::esc_attr($url_new_rtrim); ?>" />
-	<div class="logfile-link"><a href="./<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>?now=<?php echo DUPX_U::esc_attr($GLOBALS['NOW_TIME']); ?>" target="dup-installer">dup-installer-log.txt</a></div>
+	<div class="logfile-link"><?php DUPX_View_Funcs::installerLogLink(); ?></div>
 
 	<div class="hdr-main">
 		Step <span class="step">4</span> of 4: Test Site
@@ -321,7 +321,11 @@ LONGMSG;
 				Review this sites <a href="<?php echo DUPX_U::esc_attr($url_new_rtrim); ?>" target="_blank">front-end</a> or
 				re-run the installer and <a href="<?php echo DUPX_U::esc_url("{$url_new_rtrim}/installer.php"); ?>">go back to step 1</a>.
 			</li>
-			<li>If the .htaccess file was reset some plugin settings might need to be re-saved.</li>
+            <?php
+            $wpconfigNotice = $nManager->getFinalReporNoticeById('wp-config-changes');
+            $htaccessNorice = $nManager->getFinalReporNoticeById('htaccess-changes');
+            ?>
+			<li>Please validate <?php echo $wpconfigNotice->longMsg; ?> and <?php echo  $htaccessNorice->longMsg; ?>.</li>
 			<li>For additional help and questions visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=inst4_step4_troubleshoot' target='_blank'>online FAQs</a>.</li>
 		</ul>
 	</div>

@@ -1,5 +1,4 @@
 <?php
-defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /**
  * Notice manager
  *
@@ -9,6 +8,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
  * @package SC\DUPX\U
  *
  */
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
 /**
  * Notice manager
@@ -66,6 +66,9 @@ final class DUPX_NOTICE_MANAGER
         $this->loadNotices();
     }
 
+    /**
+     * save notices from json file
+     */
     public function saveNotices()
     {
         $notices = array(
@@ -84,10 +87,13 @@ final class DUPX_NOTICE_MANAGER
             $notices['finalReport'][$uniqueId] = $notice->toArray();
         }
 
-        $json = defined('JSON_PRETTY_PRINT') ? json_encode($notices, JSON_PRETTY_PRINT) : json_encode($notices);
+        $json = json_encode($notices, JSON_PRETTY_PRINT);
         file_put_contents($this->persistanceFile, $json);
     }
 
+    /**
+     * load notice from json file
+     */
     private function loadNotices()
     {
         if (file_exists($this->persistanceFile)) {
@@ -97,16 +103,12 @@ final class DUPX_NOTICE_MANAGER
             $this->nextStepNotices   = array();
             $this->finalReporNotices = array();
 
-            if (!empty($notices['nextStep'])) {
-                foreach ($notices['nextStep'] as $uniqueId => $notice) {
-                    $this->nextStepNotices[$uniqueId] = DUPX_NOTICE_ITEM::getItemFromArray($notice);
-                }
+            foreach ($notices['nextStep'] as $uniqueId => $notice) {
+                $this->nextStepNotices[$uniqueId] = DUPX_NOTICE_ITEM::getItemFromArray($notice);
             }
 
-            if (!empty($notices['finalReport'])) {
-                foreach ($notices['finalReport'] as $uniqueId => $notice) {
-                    $this->finalReporNotices[$uniqueId] = DUPX_NOTICE_ITEM::getItemFromArray($notice);
-                }
+            foreach ($notices['finalReport'] as $uniqueId => $notice) {
+                $this->finalReporNotices[$uniqueId] = DUPX_NOTICE_ITEM::getItemFromArray($notice);
             }
 
             self::$uniqueCountId = $notices['globalData']['uniqueCountId'];
@@ -116,7 +118,7 @@ final class DUPX_NOTICE_MANAGER
     }
 
     /**
-     *
+     * remove all notices and save reset file
      */
     public function resetNotices()
     {
@@ -124,6 +126,36 @@ final class DUPX_NOTICE_MANAGER
         $this->finalReporNotices = array();
         self::$uniqueCountId     = 0;
         $this->saveNotices();
+    }
+
+    /**
+     * return next step notice by id
+     *
+     * @param string $id
+     * @return DUPX_NOTICE_ITEM
+     */
+    public function getNextStepNoticeById($id)
+    {
+        if (isset($this->nextStepNotices[$id])) {
+            return $this->nextStepNotices[$id];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * return last report notice by id
+     *
+     * @param string $id
+     * @return DUPX_NOTICE_ITEM
+     */
+    public function getFinalReporNoticeById($id)
+    {
+        if (isset($this->finalReporNotices[$id])) {
+            return $this->finalReporNotices[$id];
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -340,13 +372,18 @@ final class DUPX_NOTICE_MANAGER
     }
 
     /**
-     *
+     * sort final report notice from priority and notice level
      */
     public function sortFinalReport()
     {
         uasort($this->finalReporNotices, 'DUPX_NOTICE_ITEM::sortNoticeForPriorityAndLevel');
     }
 
+    /**
+     * display final final report notice section
+     *
+     * @param string $section
+     */
     public function displayFinalReport($section)
     {
         foreach ($this->finalReporNotices as $id => $notice) {
@@ -354,10 +391,6 @@ final class DUPX_NOTICE_MANAGER
                 self::finalReportNotice($id, $notice);
             }
         }
-        /*
-          echo '<pre>';
-          print_r($this->finalReporNotices);
-          echo '</pre>'; */
     }
 
     /**
@@ -426,6 +459,12 @@ final class DUPX_NOTICE_MANAGER
         return self::getErrorLevelHtml($this->getSectionErrLevel($section), $echo);
     }
 
+    /**
+     * Displa next step notice message
+     *
+     * @param bool $deleteListAfterDisaply
+     * @return void
+     */
     public function displayStepMessages($deleteListAfterDisaply = true)
     {
         if (empty($this->nextStepNotices)) {
@@ -523,6 +562,12 @@ final class DUPX_NOTICE_MANAGER
         <?php
     }
 
+    /**
+     * get html class from level
+     *
+     * @param int $level
+     * @return string
+     */
     private static function getClassFromLevel($level)
     {
         switch ($level) {
@@ -541,6 +586,13 @@ final class DUPX_NOTICE_MANAGER
         }
     }
 
+    /**
+     * get level label from level
+     *
+     * @param int $level
+     * @param bool $echo
+     * @return type
+     */
     public static function getErrorLevelHtml($level, $echo = true)
     {
         switch ($level) {
@@ -577,6 +629,13 @@ final class DUPX_NOTICE_MANAGER
         }
     }
 
+    /**
+     * get next step message prefix
+     *
+     * @param int $level
+     * @param bool $echo
+     * @return string
+     */
     public static function getNextStepLevelPrefixMessage($level, $echo = true)
     {
         switch ($level) {
@@ -609,6 +668,11 @@ final class DUPX_NOTICE_MANAGER
         }
     }
 
+    /**
+     * get unique id
+     *
+     * @return string
+     */
     private static function getNewAutoUniqueId()
     {
         self::$uniqueCountId ++;
@@ -632,6 +696,9 @@ final class DUPX_NOTICE_MANAGER
         $manager->saveNotices();
     }
 
+    /**
+     * test function
+     */
     public static function testNextStepFullMessageData()
     {
         $manager = self::getInstance();
@@ -659,6 +726,9 @@ LONGMSG;
         $manager->saveNotices();
     }
 
+    /**
+     * test function
+     */
     public static function testFinalReporMessaesLevels()
     {
         $section = 'general';
@@ -673,6 +743,9 @@ LONGMSG;
         $manager->saveNotices();
     }
 
+    /**
+     * test function
+     */
     public static function testFinalReportFullMessages()
     {
         $section = 'general';
