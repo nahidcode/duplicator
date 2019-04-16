@@ -179,3 +179,5 @@
 	});
 
 </script>
+<?php
+DUPX_U_Html::js();

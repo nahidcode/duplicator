@@ -449,3 +449,5 @@
 	<?php endif; ?>
 
 </style>
+<?php
+DUPX_U_Html::css();
