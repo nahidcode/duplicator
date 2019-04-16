@@ -54,7 +54,8 @@ class DUPX_Boot
 
         @set_time_limit(3600);
 
-        if (empty(ini_get("default_charset")) && SnapLibUtil::wp_is_ini_value_changeable('default_charset')) {
+        $ini_get_default_charset = ini_get("default_charset");
+        if (empty($ini_get_default_charset) && SnapLibUtil::wp_is_ini_value_changeable('default_charset')) {
             @ini_set("default_charset", 'utf-8');
         }
         if (SnapLibUtil::wp_is_ini_value_changeable('memory_limit')) {
