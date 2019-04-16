@@ -69,7 +69,7 @@ if ($json_decode == NULL || $json_decode == FALSE) {
 VIEW: STEP 4- INPUT -->
 <form id='s4-input-form' method="post" class="content-form" style="line-height:20px">
 	<input type="hidden" name="url_new" id="url_new" value="<?php echo DUPX_U::esc_attr($url_new_rtrim); ?>" />
-	<div class="logfile-link"><a href="./<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>?now=<?php echo DUPX_U::esc_attr($GLOBALS['NOW_TIME']); ?>" target="dup-installer">dup-installer-log.txt</a></div>
+	<div class="logfile-link"><?php DUPX_View_Funcs::installerLogLink(); ?></div>
 
 	<div class="hdr-main">
 		Step <span class="step">4</span> of 4: Test Site

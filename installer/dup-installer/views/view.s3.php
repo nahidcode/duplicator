@@ -65,7 +65,7 @@ VIEW: STEP 3- INPUT -->
 <form id='s3-input-form' method="post" class="content-form">
 
 	<div class="logfile-link">
-		<a href="./<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>?now=<?php echo DUPX_U::esc_attr($GLOBALS['NOW_TIME']); ?>" target="dup-installer">dup-installer-log.txt</a>
+		<?php DUPX_View_Funcs::installerLogLink(); ?>
 	</div>
 	<div class="hdr-main">
 		Step <span class="step">3</span> of 4: Update Data
@@ -365,7 +365,7 @@ VIEW: STEP 3- INPUT -->
 VIEW: STEP 3 - AJAX RESULT  -->
 <form id='s3-result-form' method="post" class="content-form" style="display:none">
 
-	<div class="logfile-link"><a href="./<?php echo DUPX_U::esc_attr($GLOBALS["LOG_FILE_NAME"]);?>?now=<?php echo DUPX_U::esc_attr($GLOBALS['NOW_TIME']); ?>" target="dup-installer">dup-installer-log.txt</a></div>
+	<div class="logfile-link"><?php DUPX_View_Funcs::installerLogLink(); ?></div>
 	<div class="hdr-main">
 		Step <span class="step">3</span> of 4: Update Data
 	</div>
@@ -400,7 +400,7 @@ VIEW: STEP 3 - AJAX RESULT  -->
 	<div id="ajaxerr-area" style="display:none">
 		<p>Please try again an issue has occurred.</p>
 		<div style="padding: 0px 10px 10px 10px;">
-			<div id="ajaxerr-data">An unknown issue has occurred with the update setup step.  Please see the dup-installer-log.txt file for more details.</div>
+			<div id="ajaxerr-data">An unknown issue has occurred with the update setup step.  Please see the <?php DUPX_View_Funcs::installerLogLink(); ?> file for more details.</div>
 			<div style="text-align:center; margin:10px auto 0px auto">
 				<input type="button" onclick='DUPX.hideErrorResult2()' value="&laquo; Try Again"  class="default-btn" /><br/><br/>
 				<i style='font-size:11px'>See online help for more details at <a href='https://snapcreek.com' target='_blank'>snapcreek.com</a></i>
