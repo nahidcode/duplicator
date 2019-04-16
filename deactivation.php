@@ -44,58 +44,38 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
         $reasons = array(
             array(
                 'id'                => 'NOT_WORKING',
-                'text'              => __( 'The plugin is not working', 'duplicator' ),
+                'text'              => __( "It's not working on my server", 'duplicator' ),
                 'input_type'        => 'textarea',
                 'input_placeholder' => __( "Kindly share what didn't work so we can fix it in future updates...", 'duplicator' )
-            ),
+            ),            
             array(
-                'id'                => 'DIDNT_WORK_AS_EXPECTED',
-                'text'              => __( "The plugin didn't work as expected", 'duplicator' ),
-                'input_type'        => 'textarea',
-                'input_placeholder' => __( 'What did you expect?', 'duplicator' )
-            ),
-            array(
-                'id'                => 'SUDDENLY_STOPPED_WORKING',
-                'text'              => __( 'The plugin suddenly stopped working', 'duplicator' ),
+                'id'                => 'CONFUSING_TO_UNDERSTAND',
+                'text'              => __( "It's too confusing to understand", 'duplicator' ),
                 'input_type'        => '',
                 'input_placeholder' => '',
                 'internal_message'  => $contact_support_template
             ),
             array(
-                'id'                => 'BROKE_MY_SITE',
-                'text'              => __( 'The plugin broke my site', 'duplicator' ),
-                'input_type'        => '',
-                'input_placeholder' => '',
-                'internal_message'  => $contact_support_template
-            ),
-            array(
-                'id'                => 'COULDNT_MAKE_IT_WORK',
-                'text'              => __( "I couldn't understand how to get it work", 'duplicator' ),
-                'input_type'        => '',
-                'input_placeholder' => '',
-                'internal_message'  => $contact_support_template
-            ),
-            array(
-                'id'                => 'FOUND_A_BETTER_PLUGIN',
-                'text'              => __( 'I found a better plugin', 'duplicator' ),
+                'id'                => 'FOUND_A_DIFFERENT_PLUGIN',
+                'text'              => __( 'I found a different plugin', 'duplicator' ),
                 'input_type'        => 'textfield',
                 'input_placeholder' => __( "What's the plugin name?", 'duplicator' )
             ),
             array(
-                'id'                => 'GREAT_BUT_NEED_SPECIFIC_FEATURE',
-                'text'              => __( "The plugin is great, but I need specific feature that you don't support", 'duplicator' ),
+                'id'                => 'NOT_DO_WHAT_I_NEED',
+                'text'              => __( "It does not do what I need it to do?", 'duplicator' ),
                 'input_type'        => 'textarea',
-                'input_placeholder' => __( 'What feature?', 'duplicator' )
-            ),
-            array(
-                'id'                => 'NO_LONGER_NEEDED',
-                'text'              => __( 'I no longer need the plugin', 'duplicator' ),
-                'input_type'        => '',
-                'input_placeholder' => ''
+                'input_placeholder' => __( 'What does it need to do?', 'duplicator' )
             ),
             array(
                 'id'                => 'TEMPORARY_DEACTIVATION',
                 'text'              => __( "It's a temporary deactivation, I'm just debugging an issue", 'duplicator' ),
+                'input_type'        => '',
+                'input_placeholder' => ''
+            ),
+            array(
+                'id'                => 'SWITCHING_PRO_VERSION',
+                'text'              => __( "I'm switching over to the Pro version", 'duplicator' ),
                 'input_type'        => '',
                 'input_placeholder' => ''
             ),
@@ -137,22 +117,21 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                         + '		<div class="duplicator-modal-body">'
                         + '		    <h2><?php _e( 'Quick Feedback', 'duplicator' ); ?></h2>'
                         + '			<div class="duplicator-modal-panel active"><p><?php _e( 'If you have a moment, please let us know why you are deactivating', 'duplicator' ); ?>:</p><ul>' + <?php echo json_encode( $reasons_list_items_html ); ?> + '</ul>'
-                        + '         <label class="duplicator-modal-anonymous-label">'
-                        + '				<input type="checkbox" checked="checked" />'
-                        + '				<?php _e( 'Send website data', 'duplicator' ); ?>'
-                        + '			</label>'
                         + '			</div>'
                         + '		</div>'
                         + '		<div class="duplicator-modal-footer">'
-                        + '			<a href="#" class="button button-secondary duplicator-modal-button-close"><?php _e(  'Cancel', 'duplicator' ); ?></a>'
-                        + '			<a href="#" class="button button-primary duplicator-modal-button-deactivate"></a>'
+                        + '			<div style="float: left; display: inline-block;"><small style="position: relative; top: 18px; left: -18px; font-size: 10px;"><?php _e( 'Your response is sent to us anonymously.', 'duplicator' ); ?></small></div>'
+                        + '			<div style="float: right; display: inline-block;">'
+                        + '			    <a href="#" class="button button-secondary duplicator-modal-button-close"><?php _e(  'Cancel', 'duplicator' ); ?></a>'
+                        + '			    <a href="#" class="button button-secondary duplicator-modal-button-skip"><?php _e( 'Skip & Deactivate', 'duplicator' ); ?></a>'
+                        + '			    <a href="#" class="button button-primary duplicator-modal-button-deactivate"></a>'
+                        + '			</div>'
                         + '			<div class="clear"></div>'
                         + '		</div>'
                         + '	</div>'
                         + '</div>',
                     $modal                = $( modalHtml ),
                     $deactivateLink       = $( '#the-list .active[data-plugin="<?php echo $basename; ?>"] .deactivate a' ),
-                    $anonymousFeedback    = $modal.find( '.duplicator-modal-anonymous-label' ),
                     selectedReasonID      = false;
 
                 /* WP added data-plugin attr after 4.5 version/ In prev version was id attr */
@@ -205,7 +184,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
 
                     $modal.on( 'click', '.duplicator-modal-footer .button', function( evt ) {
                         evt.preventDefault();
-
+                        
                         if ( $( this ).hasClass( 'disabled' ) ) {
                             return;
                         }
@@ -230,8 +209,6 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                                 return;
                             }
 
-                            var is_anonymous = ( $anonymousFeedback.find( 'input' ).is( ':checked' ) ) ? 0 : 1;
-
                             $.ajax({
                                 url       : ajaxurl,
                                 method    : 'POST',
@@ -240,7 +217,6 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                                     'plugin'			: '<?php echo $basename; ?>',
                                     'reason_id'			: $radio.val(),
                                     'reason_info'		: userReason,
-                                    'is_anonymous'		: is_anonymous,
                                     'duplicator_ajax_nonce'	: '<?php echo wp_create_nonce( 'duplicator_ajax_nonce' ); ?>'
                                 },
                                 beforeSend: function() {
@@ -256,6 +232,9 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                             /* Change the Deactivate button's text and show the reasons panel. */
                             _parent.find( '.duplicator-modal-button-deactivate' ).addClass( 'allow-deactivate' );
                             DuplicatorModalShowPanel();
+                        } else if ( _this.hasClass( 'duplicator-modal-button-skip' ) ) {
+                            window.location.href = $deactivateLink.attr( 'href' );
+                            return;
                         }
                     });
 
@@ -268,13 +247,12 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
 
                         selectedReasonID = $selectedReasonOption.val();
 
-                        $anonymousFeedback.show();
-
                         var _parent = $( this ).parents( 'li:first' );
 
                         $modal.find( '.duplicator-modal-reason-input' ).remove();
                         $modal.find( '.duplicator-modal-internal-message' ).hide();
                         $modal.find( '.duplicator-modal-button-deactivate' ).text( '<?php _e( 'Submit & Deactivate', 'duplicator' ); ?>' );
+                        $modal.find( '.duplicator-modal-button-skip' ).css('display', 'inline-block');
 
                         DuplicatorModalEnableDeactivateButton();
 
@@ -334,14 +312,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                     $modal.find( '.duplicator-modal-reason-input' ).remove();
 
                     $modal.find( '.message' ).hide();
-
-                    $anonymousFeedback.find( 'input' ).prop( 'checked', true );
-
-                    /* Hide, since by default there is no selected reason.*/
-                    $anonymousFeedback.hide();
-
                     var $deactivateButton = $modal.find( '.duplicator-modal-button-deactivate' );
-
                     $deactivateButton.addClass( 'allow-deactivate' );
                     DuplicatorModalShowPanel();
                 }
@@ -358,6 +329,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                     $modal.find( '.duplicator-modal-panel' ).addClass( 'active' );
                     /* Update the deactivate button's text */
                     $modal.find( '.duplicator-modal-button-deactivate' ).text( '<?php _e( 'Skip & Deactivate', 'duplicator' ); ?>' );
+                    $modal.find( '.duplicator-modal-button-skip' ).css( 'display', 'none' );
                 }
             })(jQuery);
         </script>
@@ -371,9 +343,9 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
  */
 if ( ! function_exists( 'duplicator_submit_uninstall_reason_action' ) ) {
 	function duplicator_submit_uninstall_reason_action() {
-		global $wp_version, $current_user;
-
-		wp_verify_nonce($_REQUEST['duplicator_ajax_nonce'], 'duplicator_ajax_nonce' );
+		if (!wp_verify_nonce($_REQUEST['duplicator_ajax_nonce'], 'duplicator_ajax_nonce' )) {
+            wp_die('Security issue');
+        }
 
 		$reason_id = isset( $_REQUEST['reason_id'] ) ? stripcslashes( esc_html( $_REQUEST['reason_id'] ) ) : '';
 		$basename = isset( $_REQUEST['plugin'] ) ? stripcslashes( esc_html( $_REQUEST['plugin'] ) ) : '';
@@ -386,7 +358,6 @@ if ( ! function_exists( 'duplicator_submit_uninstall_reason_action' ) ) {
 		if ( ! empty( $reason_info ) ) {
 			$reason_info = substr( $reason_info, 0, 255 );
 		}
-		$is_anonymous = isset( $_REQUEST['is_anonymous'] ) && 1 == $_REQUEST['is_anonymous'];
 
 		$options = array(
 			'product'		=> $basename,
@@ -394,45 +365,20 @@ if ( ! function_exists( 'duplicator_submit_uninstall_reason_action' ) ) {
 			'reason_info'	=> $reason_info,
         );
         
-        $duplicator_usage_id = false;
-
-		if ( ! $is_anonymous ) {
-			$duplicator_usage_id = ( is_multisite() ) ? get_site_option( 'duplicator_usage_id', false ) : get_option( 'duplicator_usage_id', false );
-
-			if ( false !== $duplicator_usage_id ) {
-				$options['usage_id'] = $duplicator_usage_id;
-            } /*else {*/
-            $options['url'] = get_bloginfo( 'url' );
-            $options['wp_version'] = $wp_version;
-            $options['php_version'] = PHP_VERSION;
-            $options['product_version'] = DUPLICATOR_VERSION;
-            $options['sapi_name'] = php_sapi_name();
-            $options['server'] = $_SERVER['SERVER_SOFTWARE'];
-            $options['email'] = $current_user->data->user_email;
-            //}
-		}
-
 		/* send data */
 		$raw_response = wp_remote_post('https://snapcreekanalytics.com/wp-content/plugins/duplicator-statistics-plugin/deactivation-feedback/', array(
 			'method'  => 'POST',
 			'body'    => $options,
-			'timeout' => 15,
+            'timeout' => 15,
+            // 'sslverify' => FALSE
         ) );
         
 		if ( ! is_wp_error( $raw_response ) && 200 == wp_remote_retrieve_response_code( $raw_response ) ) {
-			if ( ! $is_anonymous ) {
-				$response = maybe_unserialize( wp_remote_retrieve_body( $raw_response ) );			
-				if ( is_array( $response ) && ! empty( $response['usage_id'] ) && $response['usage_id'] != $duplicator_usage_id) {
-					if ( is_multisite() )
-						update_site_option( 'duplicator_usage_id', $response['usage_id'] );
-					else
-						update_option( 'duplicator_usage_id', $response['usage_id'] );
-				}
-			}			
-
 			echo 'done';
 		} else {
-			echo $response->get_error_code() . ': ' . $response->get_error_message();
+            $error_msg = $raw_response->get_error_code() . ': ' . $raw_response->get_error_message();
+            error_log($error_msg);
+			echo $error_msg;
 		}
 		exit;
 	}

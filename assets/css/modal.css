@@ -86,6 +86,10 @@ body.has-duplicator-modal {
     margin-top: 0 !important;
 }
 
+.duplicator-modal .duplicator-modal-button-skip {
+    display: none;
+}
+
 @media (max-width: 650px) {
     .duplicator-modal .duplicator-modal-dialog {
         margin-left: -50%;
