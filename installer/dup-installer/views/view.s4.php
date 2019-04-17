@@ -86,7 +86,7 @@ VIEW: STEP 4- INPUT -->
 	<table class="s4-final-step">
 		<tr style="vertical-align: top">
 			<td style="padding-top:10px">
-				<button type="button" class="s4-final-btns" onclick="DUPX.getAdminLogin()"><i class="fa fa-wordpress"></i> Admin Login</button>
+				<button type="button" class="s4-final-btns" onclick="DUPX.getAdminLogin()"><i class="fab fa-wordpress"></i> Admin Login</button>
 			</td>
 			<td>
 				Login to the WordPress Admin to finalize this install.<br/>

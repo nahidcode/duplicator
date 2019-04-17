@@ -75,25 +75,21 @@
         padding: 2px;
         border-radius: 4px;
     }
-
     .notice-report {
         border-left: 4px solid #fff;
         padding-left: 0;
         padding-right: 0;
         margin-bottom: 4px;
     }
-
     .notice-report .title {
         padding: 0 10px;
     }
-
     .notice-report .info {
         border-top: 1px solid #dedede;
         padding: 10px;
         font-size: 10px;
         background: #FAFAFA;
     }
-
     .notice.l-info,
     .notice.l-notice {border-left-color: #197b19;}
     .notice.l-swarning {border-left-color: #636363;}
@@ -338,6 +334,7 @@
     div.s4-gopro-btn {text-align:center; font-size:14px; margin:auto; width:200px; font-style: italic; font-weight:bold}
 	div.s4-gopro-btn a{color:green}
 	div.s4-warn {color:maroon;}
+	pre.s4-diff-viewer {line-height:11px}
 
 	/* ============================
 	STEP 5 HELP

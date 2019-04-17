@@ -469,8 +469,8 @@ HTACCESS;
         }
 
         $lightBoxContent = '<div class="row-cols-2">'.
-            '<div class="col col-1"><b>Original wp-config.php</b><pre>'.htmlspecialchars($orig).'</pre></div>'.
-            '<div class="col col-2"><b>New wp-config.php</b><pre>'.htmlspecialchars($new).'</pre></div>'.
+            '<div class="col col-1"><b>Original wp-config.php</b><pre class="s4-diff-viewer">'.htmlspecialchars($orig).'</pre></div>'.
+            '<div class="col col-2"><b>New wp-config.php</b><pre class="s4-diff-viewer">'.htmlspecialchars($new).'</pre></div>'.
             '</div>';
         $longMsg         = DUPX_U_Html::getLigthBox('wp-config.php changes', 'WP-CONFIG.PHP COMPARE', $lightBoxContent, false);
 
