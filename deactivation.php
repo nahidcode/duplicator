@@ -75,7 +75,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
             ),
             array(
                 'id'                => 'SWITCHING_PRO_VERSION',
-                'text'              => __( "I'm switching over to the Pro version", 'duplicator' ),
+                'text'              => sprintf(__( "I'm switching over to the %s", 'duplicator' ), '<a href="https://snapcreek.com/duplicator/">'.__('Pro version', 'duplicator' ).'</a>'),
                 'input_type'        => '',
                 'input_placeholder' => ''
             ),
@@ -120,7 +120,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                         + '			</div>'
                         + '		</div>'
                         + '		<div class="duplicator-modal-footer">'
-                        + '			<div style="float: left; display: inline-block;"><small style="position: relative; top:20px; left: -18px; font-size: 10px;"><i><?php _e( 'Your response is sent anonymously.', 'duplicator' ); ?></i></small></div>'
+                        + '			<div style="float: left; display: inline-block;"><small class="duplicator-modal-resp-msg" style="position: relative; top:20px; left: -18px; font-size: 10px;"><i><?php _e( 'Your response is sent anonymously.', 'duplicator' ); ?></i></small></div>'
                         + '			<div style="float: right; display: inline-block;">'
                         + '			    <a href="#" class="button button-secondary duplicator-modal-button-close"><?php _e(  'Cancel', 'duplicator' ); ?></a>'
                         + '			    <a href="#" class="button button-secondary duplicator-modal-button-skip"><?php _e( 'Skip & Deactivate', 'duplicator' ); ?></a>'
@@ -253,6 +253,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                         $modal.find( '.duplicator-modal-internal-message' ).hide();
                         $modal.find( '.duplicator-modal-button-deactivate' ).text( '<?php _e( 'Send & Deactivate', 'duplicator' ); ?>' );
                         $modal.find( '.duplicator-modal-button-skip' ).css('display', 'inline-block');
+                        $modal.find( '.duplicator-modal-resp-msg' ).show();
 
                         DuplicatorModalEnableDeactivateButton();
 
@@ -329,7 +330,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                     $modal.find( '.duplicator-modal-panel' ).addClass( 'active' );
                     /* Update the deactivate button's text */
                     $modal.find( '.duplicator-modal-button-deactivate' ).text( '<?php _e( 'Skip & Deactivate', 'duplicator' ); ?>' );
-                    $modal.find( '.duplicator-modal-button-skip' ).css( 'display', 'none' );
+                    $modal.find( '.duplicator-modal-button-skip, .duplicator-modal-resp-msg' ).css( 'display', 'none' );
                 }
             })(jQuery);
         </script>
