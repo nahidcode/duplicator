@@ -176,7 +176,7 @@ $skip_archive_scan    = DUP_Settings::Get('skip_archive_scan');
                 <p class="description" style="width:700px">
                     <?php esc_html_e("This process will reset all packages by deleting those without a completed status, reset the active package id and perform a "
 						. "cleanup of the build tmp file.", 'duplicator'); ?>
-                    <i class="fa fa-question-circle"
+                    <i class="fas fa-question-circle fa-sm"
                         data-tooltip-title="<?php esc_attr_e("Reset Settings", 'duplicator'); ?>"
                         data-tooltip="<?php esc_attr_e('This action should only be used if the packages screen is having issues or a build is stuck.', 'duplicator'); ?>"></i>
                 </p>

@@ -119,7 +119,7 @@ SETUP TYPE: @todo implement
 	<!-- STANDARD INSTALL -->
 	<input type="radio" id="setup-type-fresh" name="setup_type" value="1" checked="true" onclick="DUPX.toggleSetupType()" />
 	<label for="setup-type-fresh"><b>Standard Install</b></label>
-	<i class="fa fa-question-circle"
+	<i class="fas fa-question-circle fa-sm"
 		data-tooltip-title="Standard Install"
 		data-tooltip="A standard install is the default way Duplicator has always worked.  Setup your package in an empty directory and run the installer."></i>
 	<br/>
@@ -133,7 +133,7 @@ SETUP TYPE: @todo implement
 	<!-- OVERWRITE INSTALL -->
 	<input type="radio" id="setup-type-overwrite" name="setup_type" value="2" onclick="DUPX.toggleSetupType()" />
 	<label for="setup-type-overwrite"><b>Overwrite Install</b></label>
-	<i class="fa fa-question-circle"
+	<i class="fas fa-question-circle fa-sm"
 		data-tooltip-title="Overwrite Install"
 		data-tooltip="An Overwrite Install allows Duplicator to overwrite an existing WordPress Site."></i><br/>
 	<div class="s1-setup-type-sub" id="s1-setup-type-sub-2">
@@ -148,7 +148,7 @@ SETUP TYPE: @todo implement
 	<!-- DB-ONLY INSTALL -->
 	<input type="radio" id="setup-type-db" name="setup_type" value="3" onclick="DUPX.toggleSetupType()" />
 	<label for="setup-type-db"><b>Database Only Install</b></label>
-	<i class="fa fa-question-circle"
+	<i class="fas fa-question-circle fa-sm"
 		data-tooltip-title="Database Only"
 		data-tooltip="A database only install allows Duplicator to connect to a database and install only the database."></i><br/>
 	<div class="s1-setup-type-sub" id="s1-setup-type-sub-3">
@@ -560,7 +560,7 @@ OPTIONS
 </div>
 <div id="s1-area-adv-opts" style="display:none">
 	<div class="help-target">
-		<a href="<?php echo DUPX_U::esc_html($GLOBALS['_HELP_URL_PATH'].'#help-s1'); ?>" target="_blank"><i class="fa fa-question-circle"></i></a>
+		<a href="<?php echo DUPX_U::esc_html($GLOBALS['_HELP_URL_PATH'].'#help-s1'); ?>" target="_blank"><i class="fas fa-question-circle fa-sm"></i></a>
 	</div><br/>
 
 	<div class="hdr-sub3">General</div>

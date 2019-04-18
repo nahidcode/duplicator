@@ -92,7 +92,7 @@ $cpnl_supported =  DUPX_U::$on_php_53_plus ? true : false;
 	</table>
 	<br/><br/>
 
-	<small><i class="fa fa-exclamation-triangle"></i> WARNING: Be sure these database parameters are correct! Entering the wrong information WILL overwrite an existing database.
+	<small><i class="fa fa-exclamation-triangle fa-sm"></i> WARNING: Be sure these database parameters are correct! Entering the wrong information WILL overwrite an existing database.
 		Make sure to have backups of all your data before proceeding.</small><br/>
 </div>
 

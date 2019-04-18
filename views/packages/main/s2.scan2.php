@@ -169,7 +169,7 @@ WP SETTINGS -->
 
 		//MU SITE
 		if (is_multisite()) {
-			echo '<hr size="1" /><span><div class="scan-warn"><i class="fa fa-exclamation-triangle"></i></div></span>&nbsp;<b>' . esc_html__('Multisite: Unsupported', 'duplicator') . "</b> <br/>";
+			echo '<hr size="1" /><span><div class="scan-warn"><i class="fa fa-exclamation-triangle fa-sm"></i></div></span>&nbsp;<b>' . esc_html__('Multisite: Unsupported', 'duplicator') . "</b> <br/>";
 			esc_html_e('Duplicator does not support WordPress multisite migrations.  We recommend using Duplicator Pro which currently supports full multisite migrations and subsite to '
 				. 'standalone site migrations.', 'duplicator');
 			echo '<br/><br/>';

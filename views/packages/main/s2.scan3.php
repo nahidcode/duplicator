@@ -18,7 +18,7 @@ $skip_archive_scan    = DUP_Settings::Get('skip_archive_scan');
 <!-- ================================================================
 ARCHIVE -->
 <div class="details-title">
-	<i class="fa fa-file-archive-o"></i>&nbsp;<?php esc_html_e('Archive', 'duplicator');?>
+	<i class="far fa-file-archive"></i>&nbsp;<?php esc_html_e('Archive', 'duplicator');?>
 	<sup class="dup-small-ext-type"><?php echo esc_html($archive_type_extension); ?></sup>
 	<div class="dup-more-details" onclick="Duplicator.Pack.showDetailsDlg()" title="<?php esc_attr_e('Show Scan Details', 'duplicator');?>"><i class="fa fa-window-maximize"></i></div>
 </div>
@@ -119,7 +119,7 @@ TOTAL SIZE -->
 				<div class="hdrs">
 					<span style="font-weight:bold">
 						<?php esc_html_e('Quick Filters', 'duplicator'); ?>
-						<sup><i class="fa fa-question-circle" data-tooltip-title="<?php esc_attr_e("Large Files", 'duplicator'); ?>" data-tooltip="<?php echo esc_attr($hlptxt); ?>"></i></sup>
+						<sup><i class="fas fa-question-circle fa-sm" data-tooltip-title="<?php esc_attr_e("Large Files", 'duplicator'); ?>" data-tooltip="<?php echo esc_attr($hlptxt); ?>"></i></sup>
 					</span>
 					<div class='hdrs-up-down'>
 						<i class="fa fa-caret-up fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'hide')" title="<?php esc_attr_e("Hide All", 'duplicator'); ?>"></i>
@@ -255,7 +255,7 @@ FILE NAME CHECKS -->
 			<div class="container">
 				<div class="hdrs">
 					<span style="font-weight:bold"><?php esc_html_e('Quick Filters', 'duplicator');?></span>
-						<sup><i class="fa fa-question-circle" data-tooltip-title="<?php esc_attr_e("Name Checks", 'duplicator'); ?>" data-tooltip="<?php echo esc_attr($txt); ?>"></i></sup>
+						<sup><i class="fas fa-question-circle fa-sm" data-tooltip-title="<?php esc_attr_e("Name Checks", 'duplicator'); ?>" data-tooltip="<?php echo esc_attr($txt); ?>"></i></sup>
 					<div class='hdrs-up-down'>
 						<i class="fa fa-caret-up fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'hide')" title="<?php esc_attr_e("Hide All", 'duplicator'); ?>"></i>
 						<i class="fa fa-caret-down fa-lg dup-nav-toggle" onclick="Duplicator.Pack.toggleAllDirPath(this, 'show')" title="<?php esc_attr_e("Show All", 'duplicator'); ?>"></i>
@@ -331,7 +331,7 @@ UNREADABLE FILES -->
                     <div class="directory">
                         {{#if ARC.UnreadableItems}}
 							{{#each ARC.UnreadableItems as |uitem|}}
-								<i class="fa fa-lock"></i> {{uitem}} <br/>
+								<i class="fa fa-lock fa-xs"></i> {{uitem}} <br/>
 							{{/each}}
                         {{else}}
 							<i><?php esc_html_e('No unreadable items found.');?><br/></i>
@@ -342,7 +342,7 @@ UNREADABLE FILES -->
                     <div class="directory">
                         {{#if  ARC.RecursiveLinks}}
 							{{#each ARC.RecursiveLinks as |link|}}
-								<i class="fa fa-lock"></i> {{link}} <br/>
+								<i class="fa fa-lock fa-xs"></i> {{link}} <br/>
 							{{/each}}
 						{{else}}
 							<i><?php esc_html_e('No recursive sym-links found.');?><br/></i>
@@ -361,7 +361,7 @@ UNREADABLE FILES -->
 DATABASE -->
 <div id="dup-scan-db">
 	<div class="scan-header">
-		<i class="fa fa-table"></i>
+		<i class="fa fa-table fa-sm"></i>
 		<?php esc_html_e("Database", 'duplicator');	?>
 		<div class="scan-header-details">
 			<div class="dup-scan-filter-status">
@@ -430,7 +430,7 @@ DATABASE -->
 	<!-- ============
 	TOTAL SIZE -->
     <div class="data-ll-section scan-header" style="display:none">
-		<i class="fa fa-file-archive-o"></i>
+		<i class="far fa-file-archive"></i>
 		<?php esc_html_e("Total Size", 'duplicator');	?>
 		<div class="scan-header-details">
 
@@ -525,14 +525,14 @@ DIALOG: Scan Results -->
 <div id="dup-archive-details" style="display:none">
 	
 	<!-- PACKAGE -->
-	<h2><i class="fa fa-archive"></i> <?php esc_html_e('Package', 'duplicator');?></h2>
+	<h2><i class="fa fa-archive fa-sm"></i> <?php esc_html_e('Package', 'duplicator');?></h2>
 	<b><?php esc_html_e('Name', 'duplicator');?>:</b> <?php echo esc_html($Package->Name); ?><br/>
 	<b><?php esc_html_e('Notes', 'duplicator');?>:</b> <?php echo esc_html($Package->Notes); ?> <br/>
 	<b><?php esc_html_e('Archive Engine', 'duplicator');?>:</b> <a href="admin.php?page=duplicator-settings&tab=package" target="_blank"><?php echo esc_html($archive_type_label); ?></a>
 	<br/><br/>
 
 	<!-- DATABASE -->
-	<h2><i class="fa fa-table"></i> <?php esc_html_e('Database', 'duplicator');?></h2>
+	<h2><i class="fa fa-table fa-sm"></i> <?php esc_html_e('Database', 'duplicator');?></h2>
 	<table id="db-area">
 		<tr><td><b><?php esc_html_e('Name:', 'duplicator');?></b></td><td><?php echo DB_NAME; ?> </td></tr>
 		<tr><td><b><?php esc_html_e('Host:', 'duplicator');?></b></td><td><?php echo DB_HOST; ?> </td></tr>

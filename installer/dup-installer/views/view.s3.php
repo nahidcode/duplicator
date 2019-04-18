@@ -131,7 +131,7 @@ VIEW: STEP 3- INPUT -->
 
     <div id='s3-custom-replace' style="display:none;">
         <div class="help-target">
-            <a href="<?php echo DUPX_U::esc_url($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
+            <a href="<?php echo DUPX_U::esc_url($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fas fa-question-circle fa-sm"></i></a>
         </div><br/>
 		Add additional search and replace URLs to replace additional data. This option is available only in
 		<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=free_inst_replaceopts">Duplicator Pro</a>
@@ -158,7 +158,7 @@ VIEW: STEP 3- INPUT -->
 		ADMIN TAB -->
 		<div id="tabs-admin-account">
 			<div class="help-target">
-				<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
+				<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fas fa-question-circle fa-sm"></i></a>
 			</div><br/>
 
 			<div class="hdr-sub3">New Admin Account</div>
@@ -199,7 +199,7 @@ VIEW: STEP 3- INPUT -->
 		SCAN TAB -->
 		<div id="tabs-scan-options">
 			<div class="help-target">
-				<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
+				<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fas fa-question-circle fa-sm"></i></a>
 			</div><br/>
 			<div class="hdr-sub3">Database Scan Options</div>
 			<table  class="s3-opts">
@@ -281,7 +281,7 @@ VIEW: STEP 3- INPUT -->
 		WP-CONFIG TAB -->
 		<div id="tabs-wp-config-file">
 			<div class="help-target">
-				<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fa fa-question-circle"></i></a>
+				<a href="<?php echo DUPX_U::esc_attr($GLOBALS['_HELP_URL_PATH'].'#help-s3');?>" target="help"><i class="fas fa-question-circle fa-sm"></i></a>
 			</div><br/>
 			<div class="hdr-sub3">WP-Config File</div>
 			<?php

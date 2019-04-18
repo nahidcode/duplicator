@@ -318,8 +318,8 @@ if (!empty($unespectOutput)) {
                 "basic".
                 '&open_section='.$helpOpenSection;
             echo ($GLOBALS['DUPX_AC']->secure_on)
-					? "<a href='{$help_url}#secure' target='_blank'><i class='fa fa-lock'></i></a>"
-					: "<a href='{$help_url}#secure' target='_blank'><i class='fa fa-unlock-alt'></i></a>" ;
+					? "<a href='{$help_url}#secure' target='_blank'><i class='fa fa-lock fa-xs'></i></a>"
+					: "<a href='{$help_url}#secure' target='_blank'><i class='fa fa-unlock-alt fa-xs'></i></a>" ;
 			?>
 			
 			<div style="padding: 6px 0">

@@ -83,7 +83,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
         <div class="dup-support-hlp-area">
 
             <div class="dup-support-hlp-hdrs">
-                <i class="fa fa-bolt fa-2x pull-left"></i>
+                <i class="fa fa-bolt fa-sm fa-2x pull-left"></i>
                 <div><?php esc_html_e('Approved Hosting', 'duplicator') ?></div>
             </div>
             <div class="dup-support-hlp-txt">
