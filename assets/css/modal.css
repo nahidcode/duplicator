@@ -86,7 +86,7 @@ body.has-duplicator-modal {
     margin-top: 0 !important;
 }
 
-.duplicator-modal .duplicator-modal-button-skip {
+.duplicator-modal .duplicator-modal-button-skip, .duplicator-modal .duplicator-modal-resp-msg {
     display: none;
 }
 
