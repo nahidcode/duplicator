@@ -143,8 +143,8 @@ ARCHIVE -->
 				echo "&nbsp;<sup class='archive-ext'>{$archive_build_mode}</sup>";
 			?> &nbsp;
         <span style="font-size:13px">
-            <span id="dup-archive-filter-file" title="<?php esc_attr_e('File filter enabled', 'duplicator') ?>"><i class="fa fa-files-o"></i> <i class="fa fa-filter"></i> &nbsp;&nbsp;</span> 
-            <span id="dup-archive-filter-db" title="<?php esc_attr_e('Database filter enabled', 'duplicator') ?>"><i class="fa fa-table fa-sm"></i> <i class="fa fa-filter"></i></span>
+            <span id="dup-archive-filter-file" title="<?php esc_attr_e('File filter enabled', 'duplicator') ?>"><i class="far fa-copy fa-sm"></i> <i class="fa fa-filter fa-sm"></i> &nbsp;&nbsp;</span> 
+            <span id="dup-archive-filter-db" title="<?php esc_attr_e('Database filter enabled', 'duplicator') ?>"><i class="fa fa-table fa-sm"></i> <i class="fa fa-filter fa-sm"></i></span>
 			<span id="dup-archive-db-only" title="<?php esc_attr_e('Archive Only the Database', 'duplicator') ?>"> <?php esc_html_e('Database Only', 'duplicator') ?> </span>
         </span>
         <div class="dup-box-arrow"></div>
@@ -646,10 +646,10 @@ jQuery(document).ready(function ($)
 		var $button =  $('#secure-btn');
 		if (($input).attr('type') == 'text') {
 			$input.attr('type', 'password');
-			$button.html('<i class="fas fa-eye fa-xs"></i>');
+			$button.html('<i class="fas fa-eye fa-sm"></i>');
 		} else {
 			$input.attr('type', 'text');
-			$button.html('<i class="fas fa-eye fa-xs-slash"></i>');
+			$button.html('<i class="fas fa-eye-slash fa-sm"></i>');
 		}
 	}
 

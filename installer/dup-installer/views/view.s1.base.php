@@ -750,7 +750,7 @@ Auto Posts to view.step2.php
     <!--  PROGRESS BAR -->
     <div id="progress-area">
         <div style="width:500px; margin:auto">
-            <div style="font-size:1.7em; margin-bottom:20px"><i class="fa fa-circle-o-notch fa-spin"></i> Extracting Archive Files<span id="progress-pct"></span></div>
+            <div style="font-size:1.7em; margin-bottom:20px"><i class="fas fa-circle-notch fa-spin"></i> Extracting Archive Files<span id="progress-pct"></span></div>
             <div id="progress-bar"></div>
             <h3> Please Wait...</h3><br/><br/>
             <i>Keep this window open during the extraction process.</i><br/>

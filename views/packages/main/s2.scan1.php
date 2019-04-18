@@ -194,7 +194,7 @@ TOOL BAR:STEPS -->
 
 	<!--  PROGRESS BAR -->
 	<div id="dup-progress-bar-area">
-		<div class="dup-progress-title"><i class="fa fa-circle-o-notch fa-spin"></i> <?php esc_html_e('Scanning Site', 'duplicator'); ?></div>
+		<div class="dup-progress-title"><i class="fas fa-circle-notch fa-spin"></i> <?php esc_html_e('Scanning Site', 'duplicator'); ?></div>
 		<div id="dup-progress-bar"></div>
 		<b><?php esc_html_e('Please Wait...', 'duplicator'); ?></b><br/><br/>
 		<i><?php esc_html_e('Keep this window open during the scan process.', 'duplicator'); ?></i><br/>

@@ -105,7 +105,7 @@ VIEW: STEP 0 - PASSWORD -->
 			$lock.html('<i class="fas fa-eye fa-xs"></i>');
 			$input.attr('type', 'password');
 		} else {
-			$lock.html('<i class="fas fa-eye fa-xs-slash"></i>');
+			$lock.html('<i class="fas fa-eye-slash fa-xs"></i>');
 			$input.attr('type', 'text');
 		}
 	}

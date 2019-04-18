@@ -429,7 +429,7 @@ jQuery(document).ready(function($)
 			$button.html('<i class="fas fa-eye fa-xs"></i>');
 		} else {
 			$input.attr('type', 'text');
-			$button.html('<i class="fas fa-eye fa-xs-slash"></i>');
+			$button.html('<i class="fas fa-eye-slash fa-xs"></i>');
 		}
 	}
 });

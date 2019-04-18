@@ -180,7 +180,7 @@ TOOL BAR: STEPS -->
 			<!-- OPTION 1: Try DupArchive Engine -->
 			<div class="dup-box">
 				<div class="dup-box-title">
-                    <span style="width:20px; display:inline-block"><i class="fa fa-check-circle-o"></i></span><?php esc_html_e('Option 1: Try DupArchive', 'duplicator'); ?>
+                    <span style="width:20px; display:inline-block"><i class="far fa-check-circle"></i></span><?php esc_html_e('Option 1: Try DupArchive', 'duplicator'); ?>
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try1" style="display:none">
@@ -221,7 +221,7 @@ TOOL BAR: STEPS -->
 			<!-- OPTION 2: TRY AGAIN -->
 			<div class="dup-box  no-top">
 				<div class="dup-box-title">
-					<span style="width:20px; display:inline-block"><i class="fa fa-filter"></i></span><?php esc_html_e('Option 2: File Filters', 'duplicator'); ?>
+					<span style="width:20px; display:inline-block"><i class="fa fa-filter fa-sm"></i></span><?php esc_html_e('Option 2: File Filters', 'duplicator'); ?>
 					<div class="dup-box-arrow"><i class="fa fa-caret-down"></i></div>
 				</div>
 				<div class="dup-box-panel" id="dup-pack-build-try2" style="display:none">

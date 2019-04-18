@@ -182,7 +182,7 @@ class DUP_UI_Dialog
         if ($this->progressOn) {
             $progress_func1 = "__DUP_UI_Dialog_".$this->uniqid;
             $progress_func2 = ";{$progress_func1}(this)";
-            $progress_data  = "<div class='dup-dlg-confirm-progress'><i class='fa fa-circle-o-notch fa-spin fa-lg fa-fw'></i> ".esc_js($this->progressText)."</div>
+            $progress_data  = "<div class='dup-dlg-confirm-progress'><i class='fas fa-circle-notch fa-spin fa-lg fa-fw'></i> ".esc_js($this->progressText)."</div>
 				<script>
 					function {$progress_func1}(obj)
 					{

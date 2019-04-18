@@ -24,17 +24,17 @@ ARCHIVE -->
 </div>
 
 <div class="scan-header scan-item-first">
-	<i class="fa fa-files-o"></i>
+	<i class="far fa-copy fa-sm"></i>
 	<?php esc_html_e("Files", 'duplicator'); ?>
 	
 	<div class="scan-header-details">
 		<div class="dup-scan-filter-status">
 			<?php
 				if ($Package->Archive->ExportOnlyDB) {
-					echo '<i class="fa fa-filter"></i> ';
+					echo '<i class="fa fa-filter fa-sm"></i> ';
 					esc_html_e('Database Only', 'duplicator');
 				} elseif ($Package->Archive->FilterOn) {
-					echo '<i class="fa fa-filter"></i> ';
+					echo '<i class="fa fa-filter fa-sm"></i> ';
 					esc_html_e('Enabled', 'duplicator');
 				}
 			?>
@@ -172,10 +172,10 @@ TOTAL SIZE -->
 					 <?php esc_html_e('*Checking a directory will exclude all items recursively from that path down.  Please use caution when filtering directories.', 'duplicator'); ?>
 				</div>
 				<button type="button" class="button-small duplicator-quick-filter-btn" disabled="disabled" onclick="Duplicator.Pack.applyFilters(this, 'large')">
-					<i class="fa fa-filter"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
+					<i class="fa fa-filter fa-sm"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
 				</button>
 				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('large')" title="<?php esc_attr_e('Copy Paths to Clipboard', 'duplicator');?>">
-					<i class="fa fa-clipboard" aria-hidden="true"></i>
+					<i class="fa far fa-clipboard" aria-hidden="true"></i>
 				</button>
 			</div>
 			<div style="clear:both"></div>
@@ -228,7 +228,7 @@ ADDON SITES -->
                     <?php esc_html_e('*Checking a directory will exclude all items in that path recursively.'); ?>
                 </div>
                 <button type="button" class="button-small duplicator-quick-filter-btn" disabled="disabled" onclick="Duplicator.Pack.applyFilters(this, 'addon')">
-                    <i class="fa fa-filter"></i> <?php esc_html_e('Add Filters &amp; Rescan');?>
+                    <i class="fa fa-filter fa-sm"></i> <?php esc_html_e('Add Filters &amp; Rescan');?>
                 </button>
             </div>
         </script>
@@ -302,10 +302,10 @@ FILE NAME CHECKS -->
 					 <?php esc_html_e('*Checking a directory will exclude all items recursively from that path down.  Please use caution when filtering directories.', 'duplicator'); ?>
 				</div>
 				<button type="button" class="button-small duplicator-quick-filter-btn"  disabled="disabled" onclick="Duplicator.Pack.applyFilters(this, 'utf8')">
-					<i class="fa fa-filter"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
+					<i class="fa fa-filter fa-sm"></i> <?php esc_html_e('Add Filters &amp; Rescan', 'duplicator');?>
 				</button>
 				<button type="button" class="button-small" onclick="Duplicator.Pack.showPathsDlg('utf8')" title="<?php esc_attr_e('Copy Paths to Clipboard', 'duplicator');?>">
-					<i class="fa fa-clipboard" aria-hidden="true"></i>
+					<i class="fa far fa-clipboard" aria-hidden="true"></i>
 				</button>
 			</div>
 		</script>
@@ -367,7 +367,7 @@ DATABASE -->
 			<div class="dup-scan-filter-status">
 				<?php
 					if ($Package->Database->FilterOn) {
-						echo '<i class="fa fa-filter"></i> '; esc_html_e('Enabled', 'duplicator');
+						echo '<i class="fa fa-filter fa-sm"></i> '; esc_html_e('Enabled', 'duplicator');
 					}
 				?>
 			</div>
@@ -553,7 +553,7 @@ DIALOG: Scan Results -->
 
 	<!-- FILE FILTERS -->
 	<h2 style="border: none">
-		<i class="fa fa-filter"></i> <?php esc_html_e('File Filters', 'duplicator');?>:
+		<i class="fa fa-filter fa-sm"></i> <?php esc_html_e('File Filters', 'duplicator');?>:
 		<small><?php echo ($Package->Archive->FilterOn) ? __('Enabled', 'duplicator') : __('Disabled', 'duplicator') ;?></small>
 	</h2>
 	<div class="filter-area">
@@ -629,16 +629,16 @@ DIALOG: PATHS COPY & PASTE -->
 	<b><i class="fa fa-folder"></i> <?php esc_html_e('Directories', 'duplicator');?></b>
 	<div class="copy-button">
 		<button type="button" class="button-small" onclick="Duplicator.Pack.copyText(this, '#arc-paths-dlg textarea.path-dirs')">
-			<i class="fa fa-clipboard"></i> <?php esc_html_e('Click to Copy', 'duplicator');?>
+			<i class="fa far fa-clipboard"></i> <?php esc_html_e('Click to Copy', 'duplicator');?>
 		</button>
 	</div>
 	<textarea class="path-dirs"></textarea>
 	<br/><br/>
 
-	<b><i class="fa fa-files-o"></i> <?php esc_html_e('Files', 'duplicator');?></b>
+	<b><i class="far fa-copy fa-sm"></i> <?php esc_html_e('Files', 'duplicator');?></b>
 	<div class="copy-button">
 		<button type="button" class="button-small" onclick="Duplicator.Pack.copyText(this, '#arc-paths-dlg textarea.path-files')">
-			<i class="fa fa-clipboard"></i> <?php esc_html_e('Click to Copy', 'duplicator');?>
+			<i class="fa far fa-clipboard"></i> <?php esc_html_e('Click to Copy', 'duplicator');?>
 		</button>
 	</div>
 	<textarea class="path-files"></textarea>
@@ -738,7 +738,7 @@ jQuery(document).ready(function($)
 	Duplicator.Pack.applyFilters = function(btn, type)
 	{
 		var $btn = $(btn);
-		$btn.html('<i class="fa fa-circle-o-notch fa-spin"></i> <?php esc_html_e('Initializing Please Wait...', 'duplicator');?>');
+		$btn.html('<i class="fas fa-circle-notch fa-spin"></i> <?php esc_html_e('Initializing Please Wait...', 'duplicator');?>');
 		$btn.attr('disabled', 'true');
 
 		//var id = (type == 'large') ? '#hb-files-large-result' : '#hb-files-utf8-result'

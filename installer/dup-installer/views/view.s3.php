@@ -388,7 +388,7 @@ VIEW: STEP 3 - AJAX RESULT  -->
 	<!--  PROGRESS BAR -->
 	<div id="progress-area">
 		<div style="width:500px; margin:auto">
-			<div style="font-size:1.7em; margin-bottom:20px"><i class="fa fa-circle-o-notch fa-spin"></i> Processing Data Replacement</div>
+			<div style="font-size:1.7em; margin-bottom:20px"><i class="fas fa-circle-notch fa-spin"></i> Processing Data Replacement</div>
 			<div id="progress-bar"></div>
 			<h3> Please Wait...</h3><br/><br/>
 			<i>Keep this window open during the replacement process.</i><br/>

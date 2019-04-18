@@ -171,7 +171,7 @@ $skip_archive_scan    = DUP_Settings::Get('skip_archive_scan');
             <th scope="row"><label><?php esc_html_e("Settings", 'duplicator'); ?></label></th>
             <td>
                 <button class="button"  onclick="Duplicator.Pack.ConfirmResetAll(); return false;">
-                    <i class="fa fa-repeat"></i> <?php esc_html_e('Reset Packages', 'duplicator'); ?>
+                    <i class="fas fa-redo fa-sm"></i> <?php esc_html_e('Reset Packages', 'duplicator'); ?>
                 </button>
                 <p class="description" style="width:700px">
                     <?php esc_html_e("This process will reset all packages by deleting those without a completed status, reset the active package id and perform a "

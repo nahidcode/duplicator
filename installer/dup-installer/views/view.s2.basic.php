@@ -65,7 +65,7 @@ BASIC PANEL -->
 				click the 'Apply button' to set the placeholder values.  To use different database settings click the 'Reset button' to clear and set new values.
 				<br/><br/>
 				
-				<i><i class="fa fa-warning"></i> Warning: Please note that reusing an existing site's database will <u>overwrite</u> all of its data. If you're not 100% sure about
+				<i><i class="fas fa-exclamation-triangle fa-sm"></i> Warning: Please note that reusing an existing site's database will <u>overwrite</u> all of its data. If you're not 100% sure about
 				using these database settings, then create a new database and use the new credentials instead.</i>
 			</div>
 

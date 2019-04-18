@@ -11,7 +11,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 	<div class="area">
 		<img src="<?php echo esc_url(DUPLICATOR_PLUGIN_URL."assets/img/logo-dpro-300x50.png"); ?>"  />
 		<?php
-			echo '<h2><i class="fa fa-clock-o"></i> ' .  esc_html__('This option is available in Duplicator Pro.', 'duplicator')  . '</h2>';
+			echo '<h2><i class="far fa-clock fa-sm"></i> ' .  esc_html__('This option is available in Duplicator Pro.', 'duplicator')  . '</h2>';
 			esc_html_e('Create robust schedules that automatically create packages while you sleep.', 'duplicator');
 			echo '<br/>';
 			esc_html_e('Simply choose your storage location and when you want it to run.', 'duplicator');
