@@ -13,7 +13,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 	<td class="dpro-license-type">
 		<?php esc_html_e('Duplicator Free'); ?>
 		<div style="padding: 10px">
-			<i class="fa fa-check-square-o"></i> <?php esc_html_e('Basic Features'); ?> <br/>
+			<i class="far fa-check-square"></i> <?php esc_html_e('Basic Features'); ?> <br/>
 			<i class="fa fa-square-o"></i> <a href="admin.php?page=duplicator-gopro"><?php esc_html_e('Pro Features'); ?></a><br>
 		</div>
 	</td>

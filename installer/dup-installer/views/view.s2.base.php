@@ -92,7 +92,7 @@ $cpnl_supported =  DUPX_U::$on_php_53_plus ? true : false;
 	</table>
 	<br/><br/>
 
-	<small><i class="fa fa-exclamation-triangle"></i> WARNING: Be sure these database parameters are correct! Entering the wrong information WILL overwrite an existing database.
+	<small><i class="fa fa-exclamation-triangle fa-sm"></i> WARNING: Be sure these database parameters are correct! Entering the wrong information WILL overwrite an existing database.
 		Make sure to have backups of all your data before proceeding.</small><br/>
 </div>
 
@@ -132,7 +132,7 @@ Auto Posts to view.step3.php  -->
 	<!--  PROGRESS BAR -->
 	<div id="progress-area">
 		<div style="width:500px; margin:auto">
-			<div style="font-size:1.7em; margin-bottom:20px"><i class="fa fa-circle-o-notch fa-spin"></i> Installing Database</div>
+			<div style="font-size:1.7em; margin-bottom:20px"><i class="fas fa-circle-notch fa-spin"></i> Installing Database</div>
 			<div id="progress-bar"></div>
 			<h3> Please Wait...</h3><br/><br/>
 			<i>Keep this window open during the creation process.</i><br/>

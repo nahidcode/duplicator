@@ -40,7 +40,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
         <!-- HELP LINKS -->
         <div class="dup-support-hlp-area">
             <div class="dup-support-hlp-hdrs">
-                <i class="fa fa-cube fa-2x pull-left"></i>
+                <i class="fas fa-cube fa-2x fa-pull-left"></i>
                 <div><?php esc_html_e('Knowledgebase', 'duplicator') ?></div>
             </div>
             <div class="dup-support-hlp-txt">
@@ -62,7 +62,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
         <!-- ONLINE SUPPORT -->
         <div class="dup-support-hlp-area">
             <div class="dup-support-hlp-hdrs">
-                <i class="fa fa-lightbulb-o fa-2x pull-left"></i>
+                <i class="far fa-lightbulb fa-2x fa-pull-left"></i>
                 <div><?php esc_html_e('Online Support', 'duplicator') ?></div>
             </div>
             <div class="dup-support-hlp-txt">
@@ -83,7 +83,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
         <div class="dup-support-hlp-area">
 
             <div class="dup-support-hlp-hdrs">
-                <i class="fa fa-bolt fa-2x pull-left"></i>
+                <i class="fa fa-bolt fa-sm fa-2x fa-pull-left"></i>
                 <div><?php esc_html_e('Approved Hosting', 'duplicator') ?></div>
             </div>
             <div class="dup-support-hlp-txt">
@@ -100,7 +100,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
         <div class="dup-support-hlp-area">
 
             <div class="dup-support-hlp-hdrs">
-                <i class="fa fa-code-fork fa-2x pull-left"></i>
+                <i class="fas fa-code-branch fa-2x fa-pull-left"></i>
                 <div><?php esc_html_e('Alternatives', 'duplicator') ?></div>
             </div>
             <div class="dup-support-hlp-txt">

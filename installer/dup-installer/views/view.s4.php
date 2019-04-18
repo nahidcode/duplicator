@@ -104,7 +104,7 @@ VIEW: STEP 4- INPUT -->
 		</tr>
 	</table>
 	<i style="color:maroon; font-size:12px">
-		<b><i class="fa fa-exclamation-triangle"></i> IMPORTANT FINAL STEPS:</b> Login to this sites WordPress Admin to remove all
+		<b><i class="fa fa-exclamation-triangle fa-sm"></i> IMPORTANT FINAL STEPS:</b> Login into the WordPress Admin to remove all
 		<a href="?view=help&archive=<?php echo DUPX_U::esc_attr($GLOBALS['FW_ENCODED_PACKAGE_PATH']); ?>&bootloader=<?php echo DUPX_U::esc_attr($GLOBALS['BOOTLOADER_NAME']); ?>&basic#help-s4" target="_blank">installation files</a>
 		and finalize the install process.   This install is NOT complete until all installer files are removed.  Leaving the installer files on this server can lead to security issues.
 	</i>
@@ -334,7 +334,7 @@ LONGMSG;
 	INSTALL REPORT -->
 	<div id="s4-install-report" style='display:none'>
 		<table class='s4-report-results' style="width:100%">
-			<tr><th colspan="4"><i class="fa fa-database"></i> Database Report</th></tr>
+			<tr><th colspan="4"><i class="fas fa-database fa-sm"></i> Database Report</th></tr>
 			<tr style="font-weight:bold">
 				<td style="width:150px"></td>
 				<td>Tables</td>
