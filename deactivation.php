@@ -44,32 +44,32 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
         $reasons = array(
             array(
                 'id'                => 'NOT_WORKING',
-                'text'              => __( "It's not working on my server", 'duplicator' ),
+                'text'              => __( "It's not working on my server.", 'duplicator' ),
                 'input_type'        => 'textarea',
                 'input_placeholder' => __( "Kindly share what didn't work so we can fix it in future updates...", 'duplicator' )
             ),            
             array(
                 'id'                => 'CONFUSING_TO_UNDERSTAND',
-                'text'              => __( "It's too confusing to understand", 'duplicator' ),
+                'text'              => __( "It's too confusing to understand.", 'duplicator' ),
                 'input_type'        => '',
                 'input_placeholder' => '',
                 'internal_message'  => $contact_support_template
             ),
             array(
                 'id'                => 'FOUND_A_DIFFERENT_PLUGIN',
-                'text'              => __( 'I found a different plugin', 'duplicator' ),
+                'text'              => __( 'I found a different plugin that I like better.', 'duplicator' ),
                 'input_type'        => 'textfield',
                 'input_placeholder' => __( "What's the plugin name?", 'duplicator' )
             ),
             array(
                 'id'                => 'NOT_DO_WHAT_I_NEED',
-                'text'              => __( "It does not do what I need it to do?", 'duplicator' ),
+                'text'              => __( "It does not do what I need.", 'duplicator' ),
                 'input_type'        => 'textarea',
                 'input_placeholder' => __( 'What does it need to do?', 'duplicator' )
             ),
             array(
                 'id'                => 'TEMPORARY_DEACTIVATION',
-                'text'              => __( "It's a temporary deactivation, I'm just debugging an issue", 'duplicator' ),
+                'text'              => __( "It's a temporary deactivation, I use the plugin all the time.", 'duplicator' ),
                 'input_type'        => '',
                 'input_placeholder' => ''
             ),
@@ -120,7 +120,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                         + '			</div>'
                         + '		</div>'
                         + '		<div class="duplicator-modal-footer">'
-                        + '			<div style="float: left; display: inline-block;"><small style="position: relative; top: 18px; left: -18px; font-size: 10px;"><?php _e( 'Your response is sent to us anonymously.', 'duplicator' ); ?></small></div>'
+                        + '			<div style="float: left; display: inline-block;"><small style="position: relative; top:20px; left: -18px; font-size: 10px;"><i><?php _e( 'Your response is sent anonymously.', 'duplicator' ); ?></i></small></div>'
                         + '			<div style="float: right; display: inline-block;">'
                         + '			    <a href="#" class="button button-secondary duplicator-modal-button-close"><?php _e(  'Cancel', 'duplicator' ); ?></a>'
                         + '			    <a href="#" class="button button-secondary duplicator-modal-button-skip"><?php _e( 'Skip & Deactivate', 'duplicator' ); ?></a>'
@@ -251,7 +251,7 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
 
                         $modal.find( '.duplicator-modal-reason-input' ).remove();
                         $modal.find( '.duplicator-modal-internal-message' ).hide();
-                        $modal.find( '.duplicator-modal-button-deactivate' ).text( '<?php _e( 'Submit & Deactivate', 'duplicator' ); ?>' );
+                        $modal.find( '.duplicator-modal-button-deactivate' ).text( '<?php _e( 'Send & Deactivate', 'duplicator' ); ?>' );
                         $modal.find( '.duplicator-modal-button-skip' ).css('display', 'inline-block');
 
                         DuplicatorModalEnableDeactivateButton();
