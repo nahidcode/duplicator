@@ -169,6 +169,8 @@ class DUPX_DBInstall
 
     public function getRowCountMisMatchTables()
     {
+        $nManager = DUPX_NOTICE_MANAGER::getInstance();
+        
         $tableWiseRowCounts = $GLOBALS['DUPX_AC']->dbInfo->tableWiseRowCounts;
         $skipTables = array(
             $GLOBALS['DUPX_AC']->wp_tableprefix."duplicator_packages",
@@ -185,7 +187,16 @@ class DUPX_DBInstall
             $result = mysqli_query($this->dbh, $sql); 
             if (false !== $result) {
                 $row = mysqli_fetch_assoc($result);
-                if ($rowCount != $row['cnt']) {
+                if ($rowCount != ($row['cnt'])) {
+                    $errMsg = 'DATABASE: table '.DUPX_Log::varToString($table).' row count mismatch; expected '.DUPX_Log::varToString($rowCount).' in database'.DUPX_Log::varToString($row['cnt']);
+                    DUPX_Log::info($errMsg);
+                    $nManager->addBothNextAndFinalReportNotice(array(
+                        'shortMsg' => 'Database Table row count validation error',
+                        'level' => DUPX_NOTICE_ITEM::HARD_WARNING,
+                        'longMsg' => $errMsg."\n",
+                        'sections' => 'database'
+                    ), DUPX_NOTICE_MANAGER::ADD_UNIQUE_APPEND, 'row-count-mismatch');
+                    
                     $misMatchTables[] = $table;
                 }
             }
