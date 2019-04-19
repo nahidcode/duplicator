@@ -187,7 +187,7 @@ class DUPX_DBInstall
             $result = mysqli_query($this->dbh, $sql); 
             if (false !== $result) {
                 $row = mysqli_fetch_assoc($result);
-                if ($rowCount != ($row['cnt'] + 1)) {
+                if ($rowCount != ($row['cnt'])) {
                     $errMsg = 'DATABASE: table '.DUPX_Log::varToString($table).' row count mismatch; expected '.DUPX_Log::varToString($rowCount).' in database'.DUPX_Log::varToString($row['cnt']);
                     DUPX_Log::info($errMsg);
                     $nManager->addBothNextAndFinalReportNotice(array(
