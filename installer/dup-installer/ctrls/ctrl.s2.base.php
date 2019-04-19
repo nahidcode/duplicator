@@ -57,6 +57,8 @@ $root_path		 = $GLOBALS['DUPX_ROOT'];
 $JSON			 = array();
 $JSON['pass']	 = 0;
 
+$nManager = DUPX_NOTICE_MANAGER::getInstance();
+
 /**
 JSON RESPONSE: Most sites have warnings turned off by default, but if they're turned on the warnings
 cause errors in the JSON data Here we hide the status so warning level is reset at it at the end */
@@ -154,24 +156,25 @@ if ($_POST['dbaction'] == 'manual') {
     $rowCountMisMatchTables = $dbinstall->getRowCountMisMatchTables();
     $JSON['pass'] = 1;
     if (!empty($rowCountMisMatchTables)) {
-		$nManager = DUPX_NOTICE_MANAGER::getInstance();
+		
 		$errMsg = 'ERROR: Database Table row count verification was failed for table(s): '
 									.implode(', ', $rowCountMisMatchTables).'.';
 		DUPX_Log::info($errMsg);
-		$nManager->addNextStepNoticeMessage($errMsg, DUPX_NOTICE_ITEM::HARD_WARNING);
+		/*$nManager->addNextStepNoticeMessage($errMsg, DUPX_NOTICE_ITEM::HARD_WARNING);
 		$nManager->addFinalReportNotice(array(
 			'shortMsg' => 'Database Table row count validation error',
 			'level' => DUPX_NOTICE_ITEM::HARD_WARNING,
 			'longMsg' => $errMsg,
 			'sections' => 'database'
-		));
-		$nManager->saveNotices();
+		));*/
+		
 	}
 }
 
 $dbinstall->profile_end = DUPX_U::getMicrotime();
 $dbinstall->writeLog();
 $JSON = $dbinstall->getJSON($JSON);
+$nManager->saveNotices();
 
 //FINAL RESULTS
 $ajax1_sum	 = DUPX_U::elapsedTime(DUPX_U::getMicrotime(), $dbinstall->start_microtime);

@@ -19,6 +19,7 @@ final class DUPX_NOTICE_MANAGER
     const ADD_NORMAL               = 0; // add notice in list
     const ADD_UNIQUE               = 1; // add if unique id don't exists
     const ADD_UNIQUE_UPDATE        = 2; // add or update notice unique id
+    const ADD_UNIQUE_APPEND        = 3; // append long msg
     const DEFAULT_UNIQUE_ID_PREFIX = '__auto_unique_id__';
 
     private static $uniqueCountId = 0;
@@ -178,6 +179,31 @@ final class DUPX_NOTICE_MANAGER
      *
      * @throws Exception
      */
+    public function addBothNextAndFinalReportNotice($item, $mode = self::ADD_NORMAL, $uniqueId = null) {
+        $this->addNextStepNotice($item, $mode, $uniqueId);
+        $this->addFinalReportNotice($item, $mode, $uniqueId);
+    }
+    
+    /**
+     *
+     * @param array|DUPX_NOTICE_ITEM $item // if string add new notice obj with item message and level param
+     *                                            // if array must be [
+     *                                                                   'shortMsg' => text,
+     *                                                                   'level' => level,
+     *                                                                   'longMsg' => html text,
+     *                                                                   'sections' => sections list,
+     *                                                                   'faqLink' => [
+     *                                                                                     'url' => external link
+     *                                                                                     'label' => link text if empty get external url link
+     *                                                                               ]
+     *                                                                 ]
+     * @param int $mode         // ADD_NORMAL | ADD_UNIQUE | ADD_UNIQUE_UPDATE
+     * @param string $uniqueId  // used for ADD_UNIQUE or ADD_UNIQUE_UPDATE
+     *
+     * @return string   // notice insert id
+     *
+     * @throws Exception
+     */
     public function addNextStepNotice($item, $mode = self::ADD_NORMAL, $uniqueId = null)
     {
         if (!is_array($item) && !($item instanceof DUPX_NOTICE_ITEM)) {
@@ -289,11 +315,30 @@ final class DUPX_NOTICE_MANAGER
                 }
             // no break -> continue on unique update
             case self::ADD_UNIQUE_UPDATE:
+                if (empty($uniqueId)) {
+                    throw new Exception('uniqueId can\'t be empty');
+                }
                 $insertId = $uniqueId;
+                break;
+            case self::ADD_UNIQUE_APPEND:
+                if (empty($uniqueId)) {
+                    throw new Exception('uniqueId can\'t be empty');
+                }
+                $insertId = $uniqueId;
+                // if item id exist append long msg
+                if (isset($list[$uniqueId])) {
+                    $tempObj                  = self::getObjFromParams($item);
+                    $list[$uniqueId]->longMsg .= $tempObj->longMsg;
+                    $item                     = $list[$uniqueId];
+                }
                 break;
             case self::ADD_NORMAL:
             default:
-                $insertId = self::getNewAutoUniqueId();
+                if (empty($uniqueId)) {
+                    $insertId = self::getNewAutoUniqueId();
+                } else {
+                    $insertId = $uniqueId;
+                }
         }
 
         $list[$insertId] = self::getObjFromParams($item);
@@ -509,7 +554,12 @@ final class DUPX_NOTICE_MANAGER
                     <?php
                 }
                 if (!empty($notice->longMsg)) {
-                    echo '<br><br>'.($notice->longMsgHtml ? $notice->longMsg : htmlentities($notice->longMsg));
+                    echo '<br><br>';
+                    if ($notice->longMsgHtml) {
+                        echo $notice->longMsg;
+                    } else {
+                        echo '<pre>'.htmlentities($notice->longMsg).'</pre>';
+                    }
                 }
                 ?>
             </p>
@@ -551,7 +601,12 @@ final class DUPX_NOTICE_MANAGER
                         echo '<br><br>';
                     }
                     if (!empty($notice->longMsg)) {
-                        echo $notice->longMsgHtml ? $notice->longMsg : htmlentities($notice->longMsg);
+                        echo '<br><br>';
+                        if ($notice->longMsgHtml) {
+                            echo $notice->longMsg;
+                        } else {
+                            echo '<pre>'.htmlentities($notice->longMsg).'</pre>';
+                        }
                     }
                     ?>
                 </div>
