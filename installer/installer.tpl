@@ -4121,24 +4121,44 @@ class DUPX_CSRF {
 	 */
 	public static $prefix = '_DUPX_CSRF';
 	private static $cipher;
+	private static $CSRFVars;
+
+	public static function setKeyVal($key, $val) {
+		$CSRFVars = self::getCSRFVars();
+		$CSRFVars[$key] = $val;
+		self::saveCSRFVars($CSRFVars);
+		self::$CSRFVars = false;
+	}
+
+	public static function getVal($key) {
+		$CSRFVars = self::getCSRFVars();
+		if (isset($CSRFVars[$key])) {
+			return $CSRFVars[$key];
+		} else {
+			return false;
+		}
+
+	}
 	
 	/** Generate DUPX_CSRF value for form
 	 * @param	string	$form	- Form name as session key
 	 * @return	string	- token
 	 */
 	public static function generate($form = NULL) {
-		$cookieName = self::getCookieName($form);
-		if (!empty($_COOKIE[$cookieName])) {
-			$token = $_COOKIE[$cookieName];
+		$keyName = self::getKeyName($form);
+
+		$existingToken = self::getVal($keyName);
+		if (false !== $existingToken) {
+			$token = $existingToken;
 		} else {
 			$token = DUPX_CSRF::token() . DUPX_CSRF::fingerprint();
 			if (self::isCrypt()) {
-				// $cookieName = self::encrypt($cookieName);
+				// $keyName = self::encrypt($keyName);
 				$token = self::encrypt($token);
 			}
 		}
 		
-        $ret = DUPX_CSRF::setCookie($cookieName, $token);
+		self::setKeyVal($keyName, $token);
 		return $token;
 	}
 	
@@ -4148,15 +4168,13 @@ class DUPX_CSRF {
 	 * @return	boolean
 	 */
 	public static function check($token, $form = NULL) {
-		if (!self::isCookieEnabled()) {
-			return true;
-		}
-		$cookieName = self::getCookieName($form);
+		$keyName = self::getKeyName($form);
 		// if (self::isCrypt()) {
-			// $cookieName = self::decrypt($cookieName);
+			// $keyName = self::decrypt($keyName);
 			// $token = self::decrypt($token);
 		// }
-		if (isset($_COOKIE[$cookieName]) && $_COOKIE[$cookieName] == $token) { // token OK
+		$CSRFVars = self::getCSRFVars();
+		if (isset($CSRFVars[$keyName]) && $CSRFVars[$keyName] == $token) { // token OK
 			return true;
 			// return (substr($token, -32) == DUPX_CSRF::fingerprint()); // fingerprint OK?
 		}
@@ -4181,49 +4199,7 @@ class DUPX_CSRF {
 		return strtoupper(md5(implode('|', array($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']))));
 	}
 
-	public static function setCookie($cookieName, $cookieVal) {
-		$_COOKIE[$cookieName] = $cookieVal;
-		return setcookie($cookieName, $cookieVal, time() + 10800, '/');
-	}
-	
-	/**
-	* @return bool
-	*/
-	protected static function isCookieEnabled() {
-		return (count($_COOKIE) > 0);
-	}
-
-	public static function resetAllTokens() {
-		// $cookiePrefix = DUPX_CSRF::$prefix.'_'.self::getPackageHash().'_';
-		$cookiePrefix = DUPX_CSRF::$prefix.'_';
-		foreach ($_COOKIE as $cookieName => $cookieVal) {
-			if (0 === strpos($cookieName, $cookiePrefix) || 'archive' == $cookieName || 'bootloader' == $cookieName) {
-				$baseUrl = self::getBaseUrl();
-				setcookie($cookieName, '', time() - 86400, $baseUrl);	
-			}
-		}
-		$_COOKIE = array();
-	}
-
-	private static function getBaseUrl() {
-		// output: /myproject/index.php
-		$currentPath = $_SERVER['PHP_SELF']; 
-		
-		// output: Array ( [dirname] => /myproject [basename] => index.php [extension] => php [filename] => index ) 
-		$pathInfo = pathinfo($currentPath); 
-		
-		// output: localhost
-		$hostName = $_SERVER['HTTP_HOST']; 
-		
-		// output: http://
-		$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https://'?'https://':'http://';
-		
-		// return: http://localhost/myproject/
-		return $protocol.$hostName.$pathInfo['dirname']."/";
-	}
-
-	private static function getCookieName($form) {
-		// return DUPX_CSRF::$prefix . '_' . self::getPackageHash() . '_' . $form;
+	private static function getKeyName($form) {
 		return DUPX_CSRF::$prefix . '_' . $form;
 	}
 
@@ -4245,6 +4221,44 @@ class DUPX_CSRF {
 		} else {
 			return $GLOBALS['DUPX_AC']->package_hash;
 		}
+	}
+
+	private static function getFilePath() {
+		if (class_exists('DUPX_Bootstrap')) {
+			$dupInstallerfolderPath = dirname(__FILE__).'/dup-installer/';
+		} else {
+			$dupInstallerfolderPath = $GLOBALS['DUPX_INIT'].'/';
+		}
+		$packageHash = self::getPackageHash();
+		$fileName = 'dup-installer-csrf__'.$packageHash.'.txt';
+		$filePath = $dupInstallerfolderPath.$fileName;
+		return $filePath;
+	}
+
+	private static function getCSRFVars() {
+		if (!isset(self::$CSRFVars) || false === self::$CSRFVars) {
+			$filePath = self::getFilePath();
+			if (file_exists($filePath)) {
+				$contents = file_get_contents($filePath);
+				if (empty($contents)) {
+					self::$CSRFVars = array();
+				} else {
+					$CSRFobjs = json_decode($contents);
+					foreach ($CSRFobjs as $key => $value) {
+						self::$CSRFVars[$key] = $value;
+					}
+				}
+			} else {
+				self::$CSRFVars = array();
+			}
+		}
+		return self::$CSRFVars;
+	}
+
+	private function saveCSRFVars($CSRFVars) {
+		$contents = json_encode($CSRFVars);
+		$filePath = self::getFilePath();
+		file_put_contents($filePath, $contents);
 	}
 
 	private static function getCipher() {
@@ -5286,15 +5300,14 @@ try {
     $boot  = new DUPX_Bootstrap();
     $boot_error = $boot->run();
     $auto_refresh = isset($_POST['auto-fresh']) ? true : false;
-    DUPX_CSRF::resetAllTokens();
 } catch (Exception $e) {
    $boot_error = $e->getMessage();
 }
 
 if ($boot_error == null) {
 	$step1_csrf_token = DUPX_CSRF::generate('step1');
-	DUPX_CSRF::setCookie('archive', $boot->archive);
-	DUPX_CSRF::setCookie('bootloader', $boot->bootloader);
+	DUPX_CSRF::setKeyVal('archive', $boot->archive);
+	DUPX_CSRF::setKeyVal('bootloader', $boot->bootloader);
 }
 ?>
 
