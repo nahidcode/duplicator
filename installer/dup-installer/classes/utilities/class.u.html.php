@@ -41,7 +41,7 @@ class DUPX_U_Html
         ob_start();
         $id = self::getUniqueId();
         ?>
-        <a href="" class="dup-ligthbox-link" data-dup-ligthbox="<?php echo $id; ?>"><?php echo htmlspecialchars($linkAbel); ?></a>
+        <a class="dup-ligthbox-link" data-dup-ligthbox="<?php echo $id; ?>" ><?php echo htmlspecialchars($linkAbel); ?></a>
         <div id="<?php echo $id; ?>" class="dub-ligthbox-content close">
             <div class="wrapper" >
                 <h2 class="title" ><?php echo htmlspecialchars($titleContent); ?></h2>
@@ -62,8 +62,8 @@ class DUPX_U_Html
         $classes      = array('dup-lightbox-iframe');
         $afterContent = '<div class="tool-box">';
         if ($autoUpdate) {
-            $classes[]    = 'auto-update';
-            $afterContent .= '<button class="button toggle-auto-update" title="Disable auto reload" ><i class="fa fa-2x fa-redo-alt"></i></button>';
+            //$classes[]    = 'auto-update';
+            $afterContent .= '<button class="button toggle-auto-update disabled" title="Enable auto reload" ><i class="fa fa-2x fa-redo-alt"></i></button>';
         }
         if ($enableTargetDownload) {
             $path = parse_url($url, PHP_URL_PATH);
@@ -73,7 +73,7 @@ class DUPX_U_Html
             } else {
                 $fileName = parse_url($url,PHP_URL_HOST);
             }
-            $afterContent .= '<a target="_blank" class="button download-button" title="Download" download="'.DUPX_U::esc_attr($fileName).'" href="'.DUPX_U::esc_attr($url).'" ><i class="fa fa-2x fa-download"></i></a>';
+            $afterContent .= '<a target="_blank" class="button download-button" title="Download" download="'.DUPX_U::esc_attr($fileName).'" href="'.DUPX_U::esc_attr($url).'" onclick="function () { event.preventDefault(); return false;}" ><i class="fa fa-2x fa-download"></i></a>';
         }
         $afterContent .= '</div>';
 
@@ -198,14 +198,16 @@ class DUPX_U_Html
         <script>
             $(document).ready(function ()
             {
+                var currentLightboxOpen = null;
+
                 var toggleLightbox = function (target) {
                     if (target.hasClass('close')) {
-                        //target.removeClass('close').addClass('open');
                         target.animate({
                             height: "100vh",
                             width: "100vw"
                         }, 500, 'linear', function () {
                             $(this).removeClass('close').addClass('open').trigger('dup-lightbox-open');
+                            currentLightboxOpen = target;
                         });
                     } else {
                         target.animate({
@@ -213,8 +215,8 @@ class DUPX_U_Html
                             width: "0"
                         }, 500, 'linear', function () {
                             $(this).removeClass('open').addClass('close').trigger('dup-lightbox-close');
+                            currentLightboxOpen = null;
                         });
-                        //target.removeClass('open').addClass('close');
                     }
                 };
 
@@ -258,6 +260,7 @@ class DUPX_U_Html
                 });
 
                 $('[data-dup-ligthbox]').click(function (event) {
+                    event.preventDefault();
                     event.stopPropagation();
                     var target = $('#' + $(this).data('dup-ligthbox'));
                     toggleLightbox(target);
@@ -282,6 +285,12 @@ class DUPX_U_Html
                 $('.dub-ligthbox-content .close-button').click(function (event) {
                     event.stopPropagation();
                     toggleLightbox($(this).closest('.dub-ligthbox-content'));
+                });
+
+                $(window).keydown(function(event){
+                    if (event.key === 'Escape' && currentLightboxOpen !== null) {
+                        currentLightboxOpen.find('.close-button').trigger('click');
+                    }
                 });
             });
         </script>
