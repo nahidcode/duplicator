@@ -103,16 +103,18 @@ try {
         }        
     } else {
         if (!isset($_POST['archive'])) {
-            if (isset($_COOKIE['archive'])) {
-                $_POST['archive'] = $_COOKIE['archive'];
+            $archive = DUPX_CSRF::getVal('archive');
+            if (false !== $archive) {
+                $_POST['archive'] = $archive;
             } else {
                 // RSR TODO: Fail gracefully
                 die("Archive parameter not specified");
             }
         }
         if (!isset($_POST['bootloader'])) {
-            if (isset($_COOKIE['bootloader'])) {
-                $_POST['bootloader'] = $_COOKIE['bootloader'];
+            $bootloader = DUPX_CSRF::getVal('bootloader');
+            if (false !== $bootloader) {
+                $_POST['bootloader'] = $bootloader;
             } else {
                 // RSR TODO: Fail gracefully
                 die("Bootloader parameter not specified");
