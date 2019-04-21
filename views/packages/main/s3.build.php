@@ -147,8 +147,9 @@ TOOL BAR: STEPS -->
 					<span id="dup-btn-archive-size" class="dup-btn-size"></span> &nbsp;
 				</button>
 				<div class="one-click-download">
+					<i class="fa fa-bolt fa-sm"></i><i class="far fa-file-archive"></i> 
 					<a href="javascript:void(0)" id="dup-link-download-both" title="<?php esc_attr_e("Click to download both files", 'duplicator') ?>">
-						<i class="fa fa-bolt fa-sm"></i><i class="far fa-file-archive"></i> <?php esc_html_e("One-Click Download",   'duplicator') ?>
+						 <?php esc_html_e("One-Click Download",   'duplicator') ?>
 					</a>
 					<sup><i class="fas fa-question-circle fa-sm" style='font-size:11px'
 							data-tooltip-title="<?php esc_attr_e("One Click:", 'duplicator'); ?>"
