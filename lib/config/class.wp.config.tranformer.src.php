@@ -1,5 +1,9 @@
 <?php
-defined("DUPXABSPATH") or die("");
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
+
+if (!class_exists('WPConfigTransformer')) {
+    require_once(dirname(__FILE__).'/class.wp.config.tranformer.php');
+}
 
 if (!class_exists('WPConfigTransformerSrc')):
 

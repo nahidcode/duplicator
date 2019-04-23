@@ -285,7 +285,7 @@ VIEW: STEP 3- INPUT -->
 			</div><br/>
 			<div class="hdr-sub3">WP-Config File</div>
 			<?php
-            require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.wp.config.tranformer.php');
+            require_once($GLOBALS['DUPX_INIT'].'/lib/config/class.wp.config.tranformer.php');
 			$root_path		= $GLOBALS['DUPX_ROOT'];
 			$root_path = $GLOBALS['DUPX_ROOT'];
 			$wpconfig_ark_path	= ($GLOBALS['DUPX_AC']->installSiteOverwriteOn) ? "{$root_path}/dup-wp-config-arc__{$GLOBALS['DUPX_AC']->package_hash}.txt" : "{$root_path}/wp-config.php";
