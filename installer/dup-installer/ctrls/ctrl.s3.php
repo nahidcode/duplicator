@@ -5,8 +5,8 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
 //-- START OF ACTION STEP 3: Update the database
 require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.archive.config.php');
-require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.wp.config.tranformer.php');
-require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.wp.config.tranformer.src.php');
+require_once($GLOBALS['DUPX_INIT'].'/lib/config/class.wp.config.tranformer.php');
+require_once($GLOBALS['DUPX_INIT'].'/lib/config/class.wp.config.tranformer.src.php');
 
 /** JSON RESPONSE: Most sites have warnings turned off by default, but if they're turned on the warnings
   cause errors in the JSON data Here we hide the status so warning level is reset at it at the end */

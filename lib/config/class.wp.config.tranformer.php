@@ -114,10 +114,10 @@ class WPConfigTransformer {
 		// Duplicator Extra
 		$val = $this->wp_configs[ $type ][ $name ]['value'];
 		if (is_string($val)) {
-			$val = trim($val, '"'); 
+			$val = trim($val, '"');
 			$val = trim($val, "'");
 		}
-		
+
 		return $val;
 	}
 
@@ -197,7 +197,7 @@ class WPConfigTransformer {
 				'if( !defined( "ABSPATH" ))',
 				'if( !defined( "ABSPATH") )',
 				'if( !defined("ABSPATH" ) )',
-				
+
 				'/** Sets up WordPress vars and included files',
 				'require_once(ABSPATH',
 				'require_once ABSPATH',
@@ -208,7 +208,7 @@ class WPConfigTransformer {
 				"define('DB_NAME'",
 				'define("DB_NAME"',
 				'require',
-				'include_once',				
+				'include_once',
 			);
 			foreach ($other_anchor_points as $anchor_point) {
 				$anchor_point    = (string) $anchor_point;
