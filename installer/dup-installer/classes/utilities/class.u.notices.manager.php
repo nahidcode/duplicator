@@ -183,7 +183,7 @@ final class DUPX_NOTICE_MANAGER
         $this->addNextStepNotice($item, $mode, $uniqueId);
         $this->addFinalReportNotice($item, $mode, $uniqueId);
     }
-    
+
     /**
      *
      * @param array|DUPX_NOTICE_ITEM $item // if string add new notice obj with item message and level param
@@ -554,11 +554,13 @@ final class DUPX_NOTICE_MANAGER
                     <?php
                 }
                 if (!empty($notice->longMsg)) {
-                    echo '<br><br>';
+					//Breaks here are messing up the formatting for Serialization notices
+                    //echo '<br><br>';
                     if ($notice->longMsgHtml) {
                         echo $notice->longMsg;
                     } else {
-                        echo '<pre>'.htmlentities($notice->longMsg).'</pre>';
+						//Do NOT use <pre> tags here or else the formatting is messed up
+                        echo htmlentities($notice->longMsg);
                     }
                 }
                 ?>
@@ -601,11 +603,11 @@ final class DUPX_NOTICE_MANAGER
                         echo '<br><br>';
                     }
                     if (!empty($notice->longMsg)) {
-                        echo '<br><br>';
                         if ($notice->longMsgHtml) {
                             echo $notice->longMsg;
                         } else {
-                            echo '<pre>'.htmlentities($notice->longMsg).'</pre>';
+							//Do NOT use <pre> tags here or else the formatting is messed up
+                            echo htmlentities($notice->longMsg);
                         }
                     }
                     ?>

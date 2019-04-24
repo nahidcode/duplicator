@@ -22,7 +22,7 @@
 
 	/* Header */
 	table.header-wizard {border-top-left-radius:5px; border-top-right-radius:5px; width:100%; box-shadow:0 5px 3px -3px #999; background-color:#F1F1F1; font-weight:bold}
-	div.dupx-logfile-link {float:right; font-weight:normal; font-style:italic; font-size:11px}
+	div.dupx-logfile-link {float:right; font-weight:normal; font-style:italic; font-size:11px; cursor:pointer}
 	.wiz-dupx-version {white-space:nowrap; color:#777; font-size:11px; font-style:italic; text-align:right;  padding:3px 15px 5px 0; line-height:14px; font-weight:normal}
 	.wiz-dupx-version a { color:#777; }
 	div.dupx-debug-hdr {padding:5px 0 5px 0; font-size:16px; font-weight:bold}
