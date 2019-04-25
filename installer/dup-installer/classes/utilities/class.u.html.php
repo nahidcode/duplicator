@@ -36,12 +36,12 @@ class DUPX_U_Html
         return 'dup-light-'.self::$lightboxUniqueId.'-'.str_replace('.', '-', microtime(true));
     }
 
-    public static function getLigthBox($linkAbel, $titleContent, $htmlContent, $echo = true, $htmlAfterContent = '')
+    public static function getLigthBox($linkLabelHtml, $titleContent, $htmlContent, $echo = true, $htmlAfterContent = '')
     {
         ob_start();
         $id = self::getUniqueId();
         ?>
-        <a class="dup-ligthbox-link" data-dup-ligthbox="<?php echo $id; ?>" ><?php echo htmlspecialchars($linkAbel); ?></a>
+        <a class="dup-ligthbox-link" data-dup-ligthbox="<?php echo $id; ?>" ><?php echo $linkLabelHtml; ?></a>
         <div id="<?php echo $id; ?>" class="dub-ligthbox-content close">
             <div class="wrapper" >
                 <h2 class="title" ><?php echo htmlspecialchars($titleContent); ?></h2>
@@ -57,7 +57,7 @@ class DUPX_U_Html
         }
     }
 
-    public static function getLightBoxIframe($linkAbel, $titleContent, $url, $autoUpdate = false, $enableTargetDownload = false, $echo = true)
+    public static function getLightBoxIframe($linkLabelHtml, $titleContent, $url, $autoUpdate = false, $enableTargetDownload = false, $echo = true)
     {
         $classes      = array('dup-lightbox-iframe');
         $afterContent = '<div class="tool-box">';
@@ -78,7 +78,7 @@ class DUPX_U_Html
         $afterContent .= '</div>';
 
         $lightBoxContent = '<iframe class="'.implode(' ', $classes).'" data-iframe-url="'.DUPX_U::esc_attr($url).'"></iframe> ';
-        return DUPX_U_Html::getLigthBox($linkAbel, $titleContent, $lightBoxContent, $echo, $afterContent);
+        return DUPX_U_Html::getLigthBox($linkLabelHtml, $titleContent, $lightBoxContent, $echo, $afterContent);
     }
 
     protected static function lightBoxCss()
