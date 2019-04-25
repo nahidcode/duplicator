@@ -122,7 +122,7 @@ BASIC PANEL -->
 	</div>
 	<div id="s2-opts-basic" class="s2-opts" style="display:none;padding-top:0">
 		<div class="help-target">
-			<a href="<?php echo DUPX_U::esc_url($GLOBALS['_HELP_URL_PATH'].'#help-s2');?>" target="_blank"><i class="fas fa-question-circle fa-sm"></i></a>
+			 <?php DUPX_View_Funcs::helpIconLink('step2'); ?>
 		</div>
 
 		<table class="dupx-opts dupx-advopts dupx-advopts-space">

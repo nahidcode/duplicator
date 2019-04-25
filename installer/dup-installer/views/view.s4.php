@@ -104,9 +104,9 @@ VIEW: STEP 4- INPUT -->
 		</tr>
 	</table>
 	<i style="color:maroon; font-size:12px">
-		<b><i class="fa fa-exclamation-triangle fa-sm"></i> IMPORTANT FINAL STEPS:</b> Login into the WordPress Admin to remove all
-		<a href="?view=help&archive=<?php echo DUPX_U::esc_attr($GLOBALS['FW_ENCODED_PACKAGE_PATH']); ?>&bootloader=<?php echo DUPX_U::esc_attr($GLOBALS['BOOTLOADER_NAME']); ?>&basic#help-s4" target="_blank">installation files</a>
-		and finalize the install process.   This install is NOT complete until all installer files are removed.  Leaving the installer files on this server can lead to security issues.
+		<b><i class="fa fa-exclamation-triangle fa-sm"></i> IMPORTANT FINAL STEPS:</b> Login into the WordPress Admin to remove all <?php 
+        DUPX_View_Funcs::helpLink('step4', 'installation files'); ?> and finalize the install process.
+        This install is NOT complete until all installer files are removed.  Leaving the installer files on this server can lead to security issues.
 	</i>
 	<br/><br/><br/>
 

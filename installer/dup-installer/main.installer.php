@@ -252,28 +252,6 @@ try {
         @fclose($GLOBALS["LOG_FILE_HANDLE"]);
         die("");
     }
-
-    $helpOpenSection = '';
-    switch ($GLOBALS["VIEW"]) {
-        case "secure" :
-            $helpOpenSection = 'section-security';
-            break;
-        case "step1" :
-            $helpOpenSection = 'section-step-1';
-            break;
-        case "step2" :
-            $helpOpenSection = 'section-step-2';
-            break;
-        case "step3" :
-            $helpOpenSection = 'section-step-3';
-            break;
-        case "step4" :
-            $helpOpenSection = 'section-step-4';
-            break;
-        case "help" :
-        default :
-    }
-
 } catch (Exception $e) {
     $exceptionError = $e;
 }
@@ -313,19 +291,9 @@ if (!empty($unespectOutput)) {
 		<td class="wiz-dupx-version">
             <?php  if ($GLOBALS["VIEW"] !== 'help') { ?>
 			<a href="javascript:void(0)" onclick="DUPX.openServerDetails()">version:<?php echo DUPX_U::esc_html($GLOBALS['DUPX_AC']->version_dup); ?></a>&nbsp;
-			<?php
-				$help_url = "?view=help".
-                "&archive={$GLOBALS['FW_ENCODED_PACKAGE_PATH']}".
-                "&bootloader={$GLOBALS['BOOTLOADER_NAME']}&".
-                "basic".
-                '&open_section='.$helpOpenSection;
-            echo ($GLOBALS['DUPX_AC']->secure_on)
-					? "<a href='{$help_url}#secure' target='_blank'><i class='fa fa-lock fa-xs'></i></a>"
-					: "<a href='{$help_url}#secure' target='_blank'><i class='fa fa-unlock-alt fa-xs'></i></a>" ;
-			?>
-			
+			<?php DUPX_View_Funcs::helpLockLink(); ?>
 			<div style="padding: 6px 0">
-                <?php DUPX_U_Html::getLightBoxIframe('help', 'HELP', $help_url); ?>
+                <?php DUPX_View_Funcs::helpLink($GLOBALS["VIEW"]); ?>
 			</div>
             <?php } ?>
 		</td>

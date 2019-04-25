@@ -560,9 +560,8 @@ OPTIONS
 </div>
 <div id="s1-area-adv-opts" style="display:none">
 	<div class="help-target">
-		<a href="<?php echo DUPX_U::esc_html($GLOBALS['_HELP_URL_PATH'].'#help-s1'); ?>" target="_blank"><i class="fas fa-question-circle fa-sm"></i></a>
-	</div><br/>
-
+        <?php DUPX_View_Funcs::helpIconLink('step1'); ?>
+	</div>
 	<div class="hdr-sub3">General</div>
 	<table class="dupx-opts dupx-advopts">
         <tr>
