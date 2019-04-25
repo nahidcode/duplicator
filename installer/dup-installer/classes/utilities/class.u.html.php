@@ -85,6 +85,10 @@ class DUPX_U_Html
     {
         ?>
         <style>
+            .dup-ligthbox-link {
+                text-decoration: underline;
+                cursor: pointer;
+            }
             .dub-ligthbox-content {
                 position: fixed;
                 top: 0;
