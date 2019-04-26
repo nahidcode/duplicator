@@ -4255,7 +4255,7 @@ class DUPX_CSRF {
 		return self::$CSRFVars;
 	}
 
-	private function saveCSRFVars($CSRFVars) {
+	private static function saveCSRFVars($CSRFVars) {
 		$contents = json_encode($CSRFVars);
 		$filePath = self::getFilePath();
 		file_put_contents($filePath, $contents);
