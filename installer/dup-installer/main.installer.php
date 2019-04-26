@@ -198,7 +198,6 @@ try {
     require_once($GLOBALS['DUPX_INIT'] . '/classes/class.view.php');
 
     $GLOBALS['_CURRENT_URL_PATH'] = $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
-    $GLOBALS['_HELP_URL_PATH']    = "?view=help&archive={$GLOBALS['FW_PACKAGE_NAME']}&bootloader={$GLOBALS['BOOTLOADER_NAME']}&basic";
     $GLOBALS['NOW_TIME']		  = @date("His");
 
     if (!chdir($GLOBALS['DUPX_INIT'])) {

@@ -638,7 +638,7 @@ OPTIONS
 				<span class="sub-notes" style="font-weight: normal">
 					Controls how .htaccess, .user.ini and web.config are used.<br/>
 					These options are not applied until step 3 is ran.
-					<a href="<?php echo DUPX_U::esc_url($GLOBALS['_HELP_URL_PATH'] . '#help-s1'); ?>" target="help">[more info]</a>
+                    <?php DUPX_View_Funcs::helpLink('step1', '[more info]'); ?>
 				</span>
 			</td>
 		</tr>
