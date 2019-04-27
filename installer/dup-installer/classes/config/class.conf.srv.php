@@ -437,8 +437,8 @@ HTACCESS;
         $new  = file_get_contents($GLOBALS['DUPX_ROOT'].'/.htaccess');
 
         $lightBoxContent = '<div class="row-cols-2">'.
-            '<div class="col col-1"><b>Original .htaccess</b><pre>'.htmlspecialchars($orig).'</pre></div>'.
-            '<div class="col col-2"><b>New .htaccess</b><pre>'.htmlspecialchars($new).'</pre></div>'.
+            '<div class="col col-1"><b style="color:maroon" style="background-color:#fff7f7"><i class="fas fa-sticky-note"></i> Original .htaccess</b><pre>'.htmlspecialchars($orig).'</pre></div>'.
+            '<div class="col col-2"><b style="color:green" style="background-color:#f7fdf1"><i class="far fa-sticky-note"></i>  New .htaccess</b><pre>'.htmlspecialchars($new).'</pre></div>'.
             '</div>';
         $longMsg         = DUPX_U_Html::getLigthBox('.htaccess changes', 'HTACCESS COMPARE', $lightBoxContent, false);
 
@@ -469,8 +469,8 @@ HTACCESS;
         }
 
         $lightBoxContent = '<div class="row-cols-2">'.
-            '<div class="col col-1"><b>Original wp-config.php</b><pre class="s4-diff-viewer">'.htmlspecialchars($orig).'</pre></div>'.
-            '<div class="col col-2"><b>New wp-config.php</b><pre class="s4-diff-viewer">'.htmlspecialchars($new).'</pre></div>'.
+            '<div class="col col-1" style="background-color:#fff7f7"><b style="color:maroon"><i class="fas fa-sticky-note"></i> Original wp-config.php</b><pre class="s4-diff-viewer">'.htmlspecialchars($orig).'</pre></div>'.
+            '<div class="col col-2" style="background-color:#f7fdf1"><b style="color:green"><i class="far fa-sticky-note"></i> New wp-config.php</b><pre class="s4-diff-viewer">'.htmlspecialchars($new).'</pre></div>'.
             '</div>';
         $longMsg         = DUPX_U_Html::getLigthBox('wp-config.php changes', 'WP-CONFIG.PHP COMPARE', $lightBoxContent, false);
 

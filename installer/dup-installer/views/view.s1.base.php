@@ -169,7 +169,7 @@ ARCHIVE
 		<?php echo ($arcCheck == 'Pass') ? 'Pass' : 'Fail'; ?>
 	</div>
 </div>
-<div id="s1-area-archive-file" style="display:none">
+<div id="s1-area-archive-file" style="display:none" class="hdr-sub1-area">
 <div id="tabs">
 	<ul>
 		<li><a href="#tabs-1">Server</a></li>
@@ -252,7 +252,7 @@ VALIDATION
 		<?php echo ( $req_success) ? 'Pass' : 'Fail'; ?>
 	</div>
 </div>
-<div id="s1-area-sys-setup" style="display:none">
+<div id="s1-area-sys-setup" style="display:none" class="hdr-sub1-area">
 	<div class='info-top'>The system validation checks help to make sure the system is ready for install.</div>
 
 	<!-- REQUIREMENTS -->
@@ -558,7 +558,7 @@ OPTIONS
 <div class="hdr-sub1 toggle-hdr" data-type="toggle" data-target="#s1-area-adv-opts">
 	<a href="javascript:void(0)"><i class="fa fa-plus-square"></i>Options</a>
 </div>
-<div id="s1-area-adv-opts" style="display:none">
+<div id="s1-area-adv-opts" class="hdr-sub1-area" style="display:none">
 	<div class="help-target">
         <?php DUPX_View_Funcs::helpIconLink('step1'); ?>
 	</div>

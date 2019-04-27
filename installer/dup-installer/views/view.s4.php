@@ -319,14 +319,14 @@ LONGMSG;
 			</li>
 			<li>
 				Review this sites <a href="<?php echo DUPX_U::esc_attr($url_new_rtrim); ?>" target="_blank">front-end</a> or
-				re-run the installer and <a href="<?php echo DUPX_U::esc_url("{$url_new_rtrim}/installer.php"); ?>">go back to step 1</a>.
+				re-run the installer and <a href="<?php echo DUPX_U::esc_url("{$url_new_rtrim}/installer.php"); ?>">go back to step 1</a>
 			</li>
             <?php
             $wpconfigNotice = $nManager->getFinalReporNoticeById('wp-config-changes');
             $htaccessNorice = $nManager->getFinalReporNoticeById('htaccess-changes');
             ?>
-			<li>Please validate <?php echo $wpconfigNotice->longMsg; ?> and <?php echo  $htaccessNorice->longMsg; ?>.</li>
-			<li>For additional help and questions visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=inst4_step4_troubleshoot' target='_blank'>online FAQs</a>.</li>
+			<li>Please validate <?php echo $wpconfigNotice->longMsg; ?> and <?php echo $htaccessNorice->longMsg; ?></li>
+			<li>For additional help and questions visit the <a href='https://snapcreek.com/duplicator/docs/faqs-tech/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=problem_resolution&utm_content=inst4_step4_troubleshoot' target='_blank'>online FAQs</a></li>
 		</ul>
 	</div>
 

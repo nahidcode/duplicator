@@ -120,7 +120,7 @@ BASIC PANEL -->
 	<div class="hdr-sub1 toggle-hdr" id="s2-opts-hdr-basic" data-type="toggle" data-target="#s2-opts-basic">
 		<a href="javascript:void(0)"><i class="fa fa-plus-square"></i>Options</a>
 	</div>
-	<div id="s2-opts-basic" class="s2-opts" style="display:none;padding-top:0">
+	<div id="s2-opts-basic" class="s2-opts hdr-sub1-area" style="display:none;padding-top:0">
 		<div class="help-target">
 			 <?php DUPX_View_Funcs::helpIconLink('step2'); ?>
 		</div>
@@ -173,7 +173,7 @@ BASIC: DB VALIDATION -->
 	<a href="javascript:void(0)"><i class="fa fa-minus-square"></i>Validation</a>
 </div>
 
-<div id="s2-dbtest-area-basic" class="s2-dbtest-area">
+<div id="s2-dbtest-area-basic" class="s2-dbtest-area hdr-sub1-area">
 	<div id="s2-dbrefresh-basic">
 		<a href="javascript:void(0)" onclick="DUPX.testDBConnect()"><i class="fa fa-sync"></i> Retry Test</a>
 	</div>

@@ -175,9 +175,10 @@ class DUPX_U_Html
                 width: 50%;
                 box-sizing: border-box;
                 float: left;
-                border-right: 1px solid black;
+                border: 1px solid #8e8d8d;
                 height: 100%;
                 overflow: auto;
+				padding:5px;
             }
 
             .dub-ligthbox-content .row-cols-2 .col-2 {

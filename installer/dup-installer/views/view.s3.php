@@ -129,7 +129,7 @@ VIEW: STEP 3- INPUT -->
         <a href="javascript:void(0)"><i class="fa fa-plus-square"></i>Replace</a>
     </div>
 
-    <div id='s3-custom-replace' style="display:none;">
+    <div id="s3-custom-replace" class="hdr-sub1-area" style="display:none;">
         <div class="help-target">
             <?php DUPX_View_Funcs::helpIconLink('step3'); ?>
         </div><br/>
@@ -144,7 +144,7 @@ VIEW: STEP 3- INPUT -->
 	<div class="hdr-sub1 toggle-hdr" data-type="toggle" data-target="#s3-adv-opts">
 		<a href="javascript:void(0)"><i class="fa fa-plus-square"></i>Options</a>
 	</div>
-	<div id="s3-adv-opts" style="display:none;">
+	<div id="s3-adv-opts" class="hdr-sub1-area" style="display:none;">
 
 	<!-- START TABS -->
 	<div id="tabs">

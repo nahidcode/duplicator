@@ -52,6 +52,7 @@
 	div.hdr-sub1 {font-size:18px; margin-bottom:5px;border:1px solid #D3D3D3;padding:7px; background-color:#f9f9f9; font-weight:bold; border-radius:4px}
 	div.hdr-sub1 a {cursor:pointer; text-decoration: none !important}
 	div.hdr-sub1 i.fa {font-size:15px; display:inline-block; margin-right:5px; vertical-align:top}
+	div.hdr-sub1-area {padding:5px}
 	div.hdr-sub2 {font-size:15px; padding:2px 2px 2px 0; font-weight:bold; margin-bottom:5px; border:none}
 	div.hdr-sub3 {font-size:15px; padding:2px 2px 2px 0; border-bottom:1px solid #D3D3D3; font-weight:bold; margin-bottom:5px;}
 	div.hdr-sub4 {font-size:15px; padding:7px; border:1px solid #D3D3D3;; font-weight:bold; background-color:#e9e9e9;}
@@ -81,15 +82,8 @@
         padding-right: 0;
         margin-bottom: 4px;
     }
-    .notice-report .title {
-        padding: 0 10px;
-    }
-    .notice-report .info {
-        border-top: 1px solid #dedede;
-        padding: 10px;
-        font-size: 10px;
-        background: #FAFAFA;
-    }
+    .notice-report .title {cursor:pointer; padding: 0 10px;}
+    .notice-report .info {border-top: 1px solid #dedede; padding: 10px; font-size: 10px; background: #FAFAFA;}
     .notice.l-info,
     .notice.l-notice {border-left-color: #197b19;}
     .notice.l-swarning {border-left-color: #636363;}
@@ -102,7 +96,6 @@
         margin-bottom: 25px;
 		box-shadow: 4px 8px 11px -8px rgba(0,0,0,0.41);
     }
-
     .report-sections-list .section > .section-title {
         background-color: #efefef;
         padding: 3px;
@@ -110,11 +103,9 @@
         text-align: center;
         font-size: 14px;
     }
-
     .report-sections-list .section > .section-content {
         padding: 5px;
     }
-
     .notice-level-status {
         border-radius: 4px;
         padding: 2px;
@@ -125,7 +116,6 @@
         font-weight: bold;
         min-width:55px;
     }
-
     .notice-level-status.l-info,
     .notice-level-status.l-notice {background: #197b19;}
     .notice-level-status.l-swarning {background: #636363;}
@@ -191,7 +181,6 @@
 	div.s1-err-msg {padding:0 0 80px 0; line-height:20px}
 	div.s1-err-msg i {color:maroon}
 
-	div#s1-area-sys-setup {padding:5px 0 0 10px}
 	div#s1-area-sys-setup div.info-top {text-align:center; font-style:italic; font-size:11px; padding:0 5px 5px 5px}
 	table.s1-checks-area {width:100%; margin:0; padding:0}
 	table.s1-checks-area td.title {font-size:16px; width:100%}
@@ -252,7 +241,7 @@
     div.s2-cpnl-panel-no-support {text-align:center; font-size:18px; font-weight:bold; line-height:30px; margin-top:40px}
 
 	/*DATABASE CHECKS */
-	div.s2-dbtest-area {margin:auto; margin:10px 0 15px 0;  min-height:110px}
+	div.s2-dbtest-area {margin:auto; margin:5px 0 15px 0;  min-height:110px}
 	div.s2-dbtest-area input[type=button] {font-size:11px; height:20px; border:1px solid gray; border-radius:3px; cursor:pointer}
 	div.s2-dbtest-area small.db-check {color:#000; text-align:center; padding:3px; font-size:11px; font-weight:normal }
 	div.s2-dbtest-area div.message {padding:10px 10px 10px 10px; margin:5px auto 5px auto; text-align:center; font-style:italic; font-size:15px; line-height:22px; width:100%;}
