@@ -373,7 +373,7 @@
     }
 
     .expandable .expand-header::before {
-        font-family: FontAwesome;
+        font-family: 'Font Awesome 5 Free';
         margin-right: 10px;
     }
 
