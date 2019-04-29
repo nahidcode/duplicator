@@ -14,6 +14,8 @@
 .duplicator-modal.active:before {
     display: block;
 }
+.duplicator-modal a[disabled] { pointer-events: none; }
+
 .duplicator-modal .duplicator-modal-dialog {
     background: transparent;
     position: absolute;
@@ -31,7 +33,7 @@
 .duplicator-modal .duplicator-modal-footer {
     border: 0;
     background: #fff;
-    padding: 25px 25px 15px;
+    padding: 15px;
 }
 .duplicator-modal .duplicator-modal-body {
     border-bottom: 0;
@@ -53,10 +55,10 @@
     text-align: center;
 }
 .duplicator-modal .duplicator-modal-footer .button {
-    margin: 0 7px;    
+    margin: 0 5px;    
 }
-.duplicator-modal .duplicator-modal-footer .button:first-child {
-    margin: 0;
+.duplicator-modal .duplicator-modal-footer .button:last-child {
+    margin-right: 0;
 }
 .duplicator-modal .duplicator-modal-panel>.notice.inline {
     margin: 0;
@@ -90,9 +92,17 @@ body.has-duplicator-modal {
     margin-top: 0 !important;
 }
 
-.duplicator-modal .duplicator-modal-button-skip, .duplicator-modal .duplicator-modal-resp-msg {
-    display: none;
+.duplicator-modal .duplicator-modal-resp-msg {
+    font-size: 11px;
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
 }
+
+.duplicator-modal .duplicator-modal-button-skip, .duplicator-modal .duplicator-modal-resp-msg {
+    /*display: none;*/
+}
+
 
 @media (max-width: 650px) {
     .duplicator-modal .duplicator-modal-dialog {

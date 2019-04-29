@@ -52,13 +52,14 @@ if (!function_exists('duplicator_add_deactivation_feedback_dialog_box')) {
                 'id' => 'NOT_WORKING',
                 'text' => __("It's not working on my server.", 'duplicator'),
                 'input_type' => 'textarea',
-                'input_placeholder' => __("Kindly share what didn't work so we can fix it in future updates...", 'duplicator')
+                'input_placeholder' => __("Kindly share what didn't work so we can fix it in future updates...", 'duplicator'),
+                'internal_message' => $contact_support_template
             ),
             array(
                 'id' => 'CONFUSING_TO_UNDERSTAND',
                 'text' => __("It's too confusing to understand.", 'duplicator'),
-                'input_type' => '',
-                'input_placeholder' => '',
+                'input_type' => 'textarea',
+                'input_placeholder' => __('Please tell us what is not clear so that we can improve it.', 'duplicator'),
                 'internal_message' => $contact_support_template
             ),
             array(
@@ -89,7 +90,7 @@ if (!function_exists('duplicator_add_deactivation_feedback_dialog_box')) {
                 'id' => 'OTHER',
                 'text' => __('Other', 'duplicator'),
                 'input_type' => 'textarea',
-                'input_placeholder' => ''
+                'input_placeholder' => __('Please tell us the reason so we can improve it.', 'duplicator')
             )
         );
 
@@ -127,14 +128,13 @@ if (!function_exists('duplicator_add_deactivation_feedback_dialog_box')) {
                         + '			</div>'
                         + '		</div>'
                         + '		<div class="duplicator-modal-footer">'
-                        + '			<div style="float: left; display: inline-block;"><small class="duplicator-modal-resp-msg" style="position: relative; top:20px; left: -18px; font-size: 10px;"><i><?php _e('Your response is sent anonymously.',
-            'duplicator'); ?></i></small></div>'
-                        + '			<div style="float: right; display: inline-block;">'
+                        + '			<div>'
                         + '			    <a href="#" class="button button-secondary duplicator-modal-button-close"><?php _e('Cancel', 'duplicator'); ?></a>'
                         + '			    <a href="#" class="button button-secondary duplicator-modal-button-skip"><?php _e('Skip & Deactivate', 'duplicator'); ?></a>'
-                        + '			    <a href="#" class="button button-primary duplicator-modal-button-deactivate"></a>'
+                        + '			    <a href="#" class="button button-primary duplicator-modal-button-deactivate" disabled="disabled" ><?php _e('Send & Deactivate', 'duplicator'); ?></a>'
                         + '			</div>'
                         + '			<div class="clear"></div>'
+                        + '			<div><small class="duplicator-modal-resp-msg" ><i><?php _e('Your response is sent anonymously.','duplicator'); ?></i></small></div>'
                         + '		</div>'
                         + '	</div>'
                         + '</div>',
@@ -260,8 +260,8 @@ if (!function_exists('duplicator_add_deactivation_feedback_dialog_box')) {
 
                         $modal.find('.duplicator-modal-reason-input').remove();
                         $modal.find('.duplicator-modal-internal-message').hide();
-                        $modal.find('.duplicator-modal-button-deactivate').text('<?php _e('Send & Deactivate', 'duplicator'); ?>');
-                        $modal.find('.duplicator-modal-button-skip').css('display', 'inline-block');
+                        $modal.find('.duplicator-modal-button-deactivate').removeAttr( 'disabled' );
+                        //$modal.find('.duplicator-modal-button-skip').css('display', 'inline-block');
                         $modal.find('.duplicator-modal-resp-msg').show();
 
                         DuplicatorModalEnableDeactivateButton();
@@ -276,10 +276,10 @@ if (!function_exists('duplicator_add_deactivation_feedback_dialog_box')) {
                             _parent.append($(reasonInputHtml));
                             _parent.find('input, textarea').attr('placeholder', _parent.data('input-placeholder')).focus();
 
-                            if (DuplicatorModalIsReasonSelected('OTHER')) {
+                            /*if (DuplicatorModalIsReasonSelected('OTHER')) {
                                 $modal.find('.message').text('<?php _e('Please tell us the reason so we can improve it.', 'duplicator'); ?>').show();
                                 DuplicatorModalDisableDeactivateButton();
-                            }
+                            }*/
                         }
                     });
 
@@ -338,8 +338,8 @@ if (!function_exists('duplicator_add_deactivation_feedback_dialog_box')) {
                 function DuplicatorModalShowPanel() {
                     $modal.find('.duplicator-modal-panel').addClass('active');
                     /* Update the deactivate button's text */
-                    $modal.find('.duplicator-modal-button-deactivate').text('<?php _e('Skip & Deactivate', 'duplicator'); ?>');
-                    $modal.find('.duplicator-modal-button-skip, .duplicator-modal-resp-msg').css('display', 'none');
+                    //$modal.find('.duplicator-modal-button-deactivate').text('<?php _e('Skip & Deactivate', 'duplicator'); ?>');
+                    //$modal.find('.duplicator-modal-button-skip, .duplicator-modal-resp-msg').css('display', 'none');
                 }
             })(jQuery);
         </script>
