@@ -82,6 +82,10 @@
         padding-right: 0;
         margin-bottom: 4px;
     }
+    .notice-report .info {
+        word-wrap: break-word;
+    }
+
     .notice-report .title {cursor:pointer; padding: 0 10px;}
     .notice-report .info {border-top: 1px solid #dedede; padding: 10px; font-size: 10px; background: #FAFAFA;}
     .notice.l-info,
