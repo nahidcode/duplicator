@@ -82,7 +82,7 @@ if (!function_exists('duplicator_add_deactivation_feedback_dialog_box')) {
             ),
             array(
                 'id' => 'SWITCHING_PRO_VERSION',
-                'text' => sprintf(__("I'm switching over to the %s", 'duplicator'), '<a href="https://snapcreek.com/duplicator/">'.__('Pro version', 'duplicator').'</a>'),
+                'text' => sprintf(__("I'm switching over to the %s", 'duplicator'), '<a href="https://snapcreek.com/duplicator/" target="_blank">'.__('Pro version', 'duplicator').'</a>'),
                 'input_type' => '',
                 'input_placeholder' => ''
             ),
