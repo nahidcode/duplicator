@@ -31,9 +31,16 @@ class DUPX_Log
      */
     private static $thowExceptionOnError = false;
 
-    const LV_DEFAULT = 1;
-    const LV_DEAILED = 2;
-    const LV_DEBUG = 3;
+    const LV_DEFAULT    = 1;
+    const LV_DETAILED   = 2;
+    const LV_DEBUG      = 3;
+    const LV_HARD_DEBUG = 4;
+
+    /**
+     * num of \t before log string.
+     * @var int
+     */
+    private static $indentation = 0;
 
     /** METHOD: LOG
      *  Used to write debug info to the text log file
@@ -45,12 +52,34 @@ class DUPX_Log
     public static function info($msg, $logging = self::LV_DEFAULT, $flush = false)
     {
         if ($logging <= $GLOBALS["LOGGING"]) {
-            @fwrite($GLOBALS["LOG_FILE_HANDLE"], "{$msg}\n");
+            @fwrite($GLOBALS["LOG_FILE_HANDLE"], str_repeat("\t", self::$indentation).$msg."\n");
 
             if ($flush) {
                 self::flush();
             }
         }
+    }
+
+    public static function incIndent()
+    {
+        self::$indentation ++;
+    }
+
+    public static function decIndent()
+    {
+        if (self::$indentation > 0) {
+            self::$indentation --;
+        }
+    }
+
+    public static function resetIndent()
+    {
+        self::$indentation = 0;
+    }
+
+    public static function isLevel($logging)
+    {
+        return $logging <= $GLOBALS["LOGGING"];
     }
 
     public static function infoObject($msg, $object, $logging = self::LV_DEFAULT)
@@ -124,10 +153,9 @@ class DUPX_Log
 
 class DUPX_Handler
 {
-    const MODE_OFF = 0; // don't write in log
-    const MODE_LOG = 1; // write errors in log file
-    const MODE_VAR = 2; // put php errors in $varModeLog static var
-
+    const MODE_OFF         = 0; // don't write in log
+    const MODE_LOG         = 1; // write errors in log file
+    const MODE_VAR         = 2; // put php errors in $varModeLog static var
     const SHUTDOWN_TIMEOUT = 'tm';
 
     /**
@@ -137,7 +165,6 @@ class DUPX_Handler
     private static $shutdownReturns = array(
         'tm' => 'timeout'
     );
-
 
     /**
      *
@@ -162,7 +189,6 @@ class DUPX_Handler
      * @var string // php errors in MODE_VAR
      */
     private static $varModeLog = '';
-
 
     /**
      * Error handler

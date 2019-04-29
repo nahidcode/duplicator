@@ -230,6 +230,7 @@ class DUPX_UpdateEngine
                         $upd = false;
                         $serial_err = 0;
                         $is_unkeyed = !in_array(true, $columns);
+                        $rowErrors = array();
 
                         //Loops every cell
                         foreach ($columns as $column => $primary_key) {
@@ -282,6 +283,12 @@ class DUPX_UpdateEngine
                                 if (self::isSerialized($edited_data) && strlen($edited_data) > MAX_STRLEN_SERIALIZED_CHECK) {
                                      // skip search and replace for too big serialized string
                                     $serial_err++;
+                                    $rowErrors[$column] = 'ENGINE: serialize data too big to convert; data len:'.strlen($edited_data).' Max size:'.MAX_STRLEN_SERIALIZED_CHECK;
+                                    if (DUPX_Log::isLevel(DUPX_Log::LV_HARD_DEBUG)) {
+                                        $rowErrors[$column] .= "\n\tDATA: ".substr($edited_data, 0, 10000).' [...]';
+                                    } else {
+                                        $rowErrors[$column] .= "\n\tDATA: ".substr($edited_data, 0, 150).' [...]';
+                                    }
                                 } else {
                                     //Replace logic - level 1: simple check on any string or serlized strings
                                     foreach ($list as $item) {
@@ -295,6 +302,12 @@ class DUPX_UpdateEngine
                                         $edited_data = $serial_check['data'];
                                     } elseif ($serial_check['tried'] && !$serial_check['fixed']) {
                                         $serial_err++;
+                                        $rowErrors[$column] = 'ENGINE: serialize data serial check error';
+                                        if (DUPX_Log::isLevel(DUPX_Log::LV_HARD_DEBUG)) {
+                                            $rowErrors[$column] .= "\n\tDATA: ".substr($edited_data, 0, 10000).' [...]';
+                                        } else {
+                                            $rowErrors[$column] .= "\n\tDATA: ".substr($edited_data, 0, 150).' [...]';
+                                        }
                                     }
                                 }
                             }
@@ -321,6 +334,18 @@ class DUPX_UpdateEngine
                             $sql	= "UPDATE `".mysqli_real_escape_string($conn, $table)."` SET " . implode(', ', $upd_sql) . ' WHERE ' . implode(' AND ', array_filter($where_sql));
 							$result	= mysqli_query($conn, $sql);
                             if ($result) {
+                                foreach ($rowErrors as $errCol => $msgCol) {
+                                    $longMsg = $msgCol."\n\tTABLE:".$rowsParams['table'].' COLUMN: '.$errCol. ' WHERE: '.implode(' AND ', array_filter($where_sql));
+                                    $report['errser'][] = $longMsg;
+
+                                    $nManager->addFinalReportNotice(array(
+                                        'shortMsg' => 'DATA-REPLACE ERROR: Serialization',
+                                        'level' => DUPX_NOTICE_ITEM::SOFT_WARNING,
+                                        'longMsg' => $longMsg,
+                                        'sections' => 'search_replace'
+                                    ));
+                                }
+                                /*
                                 if ($serial_err > 0) {
                                     $errMsg = "SELECT " . implode(', ',
                                             $upd_col) . " FROM `".mysqli_real_escape_string($conn, $table)."`  WHERE " . implode(' AND ',
@@ -333,7 +358,7 @@ class DUPX_UpdateEngine
                                         'longMsg' => $errMsg,
                                         'sections' => 'search_replace'
                                     ));
-                                }
+                                }*/
                                 $report['updt_rows']++;
                             } else {
                                 $errMsg = mysqli_error($conn);
