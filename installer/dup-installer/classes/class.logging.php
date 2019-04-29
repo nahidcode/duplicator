@@ -219,7 +219,7 @@ class DUPX_Handler
                         DUPX_Log::error($log_message);
                         break;
                     case E_NOTICE :
-                        if ($GLOBALS["LOGGING"] > 2) {
+                        if (DUPX_Log::isLevel(DUPX_Log::LV_DEFAULT)) {
                             $log_message = self::getMessage($errno, $errstr, $errfile, $errline);
                             DUPX_Log::info($log_message);
                         }
