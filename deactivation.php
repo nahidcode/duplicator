@@ -221,7 +221,8 @@ if ( ! function_exists( 'duplicator_add_deactivation_feedback_dialog_box' ) ) {
                                 },
                                 beforeSend: function() {
                                     _parent.find( '.duplicator-modal-footer .button' ).addClass( 'disabled' );
-                                    _parent.find( '.duplicator-modal-footer .button-secondary' ).text( '<?php _e( 'Processing', 'duplicator' ); ?>' + '...' );
+                                    // _parent.find( '.duplicator-modal-footer .button-secondary' ).text( '<?php _e( 'Processing', 'duplicator' ); ?>' + '...' );
+                                    _parent.find( '.duplicator-modal-footer .duplicator-modal-button-deactivate' ).text( '<?php _e( 'Processing', 'duplicator' ); ?>' + '...' );
                                 },
                                 complete  : function( message ) {
                                     /* Do not show the dialog box, deactivate the plugin. */

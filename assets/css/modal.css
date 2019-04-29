@@ -48,6 +48,10 @@
     border-top: #eeeeee solid 1px;
     text-align: right;   
 }
+.duplicator-modal .duplicator-modal-footer .duplicator-modal-button-deactivate {
+    min-width: 124px;
+    text-align: center;
+}
 .duplicator-modal .duplicator-modal-footer .button {
     margin: 0 7px;    
 }
