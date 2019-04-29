@@ -345,20 +345,6 @@ class DUPX_UpdateEngine
                                         'sections' => 'search_replace'
                                     ));
                                 }
-                                /*
-                                if ($serial_err > 0) {
-                                    $errMsg = "SELECT " . implode(', ',
-                                            $upd_col) . " FROM `".mysqli_real_escape_string($conn, $table)."`  WHERE " . implode(' AND ',
-                                            array_filter($where_sql)) . ';';
-                                    $report['errser'][] = $errMsg;
-
-                                    $nManager->addFinalReportNotice(array(
-                                        'shortMsg' => 'DATA-REPLACE ERROR: Serialization',
-                                        'level' => DUPX_NOTICE_ITEM::SOFT_WARNING,
-                                        'longMsg' => $errMsg,
-                                        'sections' => 'search_replace'
-                                    ));
-                                }*/
                                 $report['updt_rows']++;
                             } else {
                                 $errMsg = mysqli_error($conn);
