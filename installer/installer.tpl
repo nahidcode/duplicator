@@ -4415,6 +4415,8 @@ class DUPX_Bootstrap
 					. "The archive file name must be the <u>exact</u> name of the archive file placed in the extraction path character for character.<br/><br/>  "
 					. "If the file does not have the correct name then rename it to the <i>'Required File'</i> below.   When downloading the package files make "
 					. "sure both files are from the same package line in the packages view.  If the archive is not finished downloading please wait for it to complete.<br/><br/>"
+					. "If this message continues even with a valid archive file, consider clearing your browsers cache and refreshing, trying another browser or change the browsers "
+					. "URL from http to https or vice versa.<br/><br/>  "
 					. "<b>Required File:</b>  <span class='file-info'>{$archive_filename}</span> <br/>"
 					. "<b>Extraction Path:</b> <span class='file-info'>{$this->installerExtractPath}/</span><br/><br/>"
 					. "Potential archives found at extraction path: <br/>{$candidate_html}<br/><br/>";

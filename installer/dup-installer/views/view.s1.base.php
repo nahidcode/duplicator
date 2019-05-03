@@ -210,7 +210,7 @@ ARCHIVE
 						<div class="s1-archive-failed-msg">
 						<b class="dupx-fail">Archive File Not Found!</b><br/>
 							The installer file and the archive are bound together as a package when the archive is built.  They must be downloaded together and used
-							together at install time.  The archive file name should <u>not</u> be changed when it is downloaded because the file name is strongly bound
+							together at install time.  The archive file name should <u>NOT</u> be changed when it is downloaded because the file name is strongly bound
 							to the installer. When downloading the package files make sure both files are from the same package line in the packages view within the
 							Duplicator WordPress admin.
 							<br/><br/>
