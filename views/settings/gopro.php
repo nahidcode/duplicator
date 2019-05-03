@@ -35,9 +35,9 @@ require_once(DUPLICATOR_PLUGIN_PATH . '/views/inc.header.php');
 
 <div class="dup-pro-area">
 	<img src="<?php echo esc_url(DUPLICATOR_PLUGIN_URL."assets/img/logo-dpro-300x50.png"); ?>"  />
-	<div style="font-size:18px; font-style:italic; color:gray">
+	<div style="font-size:18px; font-style:italic; color:gray; border-bottom: 1px solid silver; padding-bottom:10px; margin-bottom: -30px">
 		<?php esc_html_e('The simplicity of Duplicator', 'duplicator') ?>
-		<?php esc_html_e('with power for the professional.', 'duplicator') ?>
+		<?php esc_html_e('with power for everyone.', 'duplicator') ?>
 	</div>
 
 	<table id="comparison-table">
