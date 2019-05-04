@@ -19,13 +19,13 @@ table.dup-support-hlp-hdrs td {
 }
 table.dup-support-hlp-hdrs td img{margin-left:7px}
 div.dup-support-hlp-txt{padding:10px 4px 4px 4px; text-align:center}
-div.dup-support-give-area {width:400px; height:165px; float:left; border:1px solid #dfdfdf; border-radius:4px; margin:10px; line-height:18px;box-shadow: 0 8px 6px -6px #ccc;}
+div.dup-support-give-area {width:250px; height:225px; float:left; border:1px solid #dfdfdf; border-radius:4px; margin:10px; line-height:18px;box-shadow: 0 8px 6px -6px #ccc;}
 div.dup-spread-word {display:inline-block; border:1px solid red; text-align:center}
 
 img#dup-support-approved { -webkit-animation:approve-keyframe 12s 1s infinite alternate backwards}
 img#dup-img-5stars {opacity:0.7;}
 img#dup-img-5stars:hover {opacity:1.0;}
-div.social-item {float:right; width: 170px; padding:10px 10px 20px 0px; border:0px solid red; text-align: left; font-size:20px}
+div.social-item {float:right; width: 170px; padding:10px; border:0px solid red; text-align: left; font-size:20px}
 
 /* EMAIL AREA */
 div.dup-support-email-area {width:825px; height:355px; border:1px solid #dfdfdf; border-radius:4px; margin:10px; line-height:18px;box-shadow: 0 8px 6px -6px #ccc;}
@@ -50,9 +50,6 @@ div#mce-responses {margin: auto; padding: 10px; width:500px; font-weight: bold;}
                     esc_html_e("Duplicator can streamline your workflow and quickly clone/migrate a WordPress site. The plugin helps admins, designers and developers speed up the "
 						. "migration process of moving a WordPress site. Please help us continue development by giving this plugin a 5 star.", 'duplicator');
                     ?>
-                </td>
-            </tr>
-        </table><br/>
 
         <!-- PARTNER WITH US -->
         <div class="dup-support-give-area">
@@ -63,12 +60,18 @@ div#mce-responses {margin: auto; padding: 10px; width:500px; font-weight: bold;}
                     </td>
                 </tr>
             </table>
-            <table style="text-align: center;width:100%; font-size:11px; font-style:italic; margin-top:25px">
+            <table style="text-align: center;width:100%; font-size:11px; font-style:italic; margin-top:35px">
                 <tr>
                     <td valign="top">
                         <a href="https://wordpress.org/support/plugin/duplicator/reviews/?filter=5" target="vote-wp"><img id="dup-img-5stars" src="<?php echo DUPLICATOR_PLUGIN_URL ?>assets/img/5star.png" /></a>
-                        <div  style=" font-size: 16px; font-weight: bold">
-							<a href="https://wordpress.org/support/plugin/duplicator/reviews/?filter=5" target="vote-wp"><?php esc_html_e('Support us with a 5 star review!', 'duplicator') ?></a>
+                        <div  style=" font-size: 16px; font-weight: bold; line-height: 22px">
+							<a href="https://wordpress.org/support/plugin/duplicator/reviews/?filter=5" target="vote-wp">
+								<?php
+									esc_html_e('Support Duplicator', 'duplicator');
+									echo '<br/>';
+									esc_html_e('with a 5 star review!', 'duplicator')
+								?>
+							</a>
 						</div>
                     </td>
                 </tr>
@@ -102,6 +105,13 @@ div#mce-responses {margin: auto; padding: 10px; width:500px; font-weight: bold;}
             </div>
         </div>
         <br style="clear:both" /><br/>
+
+
+                </td>
+            </tr>
+        </table><br/>
+
+
 
 		<!-- STAY IN THE LOOP  -->
         <div class="dup-support-email-area">
