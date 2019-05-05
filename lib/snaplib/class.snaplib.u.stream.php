@@ -12,17 +12,20 @@
  */
 defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
-class SnapLibStreamU
-{
+if (!class_exists('SnapLibStreamU', false)) {
 
-    public static function streamGetLine($handle, $length, $ending)
+    class SnapLibStreamU
     {
-        $line = stream_get_line($handle, $length, $ending);
 
-        if ($line === false) {
-            throw new Exception('Error reading line.');
+        public static function streamGetLine($handle, $length, $ending)
+        {
+            $line = stream_get_line($handle, $length, $ending);
+
+            if ($line === false) {
+                throw new Exception('Error reading line.');
+            }
+
+            return $line;
         }
-
-        return $line;
     }
 }

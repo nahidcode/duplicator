@@ -12,18 +12,19 @@
  */
 defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
-class SnapLibOSU
-{
-    const WindowsMaxPathLength = 259;
+if (!class_exists('SnapLibOSU', false)) {
 
-    public static $isWindows;
-
-    public static function init()
+    class SnapLibOSU
     {
+        const WindowsMaxPathLength = 259;
 
-        self::$isWindows = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+        public static $isWindows;
+
+        public static function init()
+        {
+
+            self::$isWindows = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+        }
     }
+    SnapLibOSU::init();
 }
-SnapLibOSU::init();
-
-

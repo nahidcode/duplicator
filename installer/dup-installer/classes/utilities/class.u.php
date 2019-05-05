@@ -46,8 +46,8 @@ class DUPX_U
     {
         array_push($GLOBALS['REPLACE_LIST'], array('search' => $search, 'replace' => $replace));
 
-        $search_json  = str_replace('"', "", json_encode($search));
-        $replace_json = str_replace('"', "", json_encode($replace));
+        $search_json  = str_replace('"', "", SnapLibUtil::wp_json_encode($search));
+        $replace_json = str_replace('"', "", SnapLibUtil::wp_json_encode($replace));
 
         if ($search != $search_json) {
             array_push($GLOBALS['REPLACE_LIST'], array('search' => $search_json, 'replace' => $replace_json));

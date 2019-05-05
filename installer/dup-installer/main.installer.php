@@ -88,7 +88,7 @@ try {
                     'isWPAlreadyExistsError' => 1,
                     'error' => "<b style='color:#B80000;'>INSTALL ERROR!</b><br/>". ERR_CONFIG_FOUND,                    
                 );
-                echo json_encode($resp);
+                echo SnapLibUtil::wp_json_encode($resp);
             } else {
                 require_once($GLOBALS['DUPX_INIT'].'/lib/dup_archive/daws/daws.php');
             }

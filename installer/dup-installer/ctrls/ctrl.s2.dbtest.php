@@ -99,7 +99,7 @@ class DUPX_DBTest
 			$result = $this->out;
 			return $result;
 		} elseif ($this->responseMode == 'JSON') {
-			$result = json_encode($this->out);
+			$result = SnapLibUtil::wp_json_encode($this->out);
 			return $result;
 		} else {
 			die('Please specific the responseMode property');

@@ -12,68 +12,51 @@
  */
 defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
-class SnapLibStringU
-{
+if (!class_exists('SnapLibStringU', false)) {
 
-    public static function boolToString($b)
+    class SnapLibStringU
     {
-        return ($b ? 'true' : 'false');
-    }
 
-    public static function truncateString($s, $maxWidth)
-    {
-        if (strlen($s) > $maxWidth) {
-            $s = substr($s, 0, $maxWidth - 3).'...';
+        public static function boolToString($b)
+        {
+            return ($b ? 'true' : 'false');
         }
 
-        return $s;
-    }
+        public static function truncateString($s, $maxWidth)
+        {
+            if (strlen($s) > $maxWidth) {
+                $s = substr($s, 0, $maxWidth - 3).'...';
+            }
 
-    /**
-     * Returns true if the $haystack string starts with the $needle
-     *
-     * @param string  $haystack     The full string to search in
-     * @param string  $needle       The string to for
-     *
-     * @return bool Returns true if the $haystack string starts with the $needle
-     */
-    public static function startsWith($haystack, $needle)
-    {
-        $length = strlen($needle);
-        return (substr($haystack, 0, $length) === $needle);
-    }
-
-    public static function jsonEncode($value)
-    {
-        $retVal = json_encode($value);
-
-        if ($retVal === false) {
-            throw new Exception("Error JSON encoding data");
+            return $s;
         }
 
-        return $retVal;
-    }
-
-    public static function jsonDecode($json, $assoc = true)
-    {
-        $retVal = json_decode($json, $assoc);
-
-        if ($retVal === null) {
-            throw new Exception("Error decoding JSON");
+        /**
+         * Returns true if the $haystack string starts with the $needle
+         *
+         * @param string  $haystack     The full string to search in
+         * @param string  $needle       The string to for
+         *
+         * @return bool Returns true if the $haystack string starts with the $needle
+         */
+        public static function startsWith($haystack, $needle)
+        {
+            $length = strlen($needle);
+            return (substr($haystack, 0, $length) === $needle);
         }
-    }
 
-    /**
-     * Returns true if the $needle is found in the $haystack
-     *
-     * @param string  $haystack     The full string to search in
-     * @param string  $needle       The string to for
-     *
-     * @return bool
-     */
-    public static function contains($haystack, $needle)
-    {
-        $pos = strpos($haystack, $needle);
-        return ($pos !== false);
+        /**
+         * Returns true if the $needle is found in the $haystack
+         *
+         * @param string  $haystack     The full string to search in
+         * @param string  $needle       The string to for
+         *
+         * @return bool
+         */
+        public static function contains($haystack, $needle)
+        {
+            $pos = strpos($haystack, $needle);
+            return ($pos !== false);
+        }
     }
 }

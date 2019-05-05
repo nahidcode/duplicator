@@ -12,7 +12,10 @@
  */
 defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
-class SnapLib_32BitSizeLimitException extends Exception
-{
+if (!class_exists('SnapLib_32BitSizeLimitException', false)) {
 
+    class SnapLib_32BitSizeLimitException extends Exception
+    {
+
+    }
 }
