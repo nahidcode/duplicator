@@ -143,7 +143,7 @@ class DUPX_CSRF {
 	}
 
 	private static function saveCSRFVars($CSRFVars) {
-		$contents = json_encode($CSRFVars);
+		$contents = SnapLibUtil::wp_json_encode($CSRFVars);
 		$filePath = self::getFilePath();
 		file_put_contents($filePath, $contents);
 	}

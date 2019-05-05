@@ -247,7 +247,7 @@ class DAWS
 
 		SnapLibLogger::logObject("before json encode retval", $retVal);
 
-		$jsonRetVal = json_encode($retVal);
+		$jsonRetVal = SnapLibUtil::wp_json_encode($retVal);
 		SnapLibLogger::logObject("json encoded retval", $jsonRetVal);
         echo $jsonRetVal;
     }

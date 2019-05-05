@@ -94,7 +94,7 @@ class DAWSExpandState extends DupArchiveExpandState
 
         $this->initMembers();
 
-        SnapLibIOU::fwrite($stateHandle, json_encode($this));
+        SnapLibIOU::fwrite($stateHandle, SnapLibUtil::wp_json_encode($this));
 
         SnapLibIOU::flock($stateHandle, LOCK_UN);
         
@@ -110,7 +110,7 @@ class DAWSExpandState extends DupArchiveExpandState
         SnapLibIOU::flock($stateHandle, LOCK_EX);
 
         DupArchiveUtil::tlog("saving state");
-        SnapLibIOU::fwrite($stateHandle, json_encode($this));
+        SnapLibIOU::fwrite($stateHandle, SnapLibUtil::wp_json_encode($this));
 
         SnapLibIOU::flock($stateHandle, LOCK_UN);
         
