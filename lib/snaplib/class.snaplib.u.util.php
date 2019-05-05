@@ -238,6 +238,10 @@ if (!class_exists('SnapLibUtil', false)) {
          */
         public static function wp_json_encode($data, $options = 0, $depth = 512)
         {
+            if (function_exists('wp_json_encode')) {
+                return wp_json_encode($data, $options, $depth);
+            }
+
             /*
              * json_encode() has had extra params added over the years.
              * $options was added in 5.3, and $depth in 5.5.
@@ -270,6 +274,24 @@ if (!class_exists('SnapLibUtil', false)) {
             }
 
             return call_user_func_array('json_encode', $args);
+        }
+
+        /**
+         * wp_json_encode with pretty print if define exists
+         *
+         * @param mixed $data    Variable (usually an array or object) to encode as JSON.
+         * @param int   $options Optional. Options to be passed to json_encode(). Default 0.
+         * @param int   $depth   Optional. Maximum depth to walk through $data. Must be
+         *                       greater than 0. Default 512.
+         * @return string|false The JSON encoded string, or false if it cannot be encoded.
+         */
+        public static function wp_json_encode_pprint($data, $options = 0, $depth = 512)
+        {
+            if (defined('JSON_PRETTY_PRINT')) {
+                return self::wp_json_encode($data, JSON_PRETTY_PRINT | $options, $depth);
+            } else {
+                return self::wp_json_encode($data, $options, $depth);
+            }
         }
 
         /**
