@@ -46,10 +46,6 @@ try {
     require_once($GLOBALS['DUPX_INIT'] . '/classes/config/class.archive.config.php');
     $GLOBALS['DUPX_AC'] = DUPX_ArchiveConfig::getInstance();
 
-    if ($GLOBALS['DUPX_AC']->csrf_crypt) {
-        require_once($GLOBALS['DUPX_INIT'].'/classes/Crypt/Rijndael.php');
-        require_once($GLOBALS['DUPX_INIT'].'/classes/Crypt/Random.php');
-    }
     require_once($GLOBALS['DUPX_INIT'].'/classes/class.csrf.php');
 
     // ?view=help
