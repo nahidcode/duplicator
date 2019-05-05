@@ -16,12 +16,12 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 		</h2>
 		<div style='text-align: left; margin:auto; width:200px'>
 			<ul>
-				<li><i class="fa fa-amazon"></i> <?php esc_html_e('Amazon S3', 'duplicator'); ?></li>
-				<li><i class="fa fa-dropbox"></i> <?php esc_html_e(' Dropbox', 'duplicator'); ?></li>
-				<li><i class="fa fa-google"></i> <?php esc_html_e('Google Drive', 'duplicator'); ?></li>
-				<li><i class="fa fa-cloud"></i> <?php esc_html_e('One Drive', 'duplicator'); ?></li>
+				<li><i class="fab fa-amazon"></i> <?php esc_html_e('Amazon S3', 'duplicator'); ?></li>
+				<li><i class="fab fa-dropbox"></i> <?php esc_html_e(' Dropbox', 'duplicator'); ?></li>
+				<li><i class="fab fa-google-drive"></i> <?php esc_html_e('Google Drive', 'duplicator'); ?></li>
+				<li><i class="fa fa-cloud fa-sm"></i> <?php esc_html_e('One Drive', 'duplicator'); ?></li>
 				<li><i class="fa fa-upload"></i> <?php esc_html_e('FTP &amp; SFTP', 'duplicator'); ?></li>
-				<li><i class="fa fa-folder-open-o"></i> <?php esc_html_e('Custom Directory', 'duplicator'); ?></li>
+				<li><i class="far fa-folder-open"></i> <?php esc_html_e('Custom Directory', 'duplicator'); ?></li>
 			</ul>
 		</div>
 		<?php

@@ -1771,7 +1771,7 @@ class DUPX_U
     public static function getEscapedGenericString($str, $addQuote = true)
     {
         $result = SnapLibUtil::wp_json_encode(trim($str));
-        $result = str_replace(array('\x00', '\/', '{$'), array('', '/', '{\\$'), $result);
+        $result = str_replace(array('\/', '$'), array('/', '\\$'), $result);
         $result = preg_replace_callback(
             '/\\\\u[a-fA-F0-9]{4}/m', array(__CLASS__, 'encodeUtf8CharFromRegexMatch'), $result
         );
