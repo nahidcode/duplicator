@@ -469,14 +469,16 @@ class DUP_Installer
      * @param $temp_conf_ark_file_path Temp config file path
      */
     private static function cleanTempWPConfArkFilePath($temp_conf_ark_file_path) {
-        require_once(DUPLICATOR_PLUGIN_PATH . 'lib/config/class.wp.config.tranformer.php');
-        $transformer = new WPConfigTransformer($temp_conf_ark_file_path);
-        $constants = array('DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST');
-        foreach ($constants as $constant) {
-            if ($transformer->exists('constant', $constant)) {
-                $transformer->update('constant', $constant, '');
-            }
-        }
+		if (function_exists('token_get_all')) {
+			require_once(DUPLICATOR_PLUGIN_PATH . 'lib/config/class.wp.config.tranformer.php');
+			$transformer = new WPConfigTransformer($temp_conf_ark_file_path);
+			$constants = array('DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST');
+			foreach ($constants as $constant) {
+				if ($transformer->exists('constant', $constant)) {
+					$transformer->update('constant', $constant, '');
+				}
+			}
+		}
     }
 
 	/**
