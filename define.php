@@ -5,7 +5,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 if (function_exists('plugin_dir_url')) 
 {		
     define('DUPLICATOR_VERSION',        '1.3.13');
-	define('DUPLICATOR_VERSION_BUILD',  '2019-05-03_17:24');
+	define('DUPLICATOR_VERSION_BUILD',  '2019-05-10_09:30');
     define('DUPLICATOR_PLUGIN_URL',     plugin_dir_url(__FILE__));
 	define('DUPLICATOR_SITE_URL',		get_site_url());
 	
