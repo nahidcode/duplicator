@@ -42,6 +42,15 @@ try {
     DUPX_Boot::init();
     DUPX_Boot::initArchiveAndLog();
 
+    require_once($GLOBALS['DUPX_INIT'].'/classes/class.installer.state.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/class.password.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/class.db.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/class.http.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/class.server.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.conf.srv.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/utilities/class.u.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/class.view.php');
+
     $exceptionError = false;
     // DUPX_log::error thotw an exception
     DUPX_Log::setThrowExceptionOnError(true);
@@ -52,14 +61,13 @@ try {
     if (!empty($_GET['view']) && 'help' == $_GET['view']) {
         if (!isset($_GET['archive'])) {
             // RSR TODO: Fail gracefully
-            die("Archive parameter not specified");
+            DUPX_Log::error("Archive parameter not specified");
         }
         if (!isset($_GET['bootloader'])) {
             // RSR TODO: Fail gracefully
-            die("Bootloader parameter not specified");
+            DUPX_Log::error("Bootloader parameter not specified");
         }
     } else if (isset($_GET['is_daws']) && 1 == $_GET['is_daws']) { // For daws action
-        require_once($GLOBALS['DUPX_INIT'].'/classes/utilities/class.u.php');
         $post_ctrl_csrf_token = isset($_GET['daws_csrf_token']) ? DUPX_U::sanitize_text_field($_GET['daws_csrf_token']) : '';
         if (DUPX_CSRF::check($post_ctrl_csrf_token, 'daws')) {
             $outer_root_path = dirname($GLOBALS['DUPX_ROOT']);
@@ -92,9 +100,9 @@ try {
             } else {
                 require_once($GLOBALS['DUPX_INIT'].'/lib/dup_archive/daws/daws.php');
             }
-            die();
+            die('');
         } else {
-            die("An invalid request was made to 'daws'.  In order to protect this request from unauthorized access please "
+            DUPX_Log::error("An invalid request was made to 'daws'.  In order to protect this request from unauthorized access please "
             . "<a href='../{$GLOBALS['BOOTLOADER_NAME']}'>restart this install process</a>.");
         }        
     } else {
@@ -104,7 +112,7 @@ try {
                 $_POST['archive'] = $archive;
             } else {
                 // RSR TODO: Fail gracefully
-                die("Archive parameter not specified");
+                DUPX_Log::error("Archive parameter not specified");
             }
         }
         if (!isset($_POST['bootloader'])) {
@@ -113,18 +121,15 @@ try {
                 $_POST['bootloader'] = $bootloader;
             } else {
                 // RSR TODO: Fail gracefully
-                die("Bootloader parameter not specified");
+                DUPX_Log::error("Bootloader parameter not specified");
             }
         }
     }
 
-    require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.constants.php');
-    require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.archive.config.php');
-    require_once($GLOBALS['DUPX_INIT'].'/classes/class.installer.state.php');
-    require_once($GLOBALS['DUPX_INIT'].'/classes/class.password.php');
+    DUPX_InstallerState::init($GLOBALS['INIT']);
 
     if ($GLOBALS['DUPX_AC'] == null) {
-        die("Can't initialize config globals! Please try to re-run installer.php");
+        DUPX_Log::error("Can't initialize config globals! Please try to re-run installer.php");
     }
 
     //Password Check
@@ -149,7 +154,7 @@ try {
     // TODO: If this is the very first step
     $GLOBALS['DUPX_STATE'] = DUPX_InstallerState::getInstance($init_state);
     if ($GLOBALS['DUPX_STATE'] == null) {
-        die("Can't initialize installer state! Please try to re-run installer.php");
+        DUPX_Log::error("Can't initialize installer state! Please try to re-run installer.php");
     }
 
     if (!empty($GLOBALS['view'])) {
@@ -172,48 +177,25 @@ try {
 
         if (in_array($post_view, $csrf_views)) {
             if (isset($_POST['csrf_token']) && !DUPX_CSRF::check($_POST['csrf_token'], $post_view)) {
-                /*
-                var_dump($_POST['csrf_token']);
-                echo '<br/>';
-                echo '<pre>';
-                var_dump($_COOKIE);
-                echo '</pre>';
-                echo '<br/>';
-                */
-                die("An invalid request was made to '{$post_view}'.  In order to protect this request from unauthorized access please "
+                DUPX_Log::error("An invalid request was made to '{$post_view}'.  In order to protect this request from unauthorized access please "
                 . "<a href='../{$GLOBALS['BOOTLOADER_NAME']}'>restart this install process</a>.");
             }
         }
     }
-
-    require_once($GLOBALS['DUPX_INIT'] . '/classes/class.db.php');
-    require_once($GLOBALS['DUPX_INIT'] . '/classes/class.http.php');
-    require_once($GLOBALS['DUPX_INIT'] . '/classes/class.server.php');
-    require_once($GLOBALS['DUPX_INIT'] . '/classes/config/class.conf.srv.php');
-    require_once($GLOBALS['DUPX_INIT'] . '/classes/class.view.php');
 
     $GLOBALS['_CURRENT_URL_PATH'] = $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
     $GLOBALS['NOW_TIME']		  = @date("His");
 
     if (!chdir($GLOBALS['DUPX_INIT'])) {
         // RSR TODO: Can't change directories
-        echo "Can't change to directory ".$GLOBALS['DUPX_INIT'];
-        exit(1);
+        DUPX_Log::error("Can't change to directory ".$GLOBALS['DUPX_INIT']);
     }
 
     if (isset($_POST['ctrl_action'])) {
         $post_ctrl_csrf_token = isset($_POST['ctrl_csrf_token']) ? $_POST['ctrl_csrf_token'] : '';
         $post_ctrl_action = DUPX_U::sanitize_text_field($_POST['ctrl_action']);
         if (!DUPX_CSRF::check($post_ctrl_csrf_token, $post_ctrl_action)) {
-            /*
-            var_dump($post_ctrl_csrf_token);
-            echo '<br/>';
-            echo '<pre>';
-            var_dump($_COOKIE);
-            echo '</pre>';
-            echo '<br/>';
-            */
-            die("An invalid request was made to '{$post_ctrl_action}'.  In order to protect this request from unauthorized access please "
+            DUPX_Log::error("An invalid request was made to '{$post_ctrl_action}'.  In order to protect this request from unauthorized access please "
                 . "<a href='../{$GLOBALS['BOOTLOADER_NAME']}'>restart this install process</a>.");
         }
         require_once($GLOBALS['DUPX_INIT'].'/ctrls/ctrl.base.php');
@@ -223,11 +205,11 @@ try {
             $pass_hasher = new DUPX_PasswordHash(8, FALSE);
             $pass_check  = $pass_hasher->CheckPassword(base64_encode($_POST['secure-pass']), $GLOBALS['DUPX_AC']->secure_pass);
             if (! $pass_check) {
-                die("Unauthorized Access:  Please provide a password!");
+                DUPX_Log::error("Unauthorized Access:  Please provide a password!");
             }
         }
 
-        switch ($_POST['ctrl_action']) {
+        switch ($post_ctrl_action) {
             case "ctrl-step1" :
                 require_once($GLOBALS['DUPX_INIT'].'/ctrls/ctrl.s1.php');
                 break;
@@ -242,9 +224,10 @@ try {
                 require_once($GLOBALS['DUPX_INIT'].'/classes/class.engine.php');
                 require_once($GLOBALS['DUPX_INIT'].'/ctrls/ctrl.s3.php');
                 break;
+            default:
+                DUPX_Log::error('No valid action request');
         }
-        @fclose($GLOBALS["LOG_FILE_HANDLE"]);
-        die("");
+        DUPX_Log::error('Ctrl action problem');
     }
 } catch (Exception $e) {
     $exceptionError = $e;
@@ -256,7 +239,8 @@ try {
 $unespectOutput = ob_get_contents();
 ob_clean();
 if (!empty($unespectOutput)) {
-    // @todo something for report unespected output
+    DUPX_Log::info('ERROR: Unespect output '.DUPX_Log::varToString($unespectOutput));
+    $exceptionError = new Exception('Unespected output '.DUPX_Log::varToString($unespectOutput));
 }
 ?><!DOCTYPE html>
 <html>
