@@ -8,7 +8,7 @@
  * @package SC\DUPX\U
  *
  */
-defined("DUPXABSPATH") or die("");
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
 class DUPX_U_Html
 {
