@@ -501,6 +501,238 @@ class DUP_Package
     }
 
     /**
+     *
+     * @param array $conditions es. [
+     *                                  relation = 'AND',
+     *                                  [ 'op' => '>=' ,
+     *                                    'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                  [ 'op' => '<' ,
+     *                                    'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                              ]
+     * @return string
+     */
+    protected static function statusContitionsToWhere($conditions = array())
+    {
+        if (empty($conditions)) {
+            return '';
+        } else {
+            $accepted_op = array('<', '>', '=', '<>', '>=', '<=');
+            $relation    = (isset($conditions['relation']) && strtoupper($conditions['relation']) == 'OR') ? ' OR ' : ' AND ';
+            unset($conditions['relation']);
+
+            $str_conds = array();
+
+            foreach ($conditions as $cond) {
+                $op          = (isset($cond['op']) && in_array($cond['op'], $accepted_op)) ? $cond['op'] : '=';
+                $status      = isset($cond['status']) ? (int) $cond['status'] : 0;
+                $str_conds[] = 'status '.$op.' '.$status;
+            }
+
+            return ' WHERE '.implode($relation, $str_conds).' ';
+        }
+    }
+
+    /**
+     * Get packages with status conditions and/or pagination
+     *
+     * @global wpdb $wpdb
+     *
+     * @param array                 //  $conditions es. [
+     *                                      relation = 'AND',
+     *                                      [ 'op' => '>=' ,
+     *                                        'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                      [ 'op' => '<' ,
+     *                                        'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                                   ]
+     *                                  if empty get all pacages
+     * @param int $limit            // max row numbers fi false the limit is PHP_INT_MAX
+     * @param int $offset           // offset 0 is at begin
+     * @param string $orderBy       // default `id` ASC if empty no order
+     * @param string $resultType    //  ids => int[]
+     *                                  row => row without backage blob
+     *                                  fullRow => row with package blob
+     *                                  objs => array of DUP_PRO_Package objects
+     *
+     * @return DUP_PRO_Package[]|array[]|int[]
+     */
+    public static function get_packages_by_status($conditions = array(), $limit = false, $offset = 0, $orderBy = '`id` ASC', $resultType = 'obj')
+    {
+        global $wpdb;
+        $table = $wpdb->base_prefix."duplicator_packages";
+        $where = self::statusContitionsToWhere($conditions);
+
+        $packages   = array();
+        $offsetStr  = ' OFFSET '.(int) $offset;
+        $limitStr   = ' LIMIT '.($limit !== false ? max(0, $limit) : PHP_INT_MAX);
+        $orderByStr = empty($orderBy) ? '' : ' ORDER BY '.$orderBy.' ';
+        switch ($resultType) {
+            case 'ids':
+                $cols = '`id`';
+                break;
+            case 'row':
+                $cols = '`id`,`name`,`hash`,`status`,`created`,`owner`';
+                break;
+            case 'fullRow':
+                $cols = '*';
+                break;
+            case 'objs':
+            default:
+                $cols = '`status`,`package`';
+                break;
+        }
+
+        $rows = $wpdb->get_results('SELECT '.$cols.' FROM `'.$table.'` '.$where.$orderByStr.$limitStr.$offsetStr);
+        if ($rows != null) {
+            switch ($resultType) {
+                case 'ids':
+                    foreach ($rows as $row) {
+                        $packages[] = $row->id;
+                    }
+                    break;
+                case 'row':
+                case 'fullRow':
+                    $packages = $rows;
+                    break;
+                case 'objs':
+                default:
+                    foreach ($rows as $row) {
+                        $Package = unserialize($row->package);
+                        if ($Package) {
+                            // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
+                            if (!isset($Package->Status)) {
+                                $Package->Status = $row->status;
+                            }
+
+                            $packages[] = $Package;
+                        }
+                    }
+            }
+        }
+        return $packages;
+    }
+
+    /**
+     * Get packages row db with status conditions and/or pagination
+     *
+     * @param array             //  $conditions es. [
+     *                                  relation = 'AND',
+     *                                  [ 'op' => '>=' ,
+     *                                    'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                  [ 'op' => '<' ,
+     *                                    'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                              ]
+     *                              if empty get all pacages
+     * @param int $limit        // max row numbers
+     * @param int $offset       // offset 0 is at begin
+     * @param string $orderBy   // default `id` ASC if empty no order
+     *
+     * @return array[]      // return row database without package blob
+     */
+    public static function get_row_by_status($conditions = array(), $limit = false, $offset = 0, $orderBy = '`id` ASC')
+    {
+        return self::get_packages_by_status($conditions, $limit, $offset, $orderBy, 'row');
+    }
+
+    /**
+     * Get packages ids with status conditions and/or pagination
+     *
+     * @param array             //  $conditions es. [
+     *                                  relation = 'AND',
+     *                                  [ 'op' => '>=' ,
+     *                                    'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                  [ 'op' => '<' ,
+     *                                    'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                              ]
+     *                              if empty get all pacages
+     * @param int $limit        // max row numbers
+     * @param int $offset       // offset 0 is at begin
+     * @param string $orderBy   // default `id` ASC if empty no order
+     *
+     * @return array[]      // return row database without package blob
+     */
+    public static function get_ids_by_status($conditions = array(), $limit = false, $offset = 0, $orderBy = '`id` ASC')
+    {
+        return self::get_packages_by_status($conditions, $limit, $offset, $orderBy, 'ids');
+    }
+
+    /**
+     * count package with status condition
+     *
+     * @global wpdb $wpdb
+     * @param array $conditions es. [
+     *                                  relation = 'AND',
+     *                                  [ 'op' => '>=' ,
+     *                                    'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                  [ 'op' => '<' ,
+     *                                    'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                              ]
+     * @return int
+     */
+    public static function count_by_status($conditions = array())
+    {
+        global $wpdb;
+
+        $table = $wpdb->base_prefix."duplicator_packages";
+        $where = self::statusContitionsToWhere($conditions);
+
+        $count = $wpdb->get_var("SELECT count(id) FROM `{$table}` ".$where);
+        return $count;
+    }
+
+    /**
+     * Execute $callback function foreach package result
+     * For each iteration the memory is released
+     *
+     * @param callable $callback    // function callback(DUP_PRO_Package $package)
+     * @param array             //  $conditions es. [
+     *                                  relation = 'AND',
+     *                                  [ 'op' => '>=' ,
+     *                                    'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                  [ 'op' => '<' ,
+     *                                    'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                              ]
+     *                              if empty get all pacages
+     * @param int $limit        // max row numbers
+     * @param int $offset       // offset 0 is at begin
+     * @param string $orderBy   // default `id` ASC if empty no order
+     *
+     * @return void
+     */
+    public static function by_status_callback($callback, $conditions = array(), $limit = false, $offset = 0, $orderBy = '`id` ASC')
+    {
+        if (!is_callable($callback)) {
+            throw new Exception('No callback function passed');
+        }
+
+        $offset      = max(0, $offset);
+        $numPackages = self::count_by_status($conditions);
+        $maxLimit    = $offset + ($limit !== false ? max(0, $limit) : PHP_INT_MAX - $offset);
+        $numPackages = min($maxLimit, $numPackages);
+        $orderByStr = empty($orderBy) ? '' : ' ORDER BY '.$orderBy.' ';
+
+        global $wpdb;
+        $table = $wpdb->base_prefix."duplicator_packages";
+        $where = self::statusContitionsToWhere($conditions);
+        $sql   = 'SELECT * FROM `'.$table.'` '.$where.$orderByStr.' LIMIT 1 OFFSET ';
+
+        for (; $offset < $numPackages; $offset ++) {
+            $rows = $wpdb->get_results($sql.$offset);
+            if ($rows != null) {
+                $Package = @unserialize($rows[0]->package);
+                if ($Package) {
+                    // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
+                    if (!isset($Package->Status)) {
+                        $Package->Status = $row['status'];
+                    }
+                    call_user_func($callback, $Package);
+                    unset($Package);
+                }
+                unset($rows);
+            }
+        }
+    }
+    
+    /**
      * Get all packages with status conditions
      * @global wpdb $wpdb
      * @param array $conditions es. [
