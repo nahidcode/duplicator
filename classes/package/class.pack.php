@@ -492,12 +492,12 @@ class DUP_Package
      */
     public static function is_active_package_present()
     {
-        $activePakcs = self::get_all_by_status(array(
+        $activePakcs = self::get_ids_by_status(array(
                 array('op' => '>=', 'status' => DUP_PackageStatus::CREATED),
                 array('op' => '<', 'status' => DUP_PackageStatus::COMPLETE)
                 ), true);
 
-        return in_array( DUP_Settings::Get('active_package_id') , $activePakcs);
+        return in_array(DUP_Settings::Get('active_package_id'), $activePakcs);
     }
 
     /**
@@ -505,9 +505,9 @@ class DUP_Package
      * @param array $conditions es. [
      *                                  relation = 'AND',
      *                                  [ 'op' => '>=' ,
-     *                                    'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                    'status' =>  DUP_PackageStatus::START ]
      *                                  [ 'op' => '<' ,
-     *                                    'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
      *                              ]
      * @return string
      */
@@ -540,9 +540,9 @@ class DUP_Package
      * @param array                 //  $conditions es. [
      *                                      relation = 'AND',
      *                                      [ 'op' => '>=' ,
-     *                                        'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                        'status' =>  DUP_PackageStatus::START ]
      *                                      [ 'op' => '<' ,
-     *                                        'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                                        'status' =>  DUP_PackageStatus::COMPLETED ]
      *                                   ]
      *                                  if empty get all pacages
      * @param int $limit            // max row numbers fi false the limit is PHP_INT_MAX
@@ -551,9 +551,9 @@ class DUP_Package
      * @param string $resultType    //  ids => int[]
      *                                  row => row without backage blob
      *                                  fullRow => row with package blob
-     *                                  objs => array of DUP_PRO_Package objects
+     *                                  objs => array of DUP_Package objects
      *
-     * @return DUP_PRO_Package[]|array[]|int[]
+     * @return DUP_Package[]|array[]|int[]
      */
     public static function get_packages_by_status($conditions = array(), $limit = false, $offset = 0, $orderBy = '`id` ASC', $resultType = 'obj')
     {
@@ -617,9 +617,9 @@ class DUP_Package
      * @param array             //  $conditions es. [
      *                                  relation = 'AND',
      *                                  [ 'op' => '>=' ,
-     *                                    'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                    'status' =>  DUP_PackageStatus::START ]
      *                                  [ 'op' => '<' ,
-     *                                    'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
      *                              ]
      *                              if empty get all pacages
      * @param int $limit        // max row numbers
@@ -639,9 +639,9 @@ class DUP_Package
      * @param array             //  $conditions es. [
      *                                  relation = 'AND',
      *                                  [ 'op' => '>=' ,
-     *                                    'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                    'status' =>  DUP_PackageStatus::START ]
      *                                  [ 'op' => '<' ,
-     *                                    'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
      *                              ]
      *                              if empty get all pacages
      * @param int $limit        // max row numbers
@@ -662,9 +662,9 @@ class DUP_Package
      * @param array $conditions es. [
      *                                  relation = 'AND',
      *                                  [ 'op' => '>=' ,
-     *                                    'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                    'status' =>  DUP_PackageStatus::START ]
      *                                  [ 'op' => '<' ,
-     *                                    'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
      *                              ]
      * @return int
      */
@@ -683,13 +683,13 @@ class DUP_Package
      * Execute $callback function foreach package result
      * For each iteration the memory is released
      *
-     * @param callable $callback    // function callback(DUP_PRO_Package $package)
+     * @param callable $callback    // function callback(DUP_Package $package)
      * @param array             //  $conditions es. [
      *                                  relation = 'AND',
      *                                  [ 'op' => '>=' ,
-     *                                    'status' =>  DUP_PRO_PackageStatus::START ]
+     *                                    'status' =>  DUP_PackageStatus::START ]
      *                                  [ 'op' => '<' ,
-     *                                    'status' =>  DUP_PRO_PackageStatus::COMPLETED ]
+     *                                    'status' =>  DUP_PackageStatus::COMPLETED ]
      *                              ]
      *                              if empty get all pacages
      * @param int $limit        // max row numbers
@@ -1084,24 +1084,23 @@ class DUP_Package
 		}
         
         // RUNNING PACKAGES
-        $active_pack = self::get_all_by_status(array(
+        $active_pack = self::get_row_by_status(array(
             'relation' => 'AND',
             array('op' => '>=' , 'status' => DUP_PackageStatus::CREATED ),
             array('op' => '<' , 'status' => DUP_PackageStatus::COMPLETE )
         ));
         $active_files = array();
-
-        foreach($active_pack as $package) {                            
-            $active_files[] = $package->NameHash; // 20181221_dup_c0b2f1198a92f4f6c47a621494adc5cb_20181221173955
+        foreach($active_pack as $row) {
+            $active_files[] = $row->name.'_'.$row->hash;
         }
 
         // ERRORS PACKAGES
-        $err_pack = self::get_all_by_status(array(
+        $err_pack = self::get_row_by_status(array(
             array('op' => '<' , 'status' => DUP_PackageStatus::CREATED )
         ));
         $force_del_files = array();
-        foreach($err_pack as $package) {
-            $force_del_files[] = $package->NameHash;
+        foreach($err_pack as $row) {
+            $force_del_files[] =  $row->name.'_'.$row->hash;
         }
 
         // Don't remove json file;
