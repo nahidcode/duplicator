@@ -89,4 +89,11 @@ class DUPX_Boot
         require_once($GLOBALS['DUPX_INIT'].'/classes/utilities/class.u.html.php');
         require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.constants.php');
     }
+
+    public static function initArchiveAndLog()
+    {
+        require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.archive.config.php');
+        $GLOBALS['DUPX_AC'] = DUPX_ArchiveConfig::getInstance();
+        require_once($GLOBALS['DUPX_INIT'].'/classes/class.logging.php');
+    }
 }

@@ -40,11 +40,11 @@ try {
      * init constants and include
      */
     DUPX_Boot::init();
+    DUPX_Boot::initArchiveAndLog();
 
     $exceptionError = false;
-
-    require_once($GLOBALS['DUPX_INIT'] . '/classes/config/class.archive.config.php');
-    $GLOBALS['DUPX_AC'] = DUPX_ArchiveConfig::getInstance();
+    // DUPX_log::error thotw an exception
+    DUPX_Log::setThrowExceptionOnError(true);
 
     require_once($GLOBALS['DUPX_INIT'].'/classes/class.csrf.php');
 
@@ -187,7 +187,6 @@ try {
     }
 
     require_once($GLOBALS['DUPX_INIT'] . '/classes/class.db.php');
-    require_once($GLOBALS['DUPX_INIT'] . '/classes/class.logging.php');
     require_once($GLOBALS['DUPX_INIT'] . '/classes/class.http.php');
     require_once($GLOBALS['DUPX_INIT'] . '/classes/class.server.php');
     require_once($GLOBALS['DUPX_INIT'] . '/classes/config/class.conf.srv.php');
