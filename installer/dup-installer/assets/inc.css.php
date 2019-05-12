@@ -64,9 +64,9 @@
      [data-type="toggle"] > i.fa,
     i.fa.fa-toggle-empty { min-width: 8px; }
 
-	/* ============================
-	NOTICES
-	============================ */
+    /* ============================
+    NOTICES
+    ============================ */
     /* step messages */
     #step-messages { padding: 10px 25px 0; }
     .notice {
@@ -74,21 +74,41 @@
         border:1px solid #dfdfdf;
         border-left: 4px solid #fff;
         margin: 4px;
-        padding: 2px;
+        padding: 5px;
         border-radius: 4px;
+        font-size: 12px;
     }
+
     .notice-report {
         border-left: 4px solid #fff;
         padding-left: 0;
         padding-right: 0;
         margin-bottom: 4px;
     }
-    .notice-report .info {
-        word-wrap: break-word;
+
+    .next-step .title-separator {
+        margin-top: 5px;
+        padding-top: 5px;
+        border-top: 1px solid lightgray;
     }
 
-    .notice-report .title {cursor:pointer; padding: 0 10px;}
-    .notice-report .info {border-top: 1px solid #dedede; padding: 10px; font-size: 10px; background: #FAFAFA;}
+    .notice .info pre {
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+    }
+
+    .notice-report .title {
+        padding: 0 10px;
+    }
+
+    .notice-report .info {
+        border-top: 1px solid #dedede;
+        padding: 10px;
+        font-size: 10px;
+        background: #FAFAFA;
+    }
+
     .notice.l-info,
     .notice.l-notice {border-left-color: #197b19;}
     .notice.l-swarning {border-left-color: #636363;}
@@ -99,8 +119,9 @@
     .report-sections-list .section {
         border: 1px solid #DFDFDF;
         margin-bottom: 25px;
-		box-shadow: 4px 8px 11px -8px rgba(0,0,0,0.41);
+        box-shadow: 4px 8px 11px -8px rgba(0,0,0,0.41);
     }
+
     .report-sections-list .section > .section-title {
         background-color: #efefef;
         padding: 3px;
@@ -108,9 +129,11 @@
         text-align: center;
         font-size: 14px;
     }
+
     .report-sections-list .section > .section-content {
         padding: 5px;
     }
+
     .notice-level-status {
         border-radius: 4px;
         padding: 2px;
@@ -121,6 +144,7 @@
         font-weight: bold;
         min-width:55px;
     }
+
     .notice-level-status.l-info,
     .notice-level-status.l-notice {background: #197b19;}
     .notice-level-status.l-swarning {background: #636363;}
