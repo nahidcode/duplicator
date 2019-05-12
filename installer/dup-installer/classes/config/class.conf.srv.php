@@ -448,7 +448,7 @@ HTACCESS;
             'longMsg' => $longMsg,
             'sections' => 'changes',
             'open' => true,
-            'longMsgHtml' => true
+            'longMsgMode'=> DUPX_NOTICE_ITEM::MSG_MODE_HTML
             ), DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'htaccess-changes');
     }
 
@@ -480,7 +480,7 @@ HTACCESS;
             'longMsg' => $longMsg,
             'sections' => 'changes',
             'open' => true,
-            'longMsgHtml' => true
+            'longMsgMode'=> DUPX_NOTICE_ITEM::MSG_MODE_HTML
             ), DUPX_NOTICE_MANAGER::ADD_UNIQUE, 'wp-config-changes');
     }
 

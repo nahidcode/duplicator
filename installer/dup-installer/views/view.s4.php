@@ -137,7 +137,7 @@ LONGMSG;
             'shortMsg' => 'STEP 2 - INSTALL NOTICES ('.$json_decode->step1->query_errs.')',
             'level' => DUPX_NOTICE_ITEM::HARD_WARNING,
             'longMsg' => $longMsg,
-            'longMsgHtml' => true,
+            'longMsgMode'=> DUPX_NOTICE_ITEM::MSG_MODE_HTML,
             'sections' => array('database'),
             'priority' => 5,
             'open' => true
@@ -177,7 +177,7 @@ LONGMSG;
             'shortMsg' => 'TABLE KEY NOTICES  ('.$json_decode->step3->errkey_sum.')',
             'level' => DUPX_NOTICE_ITEM::SOFT_WARNING,
             'longMsg' => $longMsg,
-            'longMsgHtml' => true,
+            'longMsgMode'=> DUPX_NOTICE_ITEM::MSG_MODE_HTML,
             'sections' => array('database'),
             'priority' => 5,
             'open' => true
@@ -218,7 +218,7 @@ LONGMSG;
             'shortMsg' => 'Info',
             'level' => DUPX_NOTICE_ITEM::INFO,
             'longMsg' => $longMsg,
-            'longMsgHtml' => true,
+            'longMsgMode'=> DUPX_NOTICE_ITEM::MSG_MODE_HTML,
             'sections' => array('general'),
             'priority' => 5,
             'open' => true
