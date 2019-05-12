@@ -1,14 +1,48 @@
 <?php defined('ABSPATH') || defined('DUPXABSPATH') || exit; ?>
 <style>
-	body {font-family:Verdana,Arial,sans-serif; font-size:13px}
-	fieldset {border:1px solid silver; border-radius:5px; padding:10px}
-	h3 {margin:1px; padding:1px; font-size:13px;}
-	a {color:#222}
-	a:hover{color:gray}
-	input[type=text], input[type=password], select {width:97%; border-radius:2px; border:1px solid silver; padding:4px; font-family:Verdana,Arial,sans-serif;}
-	select {padding-left:0; width:99%}
-	select:disabled {background:#EBEBE4}
-	input.readonly {background-color:#efefef;}
+    body {font-family:Verdana,Arial,sans-serif; font-size:13px}
+    fieldset {border:1px solid silver; border-radius:5px; padding:10px}
+    h3 {margin:1px; padding:1px; font-size:13px;}
+    a {color:#222}
+    a:hover{color:gray}
+
+    input:not([type=checkbox]):not([type=radio]):not([type=button]) , select {
+        width: 100%;
+        border-radius: 2px;
+        border: 1px solid silver;
+        padding: 4px;
+        padding-left: 4px;
+        font-family: Verdana,Arial,sans-serif;
+        line-height: 20px;
+        height: 30px;
+        box-sizing: border-box;
+        background-color: white;
+        color: black;
+        border-radius: 4px;
+    }
+
+    select[size] {
+        height: auto;
+        line-height: 25px;
+    }
+
+    select , option {
+        background-color: lightgray;
+        color: black;
+    }
+    select {
+        padding-left:0;
+    }
+    select option {
+        padding: 2px 5px;
+    }
+    select option[disabled] {
+        text-decoration: line-through;
+        cursor: not-allowed;
+    }
+
+    select:disabled {background:#EBEBE4}
+    input.readonly {background-color:#efefef;}
     .no-display { display: none; }
 
 	/* ============================
@@ -180,21 +214,15 @@
 	/* ============================
 	INIT 1:SECURE PASSWORD
 	============================ */
-    button.pass-toggle {height:26px; width:26px; position:absolute; top:0px; right:0px; border:1px solid silver;  border-radius:0 4px 4px 0;}
-	button.pass-toggle  i { padding:0; display:block; margin:-2px 0 0 0}
-	div.i1-pass-area {width:100%; text-align:center}
-	div.i1-pass-data {padding:30px; margin:auto; text-align:center; width:300px}
-	div.i1-pass-data table {width:100%; border-collapse:collapse; padding:0}
-	div.i1-pass-data label {font-weight:bold}
-	div.i1-pass-errmsg {color:maroon; font-weight:bold}
-	div#i1-pass-input { text-align:center; margin:auto; padding:3px}
-	input#secure-pass {border-radius:4px 0 0 4px; width:250px}
-	div.error-pane {border:1px solid #efefef; border-left:4px solid #D54E21; padding:0 0 0 10px; margin:2px 0 10px 0}
-	div.dupx-ui-error {padding-top:2px; font-size:13px; line-height: 20px}
-	label.secure-lock {cursor:pointer}
-	div#i1-pass-toggle {position: relative; margin:auto; width:243px;}
-	input#secure-pass {border-radius:4px 0 0 4px; width:220px; height:20px; margin:0}
-	button.pass-toggle {height:30px; width:30px; position:absolute; top:0px; right:0px; border:1px solid silver; border-radius:0 4px 4px 0; cursor:pointer}
+    button.pass-toggle {height:26px; width:26px; position:absolute; top:0px; right:0px; border:1px solid silver;  border-radius:0 4px 4px 0;padding:2px 0 0 3px;}
+    button.pass-toggle  i { padding:0; display:block; margin:-4px 0 0 -5px}
+    div.i1-pass-area {width:100%; text-align:center}
+    div.i1-pass-data {padding:30px; margin:auto; text-align:center; width:300px}
+    div.i1-pass-data table {width:100%; border-collapse:collapse; padding:0}
+    div.i1-pass-data label {font-weight:bold}
+    div.i1-pass-errmsg {color:maroon; font-weight:bold}
+    div#i1-pass-input {position:relative; margin:2px 0 15px 0}
+    input#secure-pass {border-radius:4px 0 0 4px; width:250px}
 
 
 	/* ============================
@@ -433,15 +461,40 @@
     }
 
 
-	/*!
-	 * password indicator
-	 */
-	.top_testresult{font-weight:bold;	font-size:11px; color:#222;	padding:1px 1px 1px 4px; margin:4px 0 0 0; width:495px; dislay:inline-block}
-	.top_testresult span{margin:0;}
-	.top_shortPass{background:#edabab; border:1px solid #bc0000;display:block;}
-	.top_badPass{background:#edabab;border:1px solid #bc0000;display:block;}
-	.top_goodPass{background:#ffffe0; border:1px solid #e6db55;	display:block;}
-	.top_strongPass{background:#d3edab;	border:1px solid #73bc00; display:block;}
+    /*!
+     * password indicator
+     */
+
+    .top_testresult{
+        font-weight:bold;	font-size:11px; color:#222;	display: block;
+        position: absolute;
+        top: 0;
+        right: 30px;
+        text-align: right;
+        padding-right: 20px;
+        box-sizing: border-box;
+        width: 40%;
+        height: 30px;
+        line-height: 30px;
+    }
+
+
+    .top_shortPass,
+    .top_badPass {
+        background:#edabab;
+        background: transparent linear-gradient(90deg, transparent 20%, #edabab);
+        display:block;
+    }
+    .top_goodPass{
+        background:#ffffe0;
+        background: transparent linear-gradient(90deg, transparent 20%, #ffffe0);
+        display:block;
+    }
+    .top_strongPass{
+        background:#d3edab;
+        background: transparent linear-gradient(90deg, transparent 20%, #d3edab);
+        display:block;
+    }
 
 	/*================================================
 	LIB OVERIDES*/

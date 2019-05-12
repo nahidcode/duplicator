@@ -474,7 +474,7 @@ class DUPX_U_Html
                 overflow: hidden;
                 position: relative;
             }
-            .input-password-group input:not([type=checkbox]):not([type=radio]) {
+            .input-password-group input:not([type=checkbox]):not([type=radio]):not([type=button])  {
                 width: calc(100% - 30px) !important;
                 padding: 4px;
                 line-height: 20px;
