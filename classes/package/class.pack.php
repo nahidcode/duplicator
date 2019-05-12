@@ -731,7 +731,25 @@ class DUP_Package
             }
         }
     }
-    
+
+    public static function purge_incomplete_package()
+    {
+        $packages = self::get_packages_by_status(array(
+                'relation' => 'AND',
+                array('op' => '>=', 'status' => DUP_PackageStatus::CREATED),
+                array('op' => '<', 'status' => DUP_PackageStatus::COMPLETE)
+                ), 1, 0, '`id` ASC');
+
+
+        if (count($packages) > 0) {
+            foreach ($packages as $package) {
+                if (!$package->isRunning()) {
+                    $Package->delete();
+                }
+            }
+        }
+    }
+
     /**
      * Get all packages with status conditions
      * @global wpdb $wpdb
