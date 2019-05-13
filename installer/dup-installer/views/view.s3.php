@@ -173,8 +173,15 @@ VIEW: STEP 3- INPUT -->
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><input type="text" name="wp_password" id="wp_password" value="" title="6 characters minimum"  placeholder="(6 or more characters)" /></td>
-				</tr>
+					<td>
+                        <?php
+                        DUPX_U_Html::inputPasswordToggle('wp_password', 'wp_password', array(),
+                            array(
+                            'placeholder' => '(6 or more characters)',
+                            'title' => '6 characters minimum'
+                        ));
+                        ?>
+                </tr>
 				<tr>
 					<td>Email:</td>
 					<td><input type="text" name="wp_mail" id="wp_mail" value="" title=""  placeholder="" /></td>
@@ -234,7 +241,7 @@ VIEW: STEP 3- INPUT -->
 							<a href="javascript:void(0)" onclick="$('#tables option').prop('selected',true);">[All]</a>
 							<a href="javascript:void(0)" onclick="$('#tables option').prop('selected',false);">[None]</a>
 						</div><br style="clear:both" />
-						<select id="tables" name="tables[]" multiple="multiple" style="width:315px; height:100px">
+						<select id="tables" name="tables[]" multiple="multiple" style="width:315px;" size="10">
 							<?php
 							foreach( $all_tables as $table ) {
 								echo '<option selected="selected" value="' . DUPX_U::esc_attr( $table ) . '">' . DUPX_U::esc_html($table) . '</option>';
@@ -250,7 +257,7 @@ VIEW: STEP 3- INPUT -->
 							<a href="javascript:void(0)" onclick="$('#plugins option').prop('selected',true);">[All]</a>
 							<a href="javascript:void(0)" onclick="$('#plugins option').prop('selected',false);">[None]</a>
 						</div><br style="clear:both" />
-						<select id="plugins" name="plugins[]" multiple="multiple" style="width:315px; height:100px" <?php echo ($_POST['exe_safe_mode'] > 0) ? 'disabled="true"' : ''; ?>>
+						<select id="plugins" name="plugins[]" multiple="multiple" style="width:315px;" <?php echo ($_POST['exe_safe_mode'] > 0) ? 'disabled="true"' : ''; ?> size="10">
 							<?php
 							$exclude_plugins = array(
 								'really-simple-ssl/rlrsssl-really-simple-ssl.php',
