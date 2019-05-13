@@ -86,5 +86,3 @@ class DUPX_InstallerState
         SnapLibIOU::filePutContents(self::$state_filepath, $data);
     }
 }
-
-DUPX_InstallerState::init($GLOBALS['INIT']);
