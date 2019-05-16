@@ -32,9 +32,9 @@ if (!interface_exists('JsonSerializable')) {
     }
 }
 
-if (!class_exists('SnapLibUtil', false)) {
+if (!class_exists('DupLiteSnapLibUtil', false)) {
 
-    class SnapLibUtil
+    class DupLiteSnapLibUtil
     {
 
         public static function getArrayValue(&$array, $key, $required = true, $default = null)
@@ -133,7 +133,7 @@ if (!class_exists('SnapLibUtil', false)) {
                 $args = func_get_args();
                 foreach ($grouped as $key => $value) {
                     $params        = array_merge(array($value), array_slice($args, 2, func_num_args()));
-                    $grouped[$key] = call_user_func_array('SnapLibUtil::arrayGroupBy', $params);
+                    $grouped[$key] = call_user_func_array('DupLiteSnapLibUtil::arrayGroupBy', $params);
                 }
             }
             return $grouped;

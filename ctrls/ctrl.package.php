@@ -79,7 +79,7 @@ function duplicator_package_build()
     $json['runtime'] = $Package->Runtime;
     $json['exeSize'] = $Package->ExeSize;
     $json['archiveSize'] = $Package->ZipSize;
-    $json_response   = SnapLibUtil::wp_json_encode($json);
+    $json_response   = DupLiteSnapLibUtil::wp_json_encode($json);
 
     //Simulate a Host Build Interrupt
 	//die(0);
@@ -183,7 +183,7 @@ function duplicator_duparchive_package_build()
         $json['status'] = 4;
     }
 
-    $json_response = SnapLibUtil::wp_json_encode($json);
+    $json_response = DupLiteSnapLibUtil::wp_json_encode($json);
 
     Dup_Log::TraceObject('json response', $json_response);
     error_reporting($errLevel);
@@ -260,12 +260,12 @@ function duplicator_package_delete()
         }
     } catch (Exception $e) {
         $json['error'] = "{$e}";
-        die(SnapLibUtil::wp_json_encode($json));
+        die(DupLiteSnapLibUtil::wp_json_encode($json));
     }
 
     $json['ids']     = "{$postIDs}";
     $json['removed'] = $delCount;
-    echo SnapLibUtil::wp_json_encode($json);
+    echo DupLiteSnapLibUtil::wp_json_encode($json);
     die();
 }
 

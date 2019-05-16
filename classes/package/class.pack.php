@@ -285,7 +285,7 @@ class DUP_Package
         $report['RPT']['ScanTime'] = DUP_Util::elapsedTime(DUP_Util::getMicrotime(), $timerStart);
         $fp                        = fopen(DUPLICATOR_SSDIR_PATH_TMP."/{$this->ScanFile}", 'w');
 
-        fwrite($fp, SnapLibUtil::wp_json_encode_pprint($report));
+        fwrite($fp, DupLiteSnapLibUtil::wp_json_encode_pprint($report));
         fclose($fp);
 
         return $report;
@@ -1651,7 +1651,7 @@ class DUP_Package
 	private function writeLogHeader()
 	{
         $php_max_time   = @ini_get("max_execution_time");
-        if (SnapLibUtil::wp_is_ini_value_changeable('memory_limit'))
+        if (DupLiteSnapLibUtil::wp_is_ini_value_changeable('memory_limit'))
             $php_max_memory = @ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
         else
             $php_max_memory = @ini_get('memory_limit');

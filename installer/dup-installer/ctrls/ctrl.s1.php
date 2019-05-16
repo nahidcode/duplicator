@@ -207,7 +207,7 @@ switch ($post_archive_engine) {
 
                 try {
                     if (!$zip->extractTo($target , $extract_filename)) {
-                        if (SnapLibUtilWp::isWpCore($extract_filename, SnapLibUtilWp::PATH_RELATIVE)) {
+                        if (DupLiteSnapLibUtilWp::isWpCore($extract_filename, DupLiteSnapLibUtilWp::PATH_RELATIVE)) {
                             DUPX_Log::info("FILE CORE EXTRACION ERROR: ".$extract_filename);
                             $shortMsg      = 'Can\'t extract wp core files';
                             $finalShortMsg = 'Wp core files not extracted';
@@ -239,7 +239,7 @@ switch ($post_archive_engine) {
                         DUPX_Log::info("DONE: ".$extract_filename,2);
                     }
                 } catch (Exception $ex) {
-                    if (SnapLibUtilWp::isWpCore($extract_filename, SnapLibUtilWp::PATH_RELATIVE)) {
+                    if (DupLiteSnapLibUtilWp::isWpCore($extract_filename, DupLiteSnapLibUtilWp::PATH_RELATIVE)) {
                         DUPX_Log::info("FILE CORE EXTRACION ERROR: {$extract_filename} | MSG:".$ex->getMessage());
                         $shortMsg      = 'Can\'t extract wp core files';
                         $finalShortMsg = 'Wp core files not extracted';
@@ -413,4 +413,4 @@ DUPX_Log::info("\nSTEP-1 COMPLETE @ " . @date('h:i:s') . " - RUNTIME: {$ajax1_su
 $JSON['pass'] = 1;
 error_reporting($ajax1_error_level);
 fclose($GLOBALS["LOG_FILE_HANDLE"]);
-die(SnapLibUtil::wp_json_encode($JSON));
+die(DupLiteSnapLibUtil::wp_json_encode($JSON));
