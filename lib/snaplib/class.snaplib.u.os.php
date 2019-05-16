@@ -5,16 +5,16 @@
  * Standard: PSR-2
  * @link http://www.php-fig.org/psr/psr-2
  *
- * @package SnapLib
+ * @package DupLiteSnapLib
  * @copyright (c) 2017, Snapcreek LLC
  * @license	https://opensource.org/licenses/GPL-3.0 GNU Public License
  *
  */
 defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
-if (!class_exists('SnapLibOSU', false)) {
+if (!class_exists('DupLiteSnapLibOSU', false)) {
 
-    class SnapLibOSU
+    class DupLiteSnapLibOSU
     {
         const WindowsMaxPathLength = 259;
 
@@ -26,5 +26,5 @@ if (!class_exists('SnapLibOSU', false)) {
             self::$isWindows = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
         }
     }
-    SnapLibOSU::init();
+    DupLiteSnapLibOSU::init();
 }

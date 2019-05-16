@@ -38,8 +38,8 @@ $openbase	= ini_get("open_basedir");
 $datetime1	= $GLOBALS['DUPX_AC']->created;
 $datetime2	= date("Y-m-d H:i:s");
 $fulldays	= round(abs(strtotime($datetime1) - strtotime($datetime2))/86400);
-$root_path	= SnapLibIOU::safePath($GLOBALS['DUPX_ROOT'], true);
-$archive_path	= SnapLibIOU::safePath($GLOBALS['FW_PACKAGE_PATH'], true);
+$root_path	= DupLiteSnapLibIOU::safePath($GLOBALS['DUPX_ROOT'], true);
+$archive_path	= DupLiteSnapLibIOU::safePath($GLOBALS['FW_PACKAGE_PATH'], true);
 $wpconf_path	= "{$root_path}/wp-config.php";
 $max_time_zero	= ($GLOBALS['DUPX_ENFORCE_PHP_INI']) ? false : @set_time_limit(0);
 $max_time_size	= 314572800;  //300MB
@@ -802,7 +802,7 @@ DUPX.getManaualArchiveOpt = function ()
 DUPX.startExtraction = function()
 {
 	var isManualExtraction = ($("#archive_engine").val() == "manual");
-	var zipEnabled = <?php echo SnapLibStringU::boolToString($archive_config->isZipArchive()); ?>;
+	var zipEnabled = <?php echo DupLiteSnapLibStringU::boolToString($archive_config->isZipArchive()); ?>;
 
 	$("#operation-text").text("Extracting Archive Files");
 

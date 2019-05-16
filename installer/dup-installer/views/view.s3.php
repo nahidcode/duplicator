@@ -316,7 +316,7 @@ VIEW: STEP 3- INPUT -->
 							$wp_cache_val = $config_transformer->get_value('constant', 'WP_CACHE');
 						}
 						?>
-						<input type="checkbox" name="cache_wp" id="cache_wp" <?php SnapLibUIU::echoChecked($wp_cache_val);?> /> <label for="cache_wp">Keep Enabled</label>
+						<input type="checkbox" name="cache_wp" id="cache_wp" <?php DupLiteSnapLibUIU::echoChecked($wp_cache_val);?> /> <label for="cache_wp">Keep Enabled</label>
 					</td>
 				</tr>
                 <tr>
@@ -328,7 +328,7 @@ VIEW: STEP 3- INPUT -->
 							$wpcachehome_val = $config_transformer->get_value('constant', 'WPCACHEHOME');
 						}
 						?>
-						<input type="checkbox" name="cache_path" id="cache_path" <?php SnapLibUIU::echoChecked($wpcachehome_val);?> /> <label for="cache_path">Keep Home Path</label>
+						<input type="checkbox" name="cache_path" id="cache_path" <?php DupLiteSnapLibUIU::echoChecked($wpcachehome_val);?> /> <label for="cache_path">Keep Home Path</label>
                         <br><br>
 					</td>
 				</tr>
@@ -341,7 +341,7 @@ VIEW: STEP 3- INPUT -->
 							$force_ssl_admin_val = $config_transformer->get_value('constant', 'FORCE_SSL_ADMIN');
 						}
 						?>
-						<input type="checkbox" name="ssl_admin" id="ssl_admin" <?php SnapLibUIU::echoChecked($force_ssl_admin_val);?> /> <label for="ssl_admin">Enforce on Admin</label>
+						<input type="checkbox" name="ssl_admin" id="ssl_admin" <?php DupLiteSnapLibUIU::echoChecked($force_ssl_admin_val);?> /> <label for="ssl_admin">Enforce on Admin</label>
 					</td>
 				</tr>
                 <?php } else { ?>

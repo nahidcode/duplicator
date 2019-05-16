@@ -5,19 +5,19 @@
  * Standard: PSR-2
  * @link http://www.php-fig.org/psr/psr-2
  *
- * @package SnapLib
+ * @package DupLiteSnapLib
  * @copyright (c) 2017, Snapcreek LLC
  * @license	https://opensource.org/licenses/GPL-3.0 GNU Public License
  *
  */
 defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
-if (!class_exists('SnapLibIOU', false)) {
+if (!class_exists('DupLiteSnapLibIOU', false)) {
 
     require_once(dirname(__FILE__).'/class.snaplib.u.string.php');
     require_once(dirname(__FILE__).'/class.snaplib.u.os.php');
 
-    class SnapLibIOU
+    class DupLiteSnapLibIOU
     {
         // Real upper bound of a signed int is 214748364.
         // The value chosen below, makes sure we have a buffer of ~4.7 million.
@@ -126,14 +126,14 @@ if (!class_exists('SnapLibIOU', false)) {
 
         public static function fopen($filepath, $mode, $throwOnError = true)
         {
-            if (SnapLibOSU::$isWindows) {
+            if (DupLiteSnapLibOSU::$isWindows) {
 
-                if (strlen($filepath) > SnapLibOSU::WindowsMaxPathLength) {
+                if (strlen($filepath) > DupLiteSnapLibOSU::WindowsMaxPathLength) {
                     throw new Exception("Skipping a file that exceeds allowed Windows path length. File: {$filepath}");
                 }
             }
 
-            if (SnapLibStringU::startsWith($mode, 'w') || SnapLibStringU::startsWith($mode, 'c') || file_exists($filepath)) {
+            if (DupLiteSnapLibStringU::startsWith($mode, 'w') || DupLiteSnapLibStringU::startsWith($mode, 'c') || file_exists($filepath)) {
                 $file_handle = @fopen($filepath, $mode);
             } else {
                 if ($throwOnError) {
@@ -243,7 +243,7 @@ if (!class_exists('SnapLibIOU', false)) {
                 foreach ($objects as $object) {
                     if ($object != "." && $object != "..") {
                         if (is_dir($dir."/".$object)) {
-                            SnapLibIOU::rrmdir($dir."/".$object);
+                            DupLiteSnapLibIOU::rrmdir($dir."/".$object);
                         } else {
                             //unlink($dir."/".$object);
                             self::rm($dir."/".$object);
@@ -278,7 +278,7 @@ if (!class_exists('SnapLibIOU', false)) {
                 }
                 //This check is not strict, but in most cases 32 Bit PHP will be the issue
                 else if (abs($offset) > self::FileSizeLimit32BitPHP || $filesize > self::FileSizeLimit32BitPHP || ($offset < 0 && $whence == SEEK_SET)) {
-                    throw new SnapLib_32BitSizeLimitException("Trying to seek on a file beyond the capability of 32 bit PHP. offset=$offset filesize=$filesize");
+                    throw new DupLiteSnapLib_32BitSizeLimitException("Trying to seek on a file beyond the capability of 32 bit PHP. offset=$offset filesize=$filesize");
                 } else {
                     throw new Exception("Error seeking to file offset $offset. Retval = $ret_val");
                 }
@@ -298,9 +298,9 @@ if (!class_exists('SnapLibIOU', false)) {
 
         public static function mkdir($pathname, $mode = 0755, $recursive = false)
         {
-            if (SnapLibOSU::$isWindows) {
+            if (DupLiteSnapLibOSU::$isWindows) {
 
-                if (strlen($pathname) > SnapLibOSU::WindowsMaxPathLength) {
+                if (strlen($pathname) > DupLiteSnapLibOSU::WindowsMaxPathLength) {
                     throw new Exception("Skipping creating directory that exceeds allowed Windows path length. File: {$pathname}");
                 }
             }

@@ -599,7 +599,7 @@ class DUP_Database
     
             $table_number++;
             if($table_number % 2 == 0) {
-                $this->Package->Status = SnapLibUtil::getWorkPercent(DUP_PackageStatus::DBSTART, DUP_PackageStatus::DBDONE, $table_count, $table_number);
+                $this->Package->Status = DupLiteSnapLibUtil::getWorkPercent(DUP_PackageStatus::DBSTART, DUP_PackageStatus::DBDONE, $table_count, $table_number);
                 $this->Package->update();
             }
     

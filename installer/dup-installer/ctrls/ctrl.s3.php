@@ -668,4 +668,4 @@ DUPX_Log::info("\nSTEP-3 COMPLETE @ ".@date('h:i:s')." - RUNTIME: {$ajax3_sum} \
 
 $JSON['step3']['pass'] = 1;
 error_reporting($ajax3_error_level);
-die(SnapLibUtil::wp_json_encode($JSON));
+die(DupLiteSnapLibUtil::wp_json_encode($JSON));

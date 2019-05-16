@@ -100,7 +100,7 @@ class DUPX_DBTest
 			$result = $this->out;
 			return $result;
 		} elseif ($this->responseMode == 'JSON') {
-			$result = SnapLibUtil::wp_json_encode($this->out);
+			$result = DupLiteSnapLibUtil::wp_json_encode($this->out);
 			return $result;
 		} else {
 			die('Please specific the responseMode property');

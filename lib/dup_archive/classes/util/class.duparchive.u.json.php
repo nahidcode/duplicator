@@ -14,7 +14,7 @@ class DupArchiveJsonU
 
     public static function customEncode($value, $iteration = 1)
     {
-        $encoded = SnapLibUtil::wp_json_encode($value);
+        $encoded = DupLiteSnapLibUtil::wp_json_encode($value);
     
         switch (json_last_error()) {
             case JSON_ERROR_NONE:
@@ -41,7 +41,7 @@ class DupArchiveJsonU
 
     public static function encode($value, $options = 0)
     {
-        $result = SnapLibUtil::wp_json_encode($value, $options);
+        $result = DupLiteSnapLibUtil::wp_json_encode($value, $options);
 
         if ($result !== FALSE) {
 
