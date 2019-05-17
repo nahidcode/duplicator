@@ -744,7 +744,7 @@ class DUP_Package
         if (count($packages) > 0) {
             foreach ($packages as $package) {
                 if (!$package->isRunning()) {
-                    $Package->delete();
+                    $package->delete();
                 }
             }
         }
