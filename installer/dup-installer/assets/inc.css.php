@@ -21,6 +21,14 @@
         border-radius: 4px;
     }
 
+    input[readonly]:not([type="checkbox"]):not([type="radio"]):not([type="button"]),
+    select[readonly],
+    select[readonly] option{
+        background-color: darkgray;
+        color: lightgray;
+        cursor: not-allowed;
+    }
+
     select[size] {
         height: auto;
         line-height: 25px;
