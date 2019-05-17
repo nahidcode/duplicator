@@ -209,6 +209,8 @@ try {
             }
         }
 
+        // the controllers must die in case of error
+        DUPX_Log::setThrowExceptionOnError(false);
         switch ($post_ctrl_action) {
             case "ctrl-step1" :
                 require_once($GLOBALS['DUPX_INIT'].'/ctrls/ctrl.s1.php');
@@ -225,8 +227,10 @@ try {
                 require_once($GLOBALS['DUPX_INIT'].'/ctrls/ctrl.s3.php');
                 break;
             default:
+                DUPX_Log::setThrowExceptionOnError(true);
                 DUPX_Log::error('No valid action request');
         }
+        DUPX_Log::setThrowExceptionOnError(true);
         DUPX_Log::error('Ctrl action problem');
     }
 } catch (Exception $e) {
