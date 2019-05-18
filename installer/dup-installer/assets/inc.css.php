@@ -149,6 +149,7 @@
         padding: 10px;
         font-size: 10px;
         background: #FAFAFA;
+		word-wrap: break-word;
     }
 
     .notice.l-info,
@@ -388,7 +389,7 @@
 	div.s4-gopro-btn a{color:green}
 	div.s4-warn {color:maroon;}
 	pre.s4-diff-viewer {line-height:11px}
-	div#s4-notice-reports div.title div[data-type="toggle"] {cursor:pointer}
+	div#s4-notice-reports div.section-content div.title {cursor:pointer}
 
 	/* ============================
 	STEP 5 HELP
