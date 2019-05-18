@@ -64,7 +64,7 @@ if (! $GLOBALS['DUPX_AC']->exportOnlyDB) {
 	}
 
 	//ERR_ZIPMANUAL
-	if ('ziparchive' == $post_archive_engine && !$GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
+	if (('ziparchive' == $post_archive_engine || 'shellexec_unzip' == $post_archive_engine) && !$GLOBALS['DUPX_AC']->installSiteOverwriteOn) {
 		//ERR_CONFIG_FOUND
 		$outer_root_path = dirname($root_path);
 		
