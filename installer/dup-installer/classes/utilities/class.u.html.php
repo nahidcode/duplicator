@@ -468,7 +468,7 @@ class DUPX_U_Html
         <style>
             .input-password-group {
                 display: inline-block;
-                width:510px;
+                width:100%;
                 border: 1px solid darkgray;
                 border-radius: 4px;
                 overflow: hidden;

@@ -350,9 +350,8 @@
 	/* ============================
 	STEP 3 VIEW
 	============================ */
-	table.s3-opts{width:100%; border:0;}
+	table.s3-opts{width:96%; border:0;}
 	table.s3-opts i.fa{font-size:16px}
-	table.s3-opts input[type=text] {width:95% !important}
 	table.s3-opts td{white-space:nowrap; padding:3px;}
 	table.s3-opts td:first-child{width:90px; font-weight: bold}
 	div#s3-adv-opts {margin-top:5px; }
@@ -389,6 +388,7 @@
 	div.s4-gopro-btn a{color:green}
 	div.s4-warn {color:maroon;}
 	pre.s4-diff-viewer {line-height:11px}
+	div#s4-notice-reports div.title div[data-type="toggle"] {cursor:pointer}
 
 	/* ============================
 	STEP 5 HELP
