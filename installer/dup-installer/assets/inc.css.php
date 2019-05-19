@@ -225,10 +225,19 @@
 	============================ */
     button.pass-toggle {height:26px; width:26px; position:absolute; top:0px; right:0px; border:1px solid silver;  border-radius:0 4px 4px 0;padding:2px 0 0 3px;}
     button.pass-toggle  i { padding:0; display:block; margin:-4px 0 0 -5px}
-    div.i1-pass-area {width:100%; text-align:center}
-    div.i1-pass-data {padding:30px; margin:auto; text-align:center; width:300px}
+    div.i1-pass-area {
+        width:100%;
+        text-align:center;
+        max-width: 500px;
+        margin: auto;
+        position: relative;
+    }
     div.i1-pass-data table {width:100%; border-collapse:collapse; padding:0}
-    div.i1-pass-data label {font-weight:bold}
+    div.i1-pass-data label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight:bold;
+    }
     div.i1-pass-errmsg {color:maroon; font-weight:bold}
     div#i1-pass-input {position:relative; margin:2px 0 15px 0}
     input#secure-pass {border-radius:4px 0 0 4px; width:250px}
