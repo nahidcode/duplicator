@@ -503,6 +503,14 @@ class DUPX_U_Html
                 margin: 0;
                 padding: 0;
             }
+
+            .input-password-group .parsley-errors-list {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 10px;
+            }
+            
         </style>
         <?php
     }
