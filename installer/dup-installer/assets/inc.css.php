@@ -228,7 +228,7 @@
     div.i1-pass-area {
         width:100%;
         text-align:center;
-        max-width: 500px;
+        max-width: 300px;
         margin: auto;
         position: relative;
     }
