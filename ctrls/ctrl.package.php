@@ -233,27 +233,26 @@ function duplicator_package_delete()
                     $nameHash  = "{$row['name']}_{$row['hash']}";
                     $delResult = $wpdb->query($wpdb->prepare("DELETE FROM `{$tblName}` WHERE id = %d", $id));
                     if ($delResult != 0) {
+                        //TMP FILES
+                        $globTmpFiles = glob(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}*"));
+                        foreach ($globTmpFiles as $globTmpFile) {
+                            _unlinkFile($globTmpFile);
+                        }
 
-						//TMP FILES
-						_unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_archive.daf"));
-                        _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_archive.zip"));
-                        _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_database.sql"));
-                        _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_installer.php"));
-
-						//WP-SNAPSHOT FILES
-                        _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_archive.daf"));
-                        _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_archive.zip"));
-                        _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_database.sql"));
-                        _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_installer.php"));
-                        _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_scan.json"));
-                        _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}_wp-config.txt"));
-                        _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}.log"));
+                        //WP-SNAPSHOT FILES
+                        $globSnapshotFiles = glob(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}*"));
+                        foreach ($globSnapshotFiles as $globSnapshotFile) {
+                            _unlinkFile($globSnapshotFile);
+                        }
+                        // _unlinkFile(DUP_Util::safePath(DUPLICATOR_SSDIR_PATH."/{$nameHash}.log"));
 
                         //Unfinished Zip files
+                        /*
                         $tmpZip = DUPLICATOR_SSDIR_PATH_TMP."/{$nameHash}_archive.zip.*";
                         if ($tmpZip !== false) {
                             array_map('unlink', glob($tmpZip));
                         }
+                        */
                         $delCount++;
                     }
                 }
