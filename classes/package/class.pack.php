@@ -371,7 +371,7 @@ class DUP_Package
 
 		$this->Archive->Format	= strtoupper($extension);
 		$this->Archive->File	= "{$this->NameHash}_archive.{$extension}";
-		$this->Installer->File	= "{$this->NameHash}_installer.php";
+		$this->Installer->File	= apply_filters('duplicator_installer_file_path', "{$this->NameHash}_installer.php");
 		$this->Database->File	= "{$this->NameHash}_database.sql";
 		$this->WPUser          = isset($current_user->user_login) ? $current_user->user_login : 'unknown';
 
@@ -943,7 +943,7 @@ class DUP_Package
 
         if ($file_type == DUP_PackageFileType::Installer) {
             DUP_Log::Trace("Installer requested");
-            $file_name = $this->getInstallerFilename();
+            $file_name = apply_filters('duplicator_installer_file_path', $this->getInstallerFilename());
         } else if ($file_type == DUP_PackageFileType::Archive) {
             DUP_Log::Trace("Archive requested");
             $file_name = $this->getArchiveFilename();
