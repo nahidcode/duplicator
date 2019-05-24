@@ -720,6 +720,9 @@ class DUP_Package
             if ($rows != null) {
                 $Package = @unserialize($rows[0]->package);
                 if ($Package) {
+                    if (empty($Package->ID)) {
+                        $Package->ID = $rows[0]->id;
+                    }
                     // We was not storing Status in Lite 1.2.52, so it is for backward compatibility
                     if (!isset($Package->Status)) {
                         $Package->Status = $row['status'];
