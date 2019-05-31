@@ -158,6 +158,10 @@ if (is_admin() == true)
     require_once 'deactivation.php';
     require_once 'lib/snaplib/snaplib.all.php';
     require_once 'classes/class.constants.php';
+    $isWPEngineHost = apply_filters('duplicator_wp_engine_host_check', file_exists(WPMU_PLUGIN_DIR.'/wpengine-common/mu-plugin.php'));
+    if ($isWPEngineHost) {
+        require_once 'classes/host/class.wpengine.host.php';
+    }
     require_once 'classes/class.settings.php';
     require_once 'classes/class.logging.php';    
     require_once 'classes/utilities/class.u.php';
@@ -168,11 +172,7 @@ if (is_admin() == true)
 	require_once 'classes/ui/class.ui.viewstate.php';
 	require_once 'classes/ui/class.ui.notice.php';
     require_once 'classes/package/class.pack.php';
-    $isWPEngineHost = apply_filters('duplicator_wp_engine_host_check', file_exists(WPMU_PLUGIN_DIR.'/wpengine-common/mu-plugin.php'));
-    if ($isWPEngineHost) {
-        require_once 'classes/host/class.wpengine.host.php';
-    }
-	require_once 'views/packages/screen.php';
+    require_once 'views/packages/screen.php';
 	 
     //Controllers
 	require_once 'ctrls/ctrl.package.php';

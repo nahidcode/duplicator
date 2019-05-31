@@ -344,8 +344,10 @@ class DUP_Archive
 				$this->FilterInfo->Dirs->Core[] = $wp_content.'/'.$backwpup_cfg_logfolder;
 			}
 		}
+		$duplicator_global_file_filters_on = apply_filters('duplicator_global_file_filters_on', $GLOBALS['DUPLICATOR_GLOBAL_FILE_FILTERS_ON']);
 		if ($GLOBALS['DUPLICATOR_GLOBAL_FILE_FILTERS_ON']) {
-			$this->FilterInfo->Files->Global = $GLOBALS['DUPLICATOR_GLOBAL_FILE_FILTERS'];
+			$duplicator_global_file_filters = apply_filters('duplicator_global_file_filters', $GLOBALS['DUPLICATOR_GLOBAL_FILE_FILTERS']);
+			$this->FilterInfo->Files->Global = $duplicator_global_file_filters;
 		}
 
 		// Prevent adding double wp-content dir conflicts
