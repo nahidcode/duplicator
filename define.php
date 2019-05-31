@@ -56,6 +56,7 @@ if (function_exists('plugin_dir_url'))
 	define('DUPLICATOR_WEBCONFIG_ORIG_FILENAME', 'web.config.orig');
 	define("DUPLICATOR_INSTALLER_DIRECTORY", DUPLICATOR_WPROOTPATH . 'dup-installer');
     define('DUPLICATOR_MAX_LOG_SIZE', 400000);    // The higher this is the more overhead
+    define('DUPLICATOR_ZIP_ARCHIVE_ADD_FROM_STR', false); 
 
     $GLOBALS['DUPLICATOR_SERVER_LIST'] = array('Apache','LiteSpeed', 'Nginx', 'Lighttpd', 'IIS', 'WebServerX', 'uWSGI');
 	$GLOBALS['DUPLICATOR_OPTS_DELETE'] = array('duplicator_ui_view_state', 'duplicator_package_active', 'duplicator_settings');
