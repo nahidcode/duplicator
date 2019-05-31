@@ -86,12 +86,14 @@ if (!function_exists('duplicator_add_deactivation_feedback_dialog_box')) {
                 'input_type' => '',
                 'input_placeholder' => ''
             ),
+            /*
             array(
                 'id' => 'OTHER',
                 'text' => __('Other', 'duplicator'),
                 'input_type' => 'textarea',
                 'input_placeholder' => __('Please tell us the reason so we can improve it.', 'duplicator')
             )
+            */
         );
 
         $reasons_list_items_html = '';
