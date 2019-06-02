@@ -7,7 +7,6 @@ class DUP_WPEngine_Host {
         add_filter('duplicator_installer_file_path', array('DUP_WPEngine_Host', 'installerFilePath'), 10, 1);
         add_filter('duplicator_global_file_filters_on', '__return_true');
         add_filter('duplicator_global_file_filters', array('DUP_WPEngine_Host', 'globalFileFilters'), 10, 1);
-        // add_filter('duplicator_package_zip_flush_default_setting', array('DUP_WPEngine_Host', 'packageZipFlushDefaultSetting'));
         add_filter('duplicator_defaults_settings', array('DUP_WPEngine_Host', 'defaultsSettings'));
     }
 
@@ -24,12 +23,6 @@ class DUP_WPEngine_Host {
         $files[] = wp_normalize_path(WP_CONTENT_DIR).'/mysql.sql';
         return $files;
     }
-
-    /*
-    public static function packageZipFlushDefaultSetting($val) {
-        return '1';
-    }
-    */
 
     public static function defaultsSettings($defaults) {
         $defaults['package_zip_flush'] = '1';
