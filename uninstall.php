@@ -69,7 +69,7 @@ if (DUP_Settings::Get('uninstall_files')) {
 		//has not been edited by 3rd party sources, this helps to keep the system stable
 		$files = glob("{$ssdir}/*");
 		if (is_array($files) && count($files) < 6) {
-			$defaults = array("{$ssdir}/index.php", "{$ssdir}/robots.txt", "{$ssdir}/dtoken.php");
+			$defaults = array("{$ssdir}/index.php", "{$ssdir}/robots.txt");
 			$compare = array_diff($defaults, $files);
 			
 			//There might be a .htaccess file or index.php/html etc.
