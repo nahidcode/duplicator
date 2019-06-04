@@ -1368,6 +1368,7 @@ class DUP_Package
     {
         global $wpdb;
 
+        $this->Status = number_format_i18n($this->Status, 1);
         $packageObj = serialize($this);
 
         if (!$packageObj) {
@@ -1503,7 +1504,7 @@ class DUP_Package
         $row = $wpdb->get_row($sql);
         if (is_object($row)) {
             $obj         = @unserialize($row->package);
-            $obj->Status = $row->status;
+            // $obj->Status = $row->status;
         }
         //Incase unserilaize fails
         $obj = (is_object($obj)) ? $obj : null;
