@@ -99,7 +99,13 @@ class DUPX_Constants
             $GLOBALS['LOG_FILE_HANDLE'] = @fopen($GLOBALS['LOG_FILE_PATH'], "a+");
         }
 
-        $GLOBALS['HOST_NAME'] = strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+		// for ngrok url and Local by Flywheel Live URL
+		if (isset($_SERVER['HTTP_X_ORIGINAL_HOST'])) {
+			$host = $_SERVER['HTTP_X_ORIGINAL_HOST'];
+		} else {
+			$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];//WAS SERVER_NAME and caused problems on some boxes
+		}
+        $GLOBALS['HOST_NAME'] = $host;
 
         if (!defined('MAX_STRLEN_SERIALIZED_CHECK')) { define('MAX_STRLEN_SERIALIZED_CHECK', 2000000); }
 	}

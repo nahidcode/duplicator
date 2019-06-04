@@ -183,7 +183,13 @@ try {
         }
     }
 
-    $GLOBALS['_CURRENT_URL_PATH'] = $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+    // for ngrok url and Local by Flywheel Live URL
+    if (isset($_SERVER['HTTP_X_ORIGINAL_HOST'])) {
+        $host = $_SERVER['HTTP_X_ORIGINAL_HOST'];
+    } else {
+        $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];//WAS SERVER_NAME and caused problems on some boxes
+    }
+    $GLOBALS['_CURRENT_URL_PATH'] = $host . dirname($_SERVER['PHP_SELF']);
     $GLOBALS['NOW_TIME']		  = @date("His");
 
     if (!chdir($GLOBALS['DUPX_INIT'])) {
@@ -264,7 +270,6 @@ if (!empty($unespectOutput)) {
     <meta name="msapplication-config" content="/favicon/dup-installer/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
 
-	<link rel='stylesheet' href='assets/font-awesome/css/font-awesome.min.css' type='text/css' media='all' />
 	<?php
 		require_once($GLOBALS['DUPX_INIT'] . '/assets/inc.libs.css.php');
 		require_once($GLOBALS['DUPX_INIT'] . '/assets/inc.css.php');

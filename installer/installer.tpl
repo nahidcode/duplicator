@@ -583,9 +583,13 @@ class DUPX_Bootstrap
 			$server_port = $_SERVER['SERVER_PORT'];
 		}
 
-
-		//$current_url .= $_SERVER['HTTP_HOST'];//WAS SERVER_NAME and caused problems on some boxes
-		$current_url .= isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];//WAS SERVER_NAME and caused problems on some boxes
+		// for ngrok url and Local by Flywheel Live URL
+		if (isset($_SERVER['HTTP_X_ORIGINAL_HOST'])) {
+			$host = $_SERVER['HTTP_X_ORIGINAL_HOST'];
+		} else {
+			$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];//WAS SERVER_NAME and caused problems on some boxes
+		}
+		$current_url .= $host;
 		if(strpos($current_url,':') === false) {
                    $current_url = $current_url.':'.$server_port;
                 }
