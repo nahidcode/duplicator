@@ -570,15 +570,6 @@ class DUP_Util
 			@fclose($ssfile);
 		}
 
-		//SSDIR: Create token file in snapshot
-		$fileName = $path_ssdir.'/dtoken.php';
-		if (!file_exists($fileName)) {
-			$tokenfile = @fopen($fileName, 'w');
-			@fwrite($tokenfile,
-					'<?php error_reporting(0);  if (stristr(php_sapi_name(), "fcgi")) { $url  =  "http://" . $_SERVER["HTTP_HOST"]; header("Location: {$url}/404.html");} else { header("HTTP/1.1 404 Not Found", true, 404);} exit(); ?>');
-			@fclose($tokenfile);
-		}
-
 		//SSDIR: Create .htaccess
 		$storage_htaccess_off	 = DUP_Settings::Get('storage_htaccess_off');
 		$fileName				 = $path_ssdir.'/.htaccess';
@@ -597,15 +588,6 @@ class DUP_Util
 			$robotfile = @fopen($fileName, 'w');
 			@fwrite($robotfile, "User-agent: * \nDisallow: /".DUPLICATOR_SSDIR_NAME.'/');
 			@fclose($robotfile);
-		}
-
-		//PLUG DIR: Create token file in plugin
-		$fileName = $path_plugin.'installer/dtoken.php';
-		if (!file_exists($fileName)) {
-			$tokenfile2 = @fopen($fileName, 'w');
-			@fwrite($tokenfile2,
-					'<?php @error_reporting(0); @require_once("../../../../wp-admin/admin.php"); global $wp_query; $wp_query->set_404(); header("HTTP/1.1 404 Not Found", true, 404); header("Status: 404 Not Found"); @include(get_template_directory () . "/404.php"); ?>');
-			@fclose($tokenfile2);
 		}
 	}
 
