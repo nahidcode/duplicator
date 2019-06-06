@@ -1368,7 +1368,7 @@ class DUP_Package
     {
         global $wpdb;
 
-        $this->Status = number_format_i18n($this->Status, 1);
+        $this->Status = number_format($this->Status, 1, '.', '');
         $packageObj = serialize($this);
 
         if (!$packageObj) {
