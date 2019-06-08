@@ -160,10 +160,9 @@ final class DUPX_S3_Funcs
         // SEARCH AND SEPLACE SETTINGS
         $this->post = array();
 
-        $this->post['blogname']     = isset($_POST['blogname']) ? htmlspecialchars($_POST['blogname'], ENT_QUOTES) : 'No Blog Title Set';
-        $this->post['postguid']     = filter_input(INPUT_POST, 'postguid', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['fullsearch']   = filter_input(INPUT_POST, 'fullsearch', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['replace_mode'] = DUPX_U::isset_sanitize($_POST, 'replace_mode', array('default' => 'legacy'));
+        $this->post['blogname']   = isset($_POST['blogname']) ? htmlspecialchars($_POST['blogname'], ENT_QUOTES) : 'No Blog Title Set';
+        $this->post['postguid']   = filter_input(INPUT_POST, 'postguid', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
+        $this->post['fullsearch'] = filter_input(INPUT_POST, 'fullsearch', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
 
         $this->post['path_old'] = DUPX_U::isset_sanitize($_POST, 'path_old', array('default' => null, 'trim' => true));
         $this->post['path_new'] = DUPX_U::isset_sanitize($_POST, 'path_new', array('default' => null, 'trim' => true));
@@ -184,45 +183,9 @@ final class DUPX_S3_Funcs
         }
 
         $this->post['tables']             = isset($_POST['tables']) && is_array($_POST['tables']) ? array_map('DUPX_U::sanitize_text_field', $_POST['tables']) : array();
-        $this->post['cross_search']       = filter_input(INPUT_POST, 'cross_search', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['subsite_id']         = filter_input(INPUT_POST, 'subsite_id', FILTER_VALIDATE_INT, array("options" => array('default' => -1, 'min_range' => 0)));
         $this->post['maxSerializeStrlen'] = filter_input(INPUT_POST, DUPX_CTRL::NAME_MAX_SERIALIZE_STRLEN_IN_M, FILTER_VALIDATE_INT,
                 array("options" => array('default' => DUPX_Constants::DEFAULT_MAX_STRLEN_SERIALIZED_CHECK_IN_M, 'min_range' => 0))) * 1000000;
-        $this->post['remove_redundant']   = filter_input(INPUT_POST, 'remove_redundant', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
         $this->post['replaceMail']        = filter_input(INPUT_POST, 'search_replace_email_domain', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['search']             = filter_input(INPUT_POST, 'search', FILTER_DEFAULT,
-            array(
-            'options' => array(
-                'default' => array()
-            ),
-            'flags' => FILTER_REQUIRE_ARRAY,
-        ));
-        $this->post['replace']            = filter_input(INPUT_POST, 'replace', FILTER_DEFAULT,
-            array(
-            'options' => array(
-                'default' => array()
-            ),
-            'flags' => FILTER_REQUIRE_ARRAY,
-        ));
-        foreach (array_keys($this->post['search']) as $index) {
-            $this->post['search'][$index]  = trim(DUPX_U::sanitize_text_field($this->post['search'][$index]));
-            $this->post['replace'][$index] = DUPX_U::sanitize_text_field($this->post['replace'][$index]);
-        }
-
-        $this->post['mu_search']  = filter_input(INPUT_POST, 'mu_search', FILTER_DEFAULT,
-            array(
-            'options' => array(
-                'default' => array()
-            ),
-            'flags' => FILTER_REQUIRE_ARRAY,
-        ));
-        $this->post['mu_replace'] = filter_input(INPUT_POST, 'mu_replace', FILTER_DEFAULT,
-            array(
-            'options' => array(
-                'default' => array()
-            ),
-            'flags' => FILTER_REQUIRE_ARRAY,
-        ));
 
         // DATABASE CONNECTION
         $this->post['dbhost']    = trim(filter_input(INPUT_POST, 'dbhost', FILTER_DEFAULT, array('options' => array('default' => ''))));
@@ -241,56 +204,14 @@ final class DUPX_S3_Funcs
         $this->post['wp_last_name']  = DUPX_U::isset_sanitize($_POST, 'wp_last_name', array('default' => '', 'trim' => true));
 
         // WP CONFIG SETTINGS
-        $this->post['ssl_admin']           = filter_input(INPUT_POST, 'ssl_admin', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['auth_keys_and_salts'] = filter_input(INPUT_POST, 'auth_keys_and_salts', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['cache_wp']            = filter_input(INPUT_POST, 'cache_wp', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['cache_path']          = filter_input(INPUT_POST, 'cache_path', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['wp_debug']            = filter_input(INPUT_POST, 'wp_debug', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['wp_debug_log']        = filter_input(INPUT_POST, 'wp_debug_log', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['wp_debug_display']    = filter_input(INPUT_POST, 'wp_debug_display', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['script_debug']        = filter_input(INPUT_POST, 'script_debug', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['savequeries']         = filter_input(INPUT_POST, 'savequeries', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['wp_memory_limit']     = DUPX_U::isset_sanitize($_POST, 'wp_memory_limit', array('default' => '', 'trim' => true));
-        $this->post['wp_max_memory_limit'] = DUPX_U::isset_sanitize($_POST, 'wp_max_memory_limit', array('default' => '', 'trim' => true));
-        $this->post['disallow_file_edit']  = filter_input(INPUT_POST, 'disallow_file_edit', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['cookie_domain']       = DUPX_U::isset_sanitize($_POST, 'cookie_domain', array('default' => '', 'trim' => true));
-        $this->post['autosave_interval']   = filter_input(INPUT_POST, 'autosave_interval', FILTER_VALIDATE_INT, array("options" => array('default' => 0, 'min_range' => 0)));
-
-        $this->post['wp_auto_update_core'] = filter_input(INPUT_POST, 'wp_auto_update_core', FILTER_DEFAULT, array('options' => array('default' => '')));
-        switch ($this->post['wp_auto_update_core']) {
-            case 'false':
-                $this->post['wp_auto_update_core'] = false;
-                break;
-            case 'true':
-                $this->post['wp_auto_update_core'] = true;
-                break;
-            case 'minor':
-                break;
-            default:
-                break;
-        }
-
-        if (isset($_POST['wp_post_revisions']) && !empty($_POST['wp_post_revisions'])) {
-            switch ($_POST['wp_post_revisions']) {
-                case 'true':
-                    $this->post['wp_post_revisions'] = filter_input(INPUT_POST, 'wp_post_revisions_no', FILTER_VALIDATE_INT, array("options" => array('default' => 'true', 'min_range' => 1)));
-                    break;
-                case 'false':
-                    $this->post['wp_post_revisions'] = 'false';
-                    break;
-                default:
-                    $this->post['wp_post_revisions'] = 'no-action';
-                    break;
-            }
-        } else {
-            $this->post['wp_post_revisions'] = 'remove';
-        }
+        $this->post['ssl_admin']  = filter_input(INPUT_POST, 'ssl_admin', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
+        $this->post['cache_wp']   = filter_input(INPUT_POST, 'cache_wp', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
+        $this->post['cache_path'] = filter_input(INPUT_POST, 'cache_path', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
 
         // OTHER
-        $this->post['empty_schedule_storage'] = filter_input(INPUT_POST, 'empty_schedule_storage', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['exe_safe_mode']          = filter_input(INPUT_POST, 'exe_safe_mode', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['retain_config']          = filter_input(INPUT_POST, 'retain_config', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
-        $this->post['plugins']                = filter_input(INPUT_POST, 'plugins', FILTER_SANITIZE_STRING,
+        $this->post['exe_safe_mode'] = filter_input(INPUT_POST, 'exe_safe_mode', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
+        $this->post['config_mode']   = DUPX_U::isset_sanitize($_POST, 'config_mode', array('default' => 'NEW'));
+        $this->post['plugins']       = filter_input(INPUT_POST, 'plugins', FILTER_SANITIZE_STRING,
             array(
             'options' => array(
                 'default' => array()
@@ -298,18 +219,15 @@ final class DUPX_S3_Funcs
             'flags' => FILTER_REQUIRE_ARRAY,
         ));
 
-        $this->post['mode_chunking'] = filter_input(INPUT_POST, 'mode_chunking', FILTER_VALIDATE_INT,
-            array('options' => array(
-                'default' => self::MODE_NORMAL,
-                'min_range' => 1,
-                'max_range' => 3
-        )));
-
-        // MULTI SITE MODE
-        $this->post['action_mu_mode'] = -1;
-        $this->post['json']           = filter_input(INPUT_POST, 'json', FILTER_DEFAULT, array('options' => array('default' => '{}')));
+        $this->post['json'] = filter_input(INPUT_POST, 'json', FILTER_DEFAULT, array('options' => array('default' => '{}')));
     }
 
+    /**
+     * get vaule post if  thepost isn't inizialized inizialize it
+     * 
+     * @param string $key
+     * @return mixed
+     */
     public function getPost($key = null)
     {
         if (is_null($this->post)) {
@@ -762,40 +680,6 @@ final class DUPX_S3_Funcs
                 @mysqli_query($this->dbh,
                         "INSERT INTO `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."usermeta` (`user_id`, `meta_key`, `meta_value`) VALUES ('{$newuser1_insert_id}', 'last_name', '{$wp_last_name}')");
 
-                //Add super admin permissions
-                if ($this->newSiteIsMultisite()) {
-                    $site_admins_query = mysqli_query($this->dbh,
-                        "SELECT meta_value FROM `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."sitemeta` WHERE meta_key = 'site_admins'");
-                    $site_admins       = mysqli_fetch_row($site_admins_query);
-                    $site_admins[0]    = stripslashes($site_admins[0]);
-                    $site_admins_array = unserialize($site_admins[0]);
-
-                    array_push($site_admins_array, $this->post['wp_username']);
-
-                    $site_admins_serialized = serialize($site_admins_array);
-
-                    @mysqli_query($this->dbh,
-                            "UPDATE `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."sitemeta` SET meta_value = '{$site_admins_serialized}' WHERE meta_key = 'site_admins'");
-                    // Adding permission for each sub-site to the newly created user
-                    $admin_user_level   = 10; // For wp_2_user_level
-                    $sql_values_array   = array();
-                    $sql_values_array[] = "('{$newuser1_insert_id}', 'primary_blog', '{$GLOBALS['DUPX_AC']->main_site_id}')";
-                    foreach ($GLOBALS['DUPX_AC']->subsites as $subsite_info) {
-                        // No need to add permission for main site
-                        if ($subsite_info->id == $GLOBALS['DUPX_AC']->main_site_id) {
-                            continue;
-                        }
-
-                        $cap_meta_key       = $subsite_info->blog_prefix.'capabilities';
-                        $sql_values_array[] = "('{$newuser1_insert_id}', '{$cap_meta_key}', '{$newuser_security}')";
-
-                        $user_level_meta_key = $subsite_info->blog_prefix.'user_level';
-                        $sql_values_array[]  = "('{$newuser1_insert_id}', '{$user_level_meta_key}', '{$admin_user_level}')";
-                    }
-                    $sql = "INSERT INTO ".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."usermeta (user_id, meta_key, meta_value) VALUES ".implode(', ', $sql_values_array);
-                    @mysqli_query($this->dbh, $sql);
-                }
-
                 DUPX_Log::info("\nNEW WP-ADMIN USER:");
                 if ($newuser1 && $newuser2 && $newuser3) {
                     DUPX_Log::info("- New username '{$this->post['wp_username']}' was created successfully allong with MU usermeta.");
@@ -1069,7 +953,7 @@ final class DUPX_S3_Funcs
                         DUPX_Log::info('UPDATE WPMU_PLUGIN_URL '.DUPX_Log::varToString($new_path));
                     }
                 }
-                DUPX_Log::info("\nUPDATED WP-CONFIG ARK FILE: - 'dup-wp-config-arc__[HASH].txt'");
+                DUPX_Log::info("\n*** UPDATED WP CONFIG FILE ***");
             } else {
                 DUPX_Log::info("WP-CONFIG ARK FILE NOT FOUND");
                 DUPX_Log::info("WP-CONFIG ARK FILE:\n - 'dup-wp-config-arc__[HASH].txt'");
@@ -1119,29 +1003,24 @@ LONGMSG;
 
     public function htaccessUpdate()
     {
-        self::logSectionHeader('HTACCESS UPDATE', __FUNCTION__, __LINE__);
+        $this->getPost();
+        self::logSectionHeader('HTACCESS UPDATE MODE: '.DUPX_LOG::varToString($this->post['config_mode']), __FUNCTION__, __LINE__);
 
-        // make sure dbConnection is inizialized
-        $this->dbConnection();
 
-        if ($this->post['retain_config']) {
-            $new_htaccess_name = '.htaccess';
-        } else {
-            $new_htaccess_name = 'htaccess.orig'.rand();
-        }
-
-        if (DUPX_ServerConfig::renameHtaccess($GLOBALS['DUPX_ROOT'], $new_htaccess_name)) {
-            DUPX_Log::info("\nReseted original .htaccess content from htaccess.orig");
-        }
-
-        //Web Server Config Updates
-        if (!isset($this->post['url_new']) || $this->post['retain_config']) {
-            DUPX_Log::info("\nNOTICE: Retaining the original .htaccess, .user.ini and web.config files may cause");
-            DUPX_Log::info("issues with the initial setup of your site.  If you run into issues with your site or");
-            DUPX_Log::info("during the install process please uncheck the 'Config Files' checkbox labeled:");
-            DUPX_Log::info("'Retain original .htaccess, .user.ini and web.config' and re-run the installer.");
-        } else {
-            DUPX_ServerConfig::setup(false, false , $this->dbh, $GLOBALS['DUPX_ROOT']);
+        switch ($this->post['config_mode']) {
+            case 'NEW':
+                DUPX_ServerConfig::createNewConfigs();
+                break;
+            case 'RESTORE':
+                DUPX_ServerConfig::renameOrigConfigs();
+                DUPX_Log::info("\nWARNING: Retaining the original .htaccess or web.config files may cause");
+                DUPX_Log::info("issues with the initial setup of your site.  If you run into issues with the install");
+                DUPX_Log::info("process choose 'Create New' for the 'Config Files' options");
+                break;
+            case 'IGNORE':
+                DUPX_Log::info("\nWARNING: Choosing the option to ignore the .htaccess, web.config and .user.ini files");
+                DUPX_Log::info("can lead to install issues.  The 'Ignore All' option is designed for advanced users.");
+                break;
         }
     }
 
@@ -1151,22 +1030,20 @@ LONGMSG;
         // make sure dbConnection is inizialized
         $this->dbConnection();
 
-        $blog_name        = mysqli_real_escape_string($this->dbh, $this->post['blogname']);
-        $plugin_list      = $this->post['plugins'];
-        $mu_newDomain     = parse_url($this->post['url_new']);
-        $mu_oldDomain     = parse_url($this->post['url_old']);
+        $blog_name   = mysqli_real_escape_string($this->dbh, $this->post['blogname']);
+        $plugin_list = $this->post['plugins'];
 
         if (!in_array('duplicator-pro/duplicator.php', $plugin_list)) {
             $plugin_list[] = 'duplicator-pro/duplicator.php';
         }
         $serial_plugin_list = @serialize($plugin_list);
-        
+
         /** FINAL UPDATES: Must happen after the global replace to prevent double pathing
           http://xyz.com/abc01 will become http://xyz.com/abc0101  with trailing data */
         mysqli_query($this->dbh,
             "UPDATE `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` SET option_value = '".mysqli_real_escape_string($this->dbh, $blog_name)."' WHERE option_name = 'blogname' ");
         mysqli_query($this->dbh,
-             "UPDATE `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` SET option_value = '".mysqli_real_escape_string($this->dbh, $serial_plugin_list)."'  WHERE option_name = 'active_plugins' ");
+            "UPDATE `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` SET option_value = '".mysqli_real_escape_string($this->dbh, $serial_plugin_list)."'  WHERE option_name = 'active_plugins' ");
         mysqli_query($this->dbh,
             "UPDATE `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` SET option_value = '".mysqli_real_escape_string($this->dbh, $this->post['url_new'])."'  WHERE option_name = 'home' ");
         mysqli_query($this->dbh,
@@ -1294,35 +1171,6 @@ LONGMSG;
                 if (rename($file, $tmp_newfile) === false) {
                     DUPX_Log::info("WARNING: Unable to rename '{$file}' to '{$tmp_newfile}'");
                 }
-            }
-        }
-
-        if (isset($this->post['remove_redundant']) && $this->post['remove_redundant']) {
-            $licence_type = $GLOBALS['DUPX_AC']->getLicenseType();
-            if ($licence_type >= DUPX_LicenseType::Freelancer) {
-                // Need to load if user selected redundant-data checkbox
-                require_once($GLOBALS['DUPX_INIT'].'/classes/utilities/class.u.remove.redundant.data.php');
-
-                $new_content_dir = (substr($this->post['path_new'], -1, 1) == '/') ? "{$this->post['path_new']}{$GLOBALS['DUPX_AC']->relative_content_dir}" : "{$this->post['path_new']}/{$GLOBALS['DUPX_AC']->relative_content_dir}";
-
-                try {
-                    DUPX_Log::info("#### Recursively deleting redundant plugins");
-                    DUPX_RemoveRedundantData::deleteRedundantPlugins($new_content_dir, $GLOBALS['DUPX_AC'], $this->post['subsite_id']);
-                } catch (Exception $ex) {
-                    // Technically it can complete but this should be brought to their attention
-                    DUPX_Log::error("Problem deleting redundant plugins");
-                }
-
-                try {
-                    DUPX_Log::info("#### Recursively deleting redundant themes");
-                    DUPX_RemoveRedundantData::deleteRedundantThemes($new_content_dir, $GLOBALS['DUPX_AC'], $this->post['subsite_id']);
-                } catch (Exception $ex) {
-                    // Technically it can complete but this should be brought to their attention
-                    DUPX_Log::error("Problem deleting redundant themes");
-                }
-            }
-            if ($GLOBALS['DUPX_STATE']->mode == DUPX_InstallerMode::OverwriteInstall) {
-                DUPX_U::maintenanceMode(true, $GLOBALS['DUPX_ROOT']);
             }
         }
     }
