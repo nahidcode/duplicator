@@ -468,23 +468,24 @@ class DUPX_S_R_ITEM
         } else {
             $replace_url_raw = $replace_url;
         }
-
         //SEARCH WITH NO PROTOCOL: RAW "//"
         $result = self::searchReplaceWithEncodings($search_url_raw, $replace_url_raw);
 
-
-        if ($normalizeWww && self::domainCanNormalized($search_url)) {
-            $fromDomain = self::getDomain($search_url);
-            $toDomain   = '//'.self::getDomain($replace_url);
-            if (self::isWww($search_url)) {
-                $fromDomain = '//'.$fromDomain;
+        // NORMALIZE source www
+        if ($normalizeWww && self::domainCanNormalized($search_url_raw)) {
+            if (self::isWww($search_url_raw)) {
+                $fromDomain = '//'.substr($search_url_raw , strlen('//www.'));
             } else {
-                $fromDomain = '//www.'.$fromDomain;
+                $fromDomain = '//www.'.substr($search_url_raw , strlen('//'));
             }
-            $result = array_merge($result, self::searchReplaceWithEncodings($fromDomain, $toDomain));
+
+            // prevent double subsition for subdiv problems.
+            if (strpos($replace_url_raw, $fromDomain) !== 0) {
+                $result = array_merge($result, self::searchReplaceWithEncodings($fromDomain, $replace_url_raw));
+            }
         }
 
-
+        // NORMALIZE source protocol
         if ($force_new_protocol && $parse_replace_url !== false && isset($parse_replace_url['scheme'])) {
             //FORCE NEW PROTOCOL [HTTP / HTTPS]
             switch ($parse_replace_url['scheme']) {
