@@ -508,7 +508,7 @@ class DUP_Util
 		$user		 = '';
 		try {
 			if (function_exists('exec')) {
-				$user = exec('whoami');
+				$user = @exec('whoami');
 			}
 
 			if (!strlen($user) && function_exists('posix_getpwuid') && function_exists('posix_geteuid')) {
