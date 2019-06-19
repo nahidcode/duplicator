@@ -18,7 +18,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 final class DUPX_S3_Funcs
 {
     const MODE_NORMAL = 1;
-    const MODE_CHUNK  = 2;
+    // const MODE_CHUNK  = 2; reserved for PRO version
     const MODE_SKIP   = 3; // not implemented yet
 
     /**
