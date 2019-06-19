@@ -721,18 +721,19 @@ final class DUPX_S3_Funcs
         DUPX_Log::incIndent();
         // make sure post data is inizialized
         $this->getPost();
+        $strReplaced = 0;
 
         $nManager = DUPX_NOTICE_MANAGER::getInstance();
         try {
             if (file_exists($this->getWpconfigArkPath())) {
                 $confTransformer = $this->getWpConfigTransformer();
 
-                $mu_newDomain     = parse_url($this->post['url_new']);
-                $mu_oldDomain     = parse_url($this->post['url_old']);
+                $mu_newDomain     = parse_url($this->getPost('url_new'));
+                $mu_oldDomain     = parse_url($this->getPost('url_old'));
                 $mu_newDomainHost = $mu_newDomain['host'];
                 $mu_oldDomainHost = $mu_oldDomain['host'];
-                $mu_newUrlPath    = parse_url($this->post['url_new'], PHP_URL_PATH);
-                $mu_oldUrlPath    = parse_url($this->post['url_old'], PHP_URL_PATH);
+                $mu_newUrlPath    = parse_url($this->getPost('url_new'), PHP_URL_PATH);
+                $mu_oldUrlPath    = parse_url($this->getPost('url_old'), PHP_URL_PATH);
 
                 if (empty($mu_newUrlPath) || ($mu_newUrlPath == '/')) {
                     $mu_newUrlPath = '/';
@@ -824,6 +825,15 @@ final class DUPX_S3_Funcs
                     }
                 }
 
+                // COOKIE_DOMAIN
+                if ($confTransformer->exists('constant', 'COOKIE_DOMAIN')) {
+                    $const_val     = $confTransformer->get_value('constant', 'COOKIE_DOMAIN');
+                    $const_new_val = str_replace($mu_oldDomainHost, $mu_newDomainHost, $const_val, $strReplaced);
+                    if ($strReplaced > 0) {
+                        $confTransformer->update('constant', 'COOKIE_DOMAIN', $const_new_val, array('normalize' => true));
+                    }
+                }
+
                 if ($this->post['cache_wp']) {
                     $confTransformer->update('constant', 'WP_CACHE', 'true', array('raw' => true, 'normalize' => true));
                     DUPX_Log::info('UPDATE WP_CACHE '.DUPX_Log::varToString(true));
@@ -839,8 +849,8 @@ final class DUPX_S3_Funcs
                     if ($confTransformer->exists('constant', 'WPCACHEHOME')) {
                         $wpcachehome_const_val     = $confTransformer->get_value('constant', 'WPCACHEHOME');
                         $wpcachehome_const_val     = DUPX_U::wp_normalize_path($wpcachehome_const_val);
-                        $wpcachehome_new_const_val = str_replace($this->post['path_old'], $this->post['path_new'], $wpcachehome_const_val, $count);
-                        if ($count > 0) {
+                        $wpcachehome_new_const_val = str_replace($this->post['path_old'], $this->post['path_new'], $wpcachehome_const_val, $strReplaced);
+                        if ($strReplaced > 0) {
                             $confTransformer->update('constant', 'WPCACHEHOME', $wpcachehome_new_const_val, array('normalize' => true));
                             DUPX_Log::info('UPDATE WPCACHEHOME '.DUPX_Log::varToString($wpcachehome_new_const_val));
                         }
@@ -868,8 +878,8 @@ final class DUPX_S3_Funcs
                 } elseif ($confTransformer->exists('constant', 'WP_CONTENT_DIR')) {
                     $wp_content_dir_const_val = $confTransformer->get_value('constant', 'WP_CONTENT_DIR');
                     $wp_content_dir_const_val = DUPX_U::wp_normalize_path($wp_content_dir_const_val);
-                    $new_path                 = str_replace($this->post['path_old'], $this->post['path_new'], $wp_content_dir_const_val, $count);
-                    if ($count > 0) {
+                    $new_path                 = str_replace($this->post['path_old'], $this->post['path_new'], $wp_content_dir_const_val, $strReplaced);
+                    if ($strReplaced > 0) {
                         $confTransformer->update('constant', 'WP_CONTENT_DIR', $new_path, array('normalize' => true));
                         DUPX_Log::info('UPDATE WP_CONTENT_DIR '.DUPX_Log::varToString($new_path));
                     }
@@ -894,8 +904,8 @@ final class DUPX_S3_Funcs
                     }
                 } elseif ($confTransformer->exists('constant', 'WP_CONTENT_URL')) {
                     $wp_content_url_const_val = $confTransformer->get_value('constant', 'WP_CONTENT_URL');
-                    $new_path                 = str_replace($this->post['url_old'].'/', $this->post['url_new'].'/', $wp_content_url_const_val, $count);
-                    if ($count > 0) {
+                    $new_path                 = str_replace($this->post['url_old'].'/', $this->post['url_new'].'/', $wp_content_url_const_val, $strReplaced);
+                    if ($strReplaced > 0) {
                         $confTransformer->update('constant', 'WP_CONTENT_URL', $new_path, array('normalize' => true));
                         DUPX_Log::info('UPDATE WP_CONTENT_URL '.DUPX_Log::varToString($new_path));
                     }
@@ -905,8 +915,8 @@ final class DUPX_S3_Funcs
                 if ($confTransformer->exists('constant', 'WP_TEMP_DIR')) {
                     $wp_temp_dir_const_val = $confTransformer->get_value('constant', 'WP_TEMP_DIR');
                     $wp_temp_dir_const_val = DUPX_U::wp_normalize_path($wp_temp_dir_const_val);
-                    $new_path              = str_replace($this->post['path_old'], $this->post['path_new'], $wp_temp_dir_const_val, $count);
-                    if ($count > 0) {
+                    $new_path              = str_replace($this->post['path_old'], $this->post['path_new'], $wp_temp_dir_const_val, $strReplaced);
+                    if ($strReplaced > 0) {
                         $confTransformer->update('constant', 'WP_TEMP_DIR', $new_path, array('normalize' => true));
                         DUPX_Log::info('UPDATE WP_TEMP_DIR '.DUPX_Log::varToString($new_path));
                     }
@@ -916,8 +926,8 @@ final class DUPX_S3_Funcs
                 if ($confTransformer->exists('constant', 'WP_PLUGIN_DIR')) {
                     $wp_plugin_dir_const_val = $confTransformer->get_value('constant', 'WP_PLUGIN_DIR');
                     $wp_plugin_dir_const_val = DUPX_U::wp_normalize_path($wp_plugin_dir_const_val);
-                    $new_path                = str_replace($this->post['path_old'], $this->post['path_new'], $wp_plugin_dir_const_val, $count);
-                    if ($count > 0) {
+                    $new_path                = str_replace($this->post['path_old'], $this->post['path_new'], $wp_plugin_dir_const_val, $strReplaced);
+                    if ($strReplaced > 0) {
                         $confTransformer->update('constant', 'WP_PLUGIN_DIR', $new_path, array('normalize' => true));
                         DUPX_Log::info('UPDATE WP_PLUGIN_DIR '.DUPX_Log::varToString($new_path));
                     }
@@ -926,8 +936,8 @@ final class DUPX_S3_Funcs
                 // WP_PLUGIN_URL
                 if ($confTransformer->exists('constant', 'WP_PLUGIN_URL')) {
                     $wp_plugin_url_const_val = $confTransformer->get_value('constant', 'WP_PLUGIN_URL');
-                    $new_path                = str_replace($this->post['url_old'].'/', $this->post['url_new'].'/', $wp_plugin_url_const_val, $count);
-                    if ($count > 0) {
+                    $new_path                = str_replace($this->post['url_old'].'/', $this->post['url_new'].'/', $wp_plugin_url_const_val, $strReplaced);
+                    if ($strReplaced > 0) {
                         $confTransformer->update('constant', 'WP_PLUGIN_URL', $new_path, array('normalize' => true));
                         DUPX_Log::info('UPDATE WP_PLUGIN_URL '.DUPX_Log::varToString($new_path));
                     }
@@ -937,8 +947,8 @@ final class DUPX_S3_Funcs
                 if ($confTransformer->exists('constant', 'WPMU_PLUGIN_DIR')) {
                     $wpmu_plugin_dir_const_val = $confTransformer->get_value('constant', 'WPMU_PLUGIN_DIR');
                     $wpmu_plugin_dir_const_val = DUPX_U::wp_normalize_path($wpmu_plugin_dir_const_val);
-                    $new_path                  = str_replace($this->post['path_old'], $this->post['path_new'], $wpmu_plugin_dir_const_val, $count);
-                    if ($count > 0) {
+                    $new_path                  = str_replace($this->post['path_old'], $this->post['path_new'], $wpmu_plugin_dir_const_val, $strReplaced);
+                    if ($strReplaced > 0) {
                         $confTransformer->update('constant', 'WPMU_PLUGIN_DIR', $new_path, array('normalize' => true));
                         DUPX_Log::info('UPDATE WPMU_PLUGIN_DIR '.DUPX_Log::varToString($new_path));
                     }
@@ -947,8 +957,8 @@ final class DUPX_S3_Funcs
                 // WPMU_PLUGIN_URL
                 if ($confTransformer->exists('constant', 'WPMU_PLUGIN_URL')) {
                     $wpmu_plugin_url_const_val = $confTransformer->get_value('constant', 'WPMU_PLUGIN_URL');
-                    $new_path                  = str_replace($this->post['url_old'].'/', $this->post['url_new'].'/', $wpmu_plugin_url_const_val, $count);
-                    if ($count > 0) {
+                    $new_path                  = str_replace($this->post['url_old'].'/', $this->post['url_new'].'/', $wpmu_plugin_url_const_val, $strReplaced);
+                    if ($strReplaced > 0) {
                         $confTransformer->update('constant', 'WPMU_PLUGIN_URL', $new_path, array('normalize' => true));
                         DUPX_Log::info('UPDATE WPMU_PLUGIN_URL '.DUPX_Log::varToString($new_path));
                     }
