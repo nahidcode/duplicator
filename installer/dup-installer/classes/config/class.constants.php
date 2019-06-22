@@ -12,6 +12,14 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
  */
 class DUPX_Constants
 {
+    const DEFAULT_MAX_STRLEN_SERIALIZED_CHECK_IN_M = 4; // 0 no limit
+
+    /**
+     *
+     * @var int
+     */
+    public static $maxStrlenSerializeCheck = self::DEFAULT_MAX_STRLEN_SERIALIZED_CHECK;
+
 	/**
 	 * Init method used to auto initialize the global params
 	 *
@@ -36,6 +44,7 @@ class DUPX_Constants
 		//DATABASE SETUP: all time in seconds
 		//max_allowed_packet: max value 1073741824 (1268MB) see my.ini
 		$GLOBALS['DB_MAX_TIME'] = 5000;
+        $GLOBALS['DATABASE_PAGE_SIZE'] = 3500;
 		$GLOBALS['DB_MAX_PACKETS'] = 268435456;
 		$GLOBALS['DBCHARSET_DEFAULT'] = 'utf8';
 		$GLOBALS['DBCOLLATE_DEFAULT'] = 'utf8_general_ci';

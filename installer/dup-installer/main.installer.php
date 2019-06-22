@@ -204,8 +204,6 @@ try {
             DUPX_Log::error("An invalid request was made to '{$post_ctrl_action}'.  In order to protect this request from unauthorized access please "
                 . "<a href='../{$GLOBALS['BOOTLOADER_NAME']}'>restart this install process</a>.");
         }
-        require_once($GLOBALS['DUPX_INIT'].'/ctrls/ctrl.base.php');
-
         //PASSWORD CHECK
         if ($GLOBALS['DUPX_AC']->secure_on) {
             $pass_hasher = new DUPX_PasswordHash(8, FALSE);
@@ -277,7 +275,7 @@ if (!empty($unespectOutput)) {
 		require_once($GLOBALS['DUPX_INIT'] . '/assets/inc.js.php');
 	?>
 </head>
-<body>
+<body id="body-<?php echo $GLOBALS["VIEW"]; ?>" >
 
 <div id="content">
 
