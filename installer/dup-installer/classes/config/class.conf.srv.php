@@ -276,20 +276,24 @@ HTACCESS;
 				break;
 		}
 
-		if (is_dir(self::$rootPath)){
-			$dir = new DirectoryIterator(self::$rootPath);
-			foreach ($dir as $file) {
-				if ($file->isFile()) {
-					$name = $file->getFilename();
-					if (strpos($name, '-duplicator.bak')) {
-						if (preg_match($pattern, $name))
-							return true;
-					}
-				}
-			}
-		}
+		if (is_dir(self::$rootPath)) {
+            $dir = new DirectoryIterator(self::$rootPath);
+            foreach ($dir as $file) {
+                if ($file->isDot()) {
+                    continue;
+                }
+                if ($file->isFile()) {
+                    $name = $file->getFilename();
+                    if (strpos($name, '-duplicator.bak')) {
+                        if (preg_match($pattern, $name)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
 
-		return false;
+        return false;
 	}
 
 	/**
