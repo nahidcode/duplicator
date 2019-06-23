@@ -360,6 +360,11 @@ class DUP_Package
         return DUP_Settings::Get('active_package_id') == $this->ID && $this->Status >= 0 && $this->Status < 100;
     }
 
+    protected function cleanObjectBeforeSave()
+    {
+        $this->Archive->FilterInfo->reset();
+    }
+
 	/**
      * Saves the active package to the package table
      *
@@ -383,6 +388,7 @@ class DUP_Package
 		$this->writeLogHeader();
 
 		//CREATE DB RECORD
+        $this->cleanObjectBeforeSave();
 		$packageObj = serialize($this);
 		if (!$packageObj) {
 			DUP_Log::Error("Unable to serialize package object while building record.");
@@ -1369,6 +1375,7 @@ class DUP_Package
         global $wpdb;
 
         $this->Status = number_format($this->Status, 1, '.', '');
+        $this->cleanObjectBeforeSave();
         $packageObj = serialize($this);
 
         if (!$packageObj) {

@@ -37,7 +37,12 @@ class DUP_Archive
     public $Size              = 0;
     public $Dirs              = array();
     public $Files             = array();
-    public $FilterInfo;
+
+    /**
+     *
+     * @var DUP_Archive_Filter_Info
+     */
+    public $FilterInfo        = null;
     public $RecursiveLinks    = array();
     public $file_count        = -1;
     //PROTECTED
