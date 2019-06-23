@@ -199,15 +199,13 @@ switch ($post_archive_engine) {
 
             for($i = 0; $i < $zip->numFiles; $i++) {
                 $extract_filename = $zip->getNameIndex($i);
-                
-                // skip dup-installer folder. Alrady extracted in bootstrap
-                if (strpos($extract_filename , $dupInstallerZipPath) === 0) {
-                    continue;
-                }
 
-                // skip no dupInstallerFolder files
-                if (!empty($dupInstallerFolder) && strpos($extract_filename , $dupInstallerFolder) !== 0) {
-                    DUPX_Log::info("SKIP NOT DUB FOLDER: \"".$extract_filename."\"", 2);
+                // skip dup-installer folder. Alrady extracted in bootstrap
+                if (
+                    (strpos($extract_filename, $dupInstallerZipPath) === 0) ||
+                    (!empty($dupInstallerFolder) && strpos($extract_filename , $dupInstallerFolder) !== 0)
+                ) {
+                    DUPX_Log::info("SKIPPING NOT IN ZIPATH:\"".DUPX_Log::varToString($extract_filename)."\"" , DUPX_Log::LV_DETAILED);
                     continue;
 				}
 
@@ -242,7 +240,7 @@ switch ($post_archive_engine) {
                             'sections' => array('files'),
                         ), DUPX_NOTICE_MANAGER::ADD_UNIQUE_APPEND, $idManager);
                     } else {
-                        DUPX_Log::info("DONE: ".$extract_filename,2);
+                        DUPX_Log::info("FILE EXTRACTION DONE: ".DUPX_Log::varToString($extract_filename), DUPX_Log::LV_HARD_DEBUG);
                     }
                 } catch (Exception $ex) {
                     if (DupLiteSnapLibUtilWp::isWpCore($extract_filename, DupLiteSnapLibUtilWp::PATH_RELATIVE)) {
