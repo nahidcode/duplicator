@@ -81,52 +81,58 @@ DUPX_Log::info("* VERSION: {$GLOBALS['DUPX_AC']->version_dup}");
 DUPX_Log::info('* NOTICE: Do NOT post to public sites or forums!!');
 DUPX_Log::info("********************************************************************************");
 
-$colSize = 60;
-$os      = defined('PHP_OS') ? PHP_OS : 'unknown';
-$log     = str_pad(str_pad('PACKAGE INFO', 13, '_', STR_PAD_RIGHT).' '.'CURRENT SERVER', $colSize, ' ', STR_PAD_RIGHT).'| '.'ORIGINAL SERVER'."\n".
-    str_pad(str_pad('PHP VERSION', 13, '_', STR_PAD_RIGHT).':'.$GLOBALS['DUPX_AC']->version_php, $colSize, ' ', STR_PAD_RIGHT).'| '.phpversion()."\n".
-    str_pad(str_pad('OS', 13, '_', STR_PAD_RIGHT).':'.$GLOBALS['DUPX_AC']->version_os, $colSize, ' ', STR_PAD_RIGHT).'| '.$os."\n".
-    str_pad('CREATED', 13, '_', STR_PAD_RIGHT).':'.$GLOBALS['DUPX_AC']->created."\n".
-    str_pad('WP VERSION', 13, '_', STR_PAD_RIGHT).':'.$GLOBALS['DUPX_AC']->version_wp."\n".
-    str_pad('DUP VERSION', 13, '_', STR_PAD_RIGHT).':'.$GLOBALS['DUPX_AC']->version_dup."\n".
-    str_pad('DB', 13, '_', STR_PAD_RIGHT).':'.$GLOBALS['DUPX_AC']->version_db."\n".
-    str_pad('DB TABLES', 13, '_', STR_PAD_RIGHT).':'.$GLOBALS['DUPX_AC']->dbInfo->tablesFinalCount."\n".
-    str_pad('DB ROWS', 13, '_', STR_PAD_RIGHT).':'.$GLOBALS['DUPX_AC']->dbInfo->tablesRowCount."\n".
-    str_pad('DB FILE SIZE', 13, '_', STR_PAD_RIGHT).':'.$GLOBALS['DUPX_AC']->dbInfo->tablesSizeOnDisk."\n".
+$colSize      = 60;
+$labelPadSize = 20;
+$os           = defined('PHP_OS') ? PHP_OS : 'unknown';
+$log          = str_pad(str_pad('PACKAGE INFO', $labelPadSize, '_', STR_PAD_RIGHT).' '.'CURRENT SERVER', $colSize, ' ', STR_PAD_RIGHT).'|'.'ORIGINAL SERVER'."\n".
+    str_pad(str_pad('PHP VERSION', $labelPadSize, '_', STR_PAD_RIGHT).': '.$GLOBALS['DUPX_AC']->version_php, $colSize, ' ', STR_PAD_RIGHT).'|'.phpversion()."\n".
+    str_pad(str_pad('OS', $labelPadSize, '_', STR_PAD_RIGHT).': '.$GLOBALS['DUPX_AC']->version_os, $colSize, ' ', STR_PAD_RIGHT).'|'.$os."\n".
+    str_pad('CREATED', $labelPadSize, '_', STR_PAD_RIGHT).': '.$GLOBALS['DUPX_AC']->created."\n".
+    str_pad('WP VERSION', $labelPadSize, '_', STR_PAD_RIGHT).': '.$GLOBALS['DUPX_AC']->version_wp."\n".
+    str_pad('DUP VERSION', $labelPadSize, '_', STR_PAD_RIGHT).': '.$GLOBALS['DUPX_AC']->version_dup."\n".
+    str_pad('DB', $labelPadSize, '_', STR_PAD_RIGHT).': '.$GLOBALS['DUPX_AC']->version_db."\n".
+    str_pad('DB TABLES', $labelPadSize, '_', STR_PAD_RIGHT).': '.$GLOBALS['DUPX_AC']->dbInfo->tablesFinalCount."\n".
+    str_pad('DB ROWS', $labelPadSize, '_', STR_PAD_RIGHT).': '.$GLOBALS['DUPX_AC']->dbInfo->tablesRowCount."\n".
+    str_pad('DB FILE SIZE', $labelPadSize, '_', STR_PAD_RIGHT).': '.$GLOBALS['DUPX_AC']->dbInfo->tablesSizeOnDisk."\n".
     "********************************************************************************";
 DUPX_Log::info($log);
+DUPX_Log::info("SERVER INFO");
+DUPX_Log::info(str_pad('PHP', $labelPadSize, '_', STR_PAD_RIGHT).': '.phpversion().' | SAPI: '.php_sapi_name());
+DUPX_Log::info(str_pad('PHP MEMORY', $labelPadSize, '_', STR_PAD_RIGHT).': '.$GLOBALS['PHP_MEMORY_LIMIT'].' | SUHOSIN: '.$GLOBALS['PHP_SUHOSIN_ON']);
+DUPX_Log::info(str_pad('SERVER', $labelPadSize, '_', STR_PAD_RIGHT).': '.$_SERVER['SERVER_SOFTWARE']);
+DUPX_Log::info(str_pad('DOC ROOT', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($root_path));
+DUPX_Log::info(str_pad('DOC ROOT 755', $labelPadSize, '_', STR_PAD_RIGHT).': '.var_export($GLOBALS['CHOWN_ROOT_PATH'], true));
+DUPX_Log::info(str_pad('LOG FILE 644', $labelPadSize, '_', STR_PAD_RIGHT).': '.var_export($GLOBALS['CHOWN_LOG_PATH'], true));
+DUPX_Log::info(str_pad('REQUEST URL', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($GLOBALS['URL_PATH']));
 
-DUPX_Log::info("PHP:\t\t".phpversion().' | SAPI: '.php_sapi_name());
-DUPX_Log::info("PHP MEMORY:\t".DUPX_Log::varToString($GLOBALS['PHP_MEMORY_LIMIT']).' | SUHOSIN: '.DUPX_Log::varToString($GLOBALS['PHP_SUHOSIN_ON']));
-DUPX_Log::info("SERVER:\t\t".DUPX_Log::varToString($_SERVER['SERVER_SOFTWARE']));
-DUPX_Log::info("DOC ROOT:\t".DUPX_Log::varToString($root_path));
-DUPX_Log::info("DOC ROOT 755:\t".DUPX_Log::varToString($GLOBALS['CHOWN_ROOT_PATH']));
-DUPX_Log::info("LOG FILE 644:\t".DUPX_Log::varToString($GLOBALS['CHOWN_LOG_PATH']));
-DUPX_Log::info("REQUEST URL:\t".DUPX_Log::varToString($GLOBALS['URL_PATH']));
-DUPX_Log::info("SAFE MODE :\t".DUPX_Log::varToString($_POST['exe_safe_mode']));
-DUPX_Log::info("CONFIG MODE :\t".DUPX_Log::varToString($_POST['config_mode']));
+DUPX_Log::info("********************************************************************************");
+DUPX_Log::info("USER INPUTS");
+DUPX_Log::info(str_pad('ARCHIVE ENGINE', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($_POST['archive_engine']));
+DUPX_Log::info(str_pad('SET DIR PERMS', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($_POST['set_dir_perms']));
+DUPX_Log::info(str_pad('DIR PERMS VALUE', $labelPadSize, '_', STR_PAD_RIGHT).': '.decoct($_POST['dir_perms_value']));
+DUPX_Log::info(str_pad('SET FILE PERMS', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($_POST['set_file_perms']	));
+DUPX_Log::info(str_pad('FILE PERMS VALUE', $labelPadSize, '_', STR_PAD_RIGHT).': '.decoct($_POST['file_perms_value']));
+DUPX_Log::info(str_pad('SAFE MODE', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($_POST['exe_safe_mode']));
+DUPX_Log::info(str_pad('LOGGING', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($_POST['logging']));
+DUPX_Log::info(str_pad('CONFIG MODE', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($_POST['config_mode']));
+DUPX_Log::info(str_pad('FILE TIME', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($_POST['zip_filetime']));
+DUPX_Log::info("********************************************************************************\n");
 
 $log = "--------------------------------------\n";
 $log .= "POST DATA\n";
 $log .= "--------------------------------------\n";
 $log .= print_r($POST_LOG, true);
-DUPX_Log::info($log, 2);
+DUPX_Log::info($log, DUPX_Log::LV_DEBUG);
 
-
-$log = "--------------------------------------\n";
-$log .= "PRE-EXTRACT-CHECKS\n";
-$log .= "--------------------------------------";
-DUPX_Log::info($log);
-DUPX_ServerConfig::beforeExtractionSetup();
-
-
-$log = "--------------------------------------\n";
+$log = "\n--------------------------------------\n";
 $log .= "ARCHIVE SETUP\n";
 $log .= "--------------------------------------\n";
-$log .= "NAME:\t{$GLOBALS['FW_PACKAGE_NAME']}\n";
-$log .= "SIZE:\t".DUPX_U::readableByteSize(@filesize($GLOBALS['FW_PACKAGE_PATH']));
- DUPX_Log::info($log."\n", DUPX_Log::LV_DEFAULT, true);
+$log .= str_pad('NAME', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($GLOBALS['FW_PACKAGE_NAME'])."\n";
+$log .= str_pad('SIZE', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_U::readableByteSize(@filesize($GLOBALS['FW_PACKAGE_PATH']));
+DUPX_Log::info($log."\n", DUPX_Log::LV_DEFAULT, true);
 
+DUPX_Log::info('PRE-EXTRACT-CHECKS');
+DUPX_ServerConfig::beforeExtractionSetup();
 
 $target	 = $root_path;
 
@@ -142,9 +148,9 @@ switch ($post_archive_engine) {
 	//-----------------------
 	//SHELL EXEC
 	case 'shellexec_unzip':
-
+        DUPX_Log::info("\n\nSTART ZIP FILE EXTRACTION SHELLEXEC >>> ");
 		$shell_exec_path = DUPX_Server::get_unzip_filepath();
-		DUPX_Log::info("ZIP:\tShell Exec Unzip");
+		
 
 		$command = escapeshellcmd($shell_exec_path)." -o -qq ".escapeshellarg($archive_path)." -d ".escapeshellarg($target)." 2>&1";
 		if ($_POST['zip_filetime'] == 'original') {
@@ -165,7 +171,7 @@ switch ($post_archive_engine) {
 	//-----------------------
 	//ZIP-ARCHIVE
 	case 'ziparchive':
-		DUPX_Log::info(">>> Starting ZipArchive Unzip");
+		DUPX_Log::info("\n\nSTART ZIP FILE EXTRACTION STANDARD >>> ");
 
 		if (!class_exists('ZipArchive')) {
 			DUPX_Log::info("ERROR: Stopping install process.  Trying to extract without ZipArchive module installed.  Please use the 'Manual Archive Extraction' mode to extract zip file.");
@@ -193,15 +199,13 @@ switch ($post_archive_engine) {
 
             for($i = 0; $i < $zip->numFiles; $i++) {
                 $extract_filename = $zip->getNameIndex($i);
-                
-                // skip dup-installer folder. Alrady extracted in bootstrap
-                if (strpos($extract_filename , $dupInstallerZipPath) === 0) {
-                    continue;
-                }
 
-                // skip no dupInstallerFolder files
-                if (!empty($dupInstallerFolder) && strpos($extract_filename , $dupInstallerFolder) !== 0) {
-                    DUPX_Log::info("SKIP NOT DUB FOLDER: \"".$extract_filename."\"", 2);
+                // skip dup-installer folder. Alrady extracted in bootstrap
+                if (
+                    (strpos($extract_filename, $dupInstallerZipPath) === 0) ||
+                    (!empty($dupInstallerFolder) && strpos($extract_filename , $dupInstallerFolder) !== 0)
+                ) {
+                    DUPX_Log::info("SKIPPING NOT IN ZIPATH:\"".DUPX_Log::varToString($extract_filename)."\"" , DUPX_Log::LV_DETAILED);
                     continue;
 				}
 
@@ -236,7 +240,7 @@ switch ($post_archive_engine) {
                             'sections' => array('files'),
                         ), DUPX_NOTICE_MANAGER::ADD_UNIQUE_APPEND, $idManager);
                     } else {
-                        DUPX_Log::info("DONE: ".$extract_filename,2);
+                        DUPX_Log::info("FILE EXTRACTION DONE: ".DUPX_Log::varToString($extract_filename), DUPX_Log::LV_HARD_DEBUG);
                     }
                 } catch (Exception $ex) {
                     if (DupLiteSnapLibUtilWp::isWpCore($extract_filename, DupLiteSnapLibUtilWp::PATH_RELATIVE)) {

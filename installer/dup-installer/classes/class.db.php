@@ -413,9 +413,7 @@ class DUPX_DB
      */
     public static function mysqli_query($link, $sql, $file = '', $line = '')
     {
-
         if (($result = mysqli_query($link, $sql)) === false) {
-
             DUPX_Log::info('DB QUERY [ERROR]['.$file.':'.$line.'] SQL: '.DUPX_Log::varToString($sql)."\n\t MSG: ".mysqli_error($link));
         } else {
             DUPX_Log::info('DB QUERY ['.$file.':'.$line.']: '.DUPX_Log::varToString($sql), DUPX_Log::LV_HARD_DEBUG);
