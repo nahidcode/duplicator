@@ -48,7 +48,7 @@ class DUP_Log
         if (!isset($nameHash)) {
             throw new Exception("A name value is required to open a file log.");
         }
-        self::close();
+        self::Close();
         if ((self::$logFileHandle = @fopen(DUPLICATOR_SSDIR_PATH."/{$nameHash}.log", "a+")) === false) {
             self::$logFileHandle = null;
             return false;
