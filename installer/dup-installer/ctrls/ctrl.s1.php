@@ -148,9 +148,9 @@ switch ($post_archive_engine) {
 	//-----------------------
 	//SHELL EXEC
 	case 'shellexec_unzip':
-
+        DUPX_Log::info("\n\nSTART ZIP FILE EXTRACTION SHELLEXEC >>> ");
 		$shell_exec_path = DUPX_Server::get_unzip_filepath();
-		DUPX_Log::info("ZIP:\tShell Exec Unzip");
+		
 
 		$command = escapeshellcmd($shell_exec_path)." -o -qq ".escapeshellarg($archive_path)." -d ".escapeshellarg($target)." 2>&1";
 		if ($_POST['zip_filetime'] == 'original') {
@@ -171,7 +171,7 @@ switch ($post_archive_engine) {
 	//-----------------------
 	//ZIP-ARCHIVE
 	case 'ziparchive':
-		DUPX_Log::info(">>> Starting ZipArchive Unzip");
+		DUPX_Log::info("\n\nSTART ZIP FILE EXTRACTION STANDARD >>> ");
 
 		if (!class_exists('ZipArchive')) {
 			DUPX_Log::info("ERROR: Stopping install process.  Trying to extract without ZipArchive module installed.  Please use the 'Manual Archive Extraction' mode to extract zip file.");
