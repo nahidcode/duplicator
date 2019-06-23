@@ -358,6 +358,8 @@ if (!function_exists('duplicator_submit_uninstall_reason_action')) {
 
     function duplicator_submit_uninstall_reason_action()
     {
+        DUP_Handler::init_error_handler();
+        
         if (!wp_verify_nonce($_REQUEST['duplicator_ajax_nonce'], 'duplicator_ajax_nonce')) {
             wp_die('Security issue');
         }

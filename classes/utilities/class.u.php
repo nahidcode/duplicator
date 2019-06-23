@@ -466,21 +466,43 @@ class DUP_Util
 		return base64_encode($string);
 	}
 
-	/**
-	 * Does the current user have the capability
-	 *
-	 * @return null Dies if user doesn't have the correct capability
-	 */
-	public static function hasCapability($permission = 'read')
-	{
-		$capability	 = $permission;
-		$capability	 = apply_filters('wpfront_user_role_editor_duplicator_translate_capability', $capability);
+    const SECURE_ISSUE_DIE   = 'die';
+    const SECURE_ISSUE_THROW = 'throw';
+    const SECURE_ISSUE_RETURN = 'return';
 
-		if (!current_user_can($capability)) {
-			wp_die(__('You do not have sufficient permissions to access this page.', 'duplicator'));
-			return;
-		}
-	}
+    /**
+     * Does the current user have the capability
+     *
+     * @param type $permission
+     * @param type $exit    //  SECURE_ISSUE_DIE die script with die function
+     *                          SECURE_ISSUE_THROW throw an exception if fail
+     *                          SECURE_ISSUE_RETURN return false if fail
+     *
+     * @return boolean      // return false is fail and $exit is SECURE_ISSUE_THROW
+     *                      // true if success
+     *
+     * @throws Exception    // thow exception if $exit is SECURE_ISSUE_THROW
+     */
+    public static function hasCapability($permission = 'read', $exit = self::SECURE_ISSUE_DIE)
+    {
+        $capability = apply_filters('wpfront_user_role_editor_duplicator_translate_capability', $permission);
+
+        if (!current_user_can($capability)) {
+            $exitMsg = __('You do not have sufficient permissions to access this page.', 'duplicator');
+            DUP_LOG::Trace('You do not have sufficient permissions to access this page. PERMISSION: '.$permission);
+
+            switch ($exit) {
+                case self::SECURE_ISSUE_THROW:
+                    throw new Exception($exitMsg);
+                case self::SECURE_ISSUE_RETURN:
+                    return false;
+                case self::SECURE_ISSUE_DIE:
+                default:
+                    wp_die($exitMsg);
+            }
+        }
+        return true;
+    }
 
 	/**
 	 *  Gets the name of the owner of the current PHP script
