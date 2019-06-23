@@ -323,6 +323,8 @@ if (!empty($unespectOutput)) {
 //DUPX_NOTICE_MANAGER::testFinalReportFullMessages();
 /****************************/
 
+DUPX_NOTICE_MANAGER::getInstance()->nextStepLog();
+// display and remove next step notices
 DUPX_NOTICE_MANAGER::getInstance()->displayStepMessages();
 ?>
 
