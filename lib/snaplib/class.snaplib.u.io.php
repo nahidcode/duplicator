@@ -37,8 +37,7 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
             foreach ($filePaths as $filePath) {
                 $modes[] = $mode;
             }
-
-            @array_map('chmod', $filePaths, $modes);
+            array_map(array(__CLASS__, 'chmod'), $filePaths, $modes);
         }
 
         public static function copy($source, $dest, $overwriteIfExists = true)
@@ -168,7 +167,7 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
         public static function rmdir($dirname, $mustExist = false)
         {
             if (file_exists($dirname)) {
-                @chmod($dirname, 0755);
+                self::chmod($dirname, 0755);
                 if (@rmdir($dirname) === false) {
                     throw new Exception("Couldn't remove {$dirname}");
                 }
@@ -180,7 +179,7 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
         public static function rm($filepath, $mustExist = false)
         {
             if (file_exists($filepath)) {
-                @chmod($filepath, 0644);
+                self::chmod($filepath, 0644);
                 if (@unlink($filepath) === false) {
                     throw new Exception("Couldn't remove {$filepath}");
                 }
@@ -310,17 +309,39 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
                     throw new Exception("Error creating directory {$pathname}");
                 }
             } else {
-                if (@chmod($pathname, $mode) === false) {
+                if (self::chmod($pathname, $mode) === false) {
                     throw new Exception("Error setting mode on directory {$pathname}");
                 }
             }
         }
 
+        /**
+         * exetute a file put contents after some checks. throw exception if fail.
+         *
+         * @param string $filename
+         * @param mixed $data
+         * @return boolean
+         * @throws Exception if putcontents fails
+         */
         public static function filePutContents($filename, $data)
         {
-            if (file_put_contents($filename, $data) === false) {
-                throw new Exception("Couldn't write data to {$filename}");
+            if (($dirFile = realpath(dirname($filename))) === false) {
+                throw new Exception('FILE ERROR: put_content for file '.$filename.' failed [realpath fail]');
             }
+            if (!is_dir($dirFile)) {
+                throw new Exception('FILE ERROR: put_content for file '.$filename.' failed [dir '.$dirFile.' don\'t exists]');
+            }
+            if (!is_writable($dirFile)) {
+                throw new Exception('FILE ERROR: put_content for file '.$filename.' failed [dir '.$dirFile.' exists but isn\'t writable]');
+            }
+            $realFileName = $dirFile.basename($filename);
+            if (file_exists($realFileName) && !is_writable($realFileName)) {
+                throw new Exception('FILE ERROR: put_content for file '.$filename.' failed [file exist '.$realFileName.' but isn\'t writable');
+            }
+            if (file_put_contents($filename, $data) === false) {
+                throw new Exception('FILE ERROR: put_content for file '.$filename.' failed [Couldn\'t write data to '.$realFileName.']');
+            }
+            return true;
         }
 
         public static function getFileName($file_path)
@@ -333,6 +354,131 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
         {
             $info = new SplFileInfo($file_path);
             return $info->getPath();
+        }
+
+        /**
+         * this function make a chmod only if the are different from perms input and if chmod function is enabled
+         *
+         * this function handles the variable MODE in a way similar to the chmod of lunux
+         * So the MODE variable can be
+         * 1) an octal number (0755)
+         * 2) a string that defines an octal number ("644")
+         * 3) a string with the following format [ugoa]*([-+=]([rwx]*)+
+         *
+         * examples
+         * u+rw         add read and write at the user
+         * u+rw,uo-wx   add read and write ad the user and remove wx at groupd and other
+         * a=rw         is equal at 666
+         * u=rwx,go-rwx is equal at 700
+         *
+         * @param string $file
+         * @param int|string $perms
+         * @return boolean
+         */
+        public static function chmod($file, $perms)
+        {
+            if (!file_exists($file)) {
+                return false;
+            }
+
+            $octalPems = 0;
+
+            if (is_int($perms)) {
+                $octalPems = $perms;
+            } else if (is_string($perms)) {
+                $perms = trim($perms);
+                if (preg_match('/([0-7]{1,3})/', $perms)) {
+                    $octalPems = intval(('0'.$perms), 8);
+                } else if (preg_match_all('/(a|[ugo]{1,3})([-=+])([rwx]{1,3})/', $perms, $gMatch, PREG_SET_ORDER)) {
+                    if (!function_exists('fileperms')) {
+                        return false;
+                    }
+
+                    // start by file permission
+                    $octalPems = (fileperms($file) & 0777);
+
+                    foreach ($gMatch as $matches) {
+                        // [ugo] or a = ugo
+                        $group = $matches[1];
+                        if ($group === 'a') {
+                            $group = 'ugo';
+                        }
+                        // can be + - =
+                        $action = $matches[2];
+                        // [rwx]
+                        $gPerms = $matches[3];
+
+                        // reset octal group perms
+                        $octalGroupPerms = 0;
+
+                        // Init sub perms
+                        $subPerm = 0;
+                        $subPerm += strpos($gPerms, 'x') !== false ? 1 : 0; // mask 001
+                        $subPerm += strpos($gPerms, 'w') !== false ? 2 : 0; // mask 010
+                        $subPerm += strpos($gPerms, 'r') !== false ? 4 : 0; // mask 100
+
+                        $ugoLen = strlen($group);
+
+                        if ($action === '=') {
+                            // generate octal group permsissions and ugo mask invert
+                            $ugoMaskInvert = 0777;
+                            for ($i = 0; $i < $ugoLen; $i++) {
+                                switch ($group[$i]) {
+                                    case 'u':
+                                        $octalGroupPerms = $octalGroupPerms | $subPerm << 6; // mask xxx000000
+                                        $ugoMaskInvert   = $ugoMaskInvert & 077;
+                                        break;
+                                    case 'g':
+                                        $octalGroupPerms = $octalGroupPerms | $subPerm << 3; // mask 000xxx000
+                                        $ugoMaskInvert   = $ugoMaskInvert & 0707;
+                                        break;
+                                    case 'o':
+                                        $octalGroupPerms = $octalGroupPerms | $subPerm; // mask 000000xxx
+                                        $ugoMaskInvert   = $ugoMaskInvert & 0770;
+                                        break;
+                                }
+                            }
+                            // apply = action
+                            $octalPems = $octalPems & ($ugoMaskInvert | $octalGroupPerms);
+                        } else {
+                            // generate octal group permsissions
+                            for ($i = 0; $i < $ugoLen; $i++) {
+                                switch ($group[$i]) {
+                                    case 'u':
+                                        $octalGroupPerms = $octalGroupPerms | $subPerm << 6; // mask xxx000000
+                                        break;
+                                    case 'g':
+                                        $octalGroupPerms = $octalGroupPerms | $subPerm << 3; // mask 000xxx000
+                                        break;
+                                    case 'o':
+                                        $octalGroupPerms = $octalGroupPerms | $subPerm; // mask 000000xxx
+                                        break;
+                                }
+                            }
+                            // apply + or - action
+                            switch ($action) {
+                                case '+':
+                                    $octalPems = $octalPems | $octalGroupPerms;
+                                    break;
+                                case '-':
+                                    $octalPems = $octalPems & ~$octalGroupPerms;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // if input permissions are equal at file permissions return true without performing chmod
+            if (function_exists('fileperms') && $octalPems === (fileperms($file) & 0777)) {
+                return true;
+            }
+
+            if (!function_exists('chmod')) {
+                return false;
+            }
+
+            return @chmod($file, $octalPems);
         }
     }
 }
