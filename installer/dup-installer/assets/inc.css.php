@@ -44,9 +44,10 @@
     select option {
         padding: 2px 5px;
     }
-    select option[disabled] {
+    select option:disabled {
         text-decoration: line-through;
         cursor: not-allowed;
+        color: #A9A9A9;
     }
 
     select:disabled {background:#EBEBE4}
