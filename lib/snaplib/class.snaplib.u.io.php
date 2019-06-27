@@ -70,8 +70,8 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
 
             $destination = rtrim($destination, '/\\');
 
-            if (!file_exists($destination)) {
-                self::mkdir($destination);
+            if (!file_exists($destination) || !is_writeable($destination)) {
+                self::mkdir($destination, 'u+rwx');
             }
 
             foreach ($fileSystemObjects as $fileSystemObject) {
@@ -125,11 +125,8 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
 
         public static function fopen($filepath, $mode, $throwOnError = true)
         {
-            if (DupLiteSnapLibOSU::$isWindows) {
-
-                if (strlen($filepath) > DupLiteSnapLibOSU::WindowsMaxPathLength) {
-                    throw new Exception("Skipping a file that exceeds allowed Windows path length. File: {$filepath}");
-                }
+            if (strlen($filepath) > DupLiteSnapLibOSU::maxPathLen()) {
+                throw new Exception('Skipping a file that exceeds allowed max path length ['.DupLiteSnapLibOSU::maxPathLen().']. File: '.$filepath);
             }
 
             if (DupLiteSnapLibStringU::startsWith($mode, 'w') || DupLiteSnapLibStringU::startsWith($mode, 'c') || file_exists($filepath)) {
@@ -167,7 +164,7 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
         public static function rmdir($dirname, $mustExist = false)
         {
             if (file_exists($dirname)) {
-                self::chmod($dirname, 0755);
+                self::chmod($dirname, 'u+rwx');
                 if (@rmdir($dirname) === false) {
                     throw new Exception("Couldn't remove {$dirname}");
                 }
@@ -179,7 +176,7 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
         public static function rm($filepath, $mustExist = false)
         {
             if (file_exists($filepath)) {
-                self::chmod($filepath, 0644);
+                self::chmod($filepath, 'u+rw');
                 if (@unlink($filepath) === false) {
                     throw new Exception("Couldn't remove {$filepath}");
                 }
@@ -295,26 +292,6 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
             return $mtime;
         }
 
-        public static function mkdir($pathname, $mode = 0755, $recursive = false)
-        {
-            if (DupLiteSnapLibOSU::$isWindows) {
-
-                if (strlen($pathname) > DupLiteSnapLibOSU::WindowsMaxPathLength) {
-                    throw new Exception("Skipping creating directory that exceeds allowed Windows path length. File: {$pathname}");
-                }
-            }
-
-            if (!file_exists($pathname)) {
-                if (@mkdir($pathname, $mode, $recursive) === false) {
-                    throw new Exception("Error creating directory {$pathname}");
-                }
-            } else {
-                if (self::chmod($pathname, $mode) === false) {
-                    throw new Exception("Error setting mode on directory {$pathname}");
-                }
-            }
-        }
-
         /**
          * exetute a file put contents after some checks. throw exception if fail.
          *
@@ -426,15 +403,15 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
                                 switch ($group[$i]) {
                                     case 'u':
                                         $octalGroupMode = $octalGroupMode | $subPerm << 6; // mask xxx000000
-                                        $ugoMaskInvert   = $ugoMaskInvert & 077;
+                                        $ugoMaskInvert  = $ugoMaskInvert & 077;
                                         break;
                                     case 'g':
                                         $octalGroupMode = $octalGroupMode | $subPerm << 3; // mask 000xxx000
-                                        $ugoMaskInvert   = $ugoMaskInvert & 0707;
+                                        $ugoMaskInvert  = $ugoMaskInvert & 0707;
                                         break;
                                     case 'o':
                                         $octalGroupMode = $octalGroupMode | $subPerm; // mask 000000xxx
-                                        $ugoMaskInvert   = $ugoMaskInvert & 0770;
+                                        $ugoMaskInvert  = $ugoMaskInvert & 0770;
                                         break;
                                 }
                             }
@@ -499,8 +476,12 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
          *
          * @todo check recursive true and multiple chmod
          */
-        public static function mkdir($path, $mode = 0777, $recursive = FALSE, $context = null)
+        public static function mkdir($path, $mode = 0777, $recursive = false, $context = null)
         {
+            if (strlen($path) > DupLiteSnapLibOSU::maxPathLen()) {
+                throw new Exception('Skipping a file that exceeds allowed max path length ['.DupLiteSnapLibOSU::maxPathLen().']. File: '.$filepath);
+            }
+
             if (!file_exists($path)) {
                 if (!function_exists('mkdir')) {
                     return false;
@@ -511,6 +492,27 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
             }
 
             return self::chmod($path, $mode);
+        }
+
+        /**
+         * this function call snap mkdir if te folder don't exists od don't have write or exec permissions
+         *
+         * this function handles the variable MODE in a way similar to the chmod of lunux
+         * The mode variable can be set to have more flexibility but not giving the user write and read and exec permissions doesn't make much sense
+         *
+         * @param string $path
+         * @param int|string $mode
+         * @param bool $recursive
+         * @param resource $context
+         * @return boolean
+         */
+        public static function dirWriteCheckOrMkdir($path, $mode = 'u+rwx', $recursive = false, $context = null)
+        {
+            if (!is_writable($path) || !is_executable($path)) {
+                return self::mkdir($path, $mode, $recursive, $context);
+            } else {
+                return true;
+            }
         }
     }
 }

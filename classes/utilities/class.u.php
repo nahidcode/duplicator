@@ -561,25 +561,20 @@ class DUP_Util
 			//--------------------------------
 			//CHMOD DIRECTORY ACCESS
 			//wordpress root directory
-			@chmod($path_wproot, 0755);
+            DupLiteSnapLibIOU::chmod($path_wproot, 'u+rwx');
 
 			//snapshot directory
-			@mkdir($path_ssdir, 0755);
-			@chmod($path_ssdir, 0755);
+            DupLiteSnapLibIOU::dirWriteCheckOrMkdir($path_ssdir, 'u+rwx');
 
 			// restore original root perms
-			@chmod($path_wproot, $old_root_perm);
+            DupLiteSnapLibIOU::chmod($path_wproot, $old_root_perm);
 		}
 
 		$path_ssdir_tmp = $path_ssdir.'/tmp';
-		if (!file_exists($path_ssdir_tmp)) {
-			//snapshot tmp directory
-			@mkdir($path_ssdir_tmp, 0755);
-			@chmod($path_ssdir_tmp, 0755);
-		}
+        DupLiteSnapLibIOU::dirWriteCheckOrMkdir($path_ssdir_tmp, 'u+rwx');
 
 		//plugins dir/files
-		@chmod($path_plugin.'files', 0755);
+        DupLiteSnapLibIOU::dirWriteCheckOrMkdir($path_plugin.'files', 'u+rwx');
 
 		//--------------------------------
 		//FILE CREATION

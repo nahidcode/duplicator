@@ -522,15 +522,7 @@ class DUPX_Bootstrap
 			}
 		}                
 	}
-    
-    public static function isWindows() {
-        static $isw = null;
-        if ($isw === null) {
-            $isw = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-        }
-        return $isw;
-    }
-    
+        
 	/**
      * Indicates if site is running https or not
      *
@@ -752,6 +744,40 @@ class DUPX_Bootstrap
 	}
     
     /**
+     * return true if current SO is windows
+     * 
+     * @staticvar bool $isWindows
+     * @return bool
+     */
+    public static function isWindows()
+    {
+        static $isWindows = null;
+        if (is_null($isWindows)) {
+            $isWindows = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+        }
+        return $isWindows;
+    }
+
+    /**
+     * return current SO path path len
+     * @staticvar int $maxPath
+     * @return int
+     */
+    public static function maxPathLen()
+    {
+        static $maxPath = null;
+        if (is_null($maxPath)) {
+            if (defined('PHP_MAXPATHLEN')) {
+                $maxPath = PHP_MAXPATHLEN;
+            } else {
+                // for PHP < 5.3.0
+                $maxPath = self::isWindows() ? 260 : 4096;
+            }
+        }
+        return $maxPath;
+    }
+    
+    /**
      * this function make a chmod only if the are different from perms input and if chmod function is enabled
      *
      * this function handles the variable MODE in a way similar to the chmod of lunux
@@ -767,30 +793,30 @@ class DUPX_Bootstrap
      * u=rwx,go-rwx is equal at 700
      *
      * @param string $file
-     * @param int|string $perms
+     * @param int|string $mode
      * @return boolean
      */
-    public static function chmod($file, $perms)
+    public static function chmod($file, $mode)
     {
         if (!file_exists($file)) {
             return false;
         }
 
-        $octalPems = 0;
+        $octalMode = 0;
 
-        if (is_int($perms)) {
-            $octalPems = $perms;
-        } else if (is_string($perms)) {
-            $perms = trim($perms);
-            if (preg_match('/([0-7]{1,3})/', $perms)) {
-                $octalPems = intval(('0'.$perms), 8);
-            } else if (preg_match_all('/(a|[ugo]{1,3})([-=+])([rwx]{1,3})/', $perms, $gMatch, PREG_SET_ORDER)) {
+        if (is_int($mode)) {
+            $octalMode = $mode;
+        } else if (is_string($mode)) {
+            $mode = trim($mode);
+            if (preg_match('/([0-7]{1,3})/', $mode)) {
+                $octalMode = intval(('0'.$mode), 8);
+            } else if (preg_match_all('/(a|[ugo]{1,3})([-=+])([rwx]{1,3})/', $mode, $gMatch, PREG_SET_ORDER)) {
                 if (!function_exists('fileperms')) {
                     return false;
                 }
 
                 // start by file permission
-                $octalPems = (fileperms($file) & 0777);
+                $octalMode = (fileperms($file) & 0777);
 
                 foreach ($gMatch as $matches) {
                     // [ugo] or a = ugo
@@ -804,7 +830,7 @@ class DUPX_Bootstrap
                     $gPerms = $matches[3];
 
                     // reset octal group perms
-                    $octalGroupPerms = 0;
+                    $octalGroupMode = 0;
 
                     // Init sub perms
                     $subPerm = 0;
@@ -820,43 +846,43 @@ class DUPX_Bootstrap
                         for ($i = 0; $i < $ugoLen; $i++) {
                             switch ($group[$i]) {
                                 case 'u':
-                                    $octalGroupPerms = $octalGroupPerms | $subPerm << 6; // mask xxx000000
-                                    $ugoMaskInvert   = $ugoMaskInvert & 077;
+                                    $octalGroupMode = $octalGroupMode | $subPerm << 6; // mask xxx000000
+                                    $ugoMaskInvert  = $ugoMaskInvert & 077;
                                     break;
                                 case 'g':
-                                    $octalGroupPerms = $octalGroupPerms | $subPerm << 3; // mask 000xxx000
-                                    $ugoMaskInvert   = $ugoMaskInvert & 0707;
+                                    $octalGroupMode = $octalGroupMode | $subPerm << 3; // mask 000xxx000
+                                    $ugoMaskInvert  = $ugoMaskInvert & 0707;
                                     break;
                                 case 'o':
-                                    $octalGroupPerms = $octalGroupPerms | $subPerm; // mask 000000xxx
-                                    $ugoMaskInvert   = $ugoMaskInvert & 0770;
+                                    $octalGroupMode = $octalGroupMode | $subPerm; // mask 000000xxx
+                                    $ugoMaskInvert  = $ugoMaskInvert & 0770;
                                     break;
                             }
                         }
                         // apply = action
-                        $octalPems = $octalPems & ($ugoMaskInvert | $octalGroupPerms);
+                        $octalMode = $octalMode & ($ugoMaskInvert | $octalGroupMode);
                     } else {
                         // generate octal group permsissions
                         for ($i = 0; $i < $ugoLen; $i++) {
                             switch ($group[$i]) {
                                 case 'u':
-                                    $octalGroupPerms = $octalGroupPerms | $subPerm << 6; // mask xxx000000
+                                    $octalGroupMode = $octalGroupMode | $subPerm << 6; // mask xxx000000
                                     break;
                                 case 'g':
-                                    $octalGroupPerms = $octalGroupPerms | $subPerm << 3; // mask 000xxx000
+                                    $octalGroupMode = $octalGroupMode | $subPerm << 3; // mask 000xxx000
                                     break;
                                 case 'o':
-                                    $octalGroupPerms = $octalGroupPerms | $subPerm; // mask 000000xxx
+                                    $octalGroupMode = $octalGroupMode | $subPerm; // mask 000000xxx
                                     break;
                             }
                         }
                         // apply + or - action
                         switch ($action) {
                             case '+':
-                                $octalPems = $octalPems | $octalGroupPerms;
+                                $octalMode = $octalMode | $octalGroupMode;
                                 break;
                             case '-':
-                                $octalPems = $octalPems & ~$octalGroupPerms;
+                                $octalMode = $octalMode & ~$octalGroupMode;
                                 break;
                         }
                     }
@@ -865,7 +891,7 @@ class DUPX_Bootstrap
         }
 
         // if input permissions are equal at file permissions return true without performing chmod
-        if (function_exists('fileperms') && $octalPems === (fileperms($file) & 0777)) {
+        if (function_exists('fileperms') && $octalMode === (fileperms($file) & 0777)) {
             return true;
         }
 
@@ -873,7 +899,43 @@ class DUPX_Bootstrap
             return false;
         }
 
-        return @chmod($file, $octalPems);
+        return @chmod($file, $octalMode);
+    }
+            
+    /**
+     * this function creates a folder if it does not exist and performs a chmod.
+     * it is different from the normal mkdir function to which an umask is applied to the input permissions.
+     * 
+     * this function handles the variable MODE in a way similar to the chmod of lunux
+     * So the MODE variable can be
+     * 1) an octal number (0755)
+     * 2) a string that defines an octal number ("644")
+     * 3) a string with the following format [ugoa]*([-+=]([rwx]*)+
+     *
+     * @param string $path
+     * @param int|string $mode
+     * @param bool $recursive
+     * @param resource $context
+     * @return boolean bool TRUE on success or FALSE on failure.
+     *
+     * @todo check recursive true and multiple chmod
+     */
+    public static function mkdir($path, $mode = 0777, $recursive = false, $context = null)
+    {
+        if (strlen($path) > self::maxPathLen()) {
+            throw new Exception('Skipping a file that exceeds allowed max path length ['.self::maxPathLen().']. File: '.$filepath);
+        }
+
+        if (!file_exists($path)) {
+            if (!function_exists('mkdir')) {
+                return false;
+            }
+            if (!@mkdir($path, 0777, $recursive, $context)) {
+                return false;
+            }
+        }
+
+        return self::chmod($path, $mode);
     }
 
     /**
@@ -953,7 +1015,7 @@ class DUPX_Bootstrap
                 $unzip_command	 = "$unzip_filepath -q $archive_filepath snaplib/* 2>&1";
                 self::log("Executing $unzip_command");
                 $stderr	 .= shell_exec($unzip_command);
-				mkdir($lib_directory);
+				self::mkdir($lib_directory,'u+rwx');
                 rename($local_lib_directory, $snaplib_directory);
             }
 
