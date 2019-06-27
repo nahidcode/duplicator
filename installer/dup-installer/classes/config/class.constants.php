@@ -87,9 +87,9 @@ class DUPX_Constants
 		$GLOBALS['LOG_FILE_PATH']		= $GLOBALS['DUPX_INIT'] . '/' . $GLOBALS["LOG_FILE_NAME"];
         $GLOBALS["NOTICES_FILE_NAME"]	= "dup-installer-notices__{$GLOBALS['PACKAGE_HASH']}.json";
         $GLOBALS["NOTICES_FILE_PATH"]	= $GLOBALS['DUPX_INIT'] . '/' . $GLOBALS["NOTICES_FILE_NAME"];
-		$GLOBALS['CHOWN_ROOT_PATH']		= @chmod("{$GLOBALS['CURRENT_ROOT_PATH']}", 0755);
-		$GLOBALS['CHOWN_LOG_PATH']		= @chmod("{$GLOBALS['LOG_FILE_PATH']}", 0644);
-        $GLOBALS['CHOWN_NOTICES_PATH']	= @chmod("{$GLOBALS['NOTICES_FILE_PATH']}", 0644);
+		$GLOBALS['CHOWN_ROOT_PATH']		= DupLiteSnapLibIOU::chmod("{$GLOBALS['CURRENT_ROOT_PATH']}", 'u+rwx');
+		$GLOBALS['CHOWN_LOG_PATH']		= DupLiteSnapLibIOU::chmod("{$GLOBALS['LOG_FILE_PATH']}", 'u+rw');
+        $GLOBALS['CHOWN_NOTICES_PATH']	= DupLiteSnapLibIOU::chmod("{$GLOBALS['NOTICES_FILE_PATH']}", 'u+rw');
 		$GLOBALS['URL_SSL']				= (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? true : false;
 		$GLOBALS['URL_PATH']			= ($GLOBALS['URL_SSL']) ? "https://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}" : "http://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}";
 		$GLOBALS['PHP_MEMORY_LIMIT']	= ini_get('memory_limit') === false ? 'n/a' : ini_get('memory_limit');

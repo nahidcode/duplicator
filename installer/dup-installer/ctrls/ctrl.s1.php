@@ -5,12 +5,10 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /* @var $GLOBALS['DUPX_AC'] DUPX_ArchiveConfig */
 
 //OPTIONS
-$base_file_perms_value		= (isset($_POST['file_perms_value'])) ? $_POST['file_perms_value'] : 'not set';
-$base_dir_perms_value		= (isset($_POST['dir_perms_value']))  ? $_POST['dir_perms_value']  : 'not set';
 $_POST['set_file_perms']	= (isset($_POST['set_file_perms']))   ? 1 : 0;
 $_POST['set_dir_perms']		= (isset($_POST['set_dir_perms']))    ? 1 : 0;
-$_POST['file_perms_value']	= (isset($_POST['file_perms_value'])) ? intval(('0' . $_POST['file_perms_value']), 8) : 0755;
-$_POST['dir_perms_value']	= (isset($_POST['dir_perms_value']))  ? intval(('0' . $_POST['dir_perms_value']), 8)  : 0644;
+$_POST['file_perms_value']	= (isset($_POST['file_perms_value'])) ? DUPX_U::sanitize_text_field($_POST['file_perms_value']) : 0755;
+$_POST['dir_perms_value']	= (isset($_POST['dir_perms_value']))  ? DUPX_U::sanitize_text_field($_POST['dir_perms_value'])  : 0644;
 $_POST['zip_filetime']		= (isset($_POST['zip_filetime']))     ? $_POST['zip_filetime'] : 'current';
 $_POST['config_mode']		= (isset($_POST['config_mode']))      ? $_POST['config_mode'] : 'NEW';
 $_POST['archive_engine']	= (isset($_POST['archive_engine']))   ? $_POST['archive_engine'] : 'manual';
@@ -369,40 +367,41 @@ if ($_POST['set_file_perms'] || $_POST['set_dir_perms']) {
 		function getChildren()
 		{
 			try {
-				return new IgnorantRecursiveDirectoryIterator($this->getPathname());
+				return new IgnorantRecursiveDirectoryIterator($this->getPathname(), RecursiveDirectoryIterator::SKIP_DOTS);
 			} catch (UnexpectedValueException $e) {
 				return new RecursiveArrayIterator(array());
 			}
 		}
 	}
 
-	DUPX_Log::info("PERMISSION UPDATES:");
-	DUPX_Log::info("    -DIRS:  '{$base_dir_perms_value}'");
-	DUPX_Log::info("    -FILES: '{$base_file_perms_value}'");
-	$set_file_perms		 = $_POST['set_file_perms'];
+    $set_file_perms		 = $_POST['set_file_perms'];
 	$set_dir_perms		 = $_POST['set_dir_perms'];
 	$set_file_mtime		 = ($_POST['zip_filetime'] == 'current');
 	$file_perms_value	 = $_POST['file_perms_value'] ? $_POST['file_perms_value'] : 0755;
 	$dir_perms_value	 = $_POST['dir_perms_value']  ? $_POST['dir_perms_value']  : 0644;
 
-	$objects = new RecursiveIteratorIterator(new IgnorantRecursiveDirectoryIterator($root_path), RecursiveIteratorIterator::SELF_FIRST);
+	DUPX_Log::info("PERMISSION UPDATES:");
+	DUPX_Log::info("    -DIRS:  '{$dir_perms_value}'");
+	DUPX_Log::info("    -FILES: '{$file_perms_value}'");
+
+	$objects = new RecursiveIteratorIterator(new IgnorantRecursiveDirectoryIterator($root_path, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST);
 
 	foreach ($objects as $name => $object) {
-		if ($set_file_perms && is_file($name)) {
-
-			if (! @chmod($name, $file_perms_value)) {
-				DUPX_Log::info("Permissions setting on file '{$name}' failed");
-			}
-		} else if ($set_dir_perms && is_dir($name)) {
-
-			if (! @chmod($name, $dir_perms_value)) {
-				DUPX_Log::info("Permissions setting on directory '{$name}' failed");
-			}
-		}
-		if ($set_file_mtime) {
-			@touch($name);
-		}
-	}
+        if ($set_file_perms && is_file($name)) {
+            DUPX_Log::info("SET PERMISSION: ".DUPX_Log::varToString($name).'[MODE:'.$file_perms_value.']', DUPX_Log::LV_HARD_DEBUG);
+            if (!DupLiteSnapLibIOU::chmod($name, $file_perms_value)) {
+                DUPX_Log::info("Permissions setting on file '{$name}' failed");
+            }
+        } else if ($set_dir_perms && is_dir($name)) {
+            DUPX_Log::info("SET PERMISSION: ".DUPX_Log::varToString($name).'[MODE:'.$dir_perms_value.']', DUPX_Log::LV_HARD_DEBUG);
+            if (!DupLiteSnapLibIOU::chmod($name, $dir_perms_value)) {
+                DUPX_Log::info("Permissions setting on directory '{$name}' failed");
+            }
+        }
+        if ($set_file_mtime) {
+            @touch($name);
+        }
+    }
 } else {
 	DUPX_Log::info("\nPERMISSION UPDATES: None Applied");
 }

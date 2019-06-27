@@ -122,13 +122,11 @@ class DUPX_U
 		}
 
 		// If the destination directory does not exist create it
-		if (!is_dir($dest)) {
-			if (!mkdir($dest)) {
-				// If the destination directory could not be created stop processing
-				return false;
-			}
-		}
-
+        if (!DupLiteSnapLibIOU::dirWriteCheckOrMkdir($dest, 'u+rwx')) {
+            // If the destination directory could not be created stop processing
+            return false;
+        }
+		
 		// Open the source directory to read in files
 		$iterator = new DirectoryIterator($src);
 

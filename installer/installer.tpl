@@ -1,9 +1,13 @@
 <?php
+/* ------------------------------ NOTICE ----------------------------------
 
-if ( !defined('DUPXABSPATH') ) {
-    define('DUPXABSPATH', dirname(__FILE__));
-}
+    If you're seeing this text when browsing to the installer, it means your
+    web server is not set up properly.
 
+    Please contact your host and ask them to enable "PHP" processing on your
+    account.
+    ----------------------------- NOTICE ---------------------------------*/
+    
 if (!defined('KB_IN_BYTES')) { define('KB_IN_BYTES', 1024); }
 if (!defined('MB_IN_BYTES')) { define('MB_IN_BYTES', 1024 * KB_IN_BYTES); }
 if (!defined('GB_IN_BYTES')) { define('GB_IN_BYTES', 1024 * MB_IN_BYTES); }
@@ -25,7 +29,6 @@ if (!function_exists('wp_is_ini_value_changeable')) {
     */
     function wp_is_ini_value_changeable( $setting ) {
         static $ini_all;
-
         if ( ! isset( $ini_all ) ) {
             $ini_all = false;
             // Sometimes `ini_get_all()` is disabled via the `disable_functions` option for "security purposes".
@@ -49,7 +52,6 @@ if (!function_exists('wp_is_ini_value_changeable')) {
 }
 
 @set_time_limit(3600);
-
 if (wp_is_ini_value_changeable('memory_limit'))
     @ini_set('memory_limit', DUPLICATOR_PHP_MAX_MEMORY);
 if (wp_is_ini_value_changeable('max_input_time'))
@@ -206,18 +208,16 @@ class DUPX_Bootstrap
 
 			if (!filter_var(self::ARCHIVE_SIZE, FILTER_VALIDATE_INT) || self::ARCHIVE_SIZE > 2147483647) {
 			
-				$os_first_three_chars = substr(PHP_OS, 0, 3);
-				$os_first_three_chars = strtoupper($os_first_three_chars);
 				$no_of_bits = PHP_INT_SIZE * 8;
 
 				if ($no_of_bits == 32) {
 					if ($isZip) { // ZIP
-						if ('WIN' === $os_first_three_chars) {
+						if (self::isWindows()) {
 							$error = "This package is currently {$archiveExpectedEasy} and it's on a Windows OS. PHP on Windows does not support files larger than 2GB. Please use the file filters to get your package lower to support this server or try the package on a Linux server.";
 							return $error;
 						}
 					} else { // DAF
-						if ('WIN' === $os_first_three_chars) {
+						if (self::isWindows()) {
 							$error  = 'Windows PHP limitations prevents extraction of archives larger than 2GB. Please do the following: <ol><li>Download and use the <a target="_blank" href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-052-q">Windows DupArchive extractor</a> to extract all files from the archive.</li><li>Perform a <a target="_blank" href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-015-q">Manual Extract Install</a> starting at step 4.</li></ol>';
 						} else 	{					
 							$error  = 'This archive is too large for 32-bit PHP. Ask your host to upgrade the server to 64-bit PHP or install on another system has 64-bit PHP.';
@@ -290,10 +290,10 @@ class DUPX_Bootstrap
 			$destination = dirname(__FILE__);
 			if (!is_writable($destination)) {
 				self::log("destination folder for extraction is not writable");
-				if (@chmod($destination, 0755)) {
-					self::log("Permission of destination folder changed to 0755");
+				if (self::chmod($destination, 'u+rwx')) {
+					self::log("Permission of destination folder changed to u+rwx");
 				} else {
-					self::log("Permission of destination folder failed to change to 0755");
+					self::log("Permission of destination folder failed to change to u+rwx");
 				}
 			}
 
@@ -302,7 +302,6 @@ class DUPX_Bootstrap
 				$error	.= "<a target='_blank' href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-055-q'>writable {$destination} directory</a> on this server. <br/>";
 				return $error; 
 			}
-
 
 			if ($isZip) {
 				$zip_mode = $this->getZipMode();
@@ -523,7 +522,7 @@ class DUPX_Bootstrap
 			}
 		}                
 	}
-
+        
 	/**
      * Indicates if site is running https or not
      *
@@ -549,13 +548,9 @@ class DUPX_Bootstrap
      */
 	private function fixInstallerPerms()
 	{
-		$file_perms = substr(sprintf('%o', fileperms(__FILE__)), -4);
-		$file_perms = octdec($file_perms);
-		//$dir_perms = substr(sprintf('%o', fileperms(dirname(__FILE__))), -4);
+		$file_perms = 'u+rw';
+		$dir_perms = 'u+rwx';
 
-		// No longer using existing directory permissions since that can cause problems.  Just set it to 755
-		$dir_perms = '755';
-		$dir_perms = octdec($dir_perms);
 		$installer_dir_path = $this->installerContentsPath;
 
 		$this->setPerms($installer_dir_path, $dir_perms, false);
@@ -566,7 +561,7 @@ class DUPX_Bootstrap
      * Set the permissions of a given directory and optionally all files
      *
      * @param string $directory		The full path to the directory where perms will be set
-     * @param string $perms			The given permission sets to use such as '0755'
+     * @param string $perms			The given permission sets to use such as '0755' or 'u+rw'
 	 * @param string $do_files		Also set the permissions of all the files in the directory
      *
      * @return null
@@ -592,13 +587,13 @@ class DUPX_Bootstrap
      * Set the permissions of a single directory or file
      *
      * @param string $path			The full path to the directory or file where perms will be set
-     * @param string $perms			The given permission sets to use such as '0755'
+     * @param string $perms			The given permission sets to use such as '0755' or 'u+rw'
      *
      * @return bool		Returns true if the permission was properly set
      */
 	private function setPermsOnItem($path, $perms)
 	{
-		$result = @chmod($path, $perms);
+		$result = self::chmod($path, $perms);
 		$perms_display = decoct($perms);
 		if ($result === false) {
 			self::log("Couldn't set permissions of $path to {$perms_display}<br/>");
@@ -749,6 +744,201 @@ class DUPX_Bootstrap
 	}
     
     /**
+     * return true if current SO is windows
+     * 
+     * @staticvar bool $isWindows
+     * @return bool
+     */
+    public static function isWindows()
+    {
+        static $isWindows = null;
+        if (is_null($isWindows)) {
+            $isWindows = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+        }
+        return $isWindows;
+    }
+
+    /**
+     * return current SO path path len
+     * @staticvar int $maxPath
+     * @return int
+     */
+    public static function maxPathLen()
+    {
+        static $maxPath = null;
+        if (is_null($maxPath)) {
+            if (defined('PHP_MAXPATHLEN')) {
+                $maxPath = PHP_MAXPATHLEN;
+            } else {
+                // for PHP < 5.3.0
+                $maxPath = self::isWindows() ? 260 : 4096;
+            }
+        }
+        return $maxPath;
+    }
+    
+    /**
+     * this function make a chmod only if the are different from perms input and if chmod function is enabled
+     *
+     * this function handles the variable MODE in a way similar to the chmod of lunux
+     * So the MODE variable can be
+     * 1) an octal number (0755)
+     * 2) a string that defines an octal number ("644")
+     * 3) a string with the following format [ugoa]*([-+=]([rwx]*)+
+     *
+     * examples
+     * u+rw         add read and write at the user
+     * u+rw,uo-wx   add read and write ad the user and remove wx at groupd and other
+     * a=rw         is equal at 666
+     * u=rwx,go-rwx is equal at 700
+     *
+     * @param string $file
+     * @param int|string $mode
+     * @return boolean
+     */
+    public static function chmod($file, $mode)
+    {
+        if (!file_exists($file)) {
+            return false;
+        }
+
+        $octalMode = 0;
+
+        if (is_int($mode)) {
+            $octalMode = $mode;
+        } else if (is_string($mode)) {
+            $mode = trim($mode);
+            if (preg_match('/([0-7]{1,3})/', $mode)) {
+                $octalMode = intval(('0'.$mode), 8);
+            } else if (preg_match_all('/(a|[ugo]{1,3})([-=+])([rwx]{1,3})/', $mode, $gMatch, PREG_SET_ORDER)) {
+                if (!function_exists('fileperms')) {
+                    return false;
+                }
+
+                // start by file permission
+                $octalMode = (fileperms($file) & 0777);
+
+                foreach ($gMatch as $matches) {
+                    // [ugo] or a = ugo
+                    $group = $matches[1];
+                    if ($group === 'a') {
+                        $group = 'ugo';
+                    }
+                    // can be + - =
+                    $action = $matches[2];
+                    // [rwx]
+                    $gPerms = $matches[3];
+
+                    // reset octal group perms
+                    $octalGroupMode = 0;
+
+                    // Init sub perms
+                    $subPerm = 0;
+                    $subPerm += strpos($gPerms, 'x') !== false ? 1 : 0; // mask 001
+                    $subPerm += strpos($gPerms, 'w') !== false ? 2 : 0; // mask 010
+                    $subPerm += strpos($gPerms, 'r') !== false ? 4 : 0; // mask 100
+
+                    $ugoLen = strlen($group);
+
+                    if ($action === '=') {
+                        // generate octal group permsissions and ugo mask invert
+                        $ugoMaskInvert = 0777;
+                        for ($i = 0; $i < $ugoLen; $i++) {
+                            switch ($group[$i]) {
+                                case 'u':
+                                    $octalGroupMode = $octalGroupMode | $subPerm << 6; // mask xxx000000
+                                    $ugoMaskInvert  = $ugoMaskInvert & 077;
+                                    break;
+                                case 'g':
+                                    $octalGroupMode = $octalGroupMode | $subPerm << 3; // mask 000xxx000
+                                    $ugoMaskInvert  = $ugoMaskInvert & 0707;
+                                    break;
+                                case 'o':
+                                    $octalGroupMode = $octalGroupMode | $subPerm; // mask 000000xxx
+                                    $ugoMaskInvert  = $ugoMaskInvert & 0770;
+                                    break;
+                            }
+                        }
+                        // apply = action
+                        $octalMode = $octalMode & ($ugoMaskInvert | $octalGroupMode);
+                    } else {
+                        // generate octal group permsissions
+                        for ($i = 0; $i < $ugoLen; $i++) {
+                            switch ($group[$i]) {
+                                case 'u':
+                                    $octalGroupMode = $octalGroupMode | $subPerm << 6; // mask xxx000000
+                                    break;
+                                case 'g':
+                                    $octalGroupMode = $octalGroupMode | $subPerm << 3; // mask 000xxx000
+                                    break;
+                                case 'o':
+                                    $octalGroupMode = $octalGroupMode | $subPerm; // mask 000000xxx
+                                    break;
+                            }
+                        }
+                        // apply + or - action
+                        switch ($action) {
+                            case '+':
+                                $octalMode = $octalMode | $octalGroupMode;
+                                break;
+                            case '-':
+                                $octalMode = $octalMode & ~$octalGroupMode;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // if input permissions are equal at file permissions return true without performing chmod
+        if (function_exists('fileperms') && $octalMode === (fileperms($file) & 0777)) {
+            return true;
+        }
+
+        if (!function_exists('chmod')) {
+            return false;
+        }
+
+        return @chmod($file, $octalMode);
+    }
+            
+    /**
+     * this function creates a folder if it does not exist and performs a chmod.
+     * it is different from the normal mkdir function to which an umask is applied to the input permissions.
+     * 
+     * this function handles the variable MODE in a way similar to the chmod of lunux
+     * So the MODE variable can be
+     * 1) an octal number (0755)
+     * 2) a string that defines an octal number ("644")
+     * 3) a string with the following format [ugoa]*([-+=]([rwx]*)+
+     *
+     * @param string $path
+     * @param int|string $mode
+     * @param bool $recursive
+     * @param resource $context
+     * @return boolean bool TRUE on success or FALSE on failure.
+     *
+     * @todo check recursive true and multiple chmod
+     */
+    public static function mkdir($path, $mode = 0777, $recursive = false, $context = null)
+    {
+        if (strlen($path) > self::maxPathLen()) {
+            throw new Exception('Skipping a file that exceeds allowed max path length ['.self::maxPathLen().']. File: '.$filepath);
+        }
+
+        if (!file_exists($path)) {
+            if (!function_exists('mkdir')) {
+                return false;
+            }
+            if (!@mkdir($path, 0777, $recursive, $context)) {
+                return false;
+            }
+        }
+
+        return self::chmod($path, $mode);
+    }
+
+    /**
      * move all folder content up to parent
      *
      * @param string $subFolderName full path
@@ -825,7 +1015,7 @@ class DUPX_Bootstrap
                 $unzip_command	 = "$unzip_filepath -q $archive_filepath snaplib/* 2>&1";
                 self::log("Executing $unzip_command");
                 $stderr	 .= shell_exec($unzip_command);
-				mkdir($lib_directory);
+				self::mkdir($lib_directory,'u+rwx');
                 rename($local_lib_directory, $snaplib_directory);
             }
 
@@ -1088,7 +1278,6 @@ class DUPX_Bootstrap
 		return str_replace("\\", "/", $path);
 	}
 }
-
 
 class DUPX_Handler
 {
