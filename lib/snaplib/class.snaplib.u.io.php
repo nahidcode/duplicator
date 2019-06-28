@@ -471,7 +471,7 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
          * @param string $path
          * @param int|string $mode
          * @param bool $recursive
-         * @param resource $context
+         * @param resource $context // not used fo windows bug
          * @return boolean bool TRUE on success or FALSE on failure.
          *
          * @todo check recursive true and multiple chmod
@@ -486,7 +486,7 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
                 if (!function_exists('mkdir')) {
                     return false;
                 }
-                if (!@mkdir($path, 0777, $recursive, $context)) {
+                if (!@mkdir($path, 0777, $recursive)) {
                     return false;
                 }
             }
