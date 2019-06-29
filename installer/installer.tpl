@@ -906,19 +906,7 @@ class DUPX_Bootstrap
     }
     
     public static function checkInputVaslidInt($input) {
-        if (is_int($input)) {
-            return true;
-        } else if (is_float($input)) {
-            return ($input >= (PHP_INT_MAX * -1) && $input <= PHP_INT_MAX);
-        } else if (is_string($input)) {
-            if (!is_numeric($input))  {
-                throw new Exception('string must be a numeric value');
-            }
-            $floatInput = (float) $input;
-            return ($floatInput >= (PHP_INT_MAX * -1) && $floatInput <= PHP_INT_MAX);
-        } else {
-            throw new Exception('invalid input type');
-        }
+        return (filter_var($input, FILTER_VALIDATE_INT) === 0 || filter_var($input, FILTER_VALIDATE_INT));
     }
 
             
