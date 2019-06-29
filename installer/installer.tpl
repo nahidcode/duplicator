@@ -905,7 +905,7 @@ class DUPX_Bootstrap
         return @chmod($file, $octalMode);
     }
     
-    function checkInputVaslidInt($input) {
+    public static function checkInputVaslidInt($input) {
         if (is_int($input)) {
             return true;
         } else if (is_float($input)) {
