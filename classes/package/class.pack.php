@@ -880,7 +880,19 @@ class DUP_Package
             if ($expected_filecount > 500) {
                 $straight_ratio = (float) $expected_filecount / (float) $this->Archive->file_count;
 
-				$warning_count = $scanReport->ARC->WarnFileCount + $scanReport->ARC->WarnDirCount + $scanReport->ARC->UnreadableFileCount + $scanReport->ARC->UnreadableDirCount;
+                $warning_count = 0;
+                $warning_count += isset($scanReport->ARC->WarnFileCount) ? $scanReport->ARC->WarnFileCount : 0;
+                $warning_count += isset($scanReport->ARC->WarnDirCount) ? $scanReport->ARC->WarnDirCount : 0;
+                $warning_count += isset($scanReport->ARC->UnreadableFileCount) ? $scanReport->ARC->UnreadableFileCount : 0;
+                $warning_count += isset($scanReport->ARC->UnreadableDirCount) ? $scanReport->ARC->UnreadableDirCount : 0;
+
+                $traceStr = "Warn/unread counts)";
+                $traceStr .= " warnfile:".isset($scanReport->ARC->WarnFileCount) ? $scanReport->ARC->WarnFileCount : 'undefined';
+                $traceStr .= " warndir:".isset($scanReport->ARC->WarnDirCount) ? $scanReport->ARC->WarnDirCount : 'undefined';
+                $traceStr .= " unreadfile:".isset($scanReport->ARC->UnreadableFileCount) ? $scanReport->ARC->UnreadableFileCount : 'undefined';
+                $traceStr .= " unreaddir:".isset($scanReport->ARC->UnreadableDirCount) ? $scanReport->ARC->UnreadableDirCount : 'undefined';
+
+
                 DUP_LOG::trace("Warn/unread counts) warnfile:{$scanReport->ARC->WarnFileCount} warndir:{$scanReport->ARC->WarnDirCount} unreadfile:{$scanReport->ARC->UnreadableFileCount} unreaddir:{$scanReport->ARC->UnreadableDirCount}");
 
                 $warning_ratio = ((float) ($expected_filecount + $warning_count)) / (float) $this->Archive->file_count;
@@ -892,9 +904,9 @@ class DUP_Package
                     if (($warning_ratio < 0.90) || ($warning_ratio > 1.01)) {
                         $error_message = sprintf('ERROR: File count in archive vs expected suggests a bad archive (%1$d vs %2$d).', $this->Archive->file_count, $expected_filecount);
                         $this->BuildProgress->set_failed($error_message);
-                        $this->Status = DUP_PackageStatus::ERROR;
+                        $this->Status  = DUP_PackageStatus::ERROR;
                         $this->update();
-                        
+
                         DUP_Log::error($error_message, '');
                         return;
                     }
