@@ -1154,8 +1154,6 @@ LONGMSG;
             }
         }
 
-        @mysqli_query($this->dbh, $sql);
-
         if (empty($this->report['warnlist'])) {
             DUPX_Log::info("No General Notices Found\n");
         }
