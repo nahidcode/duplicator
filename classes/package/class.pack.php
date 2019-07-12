@@ -892,9 +892,6 @@ class DUP_Package
                 $traceStr .= " unreadfile:".isset($scanReport->ARC->UnreadableFileCount) ? $scanReport->ARC->UnreadableFileCount : 'undefined';
                 $traceStr .= " unreaddir:".isset($scanReport->ARC->UnreadableDirCount) ? $scanReport->ARC->UnreadableDirCount : 'undefined';
 
-
-                DUP_LOG::trace("Warn/unread counts) warnfile:{$scanReport->ARC->WarnFileCount} warndir:{$scanReport->ARC->WarnDirCount} unreadfile:{$scanReport->ARC->UnreadableFileCount} unreaddir:{$scanReport->ARC->UnreadableDirCount}");
-
                 $warning_ratio = ((float) ($expected_filecount + $warning_count)) / (float) $this->Archive->file_count;
                 DUP_LOG::trace("Straight ratio is $straight_ratio and warning ratio is $warning_ratio. # Expected=$expected_filecount # Warning=$warning_count and #Archive File {$this->Archive->file_count}");
 
