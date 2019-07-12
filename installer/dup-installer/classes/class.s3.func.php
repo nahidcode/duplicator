@@ -462,13 +462,13 @@ final class DUPX_S3_Funcs
 
         if (!file_exists($wpArkPath)) {
             DUPX_Log::info('WP Config ark file don\' exists');
-        }
-
-        if (!@copy($wpArkPath, $wpOrigPath)) {
-            $errors = error_get_last();
-            DUPX_Log::info("COPY ERROR: ".$errors['type']."\n".$errors['message']);
         } else {
-            echo DUPX_Log::info("Original WP Config file copied", 2);
+            if (!@copy($wpArkPath, $wpOrigPath)) {
+                $errors = error_get_last();
+                DUPX_Log::info("COPY ERROR: ".$errors['type']."\n".$errors['message']);
+            } else {
+                echo DUPX_Log::info("Original WP Config file copied", 2);
+            }
         }
 
         $htOrigPath = $this->getOrigHtaccessPath();
@@ -482,13 +482,13 @@ final class DUPX_S3_Funcs
 
         if (!file_exists($htArkPath)) {
             DUPX_Log::info('htaccess ark file don\' exists');
-        }
-
-        if (!@copy($htArkPath, $htOrigPath)) {
-            $errors = error_get_last();
-            DUPX_Log::info("COPY ERROR: ".$errors['type']."\n".$errors['message']);
         } else {
-            echo DUPX_Log::info("htaccess file copied", 2);
+            if (!@copy($htArkPath, $htOrigPath)) {
+                $errors = error_get_last();
+                DUPX_Log::info("COPY ERROR: ".$errors['type']."\n".$errors['message']);
+            } else {
+                echo DUPX_Log::info("htaccess file copied", 2);
+            }
         }
     }
 
