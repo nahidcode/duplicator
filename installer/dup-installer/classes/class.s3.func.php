@@ -1043,8 +1043,8 @@ LONGMSG;
         $blog_name   = mysqli_real_escape_string($this->dbh, $this->post['blogname']);
         $plugin_list = $this->post['plugins'];
 
-        if (!in_array('duplicator-pro/duplicator.php', $plugin_list)) {
-            $plugin_list[] = 'duplicator-pro/duplicator.php';
+        if (!in_array('duplicator/duplicator.php', $plugin_list)) {
+            $plugin_list[] = 'duplicator/duplicator.php';
         }
         $serial_plugin_list = @serialize($plugin_list);
 
@@ -1060,7 +1060,7 @@ LONGMSG;
             "UPDATE `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` SET option_value = '".mysqli_real_escape_string($this->dbh, $this->post['siteurl'])."'  WHERE option_name = 'siteurl' ");
         mysqli_query($this->dbh,
             "INSERT INTO `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` (option_value, option_name) VALUES('".mysqli_real_escape_string($this->dbh,
-                $this->post['exe_safe_mode'])."','duplicator_pro_exe_safe_mode')");
+                $this->post['exe_safe_mode'])."','duplicator_exe_safe_mode')");
         //Reset the postguid data
         if ($this->post['postguid']) {
             mysqli_query($this->dbh,
@@ -1154,7 +1154,6 @@ LONGMSG;
             }
         }
 
-        $sql = "INSERT into ".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options (option_name, option_value) VALUES ('duplicator_pro_migration', '1');";
         @mysqli_query($this->dbh, $sql);
 
         if (empty($this->report['warnlist'])) {
