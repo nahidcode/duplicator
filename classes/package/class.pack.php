@@ -238,6 +238,10 @@ class DUP_Package
         $report['ARC']['DirCount']  = number_format($dirCount);
         $report['ARC']['FileCount'] = number_format($fileCount);
         $report['ARC']['FullCount'] = number_format($fullCount);
+        $report['ARC']['WarnFileCount']       = count($this->Archive->FilterInfo->Files->Warning);
+        $report['ARC']['WarnDirCount']        = count($this->Archive->FilterInfo->Dirs->Warning);
+        $report['ARC']['UnreadableDirCount']  = count($this->Archive->FilterInfo->Dirs->Unreadable);
+        $report['ARC']['UnreadableFileCount'] = count($this->Archive->FilterInfo->Files->Unreadable);
 		$report['ARC']['FilterDirsAll'] = $this->Archive->FilterDirsAll;
 		$report['ARC']['FilterFilesAll'] = $this->Archive->FilterFilesAll;
 		$report['ARC']['FilterExtsAll'] = $this->Archive->FilterExtsAll;
@@ -880,18 +884,8 @@ class DUP_Package
             if ($expected_filecount > 500) {
                 $straight_ratio = (float) $expected_filecount / (float) $this->Archive->file_count;
 
-                $warning_count = 0;
-                $warning_count += isset($scanReport->ARC->WarnFileCount) ? $scanReport->ARC->WarnFileCount : 0;
-                $warning_count += isset($scanReport->ARC->WarnDirCount) ? $scanReport->ARC->WarnDirCount : 0;
-                $warning_count += isset($scanReport->ARC->UnreadableFileCount) ? $scanReport->ARC->UnreadableFileCount : 0;
-                $warning_count += isset($scanReport->ARC->UnreadableDirCount) ? $scanReport->ARC->UnreadableDirCount : 0;
-
-                $traceStr = "Warn/unread counts)";
-                $traceStr .= " warnfile:".isset($scanReport->ARC->WarnFileCount) ? $scanReport->ARC->WarnFileCount : 'undefined';
-                $traceStr .= " warndir:".isset($scanReport->ARC->WarnDirCount) ? $scanReport->ARC->WarnDirCount : 'undefined';
-                $traceStr .= " unreadfile:".isset($scanReport->ARC->UnreadableFileCount) ? $scanReport->ARC->UnreadableFileCount : 'undefined';
-                $traceStr .= " unreaddir:".isset($scanReport->ARC->UnreadableDirCount) ? $scanReport->ARC->UnreadableDirCount : 'undefined';
-
+                $warning_count = $scanReport->ARC->WarnFileCount + $scanReport->ARC->WarnDirCount + $scanReport->ARC->UnreadableFileCount + $scanReport->ARC->UnreadableDirCount;
+                DUP_LOG::trace("Warn/unread counts) warnfile:{$scanReport->ARC->WarnFileCount} warndir:{$scanReport->ARC->WarnDirCount} unreadfile:{$scanReport->ARC->UnreadableFileCount} unreaddir:{$scanReport->ARC->UnreadableDirCount}");
                 $warning_ratio = ((float) ($expected_filecount + $warning_count)) / (float) $this->Archive->file_count;
                 DUP_LOG::trace("Straight ratio is $straight_ratio and warning ratio is $warning_ratio. # Expected=$expected_filecount # Warning=$warning_count and #Archive File {$this->Archive->file_count}");
 
