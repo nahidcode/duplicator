@@ -376,13 +376,13 @@ final class DUPX_S3_Funcs
 
         if (is_null($configTransformer)) {
             //@todo: integrate all logic into DUPX_WPConfig::updateVars
-            if (is_writable($this->getWpconfigArkPath())) {
-                $configTransformer = new WPConfigTransformer($this->getWpconfigArkPath());
+            if (is_writable(DUPX_Package::getWpconfigArkPath())) {
+                $configTransformer = new WPConfigTransformer(DUPX_Package::getWpconfigArkPath());
             } else {
                 $err_log = "\nWARNING: Unable to update file permissions and write to dup-wp-config-arc__[HASH].txt.  ";
                 $err_log .= "Check that the wp-config.php is in the archive.zip and check with your host or administrator to enable PHP to write to the wp-config.php file.  ";
                 $err_log .= "If performing a 'Manual Extraction' please be sure to select the 'Manual Archive Extraction' option on step 1 under options.";
-                chmod($this->getWpconfigArkPath(), 0644) ? DUPX_Log::info("File Permission Update: dup-wp-config-arc__[HASH].txt set to 0644") : DUPX_Log::error("{$err_log}");
+                chmod(DUPX_Package::getWpconfigArkPath(), 0644) ? DUPX_Log::info("File Permission Update: dup-wp-config-arc__[HASH].txt set to 0644") : DUPX_Log::error("{$err_log}");
             }
         }
 
@@ -391,68 +391,12 @@ final class DUPX_S3_Funcs
 
     /**
      *
-     * @staticvar string $path
-     * @return string
-     */
-    public function getWpconfigArkPath()
-    {
-        static $path = null;
-        if (is_null($path)) {
-            $path = $GLOBALS['DUPX_AC']->installSiteOverwriteOn ? $GLOBALS['DUPX_ROOT'].'/dup-wp-config-arc__'.$GLOBALS['DUPX_AC']->package_hash.'.txt' : $GLOBALS['DUPX_ROOT'].'/wp-config.php';
-        }
-        return $path;
-    }
-
-    /**
-     *
-     * @staticvar string $path
-     * @return string
-     */
-    public function getHtaccessArkPath()
-    {
-        static $path = null;
-        if (is_null($path)) {
-            $path = $GLOBALS['DUPX_ROOT'].'/htaccess.orig';
-        }
-        return $path;
-    }
-
-    /**
-     *
-     * @staticvar string $path
-     * @return string
-     */
-    public function getOrigWpConfigPath()
-    {
-        static $path = null;
-        if (is_null($path)) {
-            $path = $GLOBALS['DUPX_INIT'].'/dup-orig-wp-config__'.$GLOBALS['DUPX_AC']->package_hash.'.txt';
-        }
-        return $path;
-    }
-
-    /**
-     *
-     * @staticvar string $path
-     * @return string
-     */
-    public function getOrigHtaccessPath()
-    {
-        static $path = null;
-        if (is_null($path)) {
-            $path = $GLOBALS['DUPX_INIT'].'/dup-orig-wp-config__'.$GLOBALS['DUPX_AC']->package_hash.'.txt';
-        }
-        return $GLOBALS['DUPX_INIT'].'/dup-orig-htaccess__'.$GLOBALS['DUPX_AC']->package_hash.'.txt';
-    }
-
-    /**
-     *
      * @return string
      */
     public function copyOriginalConfigFiles()
     {
-        $wpOrigPath = $this->getOrigWpConfigPath();
-        $wpArkPath  = $this->getWpconfigArkPath();
+        $wpOrigPath = DUPX_Package::getOrigWpConfigPath();
+        $wpArkPath  = DUPX_Package::getWpconfigArkPath();
 
         if (file_exists($wpOrigPath)) {
             if (!@unlink($wpOrigPath)) {
@@ -471,8 +415,8 @@ final class DUPX_S3_Funcs
             echo DUPX_Log::info("Original WP Config file copied", 2);
         }
 
-        $htOrigPath = $this->getOrigHtaccessPath();
-        $htArkPath  = $this->getHtaccessArkPath();
+        $htOrigPath = DUPX_Package::getOrigHtaccessPath();
+        $htArkPath  = DUPX_Package::getHtaccessArkPath();
 
         if (file_exists($htOrigPath)) {
             if (!@unlink($htOrigPath)) {
@@ -725,7 +669,7 @@ final class DUPX_S3_Funcs
 
         $nManager = DUPX_NOTICE_MANAGER::getInstance();
         try {
-            if (file_exists($this->getWpconfigArkPath())) {
+            if (file_exists(DUPX_Package::getWpconfigArkPath())) {
                 $confTransformer = $this->getWpConfigTransformer();
 
                 $mu_newDomain     = parse_url($this->getPost('url_new'));
@@ -1078,8 +1022,8 @@ LONGMSG;
         $this->dbConnection();
 
         $nManager = DUPX_NOTICE_MANAGER::getInstance();
-        if (file_exists($this->getWpconfigArkPath())) {
-            $wpconfig_ark_contents = file_get_contents($this->getWpconfigArkPath());
+        if (file_exists(DUPX_Package::getWpconfigArkPath())) {
+            $wpconfig_ark_contents = file_get_contents(DUPX_Package::getWpconfigArkPath());
             $config_vars           = array('WPCACHEHOME', 'COOKIE_DOMAIN', 'WP_SITEURL', 'WP_HOME', 'WP_TEMP_DIR');
             $config_found          = DUPX_U::getListValues($config_vars, $wpconfig_ark_contents);
 
@@ -1103,10 +1047,10 @@ LONGMSG;
 
             //-- Finally, back up the old wp-config and rename the new one
             $wpconfig_path = "{$GLOBALS['DUPX_ROOT']}/wp-config.php";
-            if ($this->getWpconfigArkPath() !== $wpconfig_path) {
-                if (copy($this->getWpconfigArkPath(), $wpconfig_path) === false) {
+            if (DUPX_Package::getWpconfigArkPath() !== $wpconfig_path) {
+                if (copy(DUPX_Package::getWpconfigArkPath(), $wpconfig_path) === false) {
                     DUPX_LOG::info(
-                        'COPY SOURCE: '.DUPX_LOG::varToString($this->getWpconfigArkPath())."\n".
+                        'COPY SOURCE: '.DUPX_LOG::varToString(DUPX_Package::getWpconfigArkPath())."\n".
                         "COPY DEST:".DUPX_LOG::varToString($wpconfig_path), DUPX_Log::LV_DEBUG);
                     DUPX_Log::error("ERROR: Unable to copy 'dup-wp-config-arc__[HASH].txt' to 'wp-config.php'.\n".
                         "Check server permissions for more details see FAQ: https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-055-q");
@@ -1197,7 +1141,7 @@ LONGMSG;
     {
         $nManager = DUPX_NOTICE_MANAGER::getInstance();
 
-        $orig = file_get_contents($this->getOrigHtaccessPath());
+        $orig = file_get_contents(DUPX_Package::getOrigHtaccessPath());
         $new  = file_get_contents($GLOBALS['DUPX_ROOT'].'/.htaccess');
 
         $lightBoxContent = '<div class="row-cols-2">'.
@@ -1220,7 +1164,7 @@ LONGMSG;
     {
         $nManager = DUPX_NOTICE_MANAGER::getInstance();
 
-        if (($orig = file_get_contents($this->getOrigWpConfigPath())) === false) {
+        if (($orig = file_get_contents(DUPX_Package::getOrigWpConfigPath())) === false) {
             $orig = 'Can read origin wp-config.php file';
         } else {
             $orig = $this->obscureWpConfig($orig);
