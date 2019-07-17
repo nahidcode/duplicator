@@ -31,10 +31,10 @@ if (!interface_exists('JsonSerializable')) {
     }
 }
 
-if (!class_exists('DupProSnapJsonU', false)) {
+if (!class_exists('DupLiteSnapJsonU', false)) {
 
 
-    class DupProSnapJsonU
+    class DupLiteSnapJsonU
     {
         /**
          * Encode a variable into JSON, with some sanity checks.
