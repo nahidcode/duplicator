@@ -136,7 +136,7 @@ if (!class_exists('DupLiteSnapJsonU', false)) {
 
                 case 'array':
                     // Arrays must be mapped in case they also return objects.
-                    return array_map('self::_wp_json_prepare_data', $data);
+                    return array_map(array(__CLASS__, '_wp_json_prepare_data'), $data);
 
                 case 'object':
                     // If this is an incomplete object (__PHP_Incomplete_Class), bail.
