@@ -12,6 +12,25 @@
  */
 defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
+if (!interface_exists('JsonSerializable')) {
+    define('SNAP_WP_JSON_SERIALIZE_COMPATIBLE', true);
+
+    /**
+     * JsonSerializable interface.
+     *
+     * Compatibility shim for PHP <5.4
+     *
+     * @link https://secure.php.net/jsonserializable
+     *
+     * @since 4.4.0
+     */
+    interface JsonSerializable
+    {
+
+        public function jsonSerialize();
+    }
+}
+
 if (!class_exists('DupProSnapJsonU', false)) {
 
 
