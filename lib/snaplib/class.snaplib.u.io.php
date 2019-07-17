@@ -19,6 +19,7 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
 
     class DupLiteSnapLibIOU
     {
+
         // Real upper bound of a signed int is 214748364.
         // The value chosen below, makes sure we have a buffer of ~4.7 million.
         const FileSizeLimit32BitPHP = 1900000000;
@@ -244,7 +245,8 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
          *
          * @return bool Returns true if all content was removed
          */
-        public static function rrmdir($path) {
+        public static function rrmdir($path)
+        {
             if (is_dir($path)) {
                 if (($dh = opendir($path)) === false) {
                     return false;

@@ -60,7 +60,8 @@ if (!class_exists('DupLiteSnapLibUtil', false)) {
                 } else {
                     return strtolower(md5(uniqid(rand(), true))).'_'.date("YmdHis");
                 }
-            } catch (Exception $exc) {
+            }
+            catch (Exception $exc) {
                 return strtolower(md5(uniqid(rand(), true))).'_'.date("YmdHis");
             }
         }
@@ -114,7 +115,7 @@ if (!class_exists('DupLiteSnapLibUtil', false)) {
                 $args = func_get_args();
                 foreach ($grouped as $key => $value) {
                     $params        = array_merge(array($value), array_slice($args, 2, func_num_args()));
-                    $grouped[$key] = call_user_func_array(array(__CLASS__,'arrayGroupBy'), $params);
+                    $grouped[$key] = call_user_func_array(array(__CLASS__, 'arrayGroupBy'), $params);
                 }
             }
             return $grouped;
@@ -216,7 +217,7 @@ if (!class_exists('DupLiteSnapLibUtil', false)) {
 
             return false;
         }
-        
+
         /**
          * The val value returns if it is between min and max otherwise it returns min or max
          * 

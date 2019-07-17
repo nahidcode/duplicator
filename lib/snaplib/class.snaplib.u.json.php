@@ -36,6 +36,7 @@ if (!class_exists('DupLiteSnapJsonU', false)) {
 
     class DupLiteSnapJsonU
     {
+
         /**
          * Encode a variable into JSON, with some sanity checks.
          *
@@ -80,7 +81,8 @@ if (!class_exists('DupLiteSnapJsonU', false)) {
 
             try {
                 $args[0] = self::_wp_json_sanity_check($data, $depth);
-            } catch (Exception $e) {
+            }
+            catch (Exception $e) {
                 return false;
             }
 
