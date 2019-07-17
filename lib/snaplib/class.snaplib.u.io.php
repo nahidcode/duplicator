@@ -237,21 +237,35 @@ if (!class_exists('DupLiteSnapLibIOU', false)) {
             }
         }
 
-        public static function rrmdir($dir)
-        {
-            if (is_dir($dir)) {
-                $objects = scandir($dir);
-                foreach ($objects as $object) {
-                    if ($object != "." && $object != "..") {
-                        if (is_dir($dir."/".$object)) {
-                            DupLiteSnapLibIOU::rrmdir($dir."/".$object);
-                        } else {
-                            //unlink($dir."/".$object);
-                            self::rm($dir."/".$object);
-                        }
+        /**
+         * Safely remove a directory and recursively files adnd directory upto multiple sublevels
+         *
+         * @param path $dir The full path to the directory to remove
+         *
+         * @return bool Returns true if all content was removed
+         */
+        public static function rrmdir($path) {
+            if (is_dir($path)) {
+                if (($dh = opendir($path)) === false) {
+                    return false;
+                }
+                while (($object = readdir($dh)) !== false) {
+                    if ($object == "." || $object == "..") {
+                        continue;
+                    }
+                    if (!self::rrmdir($path."/".$object)) {
+                        closedir($dh);
+                        return false;
                     }
                 }
-                rmdir($dir);
+                closedir($dh);
+                return @rmdir($path);
+            } else {
+                if (is_writable($path)) {
+                    return @unlink($path);
+                } else {
+                    return false;
+                }
             }
         }
 
