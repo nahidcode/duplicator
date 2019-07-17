@@ -951,27 +951,28 @@ class DUPX_U
 	}
 
 	/**
-	 * Converts and fixes HTML entities.
-	 *
-	 * This function normalizes HTML entities. It will convert `AT&T` to the correct
-	 * `AT&amp;T`, `&#00058;` to `&#58;`, `&#XYZZY;` to `&amp;#XYZZY;` and so on.
-	 *
-	 * @param string $string Content to normalize entities
-	 * @return string Content with normalized entities
-	 */
-	public static function wp_kses_normalize_entities($string) {
-		// Disarm all entities by converting & to &amp;
-		$string = str_replace('&', '&amp;', $string);
+     * Converts and fixes HTML entities.
+     *
+     * This function normalizes HTML entities. It will convert `AT&T` to the correct
+     * `AT&amp;T`, `&#00058;` to `&#58;`, `&#XYZZY;` to `&amp;#XYZZY;` and so on.
+     *
+     * @param string $string Content to normalize entities
+     * @return string Content with normalized entities
+     */
+    public static function wp_kses_normalize_entities($string)
+    {
+        // Disarm all entities by converting & to &amp;
+        $string = str_replace('&', '&amp;', $string);
 
-		// Change back the allowed entities in our entity whitelist
-		$string = preg_replace_callback('/&amp;([A-Za-z]{2,8}[0-9]{0,2});/', 'self::wp_kses_named_entities', $string);
-		$string = preg_replace_callback('/&amp;#(0*[0-9]{1,7});/', 'self::wp_kses_normalize_entities2', $string);
-		$string = preg_replace_callback('/&amp;#[Xx](0*[0-9A-Fa-f]{1,6});/', 'self::wp_kses_normalize_entities3', $string);
+        // Change back the allowed entities in our entity whitelist
+        $string = preg_replace_callback('/&amp;([A-Za-z]{2,8}[0-9]{0,2});/', array(__CLASS__, 'wp_kses_named_entities'), $string);
+        $string = preg_replace_callback('/&amp;#(0*[0-9]{1,7});/', array(__CLASS__, 'wp_kses_normalize_entities2'), $string);
+        $string = preg_replace_callback('/&amp;#[Xx](0*[0-9A-Fa-f]{1,6});/', array(__CLASS__, 'wp_kses_normalize_entities3'), $string);
 
-		return $string;
-	}
+        return $string;
+    }
 
-	/**
+    /**
 	 * Callback for wp_kses_normalize_entities() regular expression.
 	 *
 	 * This function only accepts valid named entity references, which are finite,
@@ -1309,23 +1310,24 @@ class DUPX_U
 	}
 
 	/**
-	 * Convert all entities to their character counterparts.
-	 *
-	 * This function decodes numeric HTML entities (`&#65;` and `&#x41;`).
-	 * It doesn't do anything with other entities like &auml;, but we don't
-	 * need them in the URL protocol whitelisting system anyway.
-	 *
-	 * @param string $string Content to change entities
-	 * @return string Content after decoded entities
-	 */
-	public static function wp_kses_decode_entities($string) {
-		$string = preg_replace_callback('/&#([0-9]+);/', 'self::_wp_kses_decode_entities_chr', $string);
-		$string = preg_replace_callback('/&#[Xx]([0-9A-Fa-f]+);/', 'self::_wp_kses_decode_entities_chr_hexdec', $string);
+     * Convert all entities to their character counterparts.
+     *
+     * This function decodes numeric HTML entities (`&#65;` and `&#x41;`).
+     * It doesn't do anything with other entities like &auml;, but we don't
+     * need them in the URL protocol whitelisting system anyway.
+     *
+     * @param string $string Content to change entities
+     * @return string Content after decoded entities
+     */
+    public static function wp_kses_decode_entities($string)
+    {
+        $string = preg_replace_callback('/&#([0-9]+);/', array(__CLASS__, '_wp_kses_decode_entities_chr'), $string);
+        $string = preg_replace_callback('/&#[Xx]([0-9A-Fa-f]+);/', array(__CLASS__, '_wp_kses_decode_entities_chr_hexdec'), $string);
 
-		return $string;
-	}
+        return $string;
+    }
 
-	/**
+    /**
 	 * Regex callback for wp_kses_decode_entities()
 	 *
 	 * @param array $match preg match
