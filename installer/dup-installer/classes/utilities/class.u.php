@@ -46,8 +46,8 @@ class DUPX_U
     {
         array_push($GLOBALS['REPLACE_LIST'], array('search' => $search, 'replace' => $replace));
 
-        $search_json  = str_replace('"', "", DupLiteSnapLibUtil::wp_json_encode($search));
-        $replace_json = str_replace('"', "", DupLiteSnapLibUtil::wp_json_encode($replace));
+        $search_json  = str_replace('"', "", DupLiteSnapJsonU::wp_json_encode($search));
+        $replace_json = str_replace('"', "", DupLiteSnapJsonU::wp_json_encode($replace));
 
         if ($search != $search_json) {
             array_push($GLOBALS['REPLACE_LIST'], array('search' => $search_json, 'replace' => $replace_json));
@@ -687,7 +687,7 @@ class DUPX_U
 	 * @return string
 	 */
 	public static function esc_html( $text ) {
-		$safe_text = DupLiteSnapLibUtil::wp_check_invalid_utf8( $text );
+		$safe_text = DupLiteSnapJsonU::wp_check_invalid_utf8( $text );
 		$safe_text = self::_wp_specialchars( $safe_text, ENT_QUOTES );
 		/**
 		 * Filters a string cleaned and escaped for output in HTML.
@@ -713,7 +713,7 @@ class DUPX_U
 	 * @return string Escaped text.
 	 */
 	public static function esc_js( $text ) {
-		$safe_text = DupLiteSnapLibUtil::wp_check_invalid_utf8( $text );
+		$safe_text = DupLiteSnapJsonU::wp_check_invalid_utf8( $text );
 		$safe_text = self::_wp_specialchars( $safe_text, ENT_COMPAT );
 		$safe_text = preg_replace( '/&#(x)?0*(?(1)27|39);?/i', "'", stripslashes( $safe_text ) );
 		$safe_text = str_replace( "\r", '', $safe_text );
@@ -737,7 +737,7 @@ class DUPX_U
 	 * @return string
 	 */
 	public static function esc_attr( $text ) {
-		$safe_text = DupLiteSnapLibUtil::wp_check_invalid_utf8( $text );
+		$safe_text = DupLiteSnapJsonU::wp_check_invalid_utf8( $text );
 		$safe_text = self::_wp_specialchars( $safe_text, ENT_QUOTES );
 		/**
 		 * Filters a string cleaned and escaped for output in an HTML attribute.
@@ -1491,7 +1491,7 @@ class DUPX_U
 	 * @return string Sanitized string.
 	 */
 	public static function _sanitize_text_fields( $str, $keep_newlines = false ) {
-		$filtered = DupLiteSnapLibUtil::wp_check_invalid_utf8( $str );
+		$filtered = DupLiteSnapJsonU::wp_check_invalid_utf8( $str );
 
 		if ( strpos($filtered, '<') !== false ) {
 			$filtered = self::wp_pre_kses_less_than( $filtered );
@@ -1718,7 +1718,7 @@ class DUPX_U
      */
     public static function getEscapedGenericString($str, $addQuote = true)
     {
-        $result = DupLiteSnapLibUtil::wp_json_encode(trim($str));
+        $result = DupLiteSnapJsonU::wp_json_encode(trim($str));
         $result = str_replace(array('\/', '$'), array('/', '\\$'), $result);
         $result = preg_replace_callback(
             '/\\\\u[a-fA-F0-9]{4}/m', array(__CLASS__, 'encodeUtf8CharFromRegexMatch'), $result
