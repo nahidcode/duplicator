@@ -46,8 +46,8 @@ class DUPX_U
     {
         array_push($GLOBALS['REPLACE_LIST'], array('search' => $search, 'replace' => $replace));
 
-        $search_json  = str_replace('"', "", DupLiteSnapLibUtil::wp_json_encode($search));
-        $replace_json = str_replace('"', "", DupLiteSnapLibUtil::wp_json_encode($replace));
+        $search_json  = str_replace('"', "", DupLiteSnapJsonU::wp_json_encode($search));
+        $replace_json = str_replace('"', "", DupLiteSnapJsonU::wp_json_encode($replace));
 
         if ($search != $search_json) {
             array_push($GLOBALS['REPLACE_LIST'], array('search' => $search_json, 'replace' => $replace_json));
@@ -1718,7 +1718,7 @@ class DUPX_U
      */
     public static function getEscapedGenericString($str, $addQuote = true)
     {
-        $result = DupLiteSnapLibUtil::wp_json_encode(trim($str));
+        $result = DupLiteSnapJsonU::wp_json_encode(trim($str));
         $result = str_replace(array('\/', '$'), array('/', '\\$'), $result);
         $result = preg_replace_callback(
             '/\\\\u[a-fA-F0-9]{4}/m', array(__CLASS__, 'encodeUtf8CharFromRegexMatch'), $result

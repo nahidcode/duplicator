@@ -289,7 +289,7 @@ class DUP_Package
         $report['RPT']['ScanTime'] = DUP_Util::elapsedTime(DUP_Util::getMicrotime(), $timerStart);
         $fp                        = fopen(DUPLICATOR_SSDIR_PATH_TMP."/{$this->ScanFile}", 'w');
 
-        fwrite($fp, DupLiteSnapLibUtil::wp_json_encode_pprint($report));
+        fwrite($fp, DupLiteSnapJsonU::wp_json_encode_pprint($report));
         fclose($fp);
 
         return $report;

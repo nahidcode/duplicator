@@ -12,9 +12,9 @@
  */
 defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
-if (!class_exists('DupProSnapJsonSerializable', false)) {
+if (!class_exists('DupLiteSnapJsonSerializable', false)) {
 
-    abstract class DupProSnapJsonSerializable
+    abstract class DupLiteSnapJsonSerializable
     {
         const CLASS_KEY_FOR_JSON_SERIALIZE = '==_CLASS_==_NAME_==';
 
@@ -151,7 +151,7 @@ if (!class_exists('DupProSnapJsonSerializable', false)) {
          */
         public function jsonSerialize()
         {
-            return DupProSnapJsonU::wp_json_encode_pprint(self::objectToPublicArrayClass($this));
+            return DupLiteSnapJsonU::wp_json_encode_pprint(self::objectToPublicArrayClass($this));
         }
 
         /**
