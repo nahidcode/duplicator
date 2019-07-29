@@ -1568,13 +1568,14 @@ class DUP_Package
     /**
      *  Provides various date formats
      *
-     *  @param $date    The date to format
+     *  @param $utcDate created date in the GMT timezone
      *  @param $format  Various date formats to apply
      *
      *  @return a formated date based on the $format
      */
-    public static function getCreatedDateFormat($date, $format = 1)
+    public static function getCreatedDateFormat($utcDate, $format = 1)
     {
+        $date = get_date_from_gmt($utcDate);
         $date = new DateTime($date);
         switch ($format) {
             //YEAR
