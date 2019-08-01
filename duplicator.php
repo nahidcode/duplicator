@@ -278,7 +278,8 @@ if (is_admin() == true)
     add_action('admin_init',		'duplicator_init');
     add_action('admin_menu',		'duplicator_menu');
     add_action('admin_enqueue_scripts', 'duplicator_admin_enqueue_scripts' );
-	add_action('admin_notices',		array('DUP_UI_Notice', 'showReservedFilesNotice'));
+    add_action('admin_notices',		array('DUP_UI_Notice', 'showReservedFilesNotice'));
+    add_action('admin_notices',		array('DUP_UI_Notice', 'installAutoDeactivatePlugins'));
 	
 	//CTRL ACTIONS
     DUP_Web_Services::init();

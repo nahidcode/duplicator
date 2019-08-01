@@ -983,21 +983,13 @@ LONGMSG;
         self::logSectionHeader('GENERAL UPDATES & CLEANUP', __FUNCTION__, __LINE__);
         // make sure dbConnection is inizialized
         $this->dbConnection();
-
+        $this->deactivateIncompatiblePlugins();
         $blog_name   = mysqli_real_escape_string($this->dbh, $this->post['blogname']);
-        $plugin_list = $this->post['plugins'];
-
-        if (!in_array('duplicator/duplicator.php', $plugin_list)) {
-            $plugin_list[] = 'duplicator/duplicator.php';
-        }
-        $serial_plugin_list = @serialize($plugin_list);
-
+        
         /** FINAL UPDATES: Must happen after the global replace to prevent double pathing
           http://xyz.com/abc01 will become http://xyz.com/abc0101  with trailing data */
         mysqli_query($this->dbh,
             "UPDATE `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` SET option_value = '".mysqli_real_escape_string($this->dbh, $blog_name)."' WHERE option_name = 'blogname' ");
-        mysqli_query($this->dbh,
-            "UPDATE `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` SET option_value = '".mysqli_real_escape_string($this->dbh, $serial_plugin_list)."'  WHERE option_name = 'active_plugins' ");
         mysqli_query($this->dbh,
             "UPDATE `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` SET option_value = '".mysqli_real_escape_string($this->dbh, $this->post['url_new'])."'  WHERE option_name = 'home' ");
         mysqli_query($this->dbh,
@@ -1013,6 +1005,105 @@ LONGMSG;
             $update_guid = @mysqli_affected_rows($this->dbh) or 0;
             DUPX_Log::info("Reverted '{$update_guid}' post guid columns back to '{$this->post['url_old']}'");
         }
+    }
+
+    /**
+     * Deactivate incompatible plugins
+     *
+     * @return void
+     */
+    private function deactivateIncompatiblePlugins() {
+        self::logSectionHeader("DEACTIVATE PLUGINS CHECK", __FUNCTION__, __LINE__);
+        // make sure post data is inizialized
+        $this->getPost();
+        $nManager = DUPX_NOTICE_MANAGER::getInstance();
+        $plugin_list = array();
+        $auto_deactivate_plugins = $this->getAutoDeactivatePlugins();
+        $deactivated_plugins = array();
+        $reactivate_plugins_after_installation = array();
+        foreach ($this->post['plugins'] as $plugin_slug) {
+            if (isset($auto_deactivate_plugins[$plugin_slug])) {
+                DUPX_Log::info("deactivate ".$plugin_slug);
+                $deactivated_plugins[] = $plugin_slug;
+                $nManager->addFinalReportNotice(array(
+                    'shortMsg' => $auto_deactivate_plugins[$plugin_slug]['shortMsg'],
+                    'level' => DUPX_NOTICE_ITEM::SOFT_WARNING,
+                    'longMsg' => $auto_deactivate_plugins[$plugin_slug]['longMsg'],
+                    'longMsgMode' => DUPX_NOTICE_ITEM::MSG_MODE_HTML,
+                    'sections' => 'general'
+                ));
+                if ($auto_deactivate_plugins[$plugin_slug]['reactivate']) {
+                    $reactivate_plugins_after_installation[$plugin_slug] = $auto_deactivate_plugins[$plugin_slug]['title'];
+                }
+            } else {
+                $plugin_list[] = $plugin_slug;
+            }
+        }
+
+        if (!empty($deactivated_plugins)) {
+            DUPX_Log::info('Plugin(s) listed here are deactivated: '. implode(', ', $deactivated_plugins));
+        }
+
+        if (!empty($reactivate_plugins_after_installation)) {
+            DUPX_Log::info('Plugin(s) reactivated after installation: '. implode(', ', $deactivated_plugins));
+            $reactivate_plugins_after_installation_str = serialize($reactivate_plugins_after_installation);
+            mysqli_query($this->dbh, "INSERT INTO `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` (option_value, option_name) VALUES('".mysqli_real_escape_string($this->dbh,
+                $reactivate_plugins_after_installation_str)."','duplicator_reactivate_plugins_after_installation')");
+        }
+        
+        // Start
+        // Force Duplicator active so we the security cleanup will be available
+        if (!in_array('duplicator/duplicator.php', $plugin_list)) {
+            $plugin_list[] = 'duplicator/duplicator.php';
+        }
+        $serial_plugin_list = @serialize($plugin_list);
+        // End
+        
+        mysqli_query($this->dbh,
+            "UPDATE `".mysqli_real_escape_string($this->dbh, $GLOBALS['DUPX_AC']->wp_tableprefix)."options` SET option_value = '".mysqli_real_escape_string($this->dbh, $serial_plugin_list)."'  WHERE option_name = 'active_plugins' ");
+    }
+
+    /**
+     * Get Automatic deactivation plugins lists
+     * 
+     * @return array key as plugin slug and val as plugin title
+     */
+    private function getAutoDeactivatePlugins() {
+        $excludePlugins = array();
+        
+        if (!DUPX_U::is_ssl()) {
+            DUPX_Log::info('Really Simple SSL [as Non-SSL installation] will be Deactivated, If It is activated', DUPX_Log::LV_HARD_DEBUG);
+            $excludePlugins['really-simple-ssl/rlrsssl-really-simple-ssl.php'] = array(
+                    'title' => "Really Simple SSL",
+                    'shortMsg' => "Deactivated Plugin:  Really Simple SSL",
+                    'longMsg' => "It is deactivated because You are migrating from SSL (HTTPS) to Non-SSL (HTTP).<br>
+                                  If It was not deactivated, You will not able to login.",
+                    'reactivate' => false
+
+                );
+        }
+
+        if ($GLOBALS['DUPX_AC']->url_old != $this->post['siteurl']) {
+            DUPX_Log::info('Simple Google reCAPTCHA [as Package creation site URL and Installation site URL are different] will be Deactivated, If It is activated', DUPX_Log::LV_HARD_DEBUG);
+            $excludePlugins['simple-google-recaptcha/simple-google-recaptcha.php'] = array(
+                'title' => "Simple Google reCAPTCHA",
+                'shortMsg' => "Deactivated Plugin:  Simple Google reCAPTCHA",
+                'longMsg' => "It is deactivated because the Google Recaptcha required reCaptcha site key which is bound to the site's address. Your package site's address and installed site's address doesn't match. You can reactivate it from the installed site login panel after completion of the installation.<br>
+                                <strong>Please do not forget to change the reCaptcha site key after activating it.</strong>",
+                'reactivate' => false
+            );
+        }
+
+        DUPX_Log::info('WPBakery Page Builder will be Deactivated, If It is activated', DUPX_Log::LV_HARD_DEBUG);
+        $excludePlugins['js_composer/js_composer.php']  = array(
+            'title' => 'WPBakery Page Builder',
+            'shortMsg' => "Deactivated Plugin:  WPBakery Page Builder",
+            'longMsg' => "It is deactivated automatically. <strong>You must reactivate from the WordPress admin panel after completing the installation.</strong> After activating it, Your site's frontend will be look good.",
+            'reactivate' => true
+        );
+
+        DUPX_Log::info('Activated plugins (If they are activated) listed here will be deactivated: '.DUPX_Log::varToString(array_keys($excludePlugins)));
+        return $excludePlugins;
     }
 
     public function noticeTest()
