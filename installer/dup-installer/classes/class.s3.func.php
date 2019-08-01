@@ -376,14 +376,17 @@ final class DUPX_S3_Funcs
 
         if (is_null($configTransformer)) {
             //@todo: integrate all logic into DUPX_WPConfig::updateVars
-            if (is_writable(DUPX_Package::getWpconfigArkPath())) {
-                $configTransformer = new WPConfigTransformer(DUPX_Package::getWpconfigArkPath());
-            } else {
-                $err_log = "\nWARNING: Unable to update file permissions and write to dup-wp-config-arc__[HASH].txt.  ";
-                $err_log .= "Check that the wp-config.php is in the archive.zip and check with your host or administrator to enable PHP to write to the wp-config.php file.  ";
-                $err_log .= "If performing a 'Manual Extraction' please be sure to select the 'Manual Archive Extraction' option on step 1 under options.";
-                chmod(DUPX_Package::getWpconfigArkPath(), 0644) ? DUPX_Log::info("File Permission Update: dup-wp-config-arc__[HASH].txt set to 0644") : DUPX_Log::error("{$err_log}");
+            if (!is_writable(DUPX_Package::getWpconfigArkPath())) {
+                if (DupLiteSnapLibIOU::chmod(DUPX_Package::getWpconfigArkPath(), 0644)) {
+                    DUPX_Log::info("File Permission Update: dup-wp-config-arc__[HASH].txt set to 0644");
+                } else {
+                    $err_log = "\nWARNING: Unable to update file permissions and write to dup-wp-config-arc__[HASH].txt.  ";
+                    $err_log .= "Check that the wp-config.php is in the archive.zip and check with your host or administrator to enable PHP to write to the wp-config.php file.  ";
+                    $err_log .= "If performing a 'Manual Extraction' please be sure to select the 'Manual Archive Extraction' option on step 1 under options.";
+                    DUPX_Log::error($err_log);
+                }
             }
+            $configTransformer = new WPConfigTransformer(DUPX_Package::getWpconfigArkPath());
         }
 
         return $configTransformer;
