@@ -259,18 +259,10 @@ VIEW: STEP 3- INPUT -->
 						</div><br style="clear:both" />
 						<select id="plugins" name="plugins[]" multiple="multiple" style="width:315px;" <?php echo ($_POST['exe_safe_mode'] > 0) ? 'disabled="true"' : ''; ?> size="10">
 							<?php
-							$exclude_plugins = array(
-								'really-simple-ssl/rlrsssl-really-simple-ssl.php',
-								'simple-google-recaptcha/simple-google-recaptcha.php',
-							);
-							$selected_string = ($_POST['exe_safe_mode'] > 0) ? '' : 'selected="selected"';
+							$selected_string = 'selected="selected"';
 							foreach ($active_plugins as $plugin) {
 								$label = dirname($plugin) == '.' ? $plugin : dirname($plugin);
-                                if (in_array($plugin, $exclude_plugins)) {
-                                    echo "<option value='" . DUPX_U::esc_attr($plugin) . "'>" . DUPX_U::esc_html($label) . '</option>';
-                                } else {
-									echo "<option {$selected_string} value='" . DUPX_U::esc_attr( $plugin ) . "'>" . DUPX_U::esc_html($label) . '</option>';
-								}
+                                echo "<option {$selected_string} value='" . DUPX_U::esc_attr( $plugin ) . "'>" . DUPX_U::esc_html($label) . '</option>';
 							}
 							?>
 						</select>
