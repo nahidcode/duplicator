@@ -329,6 +329,12 @@ if (is_admin() == true)
 
         // Clean tmp folder
         DUP_Package::not_active_files_tmp_cleanup();
+
+        $unhook_third_party_js  = DUP_Settings::Get('unhook_third_party_js');
+        $unhook_third_party_css = DUP_Settings::Get('unhook_third_party_css');
+        if ($unhook_third_party_js || $unhook_third_party_css) {
+            add_action('admin_enqueue_scripts', 'duplicator_unhook_third_party_assets', 99999, 1);
+        }
     }
 
     /**
@@ -503,5 +509,49 @@ if (is_admin() == true)
 		exit;
     }
 
+    if (!function_exists('duplicator_unhook_third_party_assets')) {
+        /**
+         * Remove all external styles and scripts coming from other plugins
+         * which may cause compatibility issue, especially with React
+         *
+         * @return void
+         */
+        function duplicator_unhook_third_party_assets($hook)
+        {
+            /*
+            $hook values in duplicator admin pages:
+                toplevel_page_duplicator
+                duplicator_page_duplicator-tools
+                duplicator_page_duplicator-settings
+                duplicator_page_duplicator-gopro
+            */
+            if (strpos($hook, 'duplicator') !== false && strpos($hook, 'duplicator-pro') === false) {
+                $unhook_third_party_js  = DUP_Settings::Get('unhook_third_party_js');
+                $unhook_third_party_css = DUP_Settings::Get('unhook_third_party_css');
+                $assets = array();
+                if ($unhook_third_party_css)  $assets['styles'] = wp_styles();
+                if ($unhook_third_party_js)  $assets['scripts'] = wp_scripts();
+                foreach ($assets as $type => $asset) {
+                    foreach ($asset->registered as $handle => $dep) {
+                        $src = $dep->src;
+                        // test if the src is coming from /wp-admin/ or /wp-includes/ or /wp-fsqm-pro/.
+                        if (
+                            is_string($src) && // For some built-ins, $src is true|false
+                            strpos($src, 'wp-admin') === false &&
+                            strpos($src, 'wp-include') === false &&
+                            // things below are specific to your plugin, so change them
+							strpos($src, 'duplicator') === false &&
+                            strpos($src, 'woocommerce') === false &&
+                            strpos($src, 'jetpack') === false &&
+                            strpos($src, 'debug-bar') === false
+                        ) {
+                                'scripts' === $type
+                                    ? wp_dequeue_script($handle)
+                                    : wp_dequeue_style($handle);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
-?>

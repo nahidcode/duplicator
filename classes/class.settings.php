@@ -141,6 +141,8 @@ class DUP_Settings
 
         //Skip scan archive
 		$default['skip_archive_scan']		 = isset(self::$Data['skip_archive_scan']) ? self::$Data['skip_archive_scan'] : false;
+		$default['unhook_third_party_js']	 = isset(self::$Data['unhook_third_party_js']) ? self::$Data['unhook_third_party_js'] : false;
+		$default['unhook_third_party_css']	 = isset(self::$Data['unhook_third_party_css']) ? self::$Data['unhook_third_party_css'] : false;
 
 		$default['active_package_id'] = -1;
 
