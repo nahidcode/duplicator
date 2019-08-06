@@ -330,8 +330,13 @@ class DUP_Util
 	{
 		try {
 			$files = array();
-			foreach (new DirectoryIterator($path) as $file) {
-				$files[] = str_replace("\\", '/', $file->getPathname());
+            if ($dh = opendir($path)) {
+                while (($file = readdir($dh)) !== false) {
+                    if ($file == '.' || $file == '..')  continue;
+                    $full_file_path = trailingslashit($path).$file;
+                    $files[] = str_replace("\\", '/', $full_file_path);
+                }
+                @closedir($dh);
 			}
 			return $files;
 		} catch (Exception $exc) {
