@@ -346,6 +346,21 @@ class DUP_Database
     }
 
     /**
+     * Unset tableWiseRowCounts table key for which row count is unstable
+     *
+     * @param object $package The reference to the current package being built     *
+     * @return void
+     */
+    public function validateTableWiseRowCounts() {
+        foreach ($this->Package->Database->info->tableWiseRowCounts as $rewriteTableAs => $rowCount) {
+            $newRowCount = $GLOBALS['wpdb']->get_var("SELECT Count(*) FROM `{$rewriteTableAs}`");
+            if ($rowCount != $newRowCount) {
+                unset($this->Package->Database->info->tableWiseRowCounts[$rewriteTableAs]);
+            }
+        }
+    }
+
+    /**
      *  Build the database script using mysqldump
      *
      *  @return bool  Returns true if the sql script was successfully created
@@ -391,6 +406,14 @@ class DUP_Database
         }
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
         $tblAllCount  = count($tables);
+
+        foreach ($tables as $table) {
+            if (in_array($table, $baseTables)) {
+                $row_count = $GLOBALS['wpdb']->get_var("SELECT Count(*) FROM `{$table}`");
+                $rewrite_table_as = $this->rewriteTableNameAs($table);
+                $this->Package->Database->info->tableWiseRowCounts[$rewrite_table_as] = $row_count;
+            }
+        }
         //$tblFilterOn  = ($this->FilterOn) ? 'ON' : 'OFF';
 
         if (is_array($filterTables) && $this->FilterOn) {
@@ -514,13 +537,6 @@ class DUP_Database
         $sql_footer = "\n\n/* Duplicator WordPress Timestamp: ".date("Y-m-d H:i:s")."*/\n";
         $sql_footer .= "/* ".DUPLICATOR_DB_EOF_MARKER." */\n";
         file_put_contents($this->dbStorePath, $sql_footer, FILE_APPEND);
-        foreach ($tables as $table) {
-            if (in_array($table, $baseTables)) {
-                $row_count = $GLOBALS['wpdb']->get_var("SELECT Count(*) FROM `{$table}`");
-                $rewrite_table_as = $this->rewriteTableNameAs($table);
-                $this->Package->Database->info->tableWiseRowCounts[$rewrite_table_as] = $row_count;
-            }
-        }
         return ($output) ? false : true;
     }
 

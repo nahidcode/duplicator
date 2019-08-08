@@ -1147,6 +1147,7 @@ class DUP_Package
              DUP_Log::Trace('Building database script');
 
             $this->Database->build($this, Dup_ErrorBehavior::ThrowException);
+            $this->Database->validateTableWiseRowCounts();
             $this->BuildProgress->database_script_built = true;
             $this->update();
             DUP_LOG::Trace("Built database script");
@@ -1216,6 +1217,7 @@ class DUP_Package
         //PHPs serialze method will return the object, but the ID above is not passed
         //for one reason or another so passing the object back in seems to do the trick
         $this->Database->build($this);
+        $this->Database->validateTableWiseRowCounts();
         $this->Archive->build($this);
         $this->Installer->build($this);
 
