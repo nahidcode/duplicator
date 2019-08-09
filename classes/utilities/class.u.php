@@ -735,8 +735,20 @@ class DUP_Util
         } else {
             return 0;
         }
-    }
+	}
 
+	/**
+     * Check given table is exist in real
+     * 
+     * @param $table string Table name
+     * @return booleam
+     */
+    public static function isTableExists($table)
+    {
+        $ret = $GLOBALS['wpdb']->get_var("SELECT 1 FROM ".esc_sql($table)." LIMIT 1;");
+        if ($ret)   return true;
+        return false;
+    }
 
 	/**
 	 * Finds if its a valid executable or not
