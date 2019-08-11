@@ -25,7 +25,7 @@ class DUP_Settings
 	{
 		self::$Data = get_option(self::OPT_SETTINGS);
 		//when the plugin updated, this will be true
-		if (empty(self::$Data) || self::$Version > self::$Data['version']) {
+		if (empty(self::$Data) || empty(self::$Data['version']) || self::$Version > self::$Data['version']) {
 			self::SetDefaults();
 		}
 	}
