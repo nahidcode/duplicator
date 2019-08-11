@@ -399,9 +399,11 @@ class DUP_Database
         $tables = array();
         $baseTables = array();
         foreach ($res as $row) {
-            $tables[] = $row[0];
-            if ('BASE TABLE' == $row[1]) {
-                $baseTables[] = $row[0];
+            if (DUP_Util::isTableExists($row[0])) {
+                $tables[] = $row[0];
+                if ('BASE TABLE' == $row[1]) {
+                    $baseTables[] = $row[0];
+                }
             }
         }
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
