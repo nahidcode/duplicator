@@ -155,7 +155,9 @@ if (!function_exists('wp_normalize_path')) {
 
 if (is_admin() == true) 
 {
-    require_once 'deactivation.php';
+    if (defined('DUPLICATOR_DEACTIVATION_FEEDBACK') && DUPLICATOR_DEACTIVATION_FEEDBACK) {
+        require_once 'deactivation.php';
+    }
     require_once 'lib/snaplib/snaplib.all.php';
     require_once 'classes/class.constants.php';
     $isWPEngineHost = apply_filters('duplicator_wp_engine_host_check', file_exists(WPMU_PLUGIN_DIR.'/wpengine-common/mu-plugin.php'));
