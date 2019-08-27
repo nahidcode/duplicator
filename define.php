@@ -4,8 +4,8 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 //Prevent directly browsing to the file
 if (function_exists('plugin_dir_url')) 
 {		
-    define('DUPLICATOR_VERSION',        '1.3.19');
-	define('DUPLICATOR_VERSION_BUILD',  '2019-07-13_10:30');
+    define('DUPLICATOR_VERSION',        '1.3.20');
+	define('DUPLICATOR_VERSION_BUILD',  '2019-08-26_10:30');
     define('DUPLICATOR_PLUGIN_URL',     plugin_dir_url(__FILE__));
 	define('DUPLICATOR_SITE_URL',		get_site_url());
 	
