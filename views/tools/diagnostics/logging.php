@@ -51,6 +51,7 @@ $logfound = (strlen($logname) > 0) ? true :false;
         overflow:scroll; 
         word-wrap: break-word; 
         margin:0;
+        line-height: 2;
     }
 
     /* OPTIONS */
