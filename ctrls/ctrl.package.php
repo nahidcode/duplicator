@@ -122,8 +122,8 @@ function duplicator_duparchive_package_build()
         DUP_Settings::Set('active_package_id', $package->ID);
         DUP_Settings::Save();
     } else {
-        DUP_Log::TraceObject("getting active package by id {$active_package_id}", $package);
         $package = DUP_Package::getByID($active_package_id);
+        DUP_Log::TraceObject("getting active package by id {$active_package_id}", $package);
     }
 
     if (!is_readable(DUPLICATOR_SSDIR_PATH_TMP."/{$package->ScanFile}")) {
@@ -529,7 +529,6 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
 
             if($package != null) {
                 $test = DUP_CTRL_Status::SUCCESS;
-
                 $payload['status']  = $package->Status;
             } else {
                 $test = DUP_CTRL_Status::FAILED;
