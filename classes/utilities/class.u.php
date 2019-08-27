@@ -745,8 +745,11 @@ class DUP_Util
      */
     public static function isTableExists($table)
     {
-        $ret = $GLOBALS['wpdb']->get_var("SELECT 1 FROM ".esc_sql($table)." LIMIT 1;");
-        if ($ret)   return true;
+		// It will clear the $GLOBALS['wpdb']->last_error var
+		$GLOBALS['wpdb']->flush();
+		$sql = "SELECT 1 FROM ".esc_sql($table)." LIMIT 1;";
+		$ret = $GLOBALS['wpdb']->get_var($sql);
+		if (empty($GLOBALS['wpdb']->last_error))   return true;
         return false;
     }
 
