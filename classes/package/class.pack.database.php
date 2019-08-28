@@ -552,7 +552,9 @@ class DUP_Database
         global $wpdb;
     
         $wpdb->query("SET session wait_timeout = ".DUPLICATOR_DB_MAX_TIME);
-        $handle = fopen($this->dbStorePath, 'w+');
+        if (($handle = fopen($this->dbStorePath, 'w+')) == false) {
+            DUP_Log::error('[PHP DUMP] ERROR Can\'t open sbStorePath "'.$this->dbStorePath.'"', Dup_ErrorBehavior::Quit);
+        }
         $tables	 = $wpdb->get_col("SHOW FULL TABLES WHERE Table_Type != 'VIEW'");
     
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;

@@ -100,9 +100,8 @@ function duplicator_package_build()
 function duplicator_duparchive_package_build()
 {
     DUP_Handler::init_error_handler();
-
-    DUP_LOG::Trace("call to duplicator_duparchive_package_build");
-
+    DUP_Log::Info('[CTRL DUP ARCIVE] CALL TO '.__FUNCTION__);
+    
     check_ajax_referer('duplicator_duparchive_package_build', 'nonce');
     DUP_Util::hasCapability('export');
     header('Content-Type: application/json');
@@ -114,23 +113,31 @@ function duplicator_duparchive_package_build()
     // The DupArchive build process always works on a saved package so the first time through save the active package to the package table.
     // After that, just retrieve it.
     $active_package_id = DUP_Settings::Get('active_package_id');
+    DUP_Log::Info('[CTRL DUP ARCIVE] CURRENT PACKAGE ACTIVE '.$active_package_id);
 
     if ($active_package_id == -1) {
         $package = DUP_Package::getActive();
         $package->save('daf');
-        DUP_Log::TraceObject("saving active package as new id={$package->ID}", $package);
+        DUP_Log::Info('[CTRL DUP ARCIVE] PACKAGE AS NEW ID '.$package->ID.' SAVED | STATUS:'.$package->Status);
+        //DUP_Log::TraceObject("[CTRL DUP ARCIVE] PACKAGE SAVED:", $package);
         DUP_Settings::Set('active_package_id', $package->ID);
         DUP_Settings::Save();
     } else {
-        $package = DUP_Package::getByID($active_package_id);
-        DUP_Log::TraceObject("getting active package by id {$active_package_id}", $package);
+        if (($package = DUP_Package::getByID($active_package_id)) == null) {
+            DUP_Log::Info('[CTRL DUP ARCIVE] ERROR: Get package by id '.$active_package_id.' FAILED');
+            die('Get package by id '.$active_package_id.' FAILED');
+        }
+        DUP_Log::Info('[CTRL DUP ARCIVE] PACKAGE GET BY ID '.$active_package_id.' | STATUS:'.$package->Status);
+        // DUP_Log::TraceObject("getting active package by id {$active_package_id}", $package);
     }
 
     if (!is_readable(DUPLICATOR_SSDIR_PATH_TMP."/{$package->ScanFile}")) {
+        DUP_Log::Info('[CTRL DUP ARCIVE] ERROR: The scan result file was not found.  Please run the scan step before building the package.');
         die("The scan result file was not found.  Please run the scan step before building the package.");
     }
 
     if ($package === null) {
+        DUP_Log::Info('[CTRL DUP ARCIVE] There is no active package.');
         die("There is no active package.");
     }
 
@@ -141,9 +148,9 @@ function duplicator_duparchive_package_build()
             $hasCompleted = $package->runDupArchiveBuild();
         }
         catch(Exception $ex) {
-            Dup_Log::Trace('#### caught exception');
-            Dup_Log::Error('Caught exception', $ex->getMessage(), Dup_ErrorBehavior::LogOnly);
-            Dup_Log::Trace('#### after log');
+            DUP_Log::Info('[CTRL DUP ARCIVE] ERROR: caught exception');
+            Dup_Log::Error('[CTRL DUP ARCIVE]  Caught exception', $ex->getMessage(), Dup_ErrorBehavior::LogOnly);
+            DUP_Log::Info('[CTRL DUP ARCIVE] ERROR: after log');
             $package->setStatus(DUP_PackageStatus::ERROR);
             $hasCompleted = true;
         }
@@ -151,17 +158,17 @@ function duplicator_duparchive_package_build()
 
     $json = array();
     $json['failures'] = array_merge($package->BuildProgress->build_failures, $package->BuildProgress->validation_failures);
-    DUP_LOG::traceObject("#### failures", $json['failures']);
+    if (!empty($json['failures'])) {
+        DUP_Log::Info('[CTRL DUP ARCIVE] FAILURES', $json['failures']);
+    }
 
     //JSON:Debug Response
     //Pass = 1, Warn = 2, 3 = Failure, 4 = Not Done
     if ($hasCompleted) {
-
-        Dup_Log::Trace('#### completed');
+        DUP_Log::Info('[CTRL DUP ARCIVE] COMPLETED PACKAGE STATUS: '.$package->Status);
 
         if($package->Status == DUP_PackageStatus::ERROR) {
-
-            Dup_Log::Trace('#### error');
+            DUP_Log::Info('[CTRL DUP ARCIVE] ERROR');
             $error_message = __('Error building DupArchive package') . '<br/>';
 
             foreach($json['failures'] as $failure) {
@@ -169,7 +176,7 @@ function duplicator_duparchive_package_build()
             }
 
             Dup_Log::Error("Build failed so sending back error", esc_html($error_message), Dup_ErrorBehavior::LogOnly);
-            Dup_Log::Trace('#### after log 2');
+            DUP_Log::Info('[CTRL DUP ARCIVE] ERROR AFTER LOG 2');
 
             $json['status'] = 3;
         } else {
@@ -182,8 +189,9 @@ function duplicator_duparchive_package_build()
         $json['runtime']     = $package->Runtime;
         $json['exeSize']     = $package->ExeSize;
         $json['archiveSize'] = $package->ZipSize;
+        DUP_Log::Trace('[CTRL DUP ARCIVE] JSON PACKAGE');
     } else {
-        Dup_Log::Info("sending back continue status");
+        DUP_Log::Info('[CTRL DUP ARCIVE] sending back continue status PACKAGE STATUS: '.$package->Status);
         $json['status'] = 4;
     }
 

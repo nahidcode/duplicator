@@ -71,17 +71,19 @@ class DUP_Log
         if (!is_null(self::$logFileHandle)) {
             $result              = @fclose(self::$logFileHandle);
             self::$logFileHandle = null;
+        } else {
+            $result = true;
         }
         return $result;
     }
 
-	/**
-	 *  General information send to the package log if opened
-	 *  @param string $msg	The message to log
-	 *
-	 *  REPLACE TO DEBUG: Memory consumption as script runs
-	 * 	$results = DUP_Util::byteSize(memory_get_peak_usage(true)) . "\t" . $msg;
-	 * 	@fwrite(self::$logFileHandle, "{$results} \n");
+    /**
+     *  General information send to the package log if opened
+     *  @param string $msg	The message to log
+     *
+     *  REPLACE TO DEBUG: Memory consumption as script runs
+     * 	$results = DUP_Util::byteSize(memory_get_peak_usage(true)) . "\t" . $msg;
+     * 	@fwrite(self::$logFileHandle, "{$results} \n");
      *
      *  @param string $msg	The message to log
      *
@@ -89,7 +91,9 @@ class DUP_Log
      */
     public static function Info($msg)
     {
-        self::Trace($msg);
+        if (self::$traceEnabled) {
+            self::Trace($msg);
+        }
         if (!is_null(self::$logFileHandle)) {
             @fwrite(self::$logFileHandle, $msg."\n");
         }
@@ -263,7 +267,7 @@ class DUP_Log
 		@fwrite(self::$logFileHandle, "{$err_msg}");
 
 		switch ($behavior) {
-
+            
 			case Dup_ErrorBehavior::ThrowException:
 				DUP_LOG::trace("throwing exception");
 				throw new Exception("DUPLICATOR ERROR: Please see the 'Package Log' file link below.");
