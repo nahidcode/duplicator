@@ -791,11 +791,8 @@ class DUP_Package
 
             $error_text = "ERROR: SQL file not complete.  The file {$sql_temp_path} looks too small ($sql_temp_size bytes) or the end of file marker was not found.";
             $this->BuildProgress->set_failed($error_text);
-            $this->Status = DUP_PackageStatus::ERROR;
-            $this->update();
-            //$this->setStatus(DUP_PackageStatus::ERROR);
+            $this->setStatus(DUP_PackageStatus::ERROR);
             DUP_Log::Error("$error_text", '', Dup_ErrorBehavior::LogOnly);
-
             return;
         }
 
@@ -833,9 +830,7 @@ class DUP_Package
                 $error_message = "ERROR: The archive file contains no size.";
 
                 $this->BuildProgress->set_failed($error_message);
-                $this->Status = DUP_PackageStatus::ERROR;
-                $this->update();
-                //$this->setStatus(DUP_PackageStatus::ERROR);
+                $this->setStatus(DUP_PackageStatus::ERROR);
                 DUP_Log::error($error_message, "Archive Size: {$zip_easy_size}", Dup_ErrorBehavior::LogOnly);
                 return;
             }
@@ -852,8 +847,7 @@ class DUP_Package
                 //$this->BuildProgress->failed = true;
                 //$this->setStatus(DUP_PackageStatus::ERROR);
                 $this->BuildProgress->set_failed($error_message);
-                $this->Status =  DUP_PackageStatus::ERROR;
-                $this->update();
+                $this->setStatus(DUP_PackageStatus::ERROR);
 
                 DUP_Log::Error($error_message, '', Dup_ErrorBehavior::LogOnly);
                 return;
@@ -1136,7 +1130,7 @@ class DUP_Package
         }
 
         if ($this->BuildProgress->initialized == false) {
-            DUP_Log::Trace('Initializing');
+            DUP_Log::Trace('[DUP ARCHIVE] INIZIALIZE');
             $this->BuildProgress->initialized = true;
             $this->TimerStart = Dup_Util::getMicrotime();
             $this->update();
@@ -1144,27 +1138,25 @@ class DUP_Package
 
         //START BUILD
         if (!$this->BuildProgress->database_script_built) {
-             DUP_Log::Trace('Building database script');
-
+            DUP_Log::Trace('[DUP ARCHIVE] BUILDING DATABASE');
             $this->Database->build($this, Dup_ErrorBehavior::ThrowException);
+            DUP_Log::Trace('[DUP ARCHIVE] VALIDATING DATABASE');
             $this->Database->validateTableWiseRowCounts();
             $this->BuildProgress->database_script_built = true;
             $this->update();
-            DUP_LOG::Trace("Built database script");
+            DUP_Log::Trace('[DUP ARCHIVE] DONE DATABASE');
         } else if (!$this->BuildProgress->archive_built) {
-             DUP_Log::Trace('e');
-
+            DUP_Log::Trace('[DUP ARCHIVE] BUILDING ARCHIVE');
             $this->Archive->build($this);
             $this->update();
+            DUP_Log::Trace('[DUP ARCHIVE] DONE ARCHIVE');
         } else if (!$this->BuildProgress->installer_built) {
-
-             DUP_Log::Trace('f');
-             // Installer being built is stuffed into the archive build phase
+            DUP_Log::Trace('[DUP ARCHIVE] BUILDING INSTALLER');
+            // Installer being built is stuffed into the archive build phase
         }
 
         if ($this->BuildProgress->has_completed()) {
-
-            DUP_Log::Trace('c');
+            DUP_Log::Trace('[DUP ARCHIVE] HAS COMPLETED CLOSING');
 
             if (!$this->BuildProgress->failed) {
 				DUP_LOG::trace("top of loop build progress not failed");
@@ -1189,17 +1181,17 @@ class DUP_Package
             DUP_LOG::trace("Done package building");
 
             if (!$this->BuildProgress->failed) {
-
+                DUP_Log::Trace('[DUP ARCHIVE] HAS COMPLETED DONE');
                 $this->setStatus(DUP_PackageStatus::COMPLETE);
 				DUP_LOG::Trace("Cleaning up duparchive temp files");
                 //File Cleanup
                 $this->buildCleanup();
                 do_action('duplicator_lite_build_completed' , $this);
+            } else {
+                DUP_Log::Trace('[DUP ARCHIVE] HAS COMPLETED ERROR');
             }
         }
-
         DUP_Log::Close();
-
         return $this->BuildProgress->has_completed();
     }
 
@@ -1394,10 +1386,7 @@ class DUP_Package
         $sql .= "package = '" . esc_sql($packageObj) . "'";
         $sql .= "WHERE ID = {$this->ID}";
 
-        DUP_Log::Trace('-------------------------');
-        DUP_Log::Trace("status = {$this->Status}");
-        DUP_Log::Trace("ID = {$this->ID}");
-        DUP_Log::Trace('-------------------------');
+        DUP_Log::Trace("UPDATE PACKAGE ID = {$this->ID} STATUS = {$this->Status}");
 
         //DUP_Log::Trace('####Executing SQL' . $sql . '-----------');
         $wpdb->query($sql);
@@ -1432,9 +1421,7 @@ class DUP_Package
         if (!isset($status)) {
             DUP_Log::Error("Package SetStatus did not receive a proper code.");
         }
-
         $this->Status = $status;
-
         $this->update();
     }
 
