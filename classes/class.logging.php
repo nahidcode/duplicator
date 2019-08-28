@@ -452,6 +452,9 @@ class DUP_Handler
 
         if (self::$codeReference) {
             $result .= ' [CODE:'.$errno.'|FILE:'.$errfile.'|LINE:'.$errline.']';
+            ob_start();
+            debug_print_backtrace();
+            $result .= "\n".ob_get_clean();  
         }
 
         return $result;
@@ -526,5 +529,3 @@ class DUP_Handler
         }
     }
 }
-
-DUP_Log::Init();
