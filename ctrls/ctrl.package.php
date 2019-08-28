@@ -7,7 +7,9 @@ require_once(DUPLICATOR_PLUGIN_PATH.'/ctrls/ctrl.base.php');
 require_once(DUPLICATOR_PLUGIN_PATH.'/classes/utilities/class.u.scancheck.php');
 require_once(DUPLICATOR_PLUGIN_PATH.'/classes/utilities/class.u.json.php');
 require_once(DUPLICATOR_PLUGIN_PATH.'/classes/package/class.pack.php');
+
 require_once(DUPLICATOR_PLUGIN_PATH.'/classes/package/duparchive/class.pack.archive.duparchive.state.create.php');
+require_once(DUPLICATOR_PLUGIN_PATH.'/classes/package/duparchive/class.pack.archive.duparchive.php');
 /* @var $package DUP_Package */
 
 /**

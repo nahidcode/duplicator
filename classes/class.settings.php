@@ -158,6 +158,3 @@ class DUP_Settings
         return $ui_create_frmt;
     }
 }
-//Init Class
-DUP_Settings::init();
-?>

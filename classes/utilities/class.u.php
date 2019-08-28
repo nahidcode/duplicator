@@ -837,4 +837,3 @@ class DUP_Util
 		return function_exists($function_name) && !in_array($function_name, self::getIniDisableFuncs());
 	}
 }
-DUP_Util::init();
