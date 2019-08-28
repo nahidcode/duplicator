@@ -68,6 +68,8 @@ class DUP_Log
      */
     public static function Close()
     {
+        $result = true;
+        
         if (!is_null(self::$logFileHandle)) {
             $result              = @fclose(self::$logFileHandle);
             self::$logFileHandle = null;
