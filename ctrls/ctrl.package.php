@@ -144,6 +144,7 @@ function duplicator_duparchive_package_build()
     }
 
     if($package->Status == DUP_PackageStatus::ERROR) {
+        $package->setStatus(DUP_PackageStatus::ERROR);
         $hasCompleted = true;
     } else {
         try {
