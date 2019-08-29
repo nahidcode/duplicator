@@ -594,8 +594,10 @@ DUPX.hideErrorResult2 = function()
 //DOCUMENT LOAD
 $(document).ready(function()
 {
-	$('#wp_username').val('');
-	$('#wp_password').val('');
+	setTimeout(function() {
+		$('#wp_username').val('');
+		$('#wp_password').val('');
+	}, 100);
 	$("#tabs").tabs();
 	DUPX.getNewURL('url_new');
 	DUPX.getNewURL('siteurl');
