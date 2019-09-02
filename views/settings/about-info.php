@@ -97,9 +97,6 @@ div#mce-responses {margin: auto; padding: 10px; width:500px; font-weight: bold;}
 							<a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A//snapcreek.com/duplicator/duplicator-free/&title=WordPress%20Duplicator%20Plugin&summary=&source=" target="_blank">
 								<div class="social-item"><i class="fab fa-linkedin fa-lg"></i> <?php esc_html_e('LinkedIn', 'duplicator') ?></div>
 							</a>
-							<a href="https://plus.google.com/share?url=https%3A//snapcreek.com/duplicator/duplicator-free/" target="_blank">
-								<div class="social-item"><i class="fab fa-google-plus-g	fa-lg"></i> <?php esc_html_e('Google+', 'duplicator') ?></div>
-							</a>
 						</div>
 					</div>
 				</div>
