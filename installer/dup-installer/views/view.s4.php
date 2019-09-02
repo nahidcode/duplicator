@@ -210,7 +210,7 @@ LONGMSG;
         ));
     } else {
         $longMsg = <<<LONGMSG
-            The following is a list of notices that may need to be fixed in order to finalize your setup.  These values should only be investigated if your running into
+            The following is a list of notices that may need to be fixed in order to finalize your setup.  These values should only be investigated if you're running into
             issues with your site. For more details see the <a href="https://codex.wordpress.org/Editing_wp-config.php" target="_blank">WordPress Codex</a>.
 LONGMSG;
 
