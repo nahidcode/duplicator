@@ -34,7 +34,7 @@ function duplicator_package_scan_shutdown() {
 function duplicator_package_scan()
 {
     DUP_Handler::init_error_handler();
-    DUP_Handler::setMode(DUP_PRO_Handler::MODE_VAR);
+    DUP_Handler::setMode(DUP_Handler::MODE_VAR);
     register_shutdown_function('duplicator_package_scan_shutdown');
 
     check_ajax_referer('duplicator_package_scan', 'nonce');
