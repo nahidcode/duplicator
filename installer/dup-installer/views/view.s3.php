@@ -597,7 +597,7 @@ $(document).ready(function()
 	setTimeout(function() {
 		$('#wp_username').val('');
 		$('#wp_password').val('');
-	}, 100);
+	}, 500);
 	$("#tabs").tabs();
 	DUPX.getNewURL('url_new');
 	DUPX.getNewURL('siteurl');
