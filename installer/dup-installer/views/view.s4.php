@@ -383,15 +383,15 @@ LONGMSG;
 		$num = rand(1,2);
 		switch ($num) {
 			case 1:
-				$key = 'free_inst_s3btn1';
-				$txt = 'Want More Power?';
+				$key = 'free_inst_s3btn_dp1322';
+				$txt = 'Get Duplicator Pro!';
 				break;
 			case 2:
-				$key = 'free_inst_s3btn2';
+				$key = 'free_inst_s3btn_gp1322';
 				$txt = 'Go Pro Today!';
 				break;
 			default :
-				$key = 'free_inst_s3btn2';
+				$key = 'free_inst_s3btn_gp1322';
 				$txt = 'Go Pro Today!';
 		}
 	?>
