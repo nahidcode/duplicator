@@ -412,9 +412,19 @@ if (is_admin() == true)
 		$lang_txt = esc_html__('Settings', 'duplicator');
         $page_settings = add_submenu_page('duplicator', $lang_txt, $lang_txt, $perms, 'duplicator-settings', 'duplicator_get_menu');
 
-		$perms = 'manage_options';
+        $perms = 'manage_options';
+        $admin_color = get_user_option('admin_color');
+        $orange_for_admin_colors = array(
+                                            'fresh',
+                                            'coffee',
+                                            'ectoplasm',
+                                            'midnight'
+                                        );
+        $style = in_array($admin_color, $orange_for_admin_colors) 
+                    ? 'style="color:#f18500"'
+                    : '';
 		$lang_txt = esc_html__('Go Pro!', 'duplicator');
-		$go_pro_link = '<span style="color:#f18500">' . $lang_txt . '</span>';
+		$go_pro_link = '<span '.$style.'>' . $lang_txt . '</span>';
         $perms = apply_filters($wpfront_caps_translator, $perms);
         $page_gopro = add_submenu_page('duplicator', $go_pro_link, $go_pro_link, $perms, 'duplicator-gopro', 'duplicator_get_menu');
 
