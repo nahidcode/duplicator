@@ -14,8 +14,8 @@ $open_section = filter_input(INPUT_GET, 'open_section', FILTER_SANITIZE_STRING, 
 HELP FORM -->
 <div id="main-help">
 <div class="help-online"><br/>
-	<i class="far fa-file-alt fa-sm"></i> For complete help visit the
-	<a href="https://snapcreek.com/support/docs/" target="_blank">Online Knowledge-Base</a> <br/>
+	<i class="far fa-file-alt fa-sm"></i> For more help visit
+	<a href="https://snapcreek.com/support/docs/" target="_blank">Duplicator Migration and Backup Online Help</a> <br/>
 	<small>Features available only in Duplicator Pro are flagged with a <sup>pro</sup> tag.</small>
 </div>
 
@@ -628,7 +628,7 @@ $expandClass =  $sectionId == $open_section ? 'open' : 'close';
             <div style="padding: 0px 10px 10px 10px;">
                 <b>Common Quick Fix Issues:</b>
                 <ul>
-                    <li>Use an <a href='https://snapcreek.com/wordpress-hosting/' target='_blank'>approved hosting provider</a></li>
+                    <li>Use a <a href='https://snapcreek.com/wordpress-hosting/' target='_blank'>Duplicator approved hosting provider</a></li>
                     <li>Validate directory and file permissions (see below)</li>
                     <li>Validate web server configuration file (see below)</li>
                     <li>Clear your browsers cache</li>
@@ -662,7 +662,7 @@ $expandClass =  $sectionId == $open_section ? 'open' : 'close';
     </div>
 </section>
 
-<div style="text-align:center; margin-top: 28px;">For additional help please visit the <a href="https://snapcreek.com/support/docs/" target="_blank">online resources</a></div>
+<div style="text-align:center; margin-top: 28px;">For additional help please visit <a href="https://snapcreek.com/support/docs/" target="_blank">Duplicator Migration and Backup Online Help</a></div>
 
 
 </div>
