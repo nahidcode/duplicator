@@ -14,7 +14,7 @@ $open_section = filter_input(INPUT_GET, 'open_section', FILTER_SANITIZE_STRING, 
 HELP FORM -->
 <div id="main-help">
 <div class="help-online"><br/>
-	<i class="far fa-file-alt fa-sm"></i> For more help visit
+	<i class="far fa-file-alt fa-sm"></i> For complete help visit
 	<a href="https://snapcreek.com/support/docs/" target="_blank">Duplicator Migration and Backup Online Help</a> <br/>
 	<small>Features available only in Duplicator Pro are flagged with a <sup>pro</sup> tag.</small>
 </div>
