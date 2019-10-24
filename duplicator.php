@@ -153,6 +153,29 @@ if (!function_exists('wp_normalize_path')) {
     }
 }
 
+function duplicator_admin_init() {
+    if (isset($_GET['action']) && $_GET['action'] == 'duplicator_installer_download') {
+        $file = sanitize_text_field($_GET['file']);
+        $filepath = DUPLICATOR_SSDIR_PATH.'/'.$file;
+        // Process download
+        if(file_exists($filepath)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.basename($filepath).'"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($filepath));
+            flush(); // Flush system output buffer
+            readfile($filepath);
+            exit;
+        } else {
+            wp_die('Invalid installer file name!!');
+        }
+    }
+}
+add_action('init', 'duplicator_init');
+
 if (is_admin() == true) 
 {
     if (defined('DUPLICATOR_DEACTIVATION_FEEDBACK') && DUPLICATOR_DEACTIVATION_FEEDBACK) {
@@ -286,7 +309,7 @@ if (is_admin() == true)
     }
     add_action('plugins_loaded', 'duplicator_load_textdomain');
 
-    add_action('admin_init',		'duplicator_init');
+    add_action('admin_init',		'duplicator_admin_init');
     add_action('admin_menu',		'duplicator_menu');
     add_action('admin_enqueue_scripts', 'duplicator_admin_enqueue_scripts' );
     add_action('admin_notices',		array('DUP_UI_Notice', 'showReservedFilesNotice'));

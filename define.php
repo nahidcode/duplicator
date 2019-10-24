@@ -102,4 +102,3 @@ if (function_exists('plugin_dir_url'))
     header("Status: 404 Not Found");
     exit();
 }
-?>

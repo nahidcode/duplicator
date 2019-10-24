@@ -10,7 +10,13 @@ $format = strtolower($package->Archive->Format);
 
 $link_sql			= "{$package->StoreURL}{$package->NameHash}_database.sql";
 $link_archive 		= "{$package->StoreURL}{$package->NameHash}_archive.{$format}";
-$link_installer		= "{$package->StoreURL}{$package->NameHash}_installer.php?get=1&file={$package->NameHash}_installer.php";
+$link_installer		= add_query_arg(
+							array(
+								'action' => 'duplicator_installer_download',
+								'file' => $package->NameHash.'_installer.php',
+							),
+							admin_url('admin.php')
+						);
 $link_log			= "{$package->StoreURL}{$package->NameHash}.log";
 $link_scan			= "{$package->StoreURL}{$package->NameHash}_scan.json";
 
