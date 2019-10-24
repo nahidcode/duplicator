@@ -357,6 +357,65 @@ UNREADABLE FILES -->
 
 <?php } ?>
 
+<!-- ======================
+Restore only package -->
+<div id="migratepackage-block"  class="scan-item scan-item-last">
+	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
+		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Package migration capability', 'duplicator');?></div>
+        <div id="data-arc-status-migratepackage"></div>
+	</div>
+    <div class="info">
+        <script id="hb-migrate-package-result" type="text/x-handlebars-template">
+            <div class="container">
+                <div class="data">					
+                    {{#if ARC.Status.CanbeMigratePackage}}
+                        <?php esc_html_e("The package that created here can be migrated to the new server", 'duplicator'); ?>
+                    {{else}}
+                        <span style="color: red;">
+                            <?php
+                            esc_html_e("The package that created here can't be migrated to the new server.
+                                The Package created here can be restored on the same server.", 'duplicator');
+                            ?>
+                        </span>
+                    {{/if}}			
+                </div>
+            </div>
+        </script>
+        <div id="migrate-package-result"></div>
+    </div>
+</div>
+<?php
+$procedures = $GLOBALS['wpdb']->get_col("SHOW PROCEDURE STATUS WHERE `Db` = '{$wpdb->dbname}'", 1);
+if (count($procedures)) {
+?>
+<div id="showcreatefunc-block"  class="scan-item scan-item-last">
+	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
+		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Sufficient privileges to SHOW CREATE FUNCTION', 'duplicator');?></div>
+        <div id="data-arc-status-showcreatefunc"></div>
+	</div>
+    <div class="info">
+        <script id="hb-showcreatefunc-result" type="text/x-handlebars-template">
+            <div class="container">
+                <div class="data">					
+                    {{#if ARC.Status.showCreateFunc}}
+                        <?php esc_html_e("The database user you are using have sufficient permissions to dump database with stored procedures.", 'duplicator'); ?>
+                    {{else}}
+                        <span style="color: red;">
+                            <?php
+                            esc_html_e("The database user you are using doesn't have sufficient permissions to dump database with stored procedures.", 'duplicator');
+                            ?>
+                        </span>
+                    {{/if}}			
+                </div>
+            </div>
+        </script>
+        <div id="showcreatefunc-package-result"></div>
+    </div>
+</div>
+<?php
+}
+?>
+
 <!-- ============
 DATABASE -->
 <div id="dup-scan-db">
@@ -800,7 +859,10 @@ jQuery(document).ready(function($)
 		$('#data-arc-status-size').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Size));
 		$('#data-arc-status-names').html(Duplicator.Pack.setScanStatus(data.ARC.Status.Names));
         $('#data-arc-status-unreadablefiles').html(Duplicator.Pack.setScanStatus(data.ARC.Status.UnreadableItems));
-        $('#data-arc-size1').text(data.ARC.Size || errMsg);
+        
+		$('#data-arc-status-migratepackage').html(Duplicator.Pack.setScanStatus(data.ARC.Status.MigratePackage));
++        $('#data-arc-status-showcreatefunc').html(Duplicator.Pack.setScanStatus(data.ARC.Status.showCreateFuncStatus));
+		$('#data-arc-size1').text(data.ARC.Size || errMsg);
 		$('#data-arc-size2').text(data.ARC.Size || errMsg);
 		$('#data-arc-files').text(data.ARC.FileCount || errMsg);
 		$('#data-arc-dirs').text(data.ARC.DirCount || errMsg);
@@ -841,6 +903,22 @@ jQuery(document).ready(function($)
             var templateScript = Handlebars.compile(template);
             var html = templateScript(data);
             $('div.hb-filter-file-list-result').html(html);
+        }
+
+		//MIGRATE PACKAGE
+        if ($("#hb-migrate-package-result").length) {
+            var template = $('#hb-migrate-package-result').html();
+            var templateScript = Handlebars.compile(template);
+            var html = templateScript(data);
+            $('#migrate-package-result').html(html);
+        }
+
+        //SHOW CREATE
+        if ($("#hb-showcreatefunc-result").length) {
+            var template = $('#hb-showcreatefunc-result').html();
+            var templateScript = Handlebars.compile(template);
+            var html = templateScript(data);
+            $('#showcreatefunc-package-result').html(html);
         }
 
 		Duplicator.UI.loadQtip();
