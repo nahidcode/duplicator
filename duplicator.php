@@ -153,7 +153,7 @@ if (!function_exists('wp_normalize_path')) {
     }
 }
 
-function duplicator_admin_init() {
+function duplicator_init() {
     if (isset($_GET['action']) && $_GET['action'] == 'duplicator_installer_download') {
         $file = sanitize_text_field($_GET['file']);
         $filepath = DUPLICATOR_SSDIR_PATH.'/'.$file;
@@ -346,7 +346,7 @@ if (is_admin() == true)
      * @access global
      * @return null
      */
-    function duplicator_init()
+    function duplicator_admin_init()
 	{
         /* CSS */
         wp_register_style('dup-jquery-ui', DUPLICATOR_PLUGIN_URL . 'assets/css/jquery-ui.css', null, "1.11.2");
