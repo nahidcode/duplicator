@@ -177,18 +177,6 @@ class DUP_Database
             DUP_Log::Info($log);
             $log = null;
 
-            //Reserved file found
-            if (file_exists($reserved_db_filepath)) {
-                $error_message = 'Reserved SQL file detected';
-                $package->BuildProgress->set_failed($error_message);
-                $package->Status = DUP_PackageStatus::ERROR;
-                $package->Update();
-
-                DUP_Log::Error($error_message,
-                    "The file database.sql was found at [{$reserved_db_filepath}].\n"
-                    ."\tPlease remove/rename this file to continue with the package creation.", $errorBehavior);
-            }
-
             do_action('duplicator_lite_build_database_start' , $package);
 
             switch ($mode) {
