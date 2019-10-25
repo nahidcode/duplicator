@@ -45,7 +45,7 @@ $rand_txt[0] = $atext0;
     div#dup-progress-area div.dup-panel-panel { border-top: 1px solid silver}
     fieldset.download-area {border:2px dashed #dfdfdf; padding:20px 20px 10px 20px; border-radius:9px; margin: auto; width:400px }
     fieldset.download-area legend {font-weight: bold; font-size: 16px; margin:auto}
-    button#dup-btn-installer, button#dup-btn-archive {min-width: 150px}
+    button#dup-btn-installer, button#dup-btn-archive { line-height: 28px; min-width: 150px}
     div.one-click-download {margin:15px 0 10px 0; font-size:16px; font-weight: bold}
     div.one-click-download i.fa-bolt{padding-right: 5px}
     div.one-click-download i.fa-file-archive-o{padding-right: 5px}
