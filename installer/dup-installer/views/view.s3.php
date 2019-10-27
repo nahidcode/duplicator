@@ -69,6 +69,7 @@ VIEW: STEP 3- INPUT -->
 	</div>
 	<div class="hdr-main">
 		Step <span class="step">3</span> of 4: Update Data
+		<div class="sub-header">This step will update the database and config files to match your new sites values.</div>
 	</div>
 
 	<?php
@@ -100,7 +101,7 @@ VIEW: STEP 3- INPUT -->
 	</div>
 
 	<div class="hdr-sub1 toggle-hdr" data-type="toggle" data-target="#s3-new-settings">
-        <a href="javascript:void(0)"><i class="fa fa-minus-square"></i>New Settings</a>
+        <a href="javascript:void(0)"><i class="fa fa-minus-square"></i>Setup</a>
     </div>
     <div id="s3-new-settings">
         <table class="s3-opts">
@@ -375,6 +376,7 @@ VIEW: STEP 3 - AJAX RESULT  -->
 	<div class="logfile-link"><?php DUPX_View_Funcs::installerLogLink(); ?></div>
 	<div class="hdr-main">
 		Step <span class="step">3</span> of 4: Update Data
+		<div class="sub-header">This step will update the database and config files to match your new sites values.</div>
 	</div>
 
 	<!--  POST PARAMS -->
