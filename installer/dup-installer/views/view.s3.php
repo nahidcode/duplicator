@@ -130,13 +130,13 @@ VIEW: STEP 3- INPUT -->
         <a href="javascript:void(0)"><i class="fa fa-plus-square"></i>Replace</a>
     </div>
 
-    <div id="s3-custom-replace" class="hdr-sub1-area" style="display:none;">
+    <div id="s3-custom-replace" class="hdr-sub1-area" style="display:none; text-align: center">
         <div class="help-target">
             <?php DUPX_View_Funcs::helpIconLink('step3'); ?>
         </div><br/>
-		Add additional search and replace URLs to replace additional data. This option is available only in
+		Add additional search and replace URLs to replace additional data.<br/>
+		This option is available only in
 		<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=free_inst_replaceopts">Duplicator Pro</a>
-      
     </div>
     <br/><br/>
     
