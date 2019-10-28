@@ -106,6 +106,10 @@ VIEW: STEP 3- INPUT -->
     <div id="s3-new-settings">
         <table class="s3-opts">
             <tr>
+                <td>Title:</td>
+                <td><input type="text" name="blogname" id="blogname" value="<?php echo DUPX_U::esc_attr($GLOBALS['DUPX_AC']->blogname); ?>" /></td>
+            </tr>
+            <tr>
                 <td>URL:</td>
                 <td>
                     <input type="text" name="url_new" id="url_new" value="" />
@@ -115,10 +119,6 @@ VIEW: STEP 3- INPUT -->
             <tr>
                 <td>Path:</td>
                 <td><input type="text" name="path_new" id="path_new" value="<?php echo DUPX_U::esc_attr($new_path); ?>" /></td>
-            </tr>
-            <tr>
-                <td>Title:</td>
-                <td><input type="text" name="blogname" id="blogname" value="<?php echo DUPX_U::esc_attr($GLOBALS['DUPX_AC']->blogname); ?>" /></td>
             </tr>
         </table>
     </div>
