@@ -361,7 +361,7 @@ UNREADABLE FILES -->
 Restore only package -->
 <div id="migratepackage-block"  class="scan-item scan-item-last">
 	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
-		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Package migration capability', 'duplicator');?></div>
+		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Migration Status', 'duplicator');?></div>
         <div id="data-arc-status-migratepackage"></div>
 	</div>
     <div class="info">
@@ -369,7 +369,7 @@ Restore only package -->
             <div class="container">
                 <div class="data">					
                     {{#if ARC.Status.CanbeMigratePackage}}
-                        <?php esc_html_e("The package that created here can be migrated to the new server", 'duplicator'); ?>
+                        <?php esc_html_e("The package created here can be migrated to the new server.", 'duplicator'); ?>
                     {{else}}
                         <span style="color: red;">
                             <?php
