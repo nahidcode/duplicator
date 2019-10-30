@@ -80,9 +80,9 @@ TOOL-BAR -->
 			<input type="button" id="dup-pack-bulk-apply" class="button action" value="<?php esc_html_e("Apply", 'duplicator') ?>" onclick="Duplicator.Pack.ConfirmDelete()">
 			<span class="btn-separator"></span>
 			<a href="javascript:void(0)" class="button"  title="<?php esc_attr_e("Get Help", 'duplicator') ?>" onclick="Duplicator.Pack.showHelp()">
-				<i class="fa fa-question-circle grey-icon"></i>
+				<i class="fa fa-question-circle"></i>
 			</a>
-			<a href="admin.php?page=duplicator-settings&tab=package" class="button grey-icon" title="<?php esc_attr_e("Settings", 'duplicator') ?>"><i class="fas fa-cog"></i></a>
+			<a href="admin.php?page=duplicator-settings&tab=package" class="button" title="<?php esc_attr_e("Settings", 'duplicator') ?>"><i class="fas fa-cog"></i></a>
 		</td>
 		<td>						
 			<span><i class="fa fa-archive fa-sm"></i> <?php esc_html_e("Packages", 'duplicator'); ?></span>
