@@ -38,7 +38,6 @@ switch ($current_tab) {
 	table#dup-toolbar td:last-child a {top:0; font-size:15px !important; margin-top:10px; font-weight: bold; }
 	table#dup-toolbar td:last-child span {display:inline-block; font-weight: bold; padding:0 5px 5px 5px; color:#000}
 	hr.dup-toolbar-line {margin:2px 0 10px 0}
-	.dup-button-disabled {cursor: not-allowed; border-color: #ccc !important; background: #f7f7f7 !important; color:silver !important;}
 	
     /*WIZARD TABS */
     div#dup-wiz {padding:0px; margin:0;  }
