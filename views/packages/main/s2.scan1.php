@@ -183,7 +183,7 @@ TOOL BAR:STEPS -->
 		</td>
 		<td>
 			<a href="?page=duplicator" class="button"><i class="fa fa-archive fa-sm"></i> <?php esc_html_e('Packages', 'duplicator'); ?></a>
-			<a href="javascript:void(0)" class="button dup-button-disabled"> <?php esc_html_e("Create New", 'duplicator'); ?></a>
+			<a href="javascript:void(0)" class="button disabled"> <?php esc_html_e("Create New", 'duplicator'); ?></a>
 		</td>
 	</tr>
 </table>		

@@ -78,7 +78,7 @@ TOOL-BAR -->
 			<a href="admin.php?page=duplicator-settings&tab=package" class="button" title="<?php esc_attr_e("Settings", 'duplicator') ?>"><i class="fas fa-cog"></i></a>
 		</td>
 		<td>						
-			<a  href="javascript:void(0)" class="button dup-button-disabled"><i class="fa fa-archive fa-sm"></i> <?php esc_html_e("Packages", 'duplicator'); ?></a>
+			<a  href="javascript:void(0)" class="button disabled"><i class="fa fa-archive fa-sm"></i> <?php esc_html_e("Packages", 'duplicator'); ?></a>
 			<?php
 			$package_url = admin_url('admin.php?page=duplicator&tab=new1');
 			$package_nonce_url = wp_nonce_url($package_url, 'new1-package');
