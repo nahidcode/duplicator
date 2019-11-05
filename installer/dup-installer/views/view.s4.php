@@ -379,22 +379,13 @@ LONGMSG;
 		<a href='https://snapcreek.com' target='_blank'>Support</a>
 	</div><br/>
 
-    <?php
-		$num = rand(1,2);
-		switch ($num) {
-			case 1:
-				$key = 'free_inst_s3btn_dp1322';
-				$txt = 'Get Duplicator Pro!';
-				break;
-			case 2:
-				$key = 'free_inst_s3btn_gp1322';
-				$txt = 'Go Pro Today!';
-				break;
-			default :
-				$key = 'free_inst_s3btn_gp1322';
-				$txt = 'Go Pro Today!';
-		}
+    <?php    
+        // In 1.3.24 switched to just have Go Pro Today based on performance measurements
+        $key = 'free_inst_s3btn_gp1324';
+        $txt = 'Go Pro Today!';
 	?>
+    
+    
 
 	<div class="s4-gopro-btn">
 		<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_campaign=duplicator_pro&utm_content=<?php echo DUPX_U::esc_attr($key);?>" target="_blank">
