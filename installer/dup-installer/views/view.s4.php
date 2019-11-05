@@ -379,10 +379,10 @@ LONGMSG;
 		<a href='https://snapcreek.com' target='_blank'>Support</a>
 	</div><br/>
 
-    <?php    
-        // In 1.3.24 switched to just have Go Pro Today based on performance measurements
-        $key = 'free_inst_s3btn_gp1324';
-        $txt = 'Go Pro Today!';
+    <?php  
+        // Switched to Get Duplicator Pro wording based on split testing results
+        $key = 'free_inst_s3btn_dp1324';
+        $txt = 'Get Duplicator Pro!';
 	?>
     
     
