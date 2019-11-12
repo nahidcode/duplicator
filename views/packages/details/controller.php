@@ -19,7 +19,7 @@ $err_link_ticket	= '<a target="_blank" href="https://snapcreek.com/duplicator/do
     .narrow-input { width: 80px; }
     .wide-input {width: 400px; }
 	 table.form-table tr td { padding-top: 25px; }
-	 div.all-packages {float:right; margin-top: -30px; }
+	 div.all-packages {float:right; margin-top: -35px; }
 </style>
 
 <div class="wrap">
