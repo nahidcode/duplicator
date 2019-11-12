@@ -388,16 +388,16 @@ Restore only package -->
 $procedures = $GLOBALS['wpdb']->get_col("SHOW PROCEDURE STATUS WHERE `Db` = '{$wpdb->dbname}'", 1);
 if (count($procedures)) {
 ?>
-<div id="showcreatefunc-block"  class="scan-item scan-item-last">
+<div id="showcreateproc-block"  class="scan-item scan-item-last">
 	<div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
 		<div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Sufficient privileges to SHOW CREATE FUNCTION', 'duplicator');?></div>
-        <div id="data-arc-status-showcreatefunc"></div>
+        <div id="data-arc-status-showcreateproc"></div>
 	</div>
     <div class="info">
-        <script id="hb-showcreatefunc-result" type="text/x-handlebars-template">
+        <script id="hb-showcreateproc-result" type="text/x-handlebars-template">
             <div class="container">
                 <div class="data">					
-                    {{#if ARC.Status.showCreateFunc}}
+                    {{#if ARC.Status.showCreateProc}}
                         <?php esc_html_e("The database user you are using have sufficient permissions to dump database with stored procedures.", 'duplicator'); ?>
                     {{else}}
                         <span style="color: red;">
@@ -409,7 +409,7 @@ if (count($procedures)) {
                 </div>
             </div>
         </script>
-        <div id="showcreatefunc-package-result"></div>
+        <div id="showcreateproc-package-result"></div>
     </div>
 </div>
 <?php
@@ -861,7 +861,7 @@ jQuery(document).ready(function($)
         $('#data-arc-status-unreadablefiles').html(Duplicator.Pack.setScanStatus(data.ARC.Status.UnreadableItems));
         
 		$('#data-arc-status-migratepackage').html(Duplicator.Pack.setScanStatus(data.ARC.Status.MigratePackage));
-+        $('#data-arc-status-showcreatefunc').html(Duplicator.Pack.setScanStatus(data.ARC.Status.showCreateFuncStatus));
++        $('#data-arc-status-showcreateproc').html(Duplicator.Pack.setScanStatus(data.ARC.Status.showCreateProcStatus));
 		$('#data-arc-size1').text(data.ARC.Size || errMsg);
 		$('#data-arc-size2').text(data.ARC.Size || errMsg);
 		$('#data-arc-files').text(data.ARC.FileCount || errMsg);
@@ -914,11 +914,11 @@ jQuery(document).ready(function($)
         }
 
         //SHOW CREATE
-        if ($("#hb-showcreatefunc-result").length) {
-            var template = $('#hb-showcreatefunc-result').html();
+        if ($("#hb-showcreateproc-result").length) {
+            var template = $('#hb-showcreateproc-result').html();
             var templateScript = Handlebars.compile(template);
             var html = templateScript(data);
-            $('#showcreatefunc-package-result').html(html);
+            $('#showcreateproc-package-result').html(html);
         }
 
 		Duplicator.UI.loadQtip();
