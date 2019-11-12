@@ -262,17 +262,17 @@ class DUP_Package
         $report['ARC']['Status']['MigratePackage'] = $package_can_be_migrate ? 'Good' : 'Warn';
         $report['ARC']['Status']['CanbeMigratePackage'] = $package_can_be_migrate;
 
-        $procedures = $GLOBALS['wpdb']->get_col("SHOW PROCEDURE STATUS WHERE `Db` = '{$wpdb->dbname}'", 1);
+        $procedures = $GLOBALS['wpdb']->get_col("SHOW PROCEDURE STATUS WHERE `Db` = '".$GLOBALS['wpdb']->dbname."'", 1);
         if (count($procedures)) {
-            $create = $GLOBALS['wpdb']->get_row("SHOW CREATE PROCEDURE `{$procedure}`", ARRAY_N);
-            $privileges_to_show_create_func = empty($create[2]) ? false : true;
+            $create = $GLOBALS['wpdb']->get_row("SHOW CREATE PROCEDURE `".$procedures[0]."`", ARRAY_N);
+            $privileges_to_show_create_proc = empty($create[2]) ? false : true;
         } else {
-            $privileges_to_show_create_func = true; 
+            $privileges_to_show_create_proc = true; 
         }
         
-        $privileges_to_show_create_func = apply_filters('duplicator_privileges_to_show_create_func', $privileges_to_show_create_func);
-        $report['ARC']['Status']['showCreateFuncStatus'] = $privileges_to_show_create_func ? 'Good' : 'Warn';
-        $report['ARC']['Status']['showCreateFunc'] = $privileges_to_show_create_func;
+        $privileges_to_show_create_proc = apply_filters('duplicator_privileges_to_show_create_proc', $privileges_to_show_create_proc);
+        $report['ARC']['Status']['showCreateProcStatus'] = $privileges_to_show_create_proc ? 'Good' : 'Warn';
+        $report['ARC']['Status']['showCreateProc'] = $privileges_to_show_create_proc;
 
         //$report['ARC']['Status']['Big']   = count($this->Archive->FilterInfo->Files->Size) ? 'Warn' : 'Good';
         $report['ARC']['Dirs']  = $this->Archive->Dirs;
