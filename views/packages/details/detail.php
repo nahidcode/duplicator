@@ -8,7 +8,7 @@ $ui_css_install = (isset($view_state['dup-package-dtl-install-panel']) && $view_
 
 $format = strtolower($package->Archive->Format);
 
-$base_url			= admin_url('admin.php');
+$base_url			= admin_url('admin-ajax.php');
 $link_sql			= add_query_arg(
 							array(
 								'action' => 'duplicator_download',
