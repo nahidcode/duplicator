@@ -52,7 +52,6 @@ if (function_exists('plugin_dir_url'))
 
 	define('DUPLICATOR_TEMP_CLEANUP_SECONDS', 900);     // 15 min = How many seconds to keep temp files around when delete is requested
 	define('DUPLICATOR_MAX_BUILD_RETRIES', 10);			// Max times to try a part of progressive build work
-	define('DUPLICATOR_HTACCESS_ORIG_FILENAME', 'htaccess.orig');
 	define('DUPLICATOR_WEBCONFIG_ORIG_FILENAME', 'web.config.orig');
 	define("DUPLICATOR_INSTALLER_DIRECTORY", DUPLICATOR_WPROOTPATH . 'dup-installer');
     define('DUPLICATOR_MAX_LOG_SIZE', 400000);    // The higher this is the more overhead

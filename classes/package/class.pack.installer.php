@@ -245,7 +245,7 @@ class DUP_Installer
 
 		try {
 			DUP_Log::Info("add_extra_files_using_da1");
-			$htaccess_filepath	 = DUPLICATOR_WPROOTPATH.'.htaccess';
+			$htaccess_filepath	 = $this->getHtaccessFilePath();
 			$webconf_filepath	 = DUPLICATOR_WPROOTPATH.'web.config';
 
 			$logger = new DUP_DupArchive_Logger();
@@ -257,8 +257,9 @@ class DUP_Installer
 			$this->numFilesAdded++;
 
 			if (file_exists($htaccess_filepath)) {
+				$htaccess_ark_file_path = $this->getHtaccessArkFilePath();
 				try {
-					DupArchiveEngine::addRelativeFileToArchiveST($archive_filepath, $htaccess_filepath, DUPLICATOR_HTACCESS_ORIG_FILENAME);
+					DupArchiveEngine::addRelativeFileToArchiveST($archive_filepath, $htaccess_filepath, $htaccess_ark_file_path);
 					$this->numFilesAdded++;
 				} catch (Exception $ex) {
 					// Non critical so bury exception
@@ -345,7 +346,7 @@ class DUP_Installer
 
 	private function add_extra_files_using_ziparchive($installer_filepath, $scan_filepath, $sql_filepath, $zip_filepath, $archive_config_filepath, $wpconfig_filepath)
 	{
-		$htaccess_filepath	 = DUPLICATOR_WPROOTPATH.'.htaccess';
+		$htaccess_filepath = $this->getHtaccessFilePath();
 		$webconfig_filepath	 = DUPLICATOR_WPROOTPATH.'web.config';
 
 		$success	 = false;
@@ -355,7 +356,8 @@ class DUP_Installer
 			DUP_Log::Info("Successfully opened zip $zip_filepath");
 
 			if (file_exists($htaccess_filepath)) {
-				DUP_Zip_U::addFileToZipArchive($zipArchive, $htaccess_filepath, DUPLICATOR_HTACCESS_ORIG_FILENAME, true);
+				$htaccess_ark_file_path = $this->getHtaccessArkFilePath();
+				DUP_Zip_U::addFileToZipArchive($zipArchive, $htaccess_filepath, $htaccess_ark_file_path, true);
 			}
 
 			if (file_exists($webconfig_filepath)) {
@@ -438,6 +440,27 @@ class DUP_Installer
 
 		return $success;
 	}
+
+	/**
+     * Get .htaccess file path
+     * 
+     * @return string
+     */
+    private function getHtaccessFilePath() {
+        return DUPLICATOR_WPROOTPATH.'/.htaccess';
+    }
+
+    /**
+     * Get .htaccss in archive file
+     * 
+     * @return string
+     */
+    private function getHtaccessArkFilePath()
+    {
+        $packageHash         = $this->Package->getPackageHash();
+        $htaccessArkFilePath = '.htaccess__'.$packageHash;
+        return $htaccessArkFilePath;
+    }
 
 	/**
 	 * Get wp-config.php file path along with name in archive file

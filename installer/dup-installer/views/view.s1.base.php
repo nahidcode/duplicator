@@ -1068,10 +1068,6 @@ DUPX.kickOffDupArchiveExtract = function ()
 	request.throttle_delay = DUPX.throttleDelay;
 	request.filtered_directories = ['dup-installer'];
 
-    if(!DUPX.areConfigFilesPreserved()) {
-        request.file_renames = {".htaccess":"htaccess.orig"};
-    }
-
 	var requestString = JSON.stringify(request);
 
 	if (!isClientSideKickoff) {
