@@ -58,6 +58,8 @@ if (function_exists('plugin_dir_url'))
     define('DUPLICATOR_ZIP_ARCHIVE_ADD_FROM_STR', false); 
     define('DUPLICATOR_DEACTIVATION_FEEDBACK', false); 
     define("DUPLICATOR_BUFFER_READ_WRITE_SIZE", 4377);
+    define("DUPLICATOR_ADMIN_NOTICES_USER_META_KEY", 'duplicator_admin_notices');
+    define("DUPLICATOR_FEEDBACK_NOTICE_SHOW_AFTER_NO_PACKAGE", 5);
 
     $GLOBALS['DUPLICATOR_SERVER_LIST'] = array('Apache','LiteSpeed', 'Nginx', 'Lighttpd', 'IIS', 'WebServerX', 'uWSGI');
 	$GLOBALS['DUPLICATOR_OPTS_DELETE'] = array('duplicator_ui_view_state', 'duplicator_package_active', 'duplicator_settings');

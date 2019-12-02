@@ -331,6 +331,7 @@ if (is_admin() == true)
     add_action('admin_enqueue_scripts', 'duplicator_admin_enqueue_scripts' );
     add_action('admin_notices',		array('DUP_UI_Notice', 'showReservedFilesNotice'));
     add_action('admin_notices',		array('DUP_UI_Notice', 'installAutoDeactivatePlugins'));
+    add_action('admin_notices',		array('DUP_UI_Notice', 'showFeedBackNotice'));
 	
 	//CTRL ACTIONS
     DUP_Web_Services::init();
@@ -339,6 +340,7 @@ if (is_admin() == true)
     add_action('wp_ajax_duplicator_package_build',				'duplicator_package_build');
     add_action('wp_ajax_duplicator_package_delete',				'duplicator_package_delete');
     add_action('wp_ajax_duplicator_duparchive_package_build',	'duplicator_duparchive_package_build');
+    add_action('wp_ajax_duplicator_set_admin_notice_viewed',    'duplicator_set_admin_notice_viewed');
 
 	$GLOBALS['CTRLS_DUP_CTRL_UI']		= new DUP_CTRL_UI();
 	$GLOBALS['CTRLS_DUP_CTRL_Tools']	= new DUP_CTRL_Tools();
@@ -396,6 +398,7 @@ if (is_admin() == true)
      * @return null
      */
     function duplicator_admin_enqueue_scripts() {
+        wp_enqueue_script('dup-plugin-global-script', DUPLICATOR_PLUGIN_URL . 'assets/js/global-admin-script.js', array('jquery'), DUPLICATOR_VERSION, false);
         wp_enqueue_style('dup-plugin-global-style');
     }
 	
@@ -614,6 +617,29 @@ if (is_admin() == true)
                     }
                 }
             }
+        }
+    }
+
+    if (!function_exists('duplicator_set_admin_notice_viewed')) {
+        function duplicator_set_admin_notice_viewed() {
+            if ( empty( $_REQUEST['notice_id'] ) ) {
+                wp_die();
+            }
+    
+            $notices = get_user_meta(get_current_user_id(), DUPLICATOR_ADMIN_NOTICES_USER_META_KEY, true);
+            if ( empty( $notices ) ) {
+                $notices = [];
+            }
+    
+            $notices[ $_REQUEST['notice_id'] ] = 'true';
+            update_user_meta( get_current_user_id(), DUPLICATOR_ADMIN_NOTICES_USER_META_KEY, $notices);
+    
+            if ( ! wp_doing_ajax() ) {
+                wp_safe_redirect( admin_url() );
+                die;
+            }
+    
+            wp_die();
         }
     }
 }
