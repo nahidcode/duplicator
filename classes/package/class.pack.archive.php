@@ -310,6 +310,7 @@ class DUP_Archive
 		$this->FilterInfo->Dirs->Core	 = array(
 			//WP-ROOT
 			$wp_root.'/wp-snapshots',
+            $wp_root.'/.opcache',
 			//WP-CONTENT
 			$wp_content.'/backups-dup-pro',
 			$wp_content.'/ai1wm-backups',
