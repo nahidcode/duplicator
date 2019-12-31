@@ -628,7 +628,7 @@ if (is_admin() == true)
     
             $notices = get_user_meta(get_current_user_id(), DUPLICATOR_ADMIN_NOTICES_USER_META_KEY, true);
             if ( empty( $notices ) ) {
-                $notices = [];
+                $notices = array();
             }
     
             $notices[ $_REQUEST['notice_id'] ] = 'true';
