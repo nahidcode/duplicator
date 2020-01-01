@@ -143,7 +143,14 @@ class DUP_UI_Notice
 
         $notices = get_user_meta(get_current_user_id(), DUPLICATOR_ADMIN_NOTICES_USER_META_KEY, true);
 
-		if ('dashboard' !== get_current_screen()->id || (isset($notices[$notice_id]) && 'true' === $notices[$notice_id])) {
+        $duplicator_pages = array(
+            'toplevel_page_duplicator',
+            'duplicator_page_duplicator-tools',
+            'duplicator_page_duplicator-settings',
+            'duplicator_page_duplicator-gopro',
+        );
+
+        if (!in_array(get_current_screen()->id, $duplicator_pages) || (isset($notices[$notice_id]) && 'true' === $notices[$notice_id])) {
 			return;
 		}
 
@@ -166,8 +173,8 @@ class DUP_UI_Notice
 				<div class="duplicator-message-content">
 					<p><strong><?php echo __( 'Congrats!', 'duplicator' ); ?></strong> <?php printf(esc_html__('You created over %d packages with Duplicator. Great job! If you can spare a minute, please help us by leaving a five star review on WordPress.org.', 'duplicator'), DUPLICATOR_FEEDBACK_NOTICE_SHOW_AFTER_NO_PACKAGE); ?></p>
 					<p class="duplicator-message-actions">
-						<a href="https://wordpress.org/support/plugin/duplicator/reviews/?filter=5/#new-post" target="_blank" class="button button-primary"><?php esc_html_e("Sure! I'd love to help", 'duplicator' ); ?></a>
-						<a href="<?php echo esc_url_raw($dismiss_url); ?>" class="button duplicator-message-dismissed"><?php esc_html_e('Hide Notification', 'duplicator'); ?></a>
+						<a href="https://wordpress.org/support/plugin/duplicator/reviews/?filter=5/#new-post" target="_blank" class="button button-primary duplicator-notice-rate-now"><?php esc_html_e("Sure! I'd love to help", 'duplicator' ); ?></a>
+						<a href="<?php echo esc_url_raw($dismiss_url); ?>" class="button duplicator-notice-dismiss"><?php esc_html_e('Hide Notification', 'duplicator'); ?></a>
 					</p>
 				</div>
 			</div>

@@ -398,7 +398,6 @@ if (is_admin() == true)
      * @return null
      */
     function duplicator_admin_enqueue_scripts() {
-        wp_enqueue_script('dup-plugin-global-script', DUPLICATOR_PLUGIN_URL . 'assets/js/global-admin-script.js', array('jquery'), DUPLICATOR_VERSION, false);
         wp_enqueue_style('dup-plugin-global-style');
     }
 	
