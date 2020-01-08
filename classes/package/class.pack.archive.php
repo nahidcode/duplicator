@@ -771,7 +771,7 @@ class DUP_Archive
 			$newWPContentDirPath = empty($basePath) ? 'wp-content/' : $basePath.'wp-content/';
 			$emptyDir			 = ltrim(str_replace($wpContentDirNormalizePath, $newWPContentDirPath, $dir), '/');
 		} else {
-			$emptyDir = ltrim(str_replace($compressDir, $basePath, $dir), '/');
+            $emptyDir = ltrim($basePath.preg_replace('/^'.preg_quote($compressDir, '/').'(.*)/m', '$1', $dir), '/');
 		}
 		return $emptyDir;
 	}
@@ -786,8 +786,8 @@ class DUP_Archive
 		if ($isOuterWPContentDir && 0 === strpos($file, $wpContentDirNormalizePath)) {
 			$newWPContentDirPath = empty($basePath) ? 'wp-content/' : $basePath.'wp-content/';
 			$localFileName		 = ltrim(str_replace($wpContentDirNormalizePath, $newWPContentDirPath, $file), '/');
-		} else {
-			$localFileName = ltrim(str_replace($compressDir, $basePath, $file), '/');
+		} else {            
+			$localFileName = ltrim($basePath.preg_replace('/^'.preg_quote($compressDir, '/').'(.*)/m', '$1', $file), '/');
 		}
 		return $localFileName;
 	}
