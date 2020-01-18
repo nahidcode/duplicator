@@ -168,14 +168,16 @@ SYSTEM REQUIREMENTS -->
                 </div>
                 <div class="dup-sys-info dup-info-box">
                     <?php
+                    $abs_path = duplicator_get_abs_path();
+
                     printf("<b>%s</b> &nbsp; [%s] <br/>", $dup_tests['IO']['SSDIR'], DUPLICATOR_SSDIR_PATH);
                     printf("<b>%s</b> &nbsp; [%s] <br/>", $dup_tests['IO']['SSTMP'], DUPLICATOR_SSDIR_PATH_TMP);
-                    printf("<b>%s</b> &nbsp; [%s] <br/>", $dup_tests['IO']['WPROOT'], DUPLICATOR_WPROOTPATH);
+                    printf("<b>%s</b> &nbsp; [%s] <br/>", $dup_tests['IO']['WPROOT'], $abs_path);
                     ?>
                     <div style="font-size:11px; padding-top: 3px">
                         <?php
                         if ($dup_tests['IO']['WPROOT'] == 'Warn') {
-                            echo sprintf(__('If the root WordPress path is not writable by PHP on some systems this can cause issues.', 'duplicator'), DUPLICATOR_WPROOTPATH);
+                            echo sprintf(__('If the root WordPress path is not writable by PHP on some systems this can cause issues.', 'duplicator'), $abs_path);
                             echo '<br/>';
                         }
                         esc_html_e("If Duplicator does not have enough permissions then you will need to manually create the paths above. &nbsp; ", 'duplicator');
