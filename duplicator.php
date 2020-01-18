@@ -37,6 +37,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 require_once("define.php");
+require_once("helper.php");
 
 if (!function_exists('sanitize_textarea_field')) {
     /**
