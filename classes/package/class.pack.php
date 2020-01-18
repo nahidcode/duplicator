@@ -1359,7 +1359,7 @@ class DUP_Package
 
             $this->Notes                    = sanitize_textarea_field($post['package-notes']);
             //ARCHIVE
-            $this->Archive->PackDir         = rtrim(DUPLICATOR_WPROOTPATH, '/');
+            $this->Archive->PackDir         = duplicator_get_abs_path();
             $this->Archive->Format          = 'ZIP';
             $this->Archive->FilterOn        = isset($post['filter-on']) ? 1 : 0;
 			$this->Archive->ExportOnlyDB    = isset($post['export-onlydb']) ? 1 : 0;

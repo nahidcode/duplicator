@@ -164,7 +164,7 @@ class DUP_Database
 
             $mysqlDumpPath        = DUP_DB::getMySqlDumpPath();
             $mode                 = DUP_DB::getBuildMode();
-            $reserved_db_filepath = DUPLICATOR_WPROOTPATH.'database.sql';
+            $reserved_db_filepath = duplicator_get_abs_path().'/database.sql';
 
             $log = "\n********************************************************************************\n";
             $log .= "DATABASE:\n";

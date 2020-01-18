@@ -301,7 +301,7 @@ class DUP_Archive
 
 		//FILTER: CORE ITMES
 		//Filters Duplicator free packages & All pro local directories
-		$wp_root						 = rtrim(DUPLICATOR_WPROOTPATH, '/');
+		$wp_root						 = duplicator_get_abs_path();
 		$upload_dir						 = wp_upload_dir();
 		$upload_dir						 = isset($upload_dir['basedir']) ? basename($upload_dir['basedir']) : 'uploads';
 		$wp_content						 = str_replace("\\", "/", WP_CONTENT_DIR);
@@ -372,8 +372,8 @@ class DUP_Archive
 		$this->FilterFilesAll	 = array_merge($this->FilterInfo->Files->Instance, $this->FilterInfo->Files->Global);
 
 		$abs_path = duplicator_get_abs_path();
-		$this->FilterFilesAll[]	 = $abs_path.'.htaccess';
-		$this->FilterFilesAll[]	 = $abs_path.'web.config';
+		$this->FilterFilesAll[]	 = $abs_path.'/.htaccess';
+		$this->FilterFilesAll[]	 = $abs_path.'/web.config';
 		$this->FilterFilesAll[]	 = $abs_path.'/wp-config.php';
 		$this->tmpFilterDirsAll	 = $this->FilterDirsAll;
 
@@ -680,7 +680,7 @@ class DUP_Archive
 
 			$this->FilterInfo->TreeWarning[] = array(
 				'dir' => $dir,
-				'sdir' => str_replace(DUPLICATOR_WPROOTPATH, '/', $dir),
+				'sdir' => str_replace(duplicator_get_abs_path(), '/', $dir),
 				'iscore' => $iscore,
 				'count' => count($files),
 				'files' => $files);
