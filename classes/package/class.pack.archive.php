@@ -374,7 +374,7 @@ class DUP_Archive
 		$abs_path = duplicator_get_abs_path();
 		$this->FilterFilesAll[]	 = $abs_path.'.htaccess';
 		$this->FilterFilesAll[]	 = $abs_path.'web.config';
-		$this->FilterFilesAll[]	 = $abs_path.'wp-config.php';
+		$this->FilterFilesAll[]	 = $abs_path.'/wp-config.php';
 		$this->tmpFilterDirsAll	 = $this->FilterDirsAll;
 
 		//PHP 5 on windows decode patch
@@ -731,8 +731,8 @@ class DUP_Archive
 	{
 		$wpconfig_filepath = '';
 		$abs_path = duplicator_get_abs_path();
-		if (file_exists($abs_path.'wp-config.php')) {
-			$wpconfig_filepath = $abs_path.'wp-config.php';
+		if (file_exists($abs_path.'/wp-config.php')) {
+			$wpconfig_filepath = $abs_path.'/wp-config.php';
 		} elseif (@file_exists(dirname($abs_path).'/wp-config.php') && !@file_exists(dirname($abs_path).'/wp-settings.php')) {
 			$wpconfig_filepath = dirname($abs_path).'/wp-config.php';
 		}
