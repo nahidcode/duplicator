@@ -145,9 +145,11 @@ class DUP_Installer
         $ac->package_notes          = $this->Package->Notes;
         $ac->url_old                = get_option('siteurl');
         $ac->opts_delete            = DupLiteSnapJsonU::wp_json_encode_pprint($GLOBALS['DUPLICATOR_OPTS_DELETE']);
-        $ac->blogname               = esc_html(get_option('blogname'));
-        $ac->wproot                 = DUPLICATOR_WPROOTPATH;
-        $ac->relative_content_dir   = str_replace(ABSPATH, '', WP_CONTENT_DIR);
+		$ac->blogname               = esc_html(get_option('blogname'));
+		
+		$abs_path					= duplicator_get_abs_path();
+        $ac->wproot                 = $abs_path;
+        $ac->relative_content_dir   = str_replace($abs_path, '', WP_CONTENT_DIR);
         $ac->exportOnlyDB           = $this->Package->Archive->ExportOnlyDB;
         $ac->installSiteOverwriteOn = DUPLICATOR_INSTALL_SITE_OVERWRITE_ON;
         $ac->wplogin_url            = wp_login_url();
@@ -163,7 +165,7 @@ class DUP_Installer
 		$ac->wp_tableprefix	 = $wpdb->base_prefix;
 
 		$ac->mu_mode						 = DUP_MU::getMode();
-		$ac->is_outer_root_wp_config_file	 = (!file_exists(DUPLICATOR_WPROOTPATH.'wp-config.php')) ? true : false;
+		$ac->is_outer_root_wp_config_file	 = (!file_exists($abs_path . '/wp-config.php')) ? true : false;
 		$ac->is_outer_root_wp_content_dir	 = $this->Package->Archive->isOuterWPContentDir();
 
         $json = DupLiteSnapJsonU::wp_json_encode_pprint($ac);
@@ -246,7 +248,7 @@ class DUP_Installer
 		try {
 			DUP_Log::Info("add_extra_files_using_da1");
 			$htaccess_filepath	 = $this->getHtaccessFilePath();
-			$webconf_filepath	 = DUPLICATOR_WPROOTPATH.'web.config';
+			$webconf_filepath	 = duplicator_get_abs_path() . '/web.config';
 
 			$logger = new DUP_DupArchive_Logger();
 
@@ -347,7 +349,7 @@ class DUP_Installer
 	private function add_extra_files_using_ziparchive($installer_filepath, $scan_filepath, $sql_filepath, $zip_filepath, $archive_config_filepath, $wpconfig_filepath)
 	{
 		$htaccess_filepath = $this->getHtaccessFilePath();
-		$webconfig_filepath	 = DUPLICATOR_WPROOTPATH.'web.config';
+		$webconfig_filepath	 = duplicator_get_abs_path() . '/web.config';
 
 		$success	 = false;
 		$zipArchive	 = new ZipArchive();
@@ -447,7 +449,7 @@ class DUP_Installer
      * @return string
      */
     private function getHtaccessFilePath() {
-        return DUPLICATOR_WPROOTPATH.'/.htaccess';
+        return duplicator_get_abs_path().'/.htaccess';
     }
 
     /**

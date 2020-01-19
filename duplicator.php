@@ -36,6 +36,7 @@ if ( !defined('DUPXABSPATH') ) {
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
+require_once("helper.php");
 require_once("define.php");
 
 if (!function_exists('sanitize_textarea_field')) {
@@ -274,7 +275,8 @@ if (is_admin() == true)
 			   PRIMARY KEY  (id),
 			   KEY hash (hash))";
 
-            require_once(DUPLICATOR_WPROOTPATH . 'wp-admin/includes/upgrade.php');
+            $abs_path = duplicator_get_abs_path();
+            require_once($abs_path . '/wp-admin/includes/upgrade.php');
             @dbDelta($sql);
             
             DupLiteSnapLibIOU::chmod(DUPLICATOR_SSDIR_PATH, 'u+rwx,go+rx');

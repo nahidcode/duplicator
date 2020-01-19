@@ -24,7 +24,7 @@ if (function_exists('plugin_dir_url'))
 
 	define('DUPLICATOR_PLUGIN_PATH',				str_replace("\\", "/", plugin_dir_path(__FILE__)));
     define('DUPLICATOR_SSDIR_NAME',					'wp-snapshots');
-	define('DUPLICATOR_SSDIR_PATH',					str_replace("\\", "/", DUPLICATOR_WPROOTPATH . DUPLICATOR_SSDIR_NAME));
+	define('DUPLICATOR_SSDIR_PATH',					duplicator_get_abs_path() . '/' . DUPLICATOR_SSDIR_NAME);
     define('DUPLICATOR_SSDIR_PATH_TMP',				DUPLICATOR_SSDIR_PATH . '/tmp');
     define("DUPLICATOR_SSDIR_PATH_INSTALLER",		DUPLICATOR_SSDIR_PATH . '/installer');
 	define('DUPLICATOR_SSDIR_URL',					DUPLICATOR_SITE_URL . "/" . DUPLICATOR_SSDIR_NAME);
@@ -53,7 +53,7 @@ if (function_exists('plugin_dir_url'))
 	define('DUPLICATOR_TEMP_CLEANUP_SECONDS', 900);     // 15 min = How many seconds to keep temp files around when delete is requested
 	define('DUPLICATOR_MAX_BUILD_RETRIES', 10);			// Max times to try a part of progressive build work
 	define('DUPLICATOR_WEBCONFIG_ORIG_FILENAME', 'web.config.orig');
-	define("DUPLICATOR_INSTALLER_DIRECTORY", DUPLICATOR_WPROOTPATH . 'dup-installer');
+	define("DUPLICATOR_INSTALLER_DIRECTORY", duplicator_get_abs_path() . '/dup-installer');
     define('DUPLICATOR_MAX_LOG_SIZE', 400000);    // The higher this is the more overhead
     define('DUPLICATOR_ZIP_ARCHIVE_ADD_FROM_STR', false); 
     define('DUPLICATOR_DEACTIVATION_FEEDBACK', false); 
