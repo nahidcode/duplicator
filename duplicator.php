@@ -275,7 +275,8 @@ if (is_admin() == true)
 			   PRIMARY KEY  (id),
 			   KEY hash (hash))";
 
-            require_once(duplicator_get_home_path() . '/wp-admin/includes/upgrade.php');
+            $abs_path = duplicator_get_abs_path();
+            require_once($abs_path . '/wp-admin/includes/upgrade.php');
             @dbDelta($sql);
             
             DupLiteSnapLibIOU::chmod(DUPLICATOR_SSDIR_PATH, 'u+rwx,go+rx');
