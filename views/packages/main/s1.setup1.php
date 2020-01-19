@@ -228,7 +228,7 @@ SYSTEM REQUIREMENTS -->
                         $duplicator_nonce = wp_create_nonce('duplicator_cleanup_page');
                         ?> 
                         <form method="post" action="admin.php?page=duplicator-tools&tab=diagnostics&section=info&action=installer&_wpnonce=<?php echo esc_js($duplicator_nonce); ?>">
-                            <b><?php esc_html_e('WordPress Root Path:', 'duplicator'); ?></b>  <?php echo esc_html(DUPLICATOR_WPROOTPATH); ?><br/>
+                            <b><?php esc_html_e('WordPress Root Path:', 'duplicator'); ?></b>  <?php echo esc_html(duplicator_get_abs_path()); ?><br/>
                             <?php esc_html_e("A reserved file(s) was found in the WordPress root directory. Reserved file names include [{$dup_intaller_files}].  To archive your data correctly please remove any of these files from your WordPress root directory.  Then try creating your package again.", 'duplicator'); ?>
                             <br/><input type='submit' class='button button-small' value='<?php esc_attr_e('Remove Files Now', 'duplicator') ?>' style='font-size:10px; margin-top:5px;' />
                         </form>
