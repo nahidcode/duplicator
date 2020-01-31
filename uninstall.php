@@ -7,6 +7,7 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
         exit;
 }
+require_once 'helper.php';
 require_once 'define.php';
 require_once 'classes/class.settings.php';
 require_once 'classes/utilities/class.u.php';
