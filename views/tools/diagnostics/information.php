@@ -15,7 +15,7 @@ if (empty($package_name)) {
         $installer_file_data = file_get_contents($installer_file_path);
         if (preg_match("/const ARCHIVE_FILENAME	 = '(.*?)';/", $installer_file_data, $match)) {
             $temp_archive_file = esc_html($match[1]);
-            $temp_archive_file_path = $abs_path . $temp_archive_file;
+            $temp_archive_file_path = $abs_path . '/' . $temp_archive_file;
             if (file_exists($temp_archive_file_path)) {
                 $package_name = $temp_archive_file;
             }
