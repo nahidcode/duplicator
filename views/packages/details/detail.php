@@ -155,7 +155,7 @@ GENERAL -->
 				<table class="dup-sub-list">
 					<tr>
 						<td><?php esc_html_e('Archive', 'duplicator') ?>: </td>
-						<td><a href="<?php echo esc_url($link_archive); ?>" target="_blank"><?php echo esc_html($package->Archive->File); ?></a></td>
+						<td><a href="<?php echo esc_url($link_archive); ?>"><?php echo esc_html($package->Archive->File); ?></a></td>
 					</tr>
 					<tr>
 						<td><?php esc_html_e('Installer', 'duplicator') ?>: </td>
