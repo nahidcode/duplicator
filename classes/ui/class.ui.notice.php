@@ -165,7 +165,7 @@ class DUP_UI_Notice
 			'notice_id' => esc_attr($notice_id),
         ), admin_url('admin-post.php'));
 		?>
-		<div class="notice updated is-dismissible duplicator-message duplicator-message-dismissed" data-notice_id="<?php echo esc_attr( $notice_id); ?>">
+		<div class="notice updated duplicator-message duplicator-message-dismissed" data-notice_id="<?php echo esc_attr( $notice_id); ?>">
 			<div class="duplicator-message-inner">
 				<div class="duplicator-message-icon">
 					<img src="<?php echo esc_url(DUPLICATOR_PLUGIN_URL."assets/img/logo.png"); ?>" style="text-align:top; margin:0; height:60px; width:60px;" alt="Duplicator">
