@@ -12,94 +12,92 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
  *
  */
 // Exit if accessed directly
-if (!defined('DUPLICATOR_VERSION'))
-    exit;
+if (!defined('DUPLICATOR_VERSION')) exit;
 
 class DUP_DB extends wpdb
 {
+	public static $remove_placeholder_escape_exists = null;
 
-    public static $remove_placeholder_escape_exists = null;
+	public static function init()
+	{
+		global $wpdb;
+		self::$remove_placeholder_escape_exists = method_exists($wpdb, 'remove_placeholder_escape');
+	}
 
-    public static function init()
-    {
-        global $wpdb;
-        self::$remove_placeholder_escape_exists = method_exists($wpdb, 'remove_placeholder_escape');
-    }
+	/**
+	 * Get the requested MySQL system variable
+	 *
+	 * @param string $name The database variable name to lookup
+	 *
+	 * @return string the server variable to query for
+	 */
+	public static function getVariable($name)
+	{
+		global $wpdb;
+		if (strlen($name)) {
+			$row = $wpdb->get_row("SHOW VARIABLES LIKE '{$name}'", ARRAY_N);
+			return isset($row[1]) ? $row[1] : null;
+		} else {
+			return null;
+		}
+	}
 
-    /**
-     * Get the requested MySQL system variable
-     *
-     * @param string $name The database variable name to lookup
-     *
-     * @return string the server variable to query for
-     */
-    public static function getVariable($name)
-    {
-        global $wpdb;
-        if (strlen($name)) {
-            $row = $wpdb->get_row("SHOW VARIABLES LIKE '{$name}'", ARRAY_N);
-            return isset($row[1]) ? $row[1] : null;
-        } else {
-            return null;
-        }
-    }
+	/**
+	 * Gets the MySQL database version number
+	 *
+	 * @param bool $full    True:  Gets the full version
+	 *                      False: Gets only the numeric portion i.e. 5.5.6 or 10.1.2 (for MariaDB)
+	 *
+	 * @return false|string 0 on failure, version number on success
+	 */
+	public static function getVersion($full = false)
+	{
+		global $wpdb;
 
-    /**
-     * Gets the MySQL database version number
-     *
-     * @param bool $full    True:  Gets the full version
-     *                      False: Gets only the numeric portion i.e. 5.5.6 or 10.1.2 (for MariaDB)
-     *
-     * @return false|string 0 on failure, version number on success
-     */
-    public static function getVersion($full = false)
-    {
-        global $wpdb;
+		if ($full) {
+			$version = self::getVariable('version');
+		} else {
+			$version = preg_replace('/[^0-9.].*/', '', self::getVariable('version'));
+		}
 
-        if ($full) {
-            $version = self::getVariable('version');
-        } else {
-            $version = preg_replace('/[^0-9.].*/', '', self::getVariable('version'));
-        }
+		//Fall-back for servers that have restricted SQL for SHOW statement
+		if (empty($version)) {
+			$version = $wpdb->db_version();
+		}
 
-        //Fall-back for servers that have restricted SQL for SHOW statement
-        if (empty($version)) {
-            $version = $wpdb->db_version();
-        }
+		return empty($version) ? 0 : $version;
+	}
 
-        return empty($version) ? 0 : $version;
-    }
+	/**
+	 * Try to return the mysqldump path on Windows servers
+	 *
+	 * @return boolean|string
+	 */
+	public static function getWindowsMySqlDumpRealPath()
+	{
+		if (function_exists('php_ini_loaded_file')) {
+			$get_php_ini_path = php_ini_loaded_file();
+			if (file_exists($get_php_ini_path)) {
+				$search = array(
+					dirname(dirname($get_php_ini_path)).'/mysql/bin/mysqldump.exe',
+					dirname(dirname(dirname($get_php_ini_path))).'/mysql/bin/mysqldump.exe',
+					dirname(dirname($get_php_ini_path)).'/mysql/bin/mysqldump',
+					dirname(dirname(dirname($get_php_ini_path))).'/mysql/bin/mysqldump',
+				);
 
-    /**
-     * Try to return the mysqldump path on Windows servers
-     *
-     * @return boolean|string
-     */
-    public static function getWindowsMySqlDumpRealPath()
-    {
-        if (function_exists('php_ini_loaded_file')) {
-            $get_php_ini_path = php_ini_loaded_file();
-            if (file_exists($get_php_ini_path)) {
-                $search = array(
-                    dirname(dirname($get_php_ini_path)).'/mysql/bin/mysqldump.exe',
-                    dirname(dirname(dirname($get_php_ini_path))).'/mysql/bin/mysqldump.exe',
-                    dirname(dirname($get_php_ini_path)).'/mysql/bin/mysqldump',
-                    dirname(dirname(dirname($get_php_ini_path))).'/mysql/bin/mysqldump',
-                );
+				foreach ($search as $mysqldump) {
+					if (file_exists($mysqldump)) {
+						return str_replace("\\", "/", $mysqldump);
+					}
+				}
+			}
+		}
 
-                foreach ($search as $mysqldump) {
-                    if (file_exists($mysqldump)) {
-                        return str_replace("\\", "/", $mysqldump);
-                    }
-                }
-            }
-        }
+		unset($search);
+		unset($get_php_ini_path);
 
-        unset($search);
-        unset($get_php_ini_path);
-
-        return false;
-    }
+		return false;
+	}
 
     /**
      * Returns the correct database build mode PHP, MYSQLDUMP, PHPCHUNKING
@@ -169,57 +167,57 @@ class DUP_DB extends wpdb
         return false;
     }
 
-    /**
+	/**
      * Returns all collation types that are assigned to the tables in
-     * the current database.  Each element in the array is unique
-     *
-     * @param array $excludeTables A list of tables to exclude from the search
-     *
+	 * the current database.  Each element in the array is unique
+	 *
+	 * @param array $excludeTables A list of tables to exclude from the search
+	 *
      * @return array	Returns an array with all the collation types being used
      */
-    public static function getTableCollationList($excludeTables)
-    {
-        global $wpdb;
-        $collations = array();
+	public static function getTableCollationList($excludeTables)
+	{
+		global $wpdb;
+		$collations = array();
 
-        try {
-            $query = $wpdb->get_results("SHOW TABLE STATUS FROM `{$wpdb->dbname}`");
+		try {
+			$query = $wpdb->get_results("SHOW TABLE STATUS FROM `{$wpdb->dbname}`");
 
-            foreach ($query as $key => $row) {
-                if (!in_array($row->Name, $excludeTables)) {
-                    if (!empty($row->Collation))
-                        $collations[] = $row->Collation;
-                }
-            }
+			foreach($query  as $key => $row) {
+				if (! in_array($row->Name, $excludeTables)) {
+					if (! empty($row->Collation))
+						$collations[] = $row->Collation;
+				}
+			}
+			
+			$collations = array_unique($collations, SORT_STRING);
+			$collations = array_values($collations);
+			return $collations;
+			
+		} catch (Exception $ex) {
+			return $collations;
+		}
+	}
 
-            $collations = array_unique($collations, SORT_STRING);
-            $collations = array_values($collations);
-            return $collations;
-        }
-        catch (Exception $ex) {
-            return $collations;
-        }
-    }
+	/**
+	 * Returns an escaped SQL string
+	 *
+	 * @param string	$sql						The SQL to escape
+	 * @param bool		$removePlaceholderEscape	Patch for how the default WP function works.
+	 *
+	 * @return boolean|string
+	 * @also see: https://make.wordpress.org/core/2017/10/31/changed-behaviour-of-esc_sql-in-wordpress-4-8-3/
+	 */
+	public static function escSQL($sql, $removePlaceholderEscape = false)
+	{
+		global $wpdb;
 
-    /**
-     * Returns an escaped SQL string
-     *
-     * @param string	$sql						The SQL to escape
-     * @param bool		$removePlaceholderEscape	Patch for how the default WP function works.
-     *
-     * @return boolean|string
-     * @also see: https://make.wordpress.org/core/2017/10/31/changed-behaviour-of-esc_sql-in-wordpress-4-8-3/
-     */
-    public static function escSQL($sql, $removePlaceholderEscape = false)
-    {
-        global $wpdb;
+		$removePlaceholderEscape = $removePlaceholderEscape && self::$remove_placeholder_escape_exists;
 
-        $removePlaceholderEscape = $removePlaceholderEscape && self::$remove_placeholder_escape_exists;
-
-        if ($removePlaceholderEscape) {
-            return $wpdb->remove_placeholder_escape(@esc_sql($sql));
-        } else {
-            return @esc_sql($sql);
-        }
-    }
+		if ($removePlaceholderEscape) {
+			return $wpdb->remove_placeholder_escape(@esc_sql($sql));
+		} else {
+			return @esc_sql($sql);
+		}
+	}
 }
