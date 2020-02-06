@@ -413,7 +413,7 @@ class DUP_Util
 	 */
 	public static function hasShellExec()
 	{
-		$cmds = array('shell_exec', 'escapeshellarg', 'escapeshellcmd', 'extension_loaded');
+		$cmds = array('shell_exec', 'escapeshellarg', 'escapeshellcmd', 'extension_loaded', 'exec');
 
 		//Function disabled at server level
 		if (array_intersect($cmds, array_map('trim', explode(',', @ini_get('disable_functions'))))) return false;
