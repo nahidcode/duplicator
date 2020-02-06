@@ -167,7 +167,7 @@ class DUP_DB extends wpdb
         return false;
     }
 
-	/**
+    /**
      * Returns all collation types that are assigned to the tables in
 	 * the current database.  Each element in the array is unique
 	 *
