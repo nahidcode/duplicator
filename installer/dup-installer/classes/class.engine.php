@@ -485,7 +485,7 @@ class DUPX_UpdateEngine
                             $serial_check = self::fixSerialString($edited_data);
                             if ($serial_check['fixed']) {
                                 $edited_data = $serial_check['data'];
-                            } elseif ($serial_check['tried'] && !$serial_check['fixed']) {                                
+                            } else {                           
                                 $trimLen = DUPX_Log::isLevel(DUPX_Log::LV_HARD_DEBUG) ? 10000 : 200;
                                 $message = 'ENGINE: serialize data serial check error'.
                                     "\n\tDATA: ".mb_strimwidth($edited_data, 0, $trimLen, ' [...]');
@@ -835,21 +835,25 @@ class DUPX_UpdateEngine
      */
     public static function fixSerialString($data)
     {
-        $result = array('data' => $data, 'fixed' => false, 'tried' => false);
+        $result = array(
+            'data'  => null,
+            'fixed' => false,
+            'tried' => false
+        );
 
         // check if serialized string must be fixed
-        if (!self::unserializeTest($data)) {
-
+        if (self::unserializeTest($data)) {
+            $result['data']  = $data;
+            $result['fixed'] = true;
+        } else {
+            $result['tried']  = true;
             $serialized_fixed = self::recursiveFixSerialString($data);
-
             if (self::unserializeTest($serialized_fixed)) {
-
-                $result['data'] = $serialized_fixed;
-
+                $result['data']  = $serialized_fixed;
                 $result['fixed'] = true;
+            } else {
+                $result['fixed'] = false;
             }
-
-            $result['tried'] = true;
         }
 
         return $result;
