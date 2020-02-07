@@ -13,6 +13,11 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
 class DUPX_UpdateEngine
 {
+    const SERIALIZE_OPEN_STR_REGEX        = '/^(s:\d+:")/';
+    const SERIALIZE_CLOSE_STR_REGEX       = '/^";}*(?:"|a:|s:|S:|b:|d:|i:|o:|O:|C:|r:|R:|N;|$)/';
+    const SERIALIZE_CLOSE_STR             = '";';
+    const SERIALIZE_CLOSE_STR_LEN         = 2;
+    
     private static $report = null;
 
     /**
@@ -865,8 +870,7 @@ class DUPX_UpdateEngine
             return $data;
         }
 
-        $result = '';
-
+        $result  = '';
         $matches = null;
 
         $openLevel     = 0;
@@ -881,21 +885,23 @@ class DUPX_UpdateEngine
             $addChar = true;
 
             if ($cChar == 's') {
-
                 // test if is a open string
-                if (preg_match('/^(s:\d+:")/', substr($data, $i), $matches)) {
+                if (preg_match(self::SERIALIZE_OPEN_STR_REGEX, substr($data, $i, 20), $matches)) {
+
+                    if ($openLevel > 1) {
+                        $openContentL2 .= $matches[0];
+                    }
 
                     $addChar = false;
 
-                    $openLevel ++;
+                    $openLevel++;
 
                     $i += strlen($matches[0]) - 1;
                 }
             } else if ($openLevel > 0 && $cChar == '"') {
 
                 // test if is a close string
-                if (preg_match('/^";(?:}|a:|s:|S:|b:|d:|i:|o:|O:|C:|r:|R:|N;)/', substr($data, $i))) {
-
+                if (preg_match(self::SERIALIZE_CLOSE_STR_REGEX, substr($data, $i, 7))) {
                     $addChar = false;
 
                     switch ($openLevel) {
@@ -921,20 +927,16 @@ class DUPX_UpdateEngine
                         default:
                             // level > 2
                             // keep writing at level 2; it will be corrected with recursion
+                            $openContentL2 .= self::SERIALIZE_CLOSE_STR;
                             break;
                     }
 
-                    $openLevel --;
-
-                    $closeString = '";';
-
-                    $i += strlen($closeString) - 1;
+                    $openLevel--;
+                    $i += self::SERIALIZE_CLOSE_STR_LEN - 1;
                 }
             }
 
-
             if ($addChar) {
-
                 switch ($openLevel) {
                     case 0:
                         // level 0
