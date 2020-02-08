@@ -541,7 +541,7 @@ class DUP_Database
              * 1 - Warning
              * 2 - Exception
              */
-            DUP_PRO_LOG::infoTrace('MYSQL DUMP ERROR '.print_r($mysqlResult, true));
+            DUP_Log::Info('MYSQL DUMP ERROR '.print_r($mysqlResult, true));
             DUP_Log::error(__('Shell mysql dump error', 'duplicator'), __('change Mysql dump engine in PHP mode', 'duplicator'), Dup_ErrorBehavior::ThrowException);
             return false;
         }
