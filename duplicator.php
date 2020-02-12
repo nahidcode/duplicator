@@ -151,46 +151,6 @@ if (!function_exists('wp_normalize_path')) {
     }
 }
 
-function duplicator_init() {
-    if (isset($_GET['action']) && $_GET['action'] == 'duplicator_download') {
-        $file = sanitize_text_field($_GET['file']);
-        $filepath = DUPLICATOR_SSDIR_PATH.'/'.$file;
-        // Process download
-        if(file_exists($filepath)) {
-            // Clean output buffer
-            if (ob_get_level() !== 0 && @ob_end_clean() === FALSE) {
-                @ob_clean();
-            }
-
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="'.basename($filepath).'"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($filepath));
-            flush(); // Flush system output buffer
-
-            try {
-                $fp = @fopen($filepath, 'r');
-                if (false === $fp) {
-                    throw new Exception('Fail to open the file '.$filepath);
-                }
-                while (!feof($fp) && ($data = fread($fp, DUPLICATOR_BUFFER_READ_WRITE_SIZE)) !== FALSE) {
-                    echo $data;
-                }
-                @fclose($fp);
-            } catch (Exception $e) {
-                readfile($filepath);
-            }
-            exit;
-        } else {
-            wp_die('Invalid installer file name!!');
-        }
-    }
-}
-add_action('init', 'duplicator_init');
-
 if (is_admin() == true) 
 {
     if (defined('DUPLICATOR_DEACTIVATION_FEEDBACK') && DUPLICATOR_DEACTIVATION_FEEDBACK) {
