@@ -11,6 +11,7 @@ class DUP_Web_Services
     {
         add_action('wp_ajax_duplicator_reset_all_settings', array(__CLASS__, 'ajax_reset_all'));
         add_action('wp_ajax_duplicator_download', array(__CLASS__, 'duplicator_download'));
+        add_action('wp_ajax_nopriv_duplicator_download', array(__CLASS__, 'duplicator_download'));
     }
 
     /**
@@ -84,17 +85,43 @@ class DUP_Web_Services
 
     public static function duplicator_download()
     {
-        if (!check_ajax_referer('duplicator_download_file', 'nonce', false)) {
-            DUP_LOG::Trace('Security issue');
-            wp_die('Security issue');
-        }
-        DUP_Util::hasCapability('export', DUP_Util::SECURE_ISSUE_DIE);
+        $error = false;
 
-        $file     = basename(sanitize_text_field($_GET['file']));        
-        $filepath = DUPLICATOR_SSDIR_PATH.'/'.$file;
-        
+        if (!isset($_GET['id']) || !isset($_GET['hash']) || !isset($_GET['file'])) {
+            $error = true;
+        }
+
+        $packageId = (int) $_GET['id'];
+        $hash      = sanitize_text_field($_GET['hash']);
+        $file      = sanitize_text_field($_GET['file']);
+
+        if ($error || ($package = DUP_Package::getByID($packageId)) == false) {
+            $error = true;
+        }
+
+        if ($error || $hash !== $package->getPackageHash()) {
+            $error = true;
+        }
+
+        switch ($file) {
+            case 'sql':
+                $fileName = "{$package->NameHash}_database.sql";
+                break;
+            case 'archive':
+                $format   = strtolower($package->Archive->Format);
+                $fileName = "{$package->NameHash}_archive.{$format}";
+                break;
+            case 'installer':
+                $fileName = $package->NameHash.'_installer.php';
+                break;
+            default:
+                $error    = true;
+        }
+
+        $filepath = DUPLICATOR_SSDIR_PATH.'/'.$fileName;
+
         // Process download
-        if (file_exists($filepath)) {
+        if (!$error && file_exists($filepath)) {
             // Clean output buffer
             if (ob_get_level() !== 0 && @ob_end_clean() === FALSE) {
                 @ob_clean();
@@ -102,7 +129,7 @@ class DUP_Web_Services
 
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="'.basename($filepath).'"');
+            header('Content-Disposition: attachment; filename="'.$fileName.'"');
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
@@ -124,7 +151,9 @@ class DUP_Web_Services
             }
             exit;
         } else {
-            wp_die('Invalid installer file name!!');
+            // if the request is wrong wait to avoid brute force attack
+            sleep(2);
+            wp_die('Invalid request');
         }
     }
 }
