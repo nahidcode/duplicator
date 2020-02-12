@@ -99,7 +99,7 @@ class DUP_Web_Services
             $error = true;
         }
 
-        if ($error || $hash !== $package->getPackageHash()) {
+        if ($error || $hash !== $package->Hash) {
             $error = true;
         }
 

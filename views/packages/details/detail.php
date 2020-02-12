@@ -12,7 +12,7 @@ $link_sql       = add_query_arg(
     array(
         'action' => 'duplicator_download',
         'id'     => $package->ID,
-        'hash'   => $package->getPackageHash(),
+        'hash'   => $package->Hash,
         'file' => 'sql'
     ),
     $base_url
@@ -21,7 +21,7 @@ $link_archive   = add_query_arg(
     array(
         'action' => 'duplicator_download',
         'id'     => $package->ID,
-        'hash'   => $package->getPackageHash(),
+        'hash'   => $package->Hash,
         'file' => 'archive'
     ),
     $base_url
@@ -30,7 +30,7 @@ $link_installer = add_query_arg(
     array(
         'action' => 'duplicator_download',
         'id'     => $package->ID,
-        'hash'   => $package->getPackageHash(),
+        'hash'   => $package->Hash,
         'file' => 'installer'
     ),
     $base_url
