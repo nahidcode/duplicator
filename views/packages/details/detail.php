@@ -7,12 +7,12 @@ $ui_css_archive = (isset($view_state['dup-package-dtl-archive-panel']) && $view_
 $ui_css_install = (isset($view_state['dup-package-dtl-install-panel']) && $view_state['dup-package-dtl-install-panel']) ? 'display:block' : 'display:none';
 
 $format = strtolower($package->Archive->Format);
-
 $base_url			= admin_url('admin-ajax.php');
 $link_sql			= add_query_arg(
 							array(
 								'action' => 'duplicator_download',
 								'file' => "{$package->NameHash}_database.sql",
+                                'nonce' =>  wp_create_nonce('duplicator_download_file')
 							),
 							$base_url
 						);
@@ -20,6 +20,7 @@ $link_archive 		= add_query_arg(
 							array(
 								'action' => 'duplicator_download',
 								'file' => "{$package->NameHash}_archive.{$format}",
+                                    'nonce' =>  wp_create_nonce('duplicator_download_file')
 							),
 							$base_url
 						);
@@ -27,6 +28,7 @@ $link_installer		= add_query_arg(
 							array(
 								'action' => 'duplicator_download',
 								'file' => $package->NameHash.'_installer.php',
+                                'nonce' =>  wp_create_nonce('duplicator_download_file')
 							),
 							$base_url
 						);

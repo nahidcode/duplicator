@@ -11,7 +11,6 @@ class DUP_Web_Services
     {
         add_action('wp_ajax_duplicator_reset_all_settings', array(__CLASS__, 'ajax_reset_all'));
         add_action('wp_ajax_duplicator_download', array(__CLASS__, 'duplicator_download'));
-        add_action('wp_ajax_nopriv_duplicator_download', array(__CLASS__, 'duplicator_download'));
     }
 
     /**
@@ -43,8 +42,8 @@ class DUP_Web_Services
             /** Execute function * */
             $error  = false;
             $result = array(
-                'data' => array(),
-                'html' => '',
+                'data'    => array(),
+                'html'    => '',
                 'message' => ''
             );
 
@@ -54,8 +53,8 @@ class DUP_Web_Services
                 throw new Exception('Security issue');
             }
 
-            DUP_Package::by_status_callback(array(__CLASS__,'package_delete_callback'),array(
-                    array('op' => '<', 'status' => DUP_PackageStatus::COMPLETE)
+            DUP_Package::by_status_callback(array(__CLASS__, 'package_delete_callback'), array(
+                array('op' => '<', 'status' => DUP_PackageStatus::COMPLETE)
             ));
 
             /** reset active package id * */
@@ -66,7 +65,8 @@ class DUP_Web_Services
             DUP_Package::not_active_files_tmp_cleanup();
 
             //throw new Exception('force error test');
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $error             = true;
             $result['message'] = $e->getMessage();
         }
@@ -82,11 +82,19 @@ class DUP_Web_Services
         }
     }
 
-    public static function duplicator_download() {
-        $file = sanitize_text_field($_GET['file']);
+    public static function duplicator_download()
+    {
+        if (!check_ajax_referer('duplicator_download_file', 'nonce', false)) {
+            DUP_LOG::Trace('Security issue');
+            wp_die('Security issue');
+        }
+        DUP_Util::hasCapability('export', DUP_Util::SECURE_ISSUE_DIE);
+
+        $file     = basename(sanitize_text_field($_GET['file']));        
         $filepath = DUPLICATOR_SSDIR_PATH.'/'.$file;
+        
         // Process download
-        if(file_exists($filepath)) {
+        if (file_exists($filepath)) {
             // Clean output buffer
             if (ob_get_level() !== 0 && @ob_end_clean() === FALSE) {
                 @ob_clean();
@@ -98,7 +106,7 @@ class DUP_Web_Services
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
-            header('Content-Length: ' . filesize($filepath));
+            header('Content-Length: '.filesize($filepath));
             flush(); // Flush system output buffer
 
             try {
@@ -110,7 +118,8 @@ class DUP_Web_Services
                     echo $data;
                 }
                 @fclose($fp);
-            } catch (Exception $e) {
+            }
+            catch (Exception $e) {
                 readfile($filepath);
             }
             exit;
