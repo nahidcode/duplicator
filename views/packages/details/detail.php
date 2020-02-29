@@ -189,9 +189,16 @@ DIALOG: QUICK PATH -->
 
 	<div style="padding: 0px 15px 15px 15px;">
 		<a href="javascript:void(0)" style="display:inline-block; text-align:right" onclick="Duplicator.Pack.GetLinksText()">[Select All]</a> <br/>
-		<textarea id="dup-dlg-quick-path-data" style='border:1px solid silver; border-radius:3px; width:99%; height:200px; font-size:11px'></textarea><br/>
-		<i style='font-size:11px'><?php esc_html_e("An exact copy of the database SQL and installer file can both be found inside of the archive.zip/daf file.  "
-			. "Download and extract the archive file to get a copy of the installer which will be named 'installer-backup.php' ", 'duplicator'); ?></i>
+		<textarea id="dup-dlg-quick-path-data" style='border:1px solid silver; border-radius:3px; width:99%; height:180px; font-size:11px'></textarea><br/>
+		<i style='font-size:11px'>
+			<?php
+				printf("%s <a href='https://snapcreek.com/duplicator/docs/faqs-tech/#faq-trouble-052-q' target='_blank'>%s</a>",
+					esc_html__("An exact copy of the database SQL and installer file can both be found inside of the archive.zip/daf file.  "
+						. "Download and extract the archive file to get a copy of the installer which will be named 'installer-backup.php'. "
+						. "For details on how to extract a archive.daf file please see: ", 'duplicator'),
+					esc_html__("How do I work with DAF files and the DupArchive extraction tool?", 'duplicator'));
+			?>
+		</i>
 	</div>
 </div>
 
