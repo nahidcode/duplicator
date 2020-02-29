@@ -126,7 +126,7 @@ $unhook_third_party_css = DUP_Settings::Get('unhook_third_party_css');
 					<p class="description" style="max-width: 800px">
 						<?php printf('%s <a href="https://wordpress.org/plugins/wpfront-user-role-editor/" target="_blank">%s</a> %s'
 									 . ' <a href="https://wpfront.com/user-role-editor-pro/?ref=3" target="_blank">%s</a> %s '
-									 . ' <a href="https://wpfront.com/integrations/duplicator-integration/" target="_blank">%s</a>. %s'
+									 . ' <a href="https://wpfront.com/integrations/duplicator-integration/?ref=3" target="_blank">%s</a>. %s'
 									 . ' <a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=user_role_plugin&utm_campaign=duplicator_pro" target="_blank">%s</a>.',
 								esc_html__('To enable custom roles with Duplicator please install the ', 'duplicator'),
 								esc_html__('User Role Editor Free', 'duplicator'),
