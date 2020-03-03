@@ -121,10 +121,11 @@ class DUP_UI_Notice
                                                     $title.'</a>';
                 }
 
-                echo "<div class='update-nag dpro-admin-notice'>
+                echo "<div class='update-nag duplicator-plugin-activation-admin-notice notice notice-warning is-dismissible'>
                         <p>".
-                            "<b>Warning!</b> Migration Almost Complete! <br/>".
-                            "Plugin(s) listed here was deactivated during installation, Please activate them: <br/>".
+                            "<b>".esc_html__("Warning!", "duplicator")."</b> ".esc_html__("Migration Almost Complete!",  "duplicator")." <br/>".
+                            esc_html__("Plugin(s) listed here was deactivated during installation, Please activate them: ", "duplicator").
+                            "<br/>".
                             implode(' ,', $activatePluginsAnchors).
                         "</p>".
                     "</div>";
