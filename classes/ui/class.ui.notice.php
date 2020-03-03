@@ -101,15 +101,16 @@ class DUP_UI_Notice
     public static function installAutoDeactivatePlugins() {
         $reactivatePluginsAfterInstallation = get_option('duplicator_reactivate_plugins_after_installation', false);
         if (is_array($reactivatePluginsAfterInstallation)) {
+            $installedPlugins = array_keys(get_plugins());
             $shouldBeActivated = array();
             foreach ($reactivatePluginsAfterInstallation as $pluginSlug => $pluginTitle) {
-                if (!is_plugin_active($pluginSlug)) {
+                if (in_array($pluginSlug, $installedPlugins) && !is_plugin_active($pluginSlug)) {
                     $shouldBeActivated[$pluginSlug] = $pluginTitle;
                 }
             }
             
             if (empty($shouldBeActivated)) {
-                delete_option('duplicator_reactivate_plugins_after_installation', false);
+                delete_option('duplicator_reactivate_plugins_after_installation');
             } else {
                 $activatePluginsAnchors = array();
                 foreach ($shouldBeActivated as $slug => $title) {
