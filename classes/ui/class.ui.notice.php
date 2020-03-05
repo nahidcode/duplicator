@@ -18,10 +18,26 @@ if (! defined('DUPLICATOR_VERSION')) exit;
 
 class DUP_UI_Notice
 {
+
+    /**
+     * init notice actions
+     */
+    public static function init()
+    {
+        $methods = array(
+            'showReservedFilesNotice',
+            'installAutoDeactivatePlugins',
+            'showFeedBackNotice',
+        );
+        foreach ($methods as $method) {
+            add_action('admin_notices', array(__CLASS__, $method));
+        }
+    }
+
     /**
      * Shows a display message in the wp-admin if any reserved files are found
      *
-     * @return string   Html formated text notice warnings
+     * @return string   Html formatted text notice warnings
      */
     public static function showReservedFilesNotice()
     {
@@ -162,10 +178,14 @@ class DUP_UI_Notice
 			return;
 		}
 
-		$dismiss_url = add_query_arg(array(
-			'action' => 'duplicator_set_admin_notice_viewed',
-			'notice_id' => esc_attr($notice_id),
-        ), admin_url('admin-post.php'));
+		$dismiss_url = wp_nonce_url(
+                            add_query_arg(array(
+                                'action' => 'duplicator_set_admin_notice_viewed',
+                                'notice_id' => esc_attr($notice_id),
+                            ), admin_url('admin-post.php')),
+                            'duplicator_set_admin_notice_viewed',
+                            'nonce'
+                        );
 		?>
 		<div class="notice updated duplicator-message duplicator-message-dismissed" data-notice_id="<?php echo esc_attr( $notice_id); ?>">
 			<div class="duplicator-message-inner">
