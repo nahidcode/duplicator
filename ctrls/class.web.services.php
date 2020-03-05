@@ -1,9 +1,6 @@
 <?php
 defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 
-// Exit if accessed directly
-if (! defined('DUPLICATOR_VERSION')) exit;
-
 class DUP_Web_Services
 {
 
@@ -163,15 +160,9 @@ class DUP_Web_Services
     }
 
     public static function set_admin_notice_viewed() {
-        if (!wp_doing_ajax()) {
-            wp_safe_redirect( admin_url() );
-            die;
-        }
-
         DUP_Util::hasCapability('export', DUP_Util::SECURE_ISSUE_THROW);
 
-        $nonce = sanitize_text_field($_REQUEST['nonce']);
-        if (!wp_verify_nonce($nonce, 'duplicator_set_admin_notice_viewed')) {
+        if (!wp_verify_nonce($_REQUEST['nonce'], 'duplicator_set_admin_notice_viewed')) {
             DUP_Log::trace('Security issue');
             throw new Exception('Security issue');
         }
@@ -188,29 +179,18 @@ class DUP_Web_Services
         $notices[$_REQUEST['notice_id']] = 'true';
         update_user_meta(get_current_user_id(), DUPLICATOR_ADMIN_NOTICES_USER_META_KEY, $notices);
 
-        if (!wp_doing_ajax()) {
-            wp_safe_redirect( admin_url() );
-            die;
-        }
-
         wp_die();
     }
 
     public static function dismiss_plugin_activation_admin_notice() {
-        if (!wp_doing_ajax()) {
-            wp_safe_redirect( admin_url() );
-            die;
-        }
-
         DUP_Util::hasCapability('export', DUP_Util::SECURE_ISSUE_THROW);
 
-        $nonce = sanitize_text_field($_POST['nonce']);
-        if (!wp_verify_nonce($nonce, 'duplicator_dismiss_plugin_activation_admin_notice')) {
+        if (!wp_verify_nonce($_POST['nonce'], 'duplicator_dismiss_plugin_activation_admin_notice')) {
             DUP_Log::trace('Security issue');
             throw new Exception('Security issue');
         }
 
-        delete_option('duplicator_reactivate_plugins_after_installation');
+        DUP_Util::resetReactivatePlugins();
 
         wp_die();
     }

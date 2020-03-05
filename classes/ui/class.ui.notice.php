@@ -126,7 +126,7 @@ class DUP_UI_Notice
             }
             
             if (empty($shouldBeActivated)) {
-                delete_option('duplicator_reactivate_plugins_after_installation');
+                DUP_Util::resetReactivatePlugins();
             } else {
                 $activatePluginsAnchors = array();
                 foreach ($shouldBeActivated as $slug => $title) {

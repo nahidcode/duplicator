@@ -836,4 +836,14 @@ class DUP_Util
 	{
 		return function_exists($function_name) && !in_array($function_name, self::getIniDisableFuncs());
 	}
+
+	/**
+	 * reset Reactivate plugin list
+	 *
+	 * @return void
+	 */
+	public static function resetReactivatePlugins()
+	{
+		delete_option('duplicator_reactivate_plugins_after_installation');
+	}
 }
