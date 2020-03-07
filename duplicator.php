@@ -498,8 +498,12 @@ if (is_admin() == true)
             $this_plugin = plugin_basename(__FILE__);
 
         if ($file == $this_plugin) {
+            /*
             $settings_link = '<a href="admin.php?page=duplicator">' . esc_html__("Manage", 'duplicator') . '</a>';
             array_unshift($links, $settings_link);
+            */
+            $upgrade_link = '<a href="https://snapcreek.com"><strong style="color: #11967A; display: inline;">' . esc_html__("Upgrade to Professional", 'duplicator') . '</strong></a>';
+            array_unshift($links, $upgrade_link);
         }
         return $links;
     }
