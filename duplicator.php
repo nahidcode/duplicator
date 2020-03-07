@@ -288,9 +288,7 @@ if (is_admin() == true)
     add_action('admin_init',		'duplicator_admin_init');
     add_action('admin_menu',		'duplicator_menu');
     add_action('admin_enqueue_scripts', 'duplicator_admin_enqueue_scripts' );
-    add_action('admin_notices',		array('DUP_UI_Notice', 'showReservedFilesNotice'));
-    add_action('admin_notices',		array('DUP_UI_Notice', 'installAutoDeactivatePlugins'));
-    add_action('admin_notices',		array('DUP_UI_Notice', 'showFeedBackNotice'));
+    DUP_UI_Notice::init();
 	
 	//CTRL ACTIONS
     DUP_Web_Services::init();
@@ -299,7 +297,6 @@ if (is_admin() == true)
     add_action('wp_ajax_duplicator_package_build',				'duplicator_package_build');
     add_action('wp_ajax_duplicator_package_delete',				'duplicator_package_delete');
     add_action('wp_ajax_duplicator_duparchive_package_build',	'duplicator_duparchive_package_build');
-    add_action('wp_ajax_duplicator_set_admin_notice_viewed',    'duplicator_set_admin_notice_viewed');
 
 	$GLOBALS['CTRLS_DUP_CTRL_UI']		= new DUP_CTRL_UI();
 	$GLOBALS['CTRLS_DUP_CTRL_Tools']	= new DUP_CTRL_Tools();
@@ -357,6 +354,13 @@ if (is_admin() == true)
      * @return null
      */
     function duplicator_admin_enqueue_scripts() {
+        wp_enqueue_script('dup-global-script', DUPLICATOR_PLUGIN_URL . 'assets/js/global-admin-script.js', array('jquery'), DUPLICATOR_VERSION, true);
+        wp_localize_script('dup-global-script', 
+            'dup_global_script_data', 
+            array(
+                'dismiss_plugin_activation_admin_notice_nonce' => wp_create_nonce('duplicator_dismiss_plugin_activation_admin_notice'),
+            )
+        );
         wp_enqueue_style('dup-plugin-global-style');
     }
 	
@@ -433,7 +437,9 @@ if (is_admin() == true)
         add_action('admin_print_scripts-' . $page_packages, 'duplicator_scripts');
         add_action('admin_print_scripts-' . $page_settings, 'duplicator_scripts');
         add_action('admin_print_scripts-' . $page_tools, 'duplicator_scripts');
-		add_action('admin_print_scripts-' . $page_gopro, 'duplicator_scripts');
+        add_action('admin_print_scripts-' . $page_gopro, 'duplicator_scripts');
+        
+        add_action('wp_enqueue_scripts', 'duplicator_global_scripts');
 		
         //Apply Styles
         add_action('admin_print_styles-' . $page_packages, 'duplicator_styles');
@@ -455,7 +461,7 @@ if (is_admin() == true)
         wp_enqueue_script('jquery-ui-progressbar');
         wp_enqueue_script('dup-parsley');
 		wp_enqueue_script('dup-jquery-qtip');
-		
+
     }
 
     /**
@@ -575,29 +581,6 @@ if (is_admin() == true)
                     }
                 }
             }
-        }
-    }
-
-    if (!function_exists('duplicator_set_admin_notice_viewed')) {
-        function duplicator_set_admin_notice_viewed() {
-            if ( empty( $_REQUEST['notice_id'] ) ) {
-                wp_die();
-            }
-    
-            $notices = get_user_meta(get_current_user_id(), DUPLICATOR_ADMIN_NOTICES_USER_META_KEY, true);
-            if ( empty( $notices ) ) {
-                $notices = array();
-            }
-    
-            $notices[ $_REQUEST['notice_id'] ] = 'true';
-            update_user_meta( get_current_user_id(), DUPLICATOR_ADMIN_NOTICES_USER_META_KEY, $notices);
-    
-            if ( ! wp_doing_ajax() ) {
-                wp_safe_redirect( admin_url() );
-                die;
-            }
-    
-            wp_die();
         }
     }
 }
