@@ -502,7 +502,7 @@ if (is_admin() == true)
             $settings_link = '<a href="admin.php?page=duplicator">' . esc_html__("Manage", 'duplicator') . '</a>';
             array_unshift($links, $settings_link);
             */
-            $upgrade_link = '<a href="https://snapcreek.com"><strong style="color: #11967A; display: inline;">' . esc_html__("Upgrade to Professional", 'duplicator') . '</strong></a>';
+            $upgrade_link = '<a href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&utm_medium=wordpress_plugin&utm_content=plugins_page&utm_campaign=duplicator_pro"><strong style="color: #11967A; display: inline;">' . esc_html__("Upgrade to Professional", 'duplicator') . '</strong></a>';
             array_unshift($links, $upgrade_link);
         }
         return $links;
