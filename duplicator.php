@@ -158,7 +158,7 @@ if (is_admin() == true)
     }
     require_once 'lib/snaplib/snaplib.all.php';
     require_once 'classes/class.constants.php';
-    $isWPEngineHost = apply_filters('duplicator_wp_engine_host_check', file_exists(WPMU_PLUGIN_DIR.'/wpengine-common/mu-plugin.php'));
+    $isWPEngineHost = apply_filters('duplicator_wp_engine_host_check', file_exists(WPMU_PLUGIN_DIR.'/wpengine-security-auditor.php'));
     if ($isWPEngineHost) {
         require_once 'classes/host/class.wpengine.host.php';
     }
