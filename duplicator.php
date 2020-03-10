@@ -519,7 +519,7 @@ if (is_admin() == true)
         $plugin = plugin_basename(__FILE__);
         // create link
         if ($file == $plugin) {
-            $links[] = '<a href="admin.php?page=duplicator-gopro" title="' . esc_attr__('Get Help', 'duplicator') . '" style="">' . esc_html__('Go Pro', 'duplicator') . '</a>';
+            $links[] = '<a href="admin.php?page=duplicator" title="' . esc_attr__('Manage Packages', 'duplicator') . '" style="">' . esc_html__('Manage', 'duplicator') . '</a>';
             return $links;
         }
         return $links;
