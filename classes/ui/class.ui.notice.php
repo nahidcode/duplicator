@@ -140,7 +140,7 @@ class DUP_UI_Notice
                 echo "<div class='update-nag duplicator-plugin-activation-admin-notice notice notice-warning is-dismissible'>
                         <p>".
                             "<b>".esc_html__("Warning!", "duplicator")."</b> ".esc_html__("Migration Almost Complete!",  "duplicator")." <br/>".
-                            esc_html__("Plugin(s) listed here was deactivated during installation, Please activate them: ", "duplicator").
+                            esc_html__("Plugin(s) listed here have been deactivated during installation to help prevent issues. Please activate them to finish this migration: ", "duplicator").
                             "<br/>".
                             implode(' ,', $activatePluginsAnchors).
                         "</p>".
