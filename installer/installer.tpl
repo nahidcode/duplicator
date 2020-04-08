@@ -164,7 +164,9 @@ class DUPX_Bootstrap
 		}
 
 		if (false  === $is_installer_file_valid) {
-			$error = "Installer and archive mismatch detected. Please ensure uncorrupted installer and matching archive are present.";
+			$error = "Installer and archive mismatch detected. 
+					<br>
+					Ensure uncorrupted installer and matching archive are present.";
 			return $error;
 		}
 
