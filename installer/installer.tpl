@@ -164,8 +164,7 @@ class DUPX_Bootstrap
 		}
 
 		if (false  === $is_installer_file_valid) {
-			$error = "<b>The installer file is corrupted!</b><br>
-						Please download the respective installer.php file again and then try again.";
+			$error = "Installer and archive mismatch detected. Please ensure uncorrupted installer and matching archive are present.";
 			return $error;
 		}
 
