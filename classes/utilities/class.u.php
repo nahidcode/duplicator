@@ -747,7 +747,7 @@ class DUP_Util
     {
 		// It will clear the $GLOBALS['wpdb']->last_error var
 		$GLOBALS['wpdb']->flush();
-		$sql = "SELECT 1 FROM ".esc_sql($table)." LIMIT 1;";
+		$sql = "SELECT 1 FROM `".esc_sql($table)."` LIMIT 1;";
 		$ret = $GLOBALS['wpdb']->get_var($sql);
 		if (empty($GLOBALS['wpdb']->last_error))   return true;
         return false;
