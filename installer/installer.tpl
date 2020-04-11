@@ -152,6 +152,25 @@ class DUPX_Bootstrap
 		$archive_filename	 = self::ARCHIVE_FILENAME;
 
 		$error					= null;
+
+		$is_installer_file_valid = true;
+		if (preg_match('/_([a-z0-9]{7})[a-z0-9]{13}_[0-9]{6}([0-9]{8})_archive.(?:zip|daf)$/', $archive_filename, $matches)) {
+			$expected_package_hash = $matches[1].'-'.$matches[2]; 
+			if (self::PACKAGE_HASH != $expected_package_hash) {
+				$is_installer_file_valid = false;
+				self::log("[ERROR] Installer and archive mismatch detected.");
+			}
+		} else {
+			self::log("[ERROR] Invalid archive file name.");
+			$is_installer_file_valid = false;
+		}
+
+		if (false  === $is_installer_file_valid) {
+			$error = "Installer and archive mismatch detected.
+					Ensure uncorrupted installer and matching archive are present.";
+			return $error;
+		}
+
 		$extract_installer		= true;
 		$installer_directory	= dirname(__FILE__).'/'.self::INSTALLER_DIR_NAME;
 		$extract_success		= false;
