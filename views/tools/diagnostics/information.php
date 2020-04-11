@@ -130,7 +130,7 @@ if ($section == "info" || $section == '') {
 
 				<div class="dup-alert-secure-note">
 					<?php
-						echo '<b><i class="fa fa-shield"></i> ' . esc_html__('Security Notes', 'duplicator') . ':</b>&nbsp;';
+						echo '<b><i class="fa fa-shield-alt"></i> ' . esc_html__('Security Notes', 'duplicator') . ':</b>&nbsp;';
 						_e('If the installer files do not successfully get removed with this action, then they WILL need to be removed manually through your hosts control panel  '
 						 . 'or FTP.  Please remove all installer files to avoid any security issues on this site.  For more details please visit '
 						 . 'the FAQ link <a href="https://snapcreek.com/duplicator/docs/faqs-tech/#faq-installer-295-q" target="_blank">Which files need to be removed after an install?</a>', 'duplicator');
@@ -146,7 +146,7 @@ if ($section == "info" || $section == '') {
                                     '<br><br>';
                         }
 
-						echo '<b><i class="fa fa-thumbs-o-up"></i> ' . esc_html__('Help Support Duplicator', 'duplicator') . ':</b>&nbsp;';
+						echo '<b><i class="fa fa-thumbs-up"></i> ' . esc_html__('Help Support Duplicator', 'duplicator') . ':</b>&nbsp;';
 						_e('The Duplicator team has worked many years to make moving a WordPress site a much easier process.  Show your support with a '
 						 . '<a href="https://wordpress.org/support/plugin/duplicator/reviews/?filter=5" target="_blank">5 star review</a>!  We would be thrilled if you could!', 'duplicator');
 					?>
