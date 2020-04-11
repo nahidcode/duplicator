@@ -52,7 +52,7 @@ if (!class_exists('DupLiteSnapLibURLU', false)) {
             }
             $host    = $_SERVER['HTTP_HOST'];
             $port    = $_SERVER['SERVER_PORT'];
-            $request = $_SERVER['PHP_SELF'];
+            $request = $_SERVER['SCRIPT_NAME'];
 
             $query = ($queryString === TRUE) ? $_SERVER['QUERY_STRING'] : "";
             $url   = $protocol.'://'.$host.($port == $protocolPort ? '' : ':'.$port).$request.(empty($query) ? '' : '?'.$query);
