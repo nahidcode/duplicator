@@ -58,9 +58,10 @@ if ($section == "info" || $section == '') {
                     $remove_error = false;
 
 					// Move installer log before cleanup
+    				DUP_Util::initSnapshotDirectory();
 					$installer_log_path = DUPLICATOR_INSTALLER_DIRECTORY.'/dup-installer-log__'.DUPLICATOR_INSTALLER_HASH_PATTERN.'.txt';
 					$glob_files = glob($installer_log_path);
-					if (!empty($glob_files) && wp_mkdir_p(DUPLICATOR_SSDIR_PATH_INSTALLER)) {
+					if (!empty($glob_files)) {
 						foreach ($glob_files as $glob_file) {
 							$installer_log_file_path = $glob_file;
 							DUP_IO::copyFile($installer_log_file_path, DUPLICATOR_SSDIR_PATH_INSTALLER);
