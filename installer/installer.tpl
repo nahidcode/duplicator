@@ -195,18 +195,6 @@ class DUPX_Bootstrap
 			//MISSING ARCHIVE FILE
 			if (! file_exists($archive_filepath)) {
 				self::log("[ERROR] Archive file not found!");
-				$archive_candidates = ($isZip) ? $this->getFilesWithExtension('zip') : $this->getFilesWithExtension('daf');
-				$candidate_count = count($archive_candidates);
-				$candidate_html  = "- No {$archive_extension} files found -";
-
-				if ($candidate_count >= 1) {
-					$candidate_html = "<ol>";
-					foreach($archive_candidates as $archive_candidate) {
-						$candidate_html .=  '<li class="diff-list"> '.$this->compareStrings($archive_filename, $archive_candidate).'</li>';
-					}
-				   $candidate_html .=  "</ol>";
-				}
-
 				$error  = "<style>.diff-list font { font-weight: bold; }</style>"
                     . "<b>Archive not found!</b> The <i>'Required File'</i> below should be present in the <i>'Extraction Path'</i>.  "
 					. "The archive file name must be the <u>exact</u> name of the archive file placed in the extraction path character for character.<br/><br/>  "
@@ -214,9 +202,7 @@ class DUPX_Bootstrap
 					. "sure both files are from the same package line in the packages view.  If the archive is not finished downloading please wait for it to complete.<br/><br/>"
 					. "If this message continues even with a valid archive file, consider clearing your browsers cache and refreshing, trying another browser or change the browsers "
 					. "URL from http to https or vice versa.<br/><br/>  "
-					. "<b>Required File:</b>  <span class='file-info'>{$archive_filename}</span> <br/>"
-					. "<b>Extraction Path:</b> <span class='file-info'>{$this->installerExtractPath}/</span><br/><br/>"
-					. "Potential archives found at extraction path: <br/>{$candidate_html}<br/><br/>";
+					. "<b>Extraction Path:</b> <span class='file-info'>{$this->installerExtractPath}/</span><br/><br/>";
 
 				return $error;
 			}
@@ -1623,8 +1609,6 @@ if ($boot_error == null) {
 		$id = uniqid();
 		$html = "<form id='{$id}' method='post' action='{$boot->mainInstallerURL}' />\n";
 		$data = array(
-			'archive' => $boot->archive,
-			'bootloader' => $boot->bootloader,
 			'csrf_token' => $step1_csrf_token,
 		);
 		foreach ($data as $name => $value) {			

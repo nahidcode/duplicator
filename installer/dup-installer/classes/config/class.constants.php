@@ -33,9 +33,12 @@ class DUPX_Constants
 		$config_file_name = basename($config_file_absolute_path, '.txt');
 		$archive_prefix_length = strlen('dup-archive__');
 		$GLOBALS['PACKAGE_HASH'] = substr($config_file_name, $archive_prefix_length); 
+        
+        $bootloader                 = DUPX_CSRF::getVal('bootloader');
+        $GLOBALS['BOOTLOADER_NAME'] = $bootloader ? $bootloader : 'installer.php';
+        $package                    = DUPX_CSRF::getVal('archive');
+        $GLOBALS['FW_PACKAGE_PATH'] = $package ? $package : null; // '%fwrite_package_name%';
 
-		$GLOBALS['BOOTLOADER_NAME'] = isset($_POST['bootloader'])  ? $_POST['bootloader'] : 'installer.php';
-        $GLOBALS['FW_PACKAGE_PATH'] = isset($_POST['archive'])     ? $_POST['archive']    : null; // '%fwrite_package_name%';
         $GLOBALS['FW_ENCODED_PACKAGE_PATH'] = urlencode($GLOBALS['FW_PACKAGE_PATH']);
         $GLOBALS['FW_PACKAGE_NAME'] = basename($GLOBALS['FW_PACKAGE_PATH']);
 

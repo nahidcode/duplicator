@@ -42,10 +42,13 @@ try {
     $serverUrlSelf = preg_match('/^[\\\\\/]?$/', dirname($_SERVER['SCRIPT_NAME'])) ? '' : dirname($_SERVER['SCRIPT_NAME']);
 
     $GLOBALS['DUPX_INIT']     = str_replace('\\', '/', dirname(__FILE__));
+    $GLOBALS['DUPX_INIT_URL'] = $serverDomain.$serverUrlSelf;
     $GLOBALS['DUPX_ROOT']     = preg_match('/^[\\\\\/]?$/', dirname($GLOBALS['DUPX_INIT'])) ? '/' : dirname($GLOBALS['DUPX_INIT']);
     $GLOBALS['DUPX_ROOT_URL'] = $serverDomain.(preg_match('/^[\\\\\/]?$/', dirname($serverUrlSelf)) ? '' : dirname($serverUrlSelf));
 
     require_once($GLOBALS['DUPX_INIT'].'/classes/config/class.boot.php');
+    require_once($GLOBALS['DUPX_INIT'].'/classes/class.csrf.php');
+    
     /**
      * init constants and include
      */
@@ -69,18 +72,9 @@ try {
     // DUPX_log::error thotw an exception
     DUPX_Log::setThrowExceptionOnError(true);
 
-    require_once($GLOBALS['DUPX_INIT'].'/classes/class.csrf.php');
-
     // ?view=help
     if (!empty($_GET['view']) && 'help' == $_GET['view']) {
-        if (!isset($_GET['archive'])) {
-            // RSR TODO: Fail gracefully
-            DUPX_Log::error("Archive parameter not specified");
-        }
-        if (!isset($_GET['bootloader'])) {
-            // RSR TODO: Fail gracefully
-            DUPX_Log::error("Bootloader parameter not specified");
-        }
+
     } else if (isset($_GET['is_daws']) && 1 == $_GET['is_daws']) { // For daws action
         $post_ctrl_csrf_token = isset($_GET['daws_csrf_token']) ? DUPX_U::sanitize_text_field($_GET['daws_csrf_token']) : '';
         if (DUPX_CSRF::check($post_ctrl_csrf_token, 'daws')) {
