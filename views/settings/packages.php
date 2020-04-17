@@ -21,7 +21,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'save') {
 	$mysqldump_enabled	= isset($_POST['package_dbmode']) && $_POST['package_dbmode'] == 'mysql' ? "1" : "0";
 	if (isset($_POST['package_mysqldump_path'])) {
         $mysqldump_exe_file =DupLiteSnapLibUtil::sanitize_non_stamp_chars_newline_and_trim($_POST['package_mysqldump_path']);
-        $mysqldump_exe_file = preg_replace('/[\'":;]/m', '', $mysqldump_exe_file);
+        $mysqldump_exe_file = preg_replace('/[\'";]/m', '', $mysqldump_exe_file);
 		$mysqldump_exe_file	= DUP_Util::safePath($mysqldump_exe_file);
 		$mysqldump_exe_file	= DUP_DB::escSQL(strip_tags($mysqldump_exe_file), true);
 	}
