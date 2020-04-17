@@ -552,7 +552,9 @@ class DUPX_Bootstrap
 	public function isHttps()
 	{
 		$retVal = true;
-
+        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            $_SERVER ['HTTPS'] = 'on';
+        }
 		if (isset($_SERVER['HTTPS'])) {
 			$retVal = ($_SERVER['HTTPS'] !== 'off');
 		} else {

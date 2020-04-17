@@ -44,6 +44,9 @@ if (!class_exists('DupLiteSnapLibURLU', false)) {
         public static function getCurrentUrl($queryString = true)
         {
             $protocol = 'http';
+            if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+                $_SERVER ['HTTPS'] = 'on';
+            }
             if ($_SERVER['SERVER_PORT'] == 443 || (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')) {
                 $protocol     .= 's';
                 $protocolPort = $_SERVER['SERVER_PORT'];
