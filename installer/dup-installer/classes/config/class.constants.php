@@ -90,7 +90,10 @@ class DUPX_Constants
 		$GLOBALS['CHOWN_ROOT_PATH']		= DupLiteSnapLibIOU::chmod("{$GLOBALS['CURRENT_ROOT_PATH']}", 'u+rwx');
 		$GLOBALS['CHOWN_LOG_PATH']		= DupLiteSnapLibIOU::chmod("{$GLOBALS['LOG_FILE_PATH']}", 'u+rw');
         $GLOBALS['CHOWN_NOTICES_PATH']	= DupLiteSnapLibIOU::chmod("{$GLOBALS['NOTICES_FILE_PATH']}", 'u+rw');
-		$GLOBALS['URL_SSL']				= (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? true : false;
+        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            $_SERVER ['HTTPS'] = 'on';
+        }
+        $GLOBALS['URL_SSL']				= (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? true : false;
 		$GLOBALS['URL_PATH']			= ($GLOBALS['URL_SSL']) ? "https://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}" : "http://{$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}";
 		$GLOBALS['PHP_MEMORY_LIMIT']	= ini_get('memory_limit') === false ? 'n/a' : ini_get('memory_limit');
 		$GLOBALS['PHP_SUHOSIN_ON']		= extension_loaded('suhosin') ? 'enabled' : 'disabled';
