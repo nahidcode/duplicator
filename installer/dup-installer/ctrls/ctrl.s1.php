@@ -277,10 +277,11 @@ switch ($post_archive_engine) {
             if (!empty($dupInstallerFolder)) {
                 DUPX_U::moveUpfromSubFolder($target.'/'.$dupInstallerFolder , true);
             }
-            
-            if (DUPX_Log::isLevel(DUPX_Log::LV_DEBUG)) {
-                $log = print_r($zip, true);
-            }
+
+			//Uncomment if needed
+			//if (DUPX_Log::isLevel(DUPX_Log::LV_DEBUG)) {
+			//	$log = print_r($zip, true);
+			//}
             
 			//FILE-TIMESTAMP
 			if ($_POST['zip_filetime'] == 'original') {
