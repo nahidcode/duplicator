@@ -15,6 +15,7 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
  */
 final class DUPX_Package
 {
+
     /**
      *
      * @staticvar string $path
@@ -27,6 +28,22 @@ final class DUPX_Package
             $path = $GLOBALS['DUPX_AC']->installSiteOverwriteOn ? $GLOBALS['DUPX_ROOT'].'/dup-wp-config-arc__'.$GLOBALS['DUPX_AC']->package_hash.'.txt' : $GLOBALS['DUPX_ROOT'].'/wp-config.php';
         }
         return $path;
+    }
+
+    public static function getPackageFileHash()
+    {
+        static $fileHash = null;
+
+        if (is_null($fileHash)) {
+            $fileHash = preg_replace('/^.+_([a-z0-9]+)_[0-9]{14}_archive\.(?:daf|zip)$/', '$1', $GLOBALS['FW_PACKAGE_PATH']);
+        }
+
+        return $fileHash;
+    }
+
+    public static function getPackageFileWithoutHash()
+    {
+        return str_replace(self::getPackageFileHash(), '[HASH]', $GLOBALS['FW_PACKAGE_PATH']);
     }
 
     /**

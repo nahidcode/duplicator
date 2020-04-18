@@ -125,7 +125,7 @@ DUPX_Log::info($log, DUPX_Log::LV_DEBUG);
 $log = "\n--------------------------------------\n";
 $log .= "ARCHIVE SETUP\n";
 $log .= "--------------------------------------\n";
-$log .= str_pad('NAME', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString($GLOBALS['FW_PACKAGE_NAME'])."\n";
+$log .= str_pad('NAME', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_Log::varToString(DUPX_Package::getPackageFileWithoutHash())."\n";
 if (file_exists($GLOBALS['FW_PACKAGE_PATH'])) {
 	$log .= str_pad('SIZE', $labelPadSize, '_', STR_PAD_RIGHT).': '.DUPX_U::readableByteSize(@filesize($GLOBALS['FW_PACKAGE_PATH']));
 }

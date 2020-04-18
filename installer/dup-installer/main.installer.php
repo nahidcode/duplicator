@@ -109,7 +109,20 @@ try {
                 );
                 echo DupLiteSnapJsonU::wp_json_encode($resp);
             } else {
+
                 require_once($GLOBALS['DUPX_INIT'].'/lib/dup_archive/daws/daws.php');
+                
+                if (isset($_REQUEST['action'])) {
+                    $params = $_REQUEST;
+                    DupLiteSnapLibLogger::log('b');
+                } else {
+                    $json   = file_get_contents('php://input');
+                    $params = json_decode($json, true);
+                }
+                
+                $params['archive_filepath'] = $GLOBALS['FW_PACKAGE_PATH'];
+                $daws = new DAWS();
+                $daws->processRequest($params);
             }
             die('');
         } else {

@@ -40,7 +40,7 @@ $datetime1	= $GLOBALS['DUPX_AC']->created;
 $datetime2	= date("Y-m-d H:i:s");
 $fulldays	= round(abs(strtotime($datetime1) - strtotime($datetime2))/86400);
 $root_path	= DupLiteSnapLibIOU::safePath($GLOBALS['DUPX_ROOT'], true);
-$archive_path	= DupLiteSnapLibIOU::safePath($GLOBALS['FW_PACKAGE_PATH'], true);
+//$archive_path	= DupLiteSnapLibIOU::safePath($GLOBALS['FW_PACKAGE_PATH'], true);
 $wpconf_path	= "{$root_path}/wp-config.php";
 $max_time_zero	= ($GLOBALS['DUPX_ENFORCE_PHP_INI']) ? false : @set_time_limit(0);
 $max_time_size	= 314572800;  //300MB
@@ -1055,7 +1055,7 @@ DUPX.kickOffDupArchiveExtract = function ()
 	var isClientSideKickoff = DUPX.isClientSideKickoff();
 
 	request.action = "start_expand";
-	request.archive_filepath = '<?php echo DUPX_U::esc_js($archive_path); ?>';
+	//request.archive_filepath = '<?php echo DUPX_U::esc_js($archive_path); ?>';
 	request.restore_directory = '<?php echo DUPX_U::esc_js($root_path); ?>';
 	request.worker_time = DUPX.DAWS.KickoffWorkerTimeInSec;
 	request.client_driven = isClientSideKickoff ? 1 : 0;
