@@ -157,7 +157,7 @@ switch ($post_archive_engine) {
 			DUPX_Log::info("\nShell Exec Current does not support orginal file timestamp please use ZipArchive");
 		}
 
-		DUPX_Log::info(">>> Starting Shell-Exec Unzip:\nCommand: {$command}");
+		DUPX_Log::info(">>> Starting Shell-Exec Unzip:\nCommand: {$command}", DUPX_Log::LV_DEBUG);
 		$stderr = shell_exec($command);
 		if ($stderr != '') {
 			$zip_err_msg = ERR_SHELLEXEC_ZIPOPEN.": $stderr";
@@ -278,8 +278,10 @@ switch ($post_archive_engine) {
                 DUPX_U::moveUpfromSubFolder($target.'/'.$dupInstallerFolder , true);
             }
             
-			$log = print_r($zip, true);
-
+            if (DUPX_Log::isLevel(DUPX_Log::LV_DEBUG)) {
+                $log = print_r($zip, true);
+            }
+            
 			//FILE-TIMESTAMP
 			if ($_POST['zip_filetime'] == 'original') {
 				$log .= "File timestamp set to Original\n";
