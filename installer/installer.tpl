@@ -679,7 +679,7 @@ class DUPX_Bootstrap
 		$subFolderArchiveList   = array();
 
 		if (($zipOpenRes = $zipArchive->open($archive_filepath)) === true) {
-			self::log("Successfully opened $archive_filepath");
+            self::log("Successfully opened archive file.");
 			$destination = dirname(__FILE__);
 			$folder_prefix = self::INSTALLER_DIR_NAME.'/';
 			self::log("Extracting all files from archive within ".self::INSTALLER_DIR_NAME);
@@ -1048,7 +1048,7 @@ class DUPX_Bootstrap
 
 		if ($unzip_filepath != null) {
 			$unzip_command	 = "$unzip_filepath -q $archive_filepath ".self::INSTALLER_DIR_NAME.'/* 2>&1';
-			self::log("Executing $unzip_command");
+            self::log("Executing unzip command");
 			$stderr	 = shell_exec($unzip_command);
 
             $lib_directory = dirname(__FILE__).'/'.self::INSTALLER_DIR_NAME.'/lib';
@@ -1059,7 +1059,7 @@ class DUPX_Bootstrap
             {
                 $local_lib_directory = dirname(__FILE__).'/snaplib';
                 $unzip_command	 = "$unzip_filepath -q $archive_filepath snaplib/* 2>&1";
-                self::log("Executing $unzip_command");
+                self::log("Executing unzip command");
                 $stderr	 .= shell_exec($unzip_command);
 				self::mkdir($lib_directory,'u+rwx');
                 rename($local_lib_directory, $snaplib_directory);
@@ -1090,7 +1090,6 @@ class DUPX_Bootstrap
 			$archive_filepath = str_replace("\\", '/', dirname(__FILE__) . '/' . $archive_filename);
 		}
 
-		self::log("Using archive $archive_filepath");
 		return $archive_filepath;
 	}
 
