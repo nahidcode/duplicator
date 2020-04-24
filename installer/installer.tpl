@@ -93,6 +93,7 @@ class DUPX_Bootstrap
 	const ARCHIVE_SIZE		 = '@@ARCHIVE_SIZE@@';
 	const INSTALLER_DIR_NAME = 'dup-installer';
 	const PACKAGE_HASH		 = '@@PACKAGE_HASH@@';
+    const SECONDARY_PACKAGE_HASH = '@@SECONDARY_PACKAGE_HASH@@';
 	const VERSION			 = '@@VERSION@@';
 
 	public $hasZipArchive     = false;
@@ -116,7 +117,7 @@ class DUPX_Bootstrap
         
 		//ARCHIVE_SIZE will be blank with a root filter so we can estimate
 		//the default size of the package around 17.5MB (18088000)
-		$archiveActualSize		        = @filesize(self::ARCHIVE_FILENAME);
+		$archiveActualSize		        = @file_exists(self::ARCHIVE_FILENAME) ? @filesize(self::ARCHIVE_FILENAME) : false;
 		$archiveActualSize				= ($archiveActualSize !== false) ? $archiveActualSize : 0;
 		$this->hasZipArchive			= class_exists('ZipArchive');
 		$this->hasShellExecUnzip		= $this->getUnzipFilePath() != null ? true : false;
@@ -656,15 +657,33 @@ class DUPX_Bootstrap
 	{
         static $logfile = null;
         if (is_null($logfile)) {
-            $logfile = dirname(__FILE__).'/dup-installer-bootlog__'.self::PACKAGE_HASH.'.txt';
+            $logfile = dirname(__FILE__).'/dup-installer-bootlog__'.self::SECONDARY_PACKAGE_HASH.'.txt';
         }
         if ($deleteOld && file_exists($logfile)) {
             @unlink($logfile);
         }
         $timestamp = date('M j H:i:s');
-		return @file_put_contents($logfile, '['.$timestamp.'] '.$s."\n", FILE_APPEND);
+		return @file_put_contents($logfile, '['.$timestamp.'] '.self::postprocessLog($s)."\n", FILE_APPEND);
 	}
-
+    
+    protected static function postprocessLog($str) {
+        return str_replace(array(
+            self::getArchiveFileHash(),
+            self::PACKAGE_HASH, 
+            self::SECONDARY_PACKAGE_HASH
+            ), '[HASH]' , $str);
+    }
+    
+    
+    public static function getArchiveFileHash()
+    {
+        static $fileHash = null;
+        if (is_null($fileHash)) {
+            $fileHash = preg_replace('/^.+_([a-z0-9]+)_[0-9]{14}_archive\.(?:daf|zip)$/', '$1', self::ARCHIVE_FILENAME);
+        }
+        return $fileHash;
+    }
+    
 	/**
      * Extracts only the 'dup-installer' files using ZipArchive
      *
@@ -1596,6 +1615,7 @@ if ($boot_error == null) {
 	$step1_csrf_token = DUPX_CSRF::generate('step1');
 	DUPX_CSRF::setKeyVal('archive', $boot->archive);
 	DUPX_CSRF::setKeyVal('bootloader', $boot->bootloader);
+    DUPX_CSRF::setKeyVal('secondaryHash', DUPX_Bootstrap::SECONDARY_PACKAGE_HASH);
 }
 ?>
 

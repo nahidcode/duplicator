@@ -30,7 +30,22 @@ final class DUPX_Package
         return $path;
     }
 
-    public static function getPackageFileHash()
+    /**
+     * 
+     * @staticvar bool|string $packageHash
+     * @return bool|string false if fail
+     */
+    public static function getPackageHash()
+    {
+        return $GLOBALS['DUPX_AC']->package_hash;
+    }
+
+    /**
+     * 
+     * @staticvar string $fileHash
+     * @return string
+     */
+    public static function getArchiveFileHash()
     {
         static $fileHash = null;
 
@@ -39,11 +54,6 @@ final class DUPX_Package
         }
 
         return $fileHash;
-    }
-
-    public static function getPackageFileWithoutHash()
-    {
-        return str_replace(self::getPackageFileHash(), '[HASH]', $GLOBALS['FW_PACKAGE_PATH']);
     }
 
     /**
