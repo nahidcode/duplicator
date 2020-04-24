@@ -133,7 +133,7 @@ class DUP_Server
 			throw new Exception('Exception: Empty $errorMessage [File: '.__FILE__.', Ln: '.__LINE__);
         }
 
-        $validTestStatuses = array('Pass', 'Fail');
+        $validTestStatuses = array('Pass', 'Fail', 'Warn');
 
         if (!in_array($testStatus, $validTestStatuses)) {
             throw new Exception('Exception: Invalid $testStatus value: '.$testStatus.' [File: '.__FILE__.', Ln: '.__LINE__);
