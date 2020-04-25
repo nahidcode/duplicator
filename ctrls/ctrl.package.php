@@ -490,9 +490,16 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
                 if ($filePath != null) {
                     $fp = fopen($filePath, 'rb');
                     if ($fp !== false) {
-
                         if ($which == DUP_PackageFileType::Installer) {
-                            $fileName = 'installer.php';
+                            switch (DUP_Settings::Get('installer_name_mode')) {
+                                case DUP_Settings::INSTALLER_NAME_MODE_SIMPLE:
+                                    $fileName = DUP_Installer::DEFAULT_INSTALLER_FILE_NAME_WITHOUT_HASH;
+                                    break;
+                                case DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH:
+                                default:
+                                    $fileName = basename($filePath);
+                                    break;
+                            }
                         } else {
                             $fileName = basename($filePath);
                         }

@@ -11,6 +11,8 @@ require_once(DUPLICATOR_PLUGIN_PATH.'/classes/class.password.php');
 
 class DUP_Installer
 {
+    const DEFAULT_INSTALLER_FILE_NAME_WITHOUT_HASH = 'installer.php';
+    
 	//PUBLIC
 	public $File;
 	public $Size			 = 0;
