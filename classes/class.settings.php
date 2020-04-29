@@ -134,7 +134,7 @@ class DUP_Settings
         //Optional mysqldump search path
         $default['package_zip_flush']        = isset(self::$Data['package_zip_flush']) ? self::$Data['package_zip_flush'] : false;
         //Optional mysqldump search path
-        $default['installer_name_mode']      = isset(self::$Data['installer_name_mode']) ? self::$Data['installer_name_mode'] : self::INSTALLER_NAME_MODE_WITH_HASH;
+        $default['installer_name_mode']      = isset(self::$Data['installer_name_mode']) ? self::$Data['installer_name_mode'] : self::INSTALLER_NAME_MODE_SIMPLE;
 
         //Flag for .htaccess file
         $default['storage_htaccess_off'] = isset(self::$Data['storage_htaccess_off']) ? self::$Data['storage_htaccess_off'] : false;

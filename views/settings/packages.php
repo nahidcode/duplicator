@@ -36,12 +36,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'save') {
     DUP_Settings::Set('package_ui_created', sanitize_text_field($_POST['package_ui_created']));
 
     switch (filter_input(INPUT_POST, 'installer_name_mode', FILTER_DEFAULT)) {
-        case DUP_Settings::INSTALLER_NAME_MODE_SIMPLE:
-            DUP_Settings::Set('installer_name_mode', DUP_Settings::INSTALLER_NAME_MODE_SIMPLE);
-            break;
         case DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH:
-        default:
             DUP_Settings::Set('installer_name_mode', DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH);
+            break;
+        case DUP_Settings::INSTALLER_NAME_MODE_SIMPLE:
+        default:
+            DUP_Settings::Set('installer_name_mode', DUP_Settings::INSTALLER_NAME_MODE_SIMPLE);
             break;
     }
 
@@ -70,6 +70,7 @@ $installerNameMode      = DUP_Settings::Get('installer_name_mode');
     select#package_ui_created {font-family: monospace}
     div.engine-radio {float: left; min-width: 100px}
     div.engine-sub-opts {padding:5px 0 10px 15px; display:none }
+    i.lock-info {display:inline-block; width: 25px;}
 </style>
 
 <form id="dup-settings-form" action="<?php echo admin_url('admin.php?page=duplicator-settings&tab=package'); ?>" method="post">
@@ -275,41 +276,57 @@ $installerNameMode      = DUP_Settings::Get('installer_name_mode');
                 </p>
             </td>
         </tr>
+    </table><br/>
+
+    <h3 class="title"><?php esc_html_e("Installer", 'duplicator') ?> </h3>
+    <hr size="1" />
+    <table class="form-table">
         <tr>
-            <th scope="row"><label><?php esc_html_e("Installer name", 'duplicator'); ?></label></th>
-            <td>
-                <b><?php esc_html_e("Default download name:", 'duplicator'); ?></b><br>
+            <th scope="row"><label><?php esc_html_e("Name", 'duplicator'); ?></label></th>
+            <td id="installer-name-mode-option" >
+                <b><?php esc_html_e("Default 'Save as' name:", 'duplicator'); ?></b> <br/>
                 <label>
-                    <input type="radio" name="installer_name_mode" 
-                           value="<?php echo DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH; ?>" 
-                           <?php checked($installerNameMode === DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH); ?> /> 
-                    [name]_[hash]_[date]_installer.php (<?php esc_html_e("recommended", 'duplicator'); ?>)
+                    <i class='fas fa-lock lock-info'></i><input type="radio" name="installer_name_mode"
+                                                                value="<?php echo DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH; ?>"
+                                                                <?php checked($installerNameMode === DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH); ?> />
+                    [name]_[hash]_[date]_installer.php <i>(<?php esc_html_e("recommended", 'duplicator'); ?>)</i>
                 </label><br>
                 <label>
-                    <input type="radio" name="installer_name_mode" 
-                           value="<?php echo DUP_Settings::INSTALLER_NAME_MODE_SIMPLE; ?>" 
-                           <?php checked($installerNameMode === DUP_Settings::INSTALLER_NAME_MODE_SIMPLE); ?> /> 
-                    <?php echo DUP_Installer::DEFAULT_INSTALLER_FILE_NAME_WITHOUT_HASH; ?>
+                    <i class='fas fa-lock-open lock-info'></i><input type="radio" name="installer_name_mode"
+                                                                     value="<?php echo DUP_Settings::INSTALLER_NAME_MODE_SIMPLE; ?>"
+                                                                     <?php checked($installerNameMode === DUP_Settings::INSTALLER_NAME_MODE_SIMPLE); ?> />
+                                                                     <?php echo DUP_Installer::DEFAULT_INSTALLER_FILE_NAME_WITHOUT_HASH; ?>
                 </label>
                 <p class="description">
-                    To understand the importance and usage of the installer name, please <a href="javascript:void(0)" onclick="jQuery('#details-data').toggle()">read this section</a>.
+                    <?php esc_html_e("To understand the importance and usage of the installer name, please", 'duplicator') ?>
+                    <a href="javascript:void(0)" onclick="jQuery('#dup-lite-inst-mode-details').toggle()"><?php esc_html_e("read this section", 'duplicator') ?> </a>.
                 </p>
-                <div id="details-data" style="display: none; max-width:800px; padding:10px 0 0 20px; line-height: 16px; font-style: italic">
-                    Using the full hashed format helps to provide a higher level of security. <br/>
-                    Hashed example:  my-name_64fc6df76c17f2023225_19990101010101_installer.php <br/><br/>
-
-                    The 'Install Name' setting specifies the name of the installer used at download-time. It is recommended you choose the hashed name to better protect the installer name. Independent of the value of
-                    this setting, you can always change the name in the save file dialog at download-time. If you choose to do this, use a filename that is known only to you. Installer filenames
-                    must end in .php. <br/><br/>
-
-                    Tip: Each row on the packages screen includes a copy to button that copies the installer name to the clipboard. After clicking this button, paste the installer name into the URL
-                    you are using to install the destination site if you have choose to download the hashed installer name.
+                <div id="dup-lite-inst-mode-details">
+                    <p>
+                        <i><?php esc_html_e('Using the full hashed format helps to provide a higher level of security so hackers can not quickly find your installer.php file and run it.', 'duplicator'); ?></i> <br/>
+                        <b><?php esc_html_e('Hashed example', 'duplicator'); ?>:</b>  my-name_64fc6df76c17f2023225_19990101010101_installer.php
+                    </p>
+                    <p>
+                        <?php esc_html_e('The Installer \'Name\' setting specifies the name of the installer used at download-time. It is recommended you choose the hashed name to better protect the installer name.'
+                            . 'Independent of the value of this setting, you can always change the name in the \'Save as\' file dialog at download-time. If you choose to use a custom name, use a filename that is '
+                            . 'known only to you. Installer filenames	must end in \'.php\'.', 'duplicator'); ?>
+                    </p>
+                    <p>
+                        <?php esc_html_e('When downloading both the installer and archive to a remote server it is important that you do not leave these files on the server for any log period of time.'
+                            . 'Once the installer is completed you should always make sure to remove all installer files.'
+                            . 'This can be done by logging into the WordPress administrator and following the prompts.', 'duplicator'); ?>
+                    </p>
+                    <p>
+                        <i class="fas fa-info-circle"></i>
+                        <?php esc_html_e('Tip: Each row on the packages screen includes a copy to button that copies the installer name to the clipboard.'
+                            . 'After clicking this button, paste the installer name into the URL you are using to install the destination site if you have choose to download the hashed installer name.', 'duplicator'); ?>
+                    </p>
                 </div>
             </td>
         </tr>
-    </table><br/>
+    </table>
 
-    <h3 class="title"><?php esc_html_e("Visual", 'duplicator') ?> </h3>
+    <h3 class="title"><?php esc_html_e("Visuals", 'duplicator') ?> </h3>
     <hr size="1" />
     <table class="form-table">
         <tr>
@@ -351,7 +368,6 @@ $installerNameMode      = DUP_Settings::Get('installer_name_mode');
         <br/>
         <input type="submit" name="submit" id="submit" class="button-primary" value="<?php esc_attr_e("Save Package Settings", 'duplicator') ?>" style="display: inline-block;" />
     </p>
-
 </form>
 
 <script>

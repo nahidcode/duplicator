@@ -4,8 +4,8 @@ defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 //Prevent directly browsing to the file
 if (function_exists('plugin_dir_url')) 
 {		
-    define('DUPLICATOR_VERSION',        '1.3.31');
-	define('DUPLICATOR_VERSION_BUILD',  '2020-04-24_22:00');
+    define('DUPLICATOR_VERSION',        '1.3.32');
+	define('DUPLICATOR_VERSION_BUILD',  '2020-04-29_12:50');
     define('DUPLICATOR_PLUGIN_URL',     plugin_dir_url(__FILE__));
 	define('DUPLICATOR_SITE_URL',		get_site_url());
 	
@@ -38,6 +38,7 @@ if (function_exists('plugin_dir_url'))
 	define('DUPLICATOR_PHP_MAX_MEMORY',  4294967296); // 4096MB
 	define('DUPLICATOR_DB_MAX_TIME',     5000);
 	define('DUPLICATOR_DB_EOF_MARKER',   'DUPLICATOR_MYSQLDUMP_EOF');
+	define("DUPLICATOR_DB_MYSQLDUMP_ERROR_CONTAINING_LINE_COUNT", 10);
 	//SCANNER CONSTRAINTS 
 	define('DUPLICATOR_SCAN_SIZE_DEFAULT',	157286400);	//150MB
 	define('DUPLICATOR_SCAN_WARNFILESIZE',	3145728);	//3MB

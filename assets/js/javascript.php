@@ -273,11 +273,11 @@ jQuery(document).ready(function($)
                 }
                 elem.qtip('option', 'content.text', message).qtip('show');
                 setTimeout(function(){ 
-                    elem.qtip('option', 'content.text', 'Copy'); 
+                    elem.qtip('option', 'content.text', 'Copy to Cliboard!');
                 }, 2000);
             }).qtip({
                 content: {
-                    text: 'copy'
+                    text: 'Copy to Cliboard!'
                 },
                 style: {
                     classes: 'qtip-light qtip-rounded qtip-shadow'

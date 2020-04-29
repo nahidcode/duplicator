@@ -459,7 +459,7 @@ DATABASE -->
     if (count($procedures)) { ?>
     <div id="showcreateproc-block"  class="scan-item scan-item-last">
         <div class='title' onclick="Duplicator.Pack.toggleScanItem(this);">
-            <div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Sufficient privileges to SHOW CREATE FUNCTION', 'duplicator');?></div>
+            <div class="text"><i class="fa fa-caret-right"></i> <?php esc_html_e('Stored Proc Access', 'duplicator');?></div>
             <div id="data-arc-status-showcreateproc"></div>
         </div>
         <div class="info">
@@ -467,11 +467,11 @@ DATABASE -->
                 <div class="container">
                     <div class="data">
                         {{#if ARC.Status.showCreateProc}}
-                        <?php esc_html_e("The database user you are using have sufficient permissions to dump database with stored procedures.", 'duplicator'); ?>
+                        <?php esc_html_e("The database user for this WordPress site has sufficient permissions to write stored procedures to the sql file of the archive. [The command SHOW CREATE FUNCTION will work.]", 'duplicator'); ?>
                         {{else}}
                         <span style="color: red;">
                         <?php
-                        esc_html_e("The database user you are using doesn't have sufficient permissions to dump database with stored procedures.", 'duplicator');
+                        esc_html_e("The database user for this WordPress site does NOT sufficient permissions to write stored procedures to the sql file of the archive.  Stored procedures will not be added to the sql file.", 'duplicator');
                         ?>
                     </span>
                         {{/if}}

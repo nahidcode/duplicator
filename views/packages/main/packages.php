@@ -12,6 +12,15 @@ $active_package_present = DUP_Package::is_active_package_present();
 $package_running      = false;
 global $packageTablerowCount;
 $packageTablerowCount = 0;
+
+if (DUP_Settings::Get('installer_name_mode') == DUP_Settings::INSTALLER_NAME_MODE_SIMPLE) {
+    $packageExeNameModeMsg = __("When clicking the Installer download button, the 'Save as' dialog is currently defaulting the name to 'installer.php'. "
+        ."To improve the security and get more information, go to: Settings > Packages Tab > Installer > Name option or click on the gear icon at the top of this page.", 'duplicator');
+} else {
+    $packageExeNameModeMsg = __("When clicking the Installer download button, the 'Save as' dialog is defaulting the name to '[name]_[hash]_[date]_installer.php'. "
+        ."This is the secure and recommended option.  For more information, go to: Settings > Packages Tab > Installer > Name or click on the gear icon at the top of this page.<br/><br/>"
+        ."To quickly copy the hashed installer name, to your clipboard use the copy icon link or click the installer name and manually copy the selected text.", 'duplicator');
+}
 ?>
 
 <style>
@@ -50,6 +59,20 @@ $packageTablerowCount = 0;
     tr.dup-pack-info sup  {font-style:italic;font-size:10px; cursor: pointer; vertical-align: baseline; position: relative; top: -0.8em;}
     tr#pack-processing {display: none}
 
+    th.inst-name {
+        width: 1000px;
+        padding: 2px 7px;
+    }
+    .inst-name  input {
+        width: 175px;
+        margin: 0 5px;
+        border:1px solid #CCD0D4;
+        cursor:pointer;
+    }
+    .inst-name  input:focus {
+        width: 600px;
+    }
+
     /* Building package */
 
     .dup-pack-info .building-info {display: none; color: #2C8021; font-style: italic}
@@ -80,8 +103,8 @@ $packageTablerowCount = 0;
             <td>						
                 <a  href="javascript:void(0)" class="button disabled"><i class="fa fa-archive fa-sm"></i> <?php esc_html_e("Packages", 'duplicator'); ?></a>
                 <?php
-                $package_url          = admin_url('admin.php?page=duplicator&tab=new1');
-                $package_nonce_url    = wp_nonce_url($package_url, 'new1-package');
+                $package_url       = admin_url('admin.php?page=duplicator&tab=new1');
+                $package_nonce_url = wp_nonce_url($package_url, 'new1-package');
                 ?>
                 <a id="dup-create-new" 
                    onClick="return Duplicator.Pack.CreateNew(this);"
@@ -128,9 +151,17 @@ $packageTablerowCount = 0;
                     <th style="width: 30px;" ><input type="checkbox" id="dup-bulk-action-all"  title="<?php esc_attr_e("Select all packages", 'duplicator') ?>" style="margin-left:15px" onclick="Duplicator.Pack.SetDeleteAll()" /></th>
                     <th style="width: 100px;" ><?php esc_html_e("Created", 'duplicator') ?></th>
                     <th style="width: 70px;"><?php esc_html_e("Size", 'duplicator') ?></th>
-                    <th><?php esc_html_e("Name", 'duplicator') ?></th>
-                    <th>
-                        <?php esc_html_e("Installer name", 'duplicator') ?>
+                    <th><?php esc_html_e("Package Name", 'duplicator') ?></th>
+                    <th class="inst-name">
+                        <a href='admin.php?page=duplicator-settings&tab=packageadmin.php?page=duplicator-settings&tab=package#installer-name-mode-option'>
+                            <?php
+                            esc_html_e("Installer Name", 'duplicator');
+                            ?>
+                        </a>
+                        <i class="fas fa-question-circle fa-sm" 
+                           data-tooltip-title="<?php esc_html_e("Installer Name:", 'duplicator'); ?>"
+                           data-tooltip="<?php esc_html_e($packageExeNameModeMsg); ?>" >
+                        </i>
                     </th>
                     <th style="text-align:center; width: 200px;">
                         <?php esc_html_e("Package", 'duplicator') ?>
@@ -195,25 +226,23 @@ $packageTablerowCount = 0;
                                           data-tooltip="<?php esc_attr_e('To stop or reset this package build goto Settings > Advanced > Reset Packages', 'duplicator'); ?>"></i>
                             </span>
                         </td>
-                        <td class='inst-name'>
+                        <td class="inst-name">
                             <?php
                             switch (DUP_Settings::Get('installer_name_mode')) {
                                 case DUP_Settings::INSTALLER_NAME_MODE_SIMPLE:
-                                    $installerName = DUP_Installer::DEFAULT_INSTALLER_FILE_NAME_WITHOUT_HASH;
-                                    $installerLabel = DUP_Installer::DEFAULT_INSTALLER_FILE_NAME_WITHOUT_HASH;
+                                    $installerName = esc_attr(DUP_Installer::DEFAULT_INSTALLER_FILE_NAME_WITHOUT_HASH);
+                                    $lockIcon      = 'fa-lock-open';
                                     break;
                                 case DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH:
                                 default:
                                     $installerName = basename($Package->getLocalPackageFile(DUP_PackageFileType::Installer));
-                                    $installerLabel = '[name]_[hash]_[date]_installer.php';
-                                    ?>
-                                    
-                                    <?php
+                                    $lockIcon      = 'fa-lock';
                                     break;
                             }
                             ?>
-                            <span title="<?php echo esc_attr($installerName); ?>" ><?php echo esc_html($installerLabel); ?></span>
-                            <span data-dup-copy-text="<?php echo esc_attr($installerName);?>" ><i class="fa fa-copy"></i></span>
+                            <i class="fas <?php echo $lockIcon; ?>"></i>
+                            <input type="text" readonly="readonly" value="<?php echo esc_attr($installerName); ?>" title="<?php echo esc_attr($installerName); ?>" onfocus="jQuery(this).select();"/>
+                            <span data-dup-copy-text="<?php echo $installerName; ?>" ><i class='far fa-copy' style='cursor: pointer'></i>
                         </td>
                         <td class="get-btns">
                             <button id="<?php echo esc_attr("{$uniqueid}_installer.php"); ?>" class="button no-select" onclick="Duplicator.Pack.DownloadPackageFile(0, <?php echo absint($Package->ID); ?>); return false;">
@@ -256,7 +285,7 @@ $packageTablerowCount = 0;
             <tfoot>
                 <tr>
                     <th colspan="11" style="text-align:right; font-size:12px;">
-                        <?php //esc_html_e("Total Size", 'duplicator');	echo ': ';  esc_html_e(DUP_Util::byteSize($totalSize));   ?>
+                        <?php //esc_html_e("Total Size", 'duplicator');	echo ': ';  esc_html_e(DUP_Util::byteSize($totalSize));    ?>
                         <span style="font-style:italic; cursor:help" title="<?php esc_attr_e("Current Server Time", 'duplicator') ?>">
                             <?php
                             $dup_serv_time = @date("H:i");
