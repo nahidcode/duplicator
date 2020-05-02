@@ -180,7 +180,7 @@ if (is_admin() == true)
         wp_register_script('dup-parsley', DUPLICATOR_PLUGIN_URL . 'assets/js/parsley.min.js', array('jquery'), '1.1.18');
 		wp_register_script('dup-jquery-qtip', DUPLICATOR_PLUGIN_URL . 'assets/js/jquery.qtip/jquery.qtip.min.js', array('jquery'), '2.2.1');
 
-
+        add_action('admin_head', array('DUP_UI_Screen', 'getCustomCss'));
         // Clean tmp folder
         DUP_Package::not_active_files_tmp_cleanup();
 

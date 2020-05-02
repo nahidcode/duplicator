@@ -20,6 +20,20 @@ i.grey-icon {color:#777}
     display: none !important;
 }
 
+.link-style { 
+    color: #0074ab;
+    cursor: pointer; 
+    text-decoration: underline;
+}
+
+.link-style:hover {
+    color: #00a0d2;
+}
+
+.no-decoration {
+    text-decoration: none;
+}
+
 /*TABS*/
 ul.category-tabs li {cursor: pointer}
 

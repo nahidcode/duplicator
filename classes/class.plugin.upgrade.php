@@ -27,6 +27,8 @@ class DUP_LITE_Plugin_Upgrade
     {
         self::updateDatabase();
         
+        update_option(DUP_UI_Notice::OPTION_KEY_INSTALLER_HASH_NOTICE, true);
+
         //WordPress Options Hooks
         update_option(self::DUP_VERSION_OPT_KEY, DUPLICATOR_VERSION);
     }
@@ -36,9 +38,7 @@ class DUP_LITE_Plugin_Upgrade
         self::updateDatabase();
         
         if (version_compare($oldVersion, '1.3.30', '<=')) {
-            DUP_Settings::Set('installer_name_mode', DUP_Settings::INSTALLER_NAME_MODE_SIMPLE);
-            DUP_Settings::Save();
-            update_option(DUP_UI_Notice::OPTION_KEY_INSTALLER_HASH_NOTICE_DISMISS, true);
+            update_option(DUP_UI_Notice::OPTION_KEY_INSTALLER_HASH_NOTICE, true);
         }
         
         //WordPress Options Hooks

@@ -307,19 +307,25 @@ $installerNameMode      = DUP_Settings::Get('installer_name_mode');
                         <b><?php esc_html_e('Hashed example', 'duplicator'); ?>:</b>  my-name_64fc6df76c17f2023225_19990101010101_installer.php
                     </p>
                     <p>
-                        <?php esc_html_e('The Installer \'Name\' setting specifies the name of the installer used at download-time. It is recommended you choose the hashed name to better protect the installer name.'
-                            . 'Independent of the value of this setting, you can always change the name in the \'Save as\' file dialog at download-time. If you choose to use a custom name, use a filename that is '
-                            . 'known only to you. Installer filenames	must end in \'.php\'.', 'duplicator'); ?>
+                        <?php
+                        esc_html_e('The Installer \'Name\' setting specifies the name of the installer used at download-time. It is recommended you choose the hashed name to better protect the installer name.  '
+                            .'Independent of the value of this setting, you can always change the name in the \'Save as\' file dialog at download-time. If you choose to use a custom name, use a filename that is '
+                            .'known only to you. Installer filenames	must end in \'.php\'.', 'duplicator');
+                        ?>
                     </p>
                     <p>
-                        <?php esc_html_e('When downloading both the installer and archive to a remote server it is important that you do not leave these files on the server for any log period of time.'
-                            . 'Once the installer is completed you should always make sure to remove all installer files.'
-                            . 'This can be done by logging into the WordPress administrator and following the prompts.', 'duplicator'); ?>
+                        <?php
+                        esc_html_e('When downloading both the installer and archive to a remote server it is important that you do not leave these files on the server for any period of time.  '
+                            .'Except of course to run the installer and deploy/migrate your site.  Once the installer is completed you should always make sure to remove all installer files.  '
+                            .'This can be done by logging into the WordPress administrator and following the prompts.', 'duplicator');
+                        ?>
                     </p>
                     <p>
                         <i class="fas fa-info-circle"></i>
-                        <?php esc_html_e('Tip: Each row on the packages screen includes a copy to button that copies the installer name to the clipboard.'
-                            . 'After clicking this button, paste the installer name into the URL you are using to install the destination site if you have choose to download the hashed installer name.', 'duplicator'); ?>
+                        <?php
+                        esc_html_e('Tip: Each row on the packages screen includes a copy button that copies the installer name to the clipboard.  After clicking this button, paste the installer '
+                            .'name into the URL you are using to install the destination site if you have choosen to download the hashed installer name.', 'duplicator');
+                        ?>
                     </p>
                 </div>
             </td>

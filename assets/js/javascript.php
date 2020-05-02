@@ -267,17 +267,17 @@ jQuery(document).ready(function($)
                 tmpArea.select();
                 try {
                     var successful = document.execCommand('copy');
-                    message = successful ? 'Copied: ' + textToCopy : 'unable to copy';
+                    message = successful ? '<?php echo esc_html_e('Copied: ', 'duplicator'); ?>' + textToCopy : '<?php echo esc_html_e('unable to copy'); ?>';
                 } catch (err) {
-                    message = 'unable to copy';
+                    message = '<?php echo esc_html_e('unable to copy', 'duplicator'); ?>';
                 }
                 elem.qtip('option', 'content.text', message).qtip('show');
                 setTimeout(function(){ 
-                    elem.qtip('option', 'content.text', 'Copy to Cliboard!');
+                    elem.qtip('option', 'content.text', '<?php esc_html_e('Copy to Clipboard!', 'duplicator'); ?>');
                 }, 2000);
             }).qtip({
                 content: {
-                    text: 'Copy to Cliboard!'
+                    text: '<?php esc_html_e('Copy to Clipboard!', 'duplicator'); ?>'
                 },
                 style: {
                     classes: 'qtip-light qtip-rounded qtip-shadow'

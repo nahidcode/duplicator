@@ -196,7 +196,7 @@ class DUP_Web_Services
 
             $noticeToDismiss = filter_input(INPUT_POST, 'notice', FILTER_SANITIZE_STRING);
             switch ($noticeToDismiss) {
-                case DUP_UI_Notice::OPTION_KEY_INSTALLER_HASH_NOTICE_DISMISS:
+                case DUP_UI_Notice::OPTION_KEY_INSTALLER_HASH_NOTICE:
                 case DUP_UI_Notice::OPTION_KEY_ACTIVATE_PLUGINS_AFTER_INSTALL_DISMISS:
                     delete_option($noticeToDismiss);
                     break;

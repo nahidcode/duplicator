@@ -19,7 +19,7 @@ if (!defined('DUPLICATOR_VERSION'))
 class DUP_UI_Notice
 {
 
-    const OPTION_KEY_INSTALLER_HASH_NOTICE_DISMISS          = 'duplicator_lite_inst_hash_notice';
+    const OPTION_KEY_INSTALLER_HASH_NOTICE                  = 'duplicator_lite_inst_hash_notice';
     const OPTION_KEY_ACTIVATE_PLUGINS_AFTER_INSTALL_DISMISS = 'duplicator_reactivate_plugins_after_installation';
 
     /**
@@ -40,17 +40,34 @@ class DUP_UI_Notice
 
     public static function newInstallerHashOption()
     {
-        if (get_option(self::OPTION_KEY_INSTALLER_HASH_NOTICE_DISMISS) != true) {
+        if (get_option(self::OPTION_KEY_INSTALLER_HASH_NOTICE) != true) {
+            return;
+        }
+
+        $screen = get_current_screen();
+        if (!in_array($screen->parent_base, array('plugins', 'duplicator'))) {
+            return;
+        }
+
+        $action        = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
+        $installerMode = filter_input(INPUT_POST, 'installer_name_mode', FILTER_SANITIZE_STRING);
+        if ($screen->id == 'duplicator_page_duplicator-settings' && $action == 'save' && $installerMode == DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH) {
+            delete_option(self::OPTION_KEY_INSTALLER_HASH_NOTICE);
+            return;
+        }
+
+        if (DUP_Settings::get('installer_name_mode') == DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH) {
+            delete_option(self::OPTION_KEY_INSTALLER_HASH_NOTICE);
             return;
         }
         ?>
-        <div class="notice notice-success duplicator-admin-notice is-dismissible" data-to-dismiss="<?php echo esc_attr(self::OPTION_KEY_INSTALLER_HASH_NOTICE_DISMISS); ?>" > 
+        <div class="notice notice-success duplicator-admin-notice is-dismissible" data-to-dismiss="<?php echo esc_attr(self::OPTION_KEY_INSTALLER_HASH_NOTICE); ?>" > 
             <p>
                 <?php esc_html_e('Duplicator now includes a new option that helps secure the installer.php file.', 'duplicator'); ?><br>
                 <?php esc_html_e('After this option is enabled, a security hash will be added to the name of the installer when it\'s downloaded.', 'duplicator'); ?>
             </p>
             <p>
-                <?php echo sprintf(__('To enable this option or to get more information, open the <a href="%s">Package Settings</a> and visit the Installer section.', 'duplicator'),'admin.php?page=duplicator-settings&tab=package#installer-name-mode-option'); ?>
+                <?php echo sprintf(__('To enable this option or to get more information, open the <a href="%s">Package Settings</a> and visit the Installer section.', 'duplicator'), 'admin.php?page=duplicator-settings&tab=package#installer-name-mode-option'); ?>
             </p>
         </div>
         <?php

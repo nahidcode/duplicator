@@ -102,6 +102,7 @@ function duplicator_package_build()
         $json['status']      = 1;
         $json['error']       = '';
         $json['package']     = $Package;
+        $json['instDownloadName'] = $Package->getInstDownloadName();
         $json['runtime']     = $Package->Runtime;
         $json['exeSize']     = $Package->ExeSize;
         $json['archiveSize'] = $Package->ZipSize;
@@ -118,6 +119,7 @@ function duplicator_package_build()
         $json['status']      = 3;
         $json['error']       = $e->getMessage();
         $json['package']     = $Package;
+        $json['instDownloadName'] = null;
         $json['runtime']     = null;
         $json['exeSize']     = null;
         $json['archiveSize'] = null;
@@ -491,15 +493,7 @@ class DUP_CTRL_Package extends DUP_CTRL_Base
                     $fp = fopen($filePath, 'rb');
                     if ($fp !== false) {
                         if ($which == DUP_PackageFileType::Installer) {
-                            switch (DUP_Settings::Get('installer_name_mode')) {
-                                case DUP_Settings::INSTALLER_NAME_MODE_SIMPLE:
-                                    $fileName = DUP_Installer::DEFAULT_INSTALLER_FILE_NAME_WITHOUT_HASH;
-                                    break;
-                                case DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH:
-                                default:
-                                    $fileName = basename($filePath);
-                                    break;
-                            }
+                            $fileName = $package->getInstDownloadName();
                         } else {
                             $fileName = basename($filePath);
                         }

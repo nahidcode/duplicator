@@ -230,15 +230,14 @@ if (DUP_Settings::Get('installer_name_mode') == DUP_Settings::INSTALLER_NAME_MOD
                             <?php
                             switch (DUP_Settings::Get('installer_name_mode')) {
                                 case DUP_Settings::INSTALLER_NAME_MODE_SIMPLE:
-                                    $installerName = esc_attr(DUP_Installer::DEFAULT_INSTALLER_FILE_NAME_WITHOUT_HASH);
                                     $lockIcon      = 'fa-lock-open';
                                     break;
                                 case DUP_Settings::INSTALLER_NAME_MODE_WITH_HASH:
                                 default:
-                                    $installerName = basename($Package->getLocalPackageFile(DUP_PackageFileType::Installer));
                                     $lockIcon      = 'fa-lock';
                                     break;
                             }
+                            $installerName = $Package->getInstDownloadName();
                             ?>
                             <i class="fas <?php echo $lockIcon; ?>"></i>
                             <input type="text" readonly="readonly" value="<?php echo esc_attr($installerName); ?>" title="<?php echo esc_attr($installerName); ?>" onfocus="jQuery(this).select();"/>
