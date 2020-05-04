@@ -61,7 +61,7 @@ class DUP_UI_Notice
             return;
         }
         ?>
-        <div class="notice notice-success duplicator-admin-notice is-dismissible" data-to-dismiss="<?php echo esc_attr(self::OPTION_KEY_INSTALLER_HASH_NOTICE); ?>" > 
+        <div class="dup-notice-success notice notice-success duplicator-admin-notice is-dismissible" data-to-dismiss="<?php echo esc_attr(self::OPTION_KEY_INSTALLER_HASH_NOTICE); ?>" > 
             <p>
                 <?php esc_html_e('Duplicator now includes a new option that helps secure the installer.php file.', 'duplicator'); ?><br>
                 <?php esc_html_e('After this option is enabled, a security hash will be added to the name of the installer when it\'s downloaded.', 'duplicator'); ?>

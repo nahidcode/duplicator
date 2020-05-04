@@ -294,7 +294,10 @@ class DUP_Server
 		$retArr = array(
 			basename(DUPLICATOR_INSTALLER_DIRECTORY).' '.esc_html__('(directory)', 'duplicator') => DUPLICATOR_INSTALLER_DIRECTORY,
 			DUPLICATOR_INSTALL_PHP => $abs_path . '/' .DUPLICATOR_INSTALL_PHP,
+            '[HASH]'.'_'.DUPLICATOR_INSTALL_PHP => $abs_path.'/*_*_'.DUPLICATOR_INSTALL_PHP,            
 			DUPLICATOR_INSTALL_BAK => $abs_path . '/' .DUPLICATOR_INSTALL_BAK,
+            '[HASH]'.'_'.DUPLICATOR_INSTALL_BAK => $abs_path.'/*_*_'.DUPLICATOR_INSTALL_BAK,
+            '[HASH]_archive.zip|daf' => $abs_path.'/*_*_archive.[zd][ia][pf]',
 			'dup-installer-bootlog__[HASH].txt' => $abs_path.'/dup-installer-bootlog__'.DUPLICATOR_INSTALLER_HASH_PATTERN.'.txt',
 		);
 		if (DUPLICATOR_INSTALL_SITE_OVERWRITE_ON) {

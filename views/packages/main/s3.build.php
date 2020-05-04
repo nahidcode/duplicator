@@ -523,7 +523,7 @@ jQuery(document).ready(function ($)
 								alert(errorMessage);
 							}
 
-						   Duplicator.Pack.WireDownloadLinks(data);
+						    Duplicator.Pack.WireDownloadLinks(data);
 
 						} else {
 							// data.Status == 4
